@@ -83,6 +83,14 @@ public class SendMessage extends BotApiMethod<Message> {
         }
     }
 
+    public void enableHtml(boolean enable) {
+        if (enable) {
+            this.parseMode = "html";
+        } else {
+            this.parseMode = null;
+        }
+    }
+
     @Override
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();

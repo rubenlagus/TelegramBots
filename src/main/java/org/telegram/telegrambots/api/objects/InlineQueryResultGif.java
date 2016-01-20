@@ -83,8 +83,20 @@ public class InlineQueryResultGif implements InlineQueryResult {
         return parseMode;
     }
 
-    public void setParseMode(String parseMode) {
-        this.parseMode = parseMode;
+    public void enableMarkdown(boolean enable) {
+        if (enable) {
+            this.parseMode = "Markdown";
+        } else {
+            this.parseMode = null;
+        }
+    }
+
+    public void enableHtml(boolean enable) {
+        if (enable) {
+            this.parseMode = "html";
+        } else {
+            this.parseMode = null;
+        }
     }
 
     public Boolean getDisableWebPagePreview() {

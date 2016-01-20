@@ -89,11 +89,19 @@ public class InlineQueryResultArticle implements InlineQueryResult {
         this.parseMode = parseMode;
     }
 
-    public void setMarkdown(boolean enabled) {
-        if (enabled) {
-            parseMode = "Markdown";
+    public void enableMarkdown(boolean enable) {
+        if (enable) {
+            this.parseMode = "Markdown";
         } else {
-            parseMode = null;
+            this.parseMode = null;
+        }
+    }
+
+    public void enableHtml(boolean enable) {
+        if (enable) {
+            this.parseMode = "html";
+        } else {
+            this.parseMode = null;
         }
     }
 
