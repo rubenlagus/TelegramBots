@@ -108,7 +108,7 @@ public class TelegramBotsApi {
         if (botToken == null) {
             throw new TelegramApiException("Parameter botToken can not be null");
         }
-        setWebhook(extrenalUrl, botToken, pathToCertificate, publicCertificateName);
+        setWebhook(extrenalUrl == null ? "" : extrenalUrl, botToken, pathToCertificate, publicCertificateName);
     }
 
     /**
