@@ -7,5 +7,5 @@ package org.telegram.telegrambots.api;
  * @date 20 of June of 2015
  */
 public class Constants {
-    public static final String BASEURL = "https://api.telegram.org/bot/";
+    public static final String BASEURL = "https://api.telegram.org/bot";
 }
