@@ -134,7 +134,7 @@ public class TelegramBotsApi {
     private static void setWebhook(String webHookURL, String botToken, String publicCertificatePath, String publicCertificateName) throws TelegramApiException {
         try {
             CloseableHttpClient httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).build();
-            String url = Constants.BASEURL + botToken + SetWebhook.PATH;
+            String url = Constants.BASEURL + botToken + "/" + SetWebhook.PATH;
 
             HttpPost httppost = new HttpPost(url);
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
