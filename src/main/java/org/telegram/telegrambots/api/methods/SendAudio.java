@@ -51,11 +51,22 @@ public class SendAudio {
         return audio;
     }
 
+    /**
+     * Use this method to set the audio to an audio existing in Telegram system
+     * @param audio File_id of the audio to send
+     *
+     * @note The file_id must have already been received or sent by your bot
+     */
     public void setAudio(String audio) {
         this.audio = audio;
         this.isNewAudio = false;
     }
 
+    /**
+     * Use this method to set the audio to a new file
+     * @param audio Path to the new file in your server
+     * @param audioName Name of the file itself
+     */
     public void setNewAudio(String audio, String audioName) {
         this.audio = audio;
         this.isNewAudio = true;

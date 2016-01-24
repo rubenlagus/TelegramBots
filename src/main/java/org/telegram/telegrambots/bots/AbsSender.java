@@ -35,12 +35,16 @@ import java.util.concurrent.Executors;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief TODO
+ * @brief Implementation of all the methods needed to interact with Telegram Servers
  * @date 14 of January of 2016
  */
 public abstract class AbsSender {
     private final ExecutorService exe = Executors.newSingleThreadExecutor();
 
+    /**
+     * Returns the token of the bot to be able to perform Telegram Api Requests
+     * @return Token of the bot
+     */
     public abstract String getBotToken();
 
     public Message sendMessage(SendMessage sendMessage) throws TelegramApiException {
@@ -385,6 +389,73 @@ public abstract class AbsSender {
         JSONObject jsonObject = new JSONObject(responseContent);
         if (!jsonObject.getBoolean("ok")) {
             throw new TelegramApiException("Error at sendSticker", jsonObject.getString("description"));
+        }
+
+        return new Message(jsonObject);
+    }
+
+    /**
+     * Sends a file using Send Audio method (https://core.telegram.org/bots/api#sendaudio)
+     * @param sendAudio Information to send
+     * @return If success, the sent Message is returned
+     * @throws TelegramApiException If there is any error sending the audio
+     */
+    public Message sendAudio(SendAudio sendAudio) throws TelegramApiException {
+        String responseContent;
+
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String url = getBaseUrl() + SendAudio.PATH;
+            HttpPost httppost = new HttpPost(url);
+
+            if (sendAudio.isNewAudio()) {
+                MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+                builder.addTextBody(SendAudio.CHATID_FIELD, sendAudio.getChatId());
+                builder.addBinaryBody(SendAudio.AUDIO_FIELD, new java.io.File(sendAudio.getAudio()), ContentType.APPLICATION_OCTET_STREAM, sendAudio.getAudioName());
+                if (sendAudio.getReplayMarkup() != null) {
+                    builder.addTextBody(SendAudio.REPLYMARKUP_FIELD, sendAudio.getReplayMarkup().toJson().toString());
+                }
+                if (sendAudio.getReplayToMessageId() != null) {
+                    builder.addTextBody(SendAudio.REPLYTOMESSAGEID_FIELD, sendAudio.getReplayToMessageId().toString());
+                }
+                if (sendAudio.getPerformer() != null) {
+                    builder.addTextBody(SendAudio.PERFOMER_FIELD, sendAudio.getPerformer());
+                }
+                if (sendAudio.getTitle() != null) {
+                    builder.addTextBody(SendAudio.TITLE_FIELD, sendAudio.getTitle());
+                }
+                HttpEntity multipart = builder.build();
+                httppost.setEntity(multipart);
+            } else {
+                List<NameValuePair> nameValuePairs = new ArrayList<>();
+                nameValuePairs.add(new BasicNameValuePair(SendAudio.CHATID_FIELD, sendAudio.getChatId()));
+                nameValuePairs.add(new BasicNameValuePair(SendAudio.AUDIO_FIELD, sendAudio.getAudio()));
+                if (sendAudio.getReplayMarkup() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendAudio.REPLYMARKUP_FIELD, sendAudio.getReplayMarkup().toString()));
+                }
+                if (sendAudio.getReplayToMessageId() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendAudio.REPLYTOMESSAGEID_FIELD, sendAudio.getReplayToMessageId().toString()));
+                }
+                if (sendAudio.getPerformer() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendAudio.PERFOMER_FIELD, sendAudio.getPerformer()));
+                }
+                if (sendAudio.getTitle() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendAudio.TITLE_FIELD, sendAudio.getTitle()));
+                }
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+            }
+
+            CloseableHttpResponse response = httpClient.execute(httppost);
+            HttpEntity ht = response.getEntity();
+            BufferedHttpEntity buf = new BufferedHttpEntity(ht);
+            responseContent = EntityUtils.toString(buf, "UTF-8");
+        } catch (IOException e) {
+            throw new TelegramApiException("Unable to send sticker", e);
+        }
+
+        JSONObject jsonObject = new JSONObject(responseContent);
+        if (!jsonObject.getBoolean("ok")) {
+            throw new TelegramApiException("Error at sendAudio", jsonObject.getString("description"));
         }
 
         return new Message(jsonObject);
