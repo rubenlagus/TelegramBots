@@ -18,7 +18,19 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 import org.telegram.telegrambots.TelegramApiException;
 import org.telegram.telegrambots.api.Constants;
-import org.telegram.telegrambots.api.methods.*;
+import org.telegram.telegrambots.api.methods.AnswerInlineQuery;
+import org.telegram.telegrambots.api.methods.BotApiMethod;
+import org.telegram.telegrambots.api.methods.ForwardMessage;
+import org.telegram.telegrambots.api.methods.GetMe;
+import org.telegram.telegrambots.api.methods.GetUserProfilePhotos;
+import org.telegram.telegrambots.api.methods.SendAudio;
+import org.telegram.telegrambots.api.methods.SendChatAction;
+import org.telegram.telegrambots.api.methods.SendDocument;
+import org.telegram.telegrambots.api.methods.SendLocation;
+import org.telegram.telegrambots.api.methods.SendMessage;
+import org.telegram.telegrambots.api.methods.SendPhoto;
+import org.telegram.telegrambots.api.methods.SendSticker;
+import org.telegram.telegrambots.api.methods.SendVideo;
 import org.telegram.telegrambots.api.objects.File;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.User;
@@ -411,7 +423,7 @@ public abstract class AbsSender {
             if (sendAudio.isNewAudio()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendAudio.CHATID_FIELD, sendAudio.getChatId());
-                builder.addBinaryBody(SendAudio.AUDIO_FIELD, new java.io.File(sendAudio.getAudio()), ContentType.APPLICATION_OCTET_STREAM, sendAudio.getAudioName());
+                builder.addBinaryBody(SendAudio.AUDIO_FIELD, new java.io.File(sendAudio.getAudio()), ContentType.create("audio/mpeg"), sendAudio.getAudioName());
                 if (sendAudio.getReplayMarkup() != null) {
                     builder.addTextBody(SendAudio.REPLYMARKUP_FIELD, sendAudio.getReplayMarkup().toJson().toString());
                 }
