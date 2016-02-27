@@ -31,6 +31,7 @@ import org.telegram.telegrambots.api.methods.SendMessage;
 import org.telegram.telegrambots.api.methods.SendPhoto;
 import org.telegram.telegrambots.api.methods.SendSticker;
 import org.telegram.telegrambots.api.methods.SendVideo;
+import org.telegram.telegrambots.api.methods.SendVoice;
 import org.telegram.telegrambots.api.objects.File;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.User;
@@ -212,6 +213,12 @@ public abstract class AbsSender {
                 if (sendDocument.getReplayToMessageId() != null) {
                     builder.addTextBody(SendDocument.REPLYTOMESSAGEID_FIELD, sendDocument.getReplayToMessageId().toString());
                 }
+                if (sendDocument.getCaption() != null) {
+                    builder.addTextBody(SendDocument.CAPTION_FIELD, sendDocument.getCaption());
+                }
+                if (sendDocument.getDisableNotification() != null) {
+                    builder.addTextBody(SendDocument.DISABLENOTIFICATION_FIELD, sendDocument.getDisableNotification().toString());
+                }
                 HttpEntity multipart = builder.build();
                 httppost.setEntity(multipart);
             } else {
@@ -223,6 +230,12 @@ public abstract class AbsSender {
                 }
                 if (sendDocument.getReplayToMessageId() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendDocument.REPLYTOMESSAGEID_FIELD, sendDocument.getReplayToMessageId().toString()));
+                }
+                if (sendDocument.getCaption() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendDocument.CAPTION_FIELD, sendDocument.getCaption()));
+                }
+                if (sendDocument.getReplayToMessageId() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendDocument.DISABLENOTIFICATION_FIELD, sendDocument.getDisableNotification().toString()));
                 }
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
             }
@@ -263,6 +276,9 @@ public abstract class AbsSender {
                 if (sendPhoto.getCaption() != null) {
                     builder.addTextBody(SendPhoto.CAPTION_FIELD, sendPhoto.getCaption());
                 }
+                if (sendPhoto.getDisableNotification() != null) {
+                    builder.addTextBody(SendPhoto.DISABLENOTIFICATION_FIELD, sendPhoto.getDisableNotification().toString());
+                }
                 HttpEntity multipart = builder.build();
                 httppost.setEntity(multipart);
             } else {
@@ -277,6 +293,9 @@ public abstract class AbsSender {
                 }
                 if (sendPhoto.getCaption() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendPhoto.CAPTION_FIELD, sendPhoto.getCaption()));
+                }
+                if (sendPhoto.getDisableNotification() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendPhoto.DISABLENOTIFICATION_FIELD, sendPhoto.getDisableNotification().toString()));
                 }
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
             }
@@ -320,6 +339,15 @@ public abstract class AbsSender {
                 if (sendVideo.getDuration() != null) {
                     builder.addTextBody(SendVideo.DURATION_FIELD, sendVideo.getDuration().toString());
                 }
+                if (sendVideo.getWidth() != null) {
+                    builder.addTextBody(SendVideo.WIDTH_FIELD, sendVideo.getWidth().toString());
+                }
+                if (sendVideo.getHeight() != null) {
+                    builder.addTextBody(SendVideo.HEIGHT_FIELD, sendVideo.getHeight().toString());
+                }
+                if (sendVideo.getDisableNotification() != null) {
+                    builder.addTextBody(SendVideo.DISABLENOTIFICATION_FIELD, sendVideo.getDisableNotification().toString());
+                }
                 HttpEntity multipart = builder.build();
                 httppost.setEntity(multipart);
             } else {
@@ -337,6 +365,15 @@ public abstract class AbsSender {
                 }
                 if (sendVideo.getDuration() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendVideo.DURATION_FIELD, sendVideo.getDuration().toString()));
+                }
+                if (sendVideo.getWidth() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendVideo.WIDTH_FIELD, sendVideo.getWidth().toString()));
+                }
+                if (sendVideo.getHeight() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendVideo.HEIGHT_FIELD, sendVideo.getHeight().toString()));
+                }
+                if (sendVideo.getDisableNotification() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendVideo.DISABLENOTIFICATION_FIELD, sendVideo.getDisableNotification().toString()));
                 }
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
             }
@@ -375,6 +412,9 @@ public abstract class AbsSender {
                 if (sendSticker.getReplayToMessageId() != null) {
                     builder.addTextBody(SendSticker.REPLYTOMESSAGEID_FIELD, sendSticker.getReplayToMessageId().toString());
                 }
+                if (sendSticker.getDisableNotification() != null) {
+                    builder.addTextBody(SendSticker.DISABLENOTIFICATION_FIELD, sendSticker.getDisableNotification().toString());
+                }
                 HttpEntity multipart = builder.build();
                 httppost.setEntity(multipart);
             } else {
@@ -386,6 +426,9 @@ public abstract class AbsSender {
                 }
                 if (sendSticker.getReplayToMessageId() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendSticker.REPLYTOMESSAGEID_FIELD, sendSticker.getReplayToMessageId().toString()));
+                }
+                if (sendSticker.getDisableNotification() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendSticker.DISABLENOTIFICATION_FIELD, sendSticker.getDisableNotification().toString()));
                 }
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
             }
@@ -436,6 +479,9 @@ public abstract class AbsSender {
                 if (sendAudio.getTitle() != null) {
                     builder.addTextBody(SendAudio.TITLE_FIELD, sendAudio.getTitle());
                 }
+                if (sendAudio.getDisableNotification() != null) {
+                    builder.addTextBody(SendAudio.DISABLENOTIFICATION_FIELD, sendAudio.getDisableNotification().toString());
+                }
                 HttpEntity multipart = builder.build();
                 httppost.setEntity(multipart);
             } else {
@@ -454,6 +500,9 @@ public abstract class AbsSender {
                 if (sendAudio.getTitle() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendAudio.TITLE_FIELD, sendAudio.getTitle()));
                 }
+                if (sendAudio.getDisableNotification() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendAudio.DISABLENOTIFICATION_FIELD, sendAudio.getDisableNotification().toString()));
+                }
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
             }
 
@@ -468,6 +517,73 @@ public abstract class AbsSender {
         JSONObject jsonObject = new JSONObject(responseContent);
         if (!jsonObject.getBoolean("ok")) {
             throw new TelegramApiException("Error at sendAudio", jsonObject.getString("description"));
+        }
+
+        return new Message(jsonObject);
+    }
+
+    /**
+     * Sends a voice note using Send Voice method (https://core.telegram.org/bots/api#sendvoice)
+     * @param sendVoice Information to send
+     * @return If success, the sent Message is returned
+     * @throws TelegramApiException If there is any error sending the audio
+     */
+    public Message sendVoice(SendVoice sendVoice) throws TelegramApiException {
+        String responseContent;
+
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String url = getBaseUrl() + SendVoice.PATH;
+            HttpPost httppost = new HttpPost(url);
+
+            if (sendVoice.isNewVoice()) {
+                MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+                builder.addTextBody(SendVoice.CHATID_FIELD, sendVoice.getChatId());
+                builder.addBinaryBody(SendVoice.AUDIO_FIELD, new java.io.File(sendVoice.getAudio()), ContentType.create("audio/ogg"), sendVoice.getVoiceName());
+                if (sendVoice.getReplayMarkup() != null) {
+                    builder.addTextBody(SendVoice.REPLYMARKUP_FIELD, sendVoice.getReplayMarkup().toJson().toString());
+                }
+                if (sendVoice.getReplayToMessageId() != null) {
+                    builder.addTextBody(SendVoice.REPLYTOMESSAGEID_FIELD, sendVoice.getReplayToMessageId().toString());
+                }
+                if (sendVoice.getDisableNotification() != null) {
+                    builder.addTextBody(SendVoice.DISABLENOTIFICATION_FIELD, sendVoice.getDisableNotification().toString());
+                }
+                if (sendVoice.getDuration() != null) {
+                    builder.addTextBody(SendVoice.DURATION_FIELD, sendVoice.getDuration().toString());
+                }
+                HttpEntity multipart = builder.build();
+                httppost.setEntity(multipart);
+            } else {
+                List<NameValuePair> nameValuePairs = new ArrayList<>();
+                nameValuePairs.add(new BasicNameValuePair(SendVoice.CHATID_FIELD, sendVoice.getChatId()));
+                nameValuePairs.add(new BasicNameValuePair(SendVoice.AUDIO_FIELD, sendVoice.getAudio()));
+                if (sendVoice.getReplayMarkup() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendVoice.REPLYMARKUP_FIELD, sendVoice.getReplayMarkup().toString()));
+                }
+                if (sendVoice.getReplayToMessageId() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendVoice.REPLYTOMESSAGEID_FIELD, sendVoice.getReplayToMessageId().toString()));
+                }
+                if (sendVoice.getDisableNotification() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendVoice.DISABLENOTIFICATION_FIELD, sendVoice.getDisableNotification().toString()));
+                }
+                if (sendVoice.getDuration() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendVoice.DURATION_FIELD, sendVoice.getDuration().toString()));
+                }
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+            }
+
+            CloseableHttpResponse response = httpClient.execute(httppost);
+            HttpEntity ht = response.getEntity();
+            BufferedHttpEntity buf = new BufferedHttpEntity(ht);
+            responseContent = EntityUtils.toString(buf, "UTF-8");
+        } catch (IOException e) {
+            throw new TelegramApiException("Unable to send sticker", e);
+        }
+
+        JSONObject jsonObject = new JSONObject(responseContent);
+        if (!jsonObject.getBoolean("ok")) {
+            throw new TelegramApiException("Error at sendVoice", jsonObject.getString("description"));
         }
 
         return new Message(jsonObject);

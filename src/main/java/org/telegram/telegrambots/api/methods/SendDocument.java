@@ -15,6 +15,16 @@ public class SendDocument {
     private String chatId; ///< Unique identifier for the chat to send the message to or Username for the channel to send the message to
     public static final String DOCUMENT_FIELD = "document";
     private String document; ///< File file to send. file_id as String to resend a file that is already on the Telegram servers
+    public static final String CAPTION_FIELD = "caption";
+    private String caption; ///< Optional. Document caption (may also be used when resending documents by file_id), 0-200 characters
+    public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
+    /**
+     * Optional. Sends the message silently.
+     * iOS users will not receive a notification,
+     * Android users will receive a notification with no sound.
+     * Other apps coming soon
+     */
+    private Boolean disableNotification;
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private Integer replayToMessageId; ///< Optional. If the message is a reply, ID of the original message
     public static final String REPLYMARKUP_FIELD = "reply_markup";
@@ -64,6 +74,26 @@ public class SendDocument {
 
     public void setReplayToMessageId(Integer replayToMessageId) {
         this.replayToMessageId = replayToMessageId;
+    }
+
+    public Boolean getDisableNotification() {
+        return disableNotification;
+    }
+
+    public void enableNotification() {
+        this.disableNotification = false;
+    }
+
+    public void disableNotification() {
+        this.disableNotification = true;
+    }
+
+    public String getCaption() {
+        return caption;
+    }
+
+    public void setCaption(String caption) {
+        this.caption = caption;
     }
 
     public ReplyKeyboard getReplayMarkup() {
