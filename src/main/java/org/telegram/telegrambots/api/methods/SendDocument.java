@@ -73,4 +73,16 @@ public class SendDocument {
     public void setReplayMarkup(ReplyKeyboard replayMarkup) {
         this.replayMarkup = replayMarkup;
     }
+
+    @Override
+    public String toString() {
+        return "SendDocument{" +
+                "chatId='" + chatId + '\'' +
+                ", document='" + document + '\'' +
+                ", replayToMessageId=" + replayToMessageId +
+                ", replayMarkup=" + replayMarkup +
+                ", isNewDocument=" + isNewDocument +
+                ", documentName='" + documentName + '\'' +
+                '}';
+    }
 }

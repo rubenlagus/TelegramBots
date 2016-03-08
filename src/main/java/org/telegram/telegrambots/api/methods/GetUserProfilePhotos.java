@@ -99,4 +99,13 @@ public class GetUserProfilePhotos extends BotApiMethod<UserProfilePhotos> {
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
     }
+
+    @Override
+    public String toString() {
+        return "GetUserProfilePhotos{" +
+                "userId=" + userId +
+                ", offset=" + offset +
+                ", limit=" + limit +
+                '}';
+    }
 }

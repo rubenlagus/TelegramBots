@@ -525,4 +525,36 @@ public class Message implements IBotApiObject {
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
     }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "messageId=" + messageId +
+                ", from=" + from +
+                ", date=" + date +
+                ", chat=" + chat +
+                ", forwardFrom=" + forwardFrom +
+                ", forwardDate=" + forwardDate +
+                ", text='" + text + '\'' +
+                ", audio=" + audio +
+                ", document=" + document +
+                ", photo=" + photo +
+                ", sticker=" + sticker +
+                ", video=" + video +
+                ", contact=" + contact +
+                ", location=" + location +
+                ", newChatParticipant=" + newChatParticipant +
+                ", leftChatParticipant=" + leftChatParticipant +
+                ", newChatTitle='" + newChatTitle + '\'' +
+                ", newChatPhoto=" + newChatPhoto +
+                ", deleteChatPhoto=" + deleteChatPhoto +
+                ", groupchatCreated=" + groupchatCreated +
+                ", replyToMessage=" + replyToMessage +
+                ", voice=" + voice +
+                ", superGroupCreated=" + superGroupCreated +
+                ", channelChatCreated=" + channelChatCreated +
+                ", migrateToChatId=" + migrateToChatId +
+                ", migrateFromChatId=" + migrateFromChatId +
+                '}';
+    }
 }

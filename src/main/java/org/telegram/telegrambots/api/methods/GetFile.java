@@ -71,4 +71,11 @@ public class GetFile extends BotApiMethod<File> {
         }
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "GetFile{" +
+                "fileId='" + fileId + '\'' +
+                '}';
+    }
 }
