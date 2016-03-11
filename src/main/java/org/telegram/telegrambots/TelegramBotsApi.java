@@ -1,6 +1,8 @@
 package org.telegram.telegrambots;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
@@ -13,6 +15,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.Constants;
+import org.telegram.telegrambots.api.TelegramApiConfiguration;
 import org.telegram.telegrambots.api.methods.SetWebhook;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
@@ -137,6 +140,13 @@ public class TelegramBotsApi {
             String url = Constants.BASEURL + botToken + "/" + SetWebhook.PATH;
 
             HttpPost httppost = new HttpPost(url);
+            if (TelegramApiConfiguration.getInstance().getProxy() != null) {
+                RequestConfig requestConfig = RequestConfig.custom()
+                        .setProxy(TelegramApiConfiguration.getInstance().getProxy())
+                        .build();
+                httppost.setConfig(requestConfig);
+            }
+
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addTextBody(SetWebhook.URL_FIELD, webHookURL);
             if (publicCertificatePath != null) {
