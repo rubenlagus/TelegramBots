@@ -105,6 +105,16 @@ public class TelegramBotsApi {
 
     /**
      *
+     * @param host
+     * @param port
+     * @param scheme
+     */
+    public void setProxy(String host, int port, String scheme) {
+       TelegramApiConfiguration.getInstance().setProxy(host, port, scheme);
+    }
+
+    /**
+     *
      * @param botToken
      */
     private void setWebhook(String botToken) throws TelegramApiException {
