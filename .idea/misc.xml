@@ -50,6 +50,9 @@
     <option vars="true" />
     <option white="true" />
   </component>
+  <component name="JnetxGlobalBuildDir">
+    <option name="globalBuildDir" value="$PROJECT_DIR$/../TelegramBots\build" />
+  </component>
   <component name="JsBowerSettings">
     <exe-path>/usr/local/bin/bower</exe-path>
     <config-path />
