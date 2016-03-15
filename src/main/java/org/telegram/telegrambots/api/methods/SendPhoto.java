@@ -17,6 +17,14 @@ public class SendPhoto {
     private String photo; ///< Photo to send. file_id as String to resend a photo that is already on the Telegram servers
     public static final String CAPTION_FIELD = "photo";
     private String caption; ///< Optional Photo caption (may also be used when resending photos by file_id).
+    public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
+    /**
+     * Optional. Sends the message silently.
+     * iOS users will not receive a notification,
+     * Android users will receive a notification with no sound.
+     * Other apps coming soon
+     */
+    private Boolean disableNotification;
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private Integer replayToMessageId; ///< Optional. If the message is a reply, ID of the original message
     public static final String REPLYMARKUP_FIELD = "reply_markup";
@@ -72,6 +80,18 @@ public class SendPhoto {
 
     public String getPhotoName() {
         return photoName;
+    }
+
+    public Boolean getDisableNotification() {
+        return disableNotification;
+    }
+
+    public void enableNotification() {
+        this.disableNotification = false;
+    }
+
+    public void disableNotification() {
+        this.disableNotification = true;
     }
 
     public void setPhoto(String photo) {

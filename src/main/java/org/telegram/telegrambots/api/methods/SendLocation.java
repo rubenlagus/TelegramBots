@@ -3,6 +3,7 @@ package org.telegram.telegrambots.api.methods;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.ReplyKeyboard;
@@ -24,6 +25,14 @@ public class SendLocation extends BotApiMethod<Message> {
     private Float latitude; ///< Latitude of location
     public static final String LONGITUDE_FIELD = "longitude";
     private Float longitude; ///< Longitude of location
+    public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
+    /**
+     * Optional. Sends the message silently.
+     * iOS users will not receive a notification,
+     * Android users will receive a notification with no sound.
+     * Other apps coming soon
+     */
+    private Boolean disableNotification;
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private Integer replayToMessageId; ///< Optional. If the message is a reply, ID of the original message
     public static final String REPLYMARKUP_FIELD = "reply_markup";
@@ -69,6 +78,18 @@ public class SendLocation extends BotApiMethod<Message> {
         this.replayMarkup = replayMarkup;
     }
 
+    public Boolean getDisableNotification() {
+        return disableNotification;
+    }
+
+    public void enableNotification() {
+        this.disableNotification = false;
+    }
+
+    public void disableNotification() {
+        this.disableNotification = true;
+    }
+
     @Override
     public String getPath() {
         return PATH;
@@ -88,6 +109,9 @@ public class SendLocation extends BotApiMethod<Message> {
         jsonObject.put(CHATID_FIELD, chatId);
         jsonObject.put(LATITUDE_FIELD, latitude);
         jsonObject.put(LONGITUDE_FIELD, longitude);
+        if (disableNotification != null) {
+            jsonObject.put(DISABLENOTIFICATION_FIELD, disableNotification);
+        }
         if (replayToMessageId != null) {
             jsonObject.put(REPLYTOMESSAGEID_FIELD, replayToMessageId);
         }
@@ -105,6 +129,9 @@ public class SendLocation extends BotApiMethod<Message> {
         gen.writeStringField(CHATID_FIELD, chatId);
         gen.writeNumberField(LATITUDE_FIELD, latitude);
         gen.writeNumberField(LONGITUDE_FIELD, longitude);
+        if (disableNotification != null) {
+            gen.writeBooleanField(DISABLENOTIFICATION_FIELD, disableNotification);
+        }
         if (replayToMessageId != null) {
             gen.writeNumberField(REPLYTOMESSAGEID_FIELD, replayToMessageId);
         }
