@@ -17,6 +17,9 @@ import org.telegram.telegrambots.api.objects.ReplyKeyboard;
 public class SendAudio {
     public static final String PATH = "sendaudio";
 
+	public static final String DURATION_FIELD = "duration";
+	private Integer duration; ///< Integer	Duration of the audio in seconds as defined by sender
+
     public static final String CHATID_FIELD = "chat_id";
     private String chatId; ///< Unique identifier for the chat to send the message to (or Username fro channels)
     public static final String AUDIO_FIELD = "audio";
@@ -43,6 +46,14 @@ public class SendAudio {
     public SendAudio() {
         super();
     }
+
+	public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
+	public Integer getDuration(){
+		return this.duration;
+	}
 
     public String getChatId() {
         return chatId;
