@@ -458,6 +458,7 @@ public abstract class AbsSender {
     public Message sendAudio(SendAudio sendAudio) throws TelegramApiException {
         String responseContent;
 
+        
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url = getBaseUrl() + SendAudio.PATH;
@@ -478,6 +479,9 @@ public abstract class AbsSender {
                 }
                 if (sendAudio.getTitle() != null) {
                     builder.addTextBody(SendAudio.TITLE_FIELD, sendAudio.getTitle());
+                }
+                if(sendAudio.getDuration() != null){
+                	builder.addTextBody(SendAudio.DURATION_FIELD, sendAudio.getDuration().toString());
                 }
                 if (sendAudio.getDisableNotification() != null) {
                     builder.addTextBody(SendAudio.DISABLENOTIFICATION_FIELD, sendAudio.getDisableNotification().toString());
