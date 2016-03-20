@@ -2,6 +2,7 @@ package org.telegram.telegrambots.updatesreceivers;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.entity.BufferedHttpEntity;
@@ -57,9 +58,17 @@ public class UpdatesThread {
                 request.setOffset(lastReceivedUpdate + 1);
                 CloseableHttpClient httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).setConnectionTimeToLive(20, TimeUnit.SECONDS).build();
                 String url = Constants.BASEURL + token + "/" + GetUpdates.PATH;
+                //config
+                RequestConfig defaultRequestConfig = RequestConfig.custom().build();
+                RequestConfig requestConfig = RequestConfig.copy(defaultRequestConfig)
+                        .setSocketTimeout(Constants.SOCKET_TIMEOUT)
+                        .setConnectTimeout(Constants.SOCKET_TIMEOUT)
+                        .setConnectionRequestTimeout(Constants.SOCKET_TIMEOUT).build();
+                //http client
                 HttpPost httpPost = new HttpPost(url);
                 try {
                     httpPost.addHeader("charset", "UTF-8");
+                    httpPost.setConfig(requestConfig);
                     httpPost.setEntity(new StringEntity(request.toJson().toString(), ContentType.APPLICATION_JSON));
                     HttpResponse response;
                     response = httpclient.execute(httpPost);
