@@ -520,7 +520,8 @@ public abstract class AbsSender {
 
         JSONObject jsonObject = new JSONObject(responseContent);
 
-        if(jsonObject.has("result")){
+        //if we got an ok, then we can expect a "reseult" section. and out of this can a new Message object be built
+        if(jsonObject.has("ok") && jsonObject.getBoolean("ok")){
         	return new Message(jsonObject.getJSONObject("result"));
         }
         
