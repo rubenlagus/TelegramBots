@@ -138,6 +138,9 @@ public class Message implements IBotApiObject {
         if (jsonObject.has(VIDEO_FIELD)) {
             this.video = new Video(jsonObject.getJSONObject(VIDEO_FIELD));
         }
+        if(jsonObject.has(AUDIO_FIELD)){
+        	this.audio = new Audio(jsonObject.getJSONObject(AUDIO_FIELD));
+        }
         if (jsonObject.has(CONTACT_FIELD)) {
             this.contact = new Contact(jsonObject.getJSONObject(CONTACT_FIELD));
         }
