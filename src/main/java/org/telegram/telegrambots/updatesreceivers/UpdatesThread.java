@@ -16,7 +16,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.Constants;
-import org.telegram.telegrambots.api.TelegramApiConfiguration;
 import org.telegram.telegrambots.api.methods.GetUpdates;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.ITelegramLongPollingBot;
@@ -61,12 +60,6 @@ public class UpdatesThread {
                 CloseableHttpClient httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).setConnectionTimeToLive(20, TimeUnit.SECONDS).build();
                 String url = Constants.BASEURL + token + "/" + GetUpdates.PATH;
                 HttpPost httpPost = new HttpPost(url);
-                if (TelegramApiConfiguration.getInstance().getProxy() != null) {
-                    RequestConfig requestConfig = RequestConfig.custom()
-                            .setProxy(TelegramApiConfiguration.getInstance().getProxy())
-                            .build();
-                    httpPost.setConfig(requestConfig);
-                }
                 try {
                     httpPost.addHeader("charset", "UTF-8");
                     httpPost.setEntity(new StringEntity(request.toJson().toString(), ContentType.APPLICATION_JSON));

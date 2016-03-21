@@ -19,7 +19,6 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 import org.telegram.telegrambots.TelegramApiException;
 import org.telegram.telegrambots.api.Constants;
-import org.telegram.telegrambots.api.TelegramApiConfiguration;
 import org.telegram.telegrambots.api.methods.*;
 import org.telegram.telegrambots.api.objects.File;
 import org.telegram.telegrambots.api.objects.Message;
@@ -187,13 +186,6 @@ public abstract class AbsSender {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url = getBaseUrl() + SendDocument.PATH;
             HttpPost httppost = new HttpPost(url);
-            if (TelegramApiConfiguration.getInstance().getProxy() != null) {
-                RequestConfig requestConfig = RequestConfig.custom()
-                        .setProxy(TelegramApiConfiguration.getInstance().getProxy())
-                        .build();
-                httppost.setConfig(requestConfig);
-            }
-
             if (sendDocument.isNewDocument()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendDocument.CHATID_FIELD, sendDocument.getChatId());
@@ -241,13 +233,6 @@ public abstract class AbsSender {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url = getBaseUrl() + SendPhoto.PATH;
             HttpPost httppost = new HttpPost(url);
-            if (TelegramApiConfiguration.getInstance().getProxy() != null) {
-                RequestConfig requestConfig = RequestConfig.custom()
-                        .setProxy(TelegramApiConfiguration.getInstance().getProxy())
-                        .build();
-                httppost.setConfig(requestConfig);
-            }
-
             if (sendPhoto.isNewPhoto()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendPhoto.CHATID_FIELD, sendPhoto.getChatId());
@@ -301,13 +286,6 @@ public abstract class AbsSender {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url = getBaseUrl() + SendVideo.PATH;
             HttpPost httppost = new HttpPost(url);
-            if (TelegramApiConfiguration.getInstance().getProxy() != null) {
-                RequestConfig requestConfig = RequestConfig.custom()
-                        .setProxy(TelegramApiConfiguration.getInstance().getProxy())
-                        .build();
-                httppost.setConfig(requestConfig);
-            }
-
             if (sendVideo.isNewVideo()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendVideo.CHATID_FIELD, sendVideo.getChatId());
@@ -368,13 +346,6 @@ public abstract class AbsSender {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url = getBaseUrl() + SendSticker.PATH;
             HttpPost httppost = new HttpPost(url);
-            if (TelegramApiConfiguration.getInstance().getProxy() != null) {
-                RequestConfig requestConfig = RequestConfig.custom()
-                        .setProxy(TelegramApiConfiguration.getInstance().getProxy())
-                        .build();
-                httppost.setConfig(requestConfig);
-            }
-
             if (sendSticker.isNewSticker()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendSticker.CHATID_FIELD, sendSticker.getChatId());
@@ -422,12 +393,6 @@ public abstract class AbsSender {
                 CloseableHttpClient httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).build();
                 String url = getBaseUrl() + method.getPath();
                 HttpPost httppost = new HttpPost(url);
-                if (TelegramApiConfiguration.getInstance().getProxy() != null) {
-                    RequestConfig requestConfig = RequestConfig.custom()
-                            .setProxy(TelegramApiConfiguration.getInstance().getProxy())
-                            .build();
-                    httppost.setConfig(requestConfig);
-                }
                 httppost.addHeader("charset", "UTF-8");
                 httppost.setEntity(new StringEntity(method.toJson().toString(), ContentType.APPLICATION_JSON));
                 CloseableHttpResponse response = httpclient.execute(httppost);
@@ -452,12 +417,6 @@ public abstract class AbsSender {
             CloseableHttpClient httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).build();
             String url = getBaseUrl() + method.getPath();
             HttpPost httppost = new HttpPost(url);
-            if (TelegramApiConfiguration.getInstance().getProxy() != null) {
-                RequestConfig requestConfig = RequestConfig.custom()
-                        .setProxy(TelegramApiConfiguration.getInstance().getProxy())
-                        .build();
-                httppost.setConfig(requestConfig);
-            }
             httppost.addHeader("charset", "UTF-8");
             httppost.setEntity(new StringEntity(method.toJson().toString(), ContentType.APPLICATION_JSON));
             CloseableHttpResponse response = httpclient.execute(httppost);
