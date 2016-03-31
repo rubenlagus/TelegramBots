@@ -21,7 +21,7 @@ import java.io.IOException;
  * @date 20 of June of 2015
  */
 public class GetFile extends BotApiMethod<File> {
-    public static final String PATH = "getfield";
+    public static final String PATH = "getFile";
 
     public static final String FILEID_FIELD = "file_id";
     private String fileId; ///< File identifier to get info about

@@ -22,7 +22,7 @@ public class File implements IBotApiObject {
     public static final String FILE_SIZE_FIELD = "file_size";
     @JsonProperty(FILE_SIZE_FIELD)
     private Integer fileSize; ///< Optional. File size, if known
-    public static final String FILE_PATH_FIELD = "first_name";
+    public static final String FILE_PATH_FIELD = "file_path";
     @JsonProperty(FILE_PATH_FIELD)
     private String filePath; ///< Optional. File path. Use https://api.telegram.org/file/bot<token>/<file_path> to get the file.
 

@@ -107,6 +107,17 @@ public abstract class AbsSender {
 
         return (UserProfilePhotos) sendApiMethod(getUserProfilePhotos);
     }
+    
+    public File getFile(GetFile getFile) throws TelegramApiException{
+    	if(getFile == null){
+    		throw new TelegramApiException("Parameter getFile can not be null");
+    	}
+    	else if(getFile.getFileId() == null){
+    		throw new TelegramApiException("Attribute file_id in parameter getFile can not be null");
+    	}
+    	return (File)sendApiMethod(getFile);
+    	
+    }
 
     public User getMe() throws TelegramApiException {
         GetMe getMe = new GetMe();
