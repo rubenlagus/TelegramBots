@@ -24,9 +24,17 @@
         <processorPath useClasspath="true" />
         <module name="BotAPi" />
       </profile>
+      <profile default="false" name="Annotation profile for TelegramBots" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="TelegramBots" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
       <module name="BotAPi" target="1.8" />
+      <module name="TelegramBots" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -101,4 +101,14 @@ public class Update implements IBotApiObject {
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
     }
+
+    @Override
+    public String toString() {
+        return "Update{" +
+                "updateId=" + updateId +
+                ", message=" + message +
+                ", inlineQuery=" + inlineQuery +
+                ", chosenInlineQuery=" + chosenInlineQuery +
+                '}';
+    }
 }

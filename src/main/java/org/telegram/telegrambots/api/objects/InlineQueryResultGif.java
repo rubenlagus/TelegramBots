@@ -222,4 +222,21 @@ public class InlineQueryResultGif implements InlineQueryResult {
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
     }
+
+    @Override
+    public String toString() {
+        return "InlineQueryResultGif{" +
+                "type='" + type + '\'' +
+                ", id='" + id + '\'' +
+                ", gifUrl='" + gifUrl + '\'' +
+                ", gifWidth=" + gifWidth +
+                ", gifHeight=" + gifHeight +
+                ", thumbUrl='" + thumbUrl + '\'' +
+                ", title='" + title + '\'' +
+                ", caption='" + caption + '\'' +
+                ", messageText='" + messageText + '\'' +
+                ", parseMode='" + parseMode + '\'' +
+                ", disableWebPagePreview=" + disableWebPagePreview +
+                '}';
+    }
 }

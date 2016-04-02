@@ -126,4 +126,16 @@ public class Chat implements IBotApiObject {
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
     }
+
+    @Override
+    public String toString() {
+        return "Chat{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                ", title='" + title + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", userName='" + userName + '\'' +
+                '}';
+    }
 }

@@ -101,4 +101,18 @@ public class SendAudio {
     public String getAudioName() {
         return audioName;
     }
+
+    @Override
+    public String toString() {
+        return "SendAudio{" +
+                "chatId='" + chatId + '\'' +
+                ", audio='" + audio + '\'' +
+                ", replayToMessageId=" + replayToMessageId +
+                ", replayMarkup=" + replayMarkup +
+                ", performer='" + performer + '\'' +
+                ", title='" + title + '\'' +
+                ", isNewAudio=" + isNewAudio +
+                ", audioName='" + audioName + '\'' +
+                '}';
+    }
 }

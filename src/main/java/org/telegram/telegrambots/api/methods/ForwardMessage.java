@@ -89,4 +89,13 @@ public class ForwardMessage extends BotApiMethod<Message> {
         }
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "ForwardMessage{" +
+                "chatId='" + chatId + '\'' +
+                ", fromChatId=" + fromChatId +
+                ", messageId=" + messageId +
+                '}';
+    }
 }

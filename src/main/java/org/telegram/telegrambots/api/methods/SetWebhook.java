@@ -36,4 +36,12 @@ public class SetWebhook {
     public void setCertificateFile(String certificateFile) {
         this.certificateFile = certificateFile;
     }
+
+    @Override
+    public String toString() {
+        return "SetWebhook{" +
+                "url='" + url + '\'' +
+                ", certificateFile='" + certificateFile + '\'' +
+                '}';
+    }
 }

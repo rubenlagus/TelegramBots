@@ -135,4 +135,15 @@ public class AnswerInlineQuery extends BotApiMethod<Boolean> {
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
     }
+
+    @Override
+    public String toString() {
+        return "AnswerInlineQuery{" +
+                "inlineQueryId='" + inlineQueryId + '\'' +
+                ", results=" + results +
+                ", cacheTime=" + cacheTime +
+                ", isPersonal=" + isPersonal +
+                ", nextOffset='" + nextOffset + '\'' +
+                '}';
+    }
 }

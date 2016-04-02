@@ -83,4 +83,12 @@ public class SendChatAction extends BotApiMethod<Boolean>{
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
     }
+
+    @Override
+    public String toString() {
+        return "SendChatAction{" +
+                "chatId='" + chatId + '\'' +
+                ", action='" + action + '\'' +
+                '}';
+    }
 }

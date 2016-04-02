@@ -254,4 +254,23 @@ public class InlineQueryResultVideo implements InlineQueryResult {
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
     }
+
+    @Override
+    public String toString() {
+        return "InlineQueryResultVideo{" +
+                "type='" + type + '\'' +
+                ", id='" + id + '\'' +
+                ", mimeType='" + mimeType + '\'' +
+                ", videoUrl='" + videoUrl + '\'' +
+                ", videoWidth=" + videoWidth +
+                ", videoHeight=" + videoHeight +
+                ", videoDuration=" + videoDuration +
+                ", thumbUrl='" + thumbUrl + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", messageText='" + messageText + '\'' +
+                ", parseMode='" + parseMode + '\'' +
+                ", disableWebPagePreview=" + disableWebPagePreview +
+                '}';
+    }
 }

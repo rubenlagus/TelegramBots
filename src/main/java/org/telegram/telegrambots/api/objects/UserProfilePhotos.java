@@ -87,4 +87,12 @@ public class UserProfilePhotos implements IBotApiObject {
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
     }
+
+    @Override
+    public String toString() {
+        return "UserProfilePhotos{" +
+                "totalCount=" + totalCount +
+                ", photos=" + photos +
+                '}';
+    }
 }
