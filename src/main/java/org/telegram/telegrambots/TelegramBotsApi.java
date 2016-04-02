@@ -82,37 +82,6 @@ public class TelegramBotsApi {
 
     /**
      *
-     * @param bot
-     */
-    public void registerBot(TelegramLongPollingBot bot) throws TelegramApiException {
-        setWebhook(bot.getBotToken());
-        new UpdatesThread(bot.getBotToken(), bot);
-    }
-
-    /**
-     *
-     * @param bot
-     */
-    public void registerBot(TelegramWebhookBot bot) throws TelegramApiException {
-        if (useWebhook) {
-            webhook.registerWebhook(bot);
-            setWebhook(bot.getBotToken());
-        }
-    }
-
-    /**
-     *
-     * @param botToken
-     */
-    private void setWebhook(String botToken) throws TelegramApiException {
-        if (botToken == null) {
-            throw new TelegramApiException("Parameter botToken can not be null");
-        }
-        setWebhook(extrenalUrl == null ? "" : extrenalUrl, botToken, pathToCertificate, publicCertificateName);
-    }
-
-    /**
-     *
      * @param externalUrl
      * @return
      */
@@ -157,5 +126,36 @@ public class TelegramBotsApi {
         } catch (IOException e) {
             throw new TelegramApiException("Error executing setWebook method", e);
         }
+    }
+
+    /**
+     *
+     * @param bot
+     */
+    public void registerBot(TelegramLongPollingBot bot) throws TelegramApiException {
+        setWebhook(bot.getBotToken());
+        new UpdatesThread(bot.getBotToken(), bot);
+    }
+
+    /**
+     *
+     * @param bot
+     */
+    public void registerBot(TelegramWebhookBot bot) throws TelegramApiException {
+        if (useWebhook) {
+            webhook.registerWebhook(bot);
+            setWebhook(bot.getBotToken());
+        }
+    }
+
+    /**
+     *
+     * @param botToken
+     */
+    private void setWebhook(String botToken) throws TelegramApiException {
+        if (botToken == null) {
+            throw new TelegramApiException("Parameter botToken can not be null");
+        }
+        setWebhook(extrenalUrl == null ? "" : extrenalUrl, botToken, pathToCertificate, publicCertificateName);
     }
 }

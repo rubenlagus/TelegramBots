@@ -3,6 +3,7 @@ package org.telegram.telegrambots.api.methods;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -20,8 +21,8 @@ public class SendChatAction extends BotApiMethod<Boolean>{
     public static final String PATH = "sendChatAction";
 
     public static final String CHATID_FIELD = "chat_id";
-    private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     public static final String ACTION_FIELD = "action";
+    private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     /**
      * Type of action to broadcast.
      * Choose one, depending on what the user is about to receive:
@@ -82,5 +83,13 @@ public class SendChatAction extends BotApiMethod<Boolean>{
     @Override
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
+    }
+
+    @Override
+    public String toString() {
+        return "SendChatAction{" +
+                "chatId='" + chatId + '\'' +
+                ", action='" + action + '\'' +
+                '}';
     }
 }

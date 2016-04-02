@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.interfaces.IBotApiObject;
 
@@ -19,18 +20,18 @@ import java.io.IOException;
 public class Document implements IBotApiObject {
 
     public static final String FILEID_FIELD = "file_id";
+    public static final String THUMB_FIELD = "thumb";
+    public static final String FILENAME_FIELD = "file_name";
+    public static final String MIMETYPE_FIELD = "mime_type";
+    public static final String FILESIZE_FIELD = "file_size";
     @JsonProperty(FILEID_FIELD)
     private String fileId; ///< Unique identifier for this file
-    public static final String THUMB_FIELD = "thumb";
     @JsonProperty(THUMB_FIELD)
     private PhotoSize thumb; ///< Document thumbnail as defined by sender
-    public static final String FILENAME_FIELD = "file_name";
     @JsonProperty(FILENAME_FIELD)
     private String fileName; ///< Optional. Original filename as defined by sender
-    public static final String MIMETYPE_FIELD = "mime_type";
     @JsonProperty(MIMETYPE_FIELD)
     private String mimeType; ///< Optional. Mime type of a file as defined by sender
-    public static final String FILESIZE_FIELD = "file_size";
     @JsonProperty(FILESIZE_FIELD)
     private Integer fileSize; ///< Optional. File size
 
@@ -115,5 +116,16 @@ public class Document implements IBotApiObject {
     @Override
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
+    }
+
+    @Override
+    public String toString() {
+        return "Document{" +
+                "fileId='" + fileId + '\'' +
+                ", thumb=" + thumb +
+                ", fileName='" + fileName + '\'' +
+                ", mimeType='" + mimeType + '\'' +
+                ", fileSize=" + fileSize +
+                '}';
     }
 }

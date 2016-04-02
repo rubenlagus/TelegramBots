@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.interfaces.IBotApiObject;
 
@@ -18,15 +19,15 @@ import java.io.IOException;
  */
 public class InlineQuery implements IBotApiObject {
     public static final String ID_FIELD = "id";
+    public static final String FROM_FIELD = "from";
+    public static final String QUERY_FIELD = "query";
+    public static final String OFFSET_FIELD = "offset";
     @JsonProperty(ID_FIELD)
     private String id; ///< Unique identifier for this query
-    public static final String FROM_FIELD = "from";
     @JsonProperty(FROM_FIELD)
     private User from; ///< Sender
-    public static final String QUERY_FIELD = "query";
     @JsonProperty(QUERY_FIELD)
     private String query; ///< Text of the query
-    public static final String OFFSET_FIELD = "offset";
     @JsonProperty(OFFSET_FIELD)
     private String offset; ///< Offset of the results to be returned, can be controlled by the bot
 
@@ -73,4 +74,15 @@ public class InlineQuery implements IBotApiObject {
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
     }
+
+    @Override
+    public String toString() {
+        return "InlineQuery{" +
+                "id='" + id + '\'' +
+                ", from=" + from +
+                ", query='" + query + '\'' +
+                ", offset='" + offset + '\'' +
+                '}';
+    }
 }
+

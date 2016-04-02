@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -48,7 +49,7 @@ public class InlineQueryResultVideo implements InlineQueryResult {
     private String description; ///< Optional. Short description of the result
     public static final String MESSAGETEXT_FIELD = "message_text";
     @JsonProperty(MESSAGETEXT_FIELD)
-    private String messageText; ///< Optional. Text of a message to be sent instead of the video
+    private String messageText; ///< Optional. Text of a message to be sent instead of the video, 1-4096 characters
     public static final String PARSEMODE_FIELD = "parse_mode";
     @JsonProperty(PARSEMODE_FIELD)
     private String parseMode; ///< Optional. Send “Markdown”, if you want Telegram apps to show bold, italic and inline URLs in your bot's message.
@@ -253,5 +254,24 @@ public class InlineQueryResultVideo implements InlineQueryResult {
     @Override
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
+    }
+
+    @Override
+    public String toString() {
+        return "InlineQueryResultVideo{" +
+                "type='" + type + '\'' +
+                ", id='" + id + '\'' +
+                ", mimeType='" + mimeType + '\'' +
+                ", videoUrl='" + videoUrl + '\'' +
+                ", videoWidth=" + videoWidth +
+                ", videoHeight=" + videoHeight +
+                ", videoDuration=" + videoDuration +
+                ", thumbUrl='" + thumbUrl + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", messageText='" + messageText + '\'' +
+                ", parseMode='" + parseMode + '\'' +
+                ", disableWebPagePreview=" + disableWebPagePreview +
+                '}';
     }
 }

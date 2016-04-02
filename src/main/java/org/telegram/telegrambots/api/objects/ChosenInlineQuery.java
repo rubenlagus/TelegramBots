@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.interfaces.IBotApiObject;
 
@@ -16,13 +17,14 @@ import java.io.IOException;
  * @date 01 of January of 2016
  */
 public class ChosenInlineQuery implements IBotApiObject {
-    public static final String RESULTID_FIELD = "id";
+    public static final String RESULTID_FIELD = "result_id";
+    public static final String FROM_FIELD = "from";
+    public static final String QUERY_FIELD = "query";
+
     @JsonProperty(RESULTID_FIELD)
     private String resultId; ///< The unique identifier for the result that was chosen.
-    public static final String FROM_FIELD = "from";
     @JsonProperty(FROM_FIELD)
     private User from; ///< The user that chose the result.
-    public static final String QUERY_FIELD = "query";
     @JsonProperty(QUERY_FIELD)
     private String query; ///< The query that was used to obtain the result.
 
@@ -62,5 +64,14 @@ public class ChosenInlineQuery implements IBotApiObject {
     @Override
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
+    }
+
+    @Override
+    public String toString() {
+        return "ChosenInlineQuery{" +
+                "resultId='" + resultId + '\'' +
+                ", from=" + from +
+                ", query='" + query + '\'' +
+                '}';
     }
 }

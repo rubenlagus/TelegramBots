@@ -3,6 +3,7 @@ package org.telegram.telegrambots.api.methods;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.Message;
 
@@ -23,6 +24,14 @@ public class ForwardMessage extends BotApiMethod<Message> {
     private Integer fromChatId; ///< Unique identifier for the chat where the original message was sent — User or GroupChat id
     public static final String MESSAGEID_FIELD = "message_id";
     private Integer messageId; ///< Unique message identifier
+    public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
+    /**
+     * Optional. Sends the message silently.
+     * iOS users will not receive a notification,
+     * Android users will receive a notification with no sound.
+     * Other apps coming soon
+     */
+    private Boolean disableNotification;
 
     public ForwardMessage() {
         super();
@@ -52,6 +61,18 @@ public class ForwardMessage extends BotApiMethod<Message> {
         this.messageId = messageId;
     }
 
+    public Boolean getDisableNotification() {
+        return disableNotification;
+    }
+
+    public void enableNotification() {
+        this.disableNotification = false;
+    }
+
+    public void disableNotification() {
+        this.disableNotification = true;
+    }
+
     @Override
     public void serialize(JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartObject();
@@ -59,6 +80,9 @@ public class ForwardMessage extends BotApiMethod<Message> {
         gen.writeStringField(CHATID_FIELD, chatId);
         gen.writeNumberField(FROMCHATID_FIELD, fromChatId);
         gen.writeNumberField(MESSAGEID_FIELD, messageId);
+        if (disableNotification != null) {
+            gen.writeBooleanField(DISABLENOTIFICATION_FIELD, disableNotification);
+        }
         gen.writeEndObject();
         gen.flush();
     }
@@ -74,6 +98,9 @@ public class ForwardMessage extends BotApiMethod<Message> {
         jsonObject.put(CHATID_FIELD, chatId);
         jsonObject.put(FROMCHATID_FIELD, fromChatId);
         jsonObject.put(MESSAGEID_FIELD, messageId);
+        if (disableNotification != null) {
+            jsonObject.put(DISABLENOTIFICATION_FIELD, disableNotification);
+        }
         return jsonObject;
     }
 
@@ -88,5 +115,14 @@ public class ForwardMessage extends BotApiMethod<Message> {
             return new Message(answer.getJSONObject("result"));
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "ForwardMessage{" +
+                "chatId='" + chatId + '\'' +
+                ", fromChatId=" + fromChatId +
+                ", messageId=" + messageId +
+                '}';
     }
 }

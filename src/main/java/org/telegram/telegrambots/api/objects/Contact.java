@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.interfaces.IBotApiObject;
 
@@ -18,15 +19,15 @@ import java.io.IOException;
 public class Contact implements IBotApiObject {
 
     public static final String PHONENUMBER_FIELD = "phone_number";
+    public static final String FIRSTNAME_FIELD = "first_name";
+    public static final String LASTNAME_FIELD = "last_name";
+    public static final String USERID_FIELD = "user_id";
     @JsonProperty(PHONENUMBER_FIELD)
     private String phoneNumber; ///< Contact's phone number
-    public static final String FIRSTNAME_FIELD = "first_name";
     @JsonProperty(FIRSTNAME_FIELD)
     private String firstName; ///< Contact's first name
-    public static final String LASTNAME_FIELD = "last_name";
     @JsonProperty(LASTNAME_FIELD)
     private String lastName; ///< Optional. Contact's last name
-    public static final String USERID_FIELD = "user_id";
     @JsonProperty(USERID_FIELD)
     private Integer userID; ///< Optional. Contact's user identifier in Telegram
 
@@ -64,5 +65,15 @@ public class Contact implements IBotApiObject {
     @Override
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
+    }
+
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "phoneNumber='" + phoneNumber + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", userID=" + userID +
+                '}';
     }
 }

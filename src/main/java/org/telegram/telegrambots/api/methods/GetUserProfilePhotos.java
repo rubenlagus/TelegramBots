@@ -3,6 +3,7 @@ package org.telegram.telegrambots.api.methods;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.UserProfilePhotos;
 
@@ -18,13 +19,13 @@ public class GetUserProfilePhotos extends BotApiMethod<UserProfilePhotos> {
     public static final String PATH = "getuserprofilephotos";
 
     public static final String USERID_FIELD = "user_id";
-    private Integer userId; ///< Unique identifier of the target user
     public static final String OFFSET_FIELD = "offset";
+    public static final String LIMIT_FIELD = "limit";
+    private Integer userId; ///< Unique identifier of the target user
     /**
      * Sequential number of the first photo to be returned. By default, all photos are returned.
      */
     private Integer offset;
-    public static final String LIMIT_FIELD = "limit";
     /**
      * Optional. Limits the number of photos to be retrieved. Values between 1—100 are accepted. Defaults to 100.
      */
@@ -98,5 +99,14 @@ public class GetUserProfilePhotos extends BotApiMethod<UserProfilePhotos> {
     @Override
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
+    }
+
+    @Override
+    public String toString() {
+        return "GetUserProfilePhotos{" +
+                "userId=" + userId +
+                ", offset=" + offset +
+                ", limit=" + limit +
+                '}';
     }
 }

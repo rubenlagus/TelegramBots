@@ -3,6 +3,7 @@ package org.telegram.telegrambots.api.methods;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.ReplyKeyboard;
@@ -26,6 +27,14 @@ public class SendMessage extends BotApiMethod<Message> {
     private String parseMode; ///< Optional. Send Markdown, if you want Telegram apps to show bold, italic and URL text in your bot's message.
     public static final String DISABLEWEBPAGEPREVIEW_FIELD = "disable_web_page_preview";
     private Boolean disableWebPagePreview; ///< Optional. Disables link previews for links in this message
+    public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
+    /**
+     * Optional. Sends the message silently.
+     * iOS users will not receive a notification,
+     * Android users will receive a notification with no sound.
+     * Other apps coming soon
+     */
+    private Boolean disableNotification;
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private Integer replayToMessageId; ///< Optional. If the message is a reply, ID of the original message
     public static final String REPLYMARKUP_FIELD = "reply_markup";
@@ -75,6 +84,18 @@ public class SendMessage extends BotApiMethod<Message> {
         this.disableWebPagePreview = disableWebPagePreview;
     }
 
+    public Boolean getDisableNotification() {
+        return disableNotification;
+    }
+
+    public void enableNotification() {
+        this.disableNotification = false;
+    }
+
+    public void disableNotification() {
+        this.disableNotification = true;
+    }
+
     public void enableMarkdown(boolean enable) {
         if (enable) {
             this.parseMode = "Markdown";
@@ -101,6 +122,9 @@ public class SendMessage extends BotApiMethod<Message> {
         }
         if (disableWebPagePreview != null) {
             jsonObject.put(DISABLEWEBPAGEPREVIEW_FIELD, disableWebPagePreview);
+        }
+        if (disableNotification != null) {
+            jsonObject.put(DISABLENOTIFICATION_FIELD, disableNotification);
         }
         if (replayToMessageId != null) {
             jsonObject.put(REPLYTOMESSAGEID_FIELD, replayToMessageId);
@@ -138,6 +162,9 @@ public class SendMessage extends BotApiMethod<Message> {
         if (disableWebPagePreview != null) {
             gen.writeBooleanField(DISABLEWEBPAGEPREVIEW_FIELD, disableWebPagePreview);
         }
+        if (disableNotification != null) {
+            gen.writeBooleanField(DISABLENOTIFICATION_FIELD, disableNotification);
+        }
         if (replayToMessageId != null) {
             gen.writeNumberField(REPLYTOMESSAGEID_FIELD, replayToMessageId);
         }
@@ -152,5 +179,17 @@ public class SendMessage extends BotApiMethod<Message> {
     @Override
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
+    }
+
+    @Override
+    public String toString() {
+        return "SendMessage{" +
+                "chatId='" + chatId + '\'' +
+                ", text='" + text + '\'' +
+                ", parseMode='" + parseMode + '\'' +
+                ", disableWebPagePreview=" + disableWebPagePreview +
+                ", replayToMessageId=" + replayToMessageId +
+                ", replayMarkup=" + replayMarkup +
+                '}';
     }
 }

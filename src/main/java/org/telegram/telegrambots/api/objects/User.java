@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.interfaces.IBotApiObject;
 
@@ -18,15 +19,15 @@ import java.io.IOException;
 public class User implements IBotApiObject {
 
     public static final String ID_FIELD = "id";
+    public static final String FIRSTNAME_FIELD = "first_name";
+    public static final String LASTNAME_FIELD = "last_name";
+    public static final String USERNAME_FIELD = "username";
     @JsonProperty(ID_FIELD)
     private Integer id; ///< Unique identifier for this user or bot
-    public static final String FIRSTNAME_FIELD = "first_name";
     @JsonProperty(FIRSTNAME_FIELD)
     private String firstName; ///< User‘s or bot’s first name
-    public static final String LASTNAME_FIELD = "last_name";
     @JsonProperty(LASTNAME_FIELD)
     private String lastName; ///< Optional. User‘s or bot’s last name
-    public static final String USERNAME_FIELD = "username";
     @JsonProperty(USERNAME_FIELD)
     private String userName; ///< Optional. User‘s or bot’s username
 
@@ -80,5 +81,15 @@ public class User implements IBotApiObject {
     @Override
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", userName='" + userName + '\'' +
+                '}';
     }
 }

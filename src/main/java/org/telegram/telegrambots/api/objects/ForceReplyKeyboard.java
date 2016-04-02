@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -20,12 +21,12 @@ import java.io.IOException;
 public class ForceReplyKeyboard implements ReplyKeyboard {
 
     public static final String FORCEREPLY_FIELD = "force_reply";
+    public static final String SELECTIVE_FIELD = "selective";
     /**
      * Shows reply interface to the user, as if they manually selected the bot‘s message and tapped ’Reply'
      */
     @JsonProperty(FORCEREPLY_FIELD)
     private Boolean forceReply;
-    public static final String SELECTIVE_FIELD = "selective";
     /**
      * Use this parameter if you want to force reply from specific users only.
      * Targets:
@@ -90,5 +91,13 @@ public class ForceReplyKeyboard implements ReplyKeyboard {
     @Override
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
+    }
+
+    @Override
+    public String toString() {
+        return "ForceReplyKeyboard{" +
+                "forceReply=" + forceReply +
+                ", selective=" + selective +
+                '}';
     }
 }

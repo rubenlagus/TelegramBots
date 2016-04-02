@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class InlineQueryResultArticle implements InlineQueryResult {
     private String title; ///< Title of the result
     public static final String MESSAGETEXT_FIELD = "message_text";
     @JsonProperty(MESSAGETEXT_FIELD)
-    private String messageText; ///< Text of a message to be sent
+    private String messageText; ///< Text of a message to be sent, 1-4096 characters
     public static final String PARSEMODE_FIELD = "parse_mode";
     @JsonProperty(PARSEMODE_FIELD)
     private String parseMode; ///< Optional. Send “Markdown”, if you want Telegram apps to show bold, italic and inline URLs in your bot's message.
@@ -237,5 +238,23 @@ public class InlineQueryResultArticle implements InlineQueryResult {
     @Override
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
+    }
+
+    @Override
+    public String toString() {
+        return "InlineQueryResultArticle{" +
+                "type='" + type + '\'' +
+                ", id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", messageText='" + messageText + '\'' +
+                ", parseMode='" + parseMode + '\'' +
+                ", disableWebPagePreview=" + disableWebPagePreview +
+                ", url='" + url + '\'' +
+                ", hideUrl=" + hideUrl +
+                ", description='" + description + '\'' +
+                ", thumbUrl='" + thumbUrl + '\'' +
+                ", thumbWidth=" + thumbWidth +
+                ", thumbHeight=" + thumbHeight +
+                '}';
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.interfaces.IBotApiObject;
@@ -21,9 +22,9 @@ import java.util.List;
 public class UserProfilePhotos implements IBotApiObject {
 
     public static final String TOTALCOUNT_FIELD = "total_count";
+    public static final String PHOTOS_FIELD = "photos";
     @JsonProperty(TOTALCOUNT_FIELD)
     private Integer totalCount; ///< Total number of profile pictures the target user has
-    public static final String PHOTOS_FIELD = "photos";
     @JsonProperty(PHOTOS_FIELD)
     private List<List<PhotoSize>> photos; ///< Requested profile pictures (in up to 4 sizes each)
 
@@ -86,5 +87,13 @@ public class UserProfilePhotos implements IBotApiObject {
     @Override
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
+    }
+
+    @Override
+    public String toString() {
+        return "UserProfilePhotos{" +
+                "totalCount=" + totalCount +
+                ", photos=" + photos +
+                '}';
     }
 }
