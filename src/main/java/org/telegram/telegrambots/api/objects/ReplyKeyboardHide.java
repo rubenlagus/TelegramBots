@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -21,9 +22,9 @@ import java.io.IOException;
 public class ReplyKeyboardHide implements ReplyKeyboard {
 
     public static final String HIDEKEYBOARD_FIELD = "hide_keyboard";
+    public static final String SELECTIVE_FIELD = "selective";
     @JsonProperty(HIDEKEYBOARD_FIELD)
     private Boolean hideKeyboard; ///< Requests clients to hide the custom keyboard
-    public static final String SELECTIVE_FIELD = "selective";
     /**
      * Optional. Use this parameter if you want to show the keyboard to specific users only.
      * Targets:
@@ -84,5 +85,13 @@ public class ReplyKeyboardHide implements ReplyKeyboard {
     @Override
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
+    }
+
+    @Override
+    public String toString() {
+        return "ReplyKeyboardHide{" +
+                "hideKeyboard=" + hideKeyboard +
+                ", selective=" + selective +
+                '}';
     }
 }

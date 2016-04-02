@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.interfaces.IBotApiObject;
 
@@ -18,15 +19,15 @@ import java.io.IOException;
  */
 public class Update implements IBotApiObject {
     public static final String UPDATEID_FIELD = "update_id";
+    public static final String MESSAGE_FIELD = "message";
+    public static final String INLINEQUERY_FIELD = "inline_query";
+    public static final String CHOSENINLINEQUERY_FIELD = "chosen_inline_result";
     @JsonProperty(UPDATEID_FIELD)
     private Integer updateId;
-    public static final String MESSAGE_FIELD = "message";
     @JsonProperty(MESSAGE_FIELD)
     private Message message; ///< Optional. New incoming message of any kind — text, photo, sticker, etc.
-    public static final String INLINEQUERY_FIELD = "inline_query";
     @JsonProperty(INLINEQUERY_FIELD)
     private InlineQuery inlineQuery; ///< Optional. New incoming inline query
-    public static final String CHOSENINLINEQUERY_FIELD = "chosen_inline_result";
     @JsonProperty(CHOSENINLINEQUERY_FIELD)
     private ChosenInlineQuery chosenInlineQuery; ///< Optional. The result of a inline query that was chosen by a user and sent to their chat partner
 
@@ -100,5 +101,15 @@ public class Update implements IBotApiObject {
     @Override
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
+    }
+
+    @Override
+    public String toString() {
+        return "Update{" +
+                "updateId=" + updateId +
+                ", message=" + message +
+                ", inlineQuery=" + inlineQuery +
+                ", chosenInlineQuery=" + chosenInlineQuery +
+                '}';
     }
 }

@@ -3,6 +3,7 @@ package org.telegram.telegrambots.api.methods;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.File;
 
@@ -21,7 +22,7 @@ import java.io.IOException;
  * @date 20 of June of 2015
  */
 public class GetFile extends BotApiMethod<File> {
-    public static final String PATH = "getfield";
+    public static final String PATH = "getFile";
 
     public static final String FILEID_FIELD = "file_id";
     private String fileId; ///< File identifier to get info about
@@ -70,5 +71,12 @@ public class GetFile extends BotApiMethod<File> {
             return new File(answer.getJSONObject("result"));
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "GetFile{" +
+                "fileId='" + fileId + '\'' +
+                '}';
     }
 }

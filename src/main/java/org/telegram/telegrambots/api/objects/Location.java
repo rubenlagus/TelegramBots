@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.interfaces.IBotApiObject;
 
@@ -18,9 +19,9 @@ import java.io.IOException;
 public class Location implements IBotApiObject {
 
     public static final String LONGITUDE_FIELD = "longitude";
+    public static final String LATITUDE_FIELD = "latitude";
     @JsonProperty(LONGITUDE_FIELD)
     private Double longitude; ///< Longitude as defined by sender
-    public static final String LATITUDE_FIELD = "latitude";
     @JsonProperty(LATITUDE_FIELD)
     private Double latitude; ///< Latitude as defined by sender
 
@@ -62,5 +63,13 @@ public class Location implements IBotApiObject {
     @Override
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
+    }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "longitude=" + longitude +
+                ", latitude=" + latitude +
+                '}';
     }
 }

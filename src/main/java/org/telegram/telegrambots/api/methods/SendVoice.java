@@ -17,7 +17,15 @@ public class SendVoice {
     public static final String CHATID_FIELD = "chat_id";
     private String chatId; ///< Unique identifier for the chat sent message to (Or username for channels)
     public static final String AUDIO_FIELD = "audio";
-    private String audio; ///< Audio file to send. file_id as String to resend an audio that is already on the Telegram servers
+    private String audio; ///< Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.
+    public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
+    /**
+     * Optional. Sends the message silently.
+     * iOS users will not receive a notification,
+     * Android users will receive a notification with no sound.
+     * Other apps coming soon
+     */
+    private Boolean disableNotification;
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private Integer replayToMessageId; ///< Optional. If the message is a reply, ID of the original message
     public static final String REPLYMARKUP_FIELD = "reply_markup";
@@ -25,7 +33,88 @@ public class SendVoice {
     public static final String DURATION_FIELD = "duration";
     private Integer duration; ///< Optional. Duration of sent audio in seconds
 
+    private boolean isNewVoice; ///< True to upload a new voice note, false to use a fileId
+    private String voiceName; ///< Name of the voice note
+
     public SendVoice() {
         super();
+    }
+
+    @Override
+    public String toString() {
+        return "SendVoice{" +
+                "chatId='" + chatId + '\'' +
+                ", audio='" + audio + '\'' +
+                ", replayToMessageId=" + replayToMessageId +
+                ", replayMarkup=" + replayMarkup +
+                ", duration=" + duration +
+                '}';
+    }
+
+    public Boolean getDisableNotification() {
+        return disableNotification;
+    }
+
+    public void enableNotification() {
+        this.disableNotification = false;
+    }
+
+    public void disableNotification() {
+        this.disableNotification = true;
+    }
+
+    public String getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(String chatId) {
+        this.chatId = chatId;
+    }
+
+    public String getAudio() {
+        return audio;
+    }
+
+    public void setAudio(String audio) {
+        this.audio = audio;
+        this.isNewVoice = false;
+    }
+
+    public void setNewAudio(String audio, String audioName) {
+        this.audio = audio;
+        this.isNewVoice = false;
+        this.voiceName = audioName;
+    }
+
+    public Integer getReplayToMessageId() {
+        return replayToMessageId;
+    }
+
+    public void setReplayToMessageId(Integer replayToMessageId) {
+        this.replayToMessageId = replayToMessageId;
+    }
+
+    public ReplyKeyboard getReplayMarkup() {
+        return replayMarkup;
+    }
+
+    public void setReplayMarkup(ReplyKeyboard replayMarkup) {
+        this.replayMarkup = replayMarkup;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
+    public boolean isNewVoice() {
+        return isNewVoice;
+    }
+
+    public String getVoiceName() {
+        return voiceName;
     }
 }

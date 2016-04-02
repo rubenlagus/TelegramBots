@@ -21,6 +21,18 @@ public class SendVideo {
     private Integer duration; ///< Optional. Duration of sent video in seconds
     public static final String CAPTION_FIELD = "caption";
     private String caption; ///< OptionaL. Video caption (may also be used when resending videos by file_id).
+    public static final String WIDTH_FIELD = "width";
+    private Integer width; ///< Optional. Video width
+    public static final String HEIGHT_FIELD = "height";
+    private Integer height; ///< OptionaL. Video height
+    public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
+    /**
+     * Optional. Sends the message silently.
+     * iOS users will not receive a notification,
+     * Android users will receive a notification with no sound.
+     * Other apps coming soon
+     */
+    private Boolean disableNotification;
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private Integer replayToMessageId; ///< Optional. If the message is a reply, ID of the original message
     public static final String REPLYMARKUP_FIELD = "reply_markup";
@@ -85,6 +97,34 @@ public class SendVideo {
         return videoName;
     }
 
+    public Boolean getDisableNotification() {
+        return disableNotification;
+    }
+
+    public void enableNotification() {
+        this.disableNotification = false;
+    }
+
+    public void disableNotification() {
+        this.disableNotification = true;
+    }
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public void setWidth(Integer width) {
+        this.width = width;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
     public void setVideo(String video) {
         this.video = video;
         this.isNewVideo = false;
@@ -94,5 +134,19 @@ public class SendVideo {
         this.video = video;
         this.isNewVideo = true;
         this.videoName = videoName;
+    }
+
+    @Override
+    public String toString() {
+        return "SendVideo{" +
+                "chatId='" + chatId + '\'' +
+                ", video='" + video + '\'' +
+                ", duration=" + duration +
+                ", caption='" + caption + '\'' +
+                ", replayToMessageId=" + replayToMessageId +
+                ", replayMarkup=" + replayMarkup +
+                ", isNewVideo=" + isNewVideo +
+                ", videoName='" + videoName + '\'' +
+                '}';
     }
 }

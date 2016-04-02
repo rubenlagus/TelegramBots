@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.interfaces.IBotApiObject;
 
@@ -29,6 +30,9 @@ public class PhotoSize implements IBotApiObject {
     public static final String FILESIZE_FIELD = "file_size";
     @JsonProperty(FILESIZE_FIELD)
     private Integer fileSize; ///< Optional. File size
+    private static final String FILEPATH_FIELD = "file_path";
+    @JsonProperty(FILEPATH_FIELD)
+    private String filePath; ///< Undocumented field. Optional. Can contain the path to download the file direclty without calling to getFile
 
     public PhotoSize() {
         super();
@@ -41,6 +45,9 @@ public class PhotoSize implements IBotApiObject {
         this.height = jsonObject.getInt(HEIGHT_FIELD);
         if (jsonObject.has(FILESIZE_FIELD)) {
             this.fileSize = jsonObject.getInt(FILESIZE_FIELD);
+        }
+        if (jsonObject.has(FILEPATH_FIELD)) {
+            this.filePath = jsonObject.getString(FILEPATH_FIELD);
         }
     }
 
@@ -76,6 +83,14 @@ public class PhotoSize implements IBotApiObject {
         this.fileSize = fileSize;
     }
 
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
     @Override
     public void serialize(JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartObject();
@@ -85,6 +100,9 @@ public class PhotoSize implements IBotApiObject {
         if (fileSize != null) {
             gen.writeNumberField(FILESIZE_FIELD, fileSize);
         }
+        if (filePath != null) {
+            gen.writeStringField(FILEPATH_FIELD, filePath);
+        }
         gen.writeEndObject();
         gen.flush();
     }
@@ -92,5 +110,15 @@ public class PhotoSize implements IBotApiObject {
     @Override
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
+    }
+
+    @Override
+    public String toString() {
+        return "PhotoSize{" +
+                "fileId='" + fileId + '\'' +
+                ", width=" + width +
+                ", height=" + height +
+                ", fileSize=" + fileSize +
+                '}';
     }
 }
