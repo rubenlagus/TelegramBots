@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.interfaces.IBotApiObject;
 
@@ -17,15 +18,15 @@ import java.io.IOException;
  */
 public class Voice implements IBotApiObject {
     public static final String FILEID_FIELD = "file_id";
+    public static final String DURATION_FIELD = "duration";
+    public static final String MIMETYPE_FIELD = "mime_type";
+    public static final String FILESIZE_FIELD = "file_size";
     @JsonProperty(FILEID_FIELD)
     private String fileId; ///< Unique identifier for this file
-    public static final String DURATION_FIELD = "duration";
     @JsonProperty(DURATION_FIELD)
     private Integer duration; ///< Integer	Duration of the audio in seconds as defined by sender
-    public static final String MIMETYPE_FIELD = "mime_type";
     @JsonProperty(MIMETYPE_FIELD)
     private String mimeType; ///< Optional. MIME type of the file as defined by sender
-    public static final String FILESIZE_FIELD = "file_size";
     @JsonProperty(FILESIZE_FIELD)
     private Integer fileSize; ///< Optional. File size
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.interfaces.IBotApiObject;
@@ -20,81 +21,81 @@ import java.util.List;
  */
 public class Message implements IBotApiObject {
     public static final String MESSAGEID_FIELD = "message_id";
+    public static final String FROM_FIELD = "from";
+    public static final String DATE_FIELD = "date";
+    public static final String CHAT_FIELD = "chat";
+    public static final String FORWARDFROM_FIELD = "forward_from";
+    public static final String FORWARDDATE_FIELD = "forward_date";
+    public static final String TEXT_FIELD = "text";
+    public static final String AUDIO_FIELD = "audio";
+    public static final String DOCUMENT_FIELD = "document";
+    public static final String PHOTO_FIELD = "photo";
+    public static final String STICKER_FIELD = "sticker";
+    public static final String VIDEO_FIELD = "video";
+    public static final String CONTACT_FIELD = "contact";
+    public static final String LOCATION_FIELD = "location";
+    public static final String NEWCHATPARTICIPANT_FIELD = "new_chat_participant";
+    public static final String LEFTCHATPARTICIPANT_FIELD = "left_chat_participant";
+    public static final String NEWCHATTITLE_FIELD = "new_chat_title";
+    public static final String NEWCHATPHOTO_FIELD = "new_chat_photo";
+    public static final String DELETECHATPHOTO_FIELD = "delete_chat_photo";
+    public static final String GROUPCHATCREATED_FIELD = "group_chat_created";
+    public static final String REPLYTOMESSAGE_FIELD = "reply_to_message";
+    public static final String VOICE_FIELD = "voice";
+    public static final String SUPERGROUPCREATED_FIELD = "supergroup_chat_created";
+    public static final String CHANNELCHATCREATED_FIELD = "channel_chat_created";
+    public static final String MIGRATETOCHAT_FIELD = "migrate_to_chat_id";
+    public static final String MIGRATEFROMCHAT_FIELD = "migrate_from_chat_id";
     @JsonProperty(MESSAGEID_FIELD)
     private Integer messageId; ///< Integer	Unique message identifier
-    public static final String FROM_FIELD = "from";
     @JsonProperty(FROM_FIELD)
     private User from; ///< Optional. Sender, can be empty for messages sent to channels
-    public static final String DATE_FIELD = "date";
     @JsonProperty(DATE_FIELD)
     private Integer date; ///< Date the message was sent in Unix time
-    public static final String CHAT_FIELD = "chat";
     @JsonProperty(CHAT_FIELD)
     private Chat chat; ///< Conversation the message belongs to
-    public static final String FORWARDFROM_FIELD = "forward_from";
     @JsonProperty(FORWARDFROM_FIELD)
     private User forwardFrom; ///< Optional. For forwarded messages, sender of the original message
-    public static final String FORWARDDATE_FIELD = "forward_date";
     @JsonProperty(FORWARDDATE_FIELD)
     private Integer forwardDate; ///< Optional. For forwarded messages, date the original message was sent
-    public static final String TEXT_FIELD = "text";
     @JsonProperty(TEXT_FIELD)
     private String text; ///< Optional. For text messages, the actual UTF-8 text of the message
-    public static final String AUDIO_FIELD = "audio";
     @JsonProperty(AUDIO_FIELD)
     private Audio audio; ///< Optional. Message is an audio file, information about the file
-    public static final String DOCUMENT_FIELD = "document";
     @JsonProperty(DOCUMENT_FIELD)
     private Document document; ///< Optional. Message is a general file, information about the file
-    public static final String PHOTO_FIELD = "photo";
     @JsonProperty(PHOTO_FIELD)
     private List<PhotoSize> photo; ///< Optional. Message is a photo, available sizes of the photo
-    public static final String STICKER_FIELD = "sticker";
     @JsonProperty(STICKER_FIELD)
     private Sticker sticker; ///< Optional. Message is a sticker, information about the sticker
-    public static final String VIDEO_FIELD = "video";
     @JsonProperty(VIDEO_FIELD)
     private Video video; ///< Optional. Message is a video, information about the video
-    public static final String CONTACT_FIELD = "contact";
     @JsonProperty(CONTACT_FIELD)
     private Contact contact; ///< Optional. Message is a shared contact, information about the contact
-    public static final String LOCATION_FIELD = "location";
     @JsonProperty(LOCATION_FIELD)
     private Location location; ///< Optional. Message is a shared location, information about the location
-    public static final String NEWCHATPARTICIPANT_FIELD = "new_chat_participant";
     @JsonProperty(NEWCHATPARTICIPANT_FIELD)
     private User newChatParticipant; ///< Optional. A new member was added to the group, information about them (this member may be bot itself)
-    public static final String LEFTCHATPARTICIPANT_FIELD = "left_chat_participant";
     @JsonProperty(LEFTCHATPARTICIPANT_FIELD)
     private User leftChatParticipant; ///< Optional. A member was removed from the group, information about them (this member may be bot itself)
-    public static final String NEWCHATTITLE_FIELD = "new_chat_title";
     @JsonProperty(NEWCHATTITLE_FIELD)
     private String newChatTitle; ///< Optional. A chat title was changed to this value
-    public static final String NEWCHATPHOTO_FIELD = "new_chat_photo";
     @JsonProperty(NEWCHATPHOTO_FIELD)
     private List<PhotoSize> newChatPhoto; ///< Optional. A chat photo was change to this value
-    public static final String DELETECHATPHOTO_FIELD = "delete_chat_photo";
     @JsonProperty(DELETECHATPHOTO_FIELD)
     private Boolean deleteChatPhoto; ///< Optional. Informs that the chat photo was deleted
-    public static final String GROUPCHATCREATED_FIELD = "group_chat_created";
     @JsonProperty(GROUPCHATCREATED_FIELD)
     private Boolean groupchatCreated; ///< Optional. Informs that the group has been created
-    public static final String REPLYTOMESSAGE_FIELD = "reply_to_message";
     @JsonProperty(REPLYTOMESSAGE_FIELD)
     private Message replyToMessage;
-    public static final String VOICE_FIELD = "voice";
     @JsonProperty(VOICE_FIELD)
     private Voice voice; ///< Optional. Message is a voice message, information about the file
-    public static final String SUPERGROUPCREATED_FIELD = "supergroup_chat_created";
     @JsonProperty(SUPERGROUPCREATED_FIELD)
     private Boolean superGroupCreated; ///< Optional. Informs that the supergroup has been created
-    public static final String CHANNELCHATCREATED_FIELD = "channel_chat_created";
     @JsonProperty(CHANNELCHATCREATED_FIELD)
     private Boolean channelChatCreated; ///< Optional. Informs that the channel has been created
-    public static final String MIGRATETOCHAT_FIELD = "migrate_to_chat_id";
     @JsonProperty(MIGRATETOCHAT_FIELD)
     private Long migrateToChatId; ///< Optional. The chat has been migrated to a chat with specified identifier, not exceeding 1e13 by absolute value
-    public static final String MIGRATEFROMCHAT_FIELD = "migrate_from_chat_id";
     @JsonProperty(MIGRATEFROMCHAT_FIELD)
     private Long migrateFromChatId; ///< Optional. The chat has been migrated from a chat with specified identifier, not exceeding 1e13 by absolute value
 

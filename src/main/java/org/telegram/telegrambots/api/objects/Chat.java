@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.interfaces.IBotApiObject;
 
@@ -16,27 +17,26 @@ import java.io.IOException;
  * @date 24 of June of 2015
  */
 public class Chat implements IBotApiObject {
+    public static final String ID_FIELD = "id";
+    public static final String TYPE_FIELD = "type";
+    public static final String TITLE_FIELD = "title";
+    public static final String FIRSTNAME_FIELD = "first_name";
+    public static final String LASTNAME_FIELD = "last_name";
+    public static final String USERNAME_FIELD = "username";
     private static final String USERCHATTYPE = "private";
     private static final String GROUPCHATTYPE = "group";
     private static final String CHANNELCHATTYPE = "channel";
     private static final String SUPERGROUPCHATTYPE  = "supergroup";
-
-    public static final String ID_FIELD = "id";
     @JsonProperty(ID_FIELD)
     private Long id; ///< Unique identifier for this chat, not exciding 1e13 by absolute value
-    public static final String TYPE_FIELD = "type";
     @JsonProperty(TYPE_FIELD)
     private String type; ///< Type of the chat, one of “private”, “group” or “channel”
-    public static final String TITLE_FIELD = "title";
     @JsonProperty(TITLE_FIELD)
     private String title; ///< Optional. Title of the chat, only for channels and group chat
-    public static final String FIRSTNAME_FIELD = "first_name";
     @JsonProperty(FIRSTNAME_FIELD)
     private String firstName; ///< Optional. Username of the chat, only for private chats and channels if available
-    public static final String LASTNAME_FIELD = "last_name";
     @JsonProperty(LASTNAME_FIELD)
     private String lastName; ///< Optional. Interlocutor's first name for private chats
-    public static final String USERNAME_FIELD = "username";
     @JsonProperty(USERNAME_FIELD)
     private String userName; ///< Optional. Interlocutor's last name for private chats
 

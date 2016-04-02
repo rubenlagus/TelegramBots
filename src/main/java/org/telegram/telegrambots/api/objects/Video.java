@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.interfaces.IBotApiObject;
 
@@ -18,24 +19,24 @@ import java.io.IOException;
 public class Video implements IBotApiObject {
 
     public static final String FILEID_FIELD = "file_id";
+    public static final String WIDTH_FIELD = "width";
+    public static final String HEIGHT_FIELD = "height";
+    public static final String DURATION_FIELD = "duration";
+    public static final String THUMB_FIELD = "thumb";
+    public static final String MIMETYPE_FIELD = "mime_type";
+    public static final String FILESIZE_FIELD = "file_size";
     @JsonProperty(FILEID_FIELD)
     private String fileId; ///< Unique identifier for this file
-    public static final String WIDTH_FIELD = "width";
     @JsonProperty(WIDTH_FIELD)
     private Integer width; ///< Video width as defined by sender
-    public static final String HEIGHT_FIELD = "height";
     @JsonProperty(HEIGHT_FIELD)
     private Integer height; ///< Video height as defined by sender
-    public static final String DURATION_FIELD = "duration";
     @JsonProperty(DURATION_FIELD)
     private Integer duration; ///< Duration of the video in seconds as defined by sender
-    public static final String THUMB_FIELD = "thumb";
     @JsonProperty(THUMB_FIELD)
     private PhotoSize thumb; ///< Video thumbnail
-    public static final String MIMETYPE_FIELD = "mime_type";
     @JsonProperty(MIMETYPE_FIELD)
     private String mimeType; ///< Optional. Mime type of a file as defined by sender
-    public static final String FILESIZE_FIELD = "file_size";
     @JsonProperty(FILESIZE_FIELD)
     private Integer fileSize; ///< Optional. File size
 

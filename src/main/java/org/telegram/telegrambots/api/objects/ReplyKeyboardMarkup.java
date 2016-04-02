@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -20,15 +21,15 @@ import java.util.List;
 public class ReplyKeyboardMarkup implements ReplyKeyboard {
 
     public static final String KEYBOARD_FIELD = "keyboard";
+    public static final String RESIZEKEYBOARD_FIELD = "resize_keyboard";
+    public static final String ONETIMEKEYBOARD_FIELD = "one_time_keyboard";
+    public static final String SELECTIVE_FIELD = "selective";
     @JsonProperty(KEYBOARD_FIELD)
     private List<List<String>> keyboard; ///< Array of button rows, each represented by an Array of Strings
-    public static final String RESIZEKEYBOARD_FIELD = "resize_keyboard";
     @JsonProperty(RESIZEKEYBOARD_FIELD)
     private Boolean resizeKeyboard; ///< Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false.
-    public static final String ONETIMEKEYBOARD_FIELD = "one_time_keyboard";
     @JsonProperty(ONETIMEKEYBOARD_FIELD)
     private Boolean oneTimeKeyboad; ///< Optional. Requests clients to hide the keyboard as soon as it's been used. Defaults to false.
-    public static final String SELECTIVE_FIELD = "selective";
     /**
      * Optional. Use this parameter if you want to show the keyboard to specific users only.
      * Targets:

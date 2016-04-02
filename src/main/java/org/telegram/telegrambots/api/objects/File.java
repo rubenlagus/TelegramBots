@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.interfaces.IBotApiObject;
 
@@ -17,12 +18,12 @@ import java.io.IOException;
  */
 public class File implements IBotApiObject {
     public static final String FILE_ID = "file_id";
+    public static final String FILE_SIZE_FIELD = "file_size";
+    public static final String FILE_PATH_FIELD = "file_path";
     @JsonProperty(FILE_ID)
     private String fileId; ///< Unique identifier for this file
-    public static final String FILE_SIZE_FIELD = "file_size";
     @JsonProperty(FILE_SIZE_FIELD)
     private Integer fileSize; ///< Optional. File size, if known
-    public static final String FILE_PATH_FIELD = "file_path";
     @JsonProperty(FILE_PATH_FIELD)
     private String filePath; ///< Optional. File path. Use https://api.telegram.org/file/bot<token>/<file_path> to get the file.
 
