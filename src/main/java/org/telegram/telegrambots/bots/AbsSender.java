@@ -527,11 +527,17 @@ public abstract class AbsSender {
         }
 
         JSONObject jsonObject = new JSONObject(responseContent);
-        if (!jsonObject.getBoolean("ok")) {
-            throw new TelegramApiException("Error at sendAudio", jsonObject.getString("description"));
-        }
 
-        return new Message(jsonObject);
+        /* if we got not an "ok" with false, we have a response like that
+         * 
+         * {"description":"[Error]: Bad Request: chat not found","error_code":400,"ok":false}
+         */
+        if(!jsonObject.getBoolean("ok")){
+        	throw new TelegramApiException("Error at sendAudio", jsonObject.getString("description"));
+        }
+        
+         // and if not, we can expect a "result" section. and out of this can a new Message object be built
+        return new Message(jsonObject.getJSONObject("result"));           
     }
 
     /**
