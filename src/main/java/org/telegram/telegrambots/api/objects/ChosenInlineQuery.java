@@ -17,9 +17,10 @@ import java.io.IOException;
  * @date 01 of January of 2016
  */
 public class ChosenInlineQuery implements IBotApiObject {
-    public static final String RESULTID_FIELD = "id";
+    public static final String RESULTID_FIELD = "result_id";
     public static final String FROM_FIELD = "from";
     public static final String QUERY_FIELD = "query";
+
     @JsonProperty(RESULTID_FIELD)
     private String resultId; ///< The unique identifier for the result that was chosen.
     @JsonProperty(FROM_FIELD)
