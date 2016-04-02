@@ -18,15 +18,17 @@ public class SendAudio {
     public static final String PATH = "sendaudio";
 
 	public static final String DURATION_FIELD = "duration";
-	private Integer duration; ///< Integer	Duration of the audio in seconds as defined by sender
-
     public static final String CHATID_FIELD = "chat_id";
-    private String chatId; ///< Unique identifier for the chat to send the message to (or Username fro channels)
     public static final String AUDIO_FIELD = "audio";
-    private String audio; ///< Audio file to send. file_id as String to resend an audio that is already on the Telegram servers
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
-    private Integer replayToMessageId; ///< Optional. If the message is a reply, ID of the original message
     public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
+    public static final String REPLYMARKUP_FIELD = "reply_markup";
+    public static final String PERFOMER_FIELD = "performer";
+    public static final String TITLE_FIELD = "title";
+    private Integer duration; ///< Integer	Duration of the audio in seconds as defined by sender
+    private String chatId; ///< Unique identifier for the chat to send the message to (or Username fro channels)
+    private String audio; ///< Audio file to send. file_id as String to resend an audio that is already on the Telegram servers
+    private Integer replayToMessageId; ///< Optional. If the message is a reply, ID of the original message
     /**
      * Optional. Sends the message silently.
      * iOS users will not receive a notification,
@@ -34,11 +36,8 @@ public class SendAudio {
      * Other apps coming soon
      */
     private Boolean disableNotification;
-    public static final String REPLYMARKUP_FIELD = "reply_markup";
     private ReplyKeyboard replayMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
-    public static final String PERFOMER_FIELD = "performer";
     private String performer; ///< Optional. Performer of sent audio
-    public static final String TITLE_FIELD = "title";
     private String title; ///< Optional. Title of sent audio
     private boolean isNewAudio;
     private String audioName;
@@ -47,13 +46,13 @@ public class SendAudio {
         super();
     }
 
-	public void setDuration(Integer duration) {
-        this.duration = duration;
-    }
-
 	public Integer getDuration(){
 		return this.duration;
 	}
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
 
     public String getChatId() {
         return chatId;
