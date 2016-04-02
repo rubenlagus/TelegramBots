@@ -40,6 +40,17 @@ public class SendVoice {
         super();
     }
 
+    @Override
+    public String toString() {
+        return "SendVoice{" +
+                "chatId='" + chatId + '\'' +
+                ", audio='" + audio + '\'' +
+                ", replayToMessageId=" + replayToMessageId +
+                ", replayMarkup=" + replayMarkup +
+                ", duration=" + duration +
+                '}';
+    }
+
     public Boolean getDisableNotification() {
         return disableNotification;
     }

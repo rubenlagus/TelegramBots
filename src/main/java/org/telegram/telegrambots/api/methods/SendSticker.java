@@ -93,4 +93,16 @@ public class SendSticker {
     public String getStickerName() {
         return stickerName;
     }
+
+    @Override
+    public String toString() {
+        return "SendSticker{" +
+                "chatId='" + chatId + '\'' +
+                ", sticker='" + sticker + '\'' +
+                ", replayToMessageId=" + replayToMessageId +
+                ", replayMarkup=" + replayMarkup +
+                ", isNewSticker=" + isNewSticker +
+                ", stickerName='" + stickerName + '\'' +
+                '}';
+    }
 }

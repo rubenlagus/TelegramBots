@@ -139,4 +139,17 @@ public class Video implements IBotApiObject {
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
     }
+
+    @Override
+    public String toString() {
+        return "Video{" +
+                "fileId='" + fileId + '\'' +
+                ", width=" + width +
+                ", height=" + height +
+                ", duration=" + duration +
+                ", thumb=" + thumb +
+                ", mimeType='" + mimeType + '\'' +
+                ", fileSize=" + fileSize +
+                '}';
+    }
 }

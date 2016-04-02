@@ -73,4 +73,15 @@ public class InlineQuery implements IBotApiObject {
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
     }
+
+    @Override
+    public String toString() {
+        return "InlineQuery{" +
+                "id='" + id + '\'' +
+                ", from=" + from +
+                ", query='" + query + '\'' +
+                ", offset='" + offset + '\'' +
+                '}';
+    }
 }
+

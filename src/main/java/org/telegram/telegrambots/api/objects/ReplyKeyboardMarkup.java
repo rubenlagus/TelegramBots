@@ -153,4 +153,14 @@ public class ReplyKeyboardMarkup implements ReplyKeyboard {
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
     }
+
+    @Override
+    public String toString() {
+        return "ReplyKeyboardMarkup{" +
+                "keyboard=" + keyboard +
+                ", resizeKeyboard=" + resizeKeyboard +
+                ", oneTimeKeyboad=" + oneTimeKeyboad +
+                ", selective=" + selective +
+                '}';
+    }
 }

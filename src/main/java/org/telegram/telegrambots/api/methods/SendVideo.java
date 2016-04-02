@@ -135,4 +135,18 @@ public class SendVideo {
         this.isNewVideo = true;
         this.videoName = videoName;
     }
+
+    @Override
+    public String toString() {
+        return "SendVideo{" +
+                "chatId='" + chatId + '\'' +
+                ", video='" + video + '\'' +
+                ", duration=" + duration +
+                ", caption='" + caption + '\'' +
+                ", replayToMessageId=" + replayToMessageId +
+                ", replayMarkup=" + replayMarkup +
+                ", isNewVideo=" + isNewVideo +
+                ", videoName='" + videoName + '\'' +
+                '}';
+    }
 }

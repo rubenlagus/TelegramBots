@@ -147,4 +147,15 @@ public class SendLocation extends BotApiMethod<Message> {
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
     }
+
+    @Override
+    public String toString() {
+        return "SendLocation{" +
+                "chatId='" + chatId + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", replayToMessageId=" + replayToMessageId +
+                ", replayMarkup=" + replayMarkup +
+                '}';
+    }
 }

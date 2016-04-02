@@ -180,4 +180,16 @@ public class SendMessage extends BotApiMethod<Message> {
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
     }
+
+    @Override
+    public String toString() {
+        return "SendMessage{" +
+                "chatId='" + chatId + '\'' +
+                ", text='" + text + '\'' +
+                ", parseMode='" + parseMode + '\'' +
+                ", disableWebPagePreview=" + disableWebPagePreview +
+                ", replayToMessageId=" + replayToMessageId +
+                ", replayMarkup=" + replayMarkup +
+                '}';
+    }
 }

@@ -104,4 +104,17 @@ public class SendPhoto {
         this.isNewPhoto = true;
         this.photoName = photoName;
     }
+
+    @Override
+    public String toString() {
+        return "SendPhoto{" +
+                "chatId='" + chatId + '\'' +
+                ", photo='" + photo + '\'' +
+                ", caption='" + caption + '\'' +
+                ", replayToMessageId=" + replayToMessageId +
+                ", replayMarkup=" + replayMarkup +
+                ", isNewPhoto=" + isNewPhoto +
+                ", photoName='" + photoName + '\'' +
+                '}';
+    }
 }

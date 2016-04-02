@@ -2,6 +2,7 @@ package org.telegram.telegrambots.bots;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -213,7 +214,6 @@ public abstract class AbsSender {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url = getBaseUrl() + SendDocument.PATH;
             HttpPost httppost = new HttpPost(url);
-
             if (sendDocument.isNewDocument()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendDocument.CHATID_FIELD, sendDocument.getChatId());
@@ -273,7 +273,6 @@ public abstract class AbsSender {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url = getBaseUrl() + SendPhoto.PATH;
             HttpPost httppost = new HttpPost(url);
-
             if (sendPhoto.isNewPhoto()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendPhoto.CHATID_FIELD, sendPhoto.getChatId());
@@ -333,7 +332,6 @@ public abstract class AbsSender {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url = getBaseUrl() + SendVideo.PATH;
             HttpPost httppost = new HttpPost(url);
-
             if (sendVideo.isNewVideo()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendVideo.CHATID_FIELD, sendVideo.getChatId());
@@ -412,7 +410,6 @@ public abstract class AbsSender {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url = getBaseUrl() + SendSticker.PATH;
             HttpPost httppost = new HttpPost(url);
-
             if (sendSticker.isNewSticker()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendSticker.CHATID_FIELD, sendSticker.getChatId());

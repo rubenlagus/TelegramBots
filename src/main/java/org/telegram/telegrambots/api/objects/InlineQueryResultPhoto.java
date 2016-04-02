@@ -259,4 +259,23 @@ public class InlineQueryResultPhoto implements InlineQueryResult {
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
     }
+
+    @Override
+    public String toString() {
+        return "InlineQueryResultPhoto{" +
+                "type='" + type + '\'' +
+                ", id='" + id + '\'' +
+                ", photoUrl='" + photoUrl + '\'' +
+                ", mimeType='" + mimeType + '\'' +
+                ", photoWidth=" + photoWidth +
+                ", photoHeight=" + photoHeight +
+                ", thumbUrl='" + thumbUrl + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", caption='" + caption + '\'' +
+                ", messageText='" + messageText + '\'' +
+                ", parseMode='" + parseMode + '\'' +
+                ", disableWebPagePreview=" + disableWebPagePreview +
+                '}';
+    }
 }

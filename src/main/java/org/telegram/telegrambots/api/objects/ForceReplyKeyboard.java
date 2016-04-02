@@ -91,4 +91,12 @@ public class ForceReplyKeyboard implements ReplyKeyboard {
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
     }
+
+    @Override
+    public String toString() {
+        return "ForceReplyKeyboard{" +
+                "forceReply=" + forceReply +
+                ", selective=" + selective +
+                '}';
+    }
 }

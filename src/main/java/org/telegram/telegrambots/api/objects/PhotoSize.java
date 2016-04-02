@@ -111,4 +111,14 @@ public class PhotoSize implements IBotApiObject {
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
     }
+
+    @Override
+    public String toString() {
+        return "PhotoSize{" +
+                "fileId='" + fileId + '\'' +
+                ", width=" + width +
+                ", height=" + height +
+                ", fileSize=" + fileSize +
+                '}';
+    }
 }

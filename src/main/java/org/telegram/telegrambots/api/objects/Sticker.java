@@ -70,4 +70,15 @@ public class Sticker implements IBotApiObject {
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
     }
+
+    @Override
+    public String toString() {
+        return "Sticker{" +
+                "fileId='" + fileId + '\'' +
+                ", width=" + width +
+                ", height=" + height +
+                ", thumb=" + thumb +
+                ", fileSize=" + fileSize +
+                '}';
+    }
 }

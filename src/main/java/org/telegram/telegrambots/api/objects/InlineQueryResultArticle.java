@@ -239,4 +239,22 @@ public class InlineQueryResultArticle implements InlineQueryResult {
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);
     }
+
+    @Override
+    public String toString() {
+        return "InlineQueryResultArticle{" +
+                "type='" + type + '\'' +
+                ", id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", messageText='" + messageText + '\'' +
+                ", parseMode='" + parseMode + '\'' +
+                ", disableWebPagePreview=" + disableWebPagePreview +
+                ", url='" + url + '\'' +
+                ", hideUrl=" + hideUrl +
+                ", description='" + description + '\'' +
+                ", thumbUrl='" + thumbUrl + '\'' +
+                ", thumbWidth=" + thumbWidth +
+                ", thumbHeight=" + thumbHeight +
+                '}';
+    }
 }

@@ -78,4 +78,13 @@ public class GetUpdates implements IToJson {
         }
         return jsonObject;
     }
+
+    @Override
+    public String toString() {
+        return "GetUpdates{" +
+                "offset=" + offset +
+                ", limit=" + limit +
+                ", timeout=" + timeout +
+                '}';
+    }
 }
