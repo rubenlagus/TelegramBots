@@ -93,12 +93,12 @@ public abstract class AbsSender {
         return (Message) sendApiMethod(forwardMessage);
     }
 
-    public File sendLocation(SendLocation sendLocation) throws TelegramApiException {
+    public Message sendLocation(SendLocation sendLocation) throws TelegramApiException {
         if (sendLocation == null) {
             throw new TelegramApiException("Parameter sendLocation can not be null");
         }
 
-        return (File) sendApiMethod(sendLocation);
+        return (Message) sendApiMethod(sendLocation);
     }
 
     public UserProfilePhotos getUserProfilePhotos(GetUserProfilePhotos getUserProfilePhotos) throws TelegramApiException {
