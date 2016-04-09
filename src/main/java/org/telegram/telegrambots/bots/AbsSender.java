@@ -607,26 +607,29 @@ public abstract class AbsSender {
         return new Message(jsonObject);
     }
 
-    private void sendApiMethodAsync(BotApiMethod method, SentCallback callback) {
-        exe.submit(() -> {
-            try {
-                CloseableHttpClient httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).build();
-                String url = getBaseUrl() + method.getPath();
-                HttpPost httppost = new HttpPost(url);
-                httppost.addHeader("charset", "UTF-8");
-                httppost.setEntity(new StringEntity(method.toJson().toString(), ContentType.APPLICATION_JSON));
-                CloseableHttpResponse response = httpclient.execute(httppost);
-                HttpEntity ht = response.getEntity();
-                BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-                String responseContent = EntityUtils.toString(buf, "UTF-8");
+    private void sendApiMethodAsync(final BotApiMethod method, final SentCallback callback) {
+        exe.submit(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    CloseableHttpClient httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).build();
+                    String url = getBaseUrl() + method.getPath();
+                    HttpPost httppost = new HttpPost(url);
+                    httppost.addHeader("charset", "UTF-8");
+                    httppost.setEntity(new StringEntity(method.toJson().toString(), ContentType.APPLICATION_JSON));
+                    CloseableHttpResponse response = httpclient.execute(httppost);
+                    HttpEntity ht = response.getEntity();
+                    BufferedHttpEntity buf = new BufferedHttpEntity(ht);
+                    String responseContent = EntityUtils.toString(buf, "UTF-8");
 
-                JSONObject jsonObject = new JSONObject(responseContent);
-                if (!jsonObject.getBoolean("ok")) {
-                    callback.onError(method, jsonObject);
+                    JSONObject jsonObject = new JSONObject(responseContent);
+                    if (!jsonObject.getBoolean("ok")) {
+                        callback.onError(method, jsonObject);
+                    }
+                    callback.onResult(method, jsonObject);
+                } catch (IOException e) {
+                    callback.onException(method, e);
                 }
-                callback.onResult(method, jsonObject);
-            } catch (IOException e) {
-                callback.onException(method, e);
             }
         });
     }
