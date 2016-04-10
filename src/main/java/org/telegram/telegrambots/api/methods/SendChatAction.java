@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 
 import org.json.JSONObject;
+import org.telegram.telegrambots.common.Const;
 
 import java.io.IOException;
 
@@ -58,8 +59,8 @@ public class SendChatAction extends BotApiMethod<Boolean>{
 
     @Override
     public Boolean deserializeResponse(JSONObject answer) {
-        if (answer.getBoolean("ok")) {
-            return answer.getBoolean("result");
+        if (answer.getBoolean(Const.RESPONSE_FIELD_OK)) {
+            return answer.getBoolean(Const.RESPONSE_FIELD_RESULT);
         }
         return null;
     }

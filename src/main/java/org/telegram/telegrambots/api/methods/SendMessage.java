@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.ReplyKeyboard;
+import org.telegram.telegrambots.common.Const;
 
 import java.io.IOException;
 
@@ -26,7 +27,7 @@ public class SendMessage extends BotApiMethod<Message> {
     public static final String PARSEMODE_FIELD = "parse_mode";
     private String parseMode; ///< Optional. Send Markdown, if you want Telegram apps to show bold, italic and URL text in your bot's message.
     public static final String DISABLEWEBPAGEPREVIEW_FIELD = "disable_web_page_preview";
-    private Boolean disableWebPagePreview; ///< Optional. Disables link previews for links in this message
+    private boolean disableWebPagePreview; ///< Optional. Disables link previews for links in this message
     public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     /**
      * Optional. Sends the message silently.
@@ -34,11 +35,15 @@ public class SendMessage extends BotApiMethod<Message> {
      * Android users will receive a notification with no sound.
      * Other apps coming soon
      */
-    private Boolean disableNotification;
+    private boolean disableNotification;
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
+    @Deprecated
     private Integer replayToMessageId; ///< Optional. If the message is a reply, ID of the original message
+    private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     public static final String REPLYMARKUP_FIELD = "reply_markup";
+    @Deprecated
     private ReplyKeyboard replayMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
 
     public SendMessage() {
         super();
@@ -60,34 +65,42 @@ public class SendMessage extends BotApiMethod<Message> {
         this.text = text;
     }
 
+    @Deprecated
     public Integer getReplayToMessageId() {
-        return replayToMessageId;
+        return replyToMessageId;
     }
 
+    @Deprecated
     public void setReplayToMessageId(Integer replayToMessageId) {
-        this.replayToMessageId = replayToMessageId;
+        this.replyToMessageId = replayToMessageId;
     }
 
+    @Deprecated
     public ReplyKeyboard getReplayMarkup() {
-        return replayMarkup;
+        return replyMarkup;
     }
 
+    @Deprecated
     public void setReplayMarkup(ReplyKeyboard replayMarkup) {
-        this.replayMarkup = replayMarkup;
+        this.replyMarkup = replayMarkup;
     }
 
+    @Deprecated
     public Boolean getDisableWebPagePreview() {
         return disableWebPagePreview;
     }
 
+    @Deprecated
     public void setDisableWebPagePreview(Boolean disableWebPagePreview) {
-        this.disableWebPagePreview = disableWebPagePreview;
+        this.disableWebPagePreview = (disableWebPagePreview != null && disableWebPagePreview.booleanValue());
     }
 
+    @Deprecated
     public Boolean getDisableNotification() {
         return disableNotification;
     }
 
+    @Deprecated
     public void enableNotification() {
         this.disableNotification = false;
     }
@@ -96,6 +109,7 @@ public class SendMessage extends BotApiMethod<Message> {
         this.disableNotification = true;
     }
 
+    @Deprecated
     public void enableMarkdown(boolean enable) {
         if (enable) {
             this.parseMode = "Markdown";
@@ -104,12 +118,49 @@ public class SendMessage extends BotApiMethod<Message> {
         }
     }
 
+    @Deprecated
     public void enableHtml(boolean enable) {
         if (enable) {
             this.parseMode = "html";
         } else {
             this.parseMode = null;
         }
+    }
+
+    public Integer getReplyToMessageId() {
+        return replyToMessageId;
+    }
+
+    public void setReplyToMessageId(Integer replayToMessageId) {
+        this.replyToMessageId = replayToMessageId;
+    }
+
+    public ReplyKeyboard getReplyMarkup() {
+        return replyMarkup;
+    }
+
+    public void setReplyMarkup(ReplyKeyboard replayMarkup) {
+        this.replyMarkup = replayMarkup;
+    }
+
+    public boolean isDisableWebPagePreview() {
+        return disableWebPagePreview;
+    }
+
+    public void disableWebPagePreview() {
+        this.disableWebPagePreview = true;
+    }
+
+    public boolean isDisableNotification() {
+        return disableNotification;
+    }
+
+    public void enableMarkdown() {
+        this.parseMode = "Markdown";
+    }
+
+    public void enableHtml() {
+        this.parseMode = "html";
     }
 
     @Override
@@ -120,17 +171,17 @@ public class SendMessage extends BotApiMethod<Message> {
         if (parseMode != null) {
             jsonObject.put(PARSEMODE_FIELD, parseMode);
         }
-        if (disableWebPagePreview != null) {
-            jsonObject.put(DISABLEWEBPAGEPREVIEW_FIELD, disableWebPagePreview);
+        if (disableWebPagePreview) {
+            jsonObject.put(DISABLEWEBPAGEPREVIEW_FIELD, true);
         }
-        if (disableNotification != null) {
-            jsonObject.put(DISABLENOTIFICATION_FIELD, disableNotification);
+        if (disableNotification) {
+            jsonObject.put(DISABLENOTIFICATION_FIELD, true);
         }
-        if (replayToMessageId != null) {
-            jsonObject.put(REPLYTOMESSAGEID_FIELD, replayToMessageId);
+        if (replyToMessageId != null) {
+            jsonObject.put(REPLYTOMESSAGEID_FIELD, replyToMessageId);
         }
-        if (replayMarkup != null) {
-            jsonObject.put(REPLYMARKUP_FIELD, replayMarkup.toJson());
+        if (replyMarkup != null) {
+            jsonObject.put(REPLYMARKUP_FIELD, replyMarkup.toJson());
         }
 
         return jsonObject;
@@ -143,8 +194,8 @@ public class SendMessage extends BotApiMethod<Message> {
 
     @Override
     public Message deserializeResponse(JSONObject answer) {
-        if (answer.getBoolean("ok")) {
-            return new Message(answer.getJSONObject("result"));
+        if (answer.getBoolean(Const.RESPONSE_FIELD_OK)) {
+            return new Message(answer.getJSONObject(Const.RESPONSE_FIELD_RESULT));
         }
         return null;
     }
@@ -159,17 +210,17 @@ public class SendMessage extends BotApiMethod<Message> {
         if (parseMode != null) {
             gen.writeStringField(PARSEMODE_FIELD, parseMode);
         }
-        if (disableWebPagePreview != null) {
-            gen.writeBooleanField(DISABLEWEBPAGEPREVIEW_FIELD, disableWebPagePreview);
+        if (disableWebPagePreview) {
+            gen.writeBooleanField(DISABLEWEBPAGEPREVIEW_FIELD, true);
         }
-        if (disableNotification != null) {
-            gen.writeBooleanField(DISABLENOTIFICATION_FIELD, disableNotification);
+        if (disableNotification) {
+            gen.writeBooleanField(DISABLENOTIFICATION_FIELD, true);
         }
-        if (replayToMessageId != null) {
-            gen.writeNumberField(REPLYTOMESSAGEID_FIELD, replayToMessageId);
+        if (replyToMessageId != null) {
+            gen.writeNumberField(REPLYTOMESSAGEID_FIELD, replyToMessageId);
         }
-        if (replayMarkup != null) {
-            gen.writeObjectField(REPLYMARKUP_FIELD, replayMarkup);
+        if (replyMarkup != null) {
+            gen.writeObjectField(REPLYMARKUP_FIELD, replyMarkup);
         }
 
         gen.writeEndObject();
@@ -184,12 +235,13 @@ public class SendMessage extends BotApiMethod<Message> {
     @Override
     public String toString() {
         return "SendMessage{" +
-                "chatId='" + chatId + '\'' +
-                ", text='" + text + '\'' +
-                ", parseMode='" + parseMode + '\'' +
-                ", disableWebPagePreview=" + disableWebPagePreview +
-                ", replayToMessageId=" + replayToMessageId +
-                ", replayMarkup=" + replayMarkup +
-                '}';
+               "chatId='" + chatId + '\'' +
+               ", text='" + text + '\'' +
+               ", parseMode='" + parseMode + '\'' +
+               ", disableWebPagePreview=" + disableWebPagePreview +
+               ", disableNotification=" + disableNotification +
+               ", replyToMessageId=" + replyToMessageId +
+               ", replyMarkup=" + replyMarkup +
+               '}';
     }
 }

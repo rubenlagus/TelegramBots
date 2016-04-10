@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.UserProfilePhotos;
+import org.telegram.telegrambots.common.Const;
 
 import java.io.IOException;
 
@@ -77,8 +78,8 @@ public class GetUserProfilePhotos extends BotApiMethod<UserProfilePhotos> {
 
     @Override
     public UserProfilePhotos deserializeResponse(JSONObject answer) {
-        if (answer.getBoolean("ok")) {
-            return new UserProfilePhotos(answer.getJSONObject("result"));
+        if (answer.getBoolean(Const.RESPONSE_FIELD_OK)) {
+            return new UserProfilePhotos(answer.getJSONObject(Const.RESPONSE_FIELD_RESULT));
         }
         return null;
     }

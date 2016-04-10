@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.Message;
+import org.telegram.telegrambots.common.Const;
 
 import java.io.IOException;
 
@@ -111,8 +112,8 @@ public class ForwardMessage extends BotApiMethod<Message> {
 
     @Override
     public Message deserializeResponse(JSONObject answer) {
-        if (answer.getBoolean("ok")) {
-            return new Message(answer.getJSONObject("result"));
+        if (answer.getBoolean(Const.RESPONSE_FIELD_OK)) {
+            return new Message(answer.getJSONObject(Const.RESPONSE_FIELD_RESULT));
         }
         return null;
     }

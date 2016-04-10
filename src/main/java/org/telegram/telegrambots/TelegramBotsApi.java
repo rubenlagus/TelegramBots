@@ -16,11 +16,13 @@ import org.telegram.telegrambots.api.Constants;
 import org.telegram.telegrambots.api.methods.SetWebhook;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
+import org.telegram.telegrambots.common.Const;
 import org.telegram.telegrambots.updatesreceivers.UpdatesThread;
 import org.telegram.telegrambots.updatesreceivers.Webhook;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author Ruben Bermudez
@@ -29,21 +31,16 @@ import java.io.IOException;
  * @date 14 of January of 2016
  */
 public class TelegramBotsApi {
-    private final boolean useWebhook; ///<
-    private final Webhook webhook; ///<
-    private final String extrenalUrl; ///<
-    private final String pathToCertificate; ///<
-    private final String publicCertificateName; ///<
+    private boolean useWebhook; ///<
+    private Webhook webhook; ///<
+    private String extrenalUrl; ///<
+    private String pathToCertificate; ///<
+    private String publicCertificateName; ///<
 
     /**
      *
      */
     public TelegramBotsApi() {
-        this.useWebhook = false;
-        webhook = null;
-        extrenalUrl = null;
-        this.pathToCertificate = null;
-        this.publicCertificateName = null;
     }
 
     /**
@@ -56,8 +53,6 @@ public class TelegramBotsApi {
     public TelegramBotsApi(String keyStore, String keyStorePassword, String externalUrl, String internalUrl) throws TelegramApiException {
         this.useWebhook = true;
         this.extrenalUrl = fixExternalUrl(externalUrl);
-        this.pathToCertificate = null;
-        this.publicCertificateName = null;
         webhook = new Webhook(keyStore, keyStorePassword, internalUrl);
         webhook.startServer();
     }
@@ -86,7 +81,7 @@ public class TelegramBotsApi {
      * @return
      */
     private static String fixExternalUrl(String externalUrl) {
-        if (!externalUrl.endsWith("/")) {
+        if (externalUrl != null && !externalUrl.endsWith("/")) {
             externalUrl = externalUrl + "/";
         }
         return externalUrl;
@@ -116,11 +111,12 @@ public class TelegramBotsApi {
             CloseableHttpResponse response = httpclient.execute(httppost);
             HttpEntity ht = response.getEntity();
             BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-            String responseContent = EntityUtils.toString(buf, "UTF-8");
+            String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
             JSONObject jsonObject = new JSONObject(responseContent);
-            if (!jsonObject.getBoolean("ok")) {
+            if (!jsonObject.getBoolean(Const.RESPONSE_FIELD_OK)) {
                 throw new TelegramApiException(webHookURL == null ? "Error removing old webhook" : "Error setting webhook", responseContent);
             }
+            EntityUtils.consume(ht);
         } catch (JSONException e) {
             throw new TelegramApiException("Error deserializing setWebhook method response", e);
         } catch (IOException e) {

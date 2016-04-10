@@ -18,9 +18,11 @@ import org.telegram.telegrambots.api.Constants;
 import org.telegram.telegrambots.api.methods.GetUpdates;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.ITelegramLongPollingBot;
+import org.telegram.telegrambots.common.Const;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
 
@@ -32,19 +34,17 @@ import java.util.concurrent.TimeUnit;
  */
 public class UpdatesThread {
     private final ITelegramLongPollingBot callback;
-    private final ReaderThread readerThread;
-    private final HandlerThread handlerThread;
     private int lastReceivedUpdate = 0;
-    private String token;
+    private final String token;
     private final ConcurrentLinkedDeque<Update> receivedUpdates = new ConcurrentLinkedDeque<>();
 
     public UpdatesThread(String token, ITelegramLongPollingBot callback) {
         this.token = token;
         this.callback = callback;
-        this.readerThread = new ReaderThread();
-        this.readerThread.start();
-        this.handlerThread = new HandlerThread();
-        this.handlerThread.start();
+        ReaderThread readerThread = new ReaderThread();
+        readerThread.start();
+        HandlerThread handlerThread = new HandlerThread();
+        handlerThread.start();
     }
 
     private class ReaderThread extends Thread {
@@ -67,7 +67,7 @@ public class UpdatesThread {
                 //http client
                 HttpPost httpPost = new HttpPost(url);
                 try {
-                    httpPost.addHeader("charset", "UTF-8");
+                    httpPost.addHeader("charset", StandardCharsets.UTF_8.name());
                     httpPost.setConfig(requestConfig);
                     httpPost.setEntity(new StringEntity(request.toJson().toString(), ContentType.APPLICATION_JSON));
                     HttpResponse response;
@@ -75,14 +75,14 @@ public class UpdatesThread {
                     HttpEntity ht = response.getEntity();
 
                     BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-                    String responseContent = EntityUtils.toString(buf, "UTF-8");
+                    String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
 
                     try {
                         JSONObject jsonObject = new JSONObject(responseContent);
-                        if (!jsonObject.getBoolean("ok")) {
+                        if (!jsonObject.getBoolean(Const.RESPONSE_FIELD_OK)) {
                             throw new InvalidObjectException(jsonObject.toString());
                         }
-                        JSONArray jsonArray = jsonObject.getJSONArray("result");
+                        JSONArray jsonArray = jsonObject.getJSONArray(Const.RESPONSE_FIELD_RESULT);
                         if (jsonArray.length() != 0) {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 Update update = new Update(jsonArray.getJSONObject(i));
