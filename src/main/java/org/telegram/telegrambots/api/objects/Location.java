@@ -18,8 +18,8 @@ import java.io.IOException;
  */
 public class Location implements IBotApiObject {
 
-    public static final String LONGITUDE_FIELD = "longitude";
-    public static final String LATITUDE_FIELD = "latitude";
+    private static final String LONGITUDE_FIELD = "longitude";
+    private static final String LATITUDE_FIELD = "latitude";
     @JsonProperty(LONGITUDE_FIELD)
     private Double longitude; ///< Longitude as defined by sender
     @JsonProperty(LATITUDE_FIELD)

@@ -18,10 +18,10 @@ import java.io.IOException;
  */
 public class User implements IBotApiObject {
 
-    public static final String ID_FIELD = "id";
-    public static final String FIRSTNAME_FIELD = "first_name";
-    public static final String LASTNAME_FIELD = "last_name";
-    public static final String USERNAME_FIELD = "username";
+    private static final String ID_FIELD = "id";
+    private static final String FIRSTNAME_FIELD = "first_name";
+    private static final String LASTNAME_FIELD = "last_name";
+    private static final String USERNAME_FIELD = "username";
     @JsonProperty(ID_FIELD)
     private Integer id; ///< Unique identifier for this user or bot
     @JsonProperty(FIRSTNAME_FIELD)

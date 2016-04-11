@@ -17,12 +17,12 @@ import java.io.IOException;
  * @date 24 of June of 2015
  */
 public class Chat implements IBotApiObject {
-    public static final String ID_FIELD = "id";
-    public static final String TYPE_FIELD = "type";
-    public static final String TITLE_FIELD = "title";
-    public static final String FIRSTNAME_FIELD = "first_name";
-    public static final String LASTNAME_FIELD = "last_name";
-    public static final String USERNAME_FIELD = "username";
+    private static final String ID_FIELD = "id";
+    private static final String TYPE_FIELD = "type";
+    private static final String TITLE_FIELD = "title";
+    private static final String FIRSTNAME_FIELD = "first_name";
+    private static final String LASTNAME_FIELD = "last_name";
+    private static final String USERNAME_FIELD = "username";
     private static final String USERCHATTYPE = "private";
     private static final String GROUPCHATTYPE = "group";
     private static final String CHANNELCHATTYPE = "channel";

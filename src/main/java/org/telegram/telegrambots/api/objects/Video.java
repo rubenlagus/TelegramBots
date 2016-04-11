@@ -18,13 +18,13 @@ import java.io.IOException;
  */
 public class Video implements IBotApiObject {
 
-    public static final String FILEID_FIELD = "file_id";
-    public static final String WIDTH_FIELD = "width";
-    public static final String HEIGHT_FIELD = "height";
-    public static final String DURATION_FIELD = "duration";
-    public static final String THUMB_FIELD = "thumb";
-    public static final String MIMETYPE_FIELD = "mime_type";
-    public static final String FILESIZE_FIELD = "file_size";
+    private static final String FILEID_FIELD = "file_id";
+    private static final String WIDTH_FIELD = "width";
+    private static final String HEIGHT_FIELD = "height";
+    private static final String DURATION_FIELD = "duration";
+    private static final String THUMB_FIELD = "thumb";
+    private static final String MIMETYPE_FIELD = "mime_type";
+    private static final String FILESIZE_FIELD = "file_size";
     @JsonProperty(FILEID_FIELD)
     private String fileId; ///< Unique identifier for this file
     @JsonProperty(WIDTH_FIELD)

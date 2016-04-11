@@ -18,19 +18,19 @@ import java.io.IOException;
  */
 public class PhotoSize implements IBotApiObject {
 
-    public static final String FILEID_FIELD = "file_id";
+    private static final String FILEID_FIELD = "file_id";
+    private static final String WIDTH_FIELD = "width";
+    private static final String HEIGHT_FIELD = "height";
+    private static final String FILESIZE_FIELD = "file_size";
+    private static final String FILEPATH_FIELD = "file_path";
     @JsonProperty(FILEID_FIELD)
     private String fileId; ///< Unique identifier for this file
-    public static final String WIDTH_FIELD = "width";
     @JsonProperty(WIDTH_FIELD)
     private Integer width; ///< Photo width
-    public static final String HEIGHT_FIELD = "height";
     @JsonProperty(HEIGHT_FIELD)
     private Integer height; ///< Photo height
-    public static final String FILESIZE_FIELD = "file_size";
     @JsonProperty(FILESIZE_FIELD)
     private Integer fileSize; ///< Optional. File size
-    private static final String FILEPATH_FIELD = "file_path";
     @JsonProperty(FILEPATH_FIELD)
     private String filePath; ///< Undocumented field. Optional. Can contain the path to download the file direclty without calling to getFile
 

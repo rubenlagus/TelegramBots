@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.interfaces.IBotApiObject;
+import org.telegram.telegrambots.api.objects.inlinequery.ChosenInlineQuery;
+import org.telegram.telegrambots.api.objects.inlinequery.InlineQuery;
 
 import java.io.IOException;
 
@@ -18,10 +20,11 @@ import java.io.IOException;
  * @date 20 of June of 2015
  */
 public class Update implements IBotApiObject {
-    public static final String UPDATEID_FIELD = "update_id";
-    public static final String MESSAGE_FIELD = "message";
-    public static final String INLINEQUERY_FIELD = "inline_query";
-    public static final String CHOSENINLINEQUERY_FIELD = "chosen_inline_result";
+    private static final String UPDATEID_FIELD = "update_id";
+    private static final String MESSAGE_FIELD = "message";
+    private static final String INLINEQUERY_FIELD = "inline_query";
+    private static final String CHOSENINLINEQUERY_FIELD = "chosen_inline_result";
+    private static final String CALLBACKQUERY_FIELD = "callback_query";
     @JsonProperty(UPDATEID_FIELD)
     private Integer updateId;
     @JsonProperty(MESSAGE_FIELD)
@@ -30,10 +33,8 @@ public class Update implements IBotApiObject {
     private InlineQuery inlineQuery; ///< Optional. New incoming inline query
     @JsonProperty(CHOSENINLINEQUERY_FIELD)
     private ChosenInlineQuery chosenInlineQuery; ///< Optional. The result of a inline query that was chosen by a user and sent to their chat partner
-
-    /*
-    	ChosenInlineResult
-     */
+    @JsonProperty(CALLBACKQUERY_FIELD)
+    private CallbackQuery callbackQuery; ///< Optional. New incoming callback query
 
     public Update() {
         super();
@@ -50,6 +51,9 @@ public class Update implements IBotApiObject {
         }
         if (jsonObject.has(CHOSENINLINEQUERY_FIELD)) {
             this.chosenInlineQuery = new ChosenInlineQuery(jsonObject.getJSONObject(CHOSENINLINEQUERY_FIELD));
+        }
+        if (jsonObject.has(CALLBACKQUERY_FIELD)) {
+            callbackQuery = new CallbackQuery(jsonObject.getJSONObject(CALLBACKQUERY_FIELD));
         }
     }
 
@@ -69,6 +73,10 @@ public class Update implements IBotApiObject {
         return chosenInlineQuery;
     }
 
+    public CallbackQuery getCallbackQuery() {
+        return callbackQuery;
+    }
+
     public boolean hasMessage() {
         return message != null;
     }
@@ -79,6 +87,10 @@ public class Update implements IBotApiObject {
 
     public boolean hasChosenInlineQuery() {
         return chosenInlineQuery != null;
+    }
+
+    public boolean hasCallbackQuery() {
+        return callbackQuery != null;
     }
 
     @Override
@@ -93,6 +105,9 @@ public class Update implements IBotApiObject {
         }
         if (chosenInlineQuery != null) {
             gen.writeObjectField(CHOSENINLINEQUERY_FIELD, chosenInlineQuery);
+        }
+        if (callbackQuery != null) {
+            gen.writeObjectField(CALLBACKQUERY_FIELD, callbackQuery);
         }
         gen.writeEndObject();
         gen.flush();

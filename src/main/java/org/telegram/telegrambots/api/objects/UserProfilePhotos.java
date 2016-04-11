@@ -21,8 +21,8 @@ import java.util.List;
  */
 public class UserProfilePhotos implements IBotApiObject {
 
-    public static final String TOTALCOUNT_FIELD = "total_count";
-    public static final String PHOTOS_FIELD = "photos";
+    private static final String TOTALCOUNT_FIELD = "total_count";
+    private static final String PHOTOS_FIELD = "photos";
     @JsonProperty(TOTALCOUNT_FIELD)
     private Integer totalCount; ///< Total number of profile pictures the target user has
     @JsonProperty(PHOTOS_FIELD)
