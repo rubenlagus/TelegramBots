@@ -16,8 +16,8 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
+import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.TelegramApiException;
-import org.telegram.telegrambots.api.Constants;
 import org.telegram.telegrambots.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.api.methods.AnswerInlineQuery;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
@@ -49,6 +49,7 @@ import org.telegram.telegrambots.updateshandlers.SentCallback;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -418,19 +419,19 @@ public abstract class AbsSender {
                 if (sendDocument.getReplayToMessageId() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendDocument.DISABLENOTIFICATION_FIELD, sendDocument.getDisableNotification().toString()));
                 }
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, StandardCharsets.UTF_8));
             }
 
             CloseableHttpResponse response = httpClient.execute(httppost);
             HttpEntity ht = response.getEntity();
             BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-            responseContent = EntityUtils.toString(buf, "UTF-8");
+            responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send document", e);
         }
 
         JSONObject jsonObject = new JSONObject(responseContent);
-        if (!jsonObject.getBoolean("ok")) {
+        if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
             throw new TelegramApiException("Error at sendDocument", jsonObject.getString("description"));
         }
 
@@ -477,19 +478,19 @@ public abstract class AbsSender {
                 if (sendPhoto.getDisableNotification() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendPhoto.DISABLENOTIFICATION_FIELD, sendPhoto.getDisableNotification().toString()));
                 }
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, StandardCharsets.UTF_8));
             }
 
             CloseableHttpResponse response = httpClient.execute(httppost);
             HttpEntity ht = response.getEntity();
             BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-            responseContent = EntityUtils.toString(buf, "UTF-8");
+            responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send photo", e);
         }
 
         JSONObject jsonObject = new JSONObject(responseContent);
-        if (!jsonObject.getBoolean("ok")) {
+        if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
             throw new TelegramApiException("Error at sendPhoto", jsonObject.getString("description"));
         }
 
@@ -554,19 +555,19 @@ public abstract class AbsSender {
                 if (sendVideo.getDisableNotification() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendVideo.DISABLENOTIFICATION_FIELD, sendVideo.getDisableNotification().toString()));
                 }
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, StandardCharsets.UTF_8));
             }
 
             CloseableHttpResponse response = httpClient.execute(httppost);
             HttpEntity ht = response.getEntity();
             BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-            responseContent = EntityUtils.toString(buf, "UTF-8");
+            responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send video", e);
         }
 
         JSONObject jsonObject = new JSONObject(responseContent);
-        if (!jsonObject.getBoolean("ok")) {
+        if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
             throw new TelegramApiException("Error at sendVideo", jsonObject.getString("description"));
         }
 
@@ -608,19 +609,19 @@ public abstract class AbsSender {
                 if (sendSticker.getDisableNotification() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendSticker.DISABLENOTIFICATION_FIELD, sendSticker.getDisableNotification().toString()));
                 }
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, StandardCharsets.UTF_8));
             }
 
             CloseableHttpResponse response = httpClient.execute(httppost);
             HttpEntity ht = response.getEntity();
             BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-            responseContent = EntityUtils.toString(buf, "UTF-8");
+            responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send sticker", e);
         }
 
         JSONObject jsonObject = new JSONObject(responseContent);
-        if (!jsonObject.getBoolean("ok")) {
+        if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
             throw new TelegramApiException("Error at sendSticker", jsonObject.getString("description"));
         }
 
@@ -685,13 +686,13 @@ public abstract class AbsSender {
                 if (sendAudio.getDisableNotification() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendAudio.DISABLENOTIFICATION_FIELD, sendAudio.getDisableNotification().toString()));
                 }
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, StandardCharsets.UTF_8));
             }
 
             CloseableHttpResponse response = httpClient.execute(httppost);
             HttpEntity ht = response.getEntity();
             BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-            responseContent = EntityUtils.toString(buf, "UTF-8");
+            responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send sticker", e);
         }
@@ -702,12 +703,12 @@ public abstract class AbsSender {
          * 
          * {"description":"[Error]: Bad Request: chat not found","error_code":400,"ok":false}
          */
-        if(!jsonObject.getBoolean("ok")){
-        	throw new TelegramApiException("Error at sendAudio", jsonObject.getString("description"));
+        if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
+            throw new TelegramApiException("Error at sendAudio", jsonObject.getString("description"));
         }
         
          // and if not, we can expect a "result" section. and out of this can a new Message object be built
-        return new Message(jsonObject.getJSONObject("result"));           
+        return new Message(jsonObject.getJSONObject(Constants.RESPONSEFIELDRESULT));
     }
 
     /**
@@ -758,19 +759,19 @@ public abstract class AbsSender {
                 if (sendVoice.getDuration() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendVoice.DURATION_FIELD, sendVoice.getDuration().toString()));
                 }
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, StandardCharsets.UTF_8));
             }
 
             CloseableHttpResponse response = httpClient.execute(httppost);
             HttpEntity ht = response.getEntity();
             BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-            responseContent = EntityUtils.toString(buf, "UTF-8");
+            responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send sticker", e);
         }
 
         JSONObject jsonObject = new JSONObject(responseContent);
-        if (!jsonObject.getBoolean("ok")) {
+        if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
             throw new TelegramApiException("Error at sendVoice", jsonObject.getString("description"));
         }
 
@@ -785,15 +786,15 @@ public abstract class AbsSender {
                 CloseableHttpClient httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).build();
                 String url = getBaseUrl() + method.getPath();
                 HttpPost httppost = new HttpPost(url);
-                httppost.addHeader("charset", "UTF-8");
+                httppost.addHeader("charset", StandardCharsets.UTF_8.name());
                 httppost.setEntity(new StringEntity(method.toJson().toString(), ContentType.APPLICATION_JSON));
                 CloseableHttpResponse response = httpclient.execute(httppost);
                 HttpEntity ht = response.getEntity();
                 BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-                String responseContent = EntityUtils.toString(buf, "UTF-8");
+                String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
 
                 JSONObject jsonObject = new JSONObject(responseContent);
-                if (!jsonObject.getBoolean("ok")) {
+                if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
                     callback.onError(method, jsonObject);
                 }
                 callback.onResult(method, jsonObject);
@@ -809,18 +810,18 @@ public abstract class AbsSender {
             CloseableHttpClient httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).build();
             String url = getBaseUrl() + method.getPath();
             HttpPost httppost = new HttpPost(url);
-            httppost.addHeader("charset", "UTF-8");
+            httppost.addHeader("charset", StandardCharsets.UTF_8.name());
             httppost.setEntity(new StringEntity(method.toJson().toString(), ContentType.APPLICATION_JSON));
             CloseableHttpResponse response = httpclient.execute(httppost);
             HttpEntity ht = response.getEntity();
             BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-            responseContent = EntityUtils.toString(buf, "UTF-8");
+            responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new TelegramApiException("Unable to execute " + method.getPath() + " method", e);
         }
 
         JSONObject jsonObject = new JSONObject(responseContent);
-        if (!jsonObject.getBoolean("ok")) {
+        if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
             throw new TelegramApiException("Error at " + method.getPath(), jsonObject.getString("description"));
         }
 

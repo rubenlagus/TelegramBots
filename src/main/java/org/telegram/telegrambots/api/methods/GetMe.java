@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 
 import org.json.JSONObject;
+import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.api.objects.User;
 
 import java.io.IOException;
@@ -31,8 +32,8 @@ public class GetMe extends BotApiMethod<User> {
 
     @Override
     public User deserializeResponse(JSONObject answer) {
-        if (answer.getBoolean("ok")) {
-            return new User(answer.getJSONObject("result"));
+        if (answer.getBoolean(Constants.RESPONSEFIELDOK)) {
+            return new User(answer.getJSONObject(Constants.RESPONSEFIELDRESULT));
         }
         return null;
     }

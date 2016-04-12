@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
 
 import java.io.IOException;
@@ -129,8 +130,8 @@ public class AnswerInlineQuery extends BotApiMethod<Boolean> {
 
     @Override
     public Boolean deserializeResponse(JSONObject answer) {
-        if (answer.getBoolean("ok")) {
-            return answer.getBoolean("result");
+        if (answer.getBoolean(Constants.RESPONSEFIELDOK)) {
+            return answer.getBoolean(Constants.RESPONSEFIELDRESULT);
         }
         return null;
     }

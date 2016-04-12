@@ -1,4 +1,4 @@
-package org.telegram.telegrambots.api;
+package org.telegram.telegrambots;
 
 /**
  * @author Ruben Bermudez
@@ -8,4 +8,6 @@ package org.telegram.telegrambots.api;
  */
 public class Constants {
     public static final String BASEURL = "https://api.telegram.org/bot";
+    public static final String RESPONSEFIELDOK = "ok";
+    public static final String RESPONSEFIELDRESULT = "result";
 }

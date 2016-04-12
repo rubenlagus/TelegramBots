@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 
 import org.json.JSONObject;
+import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
@@ -127,8 +128,8 @@ public class SendVenue extends BotApiMethod<Message> {
 
     @Override
     public Message deserializeResponse(JSONObject answer) {
-        if (answer.getBoolean("ok")) {
-            return new Message(answer.getJSONObject("result"));
+        if (answer.getBoolean(Constants.RESPONSEFIELDOK)) {
+            return new Message(answer.getJSONObject(Constants.RESPONSEFIELDRESULT));
         }
         return null;
     }

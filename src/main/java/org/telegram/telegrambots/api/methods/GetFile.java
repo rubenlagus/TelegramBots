@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 
 import org.json.JSONObject;
+import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.api.objects.File;
 
 import java.io.IOException;
@@ -67,8 +68,8 @@ public class GetFile extends BotApiMethod<File> {
 
     @Override
     public File deserializeResponse(JSONObject answer) {
-        if (answer.getBoolean("ok")) {
-            return new File(answer.getJSONObject("result"));
+        if (answer.getBoolean(Constants.RESPONSEFIELDOK)) {
+            return new File(answer.getJSONObject(Constants.RESPONSEFIELDRESULT));
         }
         return null;
     }
