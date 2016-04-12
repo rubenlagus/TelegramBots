@@ -125,30 +125,33 @@ public class TelegramBotsApi {
      *
      * @param bot
      */
-    public void registerBot(TelegramLongPollingBot bot) throws TelegramApiException {
+    public TelegramBotsApi registerBot(TelegramLongPollingBot bot) throws TelegramApiException {
         setWebhook(bot.getBotToken());
         new UpdatesThread(bot.getBotToken(), bot);
+        return this;
     }
 
     /**
      *
      * @param bot
      */
-    public void registerBot(TelegramWebhookBot bot) throws TelegramApiException {
+    public TelegramBotsApi registerBot(TelegramWebhookBot bot) throws TelegramApiException {
         if (useWebhook) {
             webhook.registerWebhook(bot);
             setWebhook(bot.getBotToken());
         }
+        return this;
     }
 
     /**
      *
      * @param botToken
      */
-    private void setWebhook(String botToken) throws TelegramApiException {
+    private TelegramBotsApi setWebhook(String botToken) throws TelegramApiException {
         if (botToken == null) {
             throw new TelegramApiException("Parameter botToken can not be null");
         }
         setWebhook(extrenalUrl == null ? "" : extrenalUrl, botToken, pathToCertificate, publicCertificateName);
+        return this;
     }
 }
