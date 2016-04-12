@@ -45,24 +45,27 @@ public class SendContact extends BotApiMethod<Message> {
         return chatId;
     }
 
-    public void setChatId(String chatId) {
+    public SendContact setChatId(String chatId) {
         this.chatId = chatId;
+        return this;
     }
 
     public Integer getReplayToMessageId() {
         return replayToMessageId;
     }
 
-    public void setReplayToMessageId(Integer replayToMessageId) {
+    public SendContact setReplayToMessageId(Integer replayToMessageId) {
         this.replayToMessageId = replayToMessageId;
+        return this;
     }
 
     public ReplyKeyboard getReplayMarkup() {
         return replayMarkup;
     }
 
-    public void setReplayMarkup(ReplyKeyboard replayMarkup) {
+    public SendContact setReplayMarkup(ReplyKeyboard replayMarkup) {
         this.replayMarkup = replayMarkup;
+        return this;
     }
 
     public Boolean getDisableNotification() {
@@ -81,24 +84,27 @@ public class SendContact extends BotApiMethod<Message> {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public SendContact setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+        return this;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public SendContact setFirstName(String firstName) {
         this.firstName = firstName;
+        return this;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public SendContact setLastName(String lastName) {
         this.lastName = lastName;
+        return this;
     }
 
     @Override

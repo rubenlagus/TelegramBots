@@ -46,49 +46,55 @@ public class SendVideo {
         return chatId;
     }
 
-    public void setChatId(String chatId) {
+    public SendVideo setChatId(String chatId) {
         this.chatId = chatId;
+        return this;
     }
 
     public String getVideo() {
         return video;
     }
 
-    public void setVideo(String video) {
+    public SendVideo setVideo(String video) {
         this.video = video;
         this.isNewVideo = false;
+        return this;
     }
 
     public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(Integer duration) {
+    public SendVideo setDuration(Integer duration) {
         this.duration = duration;
+        return this;
     }
 
     public String getCaption() {
         return caption;
     }
 
-    public void setCaption(String caption) {
+    public SendVideo setCaption(String caption) {
         this.caption = caption;
+        return this;
     }
 
     public Integer getReplayToMessageId() {
         return replayToMessageId;
     }
 
-    public void setReplayToMessageId(Integer replayToMessageId) {
+    public SendVideo setReplayToMessageId(Integer replayToMessageId) {
         this.replayToMessageId = replayToMessageId;
+        return this;
     }
 
     public ReplyKeyboard getReplayMarkup() {
         return replayMarkup;
     }
 
-    public void setReplayMarkup(ReplyKeyboard replayMarkup) {
+    public SendVideo setReplayMarkup(ReplyKeyboard replayMarkup) {
         this.replayMarkup = replayMarkup;
+        return this;
     }
 
     public boolean isNewVideo() {
@@ -115,22 +121,25 @@ public class SendVideo {
         return width;
     }
 
-    public void setWidth(Integer width) {
+    public SendVideo setWidth(Integer width) {
         this.width = width;
+        return this;
     }
 
     public Integer getHeight() {
         return height;
     }
 
-    public void setHeight(Integer height) {
+    public SendVideo setHeight(Integer height) {
         this.height = height;
+        return this;
     }
 
-    public void setNewVideo(String video, String videoName) {
+    public SendVideo setNewVideo(String video, String videoName) {
         this.video = video;
         this.isNewVideo = true;
         this.videoName = videoName;
+        return this;
     }
 
     @Override

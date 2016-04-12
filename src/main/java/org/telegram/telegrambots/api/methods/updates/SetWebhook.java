@@ -25,16 +25,18 @@ public class SetWebhook {
         return url;
     }
 
-    public void setUrl(String url) {
+    public SetWebhook setUrl(String url) {
         this.url = url;
+        return this;
     }
 
     public String getCertificateFile() {
         return certificateFile;
     }
 
-    public void setCertificateFile(String certificateFile) {
+    public SetWebhook setCertificateFile(String certificateFile) {
         this.certificateFile = certificateFile;
+        return this;
     }
 
     @Override

@@ -37,39 +37,44 @@ public class SendSticker {
         return chatId;
     }
 
-    public void setChatId(String chatId) {
+    public SendSticker setChatId(String chatId) {
         this.chatId = chatId;
+        return this;
     }
 
     public String getSticker() {
         return sticker;
     }
 
-    public void setSticker(String sticker) {
+    public SendSticker setSticker(String sticker) {
         this.sticker = sticker;
         this.isNewSticker = false;
+        return this;
     }
 
     public Integer getReplayToMessageId() {
         return replayToMessageId;
     }
 
-    public void setReplayToMessageId(Integer replayToMessageId) {
+    public SendSticker setReplayToMessageId(Integer replayToMessageId) {
         this.replayToMessageId = replayToMessageId;
+        return this;
     }
 
     public ReplyKeyboard getReplayMarkup() {
         return replayMarkup;
     }
 
-    public void setReplayMarkup(ReplyKeyboard replayMarkup) {
+    public SendSticker setReplayMarkup(ReplyKeyboard replayMarkup) {
         this.replayMarkup = replayMarkup;
+        return this;
     }
 
-    public void setSticker(String sticker, String stickerName) {
+    public SendSticker setSticker(String sticker, String stickerName) {
         this.sticker = sticker;
         this.isNewSticker = true;
         this.stickerName = stickerName;
+        return this;
     }
 
     public Boolean getDisableNotification() {

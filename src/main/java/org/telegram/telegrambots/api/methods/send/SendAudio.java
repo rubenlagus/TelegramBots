@@ -47,16 +47,18 @@ public class SendAudio {
         return this.duration;
     }
 
-    public void setDuration(Integer duration) {
+    public SendAudio setDuration(Integer duration) {
         this.duration = duration;
+        return this;
     }
 
     public String getChatId() {
         return chatId;
     }
 
-    public void setChatId(String chatId) {
+    public SendAudio setChatId(String chatId) {
         this.chatId = chatId;
+        return this;
     }
 
     public String getAudio() {
@@ -69,9 +71,10 @@ public class SendAudio {
      * @param audio File_id of the audio to send
      * @note The file_id must have already been received or sent by your bot
      */
-    public void setAudio(String audio) {
+    public SendAudio setAudio(String audio) {
         this.audio = audio;
         this.isNewAudio = false;
+        return this;
     }
 
     /**
@@ -80,42 +83,47 @@ public class SendAudio {
      * @param audio     Path to the new file in your server
      * @param audioName Name of the file itself
      */
-    public void setNewAudio(String audio, String audioName) {
+    public SendAudio setNewAudio(String audio, String audioName) {
         this.audio = audio;
         this.isNewAudio = true;
         this.audioName = audioName;
+        return this;
     }
 
     public Integer getReplayToMessageId() {
         return replayToMessageId;
     }
 
-    public void setReplayToMessageId(Integer replayToMessageId) {
+    public SendAudio setReplayToMessageId(Integer replayToMessageId) {
         this.replayToMessageId = replayToMessageId;
+        return this;
     }
 
     public ReplyKeyboard getReplayMarkup() {
         return replayMarkup;
     }
 
-    public void setReplayMarkup(ReplyKeyboard replayMarkup) {
+    public SendAudio setReplayMarkup(ReplyKeyboard replayMarkup) {
         this.replayMarkup = replayMarkup;
+        return this;
     }
 
     public String getPerformer() {
         return performer;
     }
 
-    public void setPerformer(String performer) {
+    public SendAudio setPerformer(String performer) {
         this.performer = performer;
+        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public SendAudio setTitle(String title) {
         this.title = title;
+        return this;
     }
 
     public Boolean getDisableNotification() {

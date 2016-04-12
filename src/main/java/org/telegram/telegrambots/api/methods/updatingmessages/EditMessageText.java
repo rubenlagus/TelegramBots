@@ -64,40 +64,45 @@ public class EditMessageText extends BotApiMethod<Message> {
         return chatId;
     }
 
-    public void setChatId(String chatId) {
+    public EditMessageText setChatId(String chatId) {
         this.chatId = chatId;
+        return this;
     }
 
     public Integer getMessageId() {
         return messageId;
     }
 
-    public void setMessageId(Integer messageId) {
+    public EditMessageText setMessageId(Integer messageId) {
         this.messageId = messageId;
+        return this;
     }
 
     public String getInlineMessageId() {
         return inlineMessageId;
     }
 
-    public void setInlineMessageId(String inlineMessageId) {
+    public EditMessageText setInlineMessageId(String inlineMessageId) {
         this.inlineMessageId = inlineMessageId;
+        return this;
     }
 
     public String getText() {
         return text;
     }
 
-    public void setText(String text) {
+    public EditMessageText setText(String text) {
         this.text = text;
+        return this;
     }
 
     public InlineKeyboardMarkup getReplyMarkup() {
         return replyMarkup;
     }
 
-    public void setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
+    public EditMessageText setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
         this.replyMarkup = replyMarkup;
+        return this;
     }
 
     public void disableWebPagePreview() {

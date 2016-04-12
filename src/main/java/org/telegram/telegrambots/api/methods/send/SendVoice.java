@@ -64,47 +64,53 @@ public class SendVoice {
         return chatId;
     }
 
-    public void setChatId(String chatId) {
+    public SendVoice setChatId(String chatId) {
         this.chatId = chatId;
+        return this;
     }
 
     public String getAudio() {
         return audio;
     }
 
-    public void setAudio(String audio) {
+    public SendVoice setAudio(String audio) {
         this.audio = audio;
         this.isNewVoice = false;
+        return this;
     }
 
-    public void setNewAudio(String audio, String audioName) {
+    public SendVoice setNewAudio(String audio, String audioName) {
         this.audio = audio;
         this.isNewVoice = false;
         this.voiceName = audioName;
+        return this;
     }
 
     public Integer getReplayToMessageId() {
         return replayToMessageId;
     }
 
-    public void setReplayToMessageId(Integer replayToMessageId) {
+    public SendVoice setReplayToMessageId(Integer replayToMessageId) {
         this.replayToMessageId = replayToMessageId;
+        return this;
     }
 
     public ReplyKeyboard getReplayMarkup() {
         return replayMarkup;
     }
 
-    public void setReplayMarkup(ReplyKeyboard replayMarkup) {
+    public SendVoice setReplayMarkup(ReplyKeyboard replayMarkup) {
         this.replayMarkup = replayMarkup;
+        return this;
     }
 
     public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(Integer duration) {
+    public SendVoice setDuration(Integer duration) {
         this.duration = duration;
+        return this;
     }
 
     public boolean isNewVoice() {

@@ -34,16 +34,18 @@ public class UnbanChatMember extends BotApiMethod<Boolean> {
         return chatId;
     }
 
-    public void setChatId(String chatId) {
+    public UnbanChatMember setChatId(String chatId) {
         this.chatId = chatId;
+        return this;
     }
 
     public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public UnbanChatMember setUserId(Integer userId) {
         this.userId = userId;
+        return this;
     }
 
     @Override
