@@ -86,7 +86,7 @@ public class ReplyKeyboardMarkup implements ReplyKeyboard {
         for (KeyboardRow innerRow : this.keyboard) {
             JSONArray innerJSONKeyboard = new JSONArray();
             for (KeyboardButton button : innerRow) {
-                innerJSONKeyboard.put(button);
+                innerJSONKeyboard.put(button.toJson());
             }
             jsonkeyboard.put(innerJSONKeyboard);
         }
