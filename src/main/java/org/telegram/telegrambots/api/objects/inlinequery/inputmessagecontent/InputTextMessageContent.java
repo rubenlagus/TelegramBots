@@ -59,28 +59,32 @@ public class InputTextMessageContent implements InputMessageContent {
         return this;
     }
 
-    public void enableMarkdown(boolean enable) {
+    public InputTextMessageContent enableMarkdown(boolean enable) {
         if (enable) {
             this.parseMode = ParseMode.MARKDOWN;
         } else {
             this.parseMode = null;
         }
+        return this;
     }
 
-    public void enableHtml(boolean enable) {
+    public InputTextMessageContent enableHtml(boolean enable) {
         if (enable) {
             this.parseMode = ParseMode.HTML;
         } else {
             this.parseMode = null;
         }
+        return this;
     }
 
-    public void disableWebPagePreview() {
+    public InputTextMessageContent disableWebPagePreview() {
         disableWebPagePreview = true;
+        return this;
     }
 
-    public void enableWebPagePreview() {
+    public InputTextMessageContent enableWebPagePreview() {
         disableWebPagePreview = null;
+        return this;
     }
 
     @Override
