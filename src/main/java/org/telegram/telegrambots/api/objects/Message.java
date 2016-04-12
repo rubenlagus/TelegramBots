@@ -278,6 +278,15 @@ public class Message implements IBotApiObject {
         return this;
     }
 
+    public List<MessageEntity> getEntities() {
+        return entities;
+    }
+
+    public Message setEntities(List<MessageEntity> entities) {
+        this.entities = entities;
+        return this;
+    }
+
     public Audio getAudio() {
         return audio;
     }
@@ -338,6 +347,24 @@ public class Message implements IBotApiObject {
 
     public Message setLocation(Location location) {
         this.location = location;
+        return this;
+    }
+
+    public Venue getVenue() {
+        return venue;
+    }
+
+    public Message setVenue(Venue venue) {
+        this.venue = venue;
+        return this;
+    }
+
+    public Message getPinnedMessage() {
+        return pinnedMessage;
+    }
+
+    public Message setPinnedMessage(Message pinnedMessage) {
+        this.pinnedMessage = pinnedMessage;
         return this;
     }
 
@@ -447,6 +474,42 @@ public class Message implements IBotApiObject {
     public Message setMigrateFromChatId(Long migrateFromChatId) {
         this.migrateFromChatId = migrateFromChatId;
         return this;
+    }
+
+    public boolean isGroupMessage() {
+        return chat.isGroupChat();
+    }
+
+    public boolean isUserMessage() {
+        return chat.isUserChat();
+    }
+
+    public boolean isChannelMessage() {
+        return chat.isChannelChat();
+    }
+
+    public boolean isSuperGroupMessage() {
+        return chat.isSuperGroupChat();
+    }
+
+    public Long getChatId() {
+        return chat.getId();
+    }
+
+    public boolean hasText() {
+        return text != null && !text.isEmpty();
+    }
+
+    public boolean hasDocument() {
+        return this.document != null;
+    }
+
+    public boolean isReply() {
+        return this.replyToMessage != null;
+    }
+
+    public boolean hasLocation() {
+        return location != null;
     }
 
     @Override
