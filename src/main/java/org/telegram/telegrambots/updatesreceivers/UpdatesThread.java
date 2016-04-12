@@ -15,7 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.Constants;
-import org.telegram.telegrambots.api.methods.GetUpdates;
+import org.telegram.telegrambots.api.methods.updates.GetUpdates;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.ITelegramLongPollingBot;
 
@@ -31,12 +31,14 @@ import java.util.concurrent.TimeUnit;
  * @date 20 of June of 2015
  */
 public class UpdatesThread {
+    private static final int SOCKET_TIMEOUT = 30 * 1000;
+
     private final ITelegramLongPollingBot callback;
     private final ReaderThread readerThread;
     private final HandlerThread handlerThread;
+    private final ConcurrentLinkedDeque<Update> receivedUpdates = new ConcurrentLinkedDeque<>();
     private int lastReceivedUpdate = 0;
     private String token;
-    private final ConcurrentLinkedDeque<Update> receivedUpdates = new ConcurrentLinkedDeque<>();
 
     public UpdatesThread(String token, ITelegramLongPollingBot callback) {
         this.token = token;
@@ -61,9 +63,9 @@ public class UpdatesThread {
                 //config
                 RequestConfig defaultRequestConfig = RequestConfig.custom().build();
                 RequestConfig requestConfig = RequestConfig.copy(defaultRequestConfig)
-                        .setSocketTimeout(Constants.SOCKET_TIMEOUT)
-                        .setConnectTimeout(Constants.SOCKET_TIMEOUT)
-                        .setConnectionRequestTimeout(Constants.SOCKET_TIMEOUT).build();
+                        .setSocketTimeout(SOCKET_TIMEOUT)
+                        .setConnectTimeout(SOCKET_TIMEOUT)
+                        .setConnectionRequestTimeout(SOCKET_TIMEOUT).build();
                 //http client
                 HttpPost httpPost = new HttpPost(url);
                 try {

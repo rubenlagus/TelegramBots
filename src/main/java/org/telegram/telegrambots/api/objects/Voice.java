@@ -17,10 +17,10 @@ import java.io.IOException;
  * @date 16 of July of 2015
  */
 public class Voice implements IBotApiObject {
-    public static final String FILEID_FIELD = "file_id";
-    public static final String DURATION_FIELD = "duration";
-    public static final String MIMETYPE_FIELD = "mime_type";
-    public static final String FILESIZE_FIELD = "file_size";
+    private static final String FILEID_FIELD = "file_id";
+    private static final String DURATION_FIELD = "duration";
+    private static final String MIMETYPE_FIELD = "mime_type";
+    private static final String FILESIZE_FIELD = "file_size";
     @JsonProperty(FILEID_FIELD)
     private String fileId; ///< Unique identifier for this file
     @JsonProperty(DURATION_FIELD)

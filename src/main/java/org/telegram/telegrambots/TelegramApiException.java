@@ -3,7 +3,7 @@ package org.telegram.telegrambots;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief TODO
+ * @brief Exception thrown when something goes wrong in the api
  * @date 14 of January of 2016
  */
 public class TelegramApiException extends Exception {

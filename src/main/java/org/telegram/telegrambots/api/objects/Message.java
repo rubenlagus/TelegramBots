@@ -20,38 +20,41 @@ import java.util.List;
  * @date 20 of June of 2015
  */
 public class Message implements IBotApiObject {
-    public static final String MESSAGEID_FIELD = "message_id";
-    public static final String FROM_FIELD = "from";
-    public static final String DATE_FIELD = "date";
-    public static final String CHAT_FIELD = "chat";
-    public static final String FORWARDFROM_FIELD = "forward_from";
-    public static final String FORWARDDATE_FIELD = "forward_date";
-    public static final String TEXT_FIELD = "text";
-    public static final String AUDIO_FIELD = "audio";
-    public static final String DOCUMENT_FIELD = "document";
-    public static final String PHOTO_FIELD = "photo";
-    public static final String STICKER_FIELD = "sticker";
-    public static final String VIDEO_FIELD = "video";
-    public static final String CONTACT_FIELD = "contact";
-    public static final String LOCATION_FIELD = "location";
-    public static final String NEWCHATPARTICIPANT_FIELD = "new_chat_participant";
-    public static final String LEFTCHATPARTICIPANT_FIELD = "left_chat_participant";
-    public static final String NEWCHATTITLE_FIELD = "new_chat_title";
-    public static final String NEWCHATPHOTO_FIELD = "new_chat_photo";
-    public static final String DELETECHATPHOTO_FIELD = "delete_chat_photo";
-    public static final String GROUPCHATCREATED_FIELD = "group_chat_created";
-    public static final String REPLYTOMESSAGE_FIELD = "reply_to_message";
-    public static final String VOICE_FIELD = "voice";
-    public static final String SUPERGROUPCREATED_FIELD = "supergroup_chat_created";
-    public static final String CHANNELCHATCREATED_FIELD = "channel_chat_created";
-    public static final String MIGRATETOCHAT_FIELD = "migrate_to_chat_id";
-    public static final String MIGRATEFROMCHAT_FIELD = "migrate_from_chat_id";
+    private static final String MESSAGEID_FIELD = "message_id";
+    private static final String FROM_FIELD = "from";
+    private static final String DATE_FIELD = "date";
+    private static final String CHAT_FIELD = "chat";
+    private static final String FORWARDFROM_FIELD = "forward_from";
+    private static final String FORWARDDATE_FIELD = "forward_date";
+    private static final String TEXT_FIELD = "text";
+    private static final String ENTITIES_FIELD = "entities";
+    private static final String AUDIO_FIELD = "audio";
+    private static final String DOCUMENT_FIELD = "document";
+    private static final String PHOTO_FIELD = "photo";
+    private static final String STICKER_FIELD = "sticker";
+    private static final String VIDEO_FIELD = "video";
+    private static final String CONTACT_FIELD = "contact";
+    private static final String LOCATION_FIELD = "location";
+    private static final String VENUE_FIELD = "venue";
+    private static final String PINNED_MESSAGE_FIELD = "pinned_message";
+    private static final String NEWCHATMEMBER_FIELD = "new_chat_member";
+    private static final String LEFTCHATMEMBER_FIELD = "left_chat_member";
+    private static final String NEWCHATTITLE_FIELD = "new_chat_title";
+    private static final String NEWCHATPHOTO_FIELD = "new_chat_photo";
+    private static final String DELETECHATPHOTO_FIELD = "delete_chat_photo";
+    private static final String GROUPCHATCREATED_FIELD = "group_chat_created";
+    private static final String REPLYTOMESSAGE_FIELD = "reply_to_message";
+    private static final String VOICE_FIELD = "voice";
+    private static final String SUPERGROUPCREATED_FIELD = "supergroup_chat_created";
+    private static final String CHANNELCHATCREATED_FIELD = "channel_chat_created";
+    private static final String MIGRATETOCHAT_FIELD = "migrate_to_chat_id";
+    private static final String MIGRATEFROMCHAT_FIELD = "migrate_from_chat_id";
     @JsonProperty(MESSAGEID_FIELD)
     private Integer messageId; ///< Integer	Unique message identifier
     @JsonProperty(FROM_FIELD)
     private User from; ///< Optional. Sender, can be empty for messages sent to channels
     @JsonProperty(DATE_FIELD)
-    private Integer date; ///< Date the message was sent in Unix time
+    private Integer date; ///< Optional. Date the message was sent in Unix time
     @JsonProperty(CHAT_FIELD)
     private Chat chat; ///< Conversation the message belongs to
     @JsonProperty(FORWARDFROM_FIELD)
@@ -60,6 +63,12 @@ public class Message implements IBotApiObject {
     private Integer forwardDate; ///< Optional. For forwarded messages, date the original message was sent
     @JsonProperty(TEXT_FIELD)
     private String text; ///< Optional. For text messages, the actual UTF-8 text of the message
+    @JsonProperty(ENTITIES_FIELD)
+    /**
+     * Optional. For text messages, special entities like usernames, URLs,
+     * bot commands, etc. that appear in the text
+     */
+    private List<MessageEntity> entities;
     @JsonProperty(AUDIO_FIELD)
     private Audio audio; ///< Optional. Message is an audio file, information about the file
     @JsonProperty(DOCUMENT_FIELD)
@@ -74,10 +83,14 @@ public class Message implements IBotApiObject {
     private Contact contact; ///< Optional. Message is a shared contact, information about the contact
     @JsonProperty(LOCATION_FIELD)
     private Location location; ///< Optional. Message is a shared location, information about the location
-    @JsonProperty(NEWCHATPARTICIPANT_FIELD)
-    private User newChatParticipant; ///< Optional. A new member was added to the group, information about them (this member may be bot itself)
-    @JsonProperty(LEFTCHATPARTICIPANT_FIELD)
-    private User leftChatParticipant; ///< Optional. A member was removed from the group, information about them (this member may be bot itself)
+    @JsonProperty(VENUE_FIELD)
+    private Venue venue; ///< Optional. Message is a venue, information about the venue
+    @JsonProperty(PINNED_MESSAGE_FIELD)
+    private Message pinnedMessage; ///< Optional. Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply.
+    @JsonProperty(NEWCHATMEMBER_FIELD)
+    private User newChatMember; ///< Optional. A new member was added to the group, information about them (this member may be bot itself)
+    @JsonProperty(LEFTCHATMEMBER_FIELD)
+    private User leftChatMember; ///< Optional. A member was removed from the group, information about them (this member may be bot itself)
     @JsonProperty(NEWCHATTITLE_FIELD)
     private String newChatTitle; ///< Optional. A chat title was changed to this value
     @JsonProperty(NEWCHATPHOTO_FIELD)
@@ -109,7 +122,9 @@ public class Message implements IBotApiObject {
         if (jsonObject.has(FROM_FIELD)) {
             this.from = new User(jsonObject.getJSONObject(FROM_FIELD));
         }
-        this.date = jsonObject.getInt(DATE_FIELD);
+        if (jsonObject.has(DATE_FIELD)) {
+            this.date = jsonObject.getInt(DATE_FIELD);
+        }
         this.chat = new Chat(jsonObject.getJSONObject(CHAT_FIELD));
         if (jsonObject.has(FORWARDFROM_FIELD)) {
             this.forwardFrom = new User(jsonObject.getJSONObject(FORWARDFROM_FIELD));
@@ -119,6 +134,13 @@ public class Message implements IBotApiObject {
         }
         if (jsonObject.has(TEXT_FIELD)) {
             this.text = jsonObject.getString(TEXT_FIELD);
+        }
+        if (jsonObject.has(ENTITIES_FIELD)) {
+            this.entities = new ArrayList<>();
+            JSONArray entities = jsonObject.getJSONArray(ENTITIES_FIELD);
+            for (int i = 0; i < entities.length(); i++) {
+                this.entities.add(new MessageEntity(entities.getJSONObject(i)));
+            }
         }
         if (jsonObject.has(AUDIO_FIELD)) {
             this.audio = new Audio(jsonObject.getJSONObject(AUDIO_FIELD));
@@ -145,14 +167,20 @@ public class Message implements IBotApiObject {
         if (jsonObject.has(LOCATION_FIELD)) {
             this.location = new Location(jsonObject.getJSONObject(LOCATION_FIELD));
         }
+        if (jsonObject.has(VENUE_FIELD)) {
+            venue = new Venue(jsonObject.getJSONObject(VENUE_FIELD));
+        }
+        if (jsonObject.has(PINNED_MESSAGE_FIELD)) {
+            pinnedMessage = new Message(jsonObject.getJSONObject(PINNED_MESSAGE_FIELD));
+        }
         if (jsonObject.has(VOICE_FIELD)) {
             this.voice = new Voice(jsonObject.getJSONObject(VOICE_FIELD));
         }
-        if (jsonObject.has(NEWCHATPARTICIPANT_FIELD)) {
-            this.newChatParticipant = new User(jsonObject.getJSONObject(NEWCHATPARTICIPANT_FIELD));
+        if (jsonObject.has(NEWCHATMEMBER_FIELD)) {
+            this.newChatMember = new User(jsonObject.getJSONObject(NEWCHATMEMBER_FIELD));
         }
-        if (jsonObject.has(LEFTCHATPARTICIPANT_FIELD)) {
-            this.leftChatParticipant = new User(jsonObject.getJSONObject(LEFTCHATPARTICIPANT_FIELD));
+        if (jsonObject.has(LEFTCHATMEMBER_FIELD)) {
+            this.leftChatMember = new User(jsonObject.getJSONObject(LEFTCHATMEMBER_FIELD));
         }
         if (jsonObject.has(REPLYTOMESSAGE_FIELD)) {
             this.replyToMessage = new Message(jsonObject.getJSONObject(REPLYTOMESSAGE_FIELD));
@@ -327,20 +355,20 @@ public class Message implements IBotApiObject {
         this.location = location;
     }
 
-    public User getNewChatParticipant() {
-        return newChatParticipant;
+    public User getNewChatMember() {
+        return newChatMember;
     }
 
-    public void setNewChatParticipant(User newChatParticipant) {
-        this.newChatParticipant = newChatParticipant;
+    public void setNewChatMember(User newChatMember) {
+        this.newChatMember = newChatMember;
     }
 
-    public User getLeftChatParticipant() {
-        return leftChatParticipant;
+    public User getLeftChatMember() {
+        return leftChatMember;
     }
 
-    public void setLeftChatParticipant(User leftChatParticipant) {
-        this.leftChatParticipant = leftChatParticipant;
+    public void setLeftChatMember(User leftChatMember) {
+        this.leftChatMember = leftChatMember;
     }
 
     public String getNewChatTitle() {
@@ -438,12 +466,14 @@ public class Message implements IBotApiObject {
     @Override
     public void serialize(JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartObject();
-
         gen.writeNumberField(MESSAGEID_FIELD, messageId);
-        gen.writeObjectField(FROM_FIELD, from);
-        gen.writeNumberField(DATE_FIELD, date);
+        if (from != null) {
+            gen.writeObjectField(FROM_FIELD, from);
+        }
+        if (date != null) {
+            gen.writeNumberField(DATE_FIELD, date);
+        }
         gen.writeObjectField(CHAT_FIELD, chat);
-
         if (forwardFrom != null) {
             gen.writeObjectField(FORWARDFROM_FIELD, forwardFrom);
         }
@@ -478,14 +508,17 @@ public class Message implements IBotApiObject {
         if (location != null) {
             gen.writeObjectField(LOCATION_FIELD, location);
         }
+        if (venue != null) {
+            gen.writeObjectField(VENUE_FIELD, venue);
+        }
         if (voice != null) {
             gen.writeObjectField(VOICE_FIELD, voice);
         }
-        if (newChatParticipant != null) {
-            gen.writeObjectField(NEWCHATPARTICIPANT_FIELD, newChatParticipant);
+        if (newChatMember != null) {
+            gen.writeObjectField(NEWCHATMEMBER_FIELD, newChatMember);
         }
-        if (leftChatParticipant != null) {
-            gen.writeObjectField(LEFTCHATPARTICIPANT_FIELD, leftChatParticipant);
+        if (leftChatMember != null) {
+            gen.writeObjectField(LEFTCHATMEMBER_FIELD, leftChatMember);
         }
         if (replyToMessage != null) {
             gen.writeObjectField(REPLYTOMESSAGE_FIELD, replyToMessage);
@@ -544,8 +577,9 @@ public class Message implements IBotApiObject {
                 ", video=" + video +
                 ", contact=" + contact +
                 ", location=" + location +
-                ", newChatParticipant=" + newChatParticipant +
-                ", leftChatParticipant=" + leftChatParticipant +
+                ", venue=" + venue +
+                ", newChatMember=" + newChatMember +
+                ", leftChatMember=" + leftChatMember +
                 ", newChatTitle='" + newChatTitle + '\'' +
                 ", newChatPhoto=" + newChatPhoto +
                 ", deleteChatPhoto=" + deleteChatPhoto +

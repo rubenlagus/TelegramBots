@@ -17,9 +17,9 @@ import java.io.IOException;
  * @date 24 of June of 2015
  */
 public class File implements IBotApiObject {
-    public static final String FILE_ID = "file_id";
-    public static final String FILE_SIZE_FIELD = "file_size";
-    public static final String FILE_PATH_FIELD = "file_path";
+    private static final String FILE_ID = "file_id";
+    private static final String FILE_SIZE_FIELD = "file_size";
+    private static final String FILE_PATH_FIELD = "file_path";
     @JsonProperty(FILE_ID)
     private String fileId; ///< Unique identifier for this file
     @JsonProperty(FILE_SIZE_FIELD)

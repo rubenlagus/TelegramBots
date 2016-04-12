@@ -18,12 +18,12 @@ import java.io.IOException;
  */
 public class Audio implements IBotApiObject {
 
-    public static final String FILEID_FIELD = "file_id";
-    public static final String DURATION_FIELD = "duration";
-    public static final String MIMETYPE_FIELD = "mime_type";
-    public static final String FILESIZE_FIELD = "file_size";
-    public static final String TITLE_FIELD = "title";
-    public static final String PERFORMER_FIELD = "performer";
+    private static final String FILEID_FIELD = "file_id";
+    private static final String DURATION_FIELD = "duration";
+    private static final String MIMETYPE_FIELD = "mime_type";
+    private static final String FILESIZE_FIELD = "file_size";
+    private static final String TITLE_FIELD = "title";
+    private static final String PERFORMER_FIELD = "performer";
     @JsonProperty(FILEID_FIELD)
     private String fileId; ///< Unique identifier for this file
     @JsonProperty(DURATION_FIELD)

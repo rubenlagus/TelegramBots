@@ -18,10 +18,10 @@ import java.io.IOException;
  */
 public class Contact implements IBotApiObject {
 
-    public static final String PHONENUMBER_FIELD = "phone_number";
-    public static final String FIRSTNAME_FIELD = "first_name";
-    public static final String LASTNAME_FIELD = "last_name";
-    public static final String USERID_FIELD = "user_id";
+    private static final String PHONENUMBER_FIELD = "phone_number";
+    private static final String FIRSTNAME_FIELD = "first_name";
+    private static final String LASTNAME_FIELD = "last_name";
+    private static final String USERID_FIELD = "user_id";
     @JsonProperty(PHONENUMBER_FIELD)
     private String phoneNumber; ///< Contact's phone number
     @JsonProperty(FIRSTNAME_FIELD)

@@ -18,9 +18,9 @@ import java.io.IOException;
 public class GetUserProfilePhotos extends BotApiMethod<UserProfilePhotos> {
     public static final String PATH = "getuserprofilephotos";
 
-    public static final String USERID_FIELD = "user_id";
-    public static final String OFFSET_FIELD = "offset";
-    public static final String LIMIT_FIELD = "limit";
+    private static final String USERID_FIELD = "user_id";
+    private static final String OFFSET_FIELD = "offset";
+    private static final String LIMIT_FIELD = "limit";
     private Integer userId; ///< Unique identifier of the target user
     /**
      * Sequential number of the first photo to be returned. By default, all photos are returned.

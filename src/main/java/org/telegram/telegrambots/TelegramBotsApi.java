@@ -13,7 +13,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.Constants;
-import org.telegram.telegrambots.api.methods.SetWebhook;
+import org.telegram.telegrambots.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.updatesreceivers.UpdatesThread;
@@ -25,7 +25,7 @@ import java.io.IOException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief TODO
+ * @brief Bots manager
  * @date 14 of January of 2016
  */
 public class TelegramBotsApi {
