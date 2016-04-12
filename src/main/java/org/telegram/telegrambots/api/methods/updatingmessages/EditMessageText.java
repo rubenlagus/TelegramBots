@@ -105,28 +105,32 @@ public class EditMessageText extends BotApiMethod<Message> {
         return this;
     }
 
-    public void disableWebPagePreview() {
+    public EditMessageText disableWebPagePreview() {
         disableWebPagePreview = true;
+        return this;
     }
 
-    public void enableWebPagePreview() {
+    public EditMessageText enableWebPagePreview() {
         disableWebPagePreview = null;
+        return this;
     }
 
-    public void enableMarkdown(boolean enable) {
+    public EditMessageText enableMarkdown(boolean enable) {
         if (enable) {
             this.parseMode = ParseMode.MARKDOWN;
         } else {
             this.parseMode = null;
         }
+        return this;
     }
 
-    public void enableHtml(boolean enable) {
+    public EditMessageText enableHtml(boolean enable) {
         if (enable) {
             this.parseMode = ParseMode.HTML;
         } else {
             this.parseMode = null;
         }
+        return this;
     }
 
     @Override

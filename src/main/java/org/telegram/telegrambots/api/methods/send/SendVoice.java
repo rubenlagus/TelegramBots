@@ -52,12 +52,14 @@ public class SendVoice {
         return disableNotification;
     }
 
-    public void enableNotification() {
+    public SendVoice enableNotification() {
         this.disableNotification = false;
+        return this;
     }
 
-    public void disableNotification() {
+    public SendVoice disableNotification() {
         this.disableNotification = true;
+        return this;
     }
 
     public String getChatId() {

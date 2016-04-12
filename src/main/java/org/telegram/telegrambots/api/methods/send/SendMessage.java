@@ -89,36 +89,42 @@ public class SendMessage extends BotApiMethod<Message> {
         return disableNotification;
     }
 
-    public void disableWebPagePreview() {
+    public SendMessage disableWebPagePreview() {
         disableWebPagePreview = true;
+        return this;
     }
 
-    public void enableWebPagePreview() {
+    public SendMessage enableWebPagePreview() {
         disableWebPagePreview = null;
+        return this;
     }
 
-    public void enableNotification() {
+    public SendMessage enableNotification() {
         this.disableNotification = null;
+        return this;
     }
 
-    public void disableNotification() {
+    public SendMessage disableNotification() {
         this.disableNotification = true;
+        return this;
     }
 
-    public void enableMarkdown(boolean enable) {
+    public SendMessage enableMarkdown(boolean enable) {
         if (enable) {
             this.parseMode = ParseMode.MARKDOWN;
         } else {
             this.parseMode = null;
         }
+        return this;
     }
 
-    public void enableHtml(boolean enable) {
+    public SendMessage enableHtml(boolean enable) {
         if (enable) {
             this.parseMode = ParseMode.HTML;
         } else {
             this.parseMode = null;
         }
+        return this;
     }
 
     @Override

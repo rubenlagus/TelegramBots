@@ -130,12 +130,14 @@ public class SendAudio {
         return disableNotification;
     }
 
-    public void enableNotification() {
+    public SendAudio enableNotification() {
         this.disableNotification = false;
+        return this;
     }
 
-    public void disableNotification() {
+    public SendAudio disableNotification() {
         this.disableNotification = true;
+        return this;
     }
 
     public boolean isNewAudio() {

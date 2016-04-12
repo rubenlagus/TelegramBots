@@ -81,12 +81,14 @@ public class SendSticker {
         return disableNotification;
     }
 
-    public void enableNotification() {
+    public SendSticker enableNotification() {
         this.disableNotification = false;
+        return this;
     }
 
-    public void disableNotification() {
+    public SendSticker disableNotification() {
         this.disableNotification = true;
+        return this;
     }
 
     public boolean isNewSticker() {

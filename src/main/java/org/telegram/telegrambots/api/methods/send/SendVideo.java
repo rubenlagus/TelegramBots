@@ -109,12 +109,14 @@ public class SendVideo {
         return disableNotification;
     }
 
-    public void enableNotification() {
+    public SendVideo enableNotification() {
         this.disableNotification = false;
+        return this;
     }
 
-    public void disableNotification() {
+    public SendVideo disableNotification() {
         this.disableNotification = true;
+        return this;
     }
 
     public Integer getWidth() {

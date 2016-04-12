@@ -87,12 +87,14 @@ public class SendLocation extends BotApiMethod<Message> {
         return disableNotification;
     }
 
-    public void enableNotification() {
+    public SendLocation enableNotification() {
         this.disableNotification = false;
+        return this;
     }
 
-    public void disableNotification() {
+    public SendLocation disableNotification() {
         this.disableNotification = true;
+        return this;
     }
 
     @Override

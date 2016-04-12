@@ -72,12 +72,14 @@ public class SendContact extends BotApiMethod<Message> {
         return disableNotification;
     }
 
-    public void enableNotification() {
+    public SendContact enableNotification() {
         this.disableNotification = false;
+        return this;
     }
 
-    public void disableNotification() {
+    public SendContact disableNotification() {
         this.disableNotification = true;
+        return this;
     }
 
     public String getPhoneNumber() {

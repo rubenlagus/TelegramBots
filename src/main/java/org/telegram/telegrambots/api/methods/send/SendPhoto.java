@@ -94,12 +94,14 @@ public class SendPhoto {
         return disableNotification;
     }
 
-    public void enableNotification() {
+    public SendPhoto enableNotification() {
         this.disableNotification = false;
+        return this;
     }
 
-    public void disableNotification() {
+    public SendPhoto disableNotification() {
         this.disableNotification = true;
+        return this;
     }
 
     public SendPhoto setNewPhoto(String photo, String photoName) {

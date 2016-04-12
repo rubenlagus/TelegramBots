@@ -94,12 +94,14 @@ public class SendVenue extends BotApiMethod<Message> {
         return disableNotification;
     }
 
-    public void enableNotification() {
+    public SendVenue enableNotification() {
         this.disableNotification = false;
+        return this;
     }
 
-    public void disableNotification() {
+    public SendVenue disableNotification() {
         this.disableNotification = true;
+        return this;
     }
 
     public String getTitle() {

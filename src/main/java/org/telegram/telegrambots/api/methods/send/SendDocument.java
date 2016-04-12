@@ -82,12 +82,14 @@ public class SendDocument {
         return disableNotification;
     }
 
-    public void enableNotification() {
+    public SendDocument enableNotification() {
         this.disableNotification = false;
+        return this;
     }
 
-    public void disableNotification() {
+    public SendDocument disableNotification() {
         this.disableNotification = true;
+        return this;
     }
 
     public String getCaption() {
