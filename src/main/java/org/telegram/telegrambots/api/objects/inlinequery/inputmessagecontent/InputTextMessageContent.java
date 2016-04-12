@@ -36,12 +36,27 @@ public class InputTextMessageContent implements InputMessageContent {
         return messageText;
     }
 
-    public void setMessageText(String messageText) {
+    public InputTextMessageContent setMessageText(String messageText) {
         this.messageText = messageText;
+        return this;
     }
 
     public String getParseMode() {
         return parseMode;
+    }
+
+    public InputTextMessageContent setParseMode(String parseMode) {
+        this.parseMode = parseMode;
+        return this;
+    }
+
+    public Boolean getDisableWebPagePreview() {
+        return disableWebPagePreview;
+    }
+
+    public InputTextMessageContent setDisableWebPagePreview(Boolean disableWebPagePreview) {
+        this.disableWebPagePreview = disableWebPagePreview;
+        return this;
     }
 
     public void enableMarkdown(boolean enable) {
@@ -58,10 +73,6 @@ public class InputTextMessageContent implements InputMessageContent {
         } else {
             this.parseMode = null;
         }
-    }
-
-    public Boolean getDisableWebPagePreview() {
-        return disableWebPagePreview;
     }
 
     public void disableWebPagePreview() {

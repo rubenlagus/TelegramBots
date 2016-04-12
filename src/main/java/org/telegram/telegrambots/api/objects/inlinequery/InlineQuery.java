@@ -69,20 +69,45 @@ public class InlineQuery implements IBotApiObject {
         return id;
     }
 
+    public InlineQuery setId(String id) {
+        this.id = id;
+        return this;
+    }
+
     public User getFrom() {
         return from;
+    }
+
+    public InlineQuery setFrom(User from) {
+        this.from = from;
+        return this;
     }
 
     public Location getLocation() {
         return location;
     }
 
+    public InlineQuery setLocation(Location location) {
+        this.location = location;
+        return this;
+    }
+
     public String getQuery() {
         return query;
     }
 
+    public InlineQuery setQuery(String query) {
+        this.query = query;
+        return this;
+    }
+
     public String getOffset() {
         return offset;
+    }
+
+    public InlineQuery setOffset(String offset) {
+        this.offset = offset;
+        return this;
     }
 
     @Override

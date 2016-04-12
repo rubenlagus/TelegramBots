@@ -50,32 +50,36 @@ public class ReplyKeyboardMarkup implements ReplyKeyboard {
         return keyboard;
     }
 
-    public void setKeyboard(List<KeyboardRow> keyboard) {
+    public ReplyKeyboardMarkup setKeyboard(List<KeyboardRow> keyboard) {
         this.keyboard = keyboard;
+        return this;
     }
 
     public Boolean getResizeKeyboard() {
         return resizeKeyboard;
     }
 
-    public void setResizeKeyboard(Boolean resizeKeyboard) {
+    public ReplyKeyboardMarkup setResizeKeyboard(Boolean resizeKeyboard) {
         this.resizeKeyboard = resizeKeyboard;
+        return this;
     }
 
     public Boolean getOneTimeKeyboad() {
         return oneTimeKeyboad;
     }
 
-    public void setOneTimeKeyboad(Boolean oneTimeKeyboad) {
+    public ReplyKeyboardMarkup setOneTimeKeyboad(Boolean oneTimeKeyboad) {
         this.oneTimeKeyboad = oneTimeKeyboad;
+        return this;
     }
 
     public Boolean getSelective() {
         return selective;
     }
 
-    public void setSelective(Boolean selective) {
+    public ReplyKeyboardMarkup setSelective(Boolean selective) {
         this.selective = selective;
+        return this;
     }
 
     @Override

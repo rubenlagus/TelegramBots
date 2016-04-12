@@ -37,24 +37,27 @@ public class InputContactMessageContent implements InputMessageContent {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public InputContactMessageContent setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+        return this;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public InputContactMessageContent setFirstName(String firstName) {
         this.firstName = firstName;
+        return this;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public InputContactMessageContent setLastName(String lastName) {
         this.lastName = lastName;
+        return this;
     }
 
     @Override

@@ -219,248 +219,234 @@ public class Message implements IBotApiObject {
         return messageId;
     }
 
-    public void setMessageId(Integer messageId) {
+    public Message setMessageId(Integer messageId) {
         this.messageId = messageId;
+        return this;
     }
 
     public User getFrom() {
         return from;
     }
 
-    public void setFrom(User from) {
+    public Message setFrom(User from) {
         this.from = from;
+        return this;
     }
 
     public Integer getDate() {
         return date;
     }
 
-    public void setDate(Integer date) {
+    public Message setDate(Integer date) {
         this.date = date;
-    }
-
-    public boolean isGroupMessage() {
-        return chat.isGroupChat();
-    }
-
-    public boolean isUserMessage() {
-        return chat.isUserChat();
-    }
-
-    public boolean isChannelMessage() {
-        return chat.isChannelChat();
-    }
-
-    public boolean isSuperGroupMessage() {
-        return chat.isSuperGroupChat();
-    }
-
-    public Long getChatId() {
-        return chat.getId();
+        return this;
     }
 
     public Chat getChat() {
         return chat;
     }
 
-    public void setChat(Chat chat) {
+    public Message setChat(Chat chat) {
         this.chat = chat;
+        return this;
     }
 
     public User getForwardFrom() {
         return forwardFrom;
     }
 
-    public void setForwardFrom(User forwardFrom) {
+    public Message setForwardFrom(User forwardFrom) {
         this.forwardFrom = forwardFrom;
+        return this;
     }
 
     public Integer getForwardDate() {
         return forwardDate;
     }
 
-    public void setForwardDate(Integer forwardDate) {
+    public Message setForwardDate(Integer forwardDate) {
         this.forwardDate = forwardDate;
-    }
-
-    public boolean hasText() {
-        return text != null && !text.isEmpty();
+        return this;
     }
 
     public String getText() {
         return text;
     }
 
-    public void setText(String text) {
+    public Message setText(String text) {
         this.text = text;
+        return this;
     }
 
     public Audio getAudio() {
         return audio;
     }
 
-    public void setAudio(Audio audio) {
+    public Message setAudio(Audio audio) {
         this.audio = audio;
-    }
-
-    public boolean hasDocument() {
-        return this.document != null;
+        return this;
     }
 
     public Document getDocument() {
         return document;
     }
 
-    public void setDocument(Document document) {
+    public Message setDocument(Document document) {
         this.document = document;
+        return this;
     }
 
     public List<PhotoSize> getPhoto() {
         return photo;
     }
 
-    public void setPhoto(List<PhotoSize> photo) {
+    public Message setPhoto(List<PhotoSize> photo) {
         this.photo = photo;
+        return this;
     }
 
     public Sticker getSticker() {
         return sticker;
     }
 
-    public void setSticker(Sticker sticker) {
+    public Message setSticker(Sticker sticker) {
         this.sticker = sticker;
+        return this;
     }
 
     public Video getVideo() {
         return video;
     }
 
-    public void setVideo(Video video) {
+    public Message setVideo(Video video) {
         this.video = video;
+        return this;
     }
 
     public Contact getContact() {
         return contact;
     }
 
-    public void setContact(Contact contact) {
+    public Message setContact(Contact contact) {
         this.contact = contact;
+        return this;
     }
 
     public Location getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public Message setLocation(Location location) {
         this.location = location;
+        return this;
     }
 
     public User getNewChatMember() {
         return newChatMember;
     }
 
-    public void setNewChatMember(User newChatMember) {
+    public Message setNewChatMember(User newChatMember) {
         this.newChatMember = newChatMember;
+        return this;
     }
 
     public User getLeftChatMember() {
         return leftChatMember;
     }
 
-    public void setLeftChatMember(User leftChatMember) {
+    public Message setLeftChatMember(User leftChatMember) {
         this.leftChatMember = leftChatMember;
+        return this;
     }
 
     public String getNewChatTitle() {
         return newChatTitle;
     }
 
-    public void setNewChatTitle(String newChatTitle) {
+    public Message setNewChatTitle(String newChatTitle) {
         this.newChatTitle = newChatTitle;
+        return this;
     }
 
     public List<PhotoSize> getNewChatPhoto() {
         return newChatPhoto;
     }
 
-    public void setNewChatPhoto(List<PhotoSize> newChatPhoto) {
+    public Message setNewChatPhoto(List<PhotoSize> newChatPhoto) {
         this.newChatPhoto = newChatPhoto;
+        return this;
     }
 
     public Boolean getDeleteChatPhoto() {
         return deleteChatPhoto;
     }
 
-    public void setDeleteChatPhoto(Boolean deleteChatPhoto) {
+    public Message setDeleteChatPhoto(Boolean deleteChatPhoto) {
         this.deleteChatPhoto = deleteChatPhoto;
+        return this;
     }
 
     public Boolean getGroupchatCreated() {
         return groupchatCreated;
     }
 
-    public void setGroupchatCreated(Boolean groupchatCreated) {
+    public Message setGroupchatCreated(Boolean groupchatCreated) {
         this.groupchatCreated = groupchatCreated;
-    }
-
-    public boolean hasReplayMessage() {
-        return replyToMessage != null;
+        return this;
     }
 
     public Message getReplyToMessage() {
         return replyToMessage;
     }
 
-    public void setReplyToMessage(Message replyToMessage) {
+    public Message setReplyToMessage(Message replyToMessage) {
         this.replyToMessage = replyToMessage;
-    }
-
-    public boolean isReply() {
-        return this.replyToMessage != null;
-    }
-
-    public boolean hasLocation() {
-        return location != null;
+        return this;
     }
 
     public Voice getVoice() {
         return voice;
     }
 
-    public void setVoice(Voice voice) {
+    public Message setVoice(Voice voice) {
         this.voice = voice;
+        return this;
     }
 
     public Boolean getSuperGroupCreated() {
         return superGroupCreated;
     }
 
-    public void setSuperGroupCreated(Boolean superGroupCreated) {
+    public Message setSuperGroupCreated(Boolean superGroupCreated) {
         this.superGroupCreated = superGroupCreated;
+        return this;
     }
 
     public Boolean getChannelChatCreated() {
         return channelChatCreated;
     }
 
-    public void setChannelChatCreated(Boolean channelChatCreated) {
+    public Message setChannelChatCreated(Boolean channelChatCreated) {
         this.channelChatCreated = channelChatCreated;
+        return this;
     }
 
     public Long getMigrateToChatId() {
         return migrateToChatId;
     }
 
-    public void setMigrateToChatId(Long migrateToChatId) {
+    public Message setMigrateToChatId(Long migrateToChatId) {
         this.migrateToChatId = migrateToChatId;
+        return this;
     }
 
     public Long getMigrateFromChatId() {
         return migrateFromChatId;
     }
 
-    public void setMigrateFromChatId(Long migrateFromChatId) {
+    public Message setMigrateFromChatId(Long migrateFromChatId) {
         this.migrateFromChatId = migrateFromChatId;
+        return this;
     }
 
     @Override

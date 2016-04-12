@@ -72,32 +72,36 @@ public class InlineKeyboardMarkup implements ReplyKeyboard {
         return keyboard;
     }
 
-    public void setKeyboard(List<List<String>> keyboard) {
+    public InlineKeyboardMarkup setKeyboard(List<List<String>> keyboard) {
         this.keyboard = keyboard;
+        return this;
     }
 
     public Boolean getResizeKeyboard() {
         return resizeKeyboard;
     }
 
-    public void setResizeKeyboard(Boolean resizeKeyboard) {
+    public InlineKeyboardMarkup setResizeKeyboard(Boolean resizeKeyboard) {
         this.resizeKeyboard = resizeKeyboard;
+        return this;
     }
 
     public Boolean getOneTimeKeyboad() {
         return oneTimeKeyboad;
     }
 
-    public void setOneTimeKeyboad(Boolean oneTimeKeyboad) {
+    public InlineKeyboardMarkup setOneTimeKeyboad(Boolean oneTimeKeyboad) {
         this.oneTimeKeyboad = oneTimeKeyboad;
+        return this;
     }
 
     public Boolean getSelective() {
         return selective;
     }
 
-    public void setSelective(Boolean selective) {
+    public InlineKeyboardMarkup setSelective(Boolean selective) {
         this.selective = selective;
+        return this;
     }
 
     @Override
