@@ -33,11 +33,6 @@ public class InlineKeyboardMarkup implements ReplyKeyboard {
         keyboard = new ArrayList<>();
     }
 
-    public InlineKeyboardMarkup(JSONObject jsonObject) {
-        super();
-        this.keyboard = new ArrayList<>();
-    }
-
     public List<List<InlineKeyboardButton>> getKeyboard() {
         return keyboard;
     }
