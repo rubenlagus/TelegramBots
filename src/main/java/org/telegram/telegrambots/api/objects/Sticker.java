@@ -50,8 +50,8 @@ public class Sticker implements IBotApiObject {
             this.fileSize = jsonObject.getInt(FILESIZE_FIELD);
         }
     }
-    
-        public String getFileId() {
+
+    public String getFileId() {
         return fileId;
     }
 
@@ -63,10 +63,10 @@ public class Sticker implements IBotApiObject {
         return height;
     }
 
-    public String getThumb() {
+    public PhotoSize getThumb() {
         return thumb;
     }
-    
+
     public Integer getFileSize() {
         return fileSize;
     }
