@@ -51,15 +51,15 @@ public class Sticker implements IBotApiObject {
         }
     }
     
-        public Integer getFileId() {
+        public String getFileId() {
         return fileId;
     }
 
-    public String getWidth() {
+    public Integer getWidth() {
         return width;
     }
 
-    public String getHeight() {
+    public Integer getHeight() {
         return height;
     }
 
@@ -67,7 +67,7 @@ public class Sticker implements IBotApiObject {
         return thumb;
     }
     
-    public String getFileSize() {
+    public Integer getFileSize() {
         return fileSize;
     }
 
