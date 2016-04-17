@@ -60,72 +60,81 @@ public class InlineQueryResultGif implements InlineQueryResult {
         return id;
     }
 
-    public void setId(String id) {
+    public InlineQueryResultGif setId(String id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
-    }
-
-    public void setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public void setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        return this;
     }
 
     public String getGifUrl() {
         return gifUrl;
     }
 
-    public void setGifUrl(String gifUrl) {
+    public InlineQueryResultGif setGifUrl(String gifUrl) {
         this.gifUrl = gifUrl;
+        return this;
     }
 
     public Integer getGifWidth() {
         return gifWidth;
     }
 
-    public void setGifWidth(Integer gifWidth) {
+    public InlineQueryResultGif setGifWidth(Integer gifWidth) {
         this.gifWidth = gifWidth;
+        return this;
     }
 
     public Integer getGifHeight() {
         return gifHeight;
     }
 
-    public void setGifHeight(Integer gifHeight) {
+    public InlineQueryResultGif setGifHeight(Integer gifHeight) {
         this.gifHeight = gifHeight;
+        return this;
     }
 
     public String getThumbUrl() {
         return thumbUrl;
     }
 
-    public void setThumbUrl(String thumbUrl) {
+    public InlineQueryResultGif setThumbUrl(String thumbUrl) {
         this.thumbUrl = thumbUrl;
+        return this;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public InlineQueryResultGif setTitle(String title) {
+        this.title = title;
+        return this;
     }
 
     public String getCaption() {
         return caption;
     }
 
-    public void setCaption(String caption) {
+    public InlineQueryResultGif setCaption(String caption) {
         this.caption = caption;
+        return this;
+    }
+
+    public InputMessageContent getInputMessageContent() {
+        return inputMessageContent;
+    }
+
+    public InlineQueryResultGif setInputMessageContent(InputMessageContent inputMessageContent) {
+        this.inputMessageContent = inputMessageContent;
+        return this;
+    }
+
+    public InlineKeyboardMarkup getReplyMarkup() {
+        return replyMarkup;
+    }
+
+    public InlineQueryResultGif setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
+        this.replyMarkup = replyMarkup;
+        return this;
     }
 
     @Override

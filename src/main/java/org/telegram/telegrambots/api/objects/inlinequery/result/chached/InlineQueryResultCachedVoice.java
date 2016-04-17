@@ -51,40 +51,45 @@ public class InlineQueryResultCachedVoice implements InlineQueryResult {
         return id;
     }
 
-    public void setId(String id) {
+    public InlineQueryResultCachedVoice setId(String id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
-    }
-
-    public void setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public void setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        return this;
     }
 
     public String getVoiceFileId() {
         return voiceFileId;
     }
 
-    public void setVoiceFileId(String voiceFileId) {
+    public InlineQueryResultCachedVoice setVoiceFileId(String voiceFileId) {
         this.voiceFileId = voiceFileId;
+        return this;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public InlineQueryResultCachedVoice setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public InputMessageContent getInputMessageContent() {
+        return inputMessageContent;
+    }
+
+    public InlineQueryResultCachedVoice setInputMessageContent(InputMessageContent inputMessageContent) {
+        this.inputMessageContent = inputMessageContent;
+        return this;
+    }
+
+    public InlineKeyboardMarkup getReplyMarkup() {
+        return replyMarkup;
+    }
+
+    public InlineQueryResultCachedVoice setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
+        this.replyMarkup = replyMarkup;
+        return this;
     }
 
     @Override

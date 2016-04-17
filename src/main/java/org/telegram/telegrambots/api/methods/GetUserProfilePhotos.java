@@ -41,25 +41,29 @@ public class GetUserProfilePhotos extends BotApiMethod<UserProfilePhotos> {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public GetUserProfilePhotos setUserId(Integer userId) {
         this.userId = userId;
+        return this;
     }
 
     public Integer getOffset() {
         return offset;
     }
 
-    public void setOffset(Integer offset) {
+    public GetUserProfilePhotos setOffset(Integer offset) {
         this.offset = offset;
+        return this;
     }
 
     public Integer getLimit() {
         return limit;
     }
 
-    public void setLimit(Integer limit) {
+    public GetUserProfilePhotos setLimit(Integer limit) {
         this.limit = limit;
+        return this;
     }
+
     @Override
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();

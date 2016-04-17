@@ -69,96 +69,108 @@ public class InlineQueryResultVideo implements InlineQueryResult {
         return id;
     }
 
-    public void setId(String id) {
+    public InlineQueryResultVideo setId(String id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
-    }
-
-    public void setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public void setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        return this;
     }
 
     public String getMimeType() {
         return mimeType;
     }
 
-    public void setMimeType(String mimeType) {
+    public InlineQueryResultVideo setMimeType(String mimeType) {
         this.mimeType = mimeType;
+        return this;
     }
 
     public String getVideoUrl() {
         return videoUrl;
     }
 
-    public void setVideoUrl(String videoUrl) {
+    public InlineQueryResultVideo setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl;
+        return this;
     }
 
     public Integer getVideoWidth() {
         return videoWidth;
     }
 
-    public void setVideoWidth(Integer videoWidth) {
+    public InlineQueryResultVideo setVideoWidth(Integer videoWidth) {
         this.videoWidth = videoWidth;
+        return this;
     }
 
     public Integer getVideoHeight() {
         return videoHeight;
     }
 
-    public void setVideoHeight(Integer videoHeight) {
+    public InlineQueryResultVideo setVideoHeight(Integer videoHeight) {
         this.videoHeight = videoHeight;
+        return this;
     }
 
     public Integer getVideoDuration() {
         return videoDuration;
     }
 
-    public void setVideoDuration(Integer videoDuration) {
+    public InlineQueryResultVideo setVideoDuration(Integer videoDuration) {
         this.videoDuration = videoDuration;
+        return this;
     }
 
     public String getThumbUrl() {
         return thumbUrl;
     }
 
-    public void setThumbUrl(String thumbUrl) {
+    public InlineQueryResultVideo setThumbUrl(String thumbUrl) {
         this.thumbUrl = thumbUrl;
+        return this;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public InlineQueryResultVideo setTitle(String title) {
+        this.title = title;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public InlineQueryResultVideo setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public String getCaption() {
         return caption;
     }
 
-    public void setCaption(String caption) {
+    public InlineQueryResultVideo setCaption(String caption) {
         this.caption = caption;
+        return this;
+    }
+
+    public InputMessageContent getInputMessageContent() {
+        return inputMessageContent;
+    }
+
+    public InlineQueryResultVideo setInputMessageContent(InputMessageContent inputMessageContent) {
+        this.inputMessageContent = inputMessageContent;
+        return this;
+    }
+
+    public InlineKeyboardMarkup getReplyMarkup() {
+        return replyMarkup;
+    }
+
+    public InlineQueryResultVideo setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
+        this.replyMarkup = replyMarkup;
+        return this;
     }
 
     @Override

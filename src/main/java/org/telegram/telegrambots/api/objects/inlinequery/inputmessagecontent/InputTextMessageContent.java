@@ -36,40 +36,55 @@ public class InputTextMessageContent implements InputMessageContent {
         return messageText;
     }
 
-    public void setMessageText(String messageText) {
+    public InputTextMessageContent setMessageText(String messageText) {
         this.messageText = messageText;
+        return this;
     }
 
     public String getParseMode() {
         return parseMode;
     }
 
-    public void enableMarkdown(boolean enable) {
-        if (enable) {
-            this.parseMode = ParseMode.MARKDOWN;
-        } else {
-            this.parseMode = null;
-        }
-    }
-
-    public void enableHtml(boolean enable) {
-        if (enable) {
-            this.parseMode = ParseMode.HTML;
-        } else {
-            this.parseMode = null;
-        }
+    public InputTextMessageContent setParseMode(String parseMode) {
+        this.parseMode = parseMode;
+        return this;
     }
 
     public Boolean getDisableWebPagePreview() {
         return disableWebPagePreview;
     }
 
-    public void disableWebPagePreview() {
-        disableWebPagePreview = true;
+    public InputTextMessageContent setDisableWebPagePreview(Boolean disableWebPagePreview) {
+        this.disableWebPagePreview = disableWebPagePreview;
+        return this;
     }
 
-    public void enableWebPagePreview() {
+    public InputTextMessageContent enableMarkdown(boolean enable) {
+        if (enable) {
+            this.parseMode = ParseMode.MARKDOWN;
+        } else {
+            this.parseMode = null;
+        }
+        return this;
+    }
+
+    public InputTextMessageContent enableHtml(boolean enable) {
+        if (enable) {
+            this.parseMode = ParseMode.HTML;
+        } else {
+            this.parseMode = null;
+        }
+        return this;
+    }
+
+    public InputTextMessageContent disableWebPagePreview() {
+        disableWebPagePreview = true;
+        return this;
+    }
+
+    public InputTextMessageContent enableWebPagePreview() {
         disableWebPagePreview = null;
+        return this;
     }
 
     @Override

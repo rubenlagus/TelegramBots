@@ -53,48 +53,54 @@ public class InlineQueryResultVoice implements InlineQueryResult {
         return id;
     }
 
-    public void setId(String id) {
+    public InlineQueryResultVoice setId(String id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
-    }
-
-    public void setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public void setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
-    }
-
-    public Integer getVoiceDuration() {
-        return voiceDuration;
-    }
-
-    public void setVoiceDuration(Integer voiceDuration) {
-        this.voiceDuration = voiceDuration;
+        return this;
     }
 
     public String getVoiceUrl() {
         return voiceUrl;
     }
 
-    public void setVoiceUrl(String voiceUrl) {
+    public InlineQueryResultVoice setVoiceUrl(String voiceUrl) {
         this.voiceUrl = voiceUrl;
+        return this;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public InlineQueryResultVoice setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public Integer getVoiceDuration() {
+        return voiceDuration;
+    }
+
+    public InlineQueryResultVoice setVoiceDuration(Integer voiceDuration) {
+        this.voiceDuration = voiceDuration;
+        return this;
+    }
+
+    public InputMessageContent getInputMessageContent() {
+        return inputMessageContent;
+    }
+
+    public InlineQueryResultVoice setInputMessageContent(InputMessageContent inputMessageContent) {
+        this.inputMessageContent = inputMessageContent;
+        return this;
+    }
+
+    public InlineKeyboardMarkup getReplyMarkup() {
+        return replyMarkup;
+    }
+
+    public InlineQueryResultVoice setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
+        this.replyMarkup = replyMarkup;
+        return this;
     }
 
     @Override

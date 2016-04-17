@@ -69,88 +69,99 @@ public class InlineQueryResultDocument implements InlineQueryResult {
         return id;
     }
 
-    public void setId(String id) {
+    public InlineQueryResultDocument setId(String id) {
         this.id = id;
+        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public InlineQueryResultDocument setTitle(String title) {
         this.title = title;
-    }
-
-    public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
-    }
-
-    public void setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public void setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
-    }
-
-    public String getMimeType() {
-        return mimeType;
-    }
-
-    public void setMimeType(String mimeType) {
-        this.mimeType = mimeType;
+        return this;
     }
 
     public String getDocumentUrl() {
         return documentUrl;
     }
 
-    public void setDocumentUrl(String documentUrl) {
+    public InlineQueryResultDocument setDocumentUrl(String documentUrl) {
         this.documentUrl = documentUrl;
+        return this;
     }
 
-    public Integer getThumbWidth() {
-        return thumbWidth;
+    public String getMimeType() {
+        return mimeType;
     }
 
-    public void setThumbWidth(Integer thumbWidth) {
-        this.thumbWidth = thumbWidth;
-    }
-
-    public Integer getThumbHeight() {
-        return thumbHeight;
-    }
-
-    public void setThumbHeight(Integer thumbHeight) {
-        this.thumbHeight = thumbHeight;
-    }
-
-    public String getThumbUrl() {
-        return thumbUrl;
-    }
-
-    public void setThumbUrl(String thumbUrl) {
-        this.thumbUrl = thumbUrl;
+    public InlineQueryResultDocument setMimeType(String mimeType) {
+        this.mimeType = mimeType;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public InlineQueryResultDocument setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public String getCaption() {
         return caption;
     }
 
-    public void setCaption(String caption) {
+    public InlineQueryResultDocument setCaption(String caption) {
         this.caption = caption;
+        return this;
+    }
+
+    public InlineKeyboardMarkup getReplyMarkup() {
+        return replyMarkup;
+    }
+
+    public InlineQueryResultDocument setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
+        this.replyMarkup = replyMarkup;
+        return this;
+    }
+
+    public InputMessageContent getInputMessageContent() {
+        return inputMessageContent;
+    }
+
+    public InlineQueryResultDocument setInputMessageContent(InputMessageContent inputMessageContent) {
+        this.inputMessageContent = inputMessageContent;
+        return this;
+    }
+
+    public String getThumbUrl() {
+        return thumbUrl;
+    }
+
+    public InlineQueryResultDocument setThumbUrl(String thumbUrl) {
+        this.thumbUrl = thumbUrl;
+        return this;
+    }
+
+    public Integer getThumbWidth() {
+        return thumbWidth;
+    }
+
+    public InlineQueryResultDocument setThumbWidth(Integer thumbWidth) {
+        this.thumbWidth = thumbWidth;
+        return this;
+    }
+
+    public Integer getThumbHeight() {
+        return thumbHeight;
+    }
+
+    public InlineQueryResultDocument setThumbHeight(Integer thumbHeight) {
+        this.thumbHeight = thumbHeight;
+        return this;
     }
 
     @Override

@@ -49,32 +49,36 @@ public class SendMessage extends BotApiMethod<Message> {
         return chatId;
     }
 
-    public void setChatId(String chatId) {
+    public SendMessage setChatId(String chatId) {
         this.chatId = chatId;
+        return this;
     }
 
     public String getText() {
         return text;
     }
 
-    public void setText(String text) {
+    public SendMessage setText(String text) {
         this.text = text;
+        return this;
     }
 
     public Integer getReplayToMessageId() {
         return replayToMessageId;
     }
 
-    public void setReplayToMessageId(Integer replayToMessageId) {
+    public SendMessage setReplayToMessageId(Integer replayToMessageId) {
         this.replayToMessageId = replayToMessageId;
+        return this;
     }
 
     public ReplyKeyboard getReplayMarkup() {
         return replayMarkup;
     }
 
-    public void setReplayMarkup(ReplyKeyboard replayMarkup) {
+    public SendMessage setReplayMarkup(ReplyKeyboard replayMarkup) {
         this.replayMarkup = replayMarkup;
+        return this;
     }
 
     public Boolean getDisableWebPagePreview() {
@@ -85,36 +89,42 @@ public class SendMessage extends BotApiMethod<Message> {
         return disableNotification;
     }
 
-    public void disableWebPagePreview() {
+    public SendMessage disableWebPagePreview() {
         disableWebPagePreview = true;
+        return this;
     }
 
-    public void enableWebPagePreview() {
+    public SendMessage enableWebPagePreview() {
         disableWebPagePreview = null;
+        return this;
     }
 
-    public void enableNotification() {
+    public SendMessage enableNotification() {
         this.disableNotification = null;
+        return this;
     }
 
-    public void disableNotification() {
+    public SendMessage disableNotification() {
         this.disableNotification = true;
+        return this;
     }
 
-    public void enableMarkdown(boolean enable) {
+    public SendMessage enableMarkdown(boolean enable) {
         if (enable) {
             this.parseMode = ParseMode.MARKDOWN;
         } else {
             this.parseMode = null;
         }
+        return this;
     }
 
-    public void enableHtml(boolean enable) {
+    public SendMessage enableHtml(boolean enable) {
         if (enable) {
             this.parseMode = ParseMode.HTML;
         } else {
             this.parseMode = null;
         }
+        return this;
     }
 
     @Override

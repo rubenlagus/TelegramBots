@@ -40,41 +40,46 @@ public class SendPhoto {
         return chatId;
     }
 
-    public void setChatId(String chatId) {
+    public SendPhoto setChatId(String chatId) {
         this.chatId = chatId;
+        return this;
     }
 
     public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(String photo) {
+    public SendPhoto setPhoto(String photo) {
         this.photo = photo;
         this.isNewPhoto = false;
+        return this;
     }
 
     public String getCaption() {
         return caption;
     }
 
-    public void setCaption(String caption) {
+    public SendPhoto setCaption(String caption) {
         this.caption = caption;
+        return this;
     }
 
     public Integer getReplayToMessageId() {
         return replayToMessageId;
     }
 
-    public void setReplayToMessageId(Integer replayToMessageId) {
+    public SendPhoto setReplayToMessageId(Integer replayToMessageId) {
         this.replayToMessageId = replayToMessageId;
+        return this;
     }
 
     public ReplyKeyboard getReplayMarkup() {
         return replayMarkup;
     }
 
-    public void setReplayMarkup(ReplyKeyboard replayMarkup) {
+    public SendPhoto setReplayMarkup(ReplyKeyboard replayMarkup) {
         this.replayMarkup = replayMarkup;
+        return this;
     }
 
     public boolean isNewPhoto() {
@@ -89,18 +94,21 @@ public class SendPhoto {
         return disableNotification;
     }
 
-    public void enableNotification() {
+    public SendPhoto enableNotification() {
         this.disableNotification = false;
+        return this;
     }
 
-    public void disableNotification() {
+    public SendPhoto disableNotification() {
         this.disableNotification = true;
+        return this;
     }
 
-    public void setNewPhoto(String photo, String photoName) {
+    public SendPhoto setNewPhoto(String photo, String photoName) {
         this.photo = photo;
         this.isNewPhoto = true;
         this.photoName = photoName;
+        return this;
     }
 
     @Override

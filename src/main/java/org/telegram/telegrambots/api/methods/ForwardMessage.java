@@ -42,24 +42,27 @@ public class ForwardMessage extends BotApiMethod<Message> {
         return chatId;
     }
 
-    public void setChatId(String chatId) {
+    public ForwardMessage setChatId(String chatId) {
         this.chatId = chatId;
+        return this;
     }
 
     public Integer getFromChatId() {
         return fromChatId;
     }
 
-    public void setFromChatId(Integer fromChatId) {
+    public ForwardMessage setFromChatId(Integer fromChatId) {
         this.fromChatId = fromChatId;
+        return this;
     }
 
     public Integer getMessageId() {
         return messageId;
     }
 
-    public void setMessageId(Integer messageId) {
+    public ForwardMessage setMessageId(Integer messageId) {
         this.messageId = messageId;
+        return this;
     }
 
     public Boolean getDisableNotification() {

@@ -39,23 +39,26 @@ public class SendDocument {
         return chatId;
     }
 
-    public void setChatId(String chatId) {
+    public SendDocument setChatId(String chatId) {
         this.chatId = chatId;
+        return this;
     }
 
     public String getDocument() {
         return document;
     }
 
-    public void setDocument(String document) {
+    public SendDocument setDocument(String document) {
         this.document = document;
         this.isNewDocument = false;
+        return this;
     }
 
-    public void setNewDocument(String document, String documentName) {
+    public SendDocument setNewDocument(String document, String documentName) {
         this.document = document;
         this.isNewDocument = true;
         this.documentName = documentName;
+        return this;
     }
 
     public boolean isNewDocument() {
@@ -70,36 +73,41 @@ public class SendDocument {
         return replayToMessageId;
     }
 
-    public void setReplayToMessageId(Integer replayToMessageId) {
+    public SendDocument setReplayToMessageId(Integer replayToMessageId) {
         this.replayToMessageId = replayToMessageId;
+        return this;
     }
 
     public Boolean getDisableNotification() {
         return disableNotification;
     }
 
-    public void enableNotification() {
+    public SendDocument enableNotification() {
         this.disableNotification = false;
+        return this;
     }
 
-    public void disableNotification() {
+    public SendDocument disableNotification() {
         this.disableNotification = true;
+        return this;
     }
 
     public String getCaption() {
         return caption;
     }
 
-    public void setCaption(String caption) {
+    public SendDocument setCaption(String caption) {
         this.caption = caption;
+        return this;
     }
 
     public ReplyKeyboard getReplayMarkup() {
         return replayMarkup;
     }
 
-    public void setReplayMarkup(ReplyKeyboard replayMarkup) {
+    public SendDocument setReplayMarkup(ReplyKeyboard replayMarkup) {
         this.replayMarkup = replayMarkup;
+        return this;
     }
 
     @Override

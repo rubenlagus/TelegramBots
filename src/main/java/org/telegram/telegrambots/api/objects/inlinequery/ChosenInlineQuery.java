@@ -68,16 +68,16 @@ public class ChosenInlineQuery implements IBotApiObject {
         return from;
     }
 
-    public String getQuery() {
-        return query;
-    }
-
     public Location getLocation() {
         return location;
     }
 
     public String getInlineMessageId() {
         return inlineMessageId;
+    }
+
+    public String getQuery() {
+        return query;
     }
 
     @Override

@@ -71,30 +71,27 @@ public class KeyboardButton implements IBotApiObject, IToJson {
         return text;
     }
 
-    public void setText(String text) {
+    public KeyboardButton setText(String text) {
         this.text = text;
+        return this;
     }
 
     public Boolean getRequestContact() {
         return requestContact;
     }
 
-    public void setRequestContact(Boolean requestContact) {
-        if (requestContact != null) {
-            requestLocation = null;
-        }
+    public KeyboardButton setRequestContact(Boolean requestContact) {
         this.requestContact = requestContact;
+        return this;
     }
 
     public Boolean getRequestLocation() {
         return requestLocation;
     }
 
-    public void setRequestLocation(Boolean requestLocation) {
-        if (requestLocation != null) {
-            requestContact = null;
-        }
+    public KeyboardButton setRequestLocation(Boolean requestLocation) {
         this.requestLocation = requestLocation;
+        return this;
     }
 
     @Override

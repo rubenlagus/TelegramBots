@@ -30,20 +30,22 @@ public class InputLocationMessageContent implements InputMessageContent {
         super();
     }
 
-    public Float getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Float latitude) {
-        this.latitude = latitude;
-    }
-
     public Float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Float longitude) {
+    public InputLocationMessageContent setLongitude(Float longitude) {
         this.longitude = longitude;
+        return this;
+    }
+
+    public Float getLatitude() {
+        return latitude;
+    }
+
+    public InputLocationMessageContent setLatitude(Float latitude) {
+        this.latitude = latitude;
+        return this;
     }
 
     @Override

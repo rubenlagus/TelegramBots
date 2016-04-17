@@ -61,80 +61,90 @@ public class InlineQueryResultArticle implements InlineQueryResult {
         return id;
     }
 
-    public void setId(String id) {
+    public InlineQueryResultArticle setId(String id) {
         this.id = id;
+        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public InlineQueryResultArticle setTitle(String title) {
         this.title = title;
+        return this;
     }
 
     public InputMessageContent getInputMessageContent() {
         return inputMessageContent;
     }
 
-    public void setInputMessageContent(InputMessageContent inputMessageContent) {
+    public InlineQueryResultArticle setInputMessageContent(InputMessageContent inputMessageContent) {
         this.inputMessageContent = inputMessageContent;
+        return this;
     }
 
     public InlineKeyboardMarkup getReplyMarkup() {
         return replyMarkup;
     }
 
-    public void setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
+    public InlineQueryResultArticle setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
         this.replyMarkup = replyMarkup;
+        return this;
     }
 
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
+    public InlineQueryResultArticle setUrl(String url) {
         this.url = url;
+        return this;
     }
 
     public Boolean getHideUrl() {
         return hideUrl;
     }
 
-    public void setHideUrl(Boolean hideUrl) {
+    public InlineQueryResultArticle setHideUrl(Boolean hideUrl) {
         this.hideUrl = hideUrl;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public InlineQueryResultArticle setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public String getThumbUrl() {
         return thumbUrl;
     }
 
-    public void setThumbUrl(String thumbUrl) {
+    public InlineQueryResultArticle setThumbUrl(String thumbUrl) {
         this.thumbUrl = thumbUrl;
+        return this;
     }
 
     public Integer getThumbWidth() {
         return thumbWidth;
     }
 
-    public void setThumbWidth(Integer thumbWidth) {
+    public InlineQueryResultArticle setThumbWidth(Integer thumbWidth) {
         this.thumbWidth = thumbWidth;
+        return this;
     }
 
     public Integer getThumbHeight() {
         return thumbHeight;
     }
 
-    public void setThumbHeight(Integer thumbHeight) {
+    public InlineQueryResultArticle setThumbHeight(Integer thumbHeight) {
         this.thumbHeight = thumbHeight;
+        return this;
     }
 
     @Override

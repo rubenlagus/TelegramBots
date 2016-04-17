@@ -43,40 +43,45 @@ public class InputVenueMessageContent implements InputMessageContent {
         return latitude;
     }
 
-    public void setLatitude(Float latitude) {
+    public InputVenueMessageContent setLatitude(Float latitude) {
         this.latitude = latitude;
+        return this;
     }
 
     public Float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Float longitude) {
+    public InputVenueMessageContent setLongitude(Float longitude) {
         this.longitude = longitude;
+        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public InputVenueMessageContent setTitle(String title) {
         this.title = title;
+        return this;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public InputVenueMessageContent setAddress(String address) {
         this.address = address;
+        return this;
     }
 
     public String getFoursquareId() {
         return foursquareId;
     }
 
-    public void setFoursquareId(String foursquareId) {
+    public InputVenueMessageContent setFoursquareId(String foursquareId) {
         this.foursquareId = foursquareId;
+        return this;
     }
 
     @Override
