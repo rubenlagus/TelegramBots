@@ -50,6 +50,26 @@ public class Sticker implements IBotApiObject {
             this.fileSize = jsonObject.getInt(FILESIZE_FIELD);
         }
     }
+    
+        public Integer getFileId() {
+        return fileId;
+    }
+
+    public String getWidth() {
+        return width;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public String getThumb() {
+        return thumb;
+    }
+    
+    public String getFileSize() {
+        return fileSize;
+    }
 
     @Override
     public void serialize(JsonGenerator gen, SerializerProvider serializers) throws IOException {
