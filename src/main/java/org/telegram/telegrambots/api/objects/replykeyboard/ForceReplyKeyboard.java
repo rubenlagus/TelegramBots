@@ -55,16 +55,18 @@ public class ForceReplyKeyboard implements ReplyKeyboard {
         return forceReply;
     }
 
-    public void setForceReply(Boolean forceReply) {
+    public ForceReplyKeyboard setForceReply(Boolean forceReply) {
         this.forceReply = forceReply;
+        return this;
     }
 
     public Boolean getSelective() {
         return selective;
     }
 
-    public void setSelective(Boolean selective) {
+    public ForceReplyKeyboard setSelective(Boolean selective) {
         this.selective = selective;
+        return this;
     }
 
     @Override

@@ -219,24 +219,261 @@ public class Message implements IBotApiObject {
         return messageId;
     }
 
-    public void setMessageId(Integer messageId) {
+    public Message setMessageId(Integer messageId) {
         this.messageId = messageId;
+        return this;
     }
 
     public User getFrom() {
         return from;
     }
 
-    public void setFrom(User from) {
+    public Message setFrom(User from) {
         this.from = from;
+        return this;
     }
 
     public Integer getDate() {
         return date;
     }
 
-    public void setDate(Integer date) {
+    public Message setDate(Integer date) {
         this.date = date;
+        return this;
+    }
+
+    public Chat getChat() {
+        return chat;
+    }
+
+    public Message setChat(Chat chat) {
+        this.chat = chat;
+        return this;
+    }
+
+    public User getForwardFrom() {
+        return forwardFrom;
+    }
+
+    public Message setForwardFrom(User forwardFrom) {
+        this.forwardFrom = forwardFrom;
+        return this;
+    }
+
+    public Integer getForwardDate() {
+        return forwardDate;
+    }
+
+    public Message setForwardDate(Integer forwardDate) {
+        this.forwardDate = forwardDate;
+        return this;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public Message setText(String text) {
+        this.text = text;
+        return this;
+    }
+
+    public List<MessageEntity> getEntities() {
+        return entities;
+    }
+
+    public Message setEntities(List<MessageEntity> entities) {
+        this.entities = entities;
+        return this;
+    }
+
+    public Audio getAudio() {
+        return audio;
+    }
+
+    public Message setAudio(Audio audio) {
+        this.audio = audio;
+        return this;
+    }
+
+    public Document getDocument() {
+        return document;
+    }
+
+    public Message setDocument(Document document) {
+        this.document = document;
+        return this;
+    }
+
+    public List<PhotoSize> getPhoto() {
+        return photo;
+    }
+
+    public Message setPhoto(List<PhotoSize> photo) {
+        this.photo = photo;
+        return this;
+    }
+
+    public Sticker getSticker() {
+        return sticker;
+    }
+
+    public Message setSticker(Sticker sticker) {
+        this.sticker = sticker;
+        return this;
+    }
+
+    public Video getVideo() {
+        return video;
+    }
+
+    public Message setVideo(Video video) {
+        this.video = video;
+        return this;
+    }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public Message setContact(Contact contact) {
+        this.contact = contact;
+        return this;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public Message setLocation(Location location) {
+        this.location = location;
+        return this;
+    }
+
+    public Venue getVenue() {
+        return venue;
+    }
+
+    public Message setVenue(Venue venue) {
+        this.venue = venue;
+        return this;
+    }
+
+    public Message getPinnedMessage() {
+        return pinnedMessage;
+    }
+
+    public Message setPinnedMessage(Message pinnedMessage) {
+        this.pinnedMessage = pinnedMessage;
+        return this;
+    }
+
+    public User getNewChatMember() {
+        return newChatMember;
+    }
+
+    public Message setNewChatMember(User newChatMember) {
+        this.newChatMember = newChatMember;
+        return this;
+    }
+
+    public User getLeftChatMember() {
+        return leftChatMember;
+    }
+
+    public Message setLeftChatMember(User leftChatMember) {
+        this.leftChatMember = leftChatMember;
+        return this;
+    }
+
+    public String getNewChatTitle() {
+        return newChatTitle;
+    }
+
+    public Message setNewChatTitle(String newChatTitle) {
+        this.newChatTitle = newChatTitle;
+        return this;
+    }
+
+    public List<PhotoSize> getNewChatPhoto() {
+        return newChatPhoto;
+    }
+
+    public Message setNewChatPhoto(List<PhotoSize> newChatPhoto) {
+        this.newChatPhoto = newChatPhoto;
+        return this;
+    }
+
+    public Boolean getDeleteChatPhoto() {
+        return deleteChatPhoto;
+    }
+
+    public Message setDeleteChatPhoto(Boolean deleteChatPhoto) {
+        this.deleteChatPhoto = deleteChatPhoto;
+        return this;
+    }
+
+    public Boolean getGroupchatCreated() {
+        return groupchatCreated;
+    }
+
+    public Message setGroupchatCreated(Boolean groupchatCreated) {
+        this.groupchatCreated = groupchatCreated;
+        return this;
+    }
+
+    public Message getReplyToMessage() {
+        return replyToMessage;
+    }
+
+    public Message setReplyToMessage(Message replyToMessage) {
+        this.replyToMessage = replyToMessage;
+        return this;
+    }
+
+    public Voice getVoice() {
+        return voice;
+    }
+
+    public Message setVoice(Voice voice) {
+        this.voice = voice;
+        return this;
+    }
+
+    public Boolean getSuperGroupCreated() {
+        return superGroupCreated;
+    }
+
+    public Message setSuperGroupCreated(Boolean superGroupCreated) {
+        this.superGroupCreated = superGroupCreated;
+        return this;
+    }
+
+    public Boolean getChannelChatCreated() {
+        return channelChatCreated;
+    }
+
+    public Message setChannelChatCreated(Boolean channelChatCreated) {
+        this.channelChatCreated = channelChatCreated;
+        return this;
+    }
+
+    public Long getMigrateToChatId() {
+        return migrateToChatId;
+    }
+
+    public Message setMigrateToChatId(Long migrateToChatId) {
+        this.migrateToChatId = migrateToChatId;
+        return this;
+    }
+
+    public Long getMigrateFromChatId() {
+        return migrateFromChatId;
+    }
+
+    public Message setMigrateFromChatId(Long migrateFromChatId) {
+        this.migrateFromChatId = migrateFromChatId;
+        return this;
     }
 
     public boolean isGroupMessage() {
@@ -259,160 +496,12 @@ public class Message implements IBotApiObject {
         return chat.getId();
     }
 
-    public Chat getChat() {
-        return chat;
-    }
-
-    public void setChat(Chat chat) {
-        this.chat = chat;
-    }
-
-    public User getForwardFrom() {
-        return forwardFrom;
-    }
-
-    public void setForwardFrom(User forwardFrom) {
-        this.forwardFrom = forwardFrom;
-    }
-
-    public Integer getForwardDate() {
-        return forwardDate;
-    }
-
-    public void setForwardDate(Integer forwardDate) {
-        this.forwardDate = forwardDate;
-    }
-
     public boolean hasText() {
         return text != null && !text.isEmpty();
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public Audio getAudio() {
-        return audio;
-    }
-
-    public void setAudio(Audio audio) {
-        this.audio = audio;
-    }
-
     public boolean hasDocument() {
         return this.document != null;
-    }
-
-    public Document getDocument() {
-        return document;
-    }
-
-    public void setDocument(Document document) {
-        this.document = document;
-    }
-
-    public List<PhotoSize> getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(List<PhotoSize> photo) {
-        this.photo = photo;
-    }
-
-    public Sticker getSticker() {
-        return sticker;
-    }
-
-    public void setSticker(Sticker sticker) {
-        this.sticker = sticker;
-    }
-
-    public Video getVideo() {
-        return video;
-    }
-
-    public void setVideo(Video video) {
-        this.video = video;
-    }
-
-    public Contact getContact() {
-        return contact;
-    }
-
-    public void setContact(Contact contact) {
-        this.contact = contact;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-    public User getNewChatMember() {
-        return newChatMember;
-    }
-
-    public void setNewChatMember(User newChatMember) {
-        this.newChatMember = newChatMember;
-    }
-
-    public User getLeftChatMember() {
-        return leftChatMember;
-    }
-
-    public void setLeftChatMember(User leftChatMember) {
-        this.leftChatMember = leftChatMember;
-    }
-
-    public String getNewChatTitle() {
-        return newChatTitle;
-    }
-
-    public void setNewChatTitle(String newChatTitle) {
-        this.newChatTitle = newChatTitle;
-    }
-
-    public List<PhotoSize> getNewChatPhoto() {
-        return newChatPhoto;
-    }
-
-    public void setNewChatPhoto(List<PhotoSize> newChatPhoto) {
-        this.newChatPhoto = newChatPhoto;
-    }
-
-    public Boolean getDeleteChatPhoto() {
-        return deleteChatPhoto;
-    }
-
-    public void setDeleteChatPhoto(Boolean deleteChatPhoto) {
-        this.deleteChatPhoto = deleteChatPhoto;
-    }
-
-    public Boolean getGroupchatCreated() {
-        return groupchatCreated;
-    }
-
-    public void setGroupchatCreated(Boolean groupchatCreated) {
-        this.groupchatCreated = groupchatCreated;
-    }
-
-    public boolean hasReplayMessage() {
-        return replyToMessage != null;
-    }
-
-    public Message getReplyToMessage() {
-        return replyToMessage;
-    }
-
-    public void setReplyToMessage(Message replyToMessage) {
-        this.replyToMessage = replyToMessage;
     }
 
     public boolean isReply() {
@@ -421,46 +510,6 @@ public class Message implements IBotApiObject {
 
     public boolean hasLocation() {
         return location != null;
-    }
-
-    public Voice getVoice() {
-        return voice;
-    }
-
-    public void setVoice(Voice voice) {
-        this.voice = voice;
-    }
-
-    public Boolean getSuperGroupCreated() {
-        return superGroupCreated;
-    }
-
-    public void setSuperGroupCreated(Boolean superGroupCreated) {
-        this.superGroupCreated = superGroupCreated;
-    }
-
-    public Boolean getChannelChatCreated() {
-        return channelChatCreated;
-    }
-
-    public void setChannelChatCreated(Boolean channelChatCreated) {
-        this.channelChatCreated = channelChatCreated;
-    }
-
-    public Long getMigrateToChatId() {
-        return migrateToChatId;
-    }
-
-    public void setMigrateToChatId(Long migrateToChatId) {
-        this.migrateToChatId = migrateToChatId;
-    }
-
-    public Long getMigrateFromChatId() {
-        return migrateFromChatId;
-    }
-
-    public void setMigrateFromChatId(Long migrateFromChatId) {
-        this.migrateFromChatId = migrateFromChatId;
     }
 
     @Override

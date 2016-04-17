@@ -43,24 +43,27 @@ public class GetUpdates implements IToJson {
         return offset;
     }
 
-    public void setOffset(Integer offset) {
+    public GetUpdates setOffset(Integer offset) {
         this.offset = offset;
+        return this;
     }
 
     public Integer getLimit() {
         return limit;
     }
 
-    public void setLimit(Integer limit) {
+    public GetUpdates setLimit(Integer limit) {
         this.limit = limit;
+        return this;
     }
 
     public Integer getTimeout() {
         return timeout;
     }
 
-    public void setTimeout(Integer timeout) {
+    public GetUpdates setTimeout(Integer timeout) {
         this.timeout = timeout;
+        return this;
     }
 
     @Override

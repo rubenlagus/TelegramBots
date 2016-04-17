@@ -62,72 +62,81 @@ public class InlineQueryResultContact implements InlineQueryResult {
         return id;
     }
 
-    public void setId(String id) {
+    public InlineQueryResultContact setId(String id) {
         this.id = id;
-    }
-
-    public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
-    }
-
-    public void setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public void setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
-    }
-
-    public Integer getThumbWidth() {
-        return thumbWidth;
-    }
-
-    public void setThumbWidth(Integer thumbWidth) {
-        this.thumbWidth = thumbWidth;
-    }
-
-    public Integer getThumbHeight() {
-        return thumbHeight;
-    }
-
-    public void setThumbHeight(Integer thumbHeight) {
-        this.thumbHeight = thumbHeight;
-    }
-
-    public String getThumbUrl() {
-        return thumbUrl;
-    }
-
-    public void setThumbUrl(String thumbUrl) {
-        this.thumbUrl = thumbUrl;
+        return this;
     }
 
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public InlineQueryResultContact setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+        return this;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public InlineQueryResultContact setFirstName(String firstName) {
         this.firstName = firstName;
+        return this;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public InlineQueryResultContact setLastName(String lastName) {
         this.lastName = lastName;
+        return this;
+    }
+
+    public InlineKeyboardMarkup getReplyMarkup() {
+        return replyMarkup;
+    }
+
+    public InlineQueryResultContact setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
+        this.replyMarkup = replyMarkup;
+        return this;
+    }
+
+    public InputMessageContent getInputMessageContent() {
+        return inputMessageContent;
+    }
+
+    public InlineQueryResultContact setInputMessageContent(InputMessageContent inputMessageContent) {
+        this.inputMessageContent = inputMessageContent;
+        return this;
+    }
+
+    public String getThumbUrl() {
+        return thumbUrl;
+    }
+
+    public InlineQueryResultContact setThumbUrl(String thumbUrl) {
+        this.thumbUrl = thumbUrl;
+        return this;
+    }
+
+    public Integer getThumbWidth() {
+        return thumbWidth;
+    }
+
+    public InlineQueryResultContact setThumbWidth(Integer thumbWidth) {
+        this.thumbWidth = thumbWidth;
+        return this;
+    }
+
+    public Integer getThumbHeight() {
+        return thumbHeight;
+    }
+
+    public InlineQueryResultContact setThumbHeight(Integer thumbHeight) {
+        this.thumbHeight = thumbHeight;
+        return this;
     }
 
     @Override

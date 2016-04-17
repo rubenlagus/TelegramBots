@@ -64,20 +64,45 @@ public class ChosenInlineQuery implements IBotApiObject {
         return resultId;
     }
 
+    public ChosenInlineQuery setResultId(String resultId) {
+        this.resultId = resultId;
+        return this;
+    }
+
     public User getFrom() {
         return from;
     }
 
-    public String getQuery() {
-        return query;
+    public ChosenInlineQuery setFrom(User from) {
+        this.from = from;
+        return this;
     }
 
     public Location getLocation() {
         return location;
     }
 
+    public ChosenInlineQuery setLocation(Location location) {
+        this.location = location;
+        return this;
+    }
+
     public String getInlineMessageId() {
         return inlineMessageId;
+    }
+
+    public ChosenInlineQuery setInlineMessageId(String inlineMessageId) {
+        this.inlineMessageId = inlineMessageId;
+        return this;
+    }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public ChosenInlineQuery setQuery(String query) {
+        this.query = query;
+        return this;
     }
 
     @Override

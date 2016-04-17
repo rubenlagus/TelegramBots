@@ -37,8 +37,9 @@ public class InlineKeyboardMarkup implements ReplyKeyboard {
         return keyboard;
     }
 
-    public void setKeyboard(List<List<InlineKeyboardButton>> keyboard) {
+    public InlineKeyboardMarkup setKeyboard(List<List<InlineKeyboardButton>> keyboard) {
         this.keyboard = keyboard;
+        return this;
     }
 
     @Override

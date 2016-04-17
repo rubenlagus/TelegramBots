@@ -55,40 +55,45 @@ public class PhotoSize implements IBotApiObject {
         return fileId;
     }
 
-    public void setFileId(String fileId) {
+    public PhotoSize setFileId(String fileId) {
         this.fileId = fileId;
+        return this;
     }
 
     public Integer getWidth() {
         return width;
     }
 
-    public void setWidth(Integer width) {
+    public PhotoSize setWidth(Integer width) {
         this.width = width;
+        return this;
     }
 
     public Integer getHeight() {
         return height;
     }
 
-    public void setHeight(Integer height) {
+    public PhotoSize setHeight(Integer height) {
         this.height = height;
+        return this;
     }
 
     public Integer getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(Integer fileSize) {
+    public PhotoSize setFileSize(Integer fileSize) {
         this.fileSize = fileSize;
+        return this;
     }
 
     public String getFilePath() {
         return filePath;
     }
 
-    public void setFilePath(String filePath) {
+    public PhotoSize setFilePath(String filePath) {
         this.filePath = filePath;
+        return this;
     }
 
     @Override

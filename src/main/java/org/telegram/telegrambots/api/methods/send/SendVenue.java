@@ -49,76 +49,86 @@ public class SendVenue extends BotApiMethod<Message> {
         return chatId;
     }
 
-    public void setChatId(String chatId) {
+    public SendVenue setChatId(String chatId) {
         this.chatId = chatId;
+        return this;
     }
 
     public Float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Float latitude) {
+    public SendVenue setLatitude(Float latitude) {
         this.latitude = latitude;
+        return this;
     }
 
     public Float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Float longitude) {
+    public SendVenue setLongitude(Float longitude) {
         this.longitude = longitude;
+        return this;
     }
 
     public Integer getReplayToMessageId() {
         return replayToMessageId;
     }
 
-    public void setReplayToMessageId(Integer replayToMessageId) {
+    public SendVenue setReplayToMessageId(Integer replayToMessageId) {
         this.replayToMessageId = replayToMessageId;
+        return this;
     }
 
     public ReplyKeyboard getReplayMarkup() {
         return replayMarkup;
     }
 
-    public void setReplayMarkup(ReplyKeyboard replayMarkup) {
+    public SendVenue setReplayMarkup(ReplyKeyboard replayMarkup) {
         this.replayMarkup = replayMarkup;
+        return this;
     }
 
     public Boolean getDisableNotification() {
         return disableNotification;
     }
 
-    public void enableNotification() {
+    public SendVenue enableNotification() {
         this.disableNotification = false;
+        return this;
     }
 
-    public void disableNotification() {
+    public SendVenue disableNotification() {
         this.disableNotification = true;
+        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public SendVenue setTitle(String title) {
         this.title = title;
+        return this;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public SendVenue setAddress(String address) {
         this.address = address;
+        return this;
     }
 
     public String getFoursquareId() {
         return foursquareId;
     }
 
-    public void setFoursquareId(String foursquareId) {
+    public SendVenue setFoursquareId(String foursquareId) {
         this.foursquareId = foursquareId;
+        return this;
     }
 
     @Override

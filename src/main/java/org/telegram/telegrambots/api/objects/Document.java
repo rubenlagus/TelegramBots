@@ -59,40 +59,45 @@ public class Document implements IBotApiObject {
         return fileId;
     }
 
-    public void setFileId(String fileId) {
+    public Document setFileId(String fileId) {
         this.fileId = fileId;
+        return this;
     }
 
     public PhotoSize getThumb() {
         return thumb;
     }
 
-    public void setThumb(PhotoSize thumb) {
+    public Document setThumb(PhotoSize thumb) {
         this.thumb = thumb;
+        return this;
     }
 
     public String getFileName() {
         return fileName;
     }
 
-    public void setFileName(String fileName) {
+    public Document setFileName(String fileName) {
         this.fileName = fileName;
+        return this;
     }
 
     public String getMimeType() {
         return mimeType;
     }
 
-    public void setMimeType(String mimeType) {
+    public Document setMimeType(String mimeType) {
         this.mimeType = mimeType;
+        return this;
     }
 
     public Integer getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(Integer fileSize) {
+    public Document setFileSize(Integer fileSize) {
         this.fileSize = fileSize;
+        return this;
     }
 
     @Override

@@ -60,72 +60,81 @@ public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
         return id;
     }
 
-    public void setId(String id) {
+    public InlineQueryResultMpeg4Gif setId(String id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
-    }
-
-    public void setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public void setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        return this;
     }
 
     public String getMpeg4Url() {
         return mpeg4Url;
     }
 
-    public void setMpeg4Url(String mpeg4Url) {
+    public InlineQueryResultMpeg4Gif setMpeg4Url(String mpeg4Url) {
         this.mpeg4Url = mpeg4Url;
+        return this;
     }
 
     public Integer getMpeg4Width() {
         return mpeg4Width;
     }
 
-    public void setMpeg4Width(Integer mpeg4Width) {
+    public InlineQueryResultMpeg4Gif setMpeg4Width(Integer mpeg4Width) {
         this.mpeg4Width = mpeg4Width;
+        return this;
     }
 
     public Integer getMpeg4Height() {
         return mpeg4Height;
     }
 
-    public void setMpeg4Height(Integer mpeg4Height) {
+    public InlineQueryResultMpeg4Gif setMpeg4Height(Integer mpeg4Height) {
         this.mpeg4Height = mpeg4Height;
+        return this;
     }
 
     public String getThumbUrl() {
         return thumbUrl;
     }
 
-    public void setThumbUrl(String thumbUrl) {
+    public InlineQueryResultMpeg4Gif setThumbUrl(String thumbUrl) {
         this.thumbUrl = thumbUrl;
+        return this;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public InlineQueryResultMpeg4Gif setTitle(String title) {
+        this.title = title;
+        return this;
     }
 
     public String getCaption() {
         return caption;
     }
 
-    public void setCaption(String caption) {
+    public InlineQueryResultMpeg4Gif setCaption(String caption) {
         this.caption = caption;
+        return this;
+    }
+
+    public InputMessageContent getInputMessageContent() {
+        return inputMessageContent;
+    }
+
+    public InlineQueryResultMpeg4Gif setInputMessageContent(InputMessageContent inputMessageContent) {
+        this.inputMessageContent = inputMessageContent;
+        return this;
+    }
+
+    public InlineKeyboardMarkup getReplyMarkup() {
+        return replyMarkup;
+    }
+
+    public InlineQueryResultMpeg4Gif setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
+        this.replyMarkup = replyMarkup;
+        return this;
     }
 
     @Override

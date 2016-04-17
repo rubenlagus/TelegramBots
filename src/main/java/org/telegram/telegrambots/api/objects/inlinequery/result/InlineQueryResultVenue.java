@@ -67,88 +67,99 @@ public class InlineQueryResultVenue implements InlineQueryResult {
         return id;
     }
 
-    public void setId(String id) {
+    public InlineQueryResultVenue setId(String id) {
         this.id = id;
+        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public InlineQueryResultVenue setTitle(String title) {
         this.title = title;
-    }
-
-    public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
-    }
-
-    public void setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public void setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        return this;
     }
 
     public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public InlineQueryResultVenue setLatitude(String latitude) {
         this.latitude = latitude;
+        return this;
     }
 
     public String getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public InlineQueryResultVenue setLongitude(String longitude) {
         this.longitude = longitude;
-    }
-
-    public Integer getThumbWidth() {
-        return thumbWidth;
-    }
-
-    public void setThumbWidth(Integer thumbWidth) {
-        this.thumbWidth = thumbWidth;
-    }
-
-    public Integer getThumbHeight() {
-        return thumbHeight;
-    }
-
-    public void setThumbHeight(Integer thumbHeight) {
-        this.thumbHeight = thumbHeight;
-    }
-
-    public String getThumbUrl() {
-        return thumbUrl;
-    }
-
-    public void setThumbUrl(String thumbUrl) {
-        this.thumbUrl = thumbUrl;
+        return this;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public InlineQueryResultVenue setAddress(String address) {
         this.address = address;
+        return this;
     }
 
     public String getFoursquareId() {
         return foursquareId;
     }
 
-    public void setFoursquareId(String foursquareId) {
+    public InlineQueryResultVenue setFoursquareId(String foursquareId) {
         this.foursquareId = foursquareId;
+        return this;
+    }
+
+    public InlineKeyboardMarkup getReplyMarkup() {
+        return replyMarkup;
+    }
+
+    public InlineQueryResultVenue setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
+        this.replyMarkup = replyMarkup;
+        return this;
+    }
+
+    public InputMessageContent getInputMessageContent() {
+        return inputMessageContent;
+    }
+
+    public InlineQueryResultVenue setInputMessageContent(InputMessageContent inputMessageContent) {
+        this.inputMessageContent = inputMessageContent;
+        return this;
+    }
+
+    public String getThumbUrl() {
+        return thumbUrl;
+    }
+
+    public InlineQueryResultVenue setThumbUrl(String thumbUrl) {
+        this.thumbUrl = thumbUrl;
+        return this;
+    }
+
+    public Integer getThumbWidth() {
+        return thumbWidth;
+    }
+
+    public InlineQueryResultVenue setThumbWidth(Integer thumbWidth) {
+        this.thumbWidth = thumbWidth;
+        return this;
+    }
+
+    public Integer getThumbHeight() {
+        return thumbHeight;
+    }
+
+    public InlineQueryResultVenue setThumbHeight(Integer thumbHeight) {
+        this.thumbHeight = thumbHeight;
+        return this;
     }
 
     @Override

@@ -55,56 +55,63 @@ public class InlineQueryResultCachedVideo implements InlineQueryResult {
         return id;
     }
 
-    public void setId(String id) {
+    public InlineQueryResultCachedVideo setId(String id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
-    }
-
-    public void setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public void setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        return this;
     }
 
     public String getVideoFileId() {
         return videoFileId;
     }
 
-    public void setVideoFileId(String videoFileId) {
+    public InlineQueryResultCachedVideo setVideoFileId(String videoFileId) {
         this.videoFileId = videoFileId;
+        return this;
     }
 
-    public String getCaption() {
-        return caption;
+    public String getTitle() {
+        return title;
     }
 
-    public void setCaption(String caption) {
-        this.caption = caption;
+    public InlineQueryResultCachedVideo setTitle(String title) {
+        this.title = title;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public InlineQueryResultCachedVideo setDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    public String getCaption() {
+        return caption;
+    }
+
+    public InlineQueryResultCachedVideo setCaption(String caption) {
+        this.caption = caption;
+        return this;
+    }
+
+    public InputMessageContent getInputMessageContent() {
+        return inputMessageContent;
+    }
+
+    public InlineQueryResultCachedVideo setInputMessageContent(InputMessageContent inputMessageContent) {
+        this.inputMessageContent = inputMessageContent;
+        return this;
+    }
+
+    public InlineKeyboardMarkup getReplyMarkup() {
+        return replyMarkup;
+    }
+
+    public InlineQueryResultCachedVideo setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
+        this.replyMarkup = replyMarkup;
+        return this;
     }
 
     @Override

@@ -67,32 +67,36 @@ public class InlineKeyboardButton implements IBotApiObject, IToJson {
         return text;
     }
 
-    public void setText(String text) {
+    public InlineKeyboardButton setText(String text) {
         this.text = text;
+        return this;
     }
 
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
+    public InlineKeyboardButton setUrl(String url) {
         this.url = url;
+        return this;
     }
 
     public String getCallbackData() {
         return callbackData;
     }
 
-    public void setCallbackData(String callbackData) {
+    public InlineKeyboardButton setCallbackData(String callbackData) {
         this.callbackData = callbackData;
+        return this;
     }
 
     public String getSwitchInlineQuery() {
         return switchInlineQuery;
     }
 
-    public void setSwitchInlineQuery(String switchInlineQuery) {
+    public InlineKeyboardButton setSwitchInlineQuery(String switchInlineQuery) {
         this.switchInlineQuery = switchInlineQuery;
+        return this;
     }
 
     @Override
