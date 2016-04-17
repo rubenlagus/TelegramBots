@@ -39,18 +39,8 @@ public class Location implements IBotApiObject {
         return longitude;
     }
 
-    public Location setLongitude(Double longitude) {
-        this.longitude = longitude;
-        return this;
-    }
-
     public Double getLatitude() {
         return latitude;
-    }
-
-    public Location setLatitude(Double latitude) {
-        this.latitude = latitude;
-        return this;
     }
 
     @Override

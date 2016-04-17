@@ -64,63 +64,28 @@ public class Video implements IBotApiObject {
         return fileId;
     }
 
-    public Video setFileId(String fileId) {
-        this.fileId = fileId;
-        return this;
-    }
-
     public Integer getWidth() {
         return width;
-    }
-
-    public Video setWidth(Integer width) {
-        this.width = width;
-        return this;
     }
 
     public Integer getHeight() {
         return height;
     }
 
-    public Video setHeight(Integer height) {
-        this.height = height;
-        return this;
-    }
-
     public Integer getDuration() {
         return duration;
-    }
-
-    public Video setDuration(Integer duration) {
-        this.duration = duration;
-        return this;
     }
 
     public PhotoSize getThumb() {
         return thumb;
     }
 
-    public Video setThumb(PhotoSize thumb) {
-        this.thumb = thumb;
-        return this;
-    }
-
     public String getMimeType() {
         return mimeType;
     }
 
-    public Video setMimeType(String mimeType) {
-        this.mimeType = mimeType;
-        return this;
-    }
-
     public Integer getFileSize() {
         return fileSize;
-    }
-
-    public Video setFileSize(Integer fileSize) {
-        this.fileSize = fileSize;
-        return this;
     }
 
     @Override

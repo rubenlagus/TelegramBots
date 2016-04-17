@@ -219,261 +219,116 @@ public class Message implements IBotApiObject {
         return messageId;
     }
 
-    public Message setMessageId(Integer messageId) {
-        this.messageId = messageId;
-        return this;
-    }
-
     public User getFrom() {
         return from;
-    }
-
-    public Message setFrom(User from) {
-        this.from = from;
-        return this;
     }
 
     public Integer getDate() {
         return date;
     }
 
-    public Message setDate(Integer date) {
-        this.date = date;
-        return this;
-    }
-
     public Chat getChat() {
         return chat;
-    }
-
-    public Message setChat(Chat chat) {
-        this.chat = chat;
-        return this;
     }
 
     public User getForwardFrom() {
         return forwardFrom;
     }
 
-    public Message setForwardFrom(User forwardFrom) {
-        this.forwardFrom = forwardFrom;
-        return this;
-    }
-
     public Integer getForwardDate() {
         return forwardDate;
-    }
-
-    public Message setForwardDate(Integer forwardDate) {
-        this.forwardDate = forwardDate;
-        return this;
     }
 
     public String getText() {
         return text;
     }
 
-    public Message setText(String text) {
-        this.text = text;
-        return this;
-    }
-
     public List<MessageEntity> getEntities() {
         return entities;
-    }
-
-    public Message setEntities(List<MessageEntity> entities) {
-        this.entities = entities;
-        return this;
     }
 
     public Audio getAudio() {
         return audio;
     }
 
-    public Message setAudio(Audio audio) {
-        this.audio = audio;
-        return this;
-    }
-
     public Document getDocument() {
         return document;
-    }
-
-    public Message setDocument(Document document) {
-        this.document = document;
-        return this;
     }
 
     public List<PhotoSize> getPhoto() {
         return photo;
     }
 
-    public Message setPhoto(List<PhotoSize> photo) {
-        this.photo = photo;
-        return this;
-    }
-
     public Sticker getSticker() {
         return sticker;
-    }
-
-    public Message setSticker(Sticker sticker) {
-        this.sticker = sticker;
-        return this;
     }
 
     public Video getVideo() {
         return video;
     }
 
-    public Message setVideo(Video video) {
-        this.video = video;
-        return this;
-    }
-
     public Contact getContact() {
         return contact;
-    }
-
-    public Message setContact(Contact contact) {
-        this.contact = contact;
-        return this;
     }
 
     public Location getLocation() {
         return location;
     }
 
-    public Message setLocation(Location location) {
-        this.location = location;
-        return this;
-    }
-
     public Venue getVenue() {
         return venue;
-    }
-
-    public Message setVenue(Venue venue) {
-        this.venue = venue;
-        return this;
     }
 
     public Message getPinnedMessage() {
         return pinnedMessage;
     }
 
-    public Message setPinnedMessage(Message pinnedMessage) {
-        this.pinnedMessage = pinnedMessage;
-        return this;
-    }
-
     public User getNewChatMember() {
         return newChatMember;
-    }
-
-    public Message setNewChatMember(User newChatMember) {
-        this.newChatMember = newChatMember;
-        return this;
     }
 
     public User getLeftChatMember() {
         return leftChatMember;
     }
 
-    public Message setLeftChatMember(User leftChatMember) {
-        this.leftChatMember = leftChatMember;
-        return this;
-    }
-
     public String getNewChatTitle() {
         return newChatTitle;
-    }
-
-    public Message setNewChatTitle(String newChatTitle) {
-        this.newChatTitle = newChatTitle;
-        return this;
     }
 
     public List<PhotoSize> getNewChatPhoto() {
         return newChatPhoto;
     }
 
-    public Message setNewChatPhoto(List<PhotoSize> newChatPhoto) {
-        this.newChatPhoto = newChatPhoto;
-        return this;
-    }
-
     public Boolean getDeleteChatPhoto() {
         return deleteChatPhoto;
-    }
-
-    public Message setDeleteChatPhoto(Boolean deleteChatPhoto) {
-        this.deleteChatPhoto = deleteChatPhoto;
-        return this;
     }
 
     public Boolean getGroupchatCreated() {
         return groupchatCreated;
     }
 
-    public Message setGroupchatCreated(Boolean groupchatCreated) {
-        this.groupchatCreated = groupchatCreated;
-        return this;
-    }
-
     public Message getReplyToMessage() {
         return replyToMessage;
-    }
-
-    public Message setReplyToMessage(Message replyToMessage) {
-        this.replyToMessage = replyToMessage;
-        return this;
     }
 
     public Voice getVoice() {
         return voice;
     }
 
-    public Message setVoice(Voice voice) {
-        this.voice = voice;
-        return this;
-    }
-
     public Boolean getSuperGroupCreated() {
         return superGroupCreated;
-    }
-
-    public Message setSuperGroupCreated(Boolean superGroupCreated) {
-        this.superGroupCreated = superGroupCreated;
-        return this;
     }
 
     public Boolean getChannelChatCreated() {
         return channelChatCreated;
     }
 
-    public Message setChannelChatCreated(Boolean channelChatCreated) {
-        this.channelChatCreated = channelChatCreated;
-        return this;
-    }
-
     public Long getMigrateToChatId() {
         return migrateToChatId;
     }
 
-    public Message setMigrateToChatId(Long migrateToChatId) {
-        this.migrateToChatId = migrateToChatId;
-        return this;
-    }
-
     public Long getMigrateFromChatId() {
         return migrateFromChatId;
-    }
-
-    public Message setMigrateFromChatId(Long migrateFromChatId) {
-        this.migrateFromChatId = migrateFromChatId;
-        return this;
     }
 
     public boolean isGroupMessage() {

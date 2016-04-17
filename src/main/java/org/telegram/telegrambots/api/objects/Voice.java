@@ -50,36 +50,16 @@ public class Voice implements IBotApiObject {
         return fileId;
     }
 
-    public Voice setFileId(String fileId) {
-        this.fileId = fileId;
-        return this;
-    }
-
     public Integer getDuration() {
         return duration;
-    }
-
-    public Voice setDuration(Integer duration) {
-        this.duration = duration;
-        return this;
     }
 
     public String getMimeType() {
         return mimeType;
     }
 
-    public Voice setMimeType(String mimeType) {
-        this.mimeType = mimeType;
-        return this;
-    }
-
     public Integer getFileSize() {
         return fileSize;
-    }
-
-    public Voice setFileSize(Integer fileSize) {
-        this.fileSize = fileSize;
-        return this;
     }
 
     @Override

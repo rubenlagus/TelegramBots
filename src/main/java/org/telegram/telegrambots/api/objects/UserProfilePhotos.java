@@ -53,18 +53,8 @@ public class UserProfilePhotos implements IBotApiObject {
         return totalCount;
     }
 
-    public UserProfilePhotos setTotalCount(Integer totalCount) {
-        this.totalCount = totalCount;
-        return this;
-    }
-
     public List<List<PhotoSize>> getPhotos() {
         return photos;
-    }
-
-    public UserProfilePhotos setPhotos(List<List<PhotoSize>> photos) {
-        this.photos = photos;
-        return this;
     }
 
     @Override

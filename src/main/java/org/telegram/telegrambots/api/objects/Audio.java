@@ -63,54 +63,24 @@ public class Audio implements IBotApiObject {
         return fileId;
     }
 
-    public Audio setFileId(String fileId) {
-        this.fileId = fileId;
-        return this;
-    }
-
     public Integer getDuration() {
         return duration;
-    }
-
-    public Audio setDuration(Integer duration) {
-        this.duration = duration;
-        return this;
     }
 
     public String getMimeType() {
         return mimeType;
     }
 
-    public Audio setMimeType(String mimeType) {
-        this.mimeType = mimeType;
-        return this;
-    }
-
     public Integer getFileSize() {
         return fileSize;
-    }
-
-    public Audio setFileSize(Integer fileSize) {
-        this.fileSize = fileSize;
-        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public Audio setTitle(String title) {
-        this.title = title;
-        return this;
-    }
-
     public String getPerformer() {
         return performer;
-    }
-
-    public Audio setPerformer(String performer) {
-        this.performer = performer;
-        return this;
     }
 
     @Override
