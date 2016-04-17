@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
  * @brief Thread to request updates with active wait
  * @date 20 of June of 2015
  */
-public class UpdatesThread {
+public class BotSession {
     private static final int SOCKET_TIMEOUT = 30 * 1000;
 
     private final ITelegramLongPollingBot callback;
@@ -40,26 +40,49 @@ public class UpdatesThread {
     private final ConcurrentLinkedDeque<Update> receivedUpdates = new ConcurrentLinkedDeque<>();
     private final String token;
     private int lastReceivedUpdate = 0;
+    private volatile boolean running = true;
+    private volatile CloseableHttpClient httpclient;
 
-    public UpdatesThread(String token, ITelegramLongPollingBot callback) {
+
+    public BotSession(String token, ITelegramLongPollingBot callback) {
         this.token = token;
         this.callback = callback;
         this.readerThread = new ReaderThread();
+        readerThread.setName(callback.getBotUsername() + " Telegram Connection");
         this.readerThread.start();
         this.handlerThread = new HandlerThread();
+        handlerThread.setName(callback.getBotUsername() + " Executor");
         this.handlerThread.start();
+    }
+    
+    public void close()
+    {
+    	running = false;
+    	if(httpclient != null)
+    	{
+    		try
+			{
+				httpclient.close();
+				httpclient = null;
+			} catch (IOException e)
+			{
+				//Ignore it
+			}
+    	}
+    	
     }
 
     private class ReaderThread extends Thread {
-        @Override
+
+		@Override
         public void run() {
             setPriority(Thread.MIN_PRIORITY);
-            while(true) {
+            while(running) {
                 GetUpdates request = new GetUpdates();
                 request.setLimit(100);
                 request.setTimeout(20);
                 request.setOffset(lastReceivedUpdate + 1);
-                CloseableHttpClient httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).setConnectionTimeToLive(20, TimeUnit.SECONDS).build();
+                httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).setConnectionTimeToLive(20, TimeUnit.SECONDS).build();
                 String url = Constants.BASEURL + token + "/" + GetUpdates.PATH;
                 //config
                 RequestConfig defaultRequestConfig = RequestConfig.custom().build();
@@ -117,7 +140,7 @@ public class UpdatesThread {
         @Override
         public void run() {
             setPriority(Thread.MIN_PRIORITY);
-            while(true) {
+            while(running) {
                 try {
                     Update update = receivedUpdates.pollLast();
                     if (update == null) {

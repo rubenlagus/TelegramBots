@@ -15,7 +15,7 @@ import org.json.JSONObject;
 import org.telegram.telegrambots.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
-import org.telegram.telegrambots.updatesreceivers.UpdatesThread;
+import org.telegram.telegrambots.updatesreceivers.BotSession;
 import org.telegram.telegrambots.updatesreceivers.Webhook;
 
 import java.io.File;
@@ -122,12 +122,12 @@ public class TelegramBotsApi {
     }
 
     /**
-     *
+     * Register a bot. The Bot Session is started immediately, and may be disconnected by calling close.
      * @param bot
      */
-    public void registerBot(TelegramLongPollingBot bot) throws TelegramApiException {
+    public BotSession registerBot(TelegramLongPollingBot bot) throws TelegramApiException {
         setWebhook(bot.getBotToken());
-        new UpdatesThread(bot.getBotToken(), bot);
+        return new BotSession(bot.getBotToken(), bot);
     }
 
     /**
