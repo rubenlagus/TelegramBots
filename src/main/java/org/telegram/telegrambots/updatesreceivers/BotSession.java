@@ -64,9 +64,7 @@ public class BotSession {
 			{
 				httpclient.close();
 				httpclient = null;
-			} catch (IOException e)
-			{
-				//Ignore it
+            } catch (IOException ignored) {
 			}
     	}
     	
