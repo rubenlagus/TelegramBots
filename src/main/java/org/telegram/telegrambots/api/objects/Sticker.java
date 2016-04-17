@@ -51,6 +51,26 @@ public class Sticker implements IBotApiObject {
         }
     }
 
+    public String getFileId() {
+        return fileId;
+    }
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public PhotoSize getThumb() {
+        return thumb;
+    }
+
+    public Integer getFileSize() {
+        return fileSize;
+    }
+
     @Override
     public void serialize(JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartObject();

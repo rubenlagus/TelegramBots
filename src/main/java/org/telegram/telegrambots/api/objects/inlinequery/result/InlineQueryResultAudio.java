@@ -56,56 +56,63 @@ public class InlineQueryResultAudio implements InlineQueryResult {
         return id;
     }
 
-    public void setId(String id) {
+    public InlineQueryResultAudio setId(String id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
-    }
-
-    public void setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public void setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        return this;
     }
 
     public String getAudioUrl() {
         return audioUrl;
     }
 
-    public void setAudioUrl(String audioUrl) {
+    public InlineQueryResultAudio setAudioUrl(String audioUrl) {
         this.audioUrl = audioUrl;
+        return this;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public InlineQueryResultAudio setTitle(String title) {
+        this.title = title;
+        return this;
     }
 
     public String getPerformer() {
         return performer;
     }
 
-    public void setPerformer(String performer) {
+    public InlineQueryResultAudio setPerformer(String performer) {
         this.performer = performer;
+        return this;
     }
 
     public Integer getAudioDuration() {
         return audioDuration;
     }
 
-    public void setAudioDuration(Integer audioDuration) {
+    public InlineQueryResultAudio setAudioDuration(Integer audioDuration) {
         this.audioDuration = audioDuration;
+        return this;
+    }
+
+    public InputMessageContent getInputMessageContent() {
+        return inputMessageContent;
+    }
+
+    public InlineQueryResultAudio setInputMessageContent(InputMessageContent inputMessageContent) {
+        this.inputMessageContent = inputMessageContent;
+        return this;
+    }
+
+    public InlineKeyboardMarkup getReplyMarkup() {
+        return replyMarkup;
+    }
+
+    public InlineQueryResultAudio setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
+        this.replyMarkup = replyMarkup;
+        return this;
     }
 
     @Override

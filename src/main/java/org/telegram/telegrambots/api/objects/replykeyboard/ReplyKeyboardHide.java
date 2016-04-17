@@ -51,16 +51,18 @@ public class ReplyKeyboardHide implements ReplyKeyboard {
         return hideKeyboard;
     }
 
-    public void setHideKeyboard(Boolean hideKeyboard) {
+    public ReplyKeyboardHide setHideKeyboard(Boolean hideKeyboard) {
         this.hideKeyboard = hideKeyboard;
+        return this;
     }
 
     public Boolean getSelective() {
         return selective;
     }
 
-    public void setSelective(Boolean selective) {
+    public ReplyKeyboardHide setSelective(Boolean selective) {
         this.selective = selective;
+        return this;
     }
 
     @Override

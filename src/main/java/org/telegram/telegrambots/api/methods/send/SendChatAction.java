@@ -37,16 +37,18 @@ public class SendChatAction extends BotApiMethod<Boolean> {
         return chatId;
     }
 
-    public void setChatId(String chatId) {
+    public SendChatAction setChatId(String chatId) {
         this.chatId = chatId;
+        return this;
     }
 
     public String getAction() {
         return action;
     }
 
-    public void setAction(String action) {
+    public SendChatAction setAction(String action) {
         this.action = action;
+        return this;
     }
 
     @Override

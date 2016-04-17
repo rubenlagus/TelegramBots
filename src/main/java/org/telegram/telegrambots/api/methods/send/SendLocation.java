@@ -42,52 +42,59 @@ public class SendLocation extends BotApiMethod<Message> {
         return chatId;
     }
 
-    public void setChatId(String chatId) {
+    public SendLocation setChatId(String chatId) {
         this.chatId = chatId;
+        return this;
     }
 
     public Float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Float latitude) {
+    public SendLocation setLatitude(Float latitude) {
         this.latitude = latitude;
+        return this;
     }
 
     public Float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Float longitude) {
+    public SendLocation setLongitude(Float longitude) {
         this.longitude = longitude;
+        return this;
     }
 
     public Integer getReplayToMessageId() {
         return replayToMessageId;
     }
 
-    public void setReplayToMessageId(Integer replayToMessageId) {
+    public SendLocation setReplayToMessageId(Integer replayToMessageId) {
         this.replayToMessageId = replayToMessageId;
+        return this;
     }
 
     public ReplyKeyboard getReplayMarkup() {
         return replayMarkup;
     }
 
-    public void setReplayMarkup(ReplyKeyboard replayMarkup) {
+    public SendLocation setReplayMarkup(ReplyKeyboard replayMarkup) {
         this.replayMarkup = replayMarkup;
+        return this;
     }
 
     public Boolean getDisableNotification() {
         return disableNotification;
     }
 
-    public void enableNotification() {
+    public SendLocation enableNotification() {
         this.disableNotification = false;
+        return this;
     }
 
-    public void disableNotification() {
+    public SendLocation disableNotification() {
         this.disableNotification = true;
+        return this;
     }
 
     @Override

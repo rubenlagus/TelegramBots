@@ -46,24 +46,12 @@ public class File implements IBotApiObject {
         return fileId;
     }
 
-    public void setFileId(String fileId) {
-        this.fileId = fileId;
-    }
-
     public Integer getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(Integer fileSize) {
-        this.fileSize = fileSize;
-    }
-
     public String getFilePath() {
         return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
     }
 
     @Override

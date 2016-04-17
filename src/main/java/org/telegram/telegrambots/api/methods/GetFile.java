@@ -36,8 +36,9 @@ public class GetFile extends BotApiMethod<File> {
         return fileId;
     }
 
-    public void setFileId(String fileId) {
+    public GetFile setFileId(String fileId) {
         this.fileId = fileId;
+        return this;
     }
 
     @Override

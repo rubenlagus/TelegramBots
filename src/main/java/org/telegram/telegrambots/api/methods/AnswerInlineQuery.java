@@ -44,56 +44,63 @@ public class AnswerInlineQuery extends BotApiMethod<Boolean> {
         return inlineQueryId;
     }
 
-    public void setInlineQueryId(String inlineQueryId) {
+    public AnswerInlineQuery setInlineQueryId(String inlineQueryId) {
         this.inlineQueryId = inlineQueryId;
+        return this;
     }
 
     public List<InlineQueryResult> getResults() {
         return results;
     }
 
-    public void setResults(List<InlineQueryResult> results) {
+    public AnswerInlineQuery setResults(List<InlineQueryResult> results) {
         this.results = results;
+        return this;
     }
 
     public Integer getCacheTime() {
         return cacheTime;
     }
 
-    public void setCacheTime(Integer cacheTime) {
+    public AnswerInlineQuery setCacheTime(Integer cacheTime) {
         this.cacheTime = cacheTime;
+        return this;
     }
 
     public Boolean getPersonal() {
         return isPersonal;
     }
 
-    public void setPersonal(Boolean personal) {
+    public AnswerInlineQuery setPersonal(Boolean personal) {
         isPersonal = personal;
+        return this;
     }
 
     public String getNextOffset() {
         return nextOffset;
     }
 
-    public void setNextOffset(String nextOffset) {
+    public AnswerInlineQuery setNextOffset(String nextOffset) {
         this.nextOffset = nextOffset;
+        return this;
     }
 
     public String getSwitchPmText() {
         return switchPmText;
     }
 
-    public void setSwitchPmText(String switchPmText) {
+    public AnswerInlineQuery setSwitchPmText(String switchPmText) {
         this.switchPmText = switchPmText;
+        return this;
     }
 
     public String getSwitchPmParameter() {
         return switchPmParameter;
     }
 
-    public void setSwitchPmParameter(String switchPmParameter) {
+    public AnswerInlineQuery setSwitchPmParameter(String switchPmParameter) {
         this.switchPmParameter = switchPmParameter;
+        return this;
     }
 
     @Override

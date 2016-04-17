@@ -219,24 +219,116 @@ public class Message implements IBotApiObject {
         return messageId;
     }
 
-    public void setMessageId(Integer messageId) {
-        this.messageId = messageId;
-    }
-
     public User getFrom() {
         return from;
-    }
-
-    public void setFrom(User from) {
-        this.from = from;
     }
 
     public Integer getDate() {
         return date;
     }
 
-    public void setDate(Integer date) {
-        this.date = date;
+    public Chat getChat() {
+        return chat;
+    }
+
+    public User getForwardFrom() {
+        return forwardFrom;
+    }
+
+    public Integer getForwardDate() {
+        return forwardDate;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public List<MessageEntity> getEntities() {
+        return entities;
+    }
+
+    public Audio getAudio() {
+        return audio;
+    }
+
+    public Document getDocument() {
+        return document;
+    }
+
+    public List<PhotoSize> getPhoto() {
+        return photo;
+    }
+
+    public Sticker getSticker() {
+        return sticker;
+    }
+
+    public Video getVideo() {
+        return video;
+    }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public Venue getVenue() {
+        return venue;
+    }
+
+    public Message getPinnedMessage() {
+        return pinnedMessage;
+    }
+
+    public User getNewChatMember() {
+        return newChatMember;
+    }
+
+    public User getLeftChatMember() {
+        return leftChatMember;
+    }
+
+    public String getNewChatTitle() {
+        return newChatTitle;
+    }
+
+    public List<PhotoSize> getNewChatPhoto() {
+        return newChatPhoto;
+    }
+
+    public Boolean getDeleteChatPhoto() {
+        return deleteChatPhoto;
+    }
+
+    public Boolean getGroupchatCreated() {
+        return groupchatCreated;
+    }
+
+    public Message getReplyToMessage() {
+        return replyToMessage;
+    }
+
+    public Voice getVoice() {
+        return voice;
+    }
+
+    public Boolean getSuperGroupCreated() {
+        return superGroupCreated;
+    }
+
+    public Boolean getChannelChatCreated() {
+        return channelChatCreated;
+    }
+
+    public Long getMigrateToChatId() {
+        return migrateToChatId;
+    }
+
+    public Long getMigrateFromChatId() {
+        return migrateFromChatId;
     }
 
     public boolean isGroupMessage() {
@@ -259,160 +351,12 @@ public class Message implements IBotApiObject {
         return chat.getId();
     }
 
-    public Chat getChat() {
-        return chat;
-    }
-
-    public void setChat(Chat chat) {
-        this.chat = chat;
-    }
-
-    public User getForwardFrom() {
-        return forwardFrom;
-    }
-
-    public void setForwardFrom(User forwardFrom) {
-        this.forwardFrom = forwardFrom;
-    }
-
-    public Integer getForwardDate() {
-        return forwardDate;
-    }
-
-    public void setForwardDate(Integer forwardDate) {
-        this.forwardDate = forwardDate;
-    }
-
     public boolean hasText() {
         return text != null && !text.isEmpty();
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public Audio getAudio() {
-        return audio;
-    }
-
-    public void setAudio(Audio audio) {
-        this.audio = audio;
-    }
-
     public boolean hasDocument() {
         return this.document != null;
-    }
-
-    public Document getDocument() {
-        return document;
-    }
-
-    public void setDocument(Document document) {
-        this.document = document;
-    }
-
-    public List<PhotoSize> getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(List<PhotoSize> photo) {
-        this.photo = photo;
-    }
-
-    public Sticker getSticker() {
-        return sticker;
-    }
-
-    public void setSticker(Sticker sticker) {
-        this.sticker = sticker;
-    }
-
-    public Video getVideo() {
-        return video;
-    }
-
-    public void setVideo(Video video) {
-        this.video = video;
-    }
-
-    public Contact getContact() {
-        return contact;
-    }
-
-    public void setContact(Contact contact) {
-        this.contact = contact;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-    public User getNewChatMember() {
-        return newChatMember;
-    }
-
-    public void setNewChatMember(User newChatMember) {
-        this.newChatMember = newChatMember;
-    }
-
-    public User getLeftChatMember() {
-        return leftChatMember;
-    }
-
-    public void setLeftChatMember(User leftChatMember) {
-        this.leftChatMember = leftChatMember;
-    }
-
-    public String getNewChatTitle() {
-        return newChatTitle;
-    }
-
-    public void setNewChatTitle(String newChatTitle) {
-        this.newChatTitle = newChatTitle;
-    }
-
-    public List<PhotoSize> getNewChatPhoto() {
-        return newChatPhoto;
-    }
-
-    public void setNewChatPhoto(List<PhotoSize> newChatPhoto) {
-        this.newChatPhoto = newChatPhoto;
-    }
-
-    public Boolean getDeleteChatPhoto() {
-        return deleteChatPhoto;
-    }
-
-    public void setDeleteChatPhoto(Boolean deleteChatPhoto) {
-        this.deleteChatPhoto = deleteChatPhoto;
-    }
-
-    public Boolean getGroupchatCreated() {
-        return groupchatCreated;
-    }
-
-    public void setGroupchatCreated(Boolean groupchatCreated) {
-        this.groupchatCreated = groupchatCreated;
-    }
-
-    public boolean hasReplayMessage() {
-        return replyToMessage != null;
-    }
-
-    public Message getReplyToMessage() {
-        return replyToMessage;
-    }
-
-    public void setReplyToMessage(Message replyToMessage) {
-        this.replyToMessage = replyToMessage;
     }
 
     public boolean isReply() {
@@ -421,46 +365,6 @@ public class Message implements IBotApiObject {
 
     public boolean hasLocation() {
         return location != null;
-    }
-
-    public Voice getVoice() {
-        return voice;
-    }
-
-    public void setVoice(Voice voice) {
-        this.voice = voice;
-    }
-
-    public Boolean getSuperGroupCreated() {
-        return superGroupCreated;
-    }
-
-    public void setSuperGroupCreated(Boolean superGroupCreated) {
-        this.superGroupCreated = superGroupCreated;
-    }
-
-    public Boolean getChannelChatCreated() {
-        return channelChatCreated;
-    }
-
-    public void setChannelChatCreated(Boolean channelChatCreated) {
-        this.channelChatCreated = channelChatCreated;
-    }
-
-    public Long getMigrateToChatId() {
-        return migrateToChatId;
-    }
-
-    public void setMigrateToChatId(Long migrateToChatId) {
-        this.migrateToChatId = migrateToChatId;
-    }
-
-    public Long getMigrateFromChatId() {
-        return migrateFromChatId;
-    }
-
-    public void setMigrateFromChatId(Long migrateFromChatId) {
-        this.migrateFromChatId = migrateFromChatId;
     }
 
     @Override
