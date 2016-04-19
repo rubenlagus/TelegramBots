@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
-
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -154,9 +153,9 @@ public class InlineQueryResultArticle implements InlineQueryResult {
         jsonObject.put(TYPE_FIELD, this.type);
         jsonObject.put(ID_FIELD, this.id);
         jsonObject.put(TITLE_FIELD, this.title);
-        jsonObject.put(INPUTMESSAGECONTENT_FIELD, inputMessageContent);
+        jsonObject.put(INPUTMESSAGECONTENT_FIELD, inputMessageContent.toJson());
         if (replyMarkup != null) {
-            jsonObject.put(REPLY_MARKUP_FIELD, replyMarkup);
+            jsonObject.put(REPLY_MARKUP_FIELD, replyMarkup.toJson());
         }
         if (url != null) {
             jsonObject.put(URL_FIELD, this.url);
