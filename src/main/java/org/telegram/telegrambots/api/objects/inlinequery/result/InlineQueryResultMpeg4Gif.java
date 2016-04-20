@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
-
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -141,7 +140,7 @@ public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
 
-        jsonObject.put(TYPE_FIELD, this.type);
+        jsonObject.put(TYPE_FIELD, type);
         jsonObject.put(ID_FIELD, this.id);
         jsonObject.put(MPEG4URL_FIELD, this.mpeg4Url);
         if (mpeg4Width != null) {
@@ -160,10 +159,10 @@ public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
             jsonObject.put(CAPTION_FIELD, this.caption);
         }
         if (replyMarkup != null) {
-            jsonObject.put(REPLY_MARKUP_FIELD, replyMarkup);
+            jsonObject.put(REPLY_MARKUP_FIELD, replyMarkup.toJson());
         }
         if (inputMessageContent != null) {
-            jsonObject.put(INPUTMESSAGECONTENT_FIELD, inputMessageContent);
+            jsonObject.put(INPUTMESSAGECONTENT_FIELD, inputMessageContent.toJson());
         }
 
         return jsonObject;
