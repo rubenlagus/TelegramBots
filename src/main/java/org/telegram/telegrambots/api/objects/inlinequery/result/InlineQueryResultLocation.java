@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
-
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -148,10 +147,10 @@ public class InlineQueryResultLocation implements InlineQueryResult {
         jsonObject.put(TITLE_FIELD, title);
         jsonObject.put(LONGITUDE_FIELD, longitude);
         if (replyMarkup != null) {
-            jsonObject.put(REPLY_MARKUP_FIELD, replyMarkup);
+            jsonObject.put(REPLY_MARKUP_FIELD, replyMarkup.toJson());
         }
         if (inputMessageContent != null) {
-            jsonObject.put(INPUTMESSAGECONTENT_FIELD, inputMessageContent);
+            jsonObject.put(INPUTMESSAGECONTENT_FIELD, inputMessageContent.toJson());
         }
         if (thumbUrl != null) {
             jsonObject.put(THUMBURL_FIELD, this.thumbUrl);
