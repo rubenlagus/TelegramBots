@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
@@ -119,7 +120,11 @@ public class EditMessageCaption extends BotApiMethod<Message> {
     @Override
     public Message deserializeResponse(JSONObject answer) {
         if (answer.getBoolean(Constants.RESPONSEFIELDOK)) {
-            return new Message(answer.getJSONObject(Constants.RESPONSEFIELDRESULT));
+            try {
+                return new Message(answer.getJSONObject(Constants.RESPONSEFIELDRESULT));
+            } catch (JSONException e) {
+                return new Message();
+            }
         }
         return null;
     }
