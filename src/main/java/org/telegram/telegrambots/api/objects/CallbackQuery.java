@@ -51,22 +51,6 @@ public class CallbackQuery implements IBotApiObject {
         super();
     }
 
-    public String getId() {
-        return this.id;
-    }
-
-    public User getFrom() {
-        return this.from;
-    }
-
-    public Message getMessage() {
-        return this.getMessage();
-    }
-
-    public String getInlineMessageId() {
-        return this.inlineMessageId;
-    }
-
     public CallbackQuery(JSONObject jsonObject) {
         super();
         this.id = jsonObject.getString(ID_FIELD);
@@ -78,6 +62,26 @@ public class CallbackQuery implements IBotApiObject {
             this.inlineMessageId = jsonObject.getString(INLINE_MESSAGE_ID_FIELD);
         }
         data = jsonObject.getString(DATA_FIELD);
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public User getFrom() {
+        return this.from;
+    }
+
+    public Message getMessage() {
+        return this.message;
+    }
+
+    public String getInlineMessageId() {
+        return this.inlineMessageId;
+    }
+
+    public String getData() {
+        return data;
     }
 
     @Override
