@@ -26,5 +26,12 @@ public class TelegramApiException extends Exception {
         return apiResponse;
     }
 
-
+    @Override
+    public String toString() {
+        if (apiResponse == null) {
+            return super.toString();
+        } else {
+            return super.toString() + ": " + apiResponse;
+        }
+    }
 }

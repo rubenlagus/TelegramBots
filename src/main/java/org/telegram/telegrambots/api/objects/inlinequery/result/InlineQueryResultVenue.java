@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -40,9 +41,9 @@ public class InlineQueryResultVenue implements InlineQueryResult {
     @JsonProperty(TITLE_FIELD)
     private String title; ///< Optional. Location title
     @JsonProperty(LATITUDE_FIELD)
-    private String latitude; ///< Venue latitude in degrees
+    private Float latitude; ///< Venue latitude in degrees
     @JsonProperty(LONGITUDE_FIELD)
-    private String longitude; ///< Venue longitude in degrees
+    private Float longitude; ///< Venue longitude in degrees
     @JsonProperty(ADDRESS_FIELD)
     private String address; ///< Address of the venue
     @JsonProperty(FOURSQUARE_ID_FIELD)
@@ -80,20 +81,20 @@ public class InlineQueryResultVenue implements InlineQueryResult {
         return this;
     }
 
-    public String getLatitude() {
+    public Float getLatitude() {
         return latitude;
     }
 
-    public InlineQueryResultVenue setLatitude(String latitude) {
+    public InlineQueryResultVenue setLatitude(Float latitude) {
         this.latitude = latitude;
         return this;
     }
 
-    public String getLongitude() {
+    public Float getLongitude() {
         return longitude;
     }
 
-    public InlineQueryResultVenue setLongitude(String longitude) {
+    public InlineQueryResultVenue setLongitude(Float longitude) {
         this.longitude = longitude;
         return this;
     }
@@ -196,8 +197,8 @@ public class InlineQueryResultVenue implements InlineQueryResult {
         gen.writeStartObject();
         gen.writeStringField(TYPE_FIELD, type);
         gen.writeStringField(ID_FIELD, id);
-        gen.writeStringField(LONGITUDE_FIELD, longitude);
-        gen.writeStringField(LATITUDE_FIELD, latitude);
+        gen.writeNumberField(LONGITUDE_FIELD, longitude);
+        gen.writeNumberField(LATITUDE_FIELD, latitude);
         gen.writeStringField(TITLE_FIELD, title);
         gen.writeStringField(ADDRESS_FIELD, address);
         if (foursquareId != null) {
