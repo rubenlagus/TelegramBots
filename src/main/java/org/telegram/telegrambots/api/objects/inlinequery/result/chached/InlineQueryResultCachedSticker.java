@@ -118,10 +118,10 @@ public class InlineQueryResultCachedSticker implements InlineQueryResult {
 
     @Override
     public String toString() {
-        return "InlineQueryResultCachedGif{" +
+        return "InlineQueryResultCachedSticker{" +
                 "type='" + type + '\'' +
                 ", id='" + id + '\'' +
-                ", gifUrl='" + stickerFileId + '\'' +
+                ", sticker_file_id='" + stickerFileId + '\'' +
                 ", inputMessageContent='" + inputMessageContent + '\'' +
                 ", replyMarkup='" + replyMarkup + '\'' +
                 '}';
