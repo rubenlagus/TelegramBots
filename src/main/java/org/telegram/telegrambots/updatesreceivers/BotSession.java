@@ -128,7 +128,13 @@ public class BotSession {
                         }
                     } catch (JSONException ignored) {
                     }
-                } catch (IOException ignored) {
+                } catch (Exception e) {
+                    try {
+                        synchronized (this) {
+                            this.wait(500);
+                        }
+                    } catch (InterruptedException ignored) {
+                    }
                 }
             }
         }
