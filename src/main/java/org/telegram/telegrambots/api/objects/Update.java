@@ -125,6 +125,7 @@ public class Update implements IBotApiObject {
                 ", message=" + message +
                 ", inlineQuery=" + inlineQuery +
                 ", chosenInlineQuery=" + chosenInlineQuery +
+                ", callbackQuery=" + callbackQuery +
                 '}';
     }
 }
