@@ -14,6 +14,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.telegram.telegrambots.BotLogger;
 import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.api.methods.updates.GetUpdates;
 import org.telegram.telegrambots.api.objects.Update;
@@ -32,6 +33,7 @@ import java.util.concurrent.TimeUnit;
  * @date 20 of June of 2015
  */
 public class BotSession {
+    private static final String LOGTAG = "BOTSESSION";
     private static final int SOCKET_TIMEOUT = 30 * 1000;
 
     private final ITelegramLongPollingBot callback;
@@ -64,8 +66,9 @@ public class BotSession {
 			{
 				httpclient.close();
 				httpclient = null;
-            } catch (IOException ignored) {
-			}
+            } catch (IOException e) {
+                BotLogger.severe(LOGTAG, e);
+            }
     	}
     	
     }
@@ -123,17 +126,21 @@ public class BotSession {
                                 synchronized (this) {
                                     this.wait(500);
                                 }
-                            } catch (InterruptedException ignored) {
+                            } catch (InterruptedException e) {
+                                BotLogger.severe(LOGTAG, e);
                             }
                         }
-                    } catch (JSONException ignored) {
+                    } catch (InvalidObjectException | JSONException e) {
+                        BotLogger.severe(LOGTAG, e);
                     }
-                } catch (Exception e) {
+                } catch (Exception global) {
+                    BotLogger.severe(LOGTAG, global);
                     try {
                         synchronized (this) {
                             this.wait(500);
                         }
-                    } catch (InterruptedException ignored) {
+                    } catch (InterruptedException e) {
+                        BotLogger.severe(LOGTAG, e);
                     }
                 }
             }
@@ -152,6 +159,7 @@ public class BotSession {
                             try {
                                 receivedUpdates.wait();
                             } catch (InterruptedException e) {
+                                BotLogger.severe(LOGTAG, e);
                                 continue;
                             }
                             update = receivedUpdates.pollLast();
@@ -161,7 +169,8 @@ public class BotSession {
                         }
                     }
                     callback.onUpdateReceived(update);
-                } catch (Exception ignored) {
+                } catch (Exception e) {
+                    BotLogger.severe(LOGTAG, e);
                 }
             }
         }
