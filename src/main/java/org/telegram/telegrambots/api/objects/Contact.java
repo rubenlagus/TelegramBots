@@ -47,6 +47,22 @@ public class Contact implements IBotApiObject {
         }
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public Integer getUserID() {
+        return userID;
+    }
+
     @Override
     public void serialize(JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartObject();
