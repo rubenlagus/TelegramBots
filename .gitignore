@@ -33,3 +33,7 @@ hs_err_pid*
 *.jks
 *.cer
 *.pem
+
+# IDE files
+.idea/
+*.iml
