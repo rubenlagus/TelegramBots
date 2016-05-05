@@ -1,4 +1,6 @@
 # Telegram Bot Java Library
+[![Telegram](http://trellobot.doomdns.org/telegrambadge.svg)](https://telegram.me/JavaBotsApi)
+
 A simple to use library to create Telegram Bots in Java
 
 ## Contributions
