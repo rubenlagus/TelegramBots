@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -39,9 +40,9 @@ public class InlineQueryResultLocation implements InlineQueryResult {
     @JsonProperty(TITLE_FIELD)
     private String title; ///< Optional. Location title
     @JsonProperty(LATITUDE_FIELD)
-    private String latitude; ///< Location latitude in degrees
+    private Float latitude; ///< Location latitude in degrees
     @JsonProperty(LONGITUDE_FIELD)
-    private String longitude; ///< Location longitude in degrees
+    private Float longitude; ///< Location longitude in degrees
     @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
     @JsonProperty(INPUTMESSAGECONTENT_FIELD)
@@ -75,20 +76,20 @@ public class InlineQueryResultLocation implements InlineQueryResult {
         return this;
     }
 
-    public String getLatitude() {
+    public Float getLatitude() {
         return latitude;
     }
 
-    public InlineQueryResultLocation setLatitude(String latitude) {
+    public InlineQueryResultLocation setLatitude(Float latitude) {
         this.latitude = latitude;
         return this;
     }
 
-    public String getLongitude() {
+    public Float getLongitude() {
         return longitude;
     }
 
-    public InlineQueryResultLocation setLongitude(String longitude) {
+    public InlineQueryResultLocation setLongitude(Float longitude) {
         this.longitude = longitude;
         return this;
     }
@@ -169,8 +170,8 @@ public class InlineQueryResultLocation implements InlineQueryResult {
         gen.writeStartObject();
         gen.writeStringField(TYPE_FIELD, type);
         gen.writeStringField(ID_FIELD, id);
-        gen.writeStringField(LONGITUDE_FIELD, longitude);
-        gen.writeStringField(LATITUDE_FIELD, latitude);
+        gen.writeNumberField(LONGITUDE_FIELD, longitude);
+        gen.writeNumberField(LATITUDE_FIELD, latitude);
         gen.writeStringField(TITLE_FIELD, title);
         if (replyMarkup != null) {
             gen.writeObjectField(REPLY_MARKUP_FIELD, replyMarkup);

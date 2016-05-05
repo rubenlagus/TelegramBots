@@ -1,4 +1,6 @@
 # Telegram Bot Java Library
+[![Telegram](http://trellobot.doomdns.org/telegrambadge.svg)](https://telegram.me/JavaBotsApi)
+
 A simple to use library to create Telegram Bots in Java
 
 ## Contributions
@@ -13,7 +15,7 @@ I recommend using getUpdates methods.
 
 ## Usage
 
-Just import add the library to your project using [Maven, Gradly, ...](https://jitpack.io/#rubenlagus/TelegramBots/v2.3) or download the jar(including all dependencies) from [here](https://github.com/rubenlagus/TelegramBots/releases/tag/v2.3)
+Just import add the library to your project using [Maven, Gradly, ...](https://jitpack.io/#rubenlagus/TelegramBots/v2.3.1) or download the jar(including all dependencies) from [here](https://github.com/rubenlagus/TelegramBots/releases/tag/v2.3.1)
 
 In order to use Long Polling mode, just create your own bot extending `org.telegram.telegrambots.bots.TelegramLongPollingBot`.
 
