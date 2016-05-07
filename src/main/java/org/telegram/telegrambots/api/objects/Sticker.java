@@ -23,6 +23,7 @@ public class Sticker implements IBotApiObject {
     private static final String HEIGHT_FIELD = "height";
     private static final String THUMB_FIELD = "thumb";
     private static final String FILESIZE_FIELD = "file_size";
+    private static final String EMOJI_FIELD = "emoji";
     @JsonProperty(FILEID_FIELD)
     private String fileId; ///< Unique identifier for this file
     @JsonProperty(WIDTH_FIELD)
@@ -33,6 +34,8 @@ public class Sticker implements IBotApiObject {
     private PhotoSize thumb; ///< Optional. Sticker thumbnail in .webp or .jpg format
     @JsonProperty(FILESIZE_FIELD)
     private Integer fileSize; ///< Optional. File size
+    @JsonProperty(EMOJI_FIELD)
+    private String emoji; ///< Optional. Emoji associated with the sticker
 
     public Sticker() {
         super();
@@ -48,6 +51,9 @@ public class Sticker implements IBotApiObject {
         }
         if (jsonObject.has(FILESIZE_FIELD)) {
             this.fileSize = jsonObject.getInt(FILESIZE_FIELD);
+        }
+        if (jsonObject.has(EMOJI_FIELD)) {
+            this.emoji = jsonObject.getString(EMOJI_FIELD);
         }
     }
 
@@ -71,6 +77,10 @@ public class Sticker implements IBotApiObject {
         return fileSize;
     }
 
+    public String getEmoji() {
+        return emoji;
+    }
+
     @Override
     public void serialize(JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartObject();
@@ -82,6 +92,9 @@ public class Sticker implements IBotApiObject {
         }
         if (fileSize != null) {
             gen.writeNumberField(FILESIZE_FIELD, fileSize);
+        }
+        if (emoji != null) {
+            gen.writeStringField(EMOJI_FIELD, emoji);
         }
         gen.writeEndObject();
         gen.flush();
@@ -100,6 +113,7 @@ public class Sticker implements IBotApiObject {
                 ", height=" + height +
                 ", thumb=" + thumb +
                 ", fileSize=" + fileSize +
+                ", emoji=" + emoji +
                 '}';
     }
 }

@@ -25,6 +25,7 @@ public class Message implements IBotApiObject {
     private static final String DATE_FIELD = "date";
     private static final String CHAT_FIELD = "chat";
     private static final String FORWARDFROM_FIELD = "forward_from";
+    private static final String FORWARDFROMCHAT_FIELD = "forward_from_chat";
     private static final String FORWARDDATE_FIELD = "forward_date";
     private static final String TEXT_FIELD = "text";
     private static final String ENTITIES_FIELD = "entities";
@@ -59,6 +60,8 @@ public class Message implements IBotApiObject {
     private Chat chat; ///< Conversation the message belongs to
     @JsonProperty(FORWARDFROM_FIELD)
     private User forwardFrom; ///< Optional. For forwarded messages, sender of the original message
+    @JsonProperty(FORWARDFROMCHAT_FIELD)
+    private Chat forwardedFromChat; ///< Optional. For messages forwarded from a channel, information about the original channel
     @JsonProperty(FORWARDDATE_FIELD)
     private Integer forwardDate; ///< Optional. For forwarded messages, date the original message was sent
     @JsonProperty(TEXT_FIELD)
@@ -126,6 +129,9 @@ public class Message implements IBotApiObject {
             this.date = jsonObject.getInt(DATE_FIELD);
         }
         this.chat = new Chat(jsonObject.getJSONObject(CHAT_FIELD));
+        if (jsonObject.has(FORWARDFROMCHAT_FIELD)) {
+            this.forwardedFromChat = new Chat(jsonObject.getJSONObject(FORWARDFROMCHAT_FIELD));
+        }
         if (jsonObject.has(FORWARDFROM_FIELD)) {
             this.forwardFrom = new User(jsonObject.getJSONObject(FORWARDFROM_FIELD));
         }
@@ -367,6 +373,10 @@ public class Message implements IBotApiObject {
         return location != null;
     }
 
+    public Chat getForwardedFromChat() {
+        return forwardedFromChat;
+    }
+
     @Override
     public void serialize(JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartObject();
@@ -378,6 +388,9 @@ public class Message implements IBotApiObject {
             gen.writeNumberField(DATE_FIELD, date);
         }
         gen.writeObjectField(CHAT_FIELD, chat);
+        if (forwardedFromChat != null) {
+            gen.writeObjectField(FORWARDFROMCHAT_FIELD, forwardedFromChat);
+        }
         if (forwardFrom != null) {
             gen.writeObjectField(FORWARDFROM_FIELD, forwardFrom);
         }
@@ -472,6 +485,7 @@ public class Message implements IBotApiObject {
                 ", date=" + date +
                 ", chat=" + chat +
                 ", forwardFrom=" + forwardFrom +
+                ", forwardedFromChat=" + forwardedFromChat +
                 ", forwardDate=" + forwardDate +
                 ", text='" + text + '\'' +
                 ", audio=" + audio +
