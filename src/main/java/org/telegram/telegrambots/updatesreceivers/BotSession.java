@@ -1,8 +1,8 @@
 package org.telegram.telegrambots.updatesreceivers;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.entity.BufferedHttpEntity;
@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class BotSession {
     private static final String LOGTAG = "BOTSESSION";
-    private static final int SOCKET_TIMEOUT = 30 * 1000;
+    private static final int SOCKET_TIMEOUT = 10 * 1000;
 
     private final ITelegramLongPollingBot callback;
     private final ReaderThread readerThread;
@@ -55,6 +55,10 @@ public class BotSession {
         this.handlerThread = new HandlerThread();
         handlerThread.setName(callback.getBotUsername() + " Executor");
         this.handlerThread.start();
+        httpclient = HttpClientBuilder.create()
+                .setSSLHostnameVerifier(new NoopHostnameVerifier())
+                .setConnectionTimeToLive(120, TimeUnit.SECONDS)
+                .build();
     }
     
     public void close()
@@ -79,32 +83,28 @@ public class BotSession {
         public void run() {
             setPriority(Thread.MIN_PRIORITY);
             while(running) {
-                GetUpdates request = new GetUpdates();
-                request.setLimit(100);
-                request.setTimeout(20);
-                request.setOffset(lastReceivedUpdate + 1);
-                httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).setConnectionTimeToLive(20, TimeUnit.SECONDS).build();
-                String url = Constants.BASEURL + token + "/" + GetUpdates.PATH;
-                //config
-                RequestConfig defaultRequestConfig = RequestConfig.custom().build();
-                RequestConfig requestConfig = RequestConfig.copy(defaultRequestConfig)
-                        .setSocketTimeout(SOCKET_TIMEOUT)
-                        .setConnectTimeout(SOCKET_TIMEOUT)
-                        .setConnectionRequestTimeout(SOCKET_TIMEOUT).build();
-                //http client
-                HttpPost httpPost = new HttpPost(url);
                 try {
+                    GetUpdates request = new GetUpdates();
+                    request.setLimit(100);
+                    request.setTimeout(50);
+                    request.setOffset(lastReceivedUpdate + 1);
+                    String url = Constants.BASEURL + token + "/" + GetUpdates.PATH;
+                    //config
+                    RequestConfig defaultRequestConfig = RequestConfig.custom().build();
+                    RequestConfig requestConfig = RequestConfig.copy(defaultRequestConfig)
+                            .setSocketTimeout(SOCKET_TIMEOUT)
+                            .setConnectTimeout(SOCKET_TIMEOUT)
+                            .setConnectionRequestTimeout(SOCKET_TIMEOUT).build();
+                    //http client
+                    HttpPost httpPost = new HttpPost(url);
                     httpPost.addHeader("charset", StandardCharsets.UTF_8.name());
                     httpPost.setConfig(requestConfig);
                     httpPost.setEntity(new StringEntity(request.toJson().toString(), ContentType.APPLICATION_JSON));
-                    HttpResponse response;
-                    response = httpclient.execute(httpPost);
-                    HttpEntity ht = response.getEntity();
 
-                    BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-                    String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
-
-                    try {
+                    try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
+                        HttpEntity ht = response.getEntity();
+                        BufferedHttpEntity buf = new BufferedHttpEntity(ht);
+                        String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
                         JSONObject jsonObject = new JSONObject(responseContent);
                         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
                             throw new InvalidObjectException(jsonObject.toString());

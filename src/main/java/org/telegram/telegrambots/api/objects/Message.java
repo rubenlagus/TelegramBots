@@ -61,7 +61,7 @@ public class Message implements IBotApiObject {
     @JsonProperty(FORWARDFROM_FIELD)
     private User forwardFrom; ///< Optional. For forwarded messages, sender of the original message
     @JsonProperty(FORWARDFROMCHAT_FIELD)
-    private Chat forwardedFromChat; ///< Optional. For messages forwarded from a channel, information about the original channel
+    private Chat forwardFromChat; ///< Optional. For messages forwarded from a channel, information about the original channel
     @JsonProperty(FORWARDDATE_FIELD)
     private Integer forwardDate; ///< Optional. For forwarded messages, date the original message was sent
     @JsonProperty(TEXT_FIELD)
@@ -130,7 +130,7 @@ public class Message implements IBotApiObject {
         }
         this.chat = new Chat(jsonObject.getJSONObject(CHAT_FIELD));
         if (jsonObject.has(FORWARDFROMCHAT_FIELD)) {
-            this.forwardedFromChat = new Chat(jsonObject.getJSONObject(FORWARDFROMCHAT_FIELD));
+            this.forwardFromChat = new Chat(jsonObject.getJSONObject(FORWARDFROMCHAT_FIELD));
         }
         if (jsonObject.has(FORWARDFROM_FIELD)) {
             this.forwardFrom = new User(jsonObject.getJSONObject(FORWARDFROM_FIELD));
@@ -373,8 +373,8 @@ public class Message implements IBotApiObject {
         return location != null;
     }
 
-    public Chat getForwardedFromChat() {
-        return forwardedFromChat;
+    public Chat getForwardFromChat() {
+        return forwardFromChat;
     }
 
     @Override
@@ -388,8 +388,8 @@ public class Message implements IBotApiObject {
             gen.writeNumberField(DATE_FIELD, date);
         }
         gen.writeObjectField(CHAT_FIELD, chat);
-        if (forwardedFromChat != null) {
-            gen.writeObjectField(FORWARDFROMCHAT_FIELD, forwardedFromChat);
+        if (forwardFromChat != null) {
+            gen.writeObjectField(FORWARDFROMCHAT_FIELD, forwardFromChat);
         }
         if (forwardFrom != null) {
             gen.writeObjectField(FORWARDFROM_FIELD, forwardFrom);
@@ -485,7 +485,7 @@ public class Message implements IBotApiObject {
                 ", date=" + date +
                 ", chat=" + chat +
                 ", forwardFrom=" + forwardFrom +
-                ", forwardedFromChat=" + forwardedFromChat +
+                ", forwardFromChat=" + forwardFromChat +
                 ", forwardDate=" + forwardDate +
                 ", text='" + text + '\'' +
                 ", audio=" + audio +
