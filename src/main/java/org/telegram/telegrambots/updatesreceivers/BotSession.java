@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class BotSession {
     private static final String LOGTAG = "BOTSESSION";
-    private static final int SOCKET_TIMEOUT = 10 * 1000;
+    private static final int SOCKET_TIMEOUT = 75 * 1000;
 
     private final ITelegramLongPollingBot callback;
     private final ReaderThread readerThread;
@@ -44,21 +44,27 @@ public class BotSession {
     private int lastReceivedUpdate = 0;
     private volatile boolean running = true;
     private volatile CloseableHttpClient httpclient;
+    private volatile RequestConfig requestConfig;
 
 
     public BotSession(String token, ITelegramLongPollingBot callback) {
         this.token = token;
         this.callback = callback;
+        httpclient = HttpClientBuilder.create()
+                .setSSLHostnameVerifier(new NoopHostnameVerifier())
+                .setConnectionTimeToLive(70, TimeUnit.SECONDS)
+                .setMaxConnTotal(100)
+                .build();
+        requestConfig = RequestConfig.copy(RequestConfig.custom().build())
+                .setSocketTimeout(SOCKET_TIMEOUT)
+                .setConnectTimeout(SOCKET_TIMEOUT)
+                .setConnectionRequestTimeout(SOCKET_TIMEOUT).build();
         this.readerThread = new ReaderThread();
         readerThread.setName(callback.getBotUsername() + " Telegram Connection");
         this.readerThread.start();
         this.handlerThread = new HandlerThread();
         handlerThread.setName(callback.getBotUsername() + " Executor");
         this.handlerThread.start();
-        httpclient = HttpClientBuilder.create()
-                .setSSLHostnameVerifier(new NoopHostnameVerifier())
-                .setConnectionTimeToLive(120, TimeUnit.SECONDS)
-                .build();
     }
     
     public void close()
@@ -89,12 +95,6 @@ public class BotSession {
                     request.setTimeout(50);
                     request.setOffset(lastReceivedUpdate + 1);
                     String url = Constants.BASEURL + token + "/" + GetUpdates.PATH;
-                    //config
-                    RequestConfig defaultRequestConfig = RequestConfig.custom().build();
-                    RequestConfig requestConfig = RequestConfig.copy(defaultRequestConfig)
-                            .setSocketTimeout(SOCKET_TIMEOUT)
-                            .setConnectTimeout(SOCKET_TIMEOUT)
-                            .setConnectionRequestTimeout(SOCKET_TIMEOUT).build();
                     //http client
                     HttpPost httpPost = new HttpPost(url);
                     httpPost.addHeader("charset", StandardCharsets.UTF_8.name());
