@@ -61,6 +61,7 @@ import java.util.concurrent.Executors;
  * @brief Implementation of all the methods needed to interact with Telegram Servers
  * @date 14 of January of 2016
  */
+@SuppressWarnings("unused")
 public abstract class AbsSender {
     private final ExecutorService exe = Executors.newSingleThreadExecutor();
 
@@ -244,7 +245,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(forwardMessage, sentCallback);
     }
 
-    public void sendLocationAsync(SendLocation sendLocation, SentCallback<File> sentCallback) throws TelegramApiException {
+    public void sendLocationAsync(SendLocation sendLocation, SentCallback<Message> sentCallback) throws TelegramApiException {
         if (sendLocation == null) {
             throw new TelegramApiException("Parameter sendLocation can not be null");
         }
@@ -780,7 +781,8 @@ public abstract class AbsSender {
 
     // Simplified methods
 
-    private void sendApiMethodAsync(BotApiMethod method, SentCallback callback) {
+    private <T extends Serializable, Method extends BotApiMethod<T>, Callback extends SentCallback<T>> void sendApiMethodAsync(Method method, Callback callback) {
+        //noinspection Convert2Lambda
         exe.submit(new Runnable() {
             @Override
             public void run() {
