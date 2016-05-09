@@ -219,6 +219,10 @@ public class Message implements IBotApiObject {
         if (jsonObject.has(MIGRATEFROMCHAT_FIELD)) {
             this.migrateFromChatId = jsonObject.getLong(MIGRATEFROMCHAT_FIELD);
         }
+
+        if (hasText() && entities != null) {
+            entities.forEach(x -> x.computeText(text));
+        }
     }
 
     public Integer getMessageId() {

@@ -45,6 +45,8 @@ public class MessageEntity implements IBotApiObject {
     @JsonProperty(URL_FIELD)
     private String url; ///< Optional. For “text_link” only, url that will be opened after user taps on the text
 
+    private String text; ///< Text present in the entity. Computed from offset and length
+
     public MessageEntity() {
         super();
     }
@@ -73,6 +75,14 @@ public class MessageEntity implements IBotApiObject {
 
     public String getUrl() {
         return url;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    protected void computeText(String message) {
+        text = message.substring(offset, offset + length);
     }
 
     @Override
