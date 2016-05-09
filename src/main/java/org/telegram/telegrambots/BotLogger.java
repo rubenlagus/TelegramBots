@@ -121,8 +121,8 @@ public class BotLogger {
     }
 
     public static void log(Level level, String tag, String msg, Throwable thrown) {
-        logger.log(level, msg, thrown);
-        logToFile(level, msg, thrown);
+        logger.log(level, String.format("[%s] %s", tag, msg), thrown);
+        logToFile(level, tag, msg, thrown);
     }
 
     public static void severe(String tag, Throwable throwable) {
@@ -201,7 +201,7 @@ public class BotLogger {
     }
 
     public static void finest(String msg, String tag, Throwable throwable) {
-        log(Level.FINEST, msg, throwable);
+        log(Level.FINEST, tag, msg, throwable);
     }
 
     public static void warn(String msg, String tag, Throwable throwable) {

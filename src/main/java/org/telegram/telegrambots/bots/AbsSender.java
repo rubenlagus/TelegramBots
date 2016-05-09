@@ -382,8 +382,7 @@ public abstract class AbsSender {
     public Message sendDocument(SendDocument sendDocument) throws TelegramApiException {
         String responseContent;
 
-        try {
-            CloseableHttpClient httpClient = HttpClients.createDefault();
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             String url = getBaseUrl() + SendDocument.PATH;
             HttpPost httppost = new HttpPost(url);
             if (sendDocument.isNewDocument()) {
@@ -423,10 +422,11 @@ public abstract class AbsSender {
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, StandardCharsets.UTF_8));
             }
 
-            CloseableHttpResponse response = httpClient.execute(httppost);
-            HttpEntity ht = response.getEntity();
-            BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-            responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
+            try (CloseableHttpResponse response = httpClient.execute(httppost)) {
+                HttpEntity ht = response.getEntity();
+                BufferedHttpEntity buf = new BufferedHttpEntity(ht);
+                responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
+            }
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send document", e);
         }
@@ -441,8 +441,7 @@ public abstract class AbsSender {
 
     public Message sendPhoto(SendPhoto sendPhoto) throws TelegramApiException {
         String responseContent;
-        try {
-            CloseableHttpClient httpClient = HttpClients.createDefault();
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             String url = getBaseUrl() + SendPhoto.PATH;
             HttpPost httppost = new HttpPost(url);
             if (sendPhoto.isNewPhoto()) {
@@ -482,10 +481,11 @@ public abstract class AbsSender {
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, StandardCharsets.UTF_8));
             }
 
-            CloseableHttpResponse response = httpClient.execute(httppost);
-            HttpEntity ht = response.getEntity();
-            BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-            responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
+            try (CloseableHttpResponse response = httpClient.execute(httppost)) {
+                HttpEntity ht = response.getEntity();
+                BufferedHttpEntity buf = new BufferedHttpEntity(ht);
+                responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
+            }
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send photo", e);
         }
@@ -500,8 +500,7 @@ public abstract class AbsSender {
 
     public Message sendVideo(SendVideo sendVideo) throws TelegramApiException {
         String responseContent;
-        try {
-            CloseableHttpClient httpClient = HttpClients.createDefault();
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             String url = getBaseUrl() + SendVideo.PATH;
             HttpPost httppost = new HttpPost(url);
             if (sendVideo.isNewVideo()) {
@@ -559,10 +558,11 @@ public abstract class AbsSender {
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, StandardCharsets.UTF_8));
             }
 
-            CloseableHttpResponse response = httpClient.execute(httppost);
-            HttpEntity ht = response.getEntity();
-            BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-            responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
+            try (CloseableHttpResponse response = httpClient.execute(httppost)) {
+                HttpEntity ht = response.getEntity();
+                BufferedHttpEntity buf = new BufferedHttpEntity(ht);
+                responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
+            }
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send video", e);
         }
@@ -578,8 +578,7 @@ public abstract class AbsSender {
     public Message sendSticker(SendSticker sendSticker) throws TelegramApiException {
         String responseContent;
 
-        try {
-            CloseableHttpClient httpClient = HttpClients.createDefault();
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             String url = getBaseUrl() + SendSticker.PATH;
             HttpPost httppost = new HttpPost(url);
             if (sendSticker.isNewSticker()) {
@@ -613,10 +612,11 @@ public abstract class AbsSender {
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, StandardCharsets.UTF_8));
             }
 
-            CloseableHttpResponse response = httpClient.execute(httppost);
-            HttpEntity ht = response.getEntity();
-            BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-            responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
+            try (CloseableHttpResponse response = httpClient.execute(httppost)) {
+                HttpEntity ht = response.getEntity();
+                BufferedHttpEntity buf = new BufferedHttpEntity(ht);
+                responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
+            }
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send sticker", e);
         }
@@ -638,9 +638,8 @@ public abstract class AbsSender {
     public Message sendAudio(SendAudio sendAudio) throws TelegramApiException {
         String responseContent;
 
-        
-        try {
-            CloseableHttpClient httpClient = HttpClients.createDefault();
+
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             String url = getBaseUrl() + SendAudio.PATH;
             HttpPost httppost = new HttpPost(url);
 
@@ -690,10 +689,11 @@ public abstract class AbsSender {
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, StandardCharsets.UTF_8));
             }
 
-            CloseableHttpResponse response = httpClient.execute(httppost);
-            HttpEntity ht = response.getEntity();
-            BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-            responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
+            try (CloseableHttpResponse response = httpClient.execute(httppost)) {
+                HttpEntity ht = response.getEntity();
+                BufferedHttpEntity buf = new BufferedHttpEntity(ht);
+                responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
+            }
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send sticker", e);
         }
@@ -721,8 +721,7 @@ public abstract class AbsSender {
     public Message sendVoice(SendVoice sendVoice) throws TelegramApiException {
         String responseContent;
 
-        try {
-            CloseableHttpClient httpClient = HttpClients.createDefault();
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             String url = getBaseUrl() + SendVoice.PATH;
             HttpPost httppost = new HttpPost(url);
 
@@ -763,10 +762,11 @@ public abstract class AbsSender {
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, StandardCharsets.UTF_8));
             }
 
-            CloseableHttpResponse response = httpClient.execute(httppost);
-            HttpEntity ht = response.getEntity();
-            BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-            responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
+            try (CloseableHttpResponse response = httpClient.execute(httppost)) {
+                HttpEntity ht = response.getEntity();
+                BufferedHttpEntity buf = new BufferedHttpEntity(ht);
+                responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
+            }
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send sticker", e);
         }
@@ -786,22 +786,22 @@ public abstract class AbsSender {
         exe.submit(new Runnable() {
             @Override
             public void run() {
-                try {
-                    CloseableHttpClient httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).build();
+                try (CloseableHttpClient httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).build()) {
                     String url = getBaseUrl() + method.getPath();
                     HttpPost httppost = new HttpPost(url);
                     httppost.addHeader("charset", StandardCharsets.UTF_8.name());
                     httppost.setEntity(new StringEntity(method.toJson().toString(), ContentType.APPLICATION_JSON));
-                    CloseableHttpResponse response = httpclient.execute(httppost);
-                    HttpEntity ht = response.getEntity();
-                    BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-                    String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
+                    try (CloseableHttpResponse response = httpclient.execute(httppost)) {
+                        HttpEntity ht = response.getEntity();
+                        BufferedHttpEntity buf = new BufferedHttpEntity(ht);
+                        String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
 
-                    JSONObject jsonObject = new JSONObject(responseContent);
-                    if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-                        callback.onError(method, jsonObject);
+                        JSONObject jsonObject = new JSONObject(responseContent);
+                        if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
+                            callback.onError(method, jsonObject);
+                        }
+                        callback.onResult(method, jsonObject);
                     }
-                    callback.onResult(method, jsonObject);
                 } catch (IOException e) {
                     callback.onException(method, e);
                 }
@@ -812,16 +812,16 @@ public abstract class AbsSender {
 
     private Serializable sendApiMethod(BotApiMethod method) throws TelegramApiException {
         String responseContent;
-        try {
-            CloseableHttpClient httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).build();
+        try (CloseableHttpClient httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).build()) {
             String url = getBaseUrl() + method.getPath();
             HttpPost httppost = new HttpPost(url);
             httppost.addHeader("charset", StandardCharsets.UTF_8.name());
             httppost.setEntity(new StringEntity(method.toJson().toString(), ContentType.APPLICATION_JSON));
-            CloseableHttpResponse response = httpclient.execute(httppost);
-            HttpEntity ht = response.getEntity();
-            BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-            responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
+            try (CloseableHttpResponse response = httpclient.execute(httppost)) {
+                HttpEntity ht = response.getEntity();
+                BufferedHttpEntity buf = new BufferedHttpEntity(ht);
+                responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
+            }
         } catch (IOException e) {
             throw new TelegramApiException("Unable to execute " + method.getPath() + " method", e);
         }
