@@ -55,6 +55,9 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static org.telegram.telegrambots.Constants.ERRORCODEFIELD;
+import static org.telegram.telegrambots.Constants.ERRORDESCRIPTIONFIELD;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -433,7 +436,7 @@ public abstract class AbsSender {
 
         JSONObject jsonObject = new JSONObject(responseContent);
         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-            throw new TelegramApiException("Error at sendDocument", jsonObject.getString("description"));
+            throw new TelegramApiException("Error at sendDocument", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
         }
 
         return new Message(jsonObject.getJSONObject(Constants.RESPONSEFIELDRESULT));
@@ -492,7 +495,7 @@ public abstract class AbsSender {
 
         JSONObject jsonObject = new JSONObject(responseContent);
         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-            throw new TelegramApiException("Error at sendPhoto", jsonObject.getString("description"));
+            throw new TelegramApiException("Error at sendPhoto", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
         }
 
         return new Message(jsonObject.getJSONObject(Constants.RESPONSEFIELDRESULT));
@@ -569,7 +572,7 @@ public abstract class AbsSender {
 
         JSONObject jsonObject = new JSONObject(responseContent);
         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-            throw new TelegramApiException("Error at sendVideo", jsonObject.getString("description"));
+            throw new TelegramApiException("Error at sendVideo", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
         }
 
         return new Message(jsonObject.getJSONObject(Constants.RESPONSEFIELDRESULT));
@@ -623,7 +626,7 @@ public abstract class AbsSender {
 
         JSONObject jsonObject = new JSONObject(responseContent);
         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-            throw new TelegramApiException("Error at sendSticker", jsonObject.getString("description"));
+            throw new TelegramApiException("Error at sendSticker", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
         }
 
         return new Message(jsonObject.getJSONObject(Constants.RESPONSEFIELDRESULT));
@@ -705,7 +708,7 @@ public abstract class AbsSender {
          * {"description":"[Error]: Bad Request: chat not found","error_code":400,"ok":false}
          */
         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-            throw new TelegramApiException("Error at sendAudio", jsonObject.getString("description"));
+            throw new TelegramApiException("Error at sendAudio", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
         }
         
          // and if not, we can expect a "result" section. and out of this can a new Message object be built
@@ -773,7 +776,7 @@ public abstract class AbsSender {
 
         JSONObject jsonObject = new JSONObject(responseContent);
         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-            throw new TelegramApiException("Error at sendVoice", jsonObject.getString("description"));
+            throw new TelegramApiException("Error at sendVoice", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
         }
 
         return new Message(jsonObject.getJSONObject(Constants.RESPONSEFIELDRESULT));
@@ -828,7 +831,7 @@ public abstract class AbsSender {
 
         JSONObject jsonObject = new JSONObject(responseContent);
         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-            throw new TelegramApiException("Error at " + method.getPath(), jsonObject.getString("description"));
+            throw new TelegramApiException("Error at " + method.getPath(), jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
         }
 
         return method.deserializeResponse(jsonObject);

@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.telegrambots.BotLogger;
 import org.telegram.telegrambots.Constants;
+import org.telegram.telegrambots.TelegramApiException;
 import org.telegram.telegrambots.api.methods.updates.GetUpdates;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.ITelegramLongPollingBot;
@@ -25,6 +26,9 @@ import java.io.InvalidObjectException;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
+
+import static org.telegram.telegrambots.Constants.ERRORCODEFIELD;
+import static org.telegram.telegrambots.Constants.ERRORDESCRIPTIONFIELD;
 
 /**
  * @author Ruben Bermudez
@@ -107,7 +111,7 @@ public class BotSession {
                         String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
                         JSONObject jsonObject = new JSONObject(responseContent);
                         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-                            throw new InvalidObjectException(jsonObject.toString());
+                            throw new TelegramApiException("Error getting updates", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
                         }
                         JSONArray jsonArray = jsonObject.getJSONArray(Constants.RESPONSEFIELDRESULT);
                         if (jsonArray.length() != 0) {
@@ -130,7 +134,7 @@ public class BotSession {
                                 BotLogger.severe(LOGTAG, e);
                             }
                         }
-                    } catch (InvalidObjectException | JSONException e) {
+                    } catch (InvalidObjectException | JSONException | TelegramApiException e) {
                         BotLogger.severe(LOGTAG, e);
                     }
                 } catch (Exception global) {

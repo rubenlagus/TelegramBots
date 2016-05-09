@@ -22,6 +22,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import static org.telegram.telegrambots.Constants.ERRORCODEFIELD;
+import static org.telegram.telegrambots.Constants.ERRORDESCRIPTIONFIELD;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -111,7 +114,7 @@ public class TelegramBotsApi {
                 String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
                 JSONObject jsonObject = new JSONObject(responseContent);
                 if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-                    throw new TelegramApiException(webHookURL == null ? "Error removing old webhook" : "Error setting webhook", responseContent);
+                    throw new TelegramApiException(webHookURL == null ? "Error removing old webhook" : "Error setting webhook", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
                 }
             }
         } catch (JSONException e) {
