@@ -64,7 +64,6 @@ public class BotLogger {
         logToFile(level, tag, msg);
     }
 
-
     public static void severe(String tag, String msg) {
         logger.severe(String.format("[%s] %s", tag, msg));
         logToFile(Level.SEVERE, tag, msg);
@@ -91,36 +90,30 @@ public class BotLogger {
         logToFile(Level.WARNING, tag, msg);
     }
 
-
     public static void info(String tag, String msg) {
         logger.info(String.format("[%s] %s", tag, msg));
         logToFile(Level.INFO, tag, msg);
     }
-
 
     public static void config(String tag, String msg) {
         logger.config(String.format("[%s] %s", tag, msg));
         logToFile(Level.CONFIG, tag, msg);
     }
 
-
     public static void fine(String tag, String msg) {
         logger.fine(String.format("[%s] %s", tag, msg));
         logToFile(Level.FINE, tag, msg);
     }
-
 
     public static void finer(String tag, String msg) {
         logger.finer(String.format("[%s] %s", tag, msg));
         logToFile(Level.FINER, tag, msg);
     }
 
-
     public static void finest(String tag, String msg) {
         logger.finest(String.format("[%s] %s", tag, msg));
         logToFile(Level.FINEST, tag, msg);
     }
-
 
     public static void log(Level level, String tag, Throwable throwable) {
         logger.log(level, String.format("[%s] Exception", tag), throwable);
@@ -133,30 +126,37 @@ public class BotLogger {
     }
 
     public static void severe(String tag, Throwable throwable) {
+        logger.log(Level.SEVERE, tag, throwable);
         logToFile(Level.SEVERE, tag, throwable);
     }
 
     public static void warning(String tag, Throwable throwable) {
+        logger.log(Level.WARNING, tag, throwable);
         logToFile(Level.WARNING, tag, throwable);
     }
 
     public static void info(String tag, Throwable throwable) {
+        logger.log(Level.INFO, tag, throwable);
         logToFile(Level.INFO, tag, throwable);
     }
 
     public static void config(String tag, Throwable throwable) {
+        logger.log(Level.CONFIG, tag, throwable);
         logToFile(Level.CONFIG, tag, throwable);
     }
 
     public static void fine(String tag, Throwable throwable) {
+        logger.log(Level.FINE, tag, throwable);
         logToFile(Level.FINE, tag, throwable);
     }
 
     public static void finer(String tag, Throwable throwable) {
+        logger.log(Level.FINER, tag, throwable);
         logToFile(Level.FINER, tag, throwable);
     }
 
     public static void finest(String tag, Throwable throwable) {
+        logger.log(Level.FINEST, tag, throwable);
         logToFile(Level.FINEST, tag, throwable);
     }
 
@@ -267,7 +267,6 @@ public class BotLogger {
         }
     }
 
-
     private static void logToFile(Level level, String tag, Throwable throwable) {
         if (isLoggable(level)) {
             synchronized (lockToWrite) {
@@ -278,7 +277,6 @@ public class BotLogger {
             }
         }
     }
-
 
     private static void logToFile(Level level, String tag, String msg) {
         if (isLoggable(level)) {
