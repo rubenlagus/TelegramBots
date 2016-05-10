@@ -396,7 +396,7 @@ public abstract class AbsSender {
                     builder.addTextBody(SendDocument.REPLYTOMESSAGEID_FIELD, sendDocument.getReplayToMessageId().toString());
                 }
                 if (sendDocument.getCaption() != null) {
-                    builder.addTextBody(SendDocument.CAPTION_FIELD, sendDocument.getCaption());
+                    builder.addTextBody(SendDocument.CAPTION_FIELD, sendDocument.getCaption(), ContentType.create("text/plain", StandardCharsets.UTF_8));
                 }
                 if (sendDocument.getDisableNotification() != null) {
                     builder.addTextBody(SendDocument.DISABLENOTIFICATION_FIELD, sendDocument.getDisableNotification().toString());
@@ -455,7 +455,7 @@ public abstract class AbsSender {
                     builder.addTextBody(SendPhoto.REPLYTOMESSAGEID_FIELD, sendPhoto.getReplayToMessageId().toString());
                 }
                 if (sendPhoto.getCaption() != null) {
-                    builder.addTextBody(SendPhoto.CAPTION_FIELD, sendPhoto.getCaption());
+                    builder.addTextBody(SendPhoto.CAPTION_FIELD, sendPhoto.getCaption(), ContentType.create("text/plain", StandardCharsets.UTF_8));
                 }
                 if (sendPhoto.getDisableNotification() != null) {
                     builder.addTextBody(SendPhoto.DISABLENOTIFICATION_FIELD, sendPhoto.getDisableNotification().toString());
@@ -514,7 +514,7 @@ public abstract class AbsSender {
                     builder.addTextBody(SendVideo.REPLYTOMESSAGEID_FIELD, sendVideo.getReplayToMessageId().toString());
                 }
                 if (sendVideo.getCaption() != null) {
-                    builder.addTextBody(SendVideo.CAPTION_FIELD, sendVideo.getCaption());
+                    builder.addTextBody(SendVideo.CAPTION_FIELD, sendVideo.getCaption(), ContentType.create("text/plain", StandardCharsets.UTF_8));
                 }
                 if (sendVideo.getDuration() != null) {
                     builder.addTextBody(SendVideo.DURATION_FIELD, sendVideo.getDuration().toString());
