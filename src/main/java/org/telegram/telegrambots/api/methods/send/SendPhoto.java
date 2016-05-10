@@ -13,7 +13,7 @@ public class SendPhoto {
 
     public static final String CHATID_FIELD = "chat_id";
     public static final String PHOTO_FIELD = "photo";
-    public static final String CAPTION_FIELD = "photo";
+    public static final String CAPTION_FIELD = "caption";
     public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     public static final String REPLYMARKUP_FIELD = "reply_markup";
