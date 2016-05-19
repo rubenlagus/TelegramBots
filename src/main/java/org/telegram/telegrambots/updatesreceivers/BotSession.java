@@ -14,7 +14,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.telegram.telegrambots.BotLogger;
+import org.telegram.telegrambots.logging.BotLogger;
 import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.TelegramApiException;
 import org.telegram.telegrambots.api.methods.updates.GetUpdates;

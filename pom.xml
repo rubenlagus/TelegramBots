@@ -22,7 +22,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jersey.version>2.22.2</jersey.version>
+        <jersey.version>2.23</jersey.version>
         <jerseybundle.version>1.19.1</jerseybundle.version>
         <httpcompontents.version>4.5.2</httpcompontents.version>
         <json.version>20160212</json.version>
