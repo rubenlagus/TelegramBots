@@ -46,6 +46,7 @@ public class Message implements IBotApiObject {
     private static final String GROUPCHATCREATED_FIELD = "group_chat_created";
     private static final String REPLYTOMESSAGE_FIELD = "reply_to_message";
     private static final String VOICE_FIELD = "voice";
+    private static final String CAPTION_FIELD = "caption";
     private static final String SUPERGROUPCREATED_FIELD = "supergroup_chat_created";
     private static final String CHANNELCHATCREATED_FIELD = "channel_chat_created";
     private static final String MIGRATETOCHAT_FIELD = "migrate_to_chat_id";
@@ -106,6 +107,8 @@ public class Message implements IBotApiObject {
     private Message replyToMessage;
     @JsonProperty(VOICE_FIELD)
     private Voice voice; ///< Optional. Message is a voice message, information about the file
+    @JsonProperty(CAPTION_FIELD)
+    private String caption; ///< Optional. Caption for the document, photo or video, 0-200 characters
     @JsonProperty(SUPERGROUPCREATED_FIELD)
     private Boolean superGroupCreated; ///< Optional. Informs that the supergroup has been created
     @JsonProperty(CHANNELCHATCREATED_FIELD)
@@ -181,6 +184,9 @@ public class Message implements IBotApiObject {
         }
         if (jsonObject.has(VOICE_FIELD)) {
             this.voice = new Voice(jsonObject.getJSONObject(VOICE_FIELD));
+        }
+        if (jsonObject.has(CAPTION_FIELD)) {
+            this.caption = jsonObject.getString(CAPTION_FIELD);
         }
         if (jsonObject.has(NEWCHATMEMBER_FIELD)) {
             this.newChatMember = new User(jsonObject.getJSONObject(NEWCHATMEMBER_FIELD));
@@ -325,6 +331,10 @@ public class Message implements IBotApiObject {
         return voice;
     }
 
+    public String getCaption() {
+        return caption;
+    }
+
     public Boolean getSuperGroupCreated() {
         return superGroupCreated;
     }
@@ -435,6 +445,9 @@ public class Message implements IBotApiObject {
         if (voice != null) {
             gen.writeObjectField(VOICE_FIELD, voice);
         }
+        if (caption != null) {
+            gen.writeObjectField(CAPTION_FIELD, caption);
+        }
         if (newChatMember != null) {
             gen.writeObjectField(NEWCHATMEMBER_FIELD, newChatMember);
         }
@@ -508,6 +521,7 @@ public class Message implements IBotApiObject {
                 ", groupchatCreated=" + groupchatCreated +
                 ", replyToMessage=" + replyToMessage +
                 ", voice=" + voice +
+                ", caption=" + caption +
                 ", superGroupCreated=" + superGroupCreated +
                 ", channelChatCreated=" + channelChatCreated +
                 ", migrateToChatId=" + migrateToChatId +
