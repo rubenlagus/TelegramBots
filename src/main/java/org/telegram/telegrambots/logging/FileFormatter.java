@@ -39,11 +39,11 @@ class FileFormatter extends Formatter {
     }
 
     private static String logMsgToFile(Level level, String msg, String dateForLog) {
-        return String.format("%s{%s} %s", dateForLog, level.toString(), msg);
+        return String.format("%s{%s} %s\n", dateForLog, level.toString(), msg);
     }
 
     private static String logThrowableToFile(Level level, String message, Throwable throwable, String dateForLog) {
-        String throwableLog = String.format("%s{%s} %s - %s", dateForLog, level.toString(), message, throwable.toString());
+        String throwableLog = String.format("%s{%s} %s - %s\n", dateForLog, level.toString(), message, throwable.toString());
         for (StackTraceElement element : throwable.getStackTrace()) {
             throwableLog += "\tat " + element + "\n";
         }
