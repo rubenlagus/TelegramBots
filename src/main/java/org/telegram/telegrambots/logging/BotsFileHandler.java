@@ -13,7 +13,7 @@ public class BotsFileHandler extends FileHandler {
     private static final String filePattern = "./TelegramBots%g.%u.log";
 
     public BotsFileHandler() throws IOException, SecurityException {
-        super(filePattern);
+        super(filePattern, 1024 * 1024 * 10, 50, true);
         setFormatter(new FileFormatter());
     }
 
