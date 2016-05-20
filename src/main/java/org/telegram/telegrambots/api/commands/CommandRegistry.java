@@ -76,7 +76,7 @@ public final class CommandRegistry implements ICommandRegistry {
 
                 if (commandRegistryMap.containsKey(command)) {
                     String[] parameters = Arrays.copyOfRange(commandSplit, 1, commandSplit.length);
-                    commandRegistryMap.get(command).execute(parameters, message.getChatId());
+                    commandRegistryMap.get(command).execute(parameters, message.getChat());
                     return true;
                 }
             }
