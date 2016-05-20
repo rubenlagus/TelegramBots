@@ -12,9 +12,9 @@ import org.telegram.telegrambots.api.methods.send.SendMessage;
 public class HelpCommand extends Command {
 
     private static final String LOGTAG = "HELPCOMMAND";
-    private final ICommandRegistery commandRegistry;
+    private final ICommandRegistry commandRegistry;
 
-    public HelpCommand(ICommandRegistery commandRegistry, String botToken) {
+    public HelpCommand(ICommandRegistry commandRegistry, String botToken) {
         super("help", "Gives an overview over all Commands registered for this bot", botToken);
         this.commandRegistry = commandRegistry;
     }

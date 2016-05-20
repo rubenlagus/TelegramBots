@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * @author tschulz
  */
-public final class CommandRegistry implements ICommandRegistery {
+public final class CommandRegistry implements ICommandRegistry {
 
     private final Map<String, Command> commandRegistryMap = new HashMap<>();
 

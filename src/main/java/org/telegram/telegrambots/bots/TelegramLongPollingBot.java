@@ -4,7 +4,7 @@ import org.telegram.telegrambots.BotLogger;
 import org.telegram.telegrambots.TelegramApiException;
 import org.telegram.telegrambots.api.commands.Command;
 import org.telegram.telegrambots.api.commands.CommandRegistry;
-import org.telegram.telegrambots.api.commands.ICommandRegistery;
+import org.telegram.telegrambots.api.commands.ICommandRegistry;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
@@ -18,7 +18,7 @@ import java.util.Map;
  * @brief TODO
  * @date 14 of January of 2016
  */
-public abstract class TelegramLongPollingBot extends AbsSender implements ITelegramLongPollingBot, ICommandRegistery {
+public abstract class TelegramLongPollingBot extends AbsSender implements ITelegramLongPollingBot, ICommandRegistry {
 
     public static final String LOGTAG = "TelegramLongPollingBot";
     private final CommandRegistry commandRegistry;

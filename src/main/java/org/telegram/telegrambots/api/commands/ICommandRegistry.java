@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  *
  */
-public interface ICommandRegistery {
+public interface ICommandRegistry {
 
     /**
      * register a command
