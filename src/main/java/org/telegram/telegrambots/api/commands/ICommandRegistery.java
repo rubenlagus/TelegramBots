@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.api.commands;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -38,5 +39,12 @@ public interface ICommandRegistery {
      * @return         map with results of the command deregistered per command
      */
     Map<Command, Boolean> deregisterAll(Command... commands);
+
+    /**
+     * get a collection of all registered commands
+     *
+     * @return a collection of registered commands
+     */
+    Collection<Command> getRegisteredCommands();
 
 }
