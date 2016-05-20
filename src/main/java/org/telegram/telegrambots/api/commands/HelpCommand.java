@@ -25,7 +25,7 @@ public class HelpCommand extends Command {
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(chatId);
             sendMessage.enableHtml(true);
-            sendMessage.setText("<b>" + registeredCommand.getCommandIdentifier() + "</b>\n" + registeredCommand.getDescription());
+            sendMessage.setText("<b>" + COMMAND_INIT_CHARACTER + registeredCommand.getCommandIdentifier() + "</b>\n" + registeredCommand.getDescription());
 
             try {
                 sendMessage(sendMessage);
