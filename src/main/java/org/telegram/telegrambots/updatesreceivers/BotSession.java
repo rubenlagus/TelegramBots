@@ -53,7 +53,7 @@ public class BotSession {
         readerThread.setName(callback.getBotUsername() + " Telegram Connection");
         this.readerThread.start();
         this.handlerThread = new HandlerThread();
-        handlerThread.setName(callback.getBotUsername() + " Executor");
+        handlerThread.setName(callback.getBotUsername() + " Telegram Executor");
         this.handlerThread.start();
     }
     
@@ -69,6 +69,14 @@ public class BotSession {
             } catch (IOException e) {
                 BotLogger.severe(LOGTAG, e);
             }
+    	}
+    	if(readerThread != null)
+    	{
+    		readerThread.interrupt();
+    	}
+    	if(handlerThread != null)
+    	{
+    		handlerThread.interrupt();
     	}
     	
     }
@@ -127,13 +135,16 @@ public class BotSession {
                                     this.wait(500);
                                 }
                             } catch (InterruptedException e) {
+                            	if(!running) return;
                                 BotLogger.severe(LOGTAG, e);
                             }
                         }
                     } catch (InvalidObjectException | JSONException e) {
+                    	if(!running) return;
                         BotLogger.severe(LOGTAG, e);
                     }
                 } catch (Exception global) {
+                	if(!running) return;
                     BotLogger.severe(LOGTAG, global);
                     try {
                         synchronized (this) {
@@ -170,6 +181,7 @@ public class BotSession {
                     }
                     callback.onUpdateReceived(update);
                 } catch (Exception e) {
+                	if(!running) return;
                     BotLogger.severe(LOGTAG, e);
                 }
             }
