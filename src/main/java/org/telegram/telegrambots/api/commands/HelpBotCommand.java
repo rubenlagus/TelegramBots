@@ -16,7 +16,7 @@ public class HelpBotCommand extends BotCommand {
     private final ICommandRegistry commandRegistry;
 
     public HelpBotCommand(ICommandRegistry commandRegistry, String botToken) {
-        super("help", "Gives an overview over all Commands registered for this bot", botToken);
+        super("help", "Gives an overview over all Commands registered for this bot");
         this.commandRegistry = commandRegistry;
     }
 
@@ -25,12 +25,12 @@ public class HelpBotCommand extends BotCommand {
 
         for (BotCommand registeredBotCommand : commandRegistry.getRegisteredCommands()) {
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(chat.getId());
+            sendMessage.setChatId(chat.getId().toString());
             sendMessage.enableHtml(true);
             sendMessage.setText("<b>" + COMMAND_INIT_CHARACTER + registeredBotCommand.getCommandIdentifier() + "</b>\n" + registeredBotCommand.getDescription());
 
             try {
-                sendMessage(sendMessage);
+                getAbsSender().sendMessage(sendMessage);
             } catch (TelegramApiException e) {
                 BotLogger.error("Failed to send HelpMessage", LOGTAG, e);
             }

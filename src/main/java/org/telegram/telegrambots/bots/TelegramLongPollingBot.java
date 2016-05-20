@@ -50,21 +50,29 @@ public abstract class TelegramLongPollingBot extends AbsSender implements ITeleg
 
     @Override
     public final boolean register(BotCommand botCommand) {
+        botCommand.setAbsSender(this);
         return commandRegistry.register(botCommand);
     }
 
     @Override
     public final Map<BotCommand, Boolean> registerAll(BotCommand... botCommands) {
+        for (BotCommand botCommand : botCommands) {
+            botCommand.setAbsSender(this);
+        }
         return commandRegistry.registerAll(botCommands);
     }
 
     @Override
     public final boolean deregister(BotCommand botCommand) {
+        botCommand.setAbsSender(null);
         return commandRegistry.deregister(botCommand);
     }
 
     @Override
     public final Map<BotCommand, Boolean> deregisterAll(BotCommand... botCommands) {
+        for (BotCommand botCommand : botCommands) {
+            botCommand.setAbsSender(null);
+        }
         return commandRegistry.deregisterAll(botCommands);
     }
 

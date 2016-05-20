@@ -8,7 +8,7 @@ import org.telegram.telegrambots.bots.AbsSender;
  *
  * @author tschulz
  */
-public abstract class BotCommand extends AbsSender {
+public abstract class BotCommand {
 
     public final static String COMMAND_INIT_CHARACTER = "/";
     public final static String COMMAND_PARAMETER_SEPARATOR = " ";
@@ -16,7 +16,7 @@ public abstract class BotCommand extends AbsSender {
 
     private final String commandIdentifier;
     private final String description;
-    private final String botToken;
+    private AbsSender absSender;
 
     /**
      * construct a command
@@ -24,7 +24,7 @@ public abstract class BotCommand extends AbsSender {
      * @param commandIdentifier the unique identifier of this command (e.g. the command string to enter into chat)
      * @param description       the description of this command
      */
-    public BotCommand(String commandIdentifier, String description, String botToken) {
+    public BotCommand(String commandIdentifier, String description) {
 
         if (commandIdentifier == null || commandIdentifier.isEmpty()) {
             throw new IllegalArgumentException("commandIdentifier for command cannot be null or empty");
@@ -40,7 +40,6 @@ public abstract class BotCommand extends AbsSender {
 
         this.commandIdentifier = commandIdentifier.toLowerCase();
         this.description = description;
-        this.botToken = botToken;
     }
 
     /**
@@ -61,9 +60,20 @@ public abstract class BotCommand extends AbsSender {
         return description;
     }
 
-    @Override
-    public final String getBotToken() {
-        return botToken;
+    /**
+     * Setter
+     * @param absSender set AbsSender
+     */
+    public final void setAbsSender(AbsSender absSender) {
+        this.absSender = absSender;
+    }
+
+    /**
+     * Getter
+     * @return the absSender
+     */
+    protected final AbsSender getAbsSender() {
+        return absSender;
     }
 
     /**
