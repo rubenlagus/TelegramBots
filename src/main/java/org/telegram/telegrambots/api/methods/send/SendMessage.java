@@ -29,7 +29,7 @@ public class SendMessage extends BotApiMethod<Message> {
     private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     private static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
-    private long chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
+    private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     private String text; ///< Text of the message to be sent
     private String parseMode; ///< Optional. Send Markdown, if you want Telegram apps to show bold, italic and URL text in your bot's message.
     private Boolean disableWebPagePreview; ///< Optional. Disables link previews for links in this message
@@ -45,11 +45,11 @@ public class SendMessage extends BotApiMethod<Message> {
         super();
     }
 
-    public long getChatId() {
+    public String getChatId() {
         return chatId;
     }
 
-    public SendMessage setChatId(long chatId) {
+    public SendMessage setChatId(String chatId) {
         this.chatId = chatId;
         return this;
     }
@@ -168,7 +168,7 @@ public class SendMessage extends BotApiMethod<Message> {
     public void serialize(JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartObject();
         gen.writeStringField(METHOD_FIELD, PATH);
-        gen.writeStringField(CHATID_FIELD, Long.toHexString(chatId));
+        gen.writeStringField(CHATID_FIELD, chatId);
         gen.writeStringField(TEXT_FIELD, text);
 
         if (parseMode != null) {

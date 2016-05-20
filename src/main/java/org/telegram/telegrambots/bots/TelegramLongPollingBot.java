@@ -34,7 +34,7 @@ public abstract class TelegramLongPollingBot extends AbsSender implements ITeleg
             if (message.isCommand()) {
                 if (!commandRegistry.executeCommand(message)) {
                     SendMessage sendMessage = new SendMessage();
-                    sendMessage.setChatId(message.getChatId());
+                    sendMessage.setChatId(message.getChatId().toString());
                     sendMessage.setText("The command you provided is not registered for this bot");
                     try {
                         sendMessage(sendMessage);
