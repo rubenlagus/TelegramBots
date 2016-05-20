@@ -7,10 +7,10 @@ import org.telegram.telegrambots.bots.AbsSender;
  *
  * @author tschulz
  */
-public abstract class Command extends AbsSender {
+public abstract class BotCommand extends AbsSender {
 
     public final static String COMMAND_INIT_CHARACTER = "/";
-    public final static String COMMAND_PARAMETER_SEPERATOR = " ";
+    public final static String COMMAND_PARAMETER_SEPARATOR = " ";
     private final static int COMMAND_MAX_LENGTH = 32;
 
     private final String commandIdentifier;
@@ -23,7 +23,7 @@ public abstract class Command extends AbsSender {
      * @param commandIdentifier the unique identifier of this command (e.g. the command string to enter into chat)
      * @param description       the description of this command
      */
-    public Command(String commandIdentifier, String description, String botToken) {
+    public BotCommand(String commandIdentifier, String description, String botToken) {
 
         if (commandIdentifier == null || commandIdentifier.isEmpty()) {
             throw new IllegalArgumentException("commandIdentifier for command cannot be null or empty");
@@ -56,12 +56,12 @@ public abstract class Command extends AbsSender {
      *
      * @return the description as String
      */
-    public String getDescription() {
+    public final String getDescription() {
         return description;
     }
 
     @Override
-    public String getBotToken() {
+    public final String getBotToken() {
         return botToken;
     }
 
@@ -71,5 +71,5 @@ public abstract class Command extends AbsSender {
      * @param arguments passed arguments
      * @param chatId    id of the chat, to be able to send replies
      */
-    abstract void execute(String[] arguments, long chatId);
+    public abstract void execute(String[] arguments, long chatId);
 }

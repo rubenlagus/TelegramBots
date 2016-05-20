@@ -11,40 +11,40 @@ public interface ICommandRegistry {
     /**
      * register a command
      *
-     * @param command the command to register
+     * @param botCommand the command to register
      * @return        whether the command could be registered, was not already registered
      */
-    boolean register(Command command);
+    boolean register(BotCommand botCommand);
 
     /**
      * register multiple commands
      *
-     * @param commands commands to register
+     * @param botCommands commands to register
      * @return         map with results of the command register per command
      */
-    Map<Command, Boolean> registerAll(Command... commands);
+    Map<BotCommand, Boolean> registerAll(BotCommand... botCommands);
 
     /**
      * deregister a command
      *
-     * @param command the command to deregister
+     * @param botCommand the command to deregister
      * @return        whether the command could be deregistered, was registered
      */
-    boolean deregister(Command command);
+    boolean deregister(BotCommand botCommand);
 
     /**
      * deregister multiple commands
      *
-     * @param commands commands to deregister
+     * @param botCommands commands to deregister
      * @return         map with results of the command deregistered per command
      */
-    Map<Command, Boolean> deregisterAll(Command... commands);
+    Map<BotCommand, Boolean> deregisterAll(BotCommand... botCommands);
 
     /**
      * get a collection of all registered commands
      *
      * @return a collection of registered commands
      */
-    Collection<Command> getRegisteredCommands();
+    Collection<BotCommand> getRegisteredCommands();
 
 }

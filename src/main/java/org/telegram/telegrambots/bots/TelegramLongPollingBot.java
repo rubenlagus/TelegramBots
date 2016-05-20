@@ -2,7 +2,7 @@ package org.telegram.telegrambots.bots;
 
 import org.telegram.telegrambots.BotLogger;
 import org.telegram.telegrambots.TelegramApiException;
-import org.telegram.telegrambots.api.commands.Command;
+import org.telegram.telegrambots.api.commands.BotCommand;
 import org.telegram.telegrambots.api.commands.CommandRegistry;
 import org.telegram.telegrambots.api.commands.ICommandRegistry;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
@@ -49,27 +49,27 @@ public abstract class TelegramLongPollingBot extends AbsSender implements ITeleg
     }
 
     @Override
-    public final boolean register(Command command) {
-        return commandRegistry.register(command);
+    public final boolean register(BotCommand botCommand) {
+        return commandRegistry.register(botCommand);
     }
 
     @Override
-    public final Map<Command, Boolean> registerAll(Command... commands) {
-        return commandRegistry.registerAll(commands);
+    public final Map<BotCommand, Boolean> registerAll(BotCommand... botCommands) {
+        return commandRegistry.registerAll(botCommands);
     }
 
     @Override
-    public final boolean deregister(Command command) {
-        return commandRegistry.deregister(command);
+    public final boolean deregister(BotCommand botCommand) {
+        return commandRegistry.deregister(botCommand);
     }
 
     @Override
-    public final Map<Command, Boolean> deregisterAll(Command... commands) {
-        return commandRegistry.deregisterAll(commands);
+    public final Map<BotCommand, Boolean> deregisterAll(BotCommand... botCommands) {
+        return commandRegistry.deregisterAll(botCommands);
     }
 
     @Override
-    public final Collection<Command> getRegisteredCommands() {
+    public final Collection<BotCommand> getRegisteredCommands() {
         return commandRegistry.getRegisteredCommands();
     }
 

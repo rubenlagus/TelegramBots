@@ -9,23 +9,23 @@ import org.telegram.telegrambots.api.methods.send.SendMessage;
  *
  * @author tschulz
  */
-public class HelpCommand extends Command {
+public class HelpBotCommand extends BotCommand {
 
     private static final String LOGTAG = "HELPCOMMAND";
     private final ICommandRegistry commandRegistry;
 
-    public HelpCommand(ICommandRegistry commandRegistry, String botToken) {
+    public HelpBotCommand(ICommandRegistry commandRegistry, String botToken) {
         super("help", "Gives an overview over all Commands registered for this bot", botToken);
         this.commandRegistry = commandRegistry;
     }
 
     @Override
-    void execute(String[] arguments, long chatId) {
-        for (Command registeredCommand : commandRegistry.getRegisteredCommands()) {
+    public void execute(String[] arguments, long chatId) {
+        for (BotCommand registeredBotCommand : commandRegistry.getRegisteredCommands()) {
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(chatId);
             sendMessage.enableHtml(true);
-            sendMessage.setText("<b>" + COMMAND_INIT_CHARACTER + registeredCommand.getCommandIdentifier() + "</b>\n" + registeredCommand.getDescription());
+            sendMessage.setText("<b>" + COMMAND_INIT_CHARACTER + registeredBotCommand.getCommandIdentifier() + "</b>\n" + registeredBotCommand.getDescription());
 
             try {
                 sendMessage(sendMessage);

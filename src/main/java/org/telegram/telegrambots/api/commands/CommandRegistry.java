@@ -12,50 +12,50 @@ import java.util.Map;
  */
 public final class CommandRegistry implements ICommandRegistry {
 
-    private final Map<String, Command> commandRegistryMap = new HashMap<>();
+    private final Map<String, BotCommand> commandRegistryMap = new HashMap<>();
 
     public CommandRegistry(String botToken) {
-        register(new HelpCommand(this, botToken));
+        register(new HelpBotCommand(this, botToken));
     }
 
     @Override
-    public final boolean register(Command command) {
-        if (commandRegistryMap.containsKey(command.getCommandIdentifier())) {
+    public final boolean register(BotCommand botCommand) {
+        if (commandRegistryMap.containsKey(botCommand.getCommandIdentifier())) {
             return false;
         }
-        commandRegistryMap.put(command.getCommandIdentifier(), command);
+        commandRegistryMap.put(botCommand.getCommandIdentifier(), botCommand);
         return true;
     }
 
     @Override
-    public final Map<Command, Boolean> registerAll(Command... commands) {
-        Map<Command, Boolean> resultMap = new HashMap<>(commands.length);
-        for (Command command : commands) {
-            resultMap.put(command, register(command));
+    public final Map<BotCommand, Boolean> registerAll(BotCommand... botCommands) {
+        Map<BotCommand, Boolean> resultMap = new HashMap<>(botCommands.length);
+        for (BotCommand botCommand : botCommands) {
+            resultMap.put(botCommand, register(botCommand));
         }
         return resultMap;
     }
 
     @Override
-    public final boolean deregister(Command command) {
-        if (commandRegistryMap.containsKey(command.getCommandIdentifier())) {
-            commandRegistryMap.remove(command.getCommandIdentifier());
+    public final boolean deregister(BotCommand botCommand) {
+        if (commandRegistryMap.containsKey(botCommand.getCommandIdentifier())) {
+            commandRegistryMap.remove(botCommand.getCommandIdentifier());
             return true;
         }
         return false;
     }
 
     @Override
-    public final Map<Command, Boolean> deregisterAll(Command... commands) {
-        Map<Command, Boolean> resultMap = new HashMap<>(commands.length);
-        for (Command command : commands) {
-            resultMap.put(command, deregister(command));
+    public final Map<BotCommand, Boolean> deregisterAll(BotCommand... botCommands) {
+        Map<BotCommand, Boolean> resultMap = new HashMap<>(botCommands.length);
+        for (BotCommand botCommand : botCommands) {
+            resultMap.put(botCommand, deregister(botCommand));
         }
         return resultMap;
     }
 
     @Override
-    public final Collection<Command> getRegisteredCommands() {
+    public final Collection<BotCommand> getRegisteredCommands() {
         return commandRegistryMap.values();
     }
 
@@ -68,9 +68,9 @@ public final class CommandRegistry implements ICommandRegistry {
     public final boolean executeCommand(Message message) {
         if (message.hasText()) {
             String text = message.getText();
-            if (!text.isEmpty() && text.startsWith(Command.COMMAND_INIT_CHARACTER)) {
+            if (!text.isEmpty() && text.startsWith(BotCommand.COMMAND_INIT_CHARACTER)) {
                 String commandMessage = text.substring(1);
-                String[] commandSplit = commandMessage.split(Command.COMMAND_PARAMETER_SEPERATOR);
+                String[] commandSplit = commandMessage.split(BotCommand.COMMAND_PARAMETER_SEPARATOR);
 
                 String command = commandSplit[0];
 
