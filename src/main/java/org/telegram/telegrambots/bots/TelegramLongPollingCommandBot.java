@@ -17,7 +17,7 @@ import java.util.Map;
  *
  * @author tschulz
  */
-public abstract class TelegramLongPollingCommandBot extends AbsSender implements ITelegramLongPollingBot, ICommandRegistry{
+public abstract class TelegramLongPollingCommandBot extends AbsSender implements ITelegramLongPollingBot, ICommandRegistry {
 
     public static final String LOGTAG = "TelegramLongPollingCommandBot";
     private final CommandRegistry commandRegistry;
