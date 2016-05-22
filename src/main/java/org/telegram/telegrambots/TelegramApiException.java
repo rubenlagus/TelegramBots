@@ -8,12 +8,13 @@ package org.telegram.telegrambots;
  */
 public class TelegramApiException extends Exception {
     private String apiResponse = null;
+    private Integer errorCode;
 
     public TelegramApiException(String message) {
         super(message);
     }
 
-    public TelegramApiException(String message, String apiResponse) {
+    public TelegramApiException(String message, String apiResponse, Integer errorCode) {
         super(message);
         this.apiResponse = apiResponse;
     }
@@ -30,8 +31,10 @@ public class TelegramApiException extends Exception {
     public String toString() {
         if (apiResponse == null) {
             return super.toString();
-        } else {
+        } else if (errorCode == null) {
             return super.toString() + ": " + apiResponse;
+        } else {
+            return super.toString() + ": [" + errorCode + "] " + apiResponse;
         }
     }
 }

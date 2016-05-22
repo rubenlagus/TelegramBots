@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -52,7 +53,7 @@ public class InlineQueryResultArticle implements InlineQueryResult {
     @JsonProperty(THUMBHEIGHT_FIELD)
     private Integer thumbHeight; ///< Optional. Thumbnail height
 
-    public String getType() {
+    public static String getType() {
         return type;
     }
 
@@ -150,8 +151,8 @@ public class InlineQueryResultArticle implements InlineQueryResult {
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
 
-        jsonObject.put(TYPE_FIELD, this.type);
-        jsonObject.put(ID_FIELD, this.id);
+        jsonObject.put(TYPE_FIELD, type);
+        jsonObject.put(ID_FIELD, id);
         jsonObject.put(TITLE_FIELD, this.title);
         jsonObject.put(INPUTMESSAGECONTENT_FIELD, inputMessageContent.toJson());
         if (replyMarkup != null) {

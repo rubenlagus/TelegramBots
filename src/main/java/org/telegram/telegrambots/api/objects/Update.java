@@ -25,6 +25,7 @@ public class Update implements IBotApiObject {
     private static final String INLINEQUERY_FIELD = "inline_query";
     private static final String CHOSENINLINEQUERY_FIELD = "chosen_inline_result";
     private static final String CALLBACKQUERY_FIELD = "callback_query";
+    private static final String EDITEDMESSAGE_FIELD = "edited_message";
     @JsonProperty(UPDATEID_FIELD)
     private Integer updateId;
     @JsonProperty(MESSAGE_FIELD)
@@ -35,6 +36,8 @@ public class Update implements IBotApiObject {
     private ChosenInlineQuery chosenInlineQuery; ///< Optional. The result of a inline query that was chosen by a user and sent to their chat partner
     @JsonProperty(CALLBACKQUERY_FIELD)
     private CallbackQuery callbackQuery; ///< Optional. New incoming callback query
+    @JsonProperty(EDITEDMESSAGE_FIELD)
+    private Message editedMessage; ///< Optional. New version of a message that is known to the bot and was edited
 
     public Update() {
         super();
@@ -54,6 +57,9 @@ public class Update implements IBotApiObject {
         }
         if (jsonObject.has(CALLBACKQUERY_FIELD)) {
             callbackQuery = new CallbackQuery(jsonObject.getJSONObject(CALLBACKQUERY_FIELD));
+        }
+        if (jsonObject.has(EDITEDMESSAGE_FIELD)){
+            editedMessage = new Message(jsonObject.getJSONObject(EDITEDMESSAGE_FIELD));
         }
     }
 
@@ -77,6 +83,10 @@ public class Update implements IBotApiObject {
         return callbackQuery;
     }
 
+    public Message getEditedMessage() {
+        return editedMessage;
+    }
+
     public boolean hasMessage() {
         return message != null;
     }
@@ -93,6 +103,9 @@ public class Update implements IBotApiObject {
         return callbackQuery != null;
     }
 
+    public boolean hasEditedMessage() {
+        return editedMessage != null;
+    }
     @Override
     public void serialize(JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartObject();
@@ -108,6 +121,9 @@ public class Update implements IBotApiObject {
         }
         if (callbackQuery != null) {
             gen.writeObjectField(CALLBACKQUERY_FIELD, callbackQuery);
+        }
+        if (editedMessage != null) {
+            gen.writeObjectField(EDITEDMESSAGE_FIELD, editedMessage);
         }
         gen.writeEndObject();
         gen.flush();
@@ -126,6 +142,7 @@ public class Update implements IBotApiObject {
                 ", inlineQuery=" + inlineQuery +
                 ", chosenInlineQuery=" + chosenInlineQuery +
                 ", callbackQuery=" + callbackQuery +
+                ", editedMessage=" + editedMessage +
                 '}';
     }
 }
