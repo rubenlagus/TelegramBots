@@ -16,7 +16,6 @@ public abstract class BotCommand {
 
     private final String commandIdentifier;
     private final String description;
-    private AbsSender absSender;
 
     /**
      * construct a command
@@ -61,26 +60,11 @@ public abstract class BotCommand {
     }
 
     /**
-     * Setter
-     * @param absSender set AbsSender
-     */
-    public final void setAbsSender(AbsSender absSender) {
-        this.absSender = absSender;
-    }
-
-    /**
-     * Getter
-     * @return the absSender
-     */
-    protected final AbsSender getAbsSender() {
-        return absSender;
-    }
-
-    /**
      * execute the command
      *
-     * @param arguments passed arguments
+     * @param absSender absSender to send messages over
      * @param chat      the chat, to be able to send replies
+     * @param arguments passed arguments
      */
-    public abstract void execute(String[] arguments, Chat chat);
+    public abstract void execute(AbsSender absSender, Chat chat, String[] arguments);
 }

@@ -35,7 +35,7 @@ public abstract class TelegramLongPollingCommandBot extends AbsSender implements
         if (update.hasMessage()) {
             Message message = update.getMessage();
             if (message.isCommand()) {
-                if (!commandRegistry.executeCommand(message)) {
+                if (!commandRegistry.executeCommand(this, message)) {
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setChatId(message.getChatId().toString());
                     sendMessage.setText("The command you provided is not registered for this bot");
@@ -53,29 +53,21 @@ public abstract class TelegramLongPollingCommandBot extends AbsSender implements
 
     @Override
     public final boolean register(BotCommand botCommand) {
-        botCommand.setAbsSender(this);
         return commandRegistry.register(botCommand);
     }
 
     @Override
     public final Map<BotCommand, Boolean> registerAll(BotCommand... botCommands) {
-        for (BotCommand botCommand : botCommands) {
-            botCommand.setAbsSender(this);
-        }
         return commandRegistry.registerAll(botCommands);
     }
 
     @Override
     public final boolean deregister(BotCommand botCommand) {
-        botCommand.setAbsSender(null);
         return commandRegistry.deregister(botCommand);
     }
 
     @Override
     public final Map<BotCommand, Boolean> deregisterAll(BotCommand... botCommands) {
-        for (BotCommand botCommand : botCommands) {
-            botCommand.setAbsSender(null);
-        }
         return commandRegistry.deregisterAll(botCommands);
     }
 

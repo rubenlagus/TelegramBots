@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.api.commands;
 
 import org.telegram.telegrambots.api.objects.Message;
+import org.telegram.telegrambots.bots.AbsSender;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -65,7 +66,7 @@ public final class CommandRegistry implements ICommandRegistry {
      * @param message input message
      * @return        true if success or false otherwise
      */
-    public final boolean executeCommand(Message message) {
+    public final boolean executeCommand(AbsSender absSender, Message message) {
         if (message.hasText()) {
             String text = message.getText();
             if (!text.isEmpty() && text.startsWith(BotCommand.COMMAND_INIT_CHARACTER)) {
@@ -76,7 +77,7 @@ public final class CommandRegistry implements ICommandRegistry {
 
                 if (commandRegistryMap.containsKey(command)) {
                     String[] parameters = Arrays.copyOfRange(commandSplit, 1, commandSplit.length);
-                    commandRegistryMap.get(command).execute(parameters, message.getChat());
+                    commandRegistryMap.get(command).execute(absSender, message.getChat(), parameters);
                     return true;
                 }
             }

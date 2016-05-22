@@ -4,6 +4,7 @@ import org.telegram.telegrambots.BotLogger;
 import org.telegram.telegrambots.TelegramApiException;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Chat;
+import org.telegram.telegrambots.bots.AbsSender;
 
 /**
  * standard help command, which gets registered by default, to supply a list of all available commands
@@ -21,7 +22,7 @@ public class HelpBotCommand extends BotCommand {
     }
 
     @Override
-    public void execute(String[] arguments, Chat chat) {
+    public void execute(AbsSender absSender, Chat chat, String[] arguments) {
 
         for (BotCommand registeredBotCommand : commandRegistry.getRegisteredCommands()) {
             SendMessage sendMessage = new SendMessage();
@@ -30,7 +31,7 @@ public class HelpBotCommand extends BotCommand {
             sendMessage.setText("<b>" + COMMAND_INIT_CHARACTER + registeredBotCommand.getCommandIdentifier() + "</b>\n" + registeredBotCommand.getDescription());
 
             try {
-                getAbsSender().sendMessage(sendMessage);
+                absSender.sendMessage(sendMessage);
             } catch (TelegramApiException e) {
                 BotLogger.error("Failed to send HelpMessage", LOGTAG, e);
             }
