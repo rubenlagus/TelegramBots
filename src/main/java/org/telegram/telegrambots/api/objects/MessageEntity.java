@@ -23,6 +23,7 @@ public class MessageEntity implements IBotApiObject {
     private static final String OFFSET_FIELD = "offset";
     private static final String LENGTH_FIELD = "length";
     private static final String URL_FIELD = "url";
+    private static final String USER_FIELD = "user";
     @JsonProperty(TYPE_FIELD)
     /**
      * Type of the entity. One of
@@ -36,6 +37,7 @@ public class MessageEntity implements IBotApiObject {
      * code (monowidth string),
      * pre (monowidth block),
      * text_link (for clickable text URLs)
+     * text_mention (for users without usernames)
      */
     private String type;
     @JsonProperty(OFFSET_FIELD)
@@ -44,6 +46,8 @@ public class MessageEntity implements IBotApiObject {
     private Integer length; ///< Length of the entity in UTF-16 code units
     @JsonProperty(URL_FIELD)
     private String url; ///< Optional. For “text_link” only, url that will be opened after user taps on the text
+    @JsonProperty(USER_FIELD)
+    private User user; ///< Optional. For “text_mention” only, the mentioned user
 
     private String text; ///< Text present in the entity. Computed from offset and length
 
@@ -58,6 +62,9 @@ public class MessageEntity implements IBotApiObject {
         this.length = jsonObject.getInt(LENGTH_FIELD);
         if (EntityType.TEXTLINK.equals(type)) {
             this.url = jsonObject.getString(URL_FIELD);
+        }
+        if (EntityType.TEXTMENTION.equals(type)) {
+            this.user = new User(jsonObject.getJSONObject(USER_FIELD));
         }
     }
 
@@ -81,6 +88,10 @@ public class MessageEntity implements IBotApiObject {
         return text;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     protected void computeText(String message) {
         text = message.substring(offset, offset + length);
     }
@@ -93,6 +104,9 @@ public class MessageEntity implements IBotApiObject {
         gen.writeNumberField(LENGTH_FIELD, length);
         if (url != null && EntityType.TEXTLINK.equals(type)) {
             gen.writeStringField(URL_FIELD, url);
+        }
+        if (user != null && EntityType.TEXTMENTION.equals(type)) {
+            gen.writeObjectField(USER_FIELD, user);
         }
         gen.writeEndObject();
         gen.flush();
@@ -110,6 +124,7 @@ public class MessageEntity implements IBotApiObject {
                 ", offset=" + offset +
                 ", length=" + length +
                 ", url=" + url +
+                ", user=" + user +
                 '}';
     }
 }
