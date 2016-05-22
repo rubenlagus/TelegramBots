@@ -25,7 +25,7 @@ public class Update implements IBotApiObject {
     private static final String INLINEQUERY_FIELD = "inline_query";
     private static final String CHOSENINLINEQUERY_FIELD = "chosen_inline_result";
     private static final String CALLBACKQUERY_FIELD = "callback_query";
-    private static final String EDITEDMESSAGE_FIELD = "callback_query";
+    private static final String EDITEDMESSAGE_FIELD = "edited_message";
     @JsonProperty(UPDATEID_FIELD)
     private Integer updateId;
     @JsonProperty(MESSAGE_FIELD)
