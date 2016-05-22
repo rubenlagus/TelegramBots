@@ -17,6 +17,7 @@ public class EntityType {
     public static final String CODE = "code"; ///< Monowidth string
     public static final String PRE = "pre"; ///< Monowidth block
     public static final String TEXTLINK = "text_link"; ///< Clickable urls
+    public static final String TEXTMENTION = "text_mention"; ///< for users without usernames
 
     private EntityType() {
     }

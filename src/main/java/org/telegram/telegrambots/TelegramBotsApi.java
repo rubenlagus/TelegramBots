@@ -22,6 +22,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import static org.telegram.telegrambots.Constants.ERRORCODEFIELD;
+import static org.telegram.telegrambots.Constants.ERRORDESCRIPTIONFIELD;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -94,8 +97,7 @@ public class TelegramBotsApi {
      * @throws TelegramApiException
      */
     private static void setWebhook(String webHookURL, String botToken, String publicCertificatePath, String publicCertificateName) throws TelegramApiException {
-        try {
-            CloseableHttpClient httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).build();
+        try (CloseableHttpClient httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).build()) {
             String url = Constants.BASEURL + botToken + "/" + SetWebhook.PATH;
 
             HttpPost httppost = new HttpPost(url);
@@ -106,13 +108,14 @@ public class TelegramBotsApi {
             }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
-            CloseableHttpResponse response = httpclient.execute(httppost);
-            HttpEntity ht = response.getEntity();
-            BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-            String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
-            JSONObject jsonObject = new JSONObject(responseContent);
-            if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-                throw new TelegramApiException(webHookURL == null ? "Error removing old webhook" : "Error setting webhook", responseContent);
+            try (CloseableHttpResponse response = httpclient.execute(httppost)) {
+                HttpEntity ht = response.getEntity();
+                BufferedHttpEntity buf = new BufferedHttpEntity(ht);
+                String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
+                JSONObject jsonObject = new JSONObject(responseContent);
+                if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
+                    throw new TelegramApiException(webHookURL == null ? "Error removing old webhook" : "Error setting webhook", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
+                }
             }
         } catch (JSONException e) {
             throw new TelegramApiException("Error deserializing setWebhook method response", e);
