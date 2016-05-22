@@ -126,7 +126,7 @@ public class TelegramBotsApi {
 
     /**
      * Register a bot. The Bot Session is started immediately, and may be disconnected by calling close.
-     * @param bot
+     * @param bot the bot to register
      */
     public BotSession registerBot(TelegramLongPollingBot bot) throws TelegramApiException {
         setWebhook(bot.getBotToken());
