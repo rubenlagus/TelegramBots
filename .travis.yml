@@ -1,0 +1,2 @@
+language: java
+script: mvn versions:display-dependency-updates clean compile assembly:single
