@@ -1,2 +1,4 @@
 language: java
+jdk:
+  - oraclejdk8
 script: mvn versions:display-dependency-updates clean compile assembly:single
