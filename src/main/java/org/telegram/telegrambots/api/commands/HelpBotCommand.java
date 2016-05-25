@@ -1,10 +1,10 @@
 package org.telegram.telegrambots.api.commands;
 
-import org.telegram.telegrambots.BotLogger;
 import org.telegram.telegrambots.TelegramApiException;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Chat;
 import org.telegram.telegrambots.bots.AbsSender;
+import org.telegram.telegrambots.logging.BotLogger;
 
 /**
  * standard help command, which gets registered by default, to supply a list of all available commands

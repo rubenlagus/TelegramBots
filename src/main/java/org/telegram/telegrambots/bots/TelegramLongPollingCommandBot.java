@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.bots;
 
-import org.telegram.telegrambots.BotLogger;
+
 import org.telegram.telegrambots.TelegramApiException;
 import org.telegram.telegrambots.api.commands.BotCommand;
 import org.telegram.telegrambots.api.commands.CommandRegistry;
@@ -8,6 +8,7 @@ import org.telegram.telegrambots.api.commands.ICommandRegistry;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.logging.BotLogger;
 
 import java.util.Collection;
 import java.util.Map;
