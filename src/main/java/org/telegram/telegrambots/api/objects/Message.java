@@ -382,10 +382,11 @@ public class Message implements IBotApiObject {
     }
 
     public boolean isCommand() {
-        if (entities != null) {
+        if (hasText() && entities != null) {
             for (MessageEntity entity : entities) {
-                if (entity != null && "bot_command".equals(entity.getType())) {
-                    return text != null && !text.isEmpty();
+                if (entity != null && entity.getOffset() == 0 &&
+                        EntityType.BOTCOMMAND.equals(entity.getType())) {
+                    return true;
                 }
             }
         }

@@ -1,4 +1,4 @@
-package org.telegram.telegrambots.api.commands;
+package org.telegram.telegrambots.bots.commands;
 
 import org.telegram.telegrambots.api.objects.Chat;
 import org.telegram.telegrambots.bots.AbsSender;
@@ -9,18 +9,18 @@ import org.telegram.telegrambots.bots.AbsSender;
  * @author tschulz
  */
 public abstract class BotCommand {
-
     public final static String COMMAND_INIT_CHARACTER = "/";
-    public final static String COMMAND_PARAMETER_SEPARATOR = " ";
+    public static final String COMMAND_PARAMETER_SEPARATOR = " ";
     private final static int COMMAND_MAX_LENGTH = 32;
 
     private final String commandIdentifier;
     private final String description;
 
     /**
-     * construct a command
+     * Construct a command
      *
-     * @param commandIdentifier the unique identifier of this command (e.g. the command string to enter into chat)
+     * @param commandIdentifier the unique identifier of this command (e.g. the command string to
+     *                          enter into chat)
      * @param description       the description of this command
      */
     public BotCommand(String commandIdentifier, String description) {
@@ -42,7 +42,7 @@ public abstract class BotCommand {
     }
 
     /**
-     * get the identifier of this command
+     * Get the identifier of this command
      *
      * @return the identifier
      */
@@ -51,7 +51,7 @@ public abstract class BotCommand {
     }
 
     /**
-     * get the description of this command
+     * Get the description of this command
      *
      * @return the description as String
      */
@@ -59,8 +59,14 @@ public abstract class BotCommand {
         return description;
     }
 
+    @Override
+    public String toString() {
+        return "<b>" + COMMAND_INIT_CHARACTER + getCommandIdentifier() +
+                "</b>\n" + getDescription();
+    }
+
     /**
-     * execute the command
+     * Execute the command
      *
      * @param absSender absSender to send messages over
      * @param chat      the chat, to be able to send replies

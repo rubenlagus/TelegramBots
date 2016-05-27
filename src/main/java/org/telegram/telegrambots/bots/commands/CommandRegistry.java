@@ -1,4 +1,4 @@
-package org.telegram.telegrambots.api.commands;
+package org.telegram.telegrambots.bots.commands;
 
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.bots.AbsSender;
@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 /**
  * @author tschulz
@@ -14,9 +15,14 @@ import java.util.Map;
 public final class CommandRegistry implements ICommandRegistry {
 
     private final Map<String, BotCommand> commandRegistryMap = new HashMap<>();
+    private BiConsumer<AbsSender, Message> defaultConsumer;
 
-    public CommandRegistry(String botToken) {
-        register(new HelpBotCommand(this, botToken));
+    public CommandRegistry() {
+    }
+
+    @Override
+    public void registerDefaultAction(BiConsumer<AbsSender, Message> defaultConsumer) {
+        this.defaultConsumer = defaultConsumer;
     }
 
     @Override
@@ -61,15 +67,19 @@ public final class CommandRegistry implements ICommandRegistry {
     }
 
     /**
-     * executes a command if present and replies the success
+     * Executes a command action if the command is registered.
      *
+     * @note If the command is not registered and there is a default consumer,
+     * that action will be performed
+     *
+     * @param absSender absSender
      * @param message input message
-     * @return        true if success or false otherwise
+     * @return True if a command or default action is executed, false otherwise
      */
     public final boolean executeCommand(AbsSender absSender, Message message) {
         if (message.hasText()) {
             String text = message.getText();
-            if (!text.isEmpty() && text.startsWith(BotCommand.COMMAND_INIT_CHARACTER)) {
+            if (text.startsWith(BotCommand.COMMAND_INIT_CHARACTER)) {
                 String commandMessage = text.substring(1);
                 String[] commandSplit = commandMessage.split(BotCommand.COMMAND_PARAMETER_SEPARATOR);
 
@@ -78,6 +88,9 @@ public final class CommandRegistry implements ICommandRegistry {
                 if (commandRegistryMap.containsKey(command)) {
                     String[] parameters = Arrays.copyOfRange(commandSplit, 1, commandSplit.length);
                     commandRegistryMap.get(command).execute(absSender, message.getChat(), parameters);
+                    return true;
+                } else if (defaultConsumer != null) {
+                    defaultConsumer.accept(absSender, message);
                     return true;
                 }
             }

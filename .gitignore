@@ -33,6 +33,7 @@ hs_err_pid*
 
 ### IDE files
 .idea/
+copyright/
 *.iml
 
 #File System specific files
