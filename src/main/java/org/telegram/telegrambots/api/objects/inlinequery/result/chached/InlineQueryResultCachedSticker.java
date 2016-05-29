@@ -87,7 +87,7 @@ public class InlineQueryResultCachedSticker implements InlineQueryResult {
         jsonObject.put(ID_FIELD, this.id);
         jsonObject.put(STICKER_FILE_ID_FIELD, stickerFileId);
         if (replyMarkup != null) {
-            jsonObject.put(REPLY_MARKUP_FIELD, replyMarkup);
+            jsonObject.put(REPLY_MARKUP_FIELD, replyMarkup.toJson());
         }
         if (inputMessageContent != null) {
             jsonObject.put(INPUTMESSAGECONTENT_FIELD, inputMessageContent);

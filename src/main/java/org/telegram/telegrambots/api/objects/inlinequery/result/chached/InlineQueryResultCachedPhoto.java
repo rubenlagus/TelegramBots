@@ -130,7 +130,7 @@ public class InlineQueryResultCachedPhoto implements InlineQueryResult {
             jsonObject.put(CAPTION_FIELD, this.caption);
         }
         if (replyMarkup != null) {
-            jsonObject.put(REPLY_MARKUP_FIELD, replyMarkup);
+            jsonObject.put(REPLY_MARKUP_FIELD, replyMarkup.toJson());
         }
         if (inputMessageContent != null) {
             jsonObject.put(INPUTMESSAGECONTENT_FIELD, inputMessageContent);
