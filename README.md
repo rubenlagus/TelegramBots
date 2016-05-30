@@ -10,13 +10,11 @@ Feel free to fork this project, work on it and then make a pull request. Most of
 Please, **DO NOT PUSH ANY TOKEN OR API KEY**, I will never accept a pull request with that content.
 
 ## Webhooks vs GetUpdates
-Both ways are supported (but I still didn't tested webhooks).
-
-I recommend using getUpdates methods.
+Both ways are supported, but I recommend long polling method.
 
 ## Usage
 
-Just import add the library to your project using [Maven, Gradly, ...](https://jitpack.io/#rubenlagus/TelegramBots/v2.3.3.1) or download the jar(including all dependencies) from [here](https://github.com/rubenlagus/TelegramBots/releases/tag/v2.3.3.1)
+Just import add the library to your project using [Maven, Gradly, ...](https://jitpack.io/#rubenlagus/TelegramBots/v2.3.3.2) or download the jar(including all dependencies) from [here](https://github.com/rubenlagus/TelegramBots/releases/tag/v2.3.3.2)
 
 In order to use Long Polling mode, just create your own bot extending `org.telegram.telegrambots.bots.TelegramLongPollingBot`.
 
@@ -51,15 +49,15 @@ Once done, you just need to creat a `org.telegram.telegrambots.TelegramBotsApi`a
 ## Example bots
 Open them and send them */help* command to get some information about their capabilities:
 
-https://telegram.me/weatherbot 
+https://telegram.me/weatherbot (**Use custom keyboards**)
 
-https://telegram.me/directionsbot
+https://telegram.me/directionsbot (**Basic messages**)
 
-https://telegram.me/filesbot
+https://telegram.me/filesbot (**Send files by file_id**)
 
-https://telegram.me/TGlanguagesbot
+https://telegram.me/TGlanguagesbot (**Send files uploding them**)
 
-https://telegram.me/RaeBot
+https://telegram.me/RaeBot (**Inline support**)
 
 You can see code for those bots at [TelegramBotsExample](https://github.com/rubenlagus/TelegramBotsExample) project.
 
