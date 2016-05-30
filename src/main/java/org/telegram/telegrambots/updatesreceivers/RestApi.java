@@ -3,10 +3,16 @@ package org.telegram.telegrambots.updatesreceivers;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.ITelegramWebhookBot;
 
-import javax.ws.rs.*;
+import java.util.concurrent.ConcurrentHashMap;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Ruben Bermudez
@@ -15,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 20 of June of 2015
  */
 @Path("callback")
-class RestApi {
+public class RestApi {
 
     private final ConcurrentHashMap<String, ITelegramWebhookBot> callbacks = new ConcurrentHashMap<>();
 
