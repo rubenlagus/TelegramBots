@@ -14,21 +14,18 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.telegram.telegrambots.logging.BotLogger;
 import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.TelegramApiException;
 import org.telegram.telegrambots.api.methods.updates.GetUpdates;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.ITelegramLongPollingBot;
+import org.telegram.telegrambots.logging.BotLogger;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
-
-import static org.telegram.telegrambots.Constants.ERRORCODEFIELD;
-import static org.telegram.telegrambots.Constants.ERRORDESCRIPTIONFIELD;
 
 /**
  * @author Ruben Bermudez
@@ -54,49 +51,55 @@ public class BotSession {
     public BotSession(String token, ITelegramLongPollingBot callback) {
         this.token = token;
         this.callback = callback;
+
         httpclient = HttpClientBuilder.create()
                 .setSSLHostnameVerifier(new NoopHostnameVerifier())
                 .setConnectionTimeToLive(70, TimeUnit.SECONDS)
                 .setMaxConnTotal(100)
                 .build();
+
         requestConfig = RequestConfig.copy(RequestConfig.custom().build())
                 .setSocketTimeout(SOCKET_TIMEOUT)
                 .setConnectTimeout(SOCKET_TIMEOUT)
                 .setConnectionRequestTimeout(SOCKET_TIMEOUT).build();
-        this.readerThread = new ReaderThread();
+
+        readerThread = new ReaderThread();
         readerThread.setName(callback.getBotUsername() + " Telegram Connection");
-        this.readerThread.start();
-        this.handlerThread = new HandlerThread();
-        handlerThread.setName(callback.getBotUsername() + " Executor");
-        this.handlerThread.start();
+        readerThread.start();
+
+        handlerThread = new HandlerThread();
+        handlerThread.setName(callback.getBotUsername() + " Telegram Executor");
+        handlerThread.start();
     }
-    
-    public void close()
-    {
-    	running = false;
-    	if(httpclient != null)
-    	{
-    		try
-			{
-				httpclient.close();
-				httpclient = null;
+
+    public void close() {
+        running = false;
+        if (readerThread != null) {
+            readerThread.interrupt();
+        }
+        if (handlerThread != null) {
+            handlerThread.interrupt();
+        }
+        if (httpclient != null) {
+            try {
+                httpclient.close();
+                httpclient = null;
             } catch (IOException e) {
                 BotLogger.severe(LOGTAG, e);
             }
-    	}
-    	
+        }
     }
 
     private class ReaderThread extends Thread {
 
-		@Override
+        @Override
         public void run() {
             setPriority(Thread.MIN_PRIORITY);
-            while(running) {
+            while (running) {
                 try {
                     GetUpdates request = new GetUpdates();
                     request.setLimit(100);
-                    request.setTimeout(50);
+                    request.setTimeout(Constants.GETUPDATESTIMEOUT);
                     request.setOffset(lastReceivedUpdate + 1);
                     String url = Constants.BASEURL + token + "/" + GetUpdates.PATH;
                     //http client
@@ -111,7 +114,9 @@ public class BotSession {
                         String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
                         JSONObject jsonObject = new JSONObject(responseContent);
                         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-                            throw new TelegramApiException("Error getting updates", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
+                            throw new TelegramApiException("Error getting updates",
+                                    jsonObject.getString(Constants.ERRORDESCRIPTIONFIELD),
+                                    jsonObject.getInt(Constants.ERRORCODEFIELD));
                         }
                         JSONArray jsonArray = jsonObject.getJSONArray(Constants.RESPONSEFIELDRESULT);
                         if (jsonArray.length() != 0) {
@@ -155,7 +160,7 @@ public class BotSession {
         @Override
         public void run() {
             setPriority(Thread.MIN_PRIORITY);
-            while(running) {
+            while (running) {
                 try {
                     Update update = receivedUpdates.pollLast();
                     if (update == null) {

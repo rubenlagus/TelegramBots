@@ -8,6 +8,7 @@ package org.telegram.telegrambots;
  */
 public class Constants {
     public static final String BASEURL = "https://api.telegram.org/bot";
+    public static final int GETUPDATESTIMEOUT = 50;
     public static final String RESPONSEFIELDOK = "ok";
     public static final String RESPONSEFIELDRESULT = "result";
     public static final String ERRORDESCRIPTIONFIELD = "description";

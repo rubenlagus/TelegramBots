@@ -21,6 +21,7 @@ import org.telegram.telegrambots.updatesreceivers.Webhook;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.text.MessageFormat;
 
 import static org.telegram.telegrambots.Constants.ERRORCODEFIELD;
 import static org.telegram.telegrambots.Constants.ERRORDESCRIPTIONFIELD;
@@ -32,11 +33,11 @@ import static org.telegram.telegrambots.Constants.ERRORDESCRIPTIONFIELD;
  * @date 14 of January of 2016
  */
 public class TelegramBotsApi {
+    private static final String webhookUrlFormat = "{0}callback/";
     private boolean useWebhook; ///<
     private Webhook webhook; ///<
     private String extrenalUrl; ///<
     private String pathToCertificate; ///<
-    private String publicCertificateName; ///<
 
     /**
      *
@@ -52,6 +53,13 @@ public class TelegramBotsApi {
      * @param internalUrl
      */
     public TelegramBotsApi(String keyStore, String keyStorePassword, String externalUrl, String internalUrl) throws TelegramApiException {
+        if (externalUrl == null || externalUrl.isEmpty()) {
+            throw new TelegramApiException("Parameter externalUrl can not be null or empty");
+        }
+        if (internalUrl == null || internalUrl.isEmpty()) {
+            throw new TelegramApiException("Parameter internalUrl can not be null or empty");
+        }
+
         this.useWebhook = true;
         this.extrenalUrl = fixExternalUrl(externalUrl);
         webhook = new Webhook(keyStore, keyStorePassword, internalUrl);
@@ -64,14 +72,18 @@ public class TelegramBotsApi {
      * @param keyStorePassword
      * @param externalUrl
      * @param internalUrl
-     * @param pathToCertificate
-     * @param publicCertificateName
+     * @param pathToCertificate Full path until .pem public certificate keys
      */
-    public TelegramBotsApi(String keyStore, String keyStorePassword, String externalUrl, String internalUrl, String pathToCertificate, String publicCertificateName) throws TelegramApiException {
+    public TelegramBotsApi(String keyStore, String keyStorePassword, String externalUrl, String internalUrl, String pathToCertificate) throws TelegramApiException {
+        if (externalUrl == null || externalUrl.isEmpty()) {
+            throw new TelegramApiException("Parameter externalUrl can not be null or empty");
+        }
+        if (internalUrl == null || internalUrl.isEmpty()) {
+            throw new TelegramApiException("Parameter internalUrl can not be null or empty");
+        }
         this.useWebhook = true;
         this.extrenalUrl = fixExternalUrl(externalUrl);
         this.pathToCertificate = pathToCertificate;
-        this.publicCertificateName = publicCertificateName;
         webhook = new Webhook(keyStore, keyStorePassword, internalUrl);
         webhook.startServer();
     }
@@ -85,7 +97,7 @@ public class TelegramBotsApi {
         if (externalUrl != null && !externalUrl.endsWith("/")) {
             externalUrl = externalUrl + "/";
         }
-        return externalUrl;
+        return MessageFormat.format(webhookUrlFormat, externalUrl);
     }
 
     /**
@@ -96,7 +108,7 @@ public class TelegramBotsApi {
      * @param publicCertificateName
      * @throws TelegramApiException
      */
-    private static void setWebhook(String webHookURL, String botToken, String publicCertificatePath, String publicCertificateName) throws TelegramApiException {
+    private static void setWebhook(String webHookURL, String botToken, String publicCertificatePath) throws TelegramApiException {
         try (CloseableHttpClient httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).build()) {
             String url = Constants.BASEURL + botToken + "/" + SetWebhook.PATH;
 
@@ -104,7 +116,10 @@ public class TelegramBotsApi {
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addTextBody(SetWebhook.URL_FIELD, webHookURL);
             if (publicCertificatePath != null) {
-                builder.addBinaryBody(SetWebhook.CERTIFICATE_FIELD, new File(publicCertificatePath), ContentType.APPLICATION_OCTET_STREAM, publicCertificateName);
+                File certificate = new File(publicCertificatePath);
+                if (certificate.exists()) {
+                    builder.addBinaryBody(SetWebhook.CERTIFICATE_FIELD, certificate, ContentType.TEXT_PLAIN, certificate.getName());
+                }
             }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
@@ -126,10 +141,10 @@ public class TelegramBotsApi {
 
     /**
      * Register a bot. The Bot Session is started immediately, and may be disconnected by calling close.
-     * @param bot
+     * @param bot the bot to register
      */
     public BotSession registerBot(TelegramLongPollingBot bot) throws TelegramApiException {
-        setWebhook(bot.getBotToken());
+        setWebhook(bot.getBotToken(), null);
         return new BotSession(bot.getBotToken(), bot);
     }
 
@@ -140,7 +155,7 @@ public class TelegramBotsApi {
     public void registerBot(TelegramWebhookBot bot) throws TelegramApiException {
         if (useWebhook) {
             webhook.registerWebhook(bot);
-            setWebhook(bot.getBotToken());
+            setWebhook(bot.getBotToken(), bot.getBotPath());
         }
     }
 
@@ -148,10 +163,11 @@ public class TelegramBotsApi {
      *
      * @param botToken
      */
-    private void setWebhook(String botToken) throws TelegramApiException {
+    private void setWebhook(String botToken, String urlPath) throws TelegramApiException {
         if (botToken == null) {
             throw new TelegramApiException("Parameter botToken can not be null");
         }
-        setWebhook(extrenalUrl == null ? "" : extrenalUrl, botToken, pathToCertificate, publicCertificateName);
+        String completeExternalUrl = urlPath == null ? "" : extrenalUrl + urlPath;
+        setWebhook(completeExternalUrl, botToken, pathToCertificate);
     }
 }

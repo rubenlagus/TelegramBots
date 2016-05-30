@@ -102,7 +102,7 @@ public class InlineQueryResultCachedVoice implements InlineQueryResult {
             jsonObject.put(TITLE_FIELD, this.title);
         }
         if (replyMarkup != null) {
-            jsonObject.put(REPLY_MARKUP_FIELD, replyMarkup);
+            jsonObject.put(REPLY_MARKUP_FIELD, replyMarkup.toJson());
         }
         if (inputMessageContent != null) {
             jsonObject.put(INPUTMESSAGECONTENT_FIELD, inputMessageContent);

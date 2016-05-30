@@ -381,6 +381,18 @@ public class Message implements IBotApiObject {
         return text != null && !text.isEmpty();
     }
 
+    public boolean isCommand() {
+        if (hasText() && entities != null) {
+            for (MessageEntity entity : entities) {
+                if (entity != null && entity.getOffset() == 0 &&
+                        EntityType.BOTCOMMAND.equals(entity.getType())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public boolean hasDocument() {
         return this.document != null;
     }

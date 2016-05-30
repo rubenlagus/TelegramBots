@@ -104,7 +104,7 @@ public abstract class AbsSender {
             throw new TelegramApiException("Parameter sendMessage can not be null");
         }
 
-        return (Message) sendApiMethod(sendMessage);
+        return sendApiMethod(sendMessage);
     }
 
     public Boolean answerInlineQuery(AnswerInlineQuery answerInlineQuery) throws TelegramApiException {
@@ -112,7 +112,7 @@ public abstract class AbsSender {
             throw new TelegramApiException("Parameter answerInlineQuery can not be null");
         }
 
-        return (Boolean) sendApiMethod(answerInlineQuery);
+        return sendApiMethod(answerInlineQuery);
     }
 
     public Boolean sendChatAction(SendChatAction sendChatAction) throws TelegramApiException {
@@ -120,7 +120,7 @@ public abstract class AbsSender {
             throw new TelegramApiException("Parameter sendChatAction can not be null");
         }
 
-        return (Boolean) sendApiMethod(sendChatAction);
+        return sendApiMethod(sendChatAction);
     }
 
     public Message forwardMessage(ForwardMessage forwardMessage) throws TelegramApiException {
@@ -128,7 +128,7 @@ public abstract class AbsSender {
             throw new TelegramApiException("Parameter forwardMessage can not be null");
         }
 
-        return (Message) sendApiMethod(forwardMessage);
+        return sendApiMethod(forwardMessage);
     }
 
     public Message sendLocation(SendLocation sendLocation) throws TelegramApiException {
@@ -136,7 +136,7 @@ public abstract class AbsSender {
             throw new TelegramApiException("Parameter sendLocation can not be null");
         }
 
-        return (Message) sendApiMethod(sendLocation);
+        return sendApiMethod(sendLocation);
     }
 
     public Message sendVenue(SendVenue sendVenue) throws TelegramApiException {
@@ -144,7 +144,7 @@ public abstract class AbsSender {
             throw new TelegramApiException("Parameter sendVenue can not be null");
         }
 
-        return (Message) sendApiMethod(sendVenue);
+        return sendApiMethod(sendVenue);
     }
 
     public Message sendContact(SendContact sendContact) throws TelegramApiException {
@@ -152,84 +152,84 @@ public abstract class AbsSender {
             throw new TelegramApiException("Parameter sendContact can not be null");
         }
 
-        return (Message) sendApiMethod(sendContact);
+        return sendApiMethod(sendContact);
     }
 
     public Boolean kickMember(KickChatMember kickChatMember) throws TelegramApiException {
         if (kickChatMember == null) {
             throw new TelegramApiException("Parameter kickChatMember can not be null");
         }
-        return (Boolean) sendApiMethod(kickChatMember);
+        return sendApiMethod(kickChatMember);
     }
 
     public Boolean unbanMember(UnbanChatMember unbanChatMember) throws TelegramApiException {
         if (unbanChatMember == null) {
             throw new TelegramApiException("Parameter unbanChatMember can not be null");
         }
-        return (Boolean) sendApiMethod(unbanChatMember);
+        return sendApiMethod(unbanChatMember);
     }
 
     public Boolean leaveChat(LeaveChat leaveChat) throws TelegramApiException {
         if (leaveChat == null) {
             throw new TelegramApiException("Parameter leaveChat can not be null");
         }
-        return (Boolean) sendApiMethod(leaveChat);
+        return sendApiMethod(leaveChat);
     }
 
     public Chat getChat(GetChat getChat) throws TelegramApiException {
         if (getChat == null) {
             throw new TelegramApiException("Parameter getChat can not be null");
         }
-        return (Chat) sendApiMethod(getChat);
+        return sendApiMethod(getChat);
     }
 
     public List<ChatMember> getChatAdministrators(GetChatAdministrators getChatAdministrators) throws TelegramApiException {
         if (getChatAdministrators == null) {
             throw new TelegramApiException("Parameter getChatAdministrators can not be null");
         }
-        return (ArrayList<ChatMember>) sendApiMethod(getChatAdministrators);
+        return sendApiMethod(getChatAdministrators);
     }
 
     public ChatMember getChatMember(GetChatMember getChatMember) throws TelegramApiException {
         if (getChatMember == null) {
             throw new TelegramApiException("Parameter getChatMember can not be null");
         }
-        return (ChatMember) sendApiMethod(getChatMember);
+        return sendApiMethod(getChatMember);
     }
 
     public Integer getChatMemberCount(GetChatMemberCount getChatMemberCount) throws TelegramApiException {
         if (getChatMemberCount == null) {
             throw new TelegramApiException("Parameter getChatMemberCount can not be null");
         }
-        return (Integer) sendApiMethod(getChatMemberCount);
+        return sendApiMethod(getChatMemberCount);
     }
 
     public Message editMessageText(EditMessageText editMessageText) throws TelegramApiException {
         if (editMessageText == null) {
             throw new TelegramApiException("Parameter editMessageText can not be null");
         }
-        return (Message) sendApiMethod(editMessageText);
+        return sendApiMethod(editMessageText);
     }
 
     public Message editMessageCaption(EditMessageCaption editMessageCaption) throws TelegramApiException {
         if (editMessageCaption == null) {
             throw new TelegramApiException("Parameter editMessageCaption can not be null");
         }
-        return (Message) sendApiMethod(editMessageCaption);
+        return sendApiMethod(editMessageCaption);
     }
 
     public Message editMessageReplyMarkup(EditMessageReplyMarkup editMessageReplyMarkup) throws TelegramApiException {
         if (editMessageReplyMarkup == null) {
             throw new TelegramApiException("Parameter editMessageReplyMarkup can not be null");
         }
-        return (Message) sendApiMethod(editMessageReplyMarkup);
+        return sendApiMethod(editMessageReplyMarkup);
     }
 
     public Boolean answerCallbackQuery(AnswerCallbackQuery answerCallbackQuery) throws TelegramApiException {
         if (answerCallbackQuery == null) {
             throw new TelegramApiException("Parameter answerCallbackQuery can not be null");
         }
-        return (Boolean) sendApiMethod(answerCallbackQuery);
+        return sendApiMethod(answerCallbackQuery);
     }
 
     public UserProfilePhotos getUserProfilePhotos(GetUserProfilePhotos getUserProfilePhotos) throws TelegramApiException {
@@ -237,7 +237,7 @@ public abstract class AbsSender {
             throw new TelegramApiException("Parameter getUserProfilePhotos can not be null");
         }
 
-        return (UserProfilePhotos) sendApiMethod(getUserProfilePhotos);
+        return sendApiMethod(getUserProfilePhotos);
     }
 
     public File getFile(GetFile getFile) throws TelegramApiException{
@@ -247,13 +247,13 @@ public abstract class AbsSender {
         else if(getFile.getFileId() == null){
             throw new TelegramApiException("Attribute file_id in parameter getFile can not be null");
         }
-        return (File) sendApiMethod(getFile);
+        return sendApiMethod(getFile);
     }
 
     public User getMe() throws TelegramApiException {
         GetMe getMe = new GetMe();
 
-        return (User) sendApiMethod(getMe);
+        return sendApiMethod(getMe);
     }
 
     // Send Requests Async
@@ -928,7 +928,7 @@ public abstract class AbsSender {
         });
     }
 
-    private Serializable sendApiMethod(BotApiMethod method) throws TelegramApiException {
+    private <T extends Serializable> T sendApiMethod(BotApiMethod<T> method) throws TelegramApiException {
         String responseContent;
         try {
             String url = getBaseUrl() + method.getPath();
