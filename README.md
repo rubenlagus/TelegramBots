@@ -59,6 +59,8 @@ https://telegram.me/TGlanguagesbot (**Send files uploding them**)
 
 https://telegram.me/RaeBot (**Inline support**)
 
+https://telegram.me/SnowcrashBot (**Webhook support**)
+
 You can see code for those bots at [TelegramBotsExample](https://github.com/rubenlagus/TelegramBotsExample) project.
 
 ## Telegram Bot API
