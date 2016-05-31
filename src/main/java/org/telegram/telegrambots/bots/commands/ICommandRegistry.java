@@ -10,7 +10,7 @@ import java.util.function.BiConsumer;
 /**
  * This Interface represents the gateway for registering and deregistering commands.
  *
- * @author tschulz
+ * @author Timo Schulz (Mit0x2)
  */
 public interface ICommandRegistry {
 

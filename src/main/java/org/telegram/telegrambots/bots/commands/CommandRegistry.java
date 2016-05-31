@@ -12,7 +12,7 @@ import java.util.function.BiConsumer;
 /**
  * This class manages all the commands for a bot. You can register and deregister commands on demand
  *
- * @author tschulz
+ * @author Timo Schulz (Mit0x2)
  */
 public final class CommandRegistry implements ICommandRegistry {
 

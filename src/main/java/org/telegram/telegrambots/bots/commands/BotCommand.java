@@ -7,7 +7,7 @@ import org.telegram.telegrambots.bots.AbsSender;
 /**
  * Representation of a command, which can be executed
  *
- * @author tschulz
+ * @author Timo Schulz (Mit0x2)
  */
 public abstract class BotCommand {
     public final static String COMMAND_INIT_CHARACTER = "/";
