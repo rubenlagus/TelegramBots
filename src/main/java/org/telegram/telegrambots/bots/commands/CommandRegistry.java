@@ -19,9 +19,6 @@ public final class CommandRegistry implements ICommandRegistry {
     private final Map<String, BotCommand> commandRegistryMap = new HashMap<>();
     private BiConsumer<AbsSender, Message> defaultConsumer;
 
-    public CommandRegistry() {
-    }
-
     @Override
     public void registerDefaultAction(BiConsumer<AbsSender, Message> defaultConsumer) {
         this.defaultConsumer = defaultConsumer;
