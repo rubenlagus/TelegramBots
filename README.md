@@ -94,7 +94,7 @@ Here is an example:
 
         @Override
         public void processNonCommandUpdate(Update update) {
-            //All non command updated end here
+            //All non command updates are passed to this method
         }
 
         .
