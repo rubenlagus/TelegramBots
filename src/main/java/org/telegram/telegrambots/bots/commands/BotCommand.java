@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.bots.commands;
 
 import org.telegram.telegrambots.api.objects.Chat;
+import org.telegram.telegrambots.api.objects.User;
 import org.telegram.telegrambots.bots.AbsSender;
 
 /**
@@ -69,8 +70,9 @@ public abstract class BotCommand {
      * Execute the command
      *
      * @param absSender absSender to send messages over
+     * @param user      the user who sent the command
      * @param chat      the chat, to be able to send replies
      * @param arguments passed arguments
      */
-    public abstract void execute(AbsSender absSender, Chat chat, String[] arguments);
+    public abstract void execute(AbsSender absSender, User user, Chat chat, String[] arguments);
 }
