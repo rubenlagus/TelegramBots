@@ -21,7 +21,7 @@ In order to use Long Polling mode, just create your own bot extending `org.teleg
 If you like to use Webhook, extend `org.telegram.telegrambots.bots.TelegramWebhookBot`
 
 
-Once done, you just need to creat a `org.telegram.telegrambots.TelegramBotsApi`and register your bots:
+Once done, you just need to create a `org.telegram.telegrambots.TelegramBotsApi`and register your bots:
 
 ```java
 
@@ -44,7 +44,64 @@ Once done, you just need to creat a `org.telegram.telegrambots.TelegramBotsApi`a
     }
 
 ```
+## Command Bot
 
+In order to make commands work for your bot by using the `org.telegram.telegrambots.bots.TelegramLongPollingCommandBot` you can
+just make your Bot extend this class instead of the `org.telegram.telegrambots.bots.TelegramLongPollingBot`.
+
+Since this bot inherits from `org.telegram.telegrambots.bots.commands.ICommandRegistry` it is capable of register- and
+deregistering commands to your bot.
+
+Here is an example:
+
+```java
+
+    public class Main {
+
+        private static final String LOGTAG = "MAIN";
+
+        public static void main(String[] args) {
+           TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+           try {
+               telegramBotsApi.registerBot(new MySuperSpecialBotHandler());
+           } catch (TelegramApiException e) {
+               BotLogger.error(LOGTAG, e);
+           }
+        }
+    }
+```
+```java
+
+    public class MySuperSpecialBotHandler extends TelegramLongPollingCommandBot {
+
+        private static final String LOGTAG = "MY_SUPER_SPECIAL_BOT_HANDLER";
+
+        public MySuperSpecialBotHandler() {
+            register(new BotCommand("mycommand", "This command just demonstrates the use of commands") {
+                @Override
+                public void execute(AbsSender absSender, Chat chat, String[] arguments) {
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.setText("Wow you finally used that command " + chat.getUserName());
+                    sendMessage.setChatId(chat.getId().toString());
+                    try {
+                        absSender.sendMessage(sendMessage);
+                    } catch (TelegramApiException e) {
+                        BotLogger.error(LOGTAG, e);
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void processNonCommandUpdate(Update update) {
+            //All non command updated end here
+        }
+
+        .
+        .
+        .
+    }
+```
 
 ## Example bots
 Open them and send them */help* command to get some information about their capabilities:
