@@ -14,7 +14,7 @@ import java.util.function.BiConsumer;
 /**
  * This class adds command functionality to the TelegramLongPollingBot
  *
- * @author tschulz
+ * @author Timo Schulz (Mit0x2)
  */
 public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingBot implements ICommandRegistry {
     private final CommandRegistry commandRegistry;

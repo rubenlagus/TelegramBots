@@ -10,15 +10,14 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 
 /**
- * @author tschulz
+ * This class manages all the commands for a bot. You can register and deregister commands on demand
+ *
+ * @author Timo Schulz (Mit0x2)
  */
 public final class CommandRegistry implements ICommandRegistry {
 
     private final Map<String, BotCommand> commandRegistryMap = new HashMap<>();
     private BiConsumer<AbsSender, Message> defaultConsumer;
-
-    public CommandRegistry() {
-    }
 
     @Override
     public void registerDefaultAction(BiConsumer<AbsSender, Message> defaultConsumer) {
@@ -87,7 +86,7 @@ public final class CommandRegistry implements ICommandRegistry {
 
                 if (commandRegistryMap.containsKey(command)) {
                     String[] parameters = Arrays.copyOfRange(commandSplit, 1, commandSplit.length);
-                    commandRegistryMap.get(command).execute(absSender, message.getChat(), parameters);
+                    commandRegistryMap.get(command).execute(absSender, message.getFrom(), message.getChat(), parameters);
                     return true;
                 } else if (defaultConsumer != null) {
                     defaultConsumer.accept(absSender, message);
