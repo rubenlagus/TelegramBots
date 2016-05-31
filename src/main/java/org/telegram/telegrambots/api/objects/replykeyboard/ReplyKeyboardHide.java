@@ -19,7 +19,6 @@ import java.io.IOException;
  * @date 20 of June of 2015
  */
 public class ReplyKeyboardHide implements ReplyKeyboard {
-
     private static final String HIDEKEYBOARD_FIELD = "hide_keyboard";
     private static final String SELECTIVE_FIELD = "selective";
     @JsonProperty(HIDEKEYBOARD_FIELD)
@@ -34,7 +33,7 @@ public class ReplyKeyboardHide implements ReplyKeyboard {
 
     public ReplyKeyboardHide() {
         super();
-        this.selective = true;
+        this.hideKeyboard = true;
     }
 
     public ReplyKeyboardHide(JSONObject jsonObject) {
@@ -49,11 +48,6 @@ public class ReplyKeyboardHide implements ReplyKeyboard {
 
     public Boolean getHideKeyboard() {
         return hideKeyboard;
-    }
-
-    public ReplyKeyboardHide setHideKeyboard(Boolean hideKeyboard) {
-        this.hideKeyboard = hideKeyboard;
-        return this;
     }
 
     public Boolean getSelective() {
