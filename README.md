@@ -21,7 +21,7 @@ In order to use Long Polling mode, just create your own bot extending `org.teleg
 If you like to use Webhook, extend `org.telegram.telegrambots.bots.TelegramWebhookBot`
 
 
-Once done, you just need to creat a `org.telegram.telegrambots.TelegramBotsApi`and register your bots:
+Once done, you just need to create a `org.telegram.telegrambots.TelegramBotsApi`and register your bots:
 
 ```java
 
