@@ -8,7 +8,9 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 
 /**
+ * This Interface represents the gateway for registering and deregistering commands.
  *
+ * @author tschulz
  */
 public interface ICommandRegistry {
 
