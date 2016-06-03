@@ -2,6 +2,8 @@ package org.telegram.telegrambots.api.methods.send;
 
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
+import java.io.File;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -36,8 +38,9 @@ public class SendAudio {
     private ReplyKeyboard replayMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
     private String performer; ///< Optional. Performer of sent audio
     private String title; ///< Optional. Title of sent audio
-    private boolean isNewAudio;
-    private String audioName;
+
+    private boolean isNewAudio; ///< True to upload a new audio, false to use a fileId
+    private File newAudioFile; ///< New audio file
 
     public SendAudio() {
         super();
@@ -80,13 +83,12 @@ public class SendAudio {
     /**
      * Use this method to set the audio to a new file
      *
-     * @param audio     Path to the new file in your server
-     * @param audioName Name of the file itself
+     * @param file New audio file
      */
-    public SendAudio setNewAudio(String audio, String audioName) {
-        this.audio = audio;
+    public SendAudio setNewAudio(File file) {
+        this.audio = file.getName();
         this.isNewAudio = true;
-        this.audioName = audioName;
+        this.newAudioFile = file;
         return this;
     }
 
@@ -144,8 +146,8 @@ public class SendAudio {
         return isNewAudio;
     }
 
-    public String getAudioName() {
-        return audioName;
+    public File getNewAudioFile() {
+        return newAudioFile;
     }
 
     @Override
@@ -158,7 +160,6 @@ public class SendAudio {
                 ", performer='" + performer + '\'' +
                 ", title='" + title + '\'' +
                 ", isNewAudio=" + isNewAudio +
-                ", audioName='" + audioName + '\'' +
                 '}';
     }
 }

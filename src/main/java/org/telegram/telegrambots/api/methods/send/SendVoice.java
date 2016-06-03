@@ -2,6 +2,8 @@ package org.telegram.telegrambots.api.methods.send;
 
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
+import java.io.File;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -31,7 +33,7 @@ public class SendVoice {
     private Integer duration; ///< Optional. Duration of sent audio in seconds
 
     private boolean isNewVoice; ///< True to upload a new voice note, false to use a fileId
-    private String voiceName; ///< Name of the voice note
+    private File newVoiceFile; ///< New voice note file
 
     public SendVoice() {
         super();
@@ -81,10 +83,10 @@ public class SendVoice {
         return this;
     }
 
-    public SendVoice setNewAudio(String audio, String audioName) {
-        this.audio = audio;
-        this.isNewVoice = false;
-        this.voiceName = audioName;
+    public SendVoice setNewAudio(File file) {
+        this.audio = file.getName();
+        this.isNewVoice = true;
+        this.newVoiceFile = file;
         return this;
     }
 
@@ -119,7 +121,7 @@ public class SendVoice {
         return isNewVoice;
     }
 
-    public String getVoiceName() {
-        return voiceName;
+    public File getNewVoiceFile() {
+        return newVoiceFile;
     }
 }

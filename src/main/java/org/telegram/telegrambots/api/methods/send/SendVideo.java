@@ -2,6 +2,8 @@ package org.telegram.telegrambots.api.methods.send;
 
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
+import java.io.File;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -36,7 +38,7 @@ public class SendVideo {
     private ReplyKeyboard replayMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
 
     private boolean isNewVideo; ///< True to upload a new video, false to use a fileId
-    private String videoName; ///< Name of the video
+    private File newVideoFile; ///< New video file
 
     public SendVideo() {
         super();
@@ -101,8 +103,8 @@ public class SendVideo {
         return isNewVideo;
     }
 
-    public String getVideoName() {
-        return videoName;
+    public File getNewVideoFile() {
+        return newVideoFile;
     }
 
     public Boolean getDisableNotification() {
@@ -137,10 +139,10 @@ public class SendVideo {
         return this;
     }
 
-    public SendVideo setNewVideo(String video, String videoName) {
-        this.video = video;
+    public SendVideo setNewVideo(File file) {
+        this.video = file.getName();
         this.isNewVideo = true;
-        this.videoName = videoName;
+        this.newVideoFile = file;
         return this;
     }
 
@@ -154,7 +156,6 @@ public class SendVideo {
                 ", replayToMessageId=" + replayToMessageId +
                 ", replayMarkup=" + replayMarkup +
                 ", isNewVideo=" + isNewVideo +
-                ", videoName='" + videoName + '\'' +
                 '}';
     }
 }

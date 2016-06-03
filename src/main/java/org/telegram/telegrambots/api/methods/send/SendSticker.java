@@ -2,6 +2,8 @@ package org.telegram.telegrambots.api.methods.send;
 
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
+import java.io.File;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -26,8 +28,8 @@ public class SendSticker {
     private Integer replayToMessageId; ///< Optional. If the message is a reply, ID of the original message
     private ReplyKeyboard replayMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
 
-    private boolean isNewSticker;
-    private String stickerName;
+    private boolean isNewSticker; ///< True to upload a new sticker, false to use a fileId
+    private File newStickerFile; ///< New sticker file
 
     public SendSticker() {
         super();
@@ -70,10 +72,10 @@ public class SendSticker {
         return this;
     }
 
-    public SendSticker setSticker(String sticker, String stickerName) {
-        this.sticker = sticker;
+    public SendSticker setSticker(File file) {
+        this.sticker = file.getName();
         this.isNewSticker = true;
-        this.stickerName = stickerName;
+        this.newStickerFile = file;
         return this;
     }
 
@@ -95,8 +97,8 @@ public class SendSticker {
         return isNewSticker;
     }
 
-    public String getStickerName() {
-        return stickerName;
+    public File getNewStickerFile() {
+        return newStickerFile;
     }
 
     @Override
@@ -107,7 +109,6 @@ public class SendSticker {
                 ", replayToMessageId=" + replayToMessageId +
                 ", replayMarkup=" + replayMarkup +
                 ", isNewSticker=" + isNewSticker +
-                ", stickerName='" + stickerName + '\'' +
                 '}';
     }
 }
