@@ -3,6 +3,7 @@ package org.telegram.telegrambots.api.methods.send;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
 import java.io.File;
+import java.io.InputStream;
 
 /**
  * @author Ruben Bermudez
@@ -31,7 +32,9 @@ public class SendDocument {
     private ReplyKeyboard replayMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
 
     private boolean isNewDocument; ///< True to upload a new document, false to use a fileId
+    private String documentName;
     private File newDocumentFile; ///< New document file
+    private InputStream newDocumentStream; ///< New document stream
 
     public SendDocument() {
         super();
@@ -56,6 +59,14 @@ public class SendDocument {
         return this;
     }
 
+    @Deprecated
+    public SendDocument setNewDocument(String document, String documentName) {
+        this.document = document;
+        this.isNewDocument = true;
+        this.documentName = documentName;
+        return this;
+    }
+
     public SendDocument setNewDocument(File file) {
         this.document = file.getName();
         this.isNewDocument = true;
@@ -63,12 +74,26 @@ public class SendDocument {
         return this;
     }
 
+    public SendDocument setNewDocument(InputStream inputStream) {
+        this.isNewDocument = true;
+        this.newDocumentStream = inputStream;
+        return this;
+    }
+
     public boolean isNewDocument() {
         return isNewDocument;
     }
 
+    public String getDocumentName() {
+        return documentName;
+    }
+
     public File getNewDocumentFile() {
         return newDocumentFile;
+    }
+
+    public InputStream getNewDocumentStream() {
+        return newDocumentStream;
     }
 
     public Integer getReplayToMessageId() {

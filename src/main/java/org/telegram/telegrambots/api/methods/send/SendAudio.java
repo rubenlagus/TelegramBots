@@ -3,6 +3,7 @@ package org.telegram.telegrambots.api.methods.send;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
 import java.io.File;
+import java.io.InputStream;
 
 /**
  * @author Ruben Bermudez
@@ -40,7 +41,9 @@ public class SendAudio {
     private String title; ///< Optional. Title of sent audio
 
     private boolean isNewAudio; ///< True to upload a new audio, false to use a fileId
+    private String audioName;
     private File newAudioFile; ///< New audio file
+    private InputStream newAudioStream; ///< New audio stream
 
     public SendAudio() {
         super();
@@ -83,12 +86,32 @@ public class SendAudio {
     /**
      * Use this method to set the audio to a new file
      *
+     * @param audio     Path to the new file in your server
+     * @param audioName Name of the file itself
+     */
+    @Deprecated
+    public SendAudio setNewAudio(String audio, String audioName) {
+        this.audio = audio;
+        this.isNewAudio = true;
+        this.audioName = audioName;
+        return this;
+    }
+
+    /**
+     * Use this method to set the audio to a new file
+     *
      * @param file New audio file
      */
     public SendAudio setNewAudio(File file) {
         this.audio = file.getName();
         this.isNewAudio = true;
         this.newAudioFile = file;
+        return this;
+    }
+
+    public SendAudio setNewAudio(InputStream inputStream) {
+        this.isNewAudio = true;
+        this.newAudioStream = inputStream;
         return this;
     }
 
@@ -146,8 +169,16 @@ public class SendAudio {
         return isNewAudio;
     }
 
+    public String getAudioName() {
+        return audioName;
+    }
+
     public File getNewAudioFile() {
         return newAudioFile;
+    }
+
+    public InputStream getNewAudioStream() {
+        return newAudioStream;
     }
 
     @Override

@@ -3,6 +3,7 @@ package org.telegram.telegrambots.api.methods.send;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
 import java.io.File;
+import java.io.InputStream;
 
 /**
  * @author Ruben Bermudez
@@ -29,7 +30,9 @@ public class SendSticker {
     private ReplyKeyboard replayMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
 
     private boolean isNewSticker; ///< True to upload a new sticker, false to use a fileId
+    private String stickerName;
     private File newStickerFile; ///< New sticker file
+    private InputStream newStickerStream; ///< New sticker stream
 
     public SendSticker() {
         super();
@@ -72,10 +75,24 @@ public class SendSticker {
         return this;
     }
 
-    public SendSticker setSticker(File file) {
+    @Deprecated
+    public SendSticker setSticker(String sticker, String stickerName) {
+        this.sticker = sticker;
+        this.isNewSticker = true;
+        this.stickerName = stickerName;
+        return this;
+    }
+
+    public SendSticker setNewSticker(File file) {
         this.sticker = file.getName();
         this.isNewSticker = true;
         this.newStickerFile = file;
+        return this;
+    }
+
+    public SendSticker setNewSticker(InputStream inputStream) {
+        this.isNewSticker = true;
+        this.newStickerStream = inputStream;
         return this;
     }
 
@@ -97,8 +114,16 @@ public class SendSticker {
         return isNewSticker;
     }
 
+    public String getStickerName() {
+        return stickerName;
+    }
+
     public File getNewStickerFile() {
         return newStickerFile;
+    }
+
+    public InputStream getNewStickerStream() {
+        return newStickerStream;
     }
 
     @Override

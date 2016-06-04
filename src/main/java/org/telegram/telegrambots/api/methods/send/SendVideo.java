@@ -3,6 +3,7 @@ package org.telegram.telegrambots.api.methods.send;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
 import java.io.File;
+import java.io.InputStream;
 
 /**
  * @author Ruben Bermudez
@@ -38,7 +39,9 @@ public class SendVideo {
     private ReplyKeyboard replayMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
 
     private boolean isNewVideo; ///< True to upload a new video, false to use a fileId
+    private String videoName; ///< Name of the video
     private File newVideoFile; ///< New video file
+    private InputStream newVideoStream; ///< New video stream
 
     public SendVideo() {
         super();
@@ -103,8 +106,16 @@ public class SendVideo {
         return isNewVideo;
     }
 
+    public String getVideoName() {
+        return videoName;
+    }
+
     public File getNewVideoFile() {
         return newVideoFile;
+    }
+
+    public InputStream getNewVideoStream() {
+        return newVideoStream;
     }
 
     public Boolean getDisableNotification() {
@@ -139,10 +150,24 @@ public class SendVideo {
         return this;
     }
 
+    @Deprecated
+    public SendVideo setNewVideo(String video, String videoName) {
+        this.video = video;
+        this.isNewVideo = true;
+        this.videoName = videoName;
+        return this;
+    }
+
     public SendVideo setNewVideo(File file) {
         this.video = file.getName();
         this.isNewVideo = true;
         this.newVideoFile = file;
+        return this;
+    }
+
+    public SendVideo setNewVideo(InputStream inputStream) {
+        this.isNewVideo = true;
+        this.newVideoStream = inputStream;
         return this;
     }
 
