@@ -502,7 +502,13 @@ public abstract class AbsSender {
             if (sendDocument.isNewDocument()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendDocument.CHATID_FIELD, sendDocument.getChatId());
-                builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, sendDocument.getNewDocumentFile());
+                if (sendDocument.getNewDocumentFile() != null) {
+                    builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, sendDocument.getNewDocumentFile());
+                } else if (sendDocument.getNewDocumentStream() != null) {
+                    builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, sendDocument.getNewDocumentStream());
+                } else {
+                    builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, new java.io.File(sendDocument.getDocument()), ContentType.APPLICATION_OCTET_STREAM, sendDocument.getDocumentName());
+                }
                 if (sendDocument.getReplayMarkup() != null) {
                     builder.addTextBody(SendDocument.REPLYMARKUP_FIELD, sendDocument.getReplayMarkup().toJson().toString());
                 }
@@ -562,7 +568,13 @@ public abstract class AbsSender {
             if (sendPhoto.isNewPhoto()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendPhoto.CHATID_FIELD, sendPhoto.getChatId());
-                builder.addBinaryBody(SendPhoto.PHOTO_FIELD, sendPhoto.getNewPhotoFile());
+                if (sendPhoto.getNewPhotoFile() != null) {
+                    builder.addBinaryBody(SendPhoto.PHOTO_FIELD, sendPhoto.getNewPhotoFile());
+                } else if (sendPhoto.getNewPhotoStream() != null) {
+                    builder.addBinaryBody(SendPhoto.PHOTO_FIELD, sendPhoto.getNewPhotoStream());
+                } else {
+                    builder.addBinaryBody(SendPhoto.PHOTO_FIELD, new java.io.File(sendPhoto.getPhoto()), ContentType.APPLICATION_OCTET_STREAM, sendPhoto.getPhotoName());
+                }
                 if (sendPhoto.getReplayMarkup() != null) {
                     builder.addTextBody(SendPhoto.REPLYMARKUP_FIELD, sendPhoto.getReplayMarkup().toJson().toString());
                 }
@@ -622,7 +634,13 @@ public abstract class AbsSender {
             if (sendVideo.isNewVideo()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendVideo.CHATID_FIELD, sendVideo.getChatId());
-                builder.addBinaryBody(SendVideo.VIDEO_FIELD, sendVideo.getNewVideoFile());
+                if (sendVideo.getNewVideoFile() != null) {
+                    builder.addBinaryBody(SendVideo.VIDEO_FIELD, sendVideo.getNewVideoFile());
+                } else if (sendVideo.getNewVideoStream() != null) {
+                    builder.addBinaryBody(SendVideo.VIDEO_FIELD, sendVideo.getNewVideoStream());
+                } else {
+                    builder.addBinaryBody(SendVideo.VIDEO_FIELD, new java.io.File(sendVideo.getVideo()), ContentType.APPLICATION_OCTET_STREAM, sendVideo.getVideoName());
+                }
                 if (sendVideo.getReplayMarkup() != null) {
                     builder.addTextBody(SendVideo.REPLYMARKUP_FIELD, sendVideo.getReplayMarkup().toJson().toString());
                 }
@@ -701,7 +719,13 @@ public abstract class AbsSender {
             if (sendSticker.isNewSticker()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendSticker.CHATID_FIELD, sendSticker.getChatId());
-                builder.addBinaryBody(SendSticker.STICKER_FIELD, sendSticker.getNewStickerFile());
+                if (sendSticker.getNewStickerFile() != null) {
+                    builder.addBinaryBody(SendSticker.STICKER_FIELD, sendSticker.getNewStickerFile());
+                } else if (sendSticker.getNewStickerStream() != null) {
+                    builder.addBinaryBody(SendSticker.STICKER_FIELD, sendSticker.getNewStickerStream());
+                } else {
+                    builder.addBinaryBody(SendSticker.STICKER_FIELD, new java.io.File(sendSticker.getSticker()), ContentType.APPLICATION_OCTET_STREAM, sendSticker.getStickerName());
+                }
                 if (sendSticker.getReplayMarkup() != null) {
                     builder.addTextBody(SendSticker.REPLYMARKUP_FIELD, sendSticker.getReplayMarkup().toJson().toString());
                 }
@@ -763,7 +787,13 @@ public abstract class AbsSender {
             if (sendAudio.isNewAudio()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendAudio.CHATID_FIELD, sendAudio.getChatId());
-                builder.addBinaryBody(SendAudio.AUDIO_FIELD, sendAudio.getNewAudioFile());
+                if (sendAudio.getNewAudioFile() != null) {
+                    builder.addBinaryBody(SendAudio.AUDIO_FIELD, sendAudio.getNewAudioFile());
+                } else if (sendAudio.getNewAudioStream() != null) {
+                    builder.addBinaryBody(SendAudio.AUDIO_FIELD, sendAudio.getNewAudioStream());
+                } else {
+                    builder.addBinaryBody(SendAudio.AUDIO_FIELD, new java.io.File(sendAudio.getAudio()), ContentType.create("audio/mpeg"), sendAudio.getAudioName());
+                }
                 if (sendAudio.getReplayMarkup() != null) {
                     builder.addTextBody(SendAudio.REPLYMARKUP_FIELD, sendAudio.getReplayMarkup().toJson().toString());
                 }
@@ -846,7 +876,13 @@ public abstract class AbsSender {
             if (sendVoice.isNewVoice()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendVoice.CHATID_FIELD, sendVoice.getChatId());
-                builder.addBinaryBody(SendVoice.AUDIO_FIELD, sendVoice.getNewVoiceFile());
+                if (sendVoice.getNewVoiceFile() != null) {
+                    builder.addBinaryBody(SendVoice.AUDIO_FIELD, sendVoice.getNewVoiceFile());
+                } else if (sendVoice.getNewVoiceStream() != null) {
+                    builder.addBinaryBody(SendVoice.AUDIO_FIELD, sendVoice.getNewVoiceStream());
+                } else {
+                    builder.addBinaryBody(SendVoice.AUDIO_FIELD, new java.io.File(sendVoice.getAudio()), ContentType.create("audio/ogg"), sendVoice.getVoiceName());
+                }
                 if (sendVoice.getReplayMarkup() != null) {
                     builder.addTextBody(SendVoice.REPLYMARKUP_FIELD, sendVoice.getReplayMarkup().toJson().toString());
                 }
