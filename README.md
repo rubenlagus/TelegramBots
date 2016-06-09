@@ -14,7 +14,7 @@ Both ways are supported, but I recommend long polling method.
 
 ## Usage
 
-Just import add the library to your project using [Maven, Gradly, ...](https://jitpack.io/#rubenlagus/TelegramBots/v2.3.3.2) or download the jar(including all dependencies) from [here](https://github.com/rubenlagus/TelegramBots/releases/tag/v2.3.3.2)
+Just import add the library to your project using [Maven, Gradly, ...](https://jitpack.io/#rubenlagus/TelegramBots/v2.3.3.3) or download the jar(including all dependencies) from [here](https://github.com/rubenlagus/TelegramBots/releases/tag/v2.3.3.3)
 
 In order to use Long Polling mode, just create your own bot extending `org.telegram.telegrambots.bots.TelegramLongPollingBot`.
 
