@@ -2,6 +2,9 @@ package org.telegram.telegrambots.api.methods.send;
 
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
+import java.io.File;
+import java.io.InputStream;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -30,7 +33,8 @@ public class SendPhoto {
 
     private boolean isNewPhoto; ///< True if the photo must be uploaded from a file, file if it is a fileId
     private String photoName; ///< Name of the photo
-
+    private File newPhotoFile; // New photo file
+    private InputStream newPhotoStream; // New photo stream
 
     public SendPhoto() {
         super();
@@ -90,6 +94,14 @@ public class SendPhoto {
         return photoName;
     }
 
+    public File getNewPhotoFile() {
+        return newPhotoFile;
+    }
+
+    public InputStream getNewPhotoStream() {
+        return newPhotoStream;
+    }
+
     public Boolean getDisableNotification() {
         return disableNotification;
     }
@@ -104,10 +116,24 @@ public class SendPhoto {
         return this;
     }
 
+    @Deprecated
     public SendPhoto setNewPhoto(String photo, String photoName) {
         this.photo = photo;
         this.isNewPhoto = true;
         this.photoName = photoName;
+        return this;
+    }
+
+    public SendPhoto setNewPhoto(File file) {
+        this.photo = file.getName();
+        this.newPhotoFile = file;
+        this.isNewPhoto = true;
+        return this;
+    }
+
+    public SendPhoto setNewPhoto(InputStream inputStream) {
+        this.newPhotoStream = inputStream;
+        this.isNewPhoto = true;
         return this;
     }
 
@@ -120,7 +146,6 @@ public class SendPhoto {
                 ", replayToMessageId=" + replayToMessageId +
                 ", replayMarkup=" + replayMarkup +
                 ", isNewPhoto=" + isNewPhoto +
-                ", photoName='" + photoName + '\'' +
                 '}';
     }
 }
