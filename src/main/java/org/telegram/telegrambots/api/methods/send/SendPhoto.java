@@ -116,6 +116,14 @@ public class SendPhoto {
         return this;
     }
 
+    /**
+     * Use this method to set the photo to a new file
+     *
+     * @param photo     Path to the new file in your server
+     * @param photoName Name of the file itself
+     *
+     * @deprecated use {@link #setNewPhoto(File)} or {@link #setNewPhoto(InputStream)} instead.
+     */
     @Deprecated
     public SendPhoto setNewPhoto(String photo, String photoName) {
         this.photo = photo;

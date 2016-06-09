@@ -53,12 +53,26 @@ public class SendDocument {
         return document;
     }
 
+    /**
+     * Use this method to set the document to an document existing in Telegram system
+     *
+     * @param document File_id of the document to send
+     * @note The file_id must have already been received or sent by your bot
+     */
     public SendDocument setDocument(String document) {
         this.document = document;
         this.isNewDocument = false;
         return this;
     }
 
+    /**
+     * Use this method to set the document to a new file
+     *
+     * @param document     Path to the new file in your server
+     * @param documentName Name of the file itself
+     *
+     * @deprecated use {@link #setNewDocument(File)} or {@link #setNewDocument(InputStream)} instead.
+     */
     @Deprecated
     public SendDocument setNewDocument(String document, String documentName) {
         this.document = document;
@@ -67,6 +81,11 @@ public class SendDocument {
         return this;
     }
 
+    /**
+     * Use this method to set the document to a new file
+     *
+     * @param file New document file
+     */
     public SendDocument setNewDocument(File file) {
         this.document = file.getName();
         this.isNewDocument = true;
@@ -74,6 +93,11 @@ public class SendDocument {
         return this;
     }
 
+    /**
+     * Use this method to set the document to a new file
+     *
+     * @param inputStream New document file
+     */
     public SendDocument setNewDocument(InputStream inputStream) {
         this.isNewDocument = true;
         this.newDocumentStream = inputStream;

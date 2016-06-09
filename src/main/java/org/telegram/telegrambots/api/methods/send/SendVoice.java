@@ -17,13 +17,14 @@ public class SendVoice {
     public static final String PATH = "sendvoice";
 
     public static final String CHATID_FIELD = "chat_id";
-    public static final String AUDIO_FIELD = "audio";
+    public static final String VOICE_FIELD = "voice";
     public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     public static final String REPLYMARKUP_FIELD = "reply_markup";
     public static final String DURATION_FIELD = "duration";
+
     private String chatId; ///< Unique identifier for the chat sent message to (Or username for channels)
-    private String audio; ///< Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.
+    private String voice; ///< Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.
     /**
      * Optional. Sends the message silently. iOS users will not receive a notification, Android
      * users will receive a notification with no sound. Other apps coming soon
@@ -46,7 +47,7 @@ public class SendVoice {
     public String toString() {
         return "SendVoice{" +
                 "chatId='" + chatId + '\'' +
-                ", audio='" + audio + '\'' +
+                ", voice='" + voice + '\'' +
                 ", replayToMessageId=" + replayToMessageId +
                 ", replayMarkup=" + replayMarkup +
                 ", duration=" + duration +
@@ -76,32 +77,74 @@ public class SendVoice {
         return this;
     }
 
-    public String getAudio() {
-        return audio;
+    public String getVoice() {
+        return voice;
     }
 
-    public SendVoice setAudio(String audio) {
-        this.audio = audio;
-        this.isNewVoice = false;
-        return this;
-    }
-
+    /**
+     * @deprecated Use {@link #getVoice()} instead
+     */
     @Deprecated
-    public SendVoice setNewAudio(String audio, String audioName) {
-        this.audio = audio;
+    public String getAudio() {
+        return voice;
+    }
+
+    public SendVoice setVoice(String voice) {
+        this.voice = voice;
         this.isNewVoice = false;
-        this.voiceName = audioName;
         return this;
     }
 
-    public SendVoice setNewAudio(File file) {
-        this.audio = file.getName();
+    /**
+     * @deprecated Use {@link #setVoice(String)} instead
+     */
+    @Deprecated
+    public SendVoice setAudio(String voice) {
+        this.voice = voice;
+        this.isNewVoice = false;
+        return this;
+    }
+
+    /**
+     * Use this method to set the voice to a new file
+     *
+     * @param voice     Path to the new file in your server
+     * @param voiceName Name of the file itself
+     *
+     * @deprecated use {@link #setNewVoice(File)} or {@link #setNewVoice(InputStream)} instead.
+     */
+    @Deprecated
+    public SendVoice setNewVoice(String voice, String voiceName) {
+        this.voice = voice;
+        this.isNewVoice = false;
+        this.voiceName = voiceName;
+        return this;
+    }
+
+    /**
+     * Use this method to set the voice to a new file
+     *
+     * @param voice     Path to the new file in your server
+     * @param voiceName Name of the file itself
+     *
+     * @deprecated use {@link #setNewVoice(File)} or {@link #setNewVoice(InputStream)} instead.
+     */
+    @Deprecated
+    public SendVoice setNewAudio(String voice, String voiceName) {
+        this.voice = voice;
+        this.isNewVoice = false;
+        this.voiceName = voiceName;
+        return this;
+    }
+
+    public SendVoice setNewVoice(File file) {
+        this.voice = file.getName();
         this.isNewVoice = true;
         this.newVoiceFile = file;
         return this;
     }
 
-    public SendVoice setNewAudio(InputStream inputStream) {
+    public SendVoice setNewVoice(InputStream inputStream) {
         this.isNewVoice = true;
         this.newVoiceStream = inputStream;
         return this;

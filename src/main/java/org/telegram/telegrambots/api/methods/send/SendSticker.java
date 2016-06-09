@@ -75,6 +75,14 @@ public class SendSticker {
         return this;
     }
 
+    /**
+     * Use this method to set the sticker to a new file
+     *
+     * @param sticker     Path to the new file in your server
+     * @param stickerName Name of the file itself
+     *
+     * @deprecated use {@link #setNewSticker(File)} or {@link #setNewSticker(InputStream)} instead.
+     */
     @Deprecated
     public SendSticker setSticker(String sticker, String stickerName) {
         this.sticker = sticker;

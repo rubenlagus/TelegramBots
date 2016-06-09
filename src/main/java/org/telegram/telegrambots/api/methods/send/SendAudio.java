@@ -88,6 +88,8 @@ public class SendAudio {
      *
      * @param audio     Path to the new file in your server
      * @param audioName Name of the file itself
+     *
+     * @deprecated use {@link #setNewAudio(File)} or {@link #setNewAudio(InputStream)} instead.
      */
     @Deprecated
     public SendAudio setNewAudio(String audio, String audioName) {

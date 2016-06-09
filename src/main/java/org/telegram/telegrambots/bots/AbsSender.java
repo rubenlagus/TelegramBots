@@ -81,7 +81,7 @@ public abstract class AbsSender {
     private volatile RequestConfig requestConfig;
     private static final int SOCKET_TIMEOUT = 75 * 1000;
 
-    public AbsSender() {
+    AbsSender() {
         httpclient = HttpClientBuilder.create()
                 .setSSLHostnameVerifier(new NoopHostnameVerifier())
                 .setConnectionTimeToLive(70, TimeUnit.SECONDS)
@@ -879,11 +879,11 @@ public abstract class AbsSender {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendVoice.CHATID_FIELD, sendVoice.getChatId());
                 if (sendVoice.getNewVoiceFile() != null) {
-                    builder.addBinaryBody(SendVoice.AUDIO_FIELD, sendVoice.getNewVoiceFile());
+                    builder.addBinaryBody(SendVoice.VOICE_FIELD, sendVoice.getNewVoiceFile());
                 } else if (sendVoice.getNewVoiceStream() != null) {
-                    builder.addBinaryBody(SendVoice.AUDIO_FIELD, sendVoice.getNewVoiceStream());
+                    builder.addBinaryBody(SendVoice.VOICE_FIELD, sendVoice.getNewVoiceStream());
                 } else {
-                    builder.addBinaryBody(SendVoice.AUDIO_FIELD, new java.io.File(sendVoice.getAudio()), ContentType.create("audio/ogg"), sendVoice.getVoiceName());
+                    builder.addBinaryBody(SendVoice.VOICE_FIELD, new java.io.File(sendVoice.getVoice()), ContentType.create("audio/ogg"), sendVoice.getVoiceName());
                 }
                 if (sendVoice.getReplayMarkup() != null) {
                     builder.addTextBody(SendVoice.REPLYMARKUP_FIELD, sendVoice.getReplayMarkup().toJson().toString(), TEXT_PLAIN_CONTENT_TYPE);
@@ -902,7 +902,7 @@ public abstract class AbsSender {
             } else {
                 List<NameValuePair> nameValuePairs = new ArrayList<>();
                 nameValuePairs.add(new BasicNameValuePair(SendVoice.CHATID_FIELD, sendVoice.getChatId()));
-                nameValuePairs.add(new BasicNameValuePair(SendVoice.AUDIO_FIELD, sendVoice.getAudio()));
+                nameValuePairs.add(new BasicNameValuePair(SendVoice.VOICE_FIELD, sendVoice.getVoice()));
                 if (sendVoice.getReplayMarkup() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendVoice.REPLYMARKUP_FIELD, sendVoice.getReplayMarkup().toJson().toString()));
                 }

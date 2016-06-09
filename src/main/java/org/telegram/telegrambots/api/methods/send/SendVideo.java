@@ -150,6 +150,14 @@ public class SendVideo {
         return this;
     }
 
+    /**
+     * Use this method to set the video to a new file
+     *
+     * @param video     Path to the new file in your server
+     * @param videoName Name of the file itself
+     *
+     * @deprecated use {@link #setNewVideo(File)} or {@link #setNewVideo(InputStream)} instead.
+     */
     @Deprecated
     public SendVideo setNewVideo(String video, String videoName) {
         this.video = video;
