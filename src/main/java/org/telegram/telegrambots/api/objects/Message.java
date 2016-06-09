@@ -111,12 +111,40 @@ public class Message implements IBotApiObject {
     @JsonProperty(CAPTION_FIELD)
     private String caption; ///< Optional. Caption for the document, photo or video, 0-200 characters
     @JsonProperty(SUPERGROUPCREATED_FIELD)
-    private Boolean superGroupCreated; ///< Optional. Informs that the supergroup has been created
+    /**
+     * Optional. Service message: the supergroup has been created.
+     * This field can‘t be received in a message coming through updates,
+     * because bot can’t be a member of a supergroup when it is created.
+     * It can only be found in reply_to_message
+     * if someone replies to a very first message in a directly created supergroup.
+     */
+    private Boolean superGroupCreated;
     @JsonProperty(CHANNELCHATCREATED_FIELD)
-    private Boolean channelChatCreated; ///< Optional. Informs that the channel has been created
+    /**
+     * Optional. Service message: the channel has been created.
+     * This field can‘t be received in a message coming through updates,
+     * because bot can’t be a member of a channel when it is created.
+     * It can only be found in reply_to_message if someone
+     * replies to a very first message in a channel.
+     */
+    private Boolean channelChatCreated;
     @JsonProperty(MIGRATETOCHAT_FIELD)
+    /**
+     * Optional. The group has been migrated to a supergroup with the specified identifier.
+     * This number may be greater than 32 bits and some programming languages
+     * may have difficulty/silent defects in interpreting it.
+     * But it smaller than 52 bits, so a signed 64 bit integer or double-precision
+     * float type are safe for storing this identifier.
+     */
     private Long migrateToChatId; ///< Optional. The chat has been migrated to a chat with specified identifier, not exceeding 1e13 by absolute value
     @JsonProperty(MIGRATEFROMCHAT_FIELD)
+    /**
+     * Optional. The supergroup has been migrated from a group with the specified identifier.
+     * This number may be greater than 32 bits and some programming languages
+     * may have difficulty/silent defects in interpreting it.
+     * But it smaller than 52 bits, so a signed 64 bit integer or double-precision
+     * float type are safe for storing this identifier.
+     */
     private Long migrateFromChatId; ///< Optional. The chat has been migrated from a chat with specified identifier, not exceeding 1e13 by absolute value
     @JsonProperty(EDITDATE_FIELD)
     private Integer editDate; ///< Optional. Date the message was last edited in Unix time

@@ -74,12 +74,14 @@ import static org.telegram.telegrambots.Constants.ERRORDESCRIPTIONFIELD;
  */
 @SuppressWarnings("unused")
 public abstract class AbsSender {
+    private static final ContentType TEXT_PLAIN_CONTENT_TYPE = ContentType.create("text/plain", StandardCharsets.UTF_8);
+
     private final ExecutorService exe = Executors.newSingleThreadExecutor();
     private volatile CloseableHttpClient httpclient;
     private volatile RequestConfig requestConfig;
     private static final int SOCKET_TIMEOUT = 75 * 1000;
 
-    public AbsSender() {
+    AbsSender() {
         httpclient = HttpClientBuilder.create()
                 .setSSLHostnameVerifier(new NoopHostnameVerifier())
                 .setConnectionTimeToLive(70, TimeUnit.SECONDS)
@@ -502,15 +504,21 @@ public abstract class AbsSender {
             if (sendDocument.isNewDocument()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendDocument.CHATID_FIELD, sendDocument.getChatId());
-                builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, new java.io.File(sendDocument.getDocument()), ContentType.APPLICATION_OCTET_STREAM, sendDocument.getDocumentName());
+                if (sendDocument.getNewDocumentFile() != null) {
+                    builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, sendDocument.getNewDocumentFile());
+                } else if (sendDocument.getNewDocumentStream() != null) {
+                    builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, sendDocument.getNewDocumentStream());
+                } else {
+                    builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, new java.io.File(sendDocument.getDocument()), ContentType.APPLICATION_OCTET_STREAM, sendDocument.getDocumentName());
+                }
                 if (sendDocument.getReplayMarkup() != null) {
-                    builder.addTextBody(SendDocument.REPLYMARKUP_FIELD, sendDocument.getReplayMarkup().toJson().toString());
+                    builder.addTextBody(SendDocument.REPLYMARKUP_FIELD, sendDocument.getReplayMarkup().toJson().toString(), TEXT_PLAIN_CONTENT_TYPE);
                 }
                 if (sendDocument.getReplayToMessageId() != null) {
                     builder.addTextBody(SendDocument.REPLYTOMESSAGEID_FIELD, sendDocument.getReplayToMessageId().toString());
                 }
                 if (sendDocument.getCaption() != null) {
-                    builder.addTextBody(SendDocument.CAPTION_FIELD, sendDocument.getCaption(), ContentType.create("text/plain", StandardCharsets.UTF_8));
+                    builder.addTextBody(SendDocument.CAPTION_FIELD, sendDocument.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
                 }
                 if (sendDocument.getDisableNotification() != null) {
                     builder.addTextBody(SendDocument.DISABLENOTIFICATION_FIELD, sendDocument.getDisableNotification().toString());
@@ -562,15 +570,21 @@ public abstract class AbsSender {
             if (sendPhoto.isNewPhoto()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendPhoto.CHATID_FIELD, sendPhoto.getChatId());
-                builder.addBinaryBody(SendPhoto.PHOTO_FIELD, new java.io.File(sendPhoto.getPhoto()), ContentType.APPLICATION_OCTET_STREAM, sendPhoto.getPhotoName());
+                if (sendPhoto.getNewPhotoFile() != null) {
+                    builder.addBinaryBody(SendPhoto.PHOTO_FIELD, sendPhoto.getNewPhotoFile());
+                } else if (sendPhoto.getNewPhotoStream() != null) {
+                    builder.addBinaryBody(SendPhoto.PHOTO_FIELD, sendPhoto.getNewPhotoStream());
+                } else {
+                    builder.addBinaryBody(SendPhoto.PHOTO_FIELD, new java.io.File(sendPhoto.getPhoto()), ContentType.APPLICATION_OCTET_STREAM, sendPhoto.getPhotoName());
+                }
                 if (sendPhoto.getReplayMarkup() != null) {
-                    builder.addTextBody(SendPhoto.REPLYMARKUP_FIELD, sendPhoto.getReplayMarkup().toJson().toString());
+                    builder.addTextBody(SendPhoto.REPLYMARKUP_FIELD, sendPhoto.getReplayMarkup().toJson().toString(), TEXT_PLAIN_CONTENT_TYPE);
                 }
                 if (sendPhoto.getReplayToMessageId() != null) {
                     builder.addTextBody(SendPhoto.REPLYTOMESSAGEID_FIELD, sendPhoto.getReplayToMessageId().toString());
                 }
                 if (sendPhoto.getCaption() != null) {
-                    builder.addTextBody(SendPhoto.CAPTION_FIELD, sendPhoto.getCaption(), ContentType.create("text/plain", StandardCharsets.UTF_8));
+                    builder.addTextBody(SendPhoto.CAPTION_FIELD, sendPhoto.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
                 }
                 if (sendPhoto.getDisableNotification() != null) {
                     builder.addTextBody(SendPhoto.DISABLENOTIFICATION_FIELD, sendPhoto.getDisableNotification().toString());
@@ -622,15 +636,21 @@ public abstract class AbsSender {
             if (sendVideo.isNewVideo()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendVideo.CHATID_FIELD, sendVideo.getChatId());
-                builder.addBinaryBody(SendVideo.VIDEO_FIELD, new java.io.File(sendVideo.getVideo()), ContentType.APPLICATION_OCTET_STREAM, sendVideo.getVideoName());
+                if (sendVideo.getNewVideoFile() != null) {
+                    builder.addBinaryBody(SendVideo.VIDEO_FIELD, sendVideo.getNewVideoFile());
+                } else if (sendVideo.getNewVideoStream() != null) {
+                    builder.addBinaryBody(SendVideo.VIDEO_FIELD, sendVideo.getNewVideoStream());
+                } else {
+                    builder.addBinaryBody(SendVideo.VIDEO_FIELD, new java.io.File(sendVideo.getVideo()), ContentType.APPLICATION_OCTET_STREAM, sendVideo.getVideoName());
+                }
                 if (sendVideo.getReplayMarkup() != null) {
-                    builder.addTextBody(SendVideo.REPLYMARKUP_FIELD, sendVideo.getReplayMarkup().toJson().toString());
+                    builder.addTextBody(SendVideo.REPLYMARKUP_FIELD, sendVideo.getReplayMarkup().toJson().toString(), TEXT_PLAIN_CONTENT_TYPE);
                 }
                 if (sendVideo.getReplayToMessageId() != null) {
                     builder.addTextBody(SendVideo.REPLYTOMESSAGEID_FIELD, sendVideo.getReplayToMessageId().toString());
                 }
                 if (sendVideo.getCaption() != null) {
-                    builder.addTextBody(SendVideo.CAPTION_FIELD, sendVideo.getCaption(), ContentType.create("text/plain", StandardCharsets.UTF_8));
+                    builder.addTextBody(SendVideo.CAPTION_FIELD, sendVideo.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
                 }
                 if (sendVideo.getDuration() != null) {
                     builder.addTextBody(SendVideo.DURATION_FIELD, sendVideo.getDuration().toString());
@@ -701,9 +721,15 @@ public abstract class AbsSender {
             if (sendSticker.isNewSticker()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendSticker.CHATID_FIELD, sendSticker.getChatId());
-                builder.addBinaryBody(SendSticker.STICKER_FIELD, new java.io.File(sendSticker.getSticker()), ContentType.APPLICATION_OCTET_STREAM, sendSticker.getStickerName());
+                if (sendSticker.getNewStickerFile() != null) {
+                    builder.addBinaryBody(SendSticker.STICKER_FIELD, sendSticker.getNewStickerFile());
+                } else if (sendSticker.getNewStickerStream() != null) {
+                    builder.addBinaryBody(SendSticker.STICKER_FIELD, sendSticker.getNewStickerStream());
+                } else {
+                    builder.addBinaryBody(SendSticker.STICKER_FIELD, new java.io.File(sendSticker.getSticker()), ContentType.APPLICATION_OCTET_STREAM, sendSticker.getStickerName());
+                }
                 if (sendSticker.getReplayMarkup() != null) {
-                    builder.addTextBody(SendSticker.REPLYMARKUP_FIELD, sendSticker.getReplayMarkup().toJson().toString());
+                    builder.addTextBody(SendSticker.REPLYMARKUP_FIELD, sendSticker.getReplayMarkup().toJson().toString(), TEXT_PLAIN_CONTENT_TYPE);
                 }
                 if (sendSticker.getReplayToMessageId() != null) {
                     builder.addTextBody(SendSticker.REPLYTOMESSAGEID_FIELD, sendSticker.getReplayToMessageId().toString());
@@ -763,9 +789,15 @@ public abstract class AbsSender {
             if (sendAudio.isNewAudio()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendAudio.CHATID_FIELD, sendAudio.getChatId());
-                builder.addBinaryBody(SendAudio.AUDIO_FIELD, new java.io.File(sendAudio.getAudio()), ContentType.create("audio/mpeg"), sendAudio.getAudioName());
+                if (sendAudio.getNewAudioFile() != null) {
+                    builder.addBinaryBody(SendAudio.AUDIO_FIELD, sendAudio.getNewAudioFile());
+                } else if (sendAudio.getNewAudioStream() != null) {
+                    builder.addBinaryBody(SendAudio.AUDIO_FIELD, sendAudio.getNewAudioStream());
+                } else {
+                    builder.addBinaryBody(SendAudio.AUDIO_FIELD, new java.io.File(sendAudio.getAudio()), ContentType.create("audio/mpeg"), sendAudio.getAudioName());
+                }
                 if (sendAudio.getReplayMarkup() != null) {
-                    builder.addTextBody(SendAudio.REPLYMARKUP_FIELD, sendAudio.getReplayMarkup().toJson().toString());
+                    builder.addTextBody(SendAudio.REPLYMARKUP_FIELD, sendAudio.getReplayMarkup().toJson().toString(), TEXT_PLAIN_CONTENT_TYPE);
                 }
                 if (sendAudio.getReplayToMessageId() != null) {
                     builder.addTextBody(SendAudio.REPLYTOMESSAGEID_FIELD, sendAudio.getReplayToMessageId().toString());
@@ -831,6 +863,7 @@ public abstract class AbsSender {
 
     /**
      * Sends a voice note using Send Voice method (https://core.telegram.org/bots/api#sendvoice)
+     * For this to work, your audio must be in an .ogg file encoded with OPUS
      * @param sendVoice Information to send
      * @return If success, the sent Message is returned
      * @throws TelegramApiException If there is any error sending the audio
@@ -845,9 +878,15 @@ public abstract class AbsSender {
             if (sendVoice.isNewVoice()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendVoice.CHATID_FIELD, sendVoice.getChatId());
-                builder.addBinaryBody(SendVoice.AUDIO_FIELD, new java.io.File(sendVoice.getAudio()), ContentType.create("audio/ogg"), sendVoice.getVoiceName());
+                if (sendVoice.getNewVoiceFile() != null) {
+                    builder.addBinaryBody(SendVoice.VOICE_FIELD, sendVoice.getNewVoiceFile());
+                } else if (sendVoice.getNewVoiceStream() != null) {
+                    builder.addBinaryBody(SendVoice.VOICE_FIELD, sendVoice.getNewVoiceStream());
+                } else {
+                    builder.addBinaryBody(SendVoice.VOICE_FIELD, new java.io.File(sendVoice.getVoice()), ContentType.create("audio/ogg"), sendVoice.getVoiceName());
+                }
                 if (sendVoice.getReplayMarkup() != null) {
-                    builder.addTextBody(SendVoice.REPLYMARKUP_FIELD, sendVoice.getReplayMarkup().toJson().toString());
+                    builder.addTextBody(SendVoice.REPLYMARKUP_FIELD, sendVoice.getReplayMarkup().toJson().toString(), TEXT_PLAIN_CONTENT_TYPE);
                 }
                 if (sendVoice.getReplayToMessageId() != null) {
                     builder.addTextBody(SendVoice.REPLYTOMESSAGEID_FIELD, sendVoice.getReplayToMessageId().toString());
@@ -863,7 +902,7 @@ public abstract class AbsSender {
             } else {
                 List<NameValuePair> nameValuePairs = new ArrayList<>();
                 nameValuePairs.add(new BasicNameValuePair(SendVoice.CHATID_FIELD, sendVoice.getChatId()));
-                nameValuePairs.add(new BasicNameValuePair(SendVoice.AUDIO_FIELD, sendVoice.getAudio()));
+                nameValuePairs.add(new BasicNameValuePair(SendVoice.VOICE_FIELD, sendVoice.getVoice()));
                 if (sendVoice.getReplayMarkup() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendVoice.REPLYMARKUP_FIELD, sendVoice.getReplayMarkup().toJson().toString()));
                 }

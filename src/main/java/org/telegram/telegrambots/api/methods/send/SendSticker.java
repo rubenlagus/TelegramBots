@@ -2,6 +2,9 @@ package org.telegram.telegrambots.api.methods.send;
 
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
+import java.io.File;
+import java.io.InputStream;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -26,8 +29,10 @@ public class SendSticker {
     private Integer replayToMessageId; ///< Optional. If the message is a reply, ID of the original message
     private ReplyKeyboard replayMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
 
-    private boolean isNewSticker;
+    private boolean isNewSticker; ///< True to upload a new sticker, false to use a fileId
     private String stickerName;
+    private File newStickerFile; ///< New sticker file
+    private InputStream newStickerStream; ///< New sticker stream
 
     public SendSticker() {
         super();
@@ -70,10 +75,32 @@ public class SendSticker {
         return this;
     }
 
+    /**
+     * Use this method to set the sticker to a new file
+     *
+     * @param sticker     Path to the new file in your server
+     * @param stickerName Name of the file itself
+     *
+     * @deprecated use {@link #setNewSticker(File)} or {@link #setNewSticker(InputStream)} instead.
+     */
+    @Deprecated
     public SendSticker setSticker(String sticker, String stickerName) {
         this.sticker = sticker;
         this.isNewSticker = true;
         this.stickerName = stickerName;
+        return this;
+    }
+
+    public SendSticker setNewSticker(File file) {
+        this.sticker = file.getName();
+        this.isNewSticker = true;
+        this.newStickerFile = file;
+        return this;
+    }
+
+    public SendSticker setNewSticker(InputStream inputStream) {
+        this.isNewSticker = true;
+        this.newStickerStream = inputStream;
         return this;
     }
 
@@ -99,6 +126,14 @@ public class SendSticker {
         return stickerName;
     }
 
+    public File getNewStickerFile() {
+        return newStickerFile;
+    }
+
+    public InputStream getNewStickerStream() {
+        return newStickerStream;
+    }
+
     @Override
     public String toString() {
         return "SendSticker{" +
@@ -107,7 +142,6 @@ public class SendSticker {
                 ", replayToMessageId=" + replayToMessageId +
                 ", replayMarkup=" + replayMarkup +
                 ", isNewSticker=" + isNewSticker +
-                ", stickerName='" + stickerName + '\'' +
                 '}';
     }
 }

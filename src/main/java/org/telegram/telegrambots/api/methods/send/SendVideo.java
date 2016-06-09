@@ -2,6 +2,9 @@ package org.telegram.telegrambots.api.methods.send;
 
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
+import java.io.File;
+import java.io.InputStream;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -37,6 +40,8 @@ public class SendVideo {
 
     private boolean isNewVideo; ///< True to upload a new video, false to use a fileId
     private String videoName; ///< Name of the video
+    private File newVideoFile; ///< New video file
+    private InputStream newVideoStream; ///< New video stream
 
     public SendVideo() {
         super();
@@ -105,6 +110,14 @@ public class SendVideo {
         return videoName;
     }
 
+    public File getNewVideoFile() {
+        return newVideoFile;
+    }
+
+    public InputStream getNewVideoStream() {
+        return newVideoStream;
+    }
+
     public Boolean getDisableNotification() {
         return disableNotification;
     }
@@ -137,10 +150,32 @@ public class SendVideo {
         return this;
     }
 
+    /**
+     * Use this method to set the video to a new file
+     *
+     * @param video     Path to the new file in your server
+     * @param videoName Name of the file itself
+     *
+     * @deprecated use {@link #setNewVideo(File)} or {@link #setNewVideo(InputStream)} instead.
+     */
+    @Deprecated
     public SendVideo setNewVideo(String video, String videoName) {
         this.video = video;
         this.isNewVideo = true;
         this.videoName = videoName;
+        return this;
+    }
+
+    public SendVideo setNewVideo(File file) {
+        this.video = file.getName();
+        this.isNewVideo = true;
+        this.newVideoFile = file;
+        return this;
+    }
+
+    public SendVideo setNewVideo(InputStream inputStream) {
+        this.isNewVideo = true;
+        this.newVideoStream = inputStream;
         return this;
     }
 
@@ -154,7 +189,6 @@ public class SendVideo {
                 ", replayToMessageId=" + replayToMessageId +
                 ", replayMarkup=" + replayMarkup +
                 ", isNewVideo=" + isNewVideo +
-                ", videoName='" + videoName + '\'' +
                 '}';
     }
 }

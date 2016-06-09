@@ -1,12 +1,13 @@
 package org.telegram.telegrambots.bots.commands;
 
 import org.telegram.telegrambots.api.objects.Chat;
+import org.telegram.telegrambots.api.objects.User;
 import org.telegram.telegrambots.bots.AbsSender;
 
 /**
  * Representation of a command, which can be executed
  *
- * @author tschulz
+ * @author Timo Schulz (Mit0x2)
  */
 public abstract class BotCommand {
     public final static String COMMAND_INIT_CHARACTER = "/";
@@ -69,8 +70,9 @@ public abstract class BotCommand {
      * Execute the command
      *
      * @param absSender absSender to send messages over
+     * @param user      the user who sent the command
      * @param chat      the chat, to be able to send replies
      * @param arguments passed arguments
      */
-    public abstract void execute(AbsSender absSender, Chat chat, String[] arguments);
+    public abstract void execute(AbsSender absSender, User user, Chat chat, String[] arguments);
 }

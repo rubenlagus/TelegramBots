@@ -19,12 +19,12 @@ import java.io.IOException;
 public class ForwardMessage extends BotApiMethod<Message> {
     public static final String PATH = "forwardmessage";
 
-    public static final String CHATID_FIELD = "chat_id";
-    public static final String FROMCHATID_FIELD = "from_chat_id";
-    public static final String MESSAGEID_FIELD = "message_id";
-    public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
+    private static final String CHATID_FIELD = "chat_id";
+    private static final String FROMCHATID_FIELD = "from_chat_id";
+    private static final String MESSAGEID_FIELD = "message_id";
+    private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     private String chatId; ///< Unique identifier for the chat to send the message to (or username for channels)
-    private Integer fromChatId; ///< Unique identifier for the chat where the original message was sent — User or GroupChat id
+    private String fromChatId; ///< Unique identifier for the chat where the original message was sent — User or GroupChat id
     private Integer messageId; ///< Unique message identifier
     /**
      * Optional. Sends the message silently.
@@ -47,11 +47,17 @@ public class ForwardMessage extends BotApiMethod<Message> {
         return this;
     }
 
-    public Integer getFromChatId() {
+    @Deprecated
+    public ForwardMessage setFromChatId(Integer fromChatId) {
+        this.fromChatId = fromChatId.toString();
+        return this;
+    }
+
+    public String getFromChatId() {
         return fromChatId;
     }
 
-    public ForwardMessage setFromChatId(Integer fromChatId) {
+    public ForwardMessage setFromChatId(String fromChatId) {
         this.fromChatId = fromChatId;
         return this;
     }
@@ -82,7 +88,7 @@ public class ForwardMessage extends BotApiMethod<Message> {
         gen.writeStartObject();
         gen.writeStringField(METHOD_FIELD, PATH);
         gen.writeStringField(CHATID_FIELD, chatId);
-        gen.writeNumberField(FROMCHATID_FIELD, fromChatId);
+        gen.writeStringField(FROMCHATID_FIELD, fromChatId);
         gen.writeNumberField(MESSAGEID_FIELD, messageId);
         if (disableNotification != null) {
             gen.writeBooleanField(DISABLENOTIFICATION_FIELD, disableNotification);
