@@ -35,6 +35,9 @@ hs_err_pid*
 .idea/
 copyright/
 *.iml
+.classpath
+.project
+.settings/
 
 #File System specific files
 .DS_STORE
