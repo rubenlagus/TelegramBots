@@ -28,8 +28,8 @@ public class SendDocument {
      * users will receive a notification with no sound. Other apps coming soon
      */
     private Boolean disableNotification;
-    private Integer replayToMessageId; ///< Optional. If the message is a reply, ID of the original message
-    private ReplyKeyboard replayMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
+    private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
 
     private boolean isNewDocument; ///< True to upload a new document, false to use a fileId
     private String documentName;
@@ -120,13 +120,29 @@ public class SendDocument {
         return newDocumentStream;
     }
 
-    public Integer getReplayToMessageId() {
-        return replayToMessageId;
+    public Integer getReplyToMessageId() {
+        return replyToMessageId;
     }
 
-    public SendDocument setReplayToMessageId(Integer replayToMessageId) {
-        this.replayToMessageId = replayToMessageId;
+    public SendDocument setReplyToMessageId(Integer replyToMessageId) {
+        this.replyToMessageId = replyToMessageId;
         return this;
+    }
+
+    /**
+     * @deprecated Use {@link #getReplyToMessageId()} instead.
+     */
+    @Deprecated
+    public Integer getReplayToMessageId() {
+        return getReplyToMessageId();
+    }
+
+    /**
+     * @deprecated Use {@link #setReplyToMessageId(Integer)} instead.
+     */
+    @Deprecated
+    public SendDocument setReplayToMessageId(Integer replyToMessageId) {
+        return setReplyToMessageId(replyToMessageId);
     }
 
     public Boolean getDisableNotification() {
@@ -152,13 +168,29 @@ public class SendDocument {
         return this;
     }
 
-    public ReplyKeyboard getReplayMarkup() {
-        return replayMarkup;
+    public ReplyKeyboard getReplyMarkup() {
+        return replyMarkup;
     }
 
-    public SendDocument setReplayMarkup(ReplyKeyboard replayMarkup) {
-        this.replayMarkup = replayMarkup;
+    public SendDocument setReplyMarkup(ReplyKeyboard replyMarkup) {
+        this.replyMarkup = replyMarkup;
         return this;
+    }
+
+    /**
+     * @deprecated Use {@link #getReplyMarkup()} instead.
+     */
+    @Deprecated
+    public ReplyKeyboard getReplayMarkup() {
+        return getReplyMarkup();
+    }
+
+    /**
+     * @deprecated Use {@link #setReplyMarkup(ReplyKeyboard)} instead.
+     */
+    @Deprecated
+    public SendDocument setReplayMarkup(ReplyKeyboard replyMarkup) {
+        return setReplyMarkup(replyMarkup);
     }
 
     @Override
@@ -166,8 +198,8 @@ public class SendDocument {
         return "SendDocument{" +
                 "chatId='" + chatId + '\'' +
                 ", document='" + document + '\'' +
-                ", replayToMessageId=" + replayToMessageId +
-                ", replayMarkup=" + replayMarkup +
+                ", replyToMessageId=" + replyToMessageId +
+                ", replyMarkup=" + replyMarkup +
                 ", isNewDocument=" + isNewDocument +
                 '}';
     }

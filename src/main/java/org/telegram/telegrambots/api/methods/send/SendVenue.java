@@ -42,8 +42,8 @@ public class SendVenue extends BotApiMethod<Message> {
     private Boolean disableNotification;
     private String address; ///< Address of the venue
     private String foursquareId; ///< Optional. Foursquare identifier of the venue
-    private Integer replayToMessageId; ///< Optional. If the message is a reply, ID of the original message
-    private ReplyKeyboard replayMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
+    private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
 
     public String getChatId() {
         return chatId;
@@ -72,22 +72,54 @@ public class SendVenue extends BotApiMethod<Message> {
         return this;
     }
 
+    public Integer getReplyToMessageId() {
+        return replyToMessageId;
+    }
+
+    public SendVenue setReplyToMessageId(Integer replyToMessageId) {
+        this.replyToMessageId = replyToMessageId;
+        return this;
+    }
+
+    public ReplyKeyboard getReplyMarkup() {
+        return replyMarkup;
+    }
+
+    public SendVenue setReplyMarkup(ReplyKeyboard replyMarkup) {
+        this.replyMarkup = replyMarkup;
+        return this;
+    }
+
+    /**
+     * @deprecated Use {@link #getReplyToMessageId()} instead.
+     */
+    @Deprecated
     public Integer getReplayToMessageId() {
-        return replayToMessageId;
+        return getReplyToMessageId();
     }
 
-    public SendVenue setReplayToMessageId(Integer replayToMessageId) {
-        this.replayToMessageId = replayToMessageId;
-        return this;
+    /**
+     * @deprecated Use {@link #setReplyToMessageId(Integer)} instead.
+     */
+    @Deprecated
+    public SendVenue setReplayToMessageId(Integer replyToMessageId) {
+        return setReplyToMessageId(replyToMessageId);
     }
 
+    /**
+     * @deprecated Use {@link #getReplyMarkup()} instead.
+     */
+    @Deprecated
     public ReplyKeyboard getReplayMarkup() {
-        return replayMarkup;
+        return getReplyMarkup();
     }
 
-    public SendVenue setReplayMarkup(ReplyKeyboard replayMarkup) {
-        this.replayMarkup = replayMarkup;
-        return this;
+    /**
+     * @deprecated Use {@link #setReplyMarkup(ReplyKeyboard)} instead.
+     */
+    @Deprecated
+    public SendVenue setReplayMarkup(ReplyKeyboard replyMarkup) {
+        return setReplyMarkup(replyMarkup);
     }
 
     public Boolean getDisableNotification() {
@@ -158,11 +190,11 @@ public class SendVenue extends BotApiMethod<Message> {
         if (disableNotification != null) {
             jsonObject.put(DISABLENOTIFICATION_FIELD, disableNotification);
         }
-        if (replayToMessageId != null) {
-            jsonObject.put(REPLYTOMESSAGEID_FIELD, replayToMessageId);
+        if (replyToMessageId != null) {
+            jsonObject.put(REPLYTOMESSAGEID_FIELD, replyToMessageId);
         }
-        if (replayMarkup != null) {
-            jsonObject.put(REPLYMARKUP_FIELD, replayMarkup.toJson());
+        if (replyMarkup != null) {
+            jsonObject.put(REPLYMARKUP_FIELD, replyMarkup.toJson());
         }
 
         return jsonObject;
@@ -183,11 +215,11 @@ public class SendVenue extends BotApiMethod<Message> {
         if (disableNotification != null) {
             gen.writeBooleanField(DISABLENOTIFICATION_FIELD, disableNotification);
         }
-        if (replayToMessageId != null) {
-            gen.writeNumberField(REPLYTOMESSAGEID_FIELD, replayToMessageId);
+        if (replyToMessageId != null) {
+            gen.writeNumberField(REPLYTOMESSAGEID_FIELD, replyToMessageId);
         }
-        if (replayMarkup != null) {
-            gen.writeObjectField(REPLYMARKUP_FIELD, replayMarkup);
+        if (replyMarkup != null) {
+            gen.writeObjectField(REPLYMARKUP_FIELD, replyMarkup);
         }
 
         gen.writeEndObject();
@@ -208,8 +240,8 @@ public class SendVenue extends BotApiMethod<Message> {
                 ", title=" + title +
                 ", address=" + address +
                 ", foursquareId=" + foursquareId +
-                ", replayToMessageId=" + replayToMessageId +
-                ", replayMarkup=" + replayMarkup +
+                ", replyToMessageId=" + replyToMessageId +
+                ", replyMarkup=" + replyMarkup +
                 '}';
     }
 }
