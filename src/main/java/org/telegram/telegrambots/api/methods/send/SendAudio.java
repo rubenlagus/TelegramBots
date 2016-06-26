@@ -30,13 +30,13 @@ public class SendAudio {
     private Integer duration; ///< Integer	Duration of the audio in seconds as defined by sender
     private String chatId; ///< Unique identifier for the chat to send the message to (or Username fro channels)
     private String audio; ///< Audio file to send. file_id as String to resend an audio that is already on the Telegram servers
-    private Integer replayToMessageId; ///< Optional. If the message is a reply, ID of the original message
+    private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     /**
      * Optional. Sends the message silently. iOS users will not receive a notification, Android
      * users will receive a notification with no sound. Other apps coming soon
      */
     private Boolean disableNotification;
-    private ReplyKeyboard replayMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
     private String performer; ///< Optional. Performer of sent audio
     private String title; ///< Optional. Title of sent audio
 
@@ -117,22 +117,54 @@ public class SendAudio {
         return this;
     }
 
+    public Integer getReplyToMessageId() {
+        return replyToMessageId;
+    }
+
+    public SendAudio setReplyToMessageId(Integer replyToMessageId) {
+        this.replyToMessageId = replyToMessageId;
+        return this;
+    }
+
+    public ReplyKeyboard getReplyMarkup() {
+        return replyMarkup;
+    }
+
+    public SendAudio setReplyMarkup(ReplyKeyboard replyMarkup) {
+        this.replyMarkup = replyMarkup;
+        return this;
+    }
+
+    /**
+     * @deprecated Use {@link #getReplyToMessageId()} instead.
+     */
+    @Deprecated
     public Integer getReplayToMessageId() {
-        return replayToMessageId;
+        return getReplyToMessageId();
     }
 
-    public SendAudio setReplayToMessageId(Integer replayToMessageId) {
-        this.replayToMessageId = replayToMessageId;
-        return this;
+    /**
+     * @deprecated Use {@link #setReplyToMessageId(Integer)} instead.
+     */
+    @Deprecated
+    public SendAudio setReplayToMessageId(Integer replyToMessageId) {
+        return setReplyToMessageId(replyToMessageId);
     }
 
+    /**
+     * @deprecated Use {@link #getReplyMarkup()} instead.
+     */
+    @Deprecated
     public ReplyKeyboard getReplayMarkup() {
-        return replayMarkup;
+        return getReplyMarkup();
     }
 
-    public SendAudio setReplayMarkup(ReplyKeyboard replayMarkup) {
-        this.replayMarkup = replayMarkup;
-        return this;
+    /**
+     * @deprecated Use {@link #setReplyMarkup(ReplyKeyboard)} instead.
+     */
+    @Deprecated
+    public SendAudio setReplayMarkup(ReplyKeyboard replyMarkup) {
+        return setReplyMarkup(replyMarkup);
     }
 
     public String getPerformer() {
@@ -188,8 +220,8 @@ public class SendAudio {
         return "SendAudio{" +
                 "chatId='" + chatId + '\'' +
                 ", audio='" + audio + '\'' +
-                ", replayToMessageId=" + replayToMessageId +
-                ", replayMarkup=" + replayMarkup +
+                ", replyToMessageId=" + replyToMessageId +
+                ", replyMarkup=" + replyMarkup +
                 ", performer='" + performer + '\'' +
                 ", title='" + title + '\'' +
                 ", isNewAudio=" + isNewAudio +

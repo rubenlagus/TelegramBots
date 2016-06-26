@@ -30,8 +30,8 @@ public class SendVoice {
      * users will receive a notification with no sound. Other apps coming soon
      */
     private Boolean disableNotification;
-    private Integer replayToMessageId; ///< Optional. If the message is a reply, ID of the original message
-    private ReplyKeyboard replayMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
+    private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
     private Integer duration; ///< Optional. Duration of sent audio in seconds
 
     private boolean isNewVoice; ///< True to upload a new voice note, false to use a fileId
@@ -48,8 +48,8 @@ public class SendVoice {
         return "SendVoice{" +
                 "chatId='" + chatId + '\'' +
                 ", voice='" + voice + '\'' +
-                ", replayToMessageId=" + replayToMessageId +
-                ", replayMarkup=" + replayMarkup +
+                ", replyToMessageId=" + replyToMessageId +
+                ", replyMarkup=" + replyMarkup +
                 ", duration=" + duration +
                 '}';
     }
@@ -150,22 +150,54 @@ public class SendVoice {
         return this;
     }
 
+    public Integer getReplyToMessageId() {
+        return replyToMessageId;
+    }
+
+    public SendVoice setReplyToMessageId(Integer replyToMessageId) {
+        this.replyToMessageId = replyToMessageId;
+        return this;
+    }
+
+    public ReplyKeyboard getReplyMarkup() {
+        return replyMarkup;
+    }
+
+    public SendVoice setReplyMarkup(ReplyKeyboard replyMarkup) {
+        this.replyMarkup = replyMarkup;
+        return this;
+    }
+
+    /**
+     * @deprecated Use {@link #getReplyToMessageId()} instead.
+     */
+    @Deprecated
     public Integer getReplayToMessageId() {
-        return replayToMessageId;
+        return getReplyToMessageId();
     }
 
-    public SendVoice setReplayToMessageId(Integer replayToMessageId) {
-        this.replayToMessageId = replayToMessageId;
-        return this;
+    /**
+     * @deprecated Use {@link #setReplyToMessageId(Integer)} instead.
+     */
+    @Deprecated
+    public SendVoice setReplayToMessageId(Integer replyToMessageId) {
+        return setReplyToMessageId(replyToMessageId);
     }
 
+    /**
+     * @deprecated Use {@link #getReplyMarkup()} instead.
+     */
+    @Deprecated
     public ReplyKeyboard getReplayMarkup() {
-        return replayMarkup;
+        return getReplyMarkup();
     }
 
-    public SendVoice setReplayMarkup(ReplyKeyboard replayMarkup) {
-        this.replayMarkup = replayMarkup;
-        return this;
+    /**
+     * @deprecated Use {@link #setReplyMarkup(ReplyKeyboard)} instead.
+     */
+    @Deprecated
+    public SendVoice setReplayMarkup(ReplyKeyboard replyMarkup) {
+        return setReplyMarkup(replyMarkup);
     }
 
     public Integer getDuration() {
