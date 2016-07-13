@@ -233,7 +233,7 @@ public class SendVenue extends BotApiMethod<Message> {
 
     @Override
     public String toString() {
-        return "SendLocation{" +
+        return "SendVenue{" +
                 "chatId='" + chatId + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +

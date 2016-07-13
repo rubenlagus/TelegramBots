@@ -105,7 +105,6 @@ public class TelegramBotsApi {
      * @param webHookURL
      * @param botToken
      * @param publicCertificatePath
-     * @param publicCertificateName
      * @throws TelegramApiException
      */
     private static void setWebhook(String webHookURL, String botToken, String publicCertificatePath) throws TelegramApiException {

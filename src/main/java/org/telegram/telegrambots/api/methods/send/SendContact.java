@@ -207,7 +207,7 @@ public class SendContact extends BotApiMethod<Message> {
 
     @Override
     public String toString() {
-        return "SendLocation{" +
+        return "SendContact{" +
                 "chatId='" + chatId + '\'' +
                 ", phoneNumber=" + phoneNumber +
                 ", firstName=" + firstName +

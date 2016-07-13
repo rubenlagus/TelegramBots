@@ -19,7 +19,7 @@ import java.io.IOException;
  * @date 20 of May of 2016
  */
 public class GetChatMember extends BotApiMethod<ChatMember> {
-    public static final String PATH = "getChatAdministrators";
+    public static final String PATH = "getChatMember";
 
     private static final String CHATID_FIELD = "chat_id";
     private static final String USERID_FIELD = "user_id";
