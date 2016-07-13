@@ -32,26 +32,13 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
     public final void onUpdateReceived(Update update) {
         if (update.hasMessage()) {
             Message message = update.getMessage();
-            if ((message.isCommand()) && (filter(message))) {
+            if (message.isCommand()) {
                 if (commandRegistry.executeCommand(this, message)) {
                     return;
                 }
             }
         }
         processNonCommandUpdate(update);
-    }
-
-    /**
-     * function message filter.
-     * Override this function in your bot implementation to filter messages with commands
-     *
-     * For example, if you want to prevent commands execution incoming from group chat:
-     *   #
-     *   # return !message.getChat().isGroupChat();
-     *   #
-     */
-    protected boolean filter(Message message) {
-       return true;
     }
 
     @Override
