@@ -109,7 +109,7 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
 
     @Override
     public String toString() {
-        return "AnswerInlineQuery{" +
+        return "AnswerCallbackQuery{" +
                 "callbackQueryId='" + callbackQueryId + '\'' +
                 ", text=" + text +
                 ", showAlert=" + showAlert + '\'' +

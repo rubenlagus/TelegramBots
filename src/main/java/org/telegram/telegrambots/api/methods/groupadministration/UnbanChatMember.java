@@ -86,7 +86,7 @@ public class UnbanChatMember extends BotApiMethod<Boolean> {
 
     @Override
     public String toString() {
-        return "SendMessage{" +
+        return "UnbanChatMember{" +
                 "chatId='" + chatId + '\'' +
                 ", userId='" + userId +
                 '}';

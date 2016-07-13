@@ -90,7 +90,7 @@ public class KickChatMember extends BotApiMethod<Boolean> {
 
     @Override
     public String toString() {
-        return "SendMessage{" +
+        return "KickChatMember{" +
                 "chatId='" + chatId + '\'' +
                 ", userId='" + userId +
                 '}';
