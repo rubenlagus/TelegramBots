@@ -62,4 +62,10 @@ public interface ICommandRegistry {
      */
     Collection<BotCommand> getRegisteredCommands();
 
+    /**
+     * get registered command
+     *
+     * @return registered command if exists or null if not
+     */
+    BotCommand getRegisteredCommand(String commandIdentifier);
 }
