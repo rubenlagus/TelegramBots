@@ -88,6 +88,11 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
         commandRegistry.registerDefaultAction(defaultConsumer);
     }
 
+    @Override
+    public final BotCommand getRegisteredCommand(String commandIdentifier) {
+        return commandRegistry.getRegisteredCommand(commandIdentifier);
+    }
+
     /**
      * Process all updates, that are not commands.
      * @warning Commands that have valid syntax but are not registered on this bot,
