@@ -24,7 +24,15 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      * Use ICommandRegistry's methods on this bot to register commands
      */
     public TelegramLongPollingCommandBot() {
-        super();
+        this(new BotOptions());
+    }
+
+    /**
+     * construct creates CommandRegistry for this bot.
+     * Use ICommandRegistry's methods on this bot to register commands
+     */
+    public TelegramLongPollingCommandBot(BotOptions options) {
+        super(options);
         this.commandRegistry = new CommandRegistry();
     }
 

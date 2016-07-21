@@ -144,7 +144,7 @@ public class TelegramBotsApi {
      */
     public BotSession registerBot(TelegramLongPollingBot bot) throws TelegramApiException {
         setWebhook(bot.getBotToken(), null);
-        return new BotSession(bot.getBotToken(), bot);
+        return new BotSession(bot.getBotToken(), bot, bot.getOptions());
     }
 
     /**
