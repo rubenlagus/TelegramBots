@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.updatesreceivers;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -18,6 +19,7 @@ import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.TelegramApiException;
 import org.telegram.telegrambots.api.methods.updates.GetUpdates;
 import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.bots.BotOptions;
 import org.telegram.telegrambots.bots.ITelegramLongPollingBot;
 import org.telegram.telegrambots.logging.BotLogger;
 
@@ -47,8 +49,19 @@ public class BotSession {
     private volatile CloseableHttpClient httpclient;
     private volatile RequestConfig requestConfig;
 
-
+    /**
+     * Constructor present just to keep backward compatibility will be removed in next mayor release.
+     *
+     * @deprecated @deprecated use {@link #BotSession(String, ITelegramLongPollingBot, BotOptions)}
+     * @param token Token of the bot
+     * @param callback Callback for incomming updates
+     */
+    @Deprecated
     public BotSession(String token, ITelegramLongPollingBot callback) {
+        this(token, callback, new BotOptions());
+    }
+
+    public BotSession(String token, ITelegramLongPollingBot callback, BotOptions options) {
         this.token = token;
         this.callback = callback;
 
@@ -58,8 +71,12 @@ public class BotSession {
                 .setMaxConnTotal(100)
                 .build();
 
-        requestConfig = RequestConfig.copy(RequestConfig.custom().build())
-                .setSocketTimeout(SOCKET_TIMEOUT)
+        RequestConfig.Builder configBuilder = RequestConfig.copy(RequestConfig.custom().build());
+        if (options.hasProxy()) {
+            configBuilder.setProxy(new HttpHost(options.getProxyHost(), options.getProxyPort()));
+        }
+
+        requestConfig = configBuilder.setSocketTimeout(SOCKET_TIMEOUT)
                 .setConnectTimeout(SOCKET_TIMEOUT)
                 .setConnectionRequestTimeout(SOCKET_TIMEOUT).build();
 

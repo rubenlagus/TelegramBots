@@ -24,7 +24,15 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      * Use ICommandRegistry's methods on this bot to register commands
      */
     public TelegramLongPollingCommandBot() {
-        super();
+        this(new BotOptions());
+    }
+
+    /**
+     * construct creates CommandRegistry for this bot.
+     * Use ICommandRegistry's methods on this bot to register commands
+     */
+    public TelegramLongPollingCommandBot(BotOptions options) {
+        super(options);
         this.commandRegistry = new CommandRegistry();
     }
 
@@ -32,13 +40,30 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
     public final void onUpdateReceived(Update update) {
         if (update.hasMessage()) {
             Message message = update.getMessage();
-            if (message.isCommand()) {
+            if (message.isCommand() && !filter(message)) {
                 if (commandRegistry.executeCommand(this, message)) {
                     return;
                 }
             }
         }
         processNonCommandUpdate(update);
+    }
+
+    /**
+     * function message filter.
+     * Override this function in your bot implementation to filter messages with commands
+     *
+     * For example, if you want to prevent commands execution incoming from group chat:
+     *   #
+     *   # return !message.getChat().isGroupChat();
+     *   #
+     *
+     * @param message Received message
+     * @return true if the message must be ignored by the command bot and treated as a non command message,
+     * false otherwise
+     */
+    protected boolean filter(Message message) {
+        return true;
     }
 
     @Override
@@ -69,6 +94,11 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
     @Override
     public void registerDefaultAction(BiConsumer<AbsSender, Message> defaultConsumer) {
         commandRegistry.registerDefaultAction(defaultConsumer);
+    }
+
+    @Override
+    public final BotCommand getRegisteredCommand(String commandIdentifier) {
+        return commandRegistry.getRegisteredCommand(commandIdentifier);
     }
 
     /**

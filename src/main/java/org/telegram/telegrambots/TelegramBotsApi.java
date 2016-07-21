@@ -105,7 +105,6 @@ public class TelegramBotsApi {
      * @param webHookURL
      * @param botToken
      * @param publicCertificatePath
-     * @param publicCertificateName
      * @throws TelegramApiException
      */
     private static void setWebhook(String webHookURL, String botToken, String publicCertificatePath) throws TelegramApiException {
@@ -145,7 +144,7 @@ public class TelegramBotsApi {
      */
     public BotSession registerBot(TelegramLongPollingBot bot) throws TelegramApiException {
         setWebhook(bot.getBotToken(), null);
-        return new BotSession(bot.getBotToken(), bot);
+        return new BotSession(bot.getBotToken(), bot, bot.getOptions());
     }
 
     /**

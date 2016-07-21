@@ -65,6 +65,11 @@ public final class CommandRegistry implements ICommandRegistry {
         return commandRegistryMap.values();
     }
 
+    @Override
+    public final BotCommand getRegisteredCommand(String commandIdentifier) {
+        return commandRegistryMap.get(commandIdentifier);
+    }
+
     /**
      * Executes a command action if the command is registered.
      *

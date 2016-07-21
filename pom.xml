@@ -6,7 +6,7 @@
     <packaging>jar</packaging>
     <groupId>org.telegram</groupId>
     <artifactId>telegrambots</artifactId>
-    <version>2.3.3.4</version>
+    <version>2.3.3.5</version>
 
     <name>Telegram Bots</name>
     <url>https://telegram.me/JavaBotsApi</url>
@@ -142,6 +142,34 @@
                         <goals>
                             <goal>javadoc-no-fork</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.4.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <shadedArtifactAttached>false</shadedArtifactAttached>
+                            <createDependencyReducedPom>true</createDependencyReducedPom>
+                            <artifactSet>
+                                <includes>
+                                    <include>org.apache.httpcomponents:*</include>
+                                </includes>
+                            </artifactSet>
+                            <relocations>
+                                <relocation>
+                                    <pattern>org.apache.http</pattern>
+                                    <shadedPattern>embedded.org.apache.http</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
