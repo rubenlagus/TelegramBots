@@ -93,7 +93,7 @@ public class MessageEntity implements IBotApiObject {
     }
 
     protected void computeText(String message) {
-        text = message.substring(offset, offset + length);
+        text = message.substring(offset, message.length());
     }
 
     @Override
