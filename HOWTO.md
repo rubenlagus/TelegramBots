@@ -32,15 +32,17 @@ Create a new class that is extending one of the following
 
 ```TelegramWebhookBot``` -> our bot is "called" from the Telegram servers when updates are available
 
+```TelegramLongPollingCommandBot``` -> simply like TelegramLongPollingBot, but based around the idea of Commands
 
-Due to the fact that the TelegramLongPollingBot is a little bit less complicated than the others, are we going to work with this in the following.
+
+Due to the fact that the TelegramLongPollingBot is a little bit less complicated than the others, are we going to work with him in the following.
 
 
-Extend ```TelegramLongPollingBot``` with one of your own classes. If we want that the bot can working normally, we must implement the following methods: ```getBotUsername():String```, ```getBotToken():String``` und ```onUpdateReceived(update: Update)```
+Extend ```TelegramLongPollingBot``` with one of your own classes. If we want that the bot can work normally, we must implement the following methods: ```getBotUsername():String```, ```getBotToken():String``` und ```onUpdateReceived(update: Update)```
 
-The first two methods are really easily to implement. Jus create a new class that contains all our informations for the bot (username, token and maybe in the future some database information)
+The first two methods are really easy to implement. Jus create a new class that contains all our informations for the bot (username, token and maybe in the future some database information)
 
-At the ende it could look like this:
+At the end it could look like this:
 
 ```java
 public class BotConfig {
@@ -50,6 +52,15 @@ public class BotConfig {
 	public static final String BOT_TOKEN = "{you secret bot token you got from the BotFather}";
 	
 }
+```
+
+After it, return these static variables like this one:
+```java
+@Override
+	public String getBotToken() {
+		return BotConfig.BOT_TOKEN;
+	}
+
 ```
 
 The last method could look like this:
@@ -106,9 +117,9 @@ public static void main(String[] args) {
    
    Question: <a name="question_how_to_get_picture"/>
    <b>How to get a picture?</b>  
-   Answer: A ```onUpdateReceived()``` Method that just downloads every Photo that users send to the bot could look like this:
+   Answer: A ```onUpdateReceived()``` Method that just downloads every Photo that users send to the bot could look like this:  
    
-   ```java
+```java
    @Override
     public void onUpdateReceived(Update update) {
         //check if the update has a message
@@ -142,7 +153,7 @@ public static void main(String[] args) {
                          * Just replace <file_path> with File.getFilePath();
                          */
 
-                        // In This example, we just print here the filePaths
+                        // In this example, we just print here the filePaths
                         System.out.println(file.getFilePath());
                     } catch (TelegramApiException e) {
                         //TODO: so some error handling
@@ -156,13 +167,14 @@ public static void main(String[] args) {
 
 
     }
-   ```
-   
-    Question: <a name="question_how_to_send_photos"/>
+    
+```
+   Question: <a name="question_how_to_send_photos"/>
     <b>How to send photos?</b>  
-    Answer:
+    Answer:  
+      
    
-   ```java
+```java
    @Override
     public void onUpdateReceived(Update update) {
 
@@ -196,14 +208,14 @@ public static void main(String[] args) {
         }
 
     }
-   ```
+```
    
    This method uploads the photo every time the user send the bot /wiki. Telegram stores the files we upload on their server. And if next time someone wants to retrieve THE SAME photo we uploaded some time ago, you should use instead of SendPhoto.setNewPhoto() the SendPhoto.setPhoto() method. This method has just one parameter, file_id.
    
    Question: <a name="question_how_to_use_custom_keyboards"/> 
    <b>How to use custom keyboards?</b>    
    Answer:
-   ```java
+```java
    //first, create a normal SendMessage object. Our CutsomKeyboard is attached to this object. But don't forget to assign a text. Otherwise the user get's no message
 SendMessage sendMessageRequest = this.selectLanguage();
 
