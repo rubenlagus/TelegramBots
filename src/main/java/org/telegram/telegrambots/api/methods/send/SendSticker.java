@@ -4,6 +4,7 @@ import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.Objects;
 
 /**
  * @author Ruben Bermudez
@@ -130,7 +131,10 @@ public class SendSticker {
         return this;
     }
 
-    public SendSticker setNewSticker(InputStream inputStream) {
+    public SendSticker setNewSticker(String stickerName, InputStream inputStream) {
+    	Objects.requireNonNull(stickerName, "stickerName cannot be null!");
+    	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
+    	this.stickerName = stickerName;
         this.isNewSticker = true;
         this.newStickerStream = inputStream;
         return this;

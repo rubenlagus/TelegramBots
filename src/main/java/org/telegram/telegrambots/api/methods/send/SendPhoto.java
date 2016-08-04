@@ -4,6 +4,7 @@ import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.Objects;
 
 /**
  * @author Ruben Bermudez
@@ -171,7 +172,10 @@ public class SendPhoto {
         return this;
     }
 
-    public SendPhoto setNewPhoto(InputStream inputStream) {
+    public SendPhoto setNewPhoto(String photoName, InputStream inputStream) {
+    	Objects.requireNonNull(photoName, "photoName cannot be null!");
+    	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
+    	this.photoName = photoName;
         this.newPhotoStream = inputStream;
         this.isNewPhoto = true;
         return this;

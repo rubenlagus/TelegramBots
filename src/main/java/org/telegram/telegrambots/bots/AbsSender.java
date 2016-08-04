@@ -519,7 +519,7 @@ public abstract class AbsSender {
                 if (sendDocument.getNewDocumentFile() != null) {
                     builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, sendDocument.getNewDocumentFile());
                 } else if (sendDocument.getNewDocumentStream() != null) {
-                    builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, sendDocument.getNewDocumentStream());
+                    builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, sendDocument.getNewDocumentStream(), ContentType.APPLICATION_OCTET_STREAM, sendDocument.getDocumentName());
                 } else {
                     builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, new java.io.File(sendDocument.getDocument()), ContentType.APPLICATION_OCTET_STREAM, sendDocument.getDocumentName());
                 }
@@ -585,7 +585,7 @@ public abstract class AbsSender {
                 if (sendPhoto.getNewPhotoFile() != null) {
                     builder.addBinaryBody(SendPhoto.PHOTO_FIELD, sendPhoto.getNewPhotoFile());
                 } else if (sendPhoto.getNewPhotoStream() != null) {
-                    builder.addBinaryBody(SendPhoto.PHOTO_FIELD, sendPhoto.getNewPhotoStream());
+                    builder.addBinaryBody(SendPhoto.PHOTO_FIELD, sendPhoto.getNewPhotoStream(), ContentType.APPLICATION_OCTET_STREAM, sendPhoto.getPhotoName());
                 } else {
                     builder.addBinaryBody(SendPhoto.PHOTO_FIELD, new java.io.File(sendPhoto.getPhoto()), ContentType.APPLICATION_OCTET_STREAM, sendPhoto.getPhotoName());
                 }
@@ -651,7 +651,7 @@ public abstract class AbsSender {
                 if (sendVideo.getNewVideoFile() != null) {
                     builder.addBinaryBody(SendVideo.VIDEO_FIELD, sendVideo.getNewVideoFile());
                 } else if (sendVideo.getNewVideoStream() != null) {
-                    builder.addBinaryBody(SendVideo.VIDEO_FIELD, sendVideo.getNewVideoStream());
+                    builder.addBinaryBody(SendVideo.VIDEO_FIELD, sendVideo.getNewVideoStream(), ContentType.APPLICATION_OCTET_STREAM, sendVideo.getVideoName());
                 } else {
                     builder.addBinaryBody(SendVideo.VIDEO_FIELD, new java.io.File(sendVideo.getVideo()), ContentType.APPLICATION_OCTET_STREAM, sendVideo.getVideoName());
                 }
@@ -736,7 +736,7 @@ public abstract class AbsSender {
                 if (sendSticker.getNewStickerFile() != null) {
                     builder.addBinaryBody(SendSticker.STICKER_FIELD, sendSticker.getNewStickerFile());
                 } else if (sendSticker.getNewStickerStream() != null) {
-                    builder.addBinaryBody(SendSticker.STICKER_FIELD, sendSticker.getNewStickerStream());
+                    builder.addBinaryBody(SendSticker.STICKER_FIELD, sendSticker.getNewStickerStream(), ContentType.APPLICATION_OCTET_STREAM, sendSticker.getStickerName());
                 } else {
                     builder.addBinaryBody(SendSticker.STICKER_FIELD, new java.io.File(sendSticker.getSticker()), ContentType.APPLICATION_OCTET_STREAM, sendSticker.getStickerName());
                 }
@@ -804,7 +804,7 @@ public abstract class AbsSender {
                 if (sendAudio.getNewAudioFile() != null) {
                     builder.addBinaryBody(SendAudio.AUDIO_FIELD, sendAudio.getNewAudioFile());
                 } else if (sendAudio.getNewAudioStream() != null) {
-                    builder.addBinaryBody(SendAudio.AUDIO_FIELD, sendAudio.getNewAudioStream());
+                    builder.addBinaryBody(SendAudio.AUDIO_FIELD, sendAudio.getNewAudioStream(), ContentType.APPLICATION_OCTET_STREAM, sendAudio.getAudioName());
                 } else {
                     builder.addBinaryBody(SendAudio.AUDIO_FIELD, new java.io.File(sendAudio.getAudio()), ContentType.create("audio/mpeg"), sendAudio.getAudioName());
                 }
@@ -893,7 +893,7 @@ public abstract class AbsSender {
                 if (sendVoice.getNewVoiceFile() != null) {
                     builder.addBinaryBody(SendVoice.VOICE_FIELD, sendVoice.getNewVoiceFile());
                 } else if (sendVoice.getNewVoiceStream() != null) {
-                    builder.addBinaryBody(SendVoice.VOICE_FIELD, sendVoice.getNewVoiceStream());
+                    builder.addBinaryBody(SendVoice.VOICE_FIELD, sendVoice.getNewVoiceStream(), ContentType.APPLICATION_OCTET_STREAM, sendVoice.getVoiceName());
                 } else {
                     builder.addBinaryBody(SendVoice.VOICE_FIELD, new java.io.File(sendVoice.getVoice()), ContentType.create("audio/ogg"), sendVoice.getVoiceName());
                 }
