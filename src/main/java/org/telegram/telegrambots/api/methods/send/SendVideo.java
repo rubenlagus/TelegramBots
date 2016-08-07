@@ -4,6 +4,7 @@ import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.Objects;
 
 /**
  * @author Ruben Bermudez
@@ -205,7 +206,10 @@ public class SendVideo {
         return this;
     }
 
-    public SendVideo setNewVideo(InputStream inputStream) {
+    public SendVideo setNewVideo(String videoName, InputStream inputStream) {
+    	Objects.requireNonNull(videoName, "videoName cannot be null!");
+    	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
+    	this.videoName = videoName;
         this.isNewVideo = true;
         this.newVideoStream = inputStream;
         return this;
