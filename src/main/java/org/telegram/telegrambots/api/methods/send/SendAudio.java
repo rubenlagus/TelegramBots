@@ -4,6 +4,7 @@ import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.Objects;
 
 /**
  * @author Ruben Bermudez
@@ -111,7 +112,10 @@ public class SendAudio {
         return this;
     }
 
-    public SendAudio setNewAudio(InputStream inputStream) {
+    public SendAudio setNewAudio(String audioName, InputStream inputStream) {
+    	Objects.requireNonNull(audioName, "audioName cannot be null!");
+    	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
+    	this.audioName = audioName;
         this.isNewAudio = true;
         this.newAudioStream = inputStream;
         return this;

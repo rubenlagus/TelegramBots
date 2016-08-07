@@ -4,6 +4,7 @@ import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.Objects;
 
 /**
  * @author Ruben Bermudez
@@ -93,12 +94,10 @@ public class SendDocument {
         return this;
     }
 
-    /**
-     * Use this method to set the document to a new file
-     *
-     * @param inputStream New document file
-     */
-    public SendDocument setNewDocument(InputStream inputStream) {
+    public SendDocument setNewDocument(String documentName, InputStream inputStream) {
+    	Objects.requireNonNull(documentName, "documentName cannot be null!");
+    	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
+    	this.documentName = documentName;
         this.isNewDocument = true;
         this.newDocumentStream = inputStream;
         return this;
