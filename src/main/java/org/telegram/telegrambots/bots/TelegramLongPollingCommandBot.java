@@ -50,7 +50,6 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
     }
 
     /**
-     * function message filter.
      * Override this function in your bot implementation to filter messages with commands
      *
      * For example, if you want to prevent commands execution incoming from group chat:
@@ -58,12 +57,13 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      *   # return !message.getChat().isGroupChat();
      *   #
      *
+     * @note Default implementation doesn't filter anything
      * @param message Received message
      * @return true if the message must be ignored by the command bot and treated as a non command message,
      * false otherwise
      */
     protected boolean filter(Message message) {
-        return true;
+        return false;
     }
 
     @Override
