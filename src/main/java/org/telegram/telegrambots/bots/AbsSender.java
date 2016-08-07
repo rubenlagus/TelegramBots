@@ -550,7 +550,7 @@ public abstract class AbsSender {
                 if (sendDocument.getCaption() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendDocument.CAPTION_FIELD, sendDocument.getCaption()));
                 }
-                if (sendDocument.getReplyToMessageId() != null) {
+                if (sendDocument.getDisableNotification() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendDocument.DISABLENOTIFICATION_FIELD, sendDocument.getDisableNotification().toString()));
                 }
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, StandardCharsets.UTF_8));
