@@ -183,55 +183,7 @@ public void onUpdateReceived(Update update) {
    
    Question: <a name="question_how_to_use_custom_keyboards"/> 
    <b>How to use custom keyboards?</b>    
-   Answer:
-```java
-//first, create a normal SendMessage object. Our CutsomKeyboard is attached to this object. But don't forget to assign a text. Otherwise the user get's no message
-SendMessage sendMessageRequest = this.selectLanguage();
-
-sendMessageRequest.setChatId(message.getChatId().toString());
-sendMessageRequest.setText("Change language");
-
-//ready top takeoff!
-sendMessage(sendMessageRequest);
-```
-
-The selectLanguage() method could look like this (you also could put the code of the extra method in your main() )
-
-```java
-public static List<KeyboardRow> selectLanguage(Message message){
-    /* changed from "List<List<String>>" to "List<KeyboardRow>"
-    * Now we have just a one dimension array. Like a stack or something like that
-    */
-    List<KeyboardRow> rows = new ArrayList<KeyboardRow>();
-    rows.add(ReplyKeyboardFabricator.getHeader(message));
-
-    //Instead of a list that collects our strings, or "buttons" for each row, now we have a own Object for that
-    KeyboardRow row = new KeyboardRow();
-    row.add(LocalisationService.getInstance().getString("change_language", DatabaseManager.getInstance().getUserLanguage(EchoHandler.getUserId(message))));
-    rows.add(row);
-
-    row = new KeyboardRow();
-    row.add("🇦🇹 Deutsch (Östereich)");
-    rows.add(row);
-
-    //I just reused the object above. Of cource you could also create a new Keyboardrow for each real row
-    row = new KeyboardRow();
-    row.add("🇩🇪 Deutsch (Deutschland)");
-    rows.add(row);
-
-    row = new KeyboardRow();
-    row.add("🇧🇷 Português");
-    rows.add(row);
-
-    row = new KeyboardRow();
-    row.add("🇺🇸 English (United States)");
-    rows.add(row);
-
-    return rows;
-}
-```
-
-For more example on this, please have a look at [this](https://github.com/rubenlagus/TelegramBotsExample/blob/master/src/main/java/org/telegram/updateshandlers/WeatherHandlers.java) bot in the example repo
+   Answer: You can look at the [source code](https://github.com/rubenlagus/TelegramBotsExample/blob/master/src/main/java/org/telegram/updateshandlers/WeatherHandlers.java) for [@Weatherbot](https://telegram.me/weatherbot) in the [TelegramBotsExample](https://github.com/rubenlagus/TelegramBotsExample) repo. It should contain all necessary information about using custom keyboards.
    
    <a name="question_how_to_compile"/>
    Question: <b>How can I compile my project?</b>     
