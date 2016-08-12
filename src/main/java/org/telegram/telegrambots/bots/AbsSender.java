@@ -44,6 +44,7 @@ import org.telegram.telegrambots.api.methods.send.SendSticker;
 import org.telegram.telegrambots.api.methods.send.SendVenue;
 import org.telegram.telegrambots.api.methods.send.SendVideo;
 import org.telegram.telegrambots.api.methods.send.SendVoice;
+import org.telegram.telegrambots.api.methods.updates.GetWebhookInfo;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageCaption;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
@@ -53,6 +54,7 @@ import org.telegram.telegrambots.api.objects.File;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.User;
 import org.telegram.telegrambots.api.objects.UserProfilePhotos;
+import org.telegram.telegrambots.api.objects.WebhookInfo;
 import org.telegram.telegrambots.updateshandlers.SentCallback;
 
 import java.io.IOException;
@@ -270,6 +272,11 @@ public abstract class AbsSender {
         return sendApiMethod(getMe);
     }
 
+    public final WebhookInfo getWebhookInfo() throws TelegramApiException {
+        GetWebhookInfo getWebhookInfo = new GetWebhookInfo();
+        return sendApiMethod(getWebhookInfo);
+    }
+
     // Send Requests Async
 
     public final void sendMessageAsync(SendMessage sendMessage, SentCallback<Message> sentCallback) throws TelegramApiException {
@@ -428,7 +435,6 @@ public abstract class AbsSender {
         sendApiMethodAsync(getChatMemberCount, sentCallback);
     }
 
-
     public final void editMessageTextAsync(EditMessageText editMessageText, SentCallback<Message> sentCallback) throws TelegramApiException {
         if (editMessageText == null) {
             throw new TelegramApiException("Parameter editMessageText can not be null");
@@ -502,6 +508,15 @@ public abstract class AbsSender {
 
         GetMe getMe = new GetMe();
         sendApiMethodAsync(getMe, sentCallback);
+    }
+
+    public final void getWebhookInfoAsync(SentCallback<WebhookInfo> sentCallback) throws TelegramApiException {
+        if (sentCallback == null) {
+            throw new TelegramApiException("Parameter sentCallback can not be null");
+        }
+
+        GetWebhookInfo getWebhookInfo = new GetWebhookInfo();
+        sendApiMethodAsync(getWebhookInfo, sentCallback);
     }
 
     // Specific Send Requests
