@@ -1,6 +1,8 @@
 package org.telegram.telegrambots;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
@@ -13,6 +15,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.methods.updates.SetWebhook;
+import org.telegram.telegrambots.bots.BotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.updatesreceivers.BotSession;
@@ -100,18 +103,33 @@ public class TelegramBotsApi {
         return MessageFormat.format(webhookUrlFormat, externalUrl);
     }
 
+    private static final int SOCKET_TIMEOUT = 75 * 1000;
+
+
     /**
      *
      * @param webHookURL
      * @param botToken
      * @param publicCertificatePath
+     * @param options
      * @throws TelegramApiException
      */
-    private static void setWebhook(String webHookURL, String botToken, String publicCertificatePath) throws TelegramApiException {
+    private static void setWebhook(String webHookURL, String botToken, String publicCertificatePath, BotOptions options) throws TelegramApiException {
         try (CloseableHttpClient httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).build()) {
             String url = Constants.BASEURL + botToken + "/" + SetWebhook.PATH;
 
+            RequestConfig.Builder configBuilder = RequestConfig.copy(RequestConfig.custom().build());
+            if (options.hasProxy()) {
+                configBuilder.setProxy(new HttpHost(options.getProxyHost(), options.getProxyPort()));
+            }
+
+            RequestConfig requestConfig = configBuilder.setSocketTimeout(SOCKET_TIMEOUT)
+                    .setConnectTimeout(SOCKET_TIMEOUT)
+                    .setConnectionRequestTimeout(SOCKET_TIMEOUT).build();
+
             HttpPost httppost = new HttpPost(url);
+            httppost.setConfig(requestConfig);
+
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addTextBody(SetWebhook.URL_FIELD, webHookURL);
             if (publicCertificatePath != null) {
@@ -143,7 +161,7 @@ public class TelegramBotsApi {
      * @param bot the bot to register
      */
     public BotSession registerBot(TelegramLongPollingBot bot) throws TelegramApiException {
-        setWebhook(bot.getBotToken(), null);
+        setWebhook(bot.getBotToken(), null, bot.getOptions());
         return new BotSession(bot.getBotToken(), bot, bot.getOptions());
     }
 
@@ -154,19 +172,21 @@ public class TelegramBotsApi {
     public void registerBot(TelegramWebhookBot bot) throws TelegramApiException {
         if (useWebhook) {
             webhook.registerWebhook(bot);
-            setWebhook(bot.getBotToken(), bot.getBotPath());
+            setWebhook(bot.getBotToken(), bot.getBotPath(), bot.getOptions());
         }
     }
 
     /**
      *
      * @param botToken
+     * @param urlPath
+     * @param botOptions
      */
-    private void setWebhook(String botToken, String urlPath) throws TelegramApiException {
+    private void setWebhook(String botToken, String urlPath, BotOptions botOptions) throws TelegramApiException {
         if (botToken == null) {
             throw new TelegramApiException("Parameter botToken can not be null");
         }
         String completeExternalUrl = urlPath == null ? "" : extrenalUrl + urlPath;
-        setWebhook(completeExternalUrl, botToken, pathToCertificate);
+        setWebhook(completeExternalUrl, botToken, pathToCertificate, botOptions);
     }
 }
