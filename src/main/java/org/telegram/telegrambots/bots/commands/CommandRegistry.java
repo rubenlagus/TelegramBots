@@ -17,7 +17,19 @@ import java.util.function.BiConsumer;
 public final class CommandRegistry implements ICommandRegistry {
 
     private final Map<String, BotCommand> commandRegistryMap = new HashMap<>();
+    private final boolean allowCommandsWithUsername;
+    private final String botUsername;
     private BiConsumer<AbsSender, Message> defaultConsumer;
+
+    /**
+     * Creates a Command registry
+     * @param allowCommandsWithUsername True to allow commands with username, false otherwise
+     * @param botUsername Bot username
+     */
+    public CommandRegistry(boolean allowCommandsWithUsername, String botUsername) {
+        this.allowCommandsWithUsername = allowCommandsWithUsername;
+        this.botUsername = botUsername;
+    }
 
     @Override
     public void registerDefaultAction(BiConsumer<AbsSender, Message> defaultConsumer) {
@@ -87,7 +99,7 @@ public final class CommandRegistry implements ICommandRegistry {
                 String commandMessage = text.substring(1);
                 String[] commandSplit = commandMessage.split(BotCommand.COMMAND_PARAMETER_SEPARATOR);
 
-                String command = commandSplit[0];
+                String command = removeUsernameFromCommandIfNeeded(commandSplit[0]);
 
                 if (commandRegistryMap.containsKey(command)) {
                     String[] parameters = Arrays.copyOfRange(commandSplit, 1, commandSplit.length);
@@ -100,5 +112,18 @@ public final class CommandRegistry implements ICommandRegistry {
             }
         }
         return false;
+    }
+
+    /**
+     * if {@link #allowCommandsWithUsername} is enabled, the username of the bot is removed from
+     * the command
+     * @param command Command to simplify
+     * @return Simplified command
+     */
+    private String removeUsernameFromCommandIfNeeded(String command) {
+        if (allowCommandsWithUsername) {
+            return command.replace("@" + botUsername, "").trim();
+        }
+        return command;
     }
 }

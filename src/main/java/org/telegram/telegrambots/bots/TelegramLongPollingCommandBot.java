@@ -20,7 +20,7 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
     private final CommandRegistry commandRegistry;
 
     /**
-     * construct creates CommandRegistry for this bot.
+     * Creates a TelegramLongPollingCommandBot using default options
      * Use ICommandRegistry's methods on this bot to register commands
      */
     public TelegramLongPollingCommandBot() {
@@ -28,12 +28,25 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
     }
 
     /**
-     * construct creates CommandRegistry for this bot.
+     * Creates a TelegramLongPollingCommandBot with custom options and allowing commands with
+     * usernames
      * Use ICommandRegistry's methods on this bot to register commands
+     * @param options Bot options
      */
     public TelegramLongPollingCommandBot(BotOptions options) {
+        this(options, true);
+    }
+
+    /**
+     * Creates a TelegramLongPollingCommandBot
+     * Use ICommandRegistry's methods on this bot to register commands
+     * @param options Bot options
+     * @param allowCommandsWithUsername true to allow commands with parameters (default),
+     *                                  false otherwise
+     */
+    public TelegramLongPollingCommandBot(BotOptions options, boolean allowCommandsWithUsername) {
         super(options);
-        this.commandRegistry = new CommandRegistry();
+        this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, getBotUsername());
     }
 
     @Override
