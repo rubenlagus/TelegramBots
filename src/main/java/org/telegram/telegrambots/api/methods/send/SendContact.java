@@ -38,8 +38,8 @@ public class SendContact extends BotApiMethod<Message> {
      * users will receive a notification with no sound. Other apps coming soon
      */
     private Boolean disableNotification;
-    private Integer replayToMessageId; ///< Optional. If the message is a reply, ID of the original message
-    private ReplyKeyboard replayMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
+    private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
 
     public String getChatId() {
         return chatId;
@@ -50,22 +50,54 @@ public class SendContact extends BotApiMethod<Message> {
         return this;
     }
 
+    public Integer getReplyToMessageId() {
+        return replyToMessageId;
+    }
+
+    public SendContact setReplyToMessageId(Integer replyToMessageId) {
+        this.replyToMessageId = replyToMessageId;
+        return this;
+    }
+
+    public ReplyKeyboard getReplyMarkup() {
+        return replyMarkup;
+    }
+
+    public SendContact setReplyMarkup(ReplyKeyboard replyMarkup) {
+        this.replyMarkup = replyMarkup;
+        return this;
+    }
+
+    /**
+     * @deprecated Use {@link #getReplyToMessageId()} instead.
+     */
+    @Deprecated
     public Integer getReplayToMessageId() {
-        return replayToMessageId;
+        return getReplyToMessageId();
     }
 
-    public SendContact setReplayToMessageId(Integer replayToMessageId) {
-        this.replayToMessageId = replayToMessageId;
-        return this;
+    /**
+     * @deprecated Use {@link #setReplyToMessageId(Integer)} instead.
+     */
+    @Deprecated
+    public SendContact setReplayToMessageId(Integer replyToMessageId) {
+        return setReplyToMessageId(replyToMessageId);
     }
 
+    /**
+     * @deprecated Use {@link #getReplyMarkup()} instead.
+     */
+    @Deprecated
     public ReplyKeyboard getReplayMarkup() {
-        return replayMarkup;
+        return getReplyMarkup();
     }
 
-    public SendContact setReplayMarkup(ReplyKeyboard replayMarkup) {
-        this.replayMarkup = replayMarkup;
-        return this;
+    /**
+     * @deprecated Use {@link #setReplyMarkup(ReplyKeyboard)} instead.
+     */
+    @Deprecated
+    public SendContact setReplayMarkup(ReplyKeyboard replyMarkup) {
+        return setReplyMarkup(replyMarkup);
     }
 
     public Boolean getDisableNotification() {
@@ -134,11 +166,11 @@ public class SendContact extends BotApiMethod<Message> {
         if (disableNotification != null) {
             jsonObject.put(DISABLENOTIFICATION_FIELD, disableNotification);
         }
-        if (replayToMessageId != null) {
-            jsonObject.put(REPLYTOMESSAGEID_FIELD, replayToMessageId);
+        if (replyToMessageId != null) {
+            jsonObject.put(REPLYTOMESSAGEID_FIELD, replyToMessageId);
         }
-        if (replayMarkup != null) {
-            jsonObject.put(REPLYMARKUP_FIELD, replayMarkup.toJson());
+        if (replyMarkup != null) {
+            jsonObject.put(REPLYMARKUP_FIELD, replyMarkup.toJson());
         }
 
         return jsonObject;
@@ -157,11 +189,11 @@ public class SendContact extends BotApiMethod<Message> {
         if (disableNotification != null) {
             gen.writeBooleanField(DISABLENOTIFICATION_FIELD, disableNotification);
         }
-        if (replayToMessageId != null) {
-            gen.writeNumberField(REPLYTOMESSAGEID_FIELD, replayToMessageId);
+        if (replyToMessageId != null) {
+            gen.writeNumberField(REPLYTOMESSAGEID_FIELD, replyToMessageId);
         }
-        if (replayMarkup != null) {
-            gen.writeObjectField(REPLYMARKUP_FIELD, replayMarkup);
+        if (replyMarkup != null) {
+            gen.writeObjectField(REPLYMARKUP_FIELD, replyMarkup);
         }
 
         gen.writeEndObject();
@@ -175,13 +207,13 @@ public class SendContact extends BotApiMethod<Message> {
 
     @Override
     public String toString() {
-        return "SendLocation{" +
+        return "SendContact{" +
                 "chatId='" + chatId + '\'' +
                 ", phoneNumber=" + phoneNumber +
                 ", firstName=" + firstName +
                 ", lastName=" + lastName +
-                ", replayToMessageId=" + replayToMessageId +
-                ", replayMarkup=" + replayMarkup +
+                ", replyToMessageId=" + replyToMessageId +
+                ", replyMarkup=" + replyMarkup +
                 '}';
     }
 }

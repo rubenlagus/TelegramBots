@@ -2,6 +2,10 @@ package org.telegram.telegrambots.api.methods.send;
 
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
+import java.io.File;
+import java.io.InputStream;
+import java.util.Objects;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -23,11 +27,13 @@ public class SendSticker {
      * users will receive a notification with no sound. Other apps coming soon
      */
     private Boolean disableNotification;
-    private Integer replayToMessageId; ///< Optional. If the message is a reply, ID of the original message
-    private ReplyKeyboard replayMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
+    private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
 
-    private boolean isNewSticker;
+    private boolean isNewSticker; ///< True to upload a new sticker, false to use a fileId
     private String stickerName;
+    private File newStickerFile; ///< New sticker file
+    private InputStream newStickerStream; ///< New sticker stream
 
     public SendSticker() {
         super();
@@ -52,28 +58,85 @@ public class SendSticker {
         return this;
     }
 
+    public Integer getReplyToMessageId() {
+        return replyToMessageId;
+    }
+
+    public SendSticker setReplyToMessageId(Integer replyToMessageId) {
+        this.replyToMessageId = replyToMessageId;
+        return this;
+    }
+
+    public ReplyKeyboard getReplyMarkup() {
+        return replyMarkup;
+    }
+
+    public SendSticker setReplyMarkup(ReplyKeyboard replyMarkup) {
+        this.replyMarkup = replyMarkup;
+        return this;
+    }
+
+    /**
+     * @deprecated Use {@link #getReplyToMessageId()} instead.
+     */
+    @Deprecated
     public Integer getReplayToMessageId() {
-        return replayToMessageId;
+        return getReplyToMessageId();
     }
 
-    public SendSticker setReplayToMessageId(Integer replayToMessageId) {
-        this.replayToMessageId = replayToMessageId;
-        return this;
+    /**
+     * @deprecated Use {@link #setReplyToMessageId(Integer)} instead.
+     */
+    @Deprecated
+    public SendSticker setReplayToMessageId(Integer replyToMessageId) {
+        return setReplyToMessageId(replyToMessageId);
     }
 
+    /**
+     * @deprecated Use {@link #getReplyMarkup()} instead.
+     */
+    @Deprecated
     public ReplyKeyboard getReplayMarkup() {
-        return replayMarkup;
+        return getReplyMarkup();
     }
 
-    public SendSticker setReplayMarkup(ReplyKeyboard replayMarkup) {
-        this.replayMarkup = replayMarkup;
-        return this;
+    /**
+     * @deprecated Use {@link #setReplyMarkup(ReplyKeyboard)} instead.
+     */
+    @Deprecated
+    public SendSticker setReplayMarkup(ReplyKeyboard replyMarkup) {
+        return setReplyMarkup(replyMarkup);
     }
 
+    /**
+     * Use this method to set the sticker to a new file
+     *
+     * @param sticker     Path to the new file in your server
+     * @param stickerName Name of the file itself
+     *
+     * @deprecated use {@link #setNewSticker(File)} or {@link #setNewSticker(InputStream)} instead.
+     */
+    @Deprecated
     public SendSticker setSticker(String sticker, String stickerName) {
         this.sticker = sticker;
         this.isNewSticker = true;
         this.stickerName = stickerName;
+        return this;
+    }
+
+    public SendSticker setNewSticker(File file) {
+        this.sticker = file.getName();
+        this.isNewSticker = true;
+        this.newStickerFile = file;
+        return this;
+    }
+
+    public SendSticker setNewSticker(String stickerName, InputStream inputStream) {
+    	Objects.requireNonNull(stickerName, "stickerName cannot be null!");
+    	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
+    	this.stickerName = stickerName;
+        this.isNewSticker = true;
+        this.newStickerStream = inputStream;
         return this;
     }
 
@@ -99,15 +162,22 @@ public class SendSticker {
         return stickerName;
     }
 
+    public File getNewStickerFile() {
+        return newStickerFile;
+    }
+
+    public InputStream getNewStickerStream() {
+        return newStickerStream;
+    }
+
     @Override
     public String toString() {
         return "SendSticker{" +
                 "chatId='" + chatId + '\'' +
                 ", sticker='" + sticker + '\'' +
-                ", replayToMessageId=" + replayToMessageId +
-                ", replayMarkup=" + replayMarkup +
+                ", replyToMessageId=" + replyToMessageId +
+                ", replyMarkup=" + replyMarkup +
                 ", isNewSticker=" + isNewSticker +
-                ", stickerName='" + stickerName + '\'' +
                 '}';
     }
 }

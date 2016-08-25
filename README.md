@@ -1,4 +1,6 @@
 # Telegram Bot Java Library
+[![Build Status](https://travis-ci.org/rubenlagus/TelegramBots.svg?branch=master)](https://travis-ci.org/rubenlagus/TelegramBots)
+[![Jitpack](https://jitpack.io/v/rubenlagus/TelegramBots.svg)](https://jitpack.io/#rubenlagus/TelegramBots)
 [![Telegram](http://trellobot.doomdns.org/telegrambadge.svg)](https://telegram.me/JavaBotsApi)
 
 A simple to use library to create Telegram Bots in Java
@@ -9,20 +11,18 @@ Feel free to fork this project, work on it and then make a pull request against 
 Please, **DO NOT PUSH ANY TOKEN OR API KEY**, I will never accept a pull request with that content.
 
 ## Webhooks vs GetUpdates
-Both ways are supported (but I still didn't tested webhooks).
-
-I recommend using getUpdates methods.
+Both ways are supported, but I recommend long polling method.
 
 ## Usage
 
-Just import add the library to your project using [Maven, Gradly, ...](https://jitpack.io/#rubenlagus/TelegramBots/v2.3.3.1) or download the jar(including all dependencies) from [here](https://github.com/rubenlagus/TelegramBots/releases/tag/v2.3.3.1)
+Just import add the library to your project using [Maven, Gradle, ...](https://jitpack.io/#rubenlagus/TelegramBots/v2.3.5) or download the jar(including all dependencies) from [here](https://github.com/rubenlagus/TelegramBots/releases/tag/v2.3.5)
 
 In order to use Long Polling mode, just create your own bot extending `org.telegram.telegrambots.bots.TelegramLongPollingBot`.
 
 If you like to use Webhook, extend `org.telegram.telegrambots.bots.TelegramWebhookBot`
 
 
-Once done, you just need to creat a `org.telegram.telegrambots.TelegramBotsApi`and register your bots:
+Once done, you just need to create a `org.telegram.telegrambots.TelegramBotsApi`and register your bots:
 
 ```java
 
@@ -46,19 +46,23 @@ Once done, you just need to creat a `org.telegram.telegrambots.TelegramBotsApi`a
 
 ```
 
+For detailed explanation, visite our [How To](HOWTO.md) (thanks Clevero)
+
 
 ## Example bots
 Open them and send them */help* command to get some information about their capabilities:
 
-https://telegram.me/weatherbot 
+https://telegram.me/weatherbot (**Use custom keyboards**)
 
-https://telegram.me/directionsbot
+https://telegram.me/directionsbot (**Basic messages**)
 
-https://telegram.me/filesbot
+https://telegram.me/filesbot (**Send files by file_id**)
 
-https://telegram.me/TGlanguagesbot
+https://telegram.me/TGlanguagesbot (**Send files uploding them**)
 
-https://telegram.me/RaeBot
+https://telegram.me/RaeBot (**Inline support**)
+
+https://telegram.me/SnowcrashBot (**Webhook support**)
 
 You can see code for those bots at [TelegramBotsExample](https://github.com/rubenlagus/TelegramBotsExample) project.
 

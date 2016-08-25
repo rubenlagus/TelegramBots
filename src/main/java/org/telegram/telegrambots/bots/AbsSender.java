@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.bots;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -43,6 +44,7 @@ import org.telegram.telegrambots.api.methods.send.SendSticker;
 import org.telegram.telegrambots.api.methods.send.SendVenue;
 import org.telegram.telegrambots.api.methods.send.SendVideo;
 import org.telegram.telegrambots.api.methods.send.SendVoice;
+import org.telegram.telegrambots.api.methods.updates.GetWebhookInfo;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageCaption;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
@@ -52,6 +54,7 @@ import org.telegram.telegrambots.api.objects.File;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.User;
 import org.telegram.telegrambots.api.objects.UserProfilePhotos;
+import org.telegram.telegrambots.api.objects.WebhookInfo;
 import org.telegram.telegrambots.updateshandlers.SentCallback;
 
 import java.io.IOException;
@@ -74,19 +77,28 @@ import static org.telegram.telegrambots.Constants.ERRORDESCRIPTIONFIELD;
  */
 @SuppressWarnings("unused")
 public abstract class AbsSender {
+    private static final ContentType TEXT_PLAIN_CONTENT_TYPE = ContentType.create("text/plain", StandardCharsets.UTF_8);
+
     private final ExecutorService exe = Executors.newSingleThreadExecutor();
+    private final BotOptions options;
     private volatile CloseableHttpClient httpclient;
     private volatile RequestConfig requestConfig;
     private static final int SOCKET_TIMEOUT = 75 * 1000;
 
-    public AbsSender() {
+    AbsSender(BotOptions options) {
+        this.options = options;
         httpclient = HttpClientBuilder.create()
                 .setSSLHostnameVerifier(new NoopHostnameVerifier())
                 .setConnectionTimeToLive(70, TimeUnit.SECONDS)
                 .setMaxConnTotal(100)
                 .build();
-        requestConfig = RequestConfig.copy(RequestConfig.custom().build())
-                .setSocketTimeout(SOCKET_TIMEOUT)
+
+        RequestConfig.Builder configBuilder = RequestConfig.copy(RequestConfig.custom().build());
+        if (options.hasProxy()) {
+            configBuilder.setProxy(new HttpHost(options.getProxyHost(), options.getProxyPort()));
+        }
+
+        requestConfig = configBuilder.setSocketTimeout(SOCKET_TIMEOUT)
                 .setConnectTimeout(SOCKET_TIMEOUT)
                 .setConnectionRequestTimeout(SOCKET_TIMEOUT).build();
     }
@@ -97,168 +109,177 @@ public abstract class AbsSender {
      */
     public abstract String getBotToken();
 
+    public final BotOptions getOptions() {
+        return options;
+    }
+
     // Send Requests
 
-    public Message sendMessage(SendMessage sendMessage) throws TelegramApiException {
+    public final Message sendMessage(SendMessage sendMessage) throws TelegramApiException {
         if (sendMessage == null) {
             throw new TelegramApiException("Parameter sendMessage can not be null");
         }
 
-        return (Message) sendApiMethod(sendMessage);
+        return sendApiMethod(sendMessage);
     }
 
-    public Boolean answerInlineQuery(AnswerInlineQuery answerInlineQuery) throws TelegramApiException {
+    public final Boolean answerInlineQuery(AnswerInlineQuery answerInlineQuery) throws TelegramApiException {
         if (answerInlineQuery == null) {
             throw new TelegramApiException("Parameter answerInlineQuery can not be null");
         }
 
-        return (Boolean) sendApiMethod(answerInlineQuery);
+        return sendApiMethod(answerInlineQuery);
     }
 
-    public Boolean sendChatAction(SendChatAction sendChatAction) throws TelegramApiException {
+    public final Boolean sendChatAction(SendChatAction sendChatAction) throws TelegramApiException {
         if (sendChatAction == null) {
             throw new TelegramApiException("Parameter sendChatAction can not be null");
         }
 
-        return (Boolean) sendApiMethod(sendChatAction);
+        return sendApiMethod(sendChatAction);
     }
 
-    public Message forwardMessage(ForwardMessage forwardMessage) throws TelegramApiException {
+    public final Message forwardMessage(ForwardMessage forwardMessage) throws TelegramApiException {
         if (forwardMessage == null) {
             throw new TelegramApiException("Parameter forwardMessage can not be null");
         }
 
-        return (Message) sendApiMethod(forwardMessage);
+        return sendApiMethod(forwardMessage);
     }
 
-    public Message sendLocation(SendLocation sendLocation) throws TelegramApiException {
+    public final Message sendLocation(SendLocation sendLocation) throws TelegramApiException {
         if (sendLocation == null) {
             throw new TelegramApiException("Parameter sendLocation can not be null");
         }
 
-        return (Message) sendApiMethod(sendLocation);
+        return sendApiMethod(sendLocation);
     }
 
-    public Message sendVenue(SendVenue sendVenue) throws TelegramApiException {
+    public final Message sendVenue(SendVenue sendVenue) throws TelegramApiException {
         if (sendVenue == null) {
             throw new TelegramApiException("Parameter sendVenue can not be null");
         }
 
-        return (Message) sendApiMethod(sendVenue);
+        return sendApiMethod(sendVenue);
     }
 
-    public Message sendContact(SendContact sendContact) throws TelegramApiException {
+    public final Message sendContact(SendContact sendContact) throws TelegramApiException {
         if (sendContact == null) {
             throw new TelegramApiException("Parameter sendContact can not be null");
         }
 
-        return (Message) sendApiMethod(sendContact);
+        return sendApiMethod(sendContact);
     }
 
-    public Boolean kickMember(KickChatMember kickChatMember) throws TelegramApiException {
+    public final Boolean kickMember(KickChatMember kickChatMember) throws TelegramApiException {
         if (kickChatMember == null) {
             throw new TelegramApiException("Parameter kickChatMember can not be null");
         }
-        return (Boolean) sendApiMethod(kickChatMember);
+        return sendApiMethod(kickChatMember);
     }
 
-    public Boolean unbanMember(UnbanChatMember unbanChatMember) throws TelegramApiException {
+    public final Boolean unbanMember(UnbanChatMember unbanChatMember) throws TelegramApiException {
         if (unbanChatMember == null) {
             throw new TelegramApiException("Parameter unbanChatMember can not be null");
         }
-        return (Boolean) sendApiMethod(unbanChatMember);
+        return sendApiMethod(unbanChatMember);
     }
 
-    public Boolean leaveChat(LeaveChat leaveChat) throws TelegramApiException {
+    public final Boolean leaveChat(LeaveChat leaveChat) throws TelegramApiException {
         if (leaveChat == null) {
             throw new TelegramApiException("Parameter leaveChat can not be null");
         }
-        return (Boolean) sendApiMethod(leaveChat);
+        return sendApiMethod(leaveChat);
     }
 
-    public Chat getChat(GetChat getChat) throws TelegramApiException {
+    public final Chat getChat(GetChat getChat) throws TelegramApiException {
         if (getChat == null) {
             throw new TelegramApiException("Parameter getChat can not be null");
         }
-        return (Chat) sendApiMethod(getChat);
+        return sendApiMethod(getChat);
     }
 
-    public List<ChatMember> getChatAdministrators(GetChatAdministrators getChatAdministrators) throws TelegramApiException {
+    public final List<ChatMember> getChatAdministrators(GetChatAdministrators getChatAdministrators) throws TelegramApiException {
         if (getChatAdministrators == null) {
             throw new TelegramApiException("Parameter getChatAdministrators can not be null");
         }
-        return (ArrayList<ChatMember>) sendApiMethod(getChatAdministrators);
+        return sendApiMethod(getChatAdministrators);
     }
 
-    public ChatMember getChatMember(GetChatMember getChatMember) throws TelegramApiException {
+    public final ChatMember getChatMember(GetChatMember getChatMember) throws TelegramApiException {
         if (getChatMember == null) {
             throw new TelegramApiException("Parameter getChatMember can not be null");
         }
-        return (ChatMember) sendApiMethod(getChatMember);
+        return sendApiMethod(getChatMember);
     }
 
-    public Integer getChatMemberCount(GetChatMemberCount getChatMemberCount) throws TelegramApiException {
+    public final Integer getChatMemberCount(GetChatMemberCount getChatMemberCount) throws TelegramApiException {
         if (getChatMemberCount == null) {
             throw new TelegramApiException("Parameter getChatMemberCount can not be null");
         }
-        return (Integer) sendApiMethod(getChatMemberCount);
+        return sendApiMethod(getChatMemberCount);
     }
 
-    public Message editMessageText(EditMessageText editMessageText) throws TelegramApiException {
+    public final Message editMessageText(EditMessageText editMessageText) throws TelegramApiException {
         if (editMessageText == null) {
             throw new TelegramApiException("Parameter editMessageText can not be null");
         }
-        return (Message) sendApiMethod(editMessageText);
+        return sendApiMethod(editMessageText);
     }
 
-    public Message editMessageCaption(EditMessageCaption editMessageCaption) throws TelegramApiException {
+    public final Message editMessageCaption(EditMessageCaption editMessageCaption) throws TelegramApiException {
         if (editMessageCaption == null) {
             throw new TelegramApiException("Parameter editMessageCaption can not be null");
         }
-        return (Message) sendApiMethod(editMessageCaption);
+        return sendApiMethod(editMessageCaption);
     }
 
-    public Message editMessageReplyMarkup(EditMessageReplyMarkup editMessageReplyMarkup) throws TelegramApiException {
+    public final Message editMessageReplyMarkup(EditMessageReplyMarkup editMessageReplyMarkup) throws TelegramApiException {
         if (editMessageReplyMarkup == null) {
             throw new TelegramApiException("Parameter editMessageReplyMarkup can not be null");
         }
-        return (Message) sendApiMethod(editMessageReplyMarkup);
+        return sendApiMethod(editMessageReplyMarkup);
     }
 
-    public Boolean answerCallbackQuery(AnswerCallbackQuery answerCallbackQuery) throws TelegramApiException {
+    public final Boolean answerCallbackQuery(AnswerCallbackQuery answerCallbackQuery) throws TelegramApiException {
         if (answerCallbackQuery == null) {
             throw new TelegramApiException("Parameter answerCallbackQuery can not be null");
         }
-        return (Boolean) sendApiMethod(answerCallbackQuery);
+        return sendApiMethod(answerCallbackQuery);
     }
 
-    public UserProfilePhotos getUserProfilePhotos(GetUserProfilePhotos getUserProfilePhotos) throws TelegramApiException {
+    public final UserProfilePhotos getUserProfilePhotos(GetUserProfilePhotos getUserProfilePhotos) throws TelegramApiException {
         if (getUserProfilePhotos == null) {
             throw new TelegramApiException("Parameter getUserProfilePhotos can not be null");
         }
 
-        return (UserProfilePhotos) sendApiMethod(getUserProfilePhotos);
+        return sendApiMethod(getUserProfilePhotos);
     }
 
-    public File getFile(GetFile getFile) throws TelegramApiException{
+    public final File getFile(GetFile getFile) throws TelegramApiException{
         if(getFile == null){
             throw new TelegramApiException("Parameter getFile can not be null");
         }
         else if(getFile.getFileId() == null){
             throw new TelegramApiException("Attribute file_id in parameter getFile can not be null");
         }
-        return (File) sendApiMethod(getFile);
+        return sendApiMethod(getFile);
     }
 
-    public User getMe() throws TelegramApiException {
+    public final User getMe() throws TelegramApiException {
         GetMe getMe = new GetMe();
 
-        return (User) sendApiMethod(getMe);
+        return sendApiMethod(getMe);
+    }
+
+    public final WebhookInfo getWebhookInfo() throws TelegramApiException {
+        GetWebhookInfo getWebhookInfo = new GetWebhookInfo();
+        return sendApiMethod(getWebhookInfo);
     }
 
     // Send Requests Async
 
-    public void sendMessageAsync(SendMessage sendMessage, SentCallback<Message> sentCallback) throws TelegramApiException {
+    public final void sendMessageAsync(SendMessage sendMessage, SentCallback<Message> sentCallback) throws TelegramApiException {
         if (sendMessage == null) {
             throw new TelegramApiException("Parameter sendMessage can not be null");
         }
@@ -270,7 +291,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(sendMessage, sentCallback);
     }
 
-    public void answerInlineQueryAsync(AnswerInlineQuery answerInlineQuery, SentCallback<Boolean> sentCallback) throws TelegramApiException {
+    public final void answerInlineQueryAsync(AnswerInlineQuery answerInlineQuery, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (answerInlineQuery == null) {
             throw new TelegramApiException("Parameter answerInlineQuery can not be null");
         }
@@ -282,7 +303,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(answerInlineQuery, sentCallback);
     }
 
-    public void sendChatActionAsync(SendChatAction sendChatAction, SentCallback<Boolean> sentCallback) throws TelegramApiException {
+    public final void sendChatActionAsync(SendChatAction sendChatAction, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (sendChatAction == null) {
             throw new TelegramApiException("Parameter sendChatAction can not be null");
         }
@@ -294,7 +315,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(sendChatAction, sentCallback);
     }
 
-    public void forwardMessageAsync(ForwardMessage forwardMessage, SentCallback<Message> sentCallback) throws TelegramApiException {
+    public final void forwardMessageAsync(ForwardMessage forwardMessage, SentCallback<Message> sentCallback) throws TelegramApiException {
         if (forwardMessage == null) {
             throw new TelegramApiException("Parameter forwardMessage can not be null");
         }
@@ -306,7 +327,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(forwardMessage, sentCallback);
     }
 
-    public void sendLocationAsync(SendLocation sendLocation, SentCallback<Message> sentCallback) throws TelegramApiException {
+    public final void sendLocationAsync(SendLocation sendLocation, SentCallback<Message> sentCallback) throws TelegramApiException {
         if (sendLocation == null) {
             throw new TelegramApiException("Parameter sendLocation can not be null");
         }
@@ -318,7 +339,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(sendLocation, sentCallback);
     }
 
-    public void sendVenueAsync(SendVenue sendVenue, SentCallback<Message> sentCallback) throws TelegramApiException {
+    public final void sendVenueAsync(SendVenue sendVenue, SentCallback<Message> sentCallback) throws TelegramApiException {
         if (sendVenue == null) {
             throw new TelegramApiException("Parameter sendVenue can not be null");
         }
@@ -330,7 +351,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(sendVenue, sentCallback);
     }
 
-    public void sendContactAsync(SendContact sendContact, SentCallback<Message> sentCallback) throws TelegramApiException {
+    public final void sendContactAsync(SendContact sendContact, SentCallback<Message> sentCallback) throws TelegramApiException {
         if (sendContact == null) {
             throw new TelegramApiException("Parameter sendContact can not be null");
         }
@@ -341,7 +362,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(sendContact, sentCallback);
     }
 
-    public void kickMemberAsync(KickChatMember kickChatMember, SentCallback<Boolean> sentCallback) throws TelegramApiException {
+    public final void kickMemberAsync(KickChatMember kickChatMember, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (kickChatMember == null) {
             throw new TelegramApiException("Parameter kickChatMember can not be null");
         }
@@ -352,7 +373,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(kickChatMember, sentCallback);
     }
 
-    public void unbanMemberAsync(UnbanChatMember unbanChatMember, SentCallback<Boolean> sentCallback) throws TelegramApiException {
+    public final void unbanMemberAsync(UnbanChatMember unbanChatMember, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (unbanChatMember == null) {
             throw new TelegramApiException("Parameter unbanChatMember can not be null");
         }
@@ -363,7 +384,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(unbanChatMember, sentCallback);
     }
 
-    public void leaveChatAsync(LeaveChat leaveChat, SentCallback<Boolean> sentCallback) throws TelegramApiException {
+    public final void leaveChatAsync(LeaveChat leaveChat, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (leaveChat == null) {
             throw new TelegramApiException("Parameter leaveChat can not be null");
         }
@@ -373,7 +394,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(leaveChat, sentCallback);
     }
 
-    public void getChatAsync(GetChat getChat, SentCallback<Chat> sentCallback) throws TelegramApiException {
+    public final void getChatAsync(GetChat getChat, SentCallback<Chat> sentCallback) throws TelegramApiException {
         if (getChat == null) {
             throw new TelegramApiException("Parameter getChat can not be null");
         }
@@ -383,7 +404,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(getChat, sentCallback);
     }
 
-    public void getChatAdministratorsAsync(GetChatAdministrators getChatAdministrators, SentCallback<ArrayList<ChatMember>> sentCallback) throws TelegramApiException {
+    public final void getChatAdministratorsAsync(GetChatAdministrators getChatAdministrators, SentCallback<ArrayList<ChatMember>> sentCallback) throws TelegramApiException {
         if (getChatAdministrators == null) {
             throw new TelegramApiException("Parameter getChatAdministrators can not be null");
         }
@@ -393,7 +414,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(getChatAdministrators, sentCallback);
     }
 
-    public void getChatMemberAsync(GetChatMember getChatMember, SentCallback<ChatMember> sentCallback) throws TelegramApiException {
+    public final void getChatMemberAsync(GetChatMember getChatMember, SentCallback<ChatMember> sentCallback) throws TelegramApiException {
         if (getChatMember == null) {
             throw new TelegramApiException("Parameter getChatMember can not be null");
         }
@@ -403,7 +424,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(getChatMember, sentCallback);
     }
 
-    public void getChatMemberCountAsync(GetChatMemberCount getChatMemberCount, SentCallback<Integer> sentCallback) throws TelegramApiException {
+    public final void getChatMemberCountAsync(GetChatMemberCount getChatMemberCount, SentCallback<Integer> sentCallback) throws TelegramApiException {
         if (getChatMemberCount == null) {
             throw new TelegramApiException("Parameter getChatMemberCount can not be null");
         }
@@ -414,8 +435,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(getChatMemberCount, sentCallback);
     }
 
-
-    public void editMessageTextAsync(EditMessageText editMessageText, SentCallback<Message> sentCallback) throws TelegramApiException {
+    public final void editMessageTextAsync(EditMessageText editMessageText, SentCallback<Message> sentCallback) throws TelegramApiException {
         if (editMessageText == null) {
             throw new TelegramApiException("Parameter editMessageText can not be null");
         }
@@ -426,7 +446,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(editMessageText, sentCallback);
     }
 
-    public void editMessageCaptionAsync(EditMessageCaption editMessageCaption, SentCallback<Message> sentCallback) throws TelegramApiException {
+    public final void editMessageCaptionAsync(EditMessageCaption editMessageCaption, SentCallback<Message> sentCallback) throws TelegramApiException {
         if (editMessageCaption == null) {
             throw new TelegramApiException("Parameter editMessageCaption can not be null");
         }
@@ -437,7 +457,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(editMessageCaption, sentCallback);
     }
 
-    public void editMessageReplyMarkup(EditMessageReplyMarkup editMessageReplyMarkup, SentCallback<Message> sentCallback) throws TelegramApiException {
+    public final void editMessageReplyMarkup(EditMessageReplyMarkup editMessageReplyMarkup, SentCallback<Message> sentCallback) throws TelegramApiException {
         if (editMessageReplyMarkup == null) {
             throw new TelegramApiException("Parameter editMessageReplyMarkup can not be null");
         }
@@ -448,7 +468,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(editMessageReplyMarkup, sentCallback);
     }
 
-    public void answerCallbackQueryAsync(AnswerCallbackQuery answerCallbackQuery, SentCallback<Boolean> sentCallback) throws TelegramApiException {
+    public final void answerCallbackQueryAsync(AnswerCallbackQuery answerCallbackQuery, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (answerCallbackQuery == null) {
             throw new TelegramApiException("Parameter answerCallbackQuery can not be null");
         }
@@ -459,7 +479,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(answerCallbackQuery, sentCallback);
     }
 
-    public void getUserProfilePhotosAsync(GetUserProfilePhotos getUserProfilePhotos, SentCallback<UserProfilePhotos> sentCallback) throws TelegramApiException {
+    public final void getUserProfilePhotosAsync(GetUserProfilePhotos getUserProfilePhotos, SentCallback<UserProfilePhotos> sentCallback) throws TelegramApiException {
         if (getUserProfilePhotos == null) {
             throw new TelegramApiException("Parameter getUserProfilePhotos can not be null");
         }
@@ -471,7 +491,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(getUserProfilePhotos, sentCallback);
     }
 
-    public void getFileAsync(GetFile getFile, SentCallback<File> sentCallback) throws TelegramApiException {
+    public final void getFileAsync(GetFile getFile, SentCallback<File> sentCallback) throws TelegramApiException {
         if (getFile == null) {
             throw new TelegramApiException("Parameter getFile can not be null");
         } else if (getFile.getFileId() == null) {
@@ -481,7 +501,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(getFile, sentCallback);
     }
 
-    public void getMeAsync(SentCallback<User> sentCallback) throws TelegramApiException {
+    public final void getMeAsync(SentCallback<User> sentCallback) throws TelegramApiException {
         if (sentCallback == null) {
             throw new TelegramApiException("Parameter sentCallback can not be null");
         }
@@ -490,9 +510,18 @@ public abstract class AbsSender {
         sendApiMethodAsync(getMe, sentCallback);
     }
 
+    public final void getWebhookInfoAsync(SentCallback<WebhookInfo> sentCallback) throws TelegramApiException {
+        if (sentCallback == null) {
+            throw new TelegramApiException("Parameter sentCallback can not be null");
+        }
+
+        GetWebhookInfo getWebhookInfo = new GetWebhookInfo();
+        sendApiMethodAsync(getWebhookInfo, sentCallback);
+    }
+
     // Specific Send Requests
 
-    public Message sendDocument(SendDocument sendDocument) throws TelegramApiException {
+    public final Message sendDocument(SendDocument sendDocument) throws TelegramApiException {
         String responseContent;
 
         try {
@@ -502,15 +531,21 @@ public abstract class AbsSender {
             if (sendDocument.isNewDocument()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendDocument.CHATID_FIELD, sendDocument.getChatId());
-                builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, new java.io.File(sendDocument.getDocument()), ContentType.APPLICATION_OCTET_STREAM, sendDocument.getDocumentName());
-                if (sendDocument.getReplayMarkup() != null) {
-                    builder.addTextBody(SendDocument.REPLYMARKUP_FIELD, sendDocument.getReplayMarkup().toJson().toString());
+                if (sendDocument.getNewDocumentFile() != null) {
+                    builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, sendDocument.getNewDocumentFile());
+                } else if (sendDocument.getNewDocumentStream() != null) {
+                    builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, sendDocument.getNewDocumentStream(), ContentType.APPLICATION_OCTET_STREAM, sendDocument.getDocumentName());
+                } else {
+                    builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, new java.io.File(sendDocument.getDocument()), ContentType.APPLICATION_OCTET_STREAM, sendDocument.getDocumentName());
                 }
-                if (sendDocument.getReplayToMessageId() != null) {
-                    builder.addTextBody(SendDocument.REPLYTOMESSAGEID_FIELD, sendDocument.getReplayToMessageId().toString());
+                if (sendDocument.getReplyMarkup() != null) {
+                    builder.addTextBody(SendDocument.REPLYMARKUP_FIELD, sendDocument.getReplyMarkup().toJson().toString(), TEXT_PLAIN_CONTENT_TYPE);
+                }
+                if (sendDocument.getReplyToMessageId() != null) {
+                    builder.addTextBody(SendDocument.REPLYTOMESSAGEID_FIELD, sendDocument.getReplyToMessageId().toString());
                 }
                 if (sendDocument.getCaption() != null) {
-                    builder.addTextBody(SendDocument.CAPTION_FIELD, sendDocument.getCaption(), ContentType.create("text/plain", StandardCharsets.UTF_8));
+                    builder.addTextBody(SendDocument.CAPTION_FIELD, sendDocument.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
                 }
                 if (sendDocument.getDisableNotification() != null) {
                     builder.addTextBody(SendDocument.DISABLENOTIFICATION_FIELD, sendDocument.getDisableNotification().toString());
@@ -521,16 +556,16 @@ public abstract class AbsSender {
                 List<NameValuePair> nameValuePairs = new ArrayList<>();
                 nameValuePairs.add(new BasicNameValuePair(SendDocument.CHATID_FIELD, sendDocument.getChatId()));
                 nameValuePairs.add(new BasicNameValuePair(SendDocument.DOCUMENT_FIELD, sendDocument.getDocument()));
-                if (sendDocument.getReplayMarkup() != null) {
-                    nameValuePairs.add(new BasicNameValuePair(SendDocument.REPLYMARKUP_FIELD, sendDocument.getReplayMarkup().toJson().toString()));
+                if (sendDocument.getReplyMarkup() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendDocument.REPLYMARKUP_FIELD, sendDocument.getReplyMarkup().toJson().toString()));
                 }
-                if (sendDocument.getReplayToMessageId() != null) {
-                    nameValuePairs.add(new BasicNameValuePair(SendDocument.REPLYTOMESSAGEID_FIELD, sendDocument.getReplayToMessageId().toString()));
+                if (sendDocument.getReplyToMessageId() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendDocument.REPLYTOMESSAGEID_FIELD, sendDocument.getReplyToMessageId().toString()));
                 }
                 if (sendDocument.getCaption() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendDocument.CAPTION_FIELD, sendDocument.getCaption()));
                 }
-                if (sendDocument.getReplayToMessageId() != null) {
+                if (sendDocument.getDisableNotification() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendDocument.DISABLENOTIFICATION_FIELD, sendDocument.getDisableNotification().toString()));
                 }
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, StandardCharsets.UTF_8));
@@ -553,7 +588,7 @@ public abstract class AbsSender {
         return new Message(jsonObject.getJSONObject(Constants.RESPONSEFIELDRESULT));
     }
 
-    public Message sendPhoto(SendPhoto sendPhoto) throws TelegramApiException {
+    public final Message sendPhoto(SendPhoto sendPhoto) throws TelegramApiException {
         String responseContent;
         try {
             String url = getBaseUrl() + SendPhoto.PATH;
@@ -562,15 +597,21 @@ public abstract class AbsSender {
             if (sendPhoto.isNewPhoto()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendPhoto.CHATID_FIELD, sendPhoto.getChatId());
-                builder.addBinaryBody(SendPhoto.PHOTO_FIELD, new java.io.File(sendPhoto.getPhoto()), ContentType.APPLICATION_OCTET_STREAM, sendPhoto.getPhotoName());
-                if (sendPhoto.getReplayMarkup() != null) {
-                    builder.addTextBody(SendPhoto.REPLYMARKUP_FIELD, sendPhoto.getReplayMarkup().toJson().toString());
+                if (sendPhoto.getNewPhotoFile() != null) {
+                    builder.addBinaryBody(SendPhoto.PHOTO_FIELD, sendPhoto.getNewPhotoFile());
+                } else if (sendPhoto.getNewPhotoStream() != null) {
+                    builder.addBinaryBody(SendPhoto.PHOTO_FIELD, sendPhoto.getNewPhotoStream(), ContentType.APPLICATION_OCTET_STREAM, sendPhoto.getPhotoName());
+                } else {
+                    builder.addBinaryBody(SendPhoto.PHOTO_FIELD, new java.io.File(sendPhoto.getPhoto()), ContentType.APPLICATION_OCTET_STREAM, sendPhoto.getPhotoName());
                 }
-                if (sendPhoto.getReplayToMessageId() != null) {
-                    builder.addTextBody(SendPhoto.REPLYTOMESSAGEID_FIELD, sendPhoto.getReplayToMessageId().toString());
+                if (sendPhoto.getReplyMarkup() != null) {
+                    builder.addTextBody(SendPhoto.REPLYMARKUP_FIELD, sendPhoto.getReplyMarkup().toJson().toString(), TEXT_PLAIN_CONTENT_TYPE);
+                }
+                if (sendPhoto.getReplyToMessageId() != null) {
+                    builder.addTextBody(SendPhoto.REPLYTOMESSAGEID_FIELD, sendPhoto.getReplyToMessageId().toString());
                 }
                 if (sendPhoto.getCaption() != null) {
-                    builder.addTextBody(SendPhoto.CAPTION_FIELD, sendPhoto.getCaption(), ContentType.create("text/plain", StandardCharsets.UTF_8));
+                    builder.addTextBody(SendPhoto.CAPTION_FIELD, sendPhoto.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
                 }
                 if (sendPhoto.getDisableNotification() != null) {
                     builder.addTextBody(SendPhoto.DISABLENOTIFICATION_FIELD, sendPhoto.getDisableNotification().toString());
@@ -581,11 +622,11 @@ public abstract class AbsSender {
                 List<NameValuePair> nameValuePairs = new ArrayList<>();
                 nameValuePairs.add(new BasicNameValuePair(SendPhoto.CHATID_FIELD, sendPhoto.getChatId()));
                 nameValuePairs.add(new BasicNameValuePair(SendPhoto.PHOTO_FIELD, sendPhoto.getPhoto()));
-                if (sendPhoto.getReplayMarkup() != null) {
-                    nameValuePairs.add(new BasicNameValuePair(SendPhoto.REPLYMARKUP_FIELD, sendPhoto.getReplayMarkup().toJson().toString()));
+                if (sendPhoto.getReplyMarkup() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendPhoto.REPLYMARKUP_FIELD, sendPhoto.getReplyMarkup().toJson().toString()));
                 }
-                if (sendPhoto.getReplayToMessageId() != null) {
-                    nameValuePairs.add(new BasicNameValuePair(SendPhoto.REPLYTOMESSAGEID_FIELD, sendPhoto.getReplayToMessageId().toString()));
+                if (sendPhoto.getReplyToMessageId() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendPhoto.REPLYTOMESSAGEID_FIELD, sendPhoto.getReplyToMessageId().toString()));
                 }
                 if (sendPhoto.getCaption() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendPhoto.CAPTION_FIELD, sendPhoto.getCaption()));
@@ -613,7 +654,7 @@ public abstract class AbsSender {
         return new Message(jsonObject.getJSONObject(Constants.RESPONSEFIELDRESULT));
     }
 
-    public Message sendVideo(SendVideo sendVideo) throws TelegramApiException {
+    public final Message sendVideo(SendVideo sendVideo) throws TelegramApiException {
         String responseContent;
         try {
             String url = getBaseUrl() + SendVideo.PATH;
@@ -622,15 +663,21 @@ public abstract class AbsSender {
             if (sendVideo.isNewVideo()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendVideo.CHATID_FIELD, sendVideo.getChatId());
-                builder.addBinaryBody(SendVideo.VIDEO_FIELD, new java.io.File(sendVideo.getVideo()), ContentType.APPLICATION_OCTET_STREAM, sendVideo.getVideoName());
-                if (sendVideo.getReplayMarkup() != null) {
-                    builder.addTextBody(SendVideo.REPLYMARKUP_FIELD, sendVideo.getReplayMarkup().toJson().toString());
+                if (sendVideo.getNewVideoFile() != null) {
+                    builder.addBinaryBody(SendVideo.VIDEO_FIELD, sendVideo.getNewVideoFile());
+                } else if (sendVideo.getNewVideoStream() != null) {
+                    builder.addBinaryBody(SendVideo.VIDEO_FIELD, sendVideo.getNewVideoStream(), ContentType.APPLICATION_OCTET_STREAM, sendVideo.getVideoName());
+                } else {
+                    builder.addBinaryBody(SendVideo.VIDEO_FIELD, new java.io.File(sendVideo.getVideo()), ContentType.APPLICATION_OCTET_STREAM, sendVideo.getVideoName());
                 }
-                if (sendVideo.getReplayToMessageId() != null) {
-                    builder.addTextBody(SendVideo.REPLYTOMESSAGEID_FIELD, sendVideo.getReplayToMessageId().toString());
+                if (sendVideo.getReplyMarkup() != null) {
+                    builder.addTextBody(SendVideo.REPLYMARKUP_FIELD, sendVideo.getReplyMarkup().toJson().toString(), TEXT_PLAIN_CONTENT_TYPE);
+                }
+                if (sendVideo.getReplyToMessageId() != null) {
+                    builder.addTextBody(SendVideo.REPLYTOMESSAGEID_FIELD, sendVideo.getReplyToMessageId().toString());
                 }
                 if (sendVideo.getCaption() != null) {
-                    builder.addTextBody(SendVideo.CAPTION_FIELD, sendVideo.getCaption(), ContentType.create("text/plain", StandardCharsets.UTF_8));
+                    builder.addTextBody(SendVideo.CAPTION_FIELD, sendVideo.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
                 }
                 if (sendVideo.getDuration() != null) {
                     builder.addTextBody(SendVideo.DURATION_FIELD, sendVideo.getDuration().toString());
@@ -650,11 +697,11 @@ public abstract class AbsSender {
                 List<NameValuePair> nameValuePairs = new ArrayList<>();
                 nameValuePairs.add(new BasicNameValuePair(SendVideo.CHATID_FIELD, sendVideo.getChatId()));
                 nameValuePairs.add(new BasicNameValuePair(SendVideo.VIDEO_FIELD, sendVideo.getVideo()));
-                if (sendVideo.getReplayMarkup() != null) {
-                    nameValuePairs.add(new BasicNameValuePair(SendVideo.REPLYMARKUP_FIELD, sendVideo.getReplayMarkup().toJson().toString()));
+                if (sendVideo.getReplyMarkup() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendVideo.REPLYMARKUP_FIELD, sendVideo.getReplyMarkup().toJson().toString()));
                 }
-                if (sendVideo.getReplayToMessageId() != null) {
-                    nameValuePairs.add(new BasicNameValuePair(SendVideo.REPLYTOMESSAGEID_FIELD, sendVideo.getReplayToMessageId().toString()));
+                if (sendVideo.getReplyToMessageId() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendVideo.REPLYTOMESSAGEID_FIELD, sendVideo.getReplyToMessageId().toString()));
                 }
                 if (sendVideo.getCaption() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendVideo.CAPTION_FIELD, sendVideo.getCaption()));
@@ -691,7 +738,7 @@ public abstract class AbsSender {
         return new Message(jsonObject.getJSONObject(Constants.RESPONSEFIELDRESULT));
     }
 
-    public Message sendSticker(SendSticker sendSticker) throws TelegramApiException {
+    public final Message sendSticker(SendSticker sendSticker) throws TelegramApiException {
         String responseContent;
 
         try {
@@ -701,12 +748,18 @@ public abstract class AbsSender {
             if (sendSticker.isNewSticker()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendSticker.CHATID_FIELD, sendSticker.getChatId());
-                builder.addBinaryBody(SendSticker.STICKER_FIELD, new java.io.File(sendSticker.getSticker()), ContentType.APPLICATION_OCTET_STREAM, sendSticker.getStickerName());
-                if (sendSticker.getReplayMarkup() != null) {
-                    builder.addTextBody(SendSticker.REPLYMARKUP_FIELD, sendSticker.getReplayMarkup().toJson().toString());
+                if (sendSticker.getNewStickerFile() != null) {
+                    builder.addBinaryBody(SendSticker.STICKER_FIELD, sendSticker.getNewStickerFile());
+                } else if (sendSticker.getNewStickerStream() != null) {
+                    builder.addBinaryBody(SendSticker.STICKER_FIELD, sendSticker.getNewStickerStream(), ContentType.APPLICATION_OCTET_STREAM, sendSticker.getStickerName());
+                } else {
+                    builder.addBinaryBody(SendSticker.STICKER_FIELD, new java.io.File(sendSticker.getSticker()), ContentType.APPLICATION_OCTET_STREAM, sendSticker.getStickerName());
                 }
-                if (sendSticker.getReplayToMessageId() != null) {
-                    builder.addTextBody(SendSticker.REPLYTOMESSAGEID_FIELD, sendSticker.getReplayToMessageId().toString());
+                if (sendSticker.getReplyMarkup() != null) {
+                    builder.addTextBody(SendSticker.REPLYMARKUP_FIELD, sendSticker.getReplyMarkup().toJson().toString(), TEXT_PLAIN_CONTENT_TYPE);
+                }
+                if (sendSticker.getReplyToMessageId() != null) {
+                    builder.addTextBody(SendSticker.REPLYTOMESSAGEID_FIELD, sendSticker.getReplyToMessageId().toString());
                 }
                 if (sendSticker.getDisableNotification() != null) {
                     builder.addTextBody(SendSticker.DISABLENOTIFICATION_FIELD, sendSticker.getDisableNotification().toString());
@@ -717,11 +770,11 @@ public abstract class AbsSender {
                 List<NameValuePair> nameValuePairs = new ArrayList<>();
                 nameValuePairs.add(new BasicNameValuePair(SendSticker.CHATID_FIELD, sendSticker.getChatId()));
                 nameValuePairs.add(new BasicNameValuePair(SendSticker.STICKER_FIELD, sendSticker.getSticker()));
-                if (sendSticker.getReplayMarkup() != null) {
-                    nameValuePairs.add(new BasicNameValuePair(SendSticker.REPLYMARKUP_FIELD, sendSticker.getReplayMarkup().toJson().toString()));
+                if (sendSticker.getReplyMarkup() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendSticker.REPLYMARKUP_FIELD, sendSticker.getReplyMarkup().toJson().toString()));
                 }
-                if (sendSticker.getReplayToMessageId() != null) {
-                    nameValuePairs.add(new BasicNameValuePair(SendSticker.REPLYTOMESSAGEID_FIELD, sendSticker.getReplayToMessageId().toString()));
+                if (sendSticker.getReplyToMessageId() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendSticker.REPLYTOMESSAGEID_FIELD, sendSticker.getReplyToMessageId().toString()));
                 }
                 if (sendSticker.getDisableNotification() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendSticker.DISABLENOTIFICATION_FIELD, sendSticker.getDisableNotification().toString()));
@@ -752,7 +805,7 @@ public abstract class AbsSender {
      * @return If success, the sent Message is returned
      * @throws TelegramApiException If there is any error sending the audio
      */
-    public Message sendAudio(SendAudio sendAudio) throws TelegramApiException {
+    public final Message sendAudio(SendAudio sendAudio) throws TelegramApiException {
         String responseContent;
 
 
@@ -763,12 +816,18 @@ public abstract class AbsSender {
             if (sendAudio.isNewAudio()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendAudio.CHATID_FIELD, sendAudio.getChatId());
-                builder.addBinaryBody(SendAudio.AUDIO_FIELD, new java.io.File(sendAudio.getAudio()), ContentType.create("audio/mpeg"), sendAudio.getAudioName());
-                if (sendAudio.getReplayMarkup() != null) {
-                    builder.addTextBody(SendAudio.REPLYMARKUP_FIELD, sendAudio.getReplayMarkup().toJson().toString());
+                if (sendAudio.getNewAudioFile() != null) {
+                    builder.addBinaryBody(SendAudio.AUDIO_FIELD, sendAudio.getNewAudioFile());
+                } else if (sendAudio.getNewAudioStream() != null) {
+                    builder.addBinaryBody(SendAudio.AUDIO_FIELD, sendAudio.getNewAudioStream(), ContentType.APPLICATION_OCTET_STREAM, sendAudio.getAudioName());
+                } else {
+                    builder.addBinaryBody(SendAudio.AUDIO_FIELD, new java.io.File(sendAudio.getAudio()), ContentType.create("audio/mpeg"), sendAudio.getAudioName());
                 }
-                if (sendAudio.getReplayToMessageId() != null) {
-                    builder.addTextBody(SendAudio.REPLYTOMESSAGEID_FIELD, sendAudio.getReplayToMessageId().toString());
+                if (sendAudio.getReplyMarkup() != null) {
+                    builder.addTextBody(SendAudio.REPLYMARKUP_FIELD, sendAudio.getReplyMarkup().toJson().toString(), TEXT_PLAIN_CONTENT_TYPE);
+                }
+                if (sendAudio.getReplyToMessageId() != null) {
+                    builder.addTextBody(SendAudio.REPLYTOMESSAGEID_FIELD, sendAudio.getReplyToMessageId().toString());
                 }
                 if (sendAudio.getPerformer() != null) {
                     builder.addTextBody(SendAudio.PERFOMER_FIELD, sendAudio.getPerformer());
@@ -788,11 +847,11 @@ public abstract class AbsSender {
                 List<NameValuePair> nameValuePairs = new ArrayList<>();
                 nameValuePairs.add(new BasicNameValuePair(SendAudio.CHATID_FIELD, sendAudio.getChatId()));
                 nameValuePairs.add(new BasicNameValuePair(SendAudio.AUDIO_FIELD, sendAudio.getAudio()));
-                if (sendAudio.getReplayMarkup() != null) {
-                    nameValuePairs.add(new BasicNameValuePair(SendAudio.REPLYMARKUP_FIELD, sendAudio.getReplayMarkup().toJson().toString()));
+                if (sendAudio.getReplyMarkup() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendAudio.REPLYMARKUP_FIELD, sendAudio.getReplyMarkup().toJson().toString()));
                 }
-                if (sendAudio.getReplayToMessageId() != null) {
-                    nameValuePairs.add(new BasicNameValuePair(SendAudio.REPLYTOMESSAGEID_FIELD, sendAudio.getReplayToMessageId().toString()));
+                if (sendAudio.getReplyToMessageId() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendAudio.REPLYTOMESSAGEID_FIELD, sendAudio.getReplyToMessageId().toString()));
                 }
                 if (sendAudio.getPerformer() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendAudio.PERFOMER_FIELD, sendAudio.getPerformer()));
@@ -831,11 +890,12 @@ public abstract class AbsSender {
 
     /**
      * Sends a voice note using Send Voice method (https://core.telegram.org/bots/api#sendvoice)
+     * For this to work, your audio must be in an .ogg file encoded with OPUS
      * @param sendVoice Information to send
      * @return If success, the sent Message is returned
      * @throws TelegramApiException If there is any error sending the audio
      */
-    public Message sendVoice(SendVoice sendVoice) throws TelegramApiException {
+    public final Message sendVoice(SendVoice sendVoice) throws TelegramApiException {
         String responseContent;
 
         try {
@@ -845,12 +905,18 @@ public abstract class AbsSender {
             if (sendVoice.isNewVoice()) {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.addTextBody(SendVoice.CHATID_FIELD, sendVoice.getChatId());
-                builder.addBinaryBody(SendVoice.AUDIO_FIELD, new java.io.File(sendVoice.getAudio()), ContentType.create("audio/ogg"), sendVoice.getVoiceName());
-                if (sendVoice.getReplayMarkup() != null) {
-                    builder.addTextBody(SendVoice.REPLYMARKUP_FIELD, sendVoice.getReplayMarkup().toJson().toString());
+                if (sendVoice.getNewVoiceFile() != null) {
+                    builder.addBinaryBody(SendVoice.VOICE_FIELD, sendVoice.getNewVoiceFile());
+                } else if (sendVoice.getNewVoiceStream() != null) {
+                    builder.addBinaryBody(SendVoice.VOICE_FIELD, sendVoice.getNewVoiceStream(), ContentType.APPLICATION_OCTET_STREAM, sendVoice.getVoiceName());
+                } else {
+                    builder.addBinaryBody(SendVoice.VOICE_FIELD, new java.io.File(sendVoice.getVoice()), ContentType.create("audio/ogg"), sendVoice.getVoiceName());
                 }
-                if (sendVoice.getReplayToMessageId() != null) {
-                    builder.addTextBody(SendVoice.REPLYTOMESSAGEID_FIELD, sendVoice.getReplayToMessageId().toString());
+                if (sendVoice.getReplyMarkup() != null) {
+                    builder.addTextBody(SendVoice.REPLYMARKUP_FIELD, sendVoice.getReplyMarkup().toJson().toString(), TEXT_PLAIN_CONTENT_TYPE);
+                }
+                if (sendVoice.getReplyToMessageId() != null) {
+                    builder.addTextBody(SendVoice.REPLYTOMESSAGEID_FIELD, sendVoice.getReplyToMessageId().toString());
                 }
                 if (sendVoice.getDisableNotification() != null) {
                     builder.addTextBody(SendVoice.DISABLENOTIFICATION_FIELD, sendVoice.getDisableNotification().toString());
@@ -863,12 +929,12 @@ public abstract class AbsSender {
             } else {
                 List<NameValuePair> nameValuePairs = new ArrayList<>();
                 nameValuePairs.add(new BasicNameValuePair(SendVoice.CHATID_FIELD, sendVoice.getChatId()));
-                nameValuePairs.add(new BasicNameValuePair(SendVoice.AUDIO_FIELD, sendVoice.getAudio()));
-                if (sendVoice.getReplayMarkup() != null) {
-                    nameValuePairs.add(new BasicNameValuePair(SendVoice.REPLYMARKUP_FIELD, sendVoice.getReplayMarkup().toJson().toString()));
+                nameValuePairs.add(new BasicNameValuePair(SendVoice.VOICE_FIELD, sendVoice.getVoice()));
+                if (sendVoice.getReplyMarkup() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendVoice.REPLYMARKUP_FIELD, sendVoice.getReplyMarkup().toJson().toString()));
                 }
-                if (sendVoice.getReplayToMessageId() != null) {
-                    nameValuePairs.add(new BasicNameValuePair(SendVoice.REPLYTOMESSAGEID_FIELD, sendVoice.getReplayToMessageId().toString()));
+                if (sendVoice.getReplyToMessageId() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendVoice.REPLYTOMESSAGEID_FIELD, sendVoice.getReplyToMessageId().toString()));
                 }
                 if (sendVoice.getDisableNotification() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendVoice.DISABLENOTIFICATION_FIELD, sendVoice.getDisableNotification().toString()));
@@ -928,7 +994,7 @@ public abstract class AbsSender {
         });
     }
 
-    private Serializable sendApiMethod(BotApiMethod method) throws TelegramApiException {
+    private <T extends Serializable> T sendApiMethod(BotApiMethod<T> method) throws TelegramApiException {
         String responseContent;
         try {
             String url = getBaseUrl() + method.getPath();

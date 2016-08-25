@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 
 import org.json.JSONObject;
 import org.telegram.telegrambots.Constants;
+import org.telegram.telegrambots.api.methods.ActionType;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 
 import java.io.IOException;
@@ -31,7 +32,7 @@ public class SendChatAction extends BotApiMethod<Boolean> {
      * videos 'record_audio' or 'upload_audio' for audio files 'upload_document' for general files,
      * 'find_location' for location data.
      */
-    private String action;
+    private ActionType action;
 
     public String getChatId() {
         return chatId;
@@ -42,12 +43,28 @@ public class SendChatAction extends BotApiMethod<Boolean> {
         return this;
     }
 
+    /**
+     * @deprecated
+     * @return Action type text
+     */
+    @Deprecated
     public String getAction() {
-        return action;
+        return action.toString();
     }
 
-    public SendChatAction setAction(String action) {
+    public void setAction(ActionType action) {
         this.action = action;
+    }
+
+    /**
+     * @deprecated Use {@link #setAction(ActionType)} instead
+     * @param action Text of the action to create
+     * @return Reference to this same instance
+     * @throws IllegalArgumentException if action is not valid
+     */
+    @Deprecated
+    public SendChatAction setAction(String action) throws IllegalArgumentException {
+        this.action = ActionType.GetActionType(action);
         return this;
     }
 
@@ -76,7 +93,7 @@ public class SendChatAction extends BotApiMethod<Boolean> {
     public void serialize(JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartObject();
         gen.writeStringField(CHATID_FIELD, chatId);
-        gen.writeStringField(ACTION_FIELD, action);
+        gen.writeStringField(ACTION_FIELD, action.toString());
         gen.writeEndObject();
     }
 

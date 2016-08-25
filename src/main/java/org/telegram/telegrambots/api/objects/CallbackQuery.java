@@ -107,7 +107,7 @@ public class CallbackQuery implements IBotApiObject {
 
     @Override
     public String toString() {
-        return "Contact{" +
+        return "CallbackQuery{" +
                 "id='" + id + '\'' +
                 ", from='" + from + '\'' +
                 ", message='" + message + '\'' +

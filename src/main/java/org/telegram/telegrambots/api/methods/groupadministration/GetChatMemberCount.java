@@ -17,7 +17,7 @@ import java.io.IOException;
  * @date 20 of May of 2016
  */
 public class GetChatMemberCount extends BotApiMethod<Integer> {
-    public static final String PATH = "getChatAdministrators";
+    public static final String PATH = "getChatMembersCount";
 
     private static final String CHATID_FIELD = "chat_id";
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)

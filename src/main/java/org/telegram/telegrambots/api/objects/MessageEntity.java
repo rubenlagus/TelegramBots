@@ -119,7 +119,7 @@ public class MessageEntity implements IBotApiObject {
 
     @Override
     public String toString() {
-        return "PhotoSize{" +
+        return "MessageEntity{" +
                 "type='" + type + '\'' +
                 ", offset=" + offset +
                 ", length=" + length +

@@ -107,9 +107,9 @@ public class InlineQueryResultVoice implements InlineQueryResult {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(TYPE_FIELD, type);
         jsonObject.put(ID_FIELD, this.id);
-        jsonObject.put(VOICE_DURATION_FIELD, voiceUrl);
+        jsonObject.put(VOICEURL_FIELD, voiceUrl);
         if (title != null) {
-            jsonObject.put(TITLE_FIELD, this.title);
+            jsonObject.put(TITLE_FIELD, title);
         }
         if (voiceDuration != null) {
             jsonObject.put(VOICE_DURATION_FIELD, voiceDuration);
@@ -130,7 +130,7 @@ public class InlineQueryResultVoice implements InlineQueryResult {
         gen.writeStringField(ID_FIELD, id);
         gen.writeStringField(VOICEURL_FIELD, voiceUrl);
         if (title != null) {
-            gen.writeStringField(TITLE_FIELD, this.title);
+            gen.writeStringField(TITLE_FIELD, title);
         }
         if (voiceDuration != null) {
             gen.writeNumberField(VOICE_DURATION_FIELD, voiceDuration);

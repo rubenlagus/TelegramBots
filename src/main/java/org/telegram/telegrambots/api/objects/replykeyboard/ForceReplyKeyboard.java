@@ -19,7 +19,6 @@ import java.io.IOException;
  * @date 22 of June of 2015
  */
 public class ForceReplyKeyboard implements ReplyKeyboard {
-
     private static final String FORCEREPLY_FIELD = "force_reply";
     private static final String SELECTIVE_FIELD = "selective";
     /**
@@ -53,11 +52,6 @@ public class ForceReplyKeyboard implements ReplyKeyboard {
 
     public Boolean getForceReply() {
         return forceReply;
-    }
-
-    public ForceReplyKeyboard setForceReply(Boolean forceReply) {
-        this.forceReply = forceReply;
-        return this;
     }
 
     public Boolean getSelective() {

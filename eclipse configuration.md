@@ -1,5 +1,8 @@
 # How to use TelegramBots with Eclipse
 
+If you **don't** need to modify the sources, you can just download the jar file from [here](https://github.com/rubenlagus/TelegramBots/releases) and import it as an external library.
+
+If you need to modify the sources, follow these steps:
 
 ### Step 1: Install Maven
 To get started, you need to install the Maven-Plugin for Eclipse. Click on Help > Eclipse Marketplace. After it finished loading, search for “Maven”. 
@@ -16,11 +19,9 @@ Now let’s setup the project-folder. Go to your Eclipse-Workspace and create a 
 To import your project into the workspace you have to go to File > Import > (Folder) Maven > Existing Maven Projects > Next. Choose the folder, you have created in Step 3. In my case: **“TelegramBotApi”**. Click on finish and let Maven import the dependencies.
 
 ### Step 5: Setting the compliance level
-In this last step you need to change the Compiler compliance level. To do this right-click on your Project (in my case **“TelegramBotApi”**) > Properties > Java Compiler. Uncheck the “Use compliance from…” if necessary and set it to 1.7
+In this last step you need to change the Compiler compliance level. To do this right-click on your Project (in my case **“TelegramBotApi”**) > Properties > Java Compiler. Uncheck the “Use compliance from…” if necessary and set it to 1.8
 
-*Now you are done. Everything should work fine. You need to set your Bot-Token in the BotConfig.java, afterwards you can run Main.java to check.*
-
-**For a better intstruction sheet, visit [Google Drive]**
+*Now you are done. Everything should work fine.*
 
 [Google Drive]:https://goo.gl/5jd40w
 [here]:https://github.com/rubenlagus/TelegramBots/archive/master.zip

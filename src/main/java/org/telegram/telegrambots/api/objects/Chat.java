@@ -28,6 +28,12 @@ public class Chat implements IBotApiObject {
     private static final String CHANNELCHATTYPE = "channel";
     private static final String SUPERGROUPCHATTYPE  = "supergroup";
     @JsonProperty(ID_FIELD)
+    /**
+     * Unique identifier for this chat.
+     * This number may be greater than 32 bits and some programming languages may
+     * have difficulty/silent defects in interpreting it. But it smaller than 52 bits,
+     * so a signed 64 bit integer or double-precision float type are safe for storing this identifier.
+     */
     private Long id; ///< Unique identifier for this chat, not exciding 1e13 by absolute value
     @JsonProperty(TYPE_FIELD)
     private String type; ///< Type of the chat, one of “private”, “group” or “channel”

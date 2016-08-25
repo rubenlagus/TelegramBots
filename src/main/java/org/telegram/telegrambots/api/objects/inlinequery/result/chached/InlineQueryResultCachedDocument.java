@@ -128,7 +128,7 @@ public class InlineQueryResultCachedDocument implements InlineQueryResult {
             jsonObject.put(DESCRIPTION_FIELD, this.description);
         }
         if (replyMarkup != null) {
-            jsonObject.put(REPLY_MARKUP_FIELD, replyMarkup);
+            jsonObject.put(REPLY_MARKUP_FIELD, replyMarkup.toJson());
         }
         if (inputMessageContent != null) {
             jsonObject.put(INPUTMESSAGECONTENT_FIELD, inputMessageContent);

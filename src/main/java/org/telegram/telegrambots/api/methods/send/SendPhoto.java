@@ -2,6 +2,10 @@ package org.telegram.telegrambots.api.methods.send;
 
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
+import java.io.File;
+import java.io.InputStream;
+import java.util.Objects;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -25,12 +29,13 @@ public class SendPhoto {
      * users will receive a notification with no sound. Other apps coming soon
      */
     private Boolean disableNotification;
-    private Integer replayToMessageId; ///< Optional. If the message is a reply, ID of the original message
-    private ReplyKeyboard replayMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
+    private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
 
     private boolean isNewPhoto; ///< True if the photo must be uploaded from a file, file if it is a fileId
     private String photoName; ///< Name of the photo
-
+    private File newPhotoFile; // New photo file
+    private InputStream newPhotoStream; // New photo stream
 
     public SendPhoto() {
         super();
@@ -64,22 +69,54 @@ public class SendPhoto {
         return this;
     }
 
+    public Integer getReplyToMessageId() {
+        return replyToMessageId;
+    }
+
+    public SendPhoto setReplyToMessageId(Integer replyToMessageId) {
+        this.replyToMessageId = replyToMessageId;
+        return this;
+    }
+
+    public ReplyKeyboard getReplyMarkup() {
+        return replyMarkup;
+    }
+
+    public SendPhoto setReplyMarkup(ReplyKeyboard replyMarkup) {
+        this.replyMarkup = replyMarkup;
+        return this;
+    }
+
+    /**
+     * @deprecated Use {@link #getReplyToMessageId()} instead.
+     */
+    @Deprecated
     public Integer getReplayToMessageId() {
-        return replayToMessageId;
+        return getReplyToMessageId();
     }
 
-    public SendPhoto setReplayToMessageId(Integer replayToMessageId) {
-        this.replayToMessageId = replayToMessageId;
-        return this;
+    /**
+     * @deprecated Use {@link #setReplyToMessageId(Integer)} instead.
+     */
+    @Deprecated
+    public SendPhoto setReplayToMessageId(Integer replyToMessageId) {
+        return setReplyToMessageId(replyToMessageId);
     }
 
+    /**
+     * @deprecated Use {@link #getReplyMarkup()} instead.
+     */
+    @Deprecated
     public ReplyKeyboard getReplayMarkup() {
-        return replayMarkup;
+        return getReplyMarkup();
     }
 
-    public SendPhoto setReplayMarkup(ReplyKeyboard replayMarkup) {
-        this.replayMarkup = replayMarkup;
-        return this;
+    /**
+     * @deprecated Use {@link #setReplyMarkup(ReplyKeyboard)} instead.
+     */
+    @Deprecated
+    public SendPhoto setReplayMarkup(ReplyKeyboard replyMarkup) {
+        return setReplyMarkup(replyMarkup);
     }
 
     public boolean isNewPhoto() {
@@ -88,6 +125,14 @@ public class SendPhoto {
 
     public String getPhotoName() {
         return photoName;
+    }
+
+    public File getNewPhotoFile() {
+        return newPhotoFile;
+    }
+
+    public InputStream getNewPhotoStream() {
+        return newPhotoStream;
     }
 
     public Boolean getDisableNotification() {
@@ -104,10 +149,35 @@ public class SendPhoto {
         return this;
     }
 
+    /**
+     * Use this method to set the photo to a new file
+     *
+     * @param photo     Path to the new file in your server
+     * @param photoName Name of the file itself
+     *
+     * @deprecated use {@link #setNewPhoto(File)} or {@link #setNewPhoto(InputStream)} instead.
+     */
+    @Deprecated
     public SendPhoto setNewPhoto(String photo, String photoName) {
         this.photo = photo;
         this.isNewPhoto = true;
         this.photoName = photoName;
+        return this;
+    }
+
+    public SendPhoto setNewPhoto(File file) {
+        this.photo = file.getName();
+        this.newPhotoFile = file;
+        this.isNewPhoto = true;
+        return this;
+    }
+
+    public SendPhoto setNewPhoto(String photoName, InputStream inputStream) {
+    	Objects.requireNonNull(photoName, "photoName cannot be null!");
+    	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
+    	this.photoName = photoName;
+        this.newPhotoStream = inputStream;
+        this.isNewPhoto = true;
         return this;
     }
 
@@ -117,10 +187,9 @@ public class SendPhoto {
                 "chatId='" + chatId + '\'' +
                 ", photo='" + photo + '\'' +
                 ", caption='" + caption + '\'' +
-                ", replayToMessageId=" + replayToMessageId +
-                ", replayMarkup=" + replayMarkup +
+                ", replyToMessageId=" + replyToMessageId +
+                ", replyMarkup=" + replyMarkup +
                 ", isNewPhoto=" + isNewPhoto +
-                ", photoName='" + photoName + '\'' +
                 '}';
     }
 }
