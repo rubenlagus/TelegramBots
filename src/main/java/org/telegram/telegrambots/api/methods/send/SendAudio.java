@@ -1,8 +1,16 @@
 package org.telegram.telegrambots.api.methods.send;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+import org.json.JSONObject;
+import org.telegram.telegrambots.Constants;
+import org.telegram.telegrambots.api.methods.BotApiMethod;
+import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
@@ -16,7 +24,7 @@ import java.util.Objects;
  * @note For sending voice notes, use sendVoice method instead.
  * @date 16 of July of 2015
  */
-public class SendAudio {
+public class SendAudio extends BotApiMethod<Message> {
     public static final String PATH = "sendaudio";
 
     public static final String DURATION_FIELD = "duration";
@@ -89,7 +97,6 @@ public class SendAudio {
      *
      * @param audio     Path to the new file in your server
      * @param audioName Name of the file itself
-     *
      * @deprecated use {@link #setNewAudio(File)} or {@link #setNewAudio(InputStream)} instead.
      */
     @Deprecated
@@ -113,9 +120,9 @@ public class SendAudio {
     }
 
     public SendAudio setNewAudio(String audioName, InputStream inputStream) {
-    	Objects.requireNonNull(audioName, "audioName cannot be null!");
-    	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
-    	this.audioName = audioName;
+        Objects.requireNonNull(audioName, "audioName cannot be null!");
+        Objects.requireNonNull(inputStream, "inputStream cannot be null!");
+        this.audioName = audioName;
         this.isNewAudio = true;
         this.newAudioStream = inputStream;
         return this;
@@ -230,5 +237,83 @@ public class SendAudio {
                 ", title='" + title + '\'' +
                 ", isNewAudio=" + isNewAudio +
                 '}';
+    }
+
+    @Override
+    public String getPath() {
+        return PATH;
+    }
+
+    @Override
+    public Message deserializeResponse(JSONObject answer) {
+        if (answer.getBoolean(Constants.RESPONSEFIELDOK)) {
+            return new Message(answer.getJSONObject(Constants.RESPONSEFIELDRESULT));
+        }
+        return null;
+    }
+
+    @Override
+    public void serialize(JsonGenerator gen, SerializerProvider serializerProvider) throws IOException {
+        gen.writeStartObject();
+        gen.writeStringField(METHOD_FIELD, PATH);
+        gen.writeStringField(CHATID_FIELD, chatId);
+        if (duration != null) {
+            gen.writeStringField(DURATION_FIELD, duration.toString());
+        }
+        gen.writeStringField(AUDIO_FIELD, audio);
+        if (performer != null) {
+            gen.writeStringField(PERFOMER_FIELD, performer);
+        }
+
+        if (title != null) {
+            gen.writeStringField(TITLE_FIELD, title);
+        }
+
+        if (disableNotification != null) {
+            gen.writeBooleanField(DISABLENOTIFICATION_FIELD, disableNotification);
+        }
+        if (replyToMessageId != null) {
+            gen.writeNumberField(REPLYTOMESSAGEID_FIELD, replyToMessageId);
+        }
+        if (replyMarkup != null) {
+            gen.writeObjectField(REPLYMARKUP_FIELD, replyMarkup);
+        }
+
+        gen.writeEndObject();
+        gen.flush();
+    }
+
+    @Override
+    public void serializeWithType(JsonGenerator jsonGenerator, SerializerProvider serializerProvider, TypeSerializer typeSerializer) throws IOException {
+        serialize(jsonGenerator, serializerProvider);
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(CHATID_FIELD, chatId);
+        if (duration != null) {
+            jsonObject.put(DURATION_FIELD, duration);
+        }
+        jsonObject.put(AUDIO_FIELD, audio);
+        if (performer != null) {
+            jsonObject.put(PERFOMER_FIELD, performer);
+        }
+
+        if (title != null) {
+            jsonObject.put(TITLE_FIELD, title);
+        }
+
+        if (disableNotification != null) {
+            jsonObject.put(DISABLENOTIFICATION_FIELD, disableNotification);
+        }
+        if (replyToMessageId != null) {
+            jsonObject.put(REPLYTOMESSAGEID_FIELD, replyToMessageId);
+        }
+        if (replyMarkup != null) {
+            jsonObject.put(REPLYMARKUP_FIELD, replyMarkup.toJson());
+        }
+
+        return jsonObject;
     }
 }
