@@ -123,7 +123,7 @@ public void onUpdateReceived(Update update) {
             */
            for (int i = 0; i < photos.size(); i++) {
                GetFile getFileRequest = new GetFile();
-               getFileRequest.setFileId(photos.get(0).getFileId());
+               getFileRequest.setFileId(photos.get(i).getFileId());
                try {
 
                    //we send a request with our fileId to get our filePath.
