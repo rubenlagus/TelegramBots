@@ -1,8 +1,16 @@
 package org.telegram.telegrambots.api.methods.send;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+import org.json.JSONObject;
+import org.telegram.telegrambots.Constants;
+import org.telegram.telegrambots.api.methods.BotApiMethod;
+import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
@@ -12,7 +20,7 @@ import java.util.Objects;
  * @brief Use this method to send .webp stickers. On success, the sent Message is returned.
  * @date 20 of June of 2015
  */
-public class SendSticker {
+public class SendSticker extends BotApiMethod<Message> {
     public static final String PATH = "sendsticker";
 
     public static final String CHATID_FIELD = "chat_id";
@@ -113,7 +121,6 @@ public class SendSticker {
      *
      * @param sticker     Path to the new file in your server
      * @param stickerName Name of the file itself
-     *
      * @deprecated use {@link #setNewSticker(File)} or {@link #setNewSticker(InputStream)} instead.
      */
     @Deprecated
@@ -132,9 +139,9 @@ public class SendSticker {
     }
 
     public SendSticker setNewSticker(String stickerName, InputStream inputStream) {
-    	Objects.requireNonNull(stickerName, "stickerName cannot be null!");
-    	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
-    	this.stickerName = stickerName;
+        Objects.requireNonNull(stickerName, "stickerName cannot be null!");
+        Objects.requireNonNull(inputStream, "inputStream cannot be null!");
+        this.stickerName = stickerName;
         this.isNewSticker = true;
         this.newStickerStream = inputStream;
         return this;
@@ -179,5 +186,63 @@ public class SendSticker {
                 ", replyMarkup=" + replyMarkup +
                 ", isNewSticker=" + isNewSticker +
                 '}';
+    }
+
+    @Override
+    public String getPath() {
+        return PATH;
+    }
+
+    @Override
+    public Message deserializeResponse(JSONObject answer) {
+        if (answer.getBoolean(Constants.RESPONSEFIELDOK)) {
+            return new Message(answer.getJSONObject(Constants.RESPONSEFIELDRESULT));
+        }
+        return null;
+    }
+
+    @Override
+    public void serialize(JsonGenerator gen, SerializerProvider serializerProvider) throws IOException {
+        gen.writeStartObject();
+        gen.writeStringField(METHOD_FIELD, PATH);
+        gen.writeStringField(CHATID_FIELD, chatId);
+        gen.writeStringField(STICKER_FIELD, sticker);
+
+        if (disableNotification != null) {
+            gen.writeBooleanField(DISABLENOTIFICATION_FIELD, disableNotification);
+        }
+        if (replyToMessageId != null) {
+            gen.writeNumberField(REPLYTOMESSAGEID_FIELD, replyToMessageId);
+        }
+        if (replyMarkup != null) {
+            gen.writeObjectField(REPLYMARKUP_FIELD, replyMarkup);
+        }
+
+        gen.writeEndObject();
+        gen.flush();
+    }
+
+    @Override
+    public void serializeWithType(JsonGenerator jsonGenerator, SerializerProvider serializerProvider, TypeSerializer typeSerializer) throws IOException {
+        serialize(jsonGenerator, serializerProvider);
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(CHATID_FIELD, chatId);
+        jsonObject.put(STICKER_FIELD, sticker);
+
+        if (disableNotification != null) {
+            jsonObject.put(DISABLENOTIFICATION_FIELD, disableNotification);
+        }
+        if (replyToMessageId != null) {
+            jsonObject.put(REPLYTOMESSAGEID_FIELD, replyToMessageId);
+        }
+        if (replyMarkup != null) {
+            jsonObject.put(REPLYMARKUP_FIELD, replyMarkup.toJson());
+        }
+
+        return jsonObject;
     }
 }

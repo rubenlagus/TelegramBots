@@ -1,8 +1,16 @@
 package org.telegram.telegrambots.api.methods.send;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+import org.json.JSONObject;
+import org.telegram.telegrambots.Constants;
+import org.telegram.telegrambots.api.methods.BotApiMethod;
+import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
@@ -13,7 +21,7 @@ import java.util.Objects;
  * may be sent as Document). On success, the sent Message is returned.
  * @date 20 of June of 2015
  */
-public class SendVideo {
+public class SendVideo extends BotApiMethod<Message> {
     public static final String PATH = "sendvideo";
 
     public static final String CHATID_FIELD = "chat_id";
@@ -188,7 +196,6 @@ public class SendVideo {
      *
      * @param video     Path to the new file in your server
      * @param videoName Name of the file itself
-     *
      * @deprecated use {@link #setNewVideo(File)} or {@link #setNewVideo(InputStream)} instead.
      */
     @Deprecated
@@ -207,9 +214,9 @@ public class SendVideo {
     }
 
     public SendVideo setNewVideo(String videoName, InputStream inputStream) {
-    	Objects.requireNonNull(videoName, "videoName cannot be null!");
-    	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
-    	this.videoName = videoName;
+        Objects.requireNonNull(videoName, "videoName cannot be null!");
+        Objects.requireNonNull(inputStream, "inputStream cannot be null!");
+        this.videoName = videoName;
         this.isNewVideo = true;
         this.newVideoStream = inputStream;
         return this;
@@ -226,5 +233,95 @@ public class SendVideo {
                 ", replyMarkup=" + replyMarkup +
                 ", isNewVideo=" + isNewVideo +
                 '}';
+    }
+
+    @Override
+    public String getPath() {
+        return PATH;
+    }
+
+    @Override
+    public Message deserializeResponse(JSONObject answer) {
+        if (answer.getBoolean(Constants.RESPONSEFIELDOK)) {
+            return new Message(answer.getJSONObject(Constants.RESPONSEFIELDRESULT));
+        }
+        return null;
+    }
+
+    @Override
+    public void serialize(JsonGenerator gen, SerializerProvider serializerProvider) throws IOException {
+        gen.writeStartObject();
+        gen.writeStringField(METHOD_FIELD, PATH);
+        gen.writeStringField(CHATID_FIELD, chatId);
+        gen.writeStringField(VIDEO_FIELD, video);
+
+        if (duration != null) {
+            gen.writeStringField(DURATION_FIELD, duration.toString());
+        }
+
+        if (caption != null) {
+            gen.writeStringField(CAPTION_FIELD, caption);
+        }
+
+        if (width != null) {
+            gen.writeStringField(WIDTH_FIELD, width.toString());
+        }
+
+        if (height != null) {
+            gen.writeStringField(HEIGHT_FIELD, height.toString());
+        }
+
+        if (disableNotification != null) {
+            gen.writeBooleanField(DISABLENOTIFICATION_FIELD, disableNotification);
+        }
+        if (replyToMessageId != null) {
+            gen.writeNumberField(REPLYTOMESSAGEID_FIELD, replyToMessageId);
+        }
+        if (replyMarkup != null) {
+            gen.writeObjectField(REPLYMARKUP_FIELD, replyMarkup);
+        }
+
+        gen.writeEndObject();
+        gen.flush();
+    }
+
+    @Override
+    public void serializeWithType(JsonGenerator jsonGenerator, SerializerProvider serializerProvider, TypeSerializer typeSerializer) throws IOException {
+        serialize(jsonGenerator, serializerProvider);
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(CHATID_FIELD, chatId);
+        jsonObject.put(VIDEO_FIELD, video);
+
+        if (duration != null) {
+            jsonObject.put(DURATION_FIELD, duration.toString());
+        }
+
+        if (caption != null) {
+            jsonObject.put(CAPTION_FIELD, caption);
+        }
+
+        if (width != null) {
+            jsonObject.put(WIDTH_FIELD, width.toString());
+        }
+
+        if (height != null) {
+            jsonObject.put(HEIGHT_FIELD, height.toString());
+        }
+
+        if (disableNotification != null) {
+            jsonObject.put(DISABLENOTIFICATION_FIELD, disableNotification);
+        }
+        if (replyToMessageId != null) {
+            jsonObject.put(REPLYTOMESSAGEID_FIELD, replyToMessageId);
+        }
+        if (replyMarkup != null) {
+            jsonObject.put(REPLYMARKUP_FIELD, replyMarkup.toJson());
+        }
+
+        return jsonObject;
     }
 }

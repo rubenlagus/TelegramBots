@@ -1,8 +1,16 @@
 package org.telegram.telegrambots.api.methods.send;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+import org.json.JSONObject;
+import org.telegram.telegrambots.Constants;
+import org.telegram.telegrambots.api.methods.BotApiMethod;
+import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
@@ -12,7 +20,7 @@ import java.util.Objects;
  * @brief Use this method to send photos. On success, the sent Message is returned.
  * @date 20 of June of 2015
  */
-public class SendPhoto {
+public class SendPhoto extends BotApiMethod<Message> {
     public static final String PATH = "sendphoto";
 
     public static final String CHATID_FIELD = "chat_id";
@@ -154,7 +162,6 @@ public class SendPhoto {
      *
      * @param photo     Path to the new file in your server
      * @param photoName Name of the file itself
-     *
      * @deprecated use {@link #setNewPhoto(File)} or {@link #setNewPhoto(InputStream)} instead.
      */
     @Deprecated
@@ -173,9 +180,9 @@ public class SendPhoto {
     }
 
     public SendPhoto setNewPhoto(String photoName, InputStream inputStream) {
-    	Objects.requireNonNull(photoName, "photoName cannot be null!");
-    	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
-    	this.photoName = photoName;
+        Objects.requireNonNull(photoName, "photoName cannot be null!");
+        Objects.requireNonNull(inputStream, "inputStream cannot be null!");
+        this.photoName = photoName;
         this.newPhotoStream = inputStream;
         this.isNewPhoto = true;
         return this;
@@ -191,5 +198,69 @@ public class SendPhoto {
                 ", replyMarkup=" + replyMarkup +
                 ", isNewPhoto=" + isNewPhoto +
                 '}';
+    }
+
+    @Override
+    public String getPath() {
+        return PATH;
+    }
+
+    @Override
+    public Message deserializeResponse(JSONObject answer) {
+        if (answer.getBoolean(Constants.RESPONSEFIELDOK)) {
+            return new Message(answer.getJSONObject(Constants.RESPONSEFIELDRESULT));
+        }
+        return null;
+    }
+
+    @Override
+    public void serialize(JsonGenerator gen, SerializerProvider serializerProvider) throws IOException {
+        gen.writeStartObject();
+        gen.writeStringField(METHOD_FIELD, PATH);
+        gen.writeStringField(CHATID_FIELD, chatId);
+        gen.writeStringField(PHOTO_FIELD, photo);
+        if (caption != null) {
+            gen.writeStringField(CAPTION_FIELD, caption);
+        }
+
+        if (disableNotification != null) {
+            gen.writeBooleanField(DISABLENOTIFICATION_FIELD, disableNotification);
+        }
+        if (replyToMessageId != null) {
+            gen.writeNumberField(REPLYTOMESSAGEID_FIELD, replyToMessageId);
+        }
+        if (replyMarkup != null) {
+            gen.writeObjectField(REPLYMARKUP_FIELD, replyMarkup);
+        }
+
+        gen.writeEndObject();
+        gen.flush();
+    }
+
+    @Override
+    public void serializeWithType(JsonGenerator jsonGenerator, SerializerProvider serializerProvider, TypeSerializer typeSerializer) throws IOException {
+        serialize(jsonGenerator, serializerProvider);
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(CHATID_FIELD, chatId);
+        jsonObject.put(PHOTO_FIELD, photo);
+        if (caption != null) {
+            jsonObject.put(CAPTION_FIELD, caption);
+        }
+
+        if (disableNotification != null) {
+            jsonObject.put(DISABLENOTIFICATION_FIELD, disableNotification);
+        }
+        if (replyToMessageId != null) {
+            jsonObject.put(REPLYTOMESSAGEID_FIELD, replyToMessageId);
+        }
+        if (replyMarkup != null) {
+            jsonObject.put(REPLYMARKUP_FIELD, replyMarkup.toJson());
+        }
+
+        return jsonObject;
     }
 }
