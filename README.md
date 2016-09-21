@@ -29,7 +29,7 @@ Once done, you just need to create a `org.telegram.telegrambots.TelegramBotsApi`
     // Example taken from https://github.com/rubenlagus/TelegramBotsExample
     public class Main {
         public static void main(String[] args) {
-    
+
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
             try {
                 telegramBotsApi.registerBot(new ChannelHandlers());
@@ -46,7 +46,7 @@ Once done, you just need to create a `org.telegram.telegrambots.TelegramBotsApi`
 
 ```
 
-For detailed explanation, visite our [How To](HOWTO.md) (thanks Clevero)
+For detailed explanation, visite our [How To](docs/HOWTO.md) (thanks Clevero)
 
 
 ## Example bots
@@ -72,7 +72,7 @@ This library use [Telegram bot API](https://core.telegram.org/bots), you can fin
 ## Questions or Suggestions
 Feel free to create issues [here](https://github.com/rubenlagus/TelegramBots/issues) as you need or join the [chat](https://telegram.me/JavaBotsApi)
 
-## License 
+## License
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
