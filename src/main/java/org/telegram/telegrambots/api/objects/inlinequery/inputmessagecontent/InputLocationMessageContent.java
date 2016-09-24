@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 
 import org.json.JSONObject;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
@@ -46,6 +47,16 @@ public class InputLocationMessageContent implements InputMessageContent {
     public InputLocationMessageContent setLatitude(Float latitude) {
         this.latitude = latitude;
         return this;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (latitude == null) {
+            throw new TelegramApiValidationException("Latitude parameter can't be empty", this);
+        }
+        if (longitude == null) {
+            throw new TelegramApiValidationException("Longitude parameter can't be empty", this);
+        }
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.api.methods.ActionType;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
@@ -43,29 +44,8 @@ public class SendChatAction extends BotApiMethod<Boolean> {
         return this;
     }
 
-    /**
-     * @deprecated
-     * @return Action type text
-     */
-    @Deprecated
-    public String getAction() {
-        return action.toString();
-    }
-
     public void setAction(ActionType action) {
         this.action = action;
-    }
-
-    /**
-     * @deprecated Use {@link #setAction(ActionType)} instead
-     * @param action Text of the action to create
-     * @return Reference to this same instance
-     * @throws IllegalArgumentException if action is not valid
-     */
-    @Deprecated
-    public SendChatAction setAction(String action) throws IllegalArgumentException {
-        this.action = ActionType.GetActionType(action);
-        return this;
     }
 
     @Override
@@ -79,6 +59,16 @@ public class SendChatAction extends BotApiMethod<Boolean> {
             return answer.getBoolean(Constants.RESPONSEFIELDRESULT);
         }
         return null;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (chatId == null) {
+            throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
+        }
+        if (action == null) {
+            throw new TelegramApiValidationException("Action parameter can't be empty", this);
+        }
     }
 
     @Override

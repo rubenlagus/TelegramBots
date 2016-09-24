@@ -12,8 +12,8 @@ import java.io.IOException;
 
 /**
  * @author Ruben Bermudez
- * @version 2.1
- * @brief Information about configured webhook
+ * @version 2.4
+ * @brief Contains information about the current status of a webhook.
  * @date 12 of August of 2016
  */
 public class WebhookInfo implements IBotApiObject {
@@ -25,15 +25,15 @@ public class WebhookInfo implements IBotApiObject {
     private static final String LASTERRORMESSAGE_FIELD = "last_error_message";
 
     @JsonProperty(URL_FIELD)
-    private String url; ///< Url of the webhook
+    private String url; ///< Webhook URL, may be empty if webhook is not set up
     @JsonProperty(HASCUSTOMCERTIFICATE_FIELD)
-    private Boolean hasCustomCertificate; ///< True if the webhook use a self signed certificate
+    private Boolean hasCustomCertificate; ///< True, if a custom certificate was provided for webhook certificate checks
     @JsonProperty(PENDINGUPDATESCOUNT_FIELD)
-    private Integer pendingUpdatesCount; ///< Number of updates pending to be delivered
+    private Integer pendingUpdatesCount; ///< Number updates awaiting delivery
     @JsonProperty(LASTERRORDATE_FIELD)
-    private Integer lastErrorDate; ///< Optional. Date of that error
+    private Integer lastErrorDate; ///< Optional. Unix time for the most recent error that happened when trying to deliver an update via webhook
     @JsonProperty(LASTERRORMESSAGE_FIELD)
-    private String lastErrorMessage; ///< Optional. Error message
+    private String lastErrorMessage; ///< Optional. Error message in human-readable format for the most recent error that happened when trying to deliver an update via webhook
 
 
     public WebhookInfo() {

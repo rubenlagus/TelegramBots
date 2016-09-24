@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.interfaces.IBotApiObject;
 import org.telegram.telegrambots.api.interfaces.IToJson;
+import org.telegram.telegrambots.api.interfaces.IValidable;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
@@ -21,7 +23,7 @@ import java.io.IOException;
  * after 9 April, 2016. Older clients will ignore them.
  * @date 10 of April of 2016
  */
-public class KeyboardButton implements IBotApiObject, IToJson {
+public class KeyboardButton implements IBotApiObject, IToJson, IValidable {
 
     private static final String TEXT_FIELD = "text";
     private static final String REQUEST_CONTACT_FIELD = "request_contact";
@@ -92,6 +94,13 @@ public class KeyboardButton implements IBotApiObject, IToJson {
     public KeyboardButton setRequestLocation(Boolean requestLocation) {
         this.requestLocation = requestLocation;
         return this;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (text == null || text.isEmpty()) {
+            throw new TelegramApiValidationException("Text parameter can't be empty", this);
+        }
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,6 +41,18 @@ public class InlineKeyboardMarkup implements ReplyKeyboard {
     public InlineKeyboardMarkup setKeyboard(List<List<InlineKeyboardButton>> keyboard) {
         this.keyboard = keyboard;
         return this;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (keyboard == null) {
+            throw new TelegramApiValidationException("Keyboard parameter can't be null", this);
+        }
+        for (List<InlineKeyboardButton> inlineKeyboardButtons : keyboard) {
+            for (InlineKeyboardButton inlineKeyboardButton : inlineKeyboardButtons) {
+                inlineKeyboardButton.validate();
+            }
+        }
     }
 
     @Override

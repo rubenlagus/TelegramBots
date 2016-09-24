@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 import org.json.JSONObject;
 import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.api.objects.Message;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
@@ -47,12 +48,6 @@ public class ForwardMessage extends BotApiMethod<Message> {
         return this;
     }
 
-    @Deprecated
-    public ForwardMessage setFromChatId(Integer fromChatId) {
-        this.fromChatId = fromChatId.toString();
-        return this;
-    }
-
     public String getFromChatId() {
         return fromChatId;
     }
@@ -75,12 +70,27 @@ public class ForwardMessage extends BotApiMethod<Message> {
         return disableNotification;
     }
 
-    public void enableNotification() {
+    public ForwardMessage enableNotification() {
         this.disableNotification = false;
+        return this;
     }
 
-    public void disableNotification() {
+    public ForwardMessage disableNotification() {
         this.disableNotification = true;
+        return this;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (chatId == null) {
+            throw new TelegramApiValidationException("ChatId can't be empty", this);
+        }
+        if (fromChatId == null) {
+            throw new TelegramApiValidationException("FromChatId can't be empty", this);
+        }
+        if (messageId == null) {
+            throw new TelegramApiValidationException("MessageId can't be empty", this);
+        }
     }
 
     @Override

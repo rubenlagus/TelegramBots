@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 
 import org.json.JSONObject;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
@@ -60,10 +61,19 @@ public class ReplyKeyboardHide implements ReplyKeyboard {
     }
 
     @Override
+    public void validate() throws TelegramApiValidationException {
+        if (hideKeyboard == null) {
+            throw new TelegramApiValidationException("Hidekeyboard parameter can't be null", this);
+        }
+    }
+
+    @Override
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(HIDEKEYBOARD_FIELD, this.hideKeyboard);
-        jsonObject.put(SELECTIVE_FIELD, this.selective);
+        if (selective != null) {
+            jsonObject.put(SELECTIVE_FIELD, this.selective);
+        }
         return jsonObject;
     }
 
@@ -71,7 +81,9 @@ public class ReplyKeyboardHide implements ReplyKeyboard {
     public void serialize(JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartObject();
         gen.writeBooleanField(HIDEKEYBOARD_FIELD, hideKeyboard);
-        gen.writeBooleanField(SELECTIVE_FIELD, selective);
+        if (selective != null) {
+            gen.writeBooleanField(SELECTIVE_FIELD, selective);
+        }
         gen.writeEndObject();
         gen.flush();
     }

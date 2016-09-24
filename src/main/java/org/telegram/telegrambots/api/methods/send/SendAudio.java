@@ -27,10 +27,11 @@ public class SendAudio {
     public static final String REPLYMARKUP_FIELD = "reply_markup";
     public static final String PERFOMER_FIELD = "performer";
     public static final String TITLE_FIELD = "title";
+    public static final String CAPTION_FIELD = "caption";
 
     private Integer duration; ///< Integer	Duration of the audio in seconds as defined by sender
     private String chatId; ///< Unique identifier for the chat to send the message to (or Username fro channels)
-    private String audio; ///< Audio file to send. file_id as String to resend an audio that is already on the Telegram servers
+    private String audio; ///< Audio file to send. file_id as String to resend an audio that is already on the Telegram servers or Url to upload it
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     /**
      * Optional. Sends the message silently. iOS users will not receive a notification, Android
@@ -40,6 +41,7 @@ public class SendAudio {
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
     private String performer; ///< Optional. Performer of sent audio
     private String title; ///< Optional. Title of sent audio
+    private String caption; ///< Optional. Audio caption (may also be used when resending documents by file_id), 0-200 characters
 
     private boolean isNewAudio; ///< True to upload a new audio, false to use a fileId
     private String audioName;
@@ -87,22 +89,6 @@ public class SendAudio {
     /**
      * Use this method to set the audio to a new file
      *
-     * @param audio     Path to the new file in your server
-     * @param audioName Name of the file itself
-     *
-     * @deprecated use {@link #setNewAudio(File)} or {@link #setNewAudio(InputStream)} instead.
-     */
-    @Deprecated
-    public SendAudio setNewAudio(String audio, String audioName) {
-        this.audio = audio;
-        this.isNewAudio = true;
-        this.audioName = audioName;
-        return this;
-    }
-
-    /**
-     * Use this method to set the audio to a new file
-     *
      * @param file New audio file
      */
     public SendAudio setNewAudio(File file) {
@@ -137,38 +123,6 @@ public class SendAudio {
     public SendAudio setReplyMarkup(ReplyKeyboard replyMarkup) {
         this.replyMarkup = replyMarkup;
         return this;
-    }
-
-    /**
-     * @deprecated Use {@link #getReplyToMessageId()} instead.
-     */
-    @Deprecated
-    public Integer getReplayToMessageId() {
-        return getReplyToMessageId();
-    }
-
-    /**
-     * @deprecated Use {@link #setReplyToMessageId(Integer)} instead.
-     */
-    @Deprecated
-    public SendAudio setReplayToMessageId(Integer replyToMessageId) {
-        return setReplyToMessageId(replyToMessageId);
-    }
-
-    /**
-     * @deprecated Use {@link #getReplyMarkup()} instead.
-     */
-    @Deprecated
-    public ReplyKeyboard getReplayMarkup() {
-        return getReplyMarkup();
-    }
-
-    /**
-     * @deprecated Use {@link #setReplyMarkup(ReplyKeyboard)} instead.
-     */
-    @Deprecated
-    public SendAudio setReplayMarkup(ReplyKeyboard replyMarkup) {
-        return setReplyMarkup(replyMarkup);
     }
 
     public String getPerformer() {
@@ -219,16 +173,31 @@ public class SendAudio {
         return newAudioStream;
     }
 
+    public String getCaption() {
+        return caption;
+    }
+
+    public SendAudio setCaption(String caption) {
+        this.caption = caption;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "SendAudio{" +
-                "chatId='" + chatId + '\'' +
+                "duration=" + duration +
+                ", chatId='" + chatId + '\'' +
                 ", audio='" + audio + '\'' +
                 ", replyToMessageId=" + replyToMessageId +
+                ", disableNotification=" + disableNotification +
                 ", replyMarkup=" + replyMarkup +
                 ", performer='" + performer + '\'' +
                 ", title='" + title + '\'' +
                 ", isNewAudio=" + isNewAudio +
+                ", audioName='" + audioName + '\'' +
+                ", newAudioFile=" + newAudioFile +
+                ", newAudioStream=" + newAudioStream +
+                ", caption='" + caption + '\'' +
                 '}';
     }
 }

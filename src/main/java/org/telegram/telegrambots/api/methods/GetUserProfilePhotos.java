@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 import org.json.JSONObject;
 import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.api.objects.UserProfilePhotos;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
@@ -86,6 +87,16 @@ public class GetUserProfilePhotos extends BotApiMethod<UserProfilePhotos> {
             return new UserProfilePhotos(answer.getJSONObject(Constants.RESPONSEFIELDRESULT));
         }
         return null;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (userId == null) {
+            throw new TelegramApiValidationException("UserId parameter can't be empty", this);
+        }
+        if (offset == null) {
+            throw new TelegramApiValidationException("Offset parameter can't be empty", this);
+        }
     }
 
     @Override

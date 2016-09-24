@@ -1,5 +1,8 @@
 package org.telegram.telegrambots.api.objects.replykeyboard.buttons;
 
+import org.telegram.telegrambots.api.interfaces.IValidable;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
+
 import java.util.ArrayList;
 
 /**
@@ -8,7 +11,7 @@ import java.util.ArrayList;
  * @brief Row for ReplyKeyBoardMarkup
  * @date 10 of April of 2016
  */
-public class KeyboardRow extends ArrayList<KeyboardButton> {
+public class KeyboardRow extends ArrayList<KeyboardButton> implements IValidable {
     public boolean add(String text) {
         return super.add(new KeyboardButton(text));
     }
@@ -35,5 +38,12 @@ public class KeyboardRow extends ArrayList<KeyboardButton> {
 
     public boolean remove(String text) {
         return super.remove(new KeyboardButton(text));
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        for (KeyboardButton keyboardButton : this) {
+            keyboardButton.validate();
+        }
     }
 }

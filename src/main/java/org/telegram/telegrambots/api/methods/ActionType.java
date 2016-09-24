@@ -22,34 +22,6 @@ public enum ActionType {
         this.text = text;
     }
 
-    /**
-     * @deprecated Added for backward compatibility, will be dropped in next mayor release
-     * @param text text of the action
-     * @return ActionType
-     */
-    @Deprecated
-    public static ActionType GetActionType(String text) throws IllegalArgumentException {
-        switch (text) {
-            case "typing":
-                return TYPING;
-            case "record_video":
-                return RECORDVIDEO;
-            case "record_audio":
-                return RECORDAUDIO;
-            case "upload_photo":
-                return UPLOADPHOTO;
-            case "upload_video":
-                return UPLOADVIDEO;
-            case "upload_audio":
-                return UPLOADAUDIO;
-            case "upload_document":
-                return UPLOADDOCUMENT;
-            case "find_location":
-                return FINDLOCATION;
-        }
-        throw new IllegalArgumentException(text + " doesn't match any know ActionType");
-    }
-
     @Override
     public String toString() {
         return text;

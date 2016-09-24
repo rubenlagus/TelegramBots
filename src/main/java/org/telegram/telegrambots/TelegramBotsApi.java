@@ -18,6 +18,7 @@ import org.telegram.telegrambots.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.bots.BotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
+import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.updatesreceivers.BotSession;
 import org.telegram.telegrambots.updatesreceivers.Webhook;
 
@@ -56,12 +57,12 @@ public class TelegramBotsApi {
      * @param externalUrl
      * @param internalUrl
      */
-    public TelegramBotsApi(String keyStore, String keyStorePassword, String externalUrl, String internalUrl) throws TelegramApiException {
+    public TelegramBotsApi(String keyStore, String keyStorePassword, String externalUrl, String internalUrl) throws TelegramApiRequestException {
         if (externalUrl == null || externalUrl.isEmpty()) {
-            throw new TelegramApiException("Parameter externalUrl can not be null or empty");
+            throw new TelegramApiRequestException("Parameter externalUrl can not be null or empty");
         }
         if (internalUrl == null || internalUrl.isEmpty()) {
-            throw new TelegramApiException("Parameter internalUrl can not be null or empty");
+            throw new TelegramApiRequestException("Parameter internalUrl can not be null or empty");
         }
 
         this.useWebhook = true;
@@ -78,12 +79,12 @@ public class TelegramBotsApi {
      * @param internalUrl
      * @param pathToCertificate Full path until .pem public certificate keys
      */
-    public TelegramBotsApi(String keyStore, String keyStorePassword, String externalUrl, String internalUrl, String pathToCertificate) throws TelegramApiException {
+    public TelegramBotsApi(String keyStore, String keyStorePassword, String externalUrl, String internalUrl, String pathToCertificate) throws TelegramApiRequestException {
         if (externalUrl == null || externalUrl.isEmpty()) {
-            throw new TelegramApiException("Parameter externalUrl can not be null or empty");
+            throw new TelegramApiRequestException("Parameter externalUrl can not be null or empty");
         }
         if (internalUrl == null || internalUrl.isEmpty()) {
-            throw new TelegramApiException("Parameter internalUrl can not be null or empty");
+            throw new TelegramApiRequestException("Parameter internalUrl can not be null or empty");
         }
         this.useWebhook = true;
         this.extrenalUrl = fixExternalUrl(externalUrl);
@@ -96,7 +97,7 @@ public class TelegramBotsApi {
      * Register a bot. The Bot Session is started immediately, and may be disconnected by calling close.
      * @param bot the bot to register
      */
-    public BotSession registerBot(TelegramLongPollingBot bot) throws TelegramApiException {
+    public BotSession registerBot(TelegramLongPollingBot bot) throws TelegramApiRequestException {
         setWebhook(bot.getBotToken(), null, bot.getOptions());
         return new BotSession(bot.getBotToken(), bot, bot.getOptions());
     }
@@ -105,7 +106,7 @@ public class TelegramBotsApi {
      *
      * @param bot
      */
-    public void registerBot(TelegramWebhookBot bot) throws TelegramApiException {
+    public void registerBot(TelegramWebhookBot bot) throws TelegramApiRequestException {
         if (useWebhook) {
             webhook.registerWebhook(bot);
             setWebhook(bot.getBotToken(), bot.getBotPath(), bot.getOptions());
@@ -130,10 +131,10 @@ public class TelegramBotsApi {
      * @param botToken Bot token
      * @param publicCertificatePath Path to certificate public key
      * @param options Bot options
-     * @throws TelegramApiException If any error occurs setting the webhook
+     * @throws TelegramApiRequestException If any error occurs setting the webhook
      */
     private static void setWebhook(String webHookURL, String botToken,
-                                   String publicCertificatePath, BotOptions options) throws TelegramApiException {
+                                   String publicCertificatePath, BotOptions options) throws TelegramApiRequestException {
         try (CloseableHttpClient httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).build()) {
             String url = Constants.BASEURL + botToken + "/" + SetWebhook.PATH;
 
@@ -164,13 +165,13 @@ public class TelegramBotsApi {
                 String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
                 JSONObject jsonObject = new JSONObject(responseContent);
                 if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-                    throw new TelegramApiException(webHookURL == null ? "Error removing old webhook" : "Error setting webhook", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
+                    throw new TelegramApiRequestException(webHookURL == null ? "Error removing old webhook" : "Error setting webhook", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
                 }
             }
         } catch (JSONException e) {
-            throw new TelegramApiException("Error deserializing setWebhook method response", e);
+            throw new TelegramApiRequestException("Error deserializing setWebhook method response", e);
         } catch (IOException e) {
-            throw new TelegramApiException("Error executing setWebook method", e);
+            throw new TelegramApiRequestException("Error executing setWebook method", e);
         }
     }
 
@@ -180,9 +181,9 @@ public class TelegramBotsApi {
      * @param urlPath Url for the webhook or null to remove it
      * @param botOptions Bot Options
      */
-    private void setWebhook(String botToken, String urlPath, BotOptions botOptions) throws TelegramApiException {
+    private void setWebhook(String botToken, String urlPath, BotOptions botOptions) throws TelegramApiRequestException {
         if (botToken == null) {
-            throw new TelegramApiException("Parameter botToken can not be null");
+            throw new TelegramApiRequestException("Parameter botToken can not be null");
         }
         String completeExternalUrl = urlPath == null ? "" : extrenalUrl + urlPath;
         setWebhook(completeExternalUrl, botToken, pathToCertificate, botOptions);

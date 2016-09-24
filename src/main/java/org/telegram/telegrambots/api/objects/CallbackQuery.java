@@ -42,11 +42,11 @@ public class CallbackQuery implements IBotApiObject {
     private String inlineMessageId; ///< Optional. Identifier of the message sent via the bot in inline mode, that originated the query
     @JsonProperty(DATA_FIELD)
     /**
-     * Data associated with the callback button.
+     *
+     * Optional. Data associated with the callback button.
      * @note Be aware that a bad client can send arbitrary data in this field
      */
     private String data;
-
     public CallbackQuery() {
         super();
     }
@@ -61,7 +61,9 @@ public class CallbackQuery implements IBotApiObject {
         if (jsonObject.has(INLINE_MESSAGE_ID_FIELD)) {
             this.inlineMessageId = jsonObject.getString(INLINE_MESSAGE_ID_FIELD);
         }
-        data = jsonObject.getString(DATA_FIELD);
+        if (jsonObject.has(DATA_FIELD)) {
+            data = jsonObject.getString(DATA_FIELD);
+        }
     }
 
     public String getId() {
@@ -95,7 +97,9 @@ public class CallbackQuery implements IBotApiObject {
         if (inlineMessageId != null) {
             gen.writeStringField(INLINE_MESSAGE_ID_FIELD, inlineMessageId);
         }
-        gen.writeStringField(DATA_FIELD, data);
+        if (data != null) {
+            gen.writeStringField(DATA_FIELD, data);
+        }
         gen.writeEndObject();
         gen.flush();
     }
@@ -109,10 +113,10 @@ public class CallbackQuery implements IBotApiObject {
     public String toString() {
         return "CallbackQuery{" +
                 "id='" + id + '\'' +
-                ", from='" + from + '\'' +
-                ", message='" + message + '\'' +
+                ", from=" + from +
+                ", message=" + message +
                 ", inlineMessageId='" + inlineMessageId + '\'' +
-                ", data=" + data +
+                ", data='" + data + '\'' +
                 '}';
     }
 }

@@ -22,7 +22,7 @@ public class SendPhoto {
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     public static final String REPLYMARKUP_FIELD = "reply_markup";
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
-    private String photo; ///< Photo to send. file_id as String to resend a photo that is already on the Telegram servers
+    private String photo; ///< Photo to send. file_id as String to resend a photo that is already on the Telegram servers or URL to upload it
     private String caption; ///< Optional Photo caption (may also be used when resending photos by file_id).
     /**
      * Optional. Sends the message silently. iOS users will not receive a notification, Android
@@ -87,38 +87,6 @@ public class SendPhoto {
         return this;
     }
 
-    /**
-     * @deprecated Use {@link #getReplyToMessageId()} instead.
-     */
-    @Deprecated
-    public Integer getReplayToMessageId() {
-        return getReplyToMessageId();
-    }
-
-    /**
-     * @deprecated Use {@link #setReplyToMessageId(Integer)} instead.
-     */
-    @Deprecated
-    public SendPhoto setReplayToMessageId(Integer replyToMessageId) {
-        return setReplyToMessageId(replyToMessageId);
-    }
-
-    /**
-     * @deprecated Use {@link #getReplyMarkup()} instead.
-     */
-    @Deprecated
-    public ReplyKeyboard getReplayMarkup() {
-        return getReplyMarkup();
-    }
-
-    /**
-     * @deprecated Use {@link #setReplyMarkup(ReplyKeyboard)} instead.
-     */
-    @Deprecated
-    public SendPhoto setReplayMarkup(ReplyKeyboard replyMarkup) {
-        return setReplyMarkup(replyMarkup);
-    }
-
     public boolean isNewPhoto() {
         return isNewPhoto;
     }
@@ -146,22 +114,6 @@ public class SendPhoto {
 
     public SendPhoto disableNotification() {
         this.disableNotification = true;
-        return this;
-    }
-
-    /**
-     * Use this method to set the photo to a new file
-     *
-     * @param photo     Path to the new file in your server
-     * @param photoName Name of the file itself
-     *
-     * @deprecated use {@link #setNewPhoto(File)} or {@link #setNewPhoto(InputStream)} instead.
-     */
-    @Deprecated
-    public SendPhoto setNewPhoto(String photo, String photoName) {
-        this.photo = photo;
-        this.isNewPhoto = true;
-        this.photoName = photoName;
         return this;
     }
 

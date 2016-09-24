@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 
 import org.json.JSONObject;
 import org.telegram.telegrambots.Constants;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
@@ -28,10 +29,9 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
     @JsonProperty(CALLBACKQUERYID_FIELD)
     private String callbackQueryId; ///< Unique identifier for the query to be answered
     @JsonProperty(TEXT_FIELD)
-    private String text; ///< Text of the notification. If not specified, nothing will be shown to the user
+    private String text; ///< Optional	Text of the notification. If not specified, nothing will be shown to the user, 0-200 characters
     @JsonProperty(SHOWALERT_FIELD)
     private Boolean showAlert; ///< Optional. If true, an alert will be shown by the client instead of a notificaiton at the top of the chat screen. Defaults to false.
-
 
     public AnswerCallbackQuery() {
         super();
@@ -88,6 +88,13 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
     }
 
     @Override
+    public void validate() throws TelegramApiValidationException {
+        if (callbackQueryId == null) {
+            throw new TelegramApiValidationException("CallbackQueryId can't be null", this);
+        }
+    }
+
+    @Override
     public void serialize(JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartObject();
         gen.writeStringField(METHOD_FIELD, PATH);
@@ -111,8 +118,8 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
     public String toString() {
         return "AnswerCallbackQuery{" +
                 "callbackQueryId='" + callbackQueryId + '\'' +
-                ", text=" + text +
-                ", showAlert=" + showAlert + '\'' +
+                ", text='" + text + '\'' +
+                ", showAlert=" + showAlert +
                 '}';
     }
 }

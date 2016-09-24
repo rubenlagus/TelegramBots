@@ -8,15 +8,17 @@ import org.json.JSONObject;
 import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.WebhookInfo;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
 /**
  * @author Ruben Bermudez
- * @version 2.1
- * @brief Return webhook information for current bot.
- *
- * If webhook is not configured, this method raise an exception
+ * @version 2.4
+ * @brief Use this method to get current webhook status.
+ * Requires no parameters.
+ * On success, returns a WebhookInfo object.
+ * Will throw an error, if the bot is using getUpdates.
  *
  * @date 12 of August of 2016
  */
@@ -42,6 +44,10 @@ public class GetWebhookInfo extends BotApiMethod<WebhookInfo> {
             return new WebhookInfo(answer.getJSONObject(Constants.RESPONSEFIELDRESULT));
         }
         return null;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
     }
 
     @Override

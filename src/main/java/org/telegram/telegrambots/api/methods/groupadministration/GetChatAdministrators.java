@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.ChatMember;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,6 +66,13 @@ public class GetChatAdministrators extends BotApiMethod<ArrayList<ChatMember>> {
             return members;
         }
         return null;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (chatId == null) {
+            throw new TelegramApiValidationException("ChatId can't be null", this);
+        }
     }
 
     @Override

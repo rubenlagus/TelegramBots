@@ -1,8 +1,10 @@
 package org.telegram.telegrambots.api.methods;
 
 import com.fasterxml.jackson.databind.JsonSerializable;
+
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.interfaces.IToJson;
+import org.telegram.telegrambots.api.interfaces.IValidable;
 
 import java.io.Serializable;
 
@@ -12,7 +14,7 @@ import java.io.Serializable;
  * @brief A method of Telegram Bots Api that is fully supported in json format
  * @date 07 of September of 2015
  */
-public abstract class BotApiMethod<T extends Serializable> implements JsonSerializable, IToJson {
+public abstract class BotApiMethod<T extends Serializable> implements JsonSerializable, IToJson, IValidable {
     protected static final String METHOD_FIELD = "method";
 
     /**

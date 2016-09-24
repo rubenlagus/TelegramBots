@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
@@ -158,6 +159,22 @@ public class InlineQueryResultPhoto implements InlineQueryResult {
     public InlineQueryResultPhoto setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
         this.replyMarkup = replyMarkup;
         return this;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (id == null || id.isEmpty()) {
+            throw new TelegramApiValidationException("ID parameter can't be empty", this);
+        }
+        if (photoUrl == null || photoUrl.isEmpty()) {
+            throw new TelegramApiValidationException("PhotoUrl parameter can't be empty", this);
+        }
+        if (inputMessageContent != null) {
+            inputMessageContent.validate();
+        }
+        if (replyMarkup != null) {
+            replyMarkup.validate();
+        }
     }
 
     @Override

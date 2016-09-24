@@ -441,6 +441,10 @@ public class Message implements IBotApiObject {
         return editDate;
     }
 
+    public boolean hasEntities() {
+        return entities != null && !entities.isEmpty();
+    }
+
     @Override
     public void serialize(JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartObject();

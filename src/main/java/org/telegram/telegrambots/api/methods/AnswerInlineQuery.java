@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 import java.util.List;
@@ -101,6 +102,19 @@ public class AnswerInlineQuery extends BotApiMethod<Boolean> {
     public AnswerInlineQuery setSwitchPmParameter(String switchPmParameter) {
         this.switchPmParameter = switchPmParameter;
         return this;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (inlineQueryId == null) {
+            throw new TelegramApiValidationException("InlineQueryId can't be empty", this);
+        }
+        if (results == null) {
+            throw new TelegramApiValidationException("Results array can't be null", this);
+        }
+        for (InlineQueryResult result : results) {
+            result.validate();
+        }
     }
 
     @Override

@@ -9,6 +9,7 @@ import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
@@ -22,13 +23,13 @@ import java.io.IOException;
 public class SendContact extends BotApiMethod<Message> {
     public static final String PATH = "sendContact";
 
-    public static final String CHATID_FIELD = "chat_id";
-    public static final String PHONE_NUMBER_FIELD = "phone_number";
-    public static final String FIRST_NAME_FIELD = "first_name";
-    public static final String LAST_NAME_FIELD = "last_name";
-    public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
-    public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
-    public static final String REPLYMARKUP_FIELD = "reply_markup";
+    private static final String CHATID_FIELD = "chat_id";
+    private static final String PHONE_NUMBER_FIELD = "phone_number";
+    private static final String FIRST_NAME_FIELD = "first_name";
+    private static final String LAST_NAME_FIELD = "last_name";
+    private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
+    private static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
+    private static final String REPLYMARKUP_FIELD = "reply_markup";
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     private String phoneNumber; ///< User's phone number
     private String firstName; ///< User's first name
@@ -66,38 +67,6 @@ public class SendContact extends BotApiMethod<Message> {
     public SendContact setReplyMarkup(ReplyKeyboard replyMarkup) {
         this.replyMarkup = replyMarkup;
         return this;
-    }
-
-    /**
-     * @deprecated Use {@link #getReplyToMessageId()} instead.
-     */
-    @Deprecated
-    public Integer getReplayToMessageId() {
-        return getReplyToMessageId();
-    }
-
-    /**
-     * @deprecated Use {@link #setReplyToMessageId(Integer)} instead.
-     */
-    @Deprecated
-    public SendContact setReplayToMessageId(Integer replyToMessageId) {
-        return setReplyToMessageId(replyToMessageId);
-    }
-
-    /**
-     * @deprecated Use {@link #getReplyMarkup()} instead.
-     */
-    @Deprecated
-    public ReplyKeyboard getReplayMarkup() {
-        return getReplyMarkup();
-    }
-
-    /**
-     * @deprecated Use {@link #setReplyMarkup(ReplyKeyboard)} instead.
-     */
-    @Deprecated
-    public SendContact setReplayMarkup(ReplyKeyboard replyMarkup) {
-        return setReplyMarkup(replyMarkup);
     }
 
     public Boolean getDisableNotification() {
@@ -152,6 +121,19 @@ public class SendContact extends BotApiMethod<Message> {
             return new Message(answer.getJSONObject(Constants.RESPONSEFIELDRESULT));
         }
         return null;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (chatId == null) {
+            throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
+        }
+        if (phoneNumber == null) {
+            throw new TelegramApiValidationException("PhoneNumber parameter can't be empty", this);
+        }
+        if (firstName == null) {
+            throw new TelegramApiValidationException("FirstName parameter can't be empty", this);
+        }
     }
 
     @Override

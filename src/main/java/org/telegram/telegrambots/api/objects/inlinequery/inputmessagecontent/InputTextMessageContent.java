@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.methods.ParseMode;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
@@ -85,6 +86,13 @@ public class InputTextMessageContent implements InputMessageContent {
     public InputTextMessageContent enableWebPagePreview() {
         disableWebPagePreview = null;
         return this;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (messageText == null || messageText.isEmpty()) {
+            throw new TelegramApiValidationException("MessageText parameter can't be empty", this);
+        }
     }
 
     @Override

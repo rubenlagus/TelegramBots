@@ -9,6 +9,7 @@ import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
@@ -90,38 +91,6 @@ public class SendVenue extends BotApiMethod<Message> {
         return this;
     }
 
-    /**
-     * @deprecated Use {@link #getReplyToMessageId()} instead.
-     */
-    @Deprecated
-    public Integer getReplayToMessageId() {
-        return getReplyToMessageId();
-    }
-
-    /**
-     * @deprecated Use {@link #setReplyToMessageId(Integer)} instead.
-     */
-    @Deprecated
-    public SendVenue setReplayToMessageId(Integer replyToMessageId) {
-        return setReplyToMessageId(replyToMessageId);
-    }
-
-    /**
-     * @deprecated Use {@link #getReplyMarkup()} instead.
-     */
-    @Deprecated
-    public ReplyKeyboard getReplayMarkup() {
-        return getReplyMarkup();
-    }
-
-    /**
-     * @deprecated Use {@link #setReplyMarkup(ReplyKeyboard)} instead.
-     */
-    @Deprecated
-    public SendVenue setReplayMarkup(ReplyKeyboard replyMarkup) {
-        return setReplyMarkup(replyMarkup);
-    }
-
     public Boolean getDisableNotification() {
         return disableNotification;
     }
@@ -174,6 +143,25 @@ public class SendVenue extends BotApiMethod<Message> {
             return new Message(answer.getJSONObject(Constants.RESPONSEFIELDRESULT));
         }
         return null;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (chatId == null) {
+            throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
+        }
+        if (longitude == null) {
+            throw new TelegramApiValidationException("Longitude parameter can't be empty", this);
+        }
+        if (latitude == null) {
+            throw new TelegramApiValidationException("Latitude parameter can't be empty", this);
+        }
+        if (title == null || title.isEmpty()) {
+            throw new TelegramApiValidationException("Title parameter can't be empty", this);
+        }
+        if (address == null) {
+            throw new TelegramApiValidationException("Address parameter can't be empty", this);
+        }
     }
 
     @Override

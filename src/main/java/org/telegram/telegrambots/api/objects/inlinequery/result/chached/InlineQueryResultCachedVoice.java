@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
@@ -32,6 +33,7 @@ public class InlineQueryResultCachedVoice implements InlineQueryResult {
     private static final String TITLE_FIELD = "title";
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
+    private static final String CAPTION_FIELD = "caption";
     @JsonProperty(ID_FIELD)
     private String id; ///< Unique identifier of this result, 1-64 bytes
     @JsonProperty(VOICE_FILE_ID_FIELD)
@@ -42,6 +44,8 @@ public class InlineQueryResultCachedVoice implements InlineQueryResult {
     private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent instead of the voice recording
     @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
+    @JsonProperty(CAPTION_FIELD)
+    private String caption; ///< Optional. Voice caption (may also be used when resending documents by file_id), 0-200 characters
 
     public static String getType() {
         return type;
@@ -92,6 +96,31 @@ public class InlineQueryResultCachedVoice implements InlineQueryResult {
         return this;
     }
 
+    public String getCaption() {
+        return caption;
+    }
+
+    public InlineQueryResultCachedVoice setCaption(String caption) {
+        this.caption = caption;
+        return this;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (id == null || id.isEmpty()) {
+            throw new TelegramApiValidationException("ID parameter can't be empty", this);
+        }
+        if (voiceFileId == null || voiceFileId.isEmpty()) {
+            throw new TelegramApiValidationException("VoiceFileId parameter can't be empty", this);
+        }
+        if (inputMessageContent != null) {
+            inputMessageContent.validate();
+        }
+        if (replyMarkup != null) {
+            replyMarkup.validate();
+        }
+    }
+
     @Override
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
@@ -106,6 +135,9 @@ public class InlineQueryResultCachedVoice implements InlineQueryResult {
         }
         if (inputMessageContent != null) {
             jsonObject.put(INPUTMESSAGECONTENT_FIELD, inputMessageContent);
+        }
+        if (caption != null) {
+            jsonObject.put(CAPTION_FIELD, caption);
         }
         return jsonObject;
     }
@@ -125,6 +157,9 @@ public class InlineQueryResultCachedVoice implements InlineQueryResult {
         if (inputMessageContent != null) {
             gen.writeObjectField(INPUTMESSAGECONTENT_FIELD, inputMessageContent);
         }
+        if (caption != null) {
+            gen.writeStringField(CAPTION_FIELD, caption);
+        }
         gen.writeEndObject();
         gen.flush();
     }
@@ -137,12 +172,12 @@ public class InlineQueryResultCachedVoice implements InlineQueryResult {
     @Override
     public String toString() {
         return "InlineQueryResultCachedVoice{" +
-                "type='" + type + '\'' +
-                ", id='" + id + '\'' +
+                "id='" + id + '\'' +
                 ", voiceFileId='" + voiceFileId + '\'' +
                 ", title='" + title + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
-                ", replyMarkup='" + replyMarkup + '\'' +
+                ", inputMessageContent=" + inputMessageContent +
+                ", replyMarkup=" + replyMarkup +
+                ", caption='" + caption + '\'' +
                 '}';
     }
 }

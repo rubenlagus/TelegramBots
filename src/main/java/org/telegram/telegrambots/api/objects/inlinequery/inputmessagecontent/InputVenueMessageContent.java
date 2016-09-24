@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 
 import org.json.JSONObject;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
@@ -82,6 +83,22 @@ public class InputVenueMessageContent implements InputMessageContent {
     public InputVenueMessageContent setFoursquareId(String foursquareId) {
         this.foursquareId = foursquareId;
         return this;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (latitude == null) {
+            throw new TelegramApiValidationException("Latitude parameter can't be empty", this);
+        }
+        if (longitude == null) {
+            throw new TelegramApiValidationException("Longitude parameter can't be empty", this);
+        }
+        if (title == null || title.isEmpty()) {
+            throw new TelegramApiValidationException("Title parameter can't be empty", this);
+        }
+        if (address == null || address.isEmpty()) {
+            throw new TelegramApiValidationException("Address parameter can't be empty", this);
+        }
     }
 
     @Override

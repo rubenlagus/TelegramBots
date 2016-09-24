@@ -7,7 +7,7 @@ import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.telegram.telegrambots.TelegramApiException;
+import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.bots.ITelegramWebhookBot;
 
 import java.io.File;
@@ -27,7 +27,7 @@ public class Webhook {
     private final RestApi restApi;
     private final String internalUrl;
 
-    public Webhook(String keyStore, String keyStorePassword, String internalUrl) throws TelegramApiException {
+    public Webhook(String keyStore, String keyStorePassword, String internalUrl) throws TelegramApiRequestException {
         this.KEYSTORE_SERVER_FILE = keyStore;
         this.KEYSTORE_SERVER_PWD = keyStorePassword;
         validateServerKeystoreFile(keyStore);
@@ -39,7 +39,7 @@ public class Webhook {
         restApi.registerCallback(callback);
     }
 
-    public void startServer() throws TelegramApiException {
+    public void startServer() throws TelegramApiRequestException {
         SSLContextConfigurator sslContext = new SSLContextConfigurator();
 
         // set up security context
@@ -58,7 +58,7 @@ public class Webhook {
         try {
             grizzlyServer.start();
         } catch (IOException e) {
-            throw new TelegramApiException("Error starting webhook server", e);
+            throw new TelegramApiRequestException("Error starting webhook server", e);
         }
     }
 
@@ -66,10 +66,10 @@ public class Webhook {
         return URI.create(internalUrl);
     }
 
-    private static void validateServerKeystoreFile(String keyStore) throws TelegramApiException {
+    private static void validateServerKeystoreFile(String keyStore) throws TelegramApiRequestException {
         File file = new File(keyStore);
         if (!file.exists() || !file.canRead()) {
-            throw new TelegramApiException("Can't find or access server keystore file.");
+            throw new TelegramApiRequestException("Can't find or access server keystore file.");
         }
     }
 }

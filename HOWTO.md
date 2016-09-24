@@ -21,7 +21,17 @@ Create a new project for your bot, in the example below we are showing you how t
 
 If you don't know how to include a external .jar into your Eclipse project, maybe [this](https://www.youtube.com/watch?v=VWnfHkBgO1I) video is helpful for you
 
-More information on how to use it with Gradle or Maven, can be found here [here](https://jitpack.io/#rubenlagus/TelegramBots)
+You can use it with Maven or Gradle directly from Central repository, just this to your *pom.xml* file:
+ 
+```xml
+    <dependency>
+        <groupId>org.telegram</groupId>
+        <artifactId>telegrambots</artifactId>
+        <version>2.4</version>
+    </dependency>
+```
+
+You can also find it in a different repository, just in case, search [here](https://jitpack.io/#rubenlagus/TelegramBots).
 
 
 <a name="lets_code"/>

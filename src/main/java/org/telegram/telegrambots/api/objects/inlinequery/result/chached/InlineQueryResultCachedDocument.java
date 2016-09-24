@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
@@ -115,6 +116,25 @@ public class InlineQueryResultCachedDocument implements InlineQueryResult {
     public InlineQueryResultCachedDocument setInputMessageContent(InputMessageContent inputMessageContent) {
         this.inputMessageContent = inputMessageContent;
         return this;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (id == null || id.isEmpty()) {
+            throw new TelegramApiValidationException("ID parameter can't be empty", this);
+        }
+        if (documentFileId == null || documentFileId.isEmpty()) {
+            throw new TelegramApiValidationException("DocumentFileId parameter can't be empty", this);
+        }
+        if (title == null || title.isEmpty()) {
+            throw new TelegramApiValidationException("Title parameter can't be empty", this);
+        }
+        if (inputMessageContent != null) {
+            inputMessageContent.validate();
+        }
+        if (replyMarkup != null) {
+            replyMarkup.validate();
+        }
     }
 
     @Override

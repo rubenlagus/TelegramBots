@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
@@ -161,6 +162,28 @@ public class InlineQueryResultDocument implements InlineQueryResult {
     public InlineQueryResultDocument setThumbHeight(Integer thumbHeight) {
         this.thumbHeight = thumbHeight;
         return this;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (id == null || id.isEmpty()) {
+            throw new TelegramApiValidationException("ID parameter can't be empty", this);
+        }
+        if (mimeType == null || mimeType.isEmpty()) {
+            throw new TelegramApiValidationException("Mimetype parameter can't be empty", this);
+        }
+        if (documentUrl == null || documentUrl.isEmpty()) {
+            throw new TelegramApiValidationException("DocumentUrl parameter can't be empty", this);
+        }
+        if (title == null || title.isEmpty()) {
+            throw new TelegramApiValidationException("Title parameter can't be empty", this);
+        }
+        if (inputMessageContent != null) {
+            inputMessageContent.validate();
+        }
+        if (replyMarkup != null) {
+            replyMarkup.validate();
+        }
     }
 
     @Override

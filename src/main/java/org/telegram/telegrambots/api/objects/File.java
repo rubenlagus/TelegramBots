@@ -17,6 +17,8 @@ import java.io.IOException;
  * @date 24 of June of 2015
  */
 public class File implements IBotApiObject {
+    public static final String FILEBASEURL = "https://api.telegram.org/file/bot{0}/{1}";
+
     private static final String FILE_ID = "file_id";
     private static final String FILE_SIZE_FIELD = "file_size";
     private static final String FILE_PATH_FIELD = "file_path";

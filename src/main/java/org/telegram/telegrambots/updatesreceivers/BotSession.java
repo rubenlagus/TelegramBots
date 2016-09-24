@@ -16,7 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.telegrambots.Constants;
-import org.telegram.telegrambots.TelegramApiException;
+import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.api.methods.updates.GetUpdates;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.BotOptions;
@@ -48,18 +48,6 @@ public class BotSession {
     private volatile boolean running = true;
     private volatile CloseableHttpClient httpclient;
     private volatile RequestConfig requestConfig;
-
-    /**
-     * Constructor present just to keep backward compatibility will be removed in next mayor release.
-     *
-     * @deprecated @deprecated use {@link #BotSession(String, ITelegramLongPollingBot, BotOptions)}
-     * @param token Token of the bot
-     * @param callback Callback for incomming updates
-     */
-    @Deprecated
-    public BotSession(String token, ITelegramLongPollingBot callback) {
-        this(token, callback, new BotOptions());
-    }
 
     public BotSession(String token, ITelegramLongPollingBot callback, BotOptions options) {
         this.token = token;
@@ -131,7 +119,7 @@ public class BotSession {
                         String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
                         JSONObject jsonObject = new JSONObject(responseContent);
                         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-                            throw new TelegramApiException("Error getting updates",
+                            throw new TelegramApiRequestException("Error getting updates",
                                     jsonObject.getString(Constants.ERRORDESCRIPTIONFIELD),
                                     jsonObject.getInt(Constants.ERRORCODEFIELD));
                         }
@@ -156,7 +144,7 @@ public class BotSession {
                                 BotLogger.severe(LOGTAG, e);
                             }
                         }
-                    } catch (InvalidObjectException | JSONException | TelegramApiException e) {
+                    } catch (InvalidObjectException | JSONException | TelegramApiRequestException e) {
                         BotLogger.severe(LOGTAG, e);
                     }
                 } catch (Exception global) {

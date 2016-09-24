@@ -26,7 +26,7 @@ public class SendVideo {
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     public static final String REPLYMARKUP_FIELD = "reply_markup";
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
-    private String video; ///< Video to send. file_id as String to resend a video that is already on the Telegram servers
+    private String video; ///< Video to send. file_id as String to resend a video that is already on the Telegram servers or URL to upload it
     private Integer duration; ///< Optional. Duration of sent video in seconds
     private String caption; ///< OptionaL. Video caption (may also be used when resending videos by file_id).
     private Integer width; ///< Optional. Video width
@@ -103,38 +103,6 @@ public class SendVideo {
         return this;
     }
 
-    /**
-     * @deprecated Use {@link #getReplyToMessageId()} instead.
-     */
-    @Deprecated
-    public Integer getReplayToMessageId() {
-        return getReplyToMessageId();
-    }
-
-    /**
-     * @deprecated Use {@link #setReplyToMessageId(Integer)} instead.
-     */
-    @Deprecated
-    public SendVideo setReplayToMessageId(Integer replyToMessageId) {
-        return setReplyToMessageId(replyToMessageId);
-    }
-
-    /**
-     * @deprecated Use {@link #getReplyMarkup()} instead.
-     */
-    @Deprecated
-    public ReplyKeyboard getReplayMarkup() {
-        return getReplyMarkup();
-    }
-
-    /**
-     * @deprecated Use {@link #setReplyMarkup(ReplyKeyboard)} instead.
-     */
-    @Deprecated
-    public SendVideo setReplayMarkup(ReplyKeyboard replyMarkup) {
-        return setReplyMarkup(replyMarkup);
-    }
-
     public boolean isNewVideo() {
         return isNewVideo;
     }
@@ -180,22 +148,6 @@ public class SendVideo {
 
     public SendVideo setHeight(Integer height) {
         this.height = height;
-        return this;
-    }
-
-    /**
-     * Use this method to set the video to a new file
-     *
-     * @param video     Path to the new file in your server
-     * @param videoName Name of the file itself
-     *
-     * @deprecated use {@link #setNewVideo(File)} or {@link #setNewVideo(InputStream)} instead.
-     */
-    @Deprecated
-    public SendVideo setNewVideo(String video, String videoName) {
-        this.video = video;
-        this.isNewVideo = true;
-        this.videoName = videoName;
         return this;
     }
 

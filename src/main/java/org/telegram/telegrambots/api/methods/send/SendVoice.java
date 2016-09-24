@@ -23,6 +23,7 @@ public class SendVoice {
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     public static final String REPLYMARKUP_FIELD = "reply_markup";
     public static final String DURATION_FIELD = "duration";
+    public static final String CAPTION_FIELD = "caption";
 
     private String chatId; ///< Unique identifier for the chat sent message to (Or username for channels)
     private String voice; ///< Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.
@@ -34,6 +35,7 @@ public class SendVoice {
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
     private Integer duration; ///< Optional. Duration of sent audio in seconds
+    private String caption; ///< Optional. Voice caption (may also be used when resending videos by file_id).
 
     private boolean isNewVoice; ///< True to upload a new voice note, false to use a fileId
     private String voiceName; ///< Name of the voice note
@@ -42,17 +44,6 @@ public class SendVoice {
 
     public SendVoice() {
         super();
-    }
-
-    @Override
-    public String toString() {
-        return "SendVoice{" +
-                "chatId='" + chatId + '\'' +
-                ", voice='" + voice + '\'' +
-                ", replyToMessageId=" + replyToMessageId +
-                ", replyMarkup=" + replyMarkup +
-                ", duration=" + duration +
-                '}';
     }
 
     public Boolean getDisableNotification() {
@@ -82,59 +73,9 @@ public class SendVoice {
         return voice;
     }
 
-    /**
-     * @deprecated Use {@link #getVoice()} instead
-     */
-    @Deprecated
-    public String getAudio() {
-        return voice;
-    }
-
     public SendVoice setVoice(String voice) {
         this.voice = voice;
         this.isNewVoice = false;
-        return this;
-    }
-
-    /**
-     * @deprecated Use {@link #setVoice(String)} instead
-     */
-    @Deprecated
-    public SendVoice setAudio(String voice) {
-        this.voice = voice;
-        this.isNewVoice = false;
-        return this;
-    }
-
-    /**
-     * Use this method to set the voice to a new file
-     *
-     * @param voice     Path to the new file in your server
-     * @param voiceName Name of the file itself
-     *
-     * @deprecated use {@link #setNewVoice(File)} or {@link #setNewVoice(InputStream)} instead.
-     */
-    @Deprecated
-    public SendVoice setNewVoice(String voice, String voiceName) {
-        this.voice = voice;
-        this.isNewVoice = false;
-        this.voiceName = voiceName;
-        return this;
-    }
-
-    /**
-     * Use this method to set the voice to a new file
-     *
-     * @param voice     Path to the new file in your server
-     * @param voiceName Name of the file itself
-     *
-     * @deprecated use {@link #setNewVoice(File)} or {@link #setNewVoice(InputStream)} instead.
-     */
-    @Deprecated
-    public SendVoice setNewAudio(String voice, String voiceName) {
-        this.voice = voice;
-        this.isNewVoice = false;
-        this.voiceName = voiceName;
         return this;
     }
 
@@ -172,38 +113,6 @@ public class SendVoice {
         return this;
     }
 
-    /**
-     * @deprecated Use {@link #getReplyToMessageId()} instead.
-     */
-    @Deprecated
-    public Integer getReplayToMessageId() {
-        return getReplyToMessageId();
-    }
-
-    /**
-     * @deprecated Use {@link #setReplyToMessageId(Integer)} instead.
-     */
-    @Deprecated
-    public SendVoice setReplayToMessageId(Integer replyToMessageId) {
-        return setReplyToMessageId(replyToMessageId);
-    }
-
-    /**
-     * @deprecated Use {@link #getReplyMarkup()} instead.
-     */
-    @Deprecated
-    public ReplyKeyboard getReplayMarkup() {
-        return getReplyMarkup();
-    }
-
-    /**
-     * @deprecated Use {@link #setReplyMarkup(ReplyKeyboard)} instead.
-     */
-    @Deprecated
-    public SendVoice setReplayMarkup(ReplyKeyboard replyMarkup) {
-        return setReplyMarkup(replyMarkup);
-    }
-
     public Integer getDuration() {
         return duration;
     }
@@ -227,5 +136,31 @@ public class SendVoice {
 
     public InputStream getNewVoiceStream() {
         return newVoiceStream;
+    }
+
+    public String getCaption() {
+        return caption;
+    }
+
+    public SendVoice setCaption(String caption) {
+        this.caption = caption;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "SendVoice{" +
+                "chatId='" + chatId + '\'' +
+                ", voice='" + voice + '\'' +
+                ", disableNotification=" + disableNotification +
+                ", replyToMessageId=" + replyToMessageId +
+                ", replyMarkup=" + replyMarkup +
+                ", duration=" + duration +
+                ", caption='" + caption + '\'' +
+                ", isNewVoice=" + isNewVoice +
+                ", voiceName='" + voiceName + '\'' +
+                ", newVoiceFile=" + newVoiceFile +
+                ", newVoiceStream=" + newVoiceStream +
+                '}';
     }
 }

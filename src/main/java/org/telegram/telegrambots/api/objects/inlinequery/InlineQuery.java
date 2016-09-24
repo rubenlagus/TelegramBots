@@ -85,6 +85,14 @@ public class InlineQuery implements IBotApiObject {
         return offset;
     }
 
+    public boolean hasQuery() {
+        return query != null && !query.isEmpty();
+    }
+
+    public boolean hasLocation() {
+        return location != null;
+    }
+
     @Override
     public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
         serialize(gen, serializers);

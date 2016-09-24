@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -80,6 +81,16 @@ public class ReplyKeyboardMarkup implements ReplyKeyboard {
     public ReplyKeyboardMarkup setSelective(Boolean selective) {
         this.selective = selective;
         return this;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (keyboard == null) {
+            throw new TelegramApiValidationException("Keyboard parameter can't be null", this);
+        }
+        for (KeyboardRow keyboardButtons : keyboard) {
+            keyboardButtons.validate();
+        }
     }
 
     @Override

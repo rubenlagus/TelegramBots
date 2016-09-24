@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 
 import org.json.JSONObject;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
@@ -61,6 +62,13 @@ public class ForceReplyKeyboard implements ReplyKeyboard {
     public ForceReplyKeyboard setSelective(Boolean selective) {
         this.selective = selective;
         return this;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (forceReply == null) {
+            throw new TelegramApiValidationException("ForceReply parameter can't not be null", this);
+        }
     }
 
     @Override

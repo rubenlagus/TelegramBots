@@ -10,6 +10,7 @@ import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
@@ -113,6 +114,25 @@ public class EditMessageReplyMarkup extends BotApiMethod<Message> {
             }
         }
         return null;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (inlineMessageId == null) {
+            if (chatId == null) {
+                throw new TelegramApiValidationException("ChatId parameter can't be empty if inlineMessageId is not present", this);
+            }
+            if (messageId == null) {
+                throw new TelegramApiValidationException("MessageId parameter can't be empty if inlineMessageId is not present", this);
+            }
+        } else {
+            if (chatId != null) {
+                throw new TelegramApiValidationException("ChatId parameter must be empty if inlineMessageId is provided", this);
+            }
+            if (messageId != null) {
+                throw new TelegramApiValidationException("MessageId parameter must be empty if inlineMessageId is provided", this);
+            }
+        }
     }
 
     @Override

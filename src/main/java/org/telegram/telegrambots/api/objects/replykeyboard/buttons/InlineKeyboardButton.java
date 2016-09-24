@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.interfaces.IBotApiObject;
 import org.telegram.telegrambots.api.interfaces.IToJson;
+import org.telegram.telegrambots.api.interfaces.IValidable;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
@@ -20,12 +22,13 @@ import java.io.IOException;
  * display unsupported message.
  * @date 10 of April of 2016
  */
-public class InlineKeyboardButton implements IBotApiObject, IToJson {
+public class InlineKeyboardButton implements IBotApiObject, IToJson, IValidable {
 
     private static final String TEXT_FIELD = "text";
     private static final String URL_FIELD = "url";
     private static final String CALLBACK_DATA_FIELD = "callback_data";
     private static final String SWITCH_INLINE_QUERY_FIELD = "switch_inline_query";
+    private static final String SWITCH_INLINE_QUERY_CURRENT_CHAT_FIELD = "switch_inline_query_current_chat";
     @JsonProperty(TEXT_FIELD)
     private String text; ///< Label text on the button
     @JsonProperty(URL_FIELD)
@@ -44,6 +47,13 @@ public class InlineKeyboardButton implements IBotApiObject, IToJson {
      * be automatically returned to the chat they switched from, skipping the chat selection screen.
      */
     private String switchInlineQuery;
+    @JsonProperty(SWITCH_INLINE_QUERY_CURRENT_CHAT_FIELD)
+    /**
+     * Optional. If set, pressing the button will insert the bot‘s username and the specified
+     * inline query in the current chat's input field. Can be empty,
+     * in which case only the bot’s username will be inserted.
+     */
+    private String switchInlineQueryCurrentChat;
 
     public InlineKeyboardButton() {
         super();
@@ -60,6 +70,9 @@ public class InlineKeyboardButton implements IBotApiObject, IToJson {
         }
         if (jsonObject.has(SWITCH_INLINE_QUERY_FIELD)) {
             switchInlineQuery = jsonObject.getString(SWITCH_INLINE_QUERY_FIELD);
+        }
+        if (jsonObject.has(SWITCH_INLINE_QUERY_CURRENT_CHAT_FIELD)) {
+            switchInlineQueryCurrentChat = jsonObject.getString(SWITCH_INLINE_QUERY_CURRENT_CHAT_FIELD);
         }
     }
 
@@ -99,6 +112,22 @@ public class InlineKeyboardButton implements IBotApiObject, IToJson {
         return this;
     }
 
+    public String getSwitchInlineQueryCurrentChat() {
+        return switchInlineQueryCurrentChat;
+    }
+
+    public InlineKeyboardButton setSwitchInlineQueryCurrentChat(String switchInlineQueryCurrentChat) {
+        this.switchInlineQueryCurrentChat = switchInlineQueryCurrentChat;
+        return this;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (text == null || text.isEmpty()) {
+            throw new TelegramApiValidationException("Text parameter can't be empty", this);
+        }
+    }
+
     @Override
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
@@ -111,6 +140,9 @@ public class InlineKeyboardButton implements IBotApiObject, IToJson {
         }
         if (switchInlineQuery != null) {
             jsonObject.put(SWITCH_INLINE_QUERY_FIELD, switchInlineQuery);
+        }
+        if (switchInlineQueryCurrentChat != null) {
+            jsonObject.put(SWITCH_INLINE_QUERY_CURRENT_CHAT_FIELD, switchInlineQueryCurrentChat);
         }
 
         return jsonObject;
@@ -129,6 +161,9 @@ public class InlineKeyboardButton implements IBotApiObject, IToJson {
         if (switchInlineQuery != null) {
             gen.writeStringField(SWITCH_INLINE_QUERY_FIELD, switchInlineQuery);
         }
+        if (switchInlineQueryCurrentChat != null) {
+            gen.writeStringField(SWITCH_INLINE_QUERY_CURRENT_CHAT_FIELD, switchInlineQueryCurrentChat);
+        }
         gen.writeEndObject();
         gen.flush();
     }
@@ -141,10 +176,11 @@ public class InlineKeyboardButton implements IBotApiObject, IToJson {
     @Override
     public String toString() {
         return "InlineKeyboardButton{" +
-                "text=" + text +
-                ", url=" + url +
-                ", callbackData=" + callbackData +
-                ", switchInlineQuery=" + switchInlineQuery +
+                "text='" + text + '\'' +
+                ", url='" + url + '\'' +
+                ", callbackData='" + callbackData + '\'' +
+                ", switchInlineQuery='" + switchInlineQuery + '\'' +
+                ", switchInlineQueryCurrentChat='" + switchInlineQueryCurrentChat + '\'' +
                 '}';
     }
 }

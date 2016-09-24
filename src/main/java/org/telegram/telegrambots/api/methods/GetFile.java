@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 import org.json.JSONObject;
 import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.api.objects.File;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
@@ -25,7 +26,7 @@ import java.io.IOException;
 public class GetFile extends BotApiMethod<File> {
     public static final String PATH = "getFile";
 
-    public static final String FILEID_FIELD = "file_id";
+    private static final String FILEID_FIELD = "file_id";
     private String fileId; ///< File identifier to get info about
 
     public GetFile() {
@@ -39,6 +40,13 @@ public class GetFile extends BotApiMethod<File> {
     public GetFile setFileId(String fileId) {
         this.fileId = fileId;
         return this;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (fileId == null) {
+            throw new TelegramApiValidationException("FileId can't be empty", this);
+        }
     }
 
     @Override

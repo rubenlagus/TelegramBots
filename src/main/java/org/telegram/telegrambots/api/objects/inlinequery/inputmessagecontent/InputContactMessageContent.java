@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 
 import org.json.JSONObject;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
@@ -58,6 +59,16 @@ public class InputContactMessageContent implements InputMessageContent {
     public InputContactMessageContent setLastName(String lastName) {
         this.lastName = lastName;
         return this;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (phoneNumber == null || phoneNumber.isEmpty()) {
+            throw new TelegramApiValidationException("PhoneNumber parameter can't be empty", this);
+        }
+        if (firstName == null || firstName.isEmpty()) {
+            throw new TelegramApiValidationException("FirstName parameter can't be empty", this);
+        }
     }
 
     @Override

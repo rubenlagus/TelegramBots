@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.bots;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.NameValuePair;
@@ -18,7 +19,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 import org.telegram.telegrambots.Constants;
-import org.telegram.telegrambots.TelegramApiException;
 import org.telegram.telegrambots.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.api.methods.AnswerInlineQuery;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
@@ -55,11 +55,18 @@ import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.User;
 import org.telegram.telegrambots.api.objects.UserProfilePhotos;
 import org.telegram.telegrambots.api.objects.WebhookInfo;
+import org.telegram.telegrambots.exceptions.TelegramApiException;
+import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.updateshandlers.DownloadFileCallback;
 import org.telegram.telegrambots.updateshandlers.SentCallback;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -256,7 +263,7 @@ public abstract class AbsSender {
         return sendApiMethod(getUserProfilePhotos);
     }
 
-    public final File getFile(GetFile getFile) throws TelegramApiException{
+    public final File getFile(GetFile getFile) throws TelegramApiException {
         if(getFile == null){
             throw new TelegramApiException("Parameter getFile can not be null");
         }
@@ -275,6 +282,24 @@ public abstract class AbsSender {
     public final WebhookInfo getWebhookInfo() throws TelegramApiException {
         GetWebhookInfo getWebhookInfo = new GetWebhookInfo();
         return sendApiMethod(getWebhookInfo);
+    }
+
+    public final java.io.File downloadFile(File file) throws TelegramApiException {
+        if(file == null){
+            throw new TelegramApiException("Parameter file can not be null");
+        }
+        String url = MessageFormat.format(File.FILEBASEURL, getBotToken(), file.getFilePath());
+        java.io.File output;
+        try {
+            output = java.io.File.createTempFile(file.getFileId(), ".tmp");
+            FileUtils.copyURLToFile(new URL(url), output);
+        } catch (MalformedURLException e) {
+            throw new TelegramApiException("Wrong url for file: " + url);
+        } catch (IOException e) {
+            throw new TelegramApiRequestException("Error downloading the file", e);
+        }
+
+        return output;
     }
 
     // Send Requests Async
@@ -483,7 +508,6 @@ public abstract class AbsSender {
         if (getUserProfilePhotos == null) {
             throw new TelegramApiException("Parameter getUserProfilePhotos can not be null");
         }
-
         if (sentCallback == null) {
             throw new TelegramApiException("Parameter sentCallback can not be null");
         }
@@ -494,8 +518,9 @@ public abstract class AbsSender {
     public final void getFileAsync(GetFile getFile, SentCallback<File> sentCallback) throws TelegramApiException {
         if (getFile == null) {
             throw new TelegramApiException("Parameter getFile can not be null");
-        } else if (getFile.getFileId() == null) {
-            throw new TelegramApiException("Attribute file_id in parameter getFile can not be null");
+        }
+        if (sentCallback == null) {
+            throw new TelegramApiException("Parameter sentCallback can not be null");
         }
 
         sendApiMethodAsync(getFile, sentCallback);
@@ -505,7 +530,6 @@ public abstract class AbsSender {
         if (sentCallback == null) {
             throw new TelegramApiException("Parameter sentCallback can not be null");
         }
-
         GetMe getMe = new GetMe();
         sendApiMethodAsync(getMe, sentCallback);
     }
@@ -517,6 +541,31 @@ public abstract class AbsSender {
 
         GetWebhookInfo getWebhookInfo = new GetWebhookInfo();
         sendApiMethodAsync(getWebhookInfo, sentCallback);
+    }
+
+    public final void downloadFileAsync(File file, DownloadFileCallback callback) throws TelegramApiException {
+        if(file == null){
+            throw new TelegramApiException("Parameter file can not be null");
+        }
+        if (callback == null) {
+            throw new TelegramApiException("Parameter callback can not be null");
+        }
+
+        exe.submit(new Runnable() {
+            @Override
+            public void run() {
+                String url = MessageFormat.format(File.FILEBASEURL, getBotToken(), file.getFilePath());
+                try {
+                    java.io.File output = java.io.File.createTempFile(file.getFileId(), ".tmp");
+                    FileUtils.copyURLToFile(new URL(url), output);
+                    callback.onResult(file, output);
+                } catch (MalformedURLException e) {
+                    callback.onException(file, new TelegramApiException("Wrong url for file: " + url));
+                } catch (IOException e) {
+                    callback.onException(file, new TelegramApiRequestException("Error downloading the file", e));
+                }
+            }
+        });
     }
 
     // Specific Send Requests
@@ -582,7 +631,7 @@ public abstract class AbsSender {
 
         JSONObject jsonObject = new JSONObject(responseContent);
         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-            throw new TelegramApiException("Error at sendDocument", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
+            throw new TelegramApiRequestException("Error at sendDocument", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
         }
 
         return new Message(jsonObject.getJSONObject(Constants.RESPONSEFIELDRESULT));
@@ -648,7 +697,7 @@ public abstract class AbsSender {
 
         JSONObject jsonObject = new JSONObject(responseContent);
         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-            throw new TelegramApiException("Error at sendPhoto", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
+            throw new TelegramApiRequestException("Error at sendPhoto", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
         }
 
         return new Message(jsonObject.getJSONObject(Constants.RESPONSEFIELDRESULT));
@@ -732,7 +781,7 @@ public abstract class AbsSender {
 
         JSONObject jsonObject = new JSONObject(responseContent);
         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-            throw new TelegramApiException("Error at sendVideo", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
+            throw new TelegramApiRequestException("Error at sendVideo", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
         }
 
         return new Message(jsonObject.getJSONObject(Constants.RESPONSEFIELDRESULT));
@@ -793,7 +842,7 @@ public abstract class AbsSender {
 
         JSONObject jsonObject = new JSONObject(responseContent);
         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-            throw new TelegramApiException("Error at sendSticker", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
+            throw new TelegramApiRequestException("Error at sendSticker", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
         }
 
         return new Message(jsonObject.getJSONObject(Constants.RESPONSEFIELDRESULT));
@@ -841,6 +890,9 @@ public abstract class AbsSender {
                 if (sendAudio.getDisableNotification() != null) {
                     builder.addTextBody(SendAudio.DISABLENOTIFICATION_FIELD, sendAudio.getDisableNotification().toString());
                 }
+                if (sendAudio.getCaption() != null) {
+                    builder.addTextBody(SendAudio.CAPTION_FIELD, sendAudio.getCaption());
+                }
                 HttpEntity multipart = builder.build();
                 httppost.setEntity(multipart);
             } else {
@@ -862,6 +914,9 @@ public abstract class AbsSender {
                 if (sendAudio.getDisableNotification() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendAudio.DISABLENOTIFICATION_FIELD, sendAudio.getDisableNotification().toString()));
                 }
+                if (sendAudio.getCaption() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendAudio.CAPTION_FIELD, sendAudio.getCaption()));
+                }
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, StandardCharsets.UTF_8));
             }
 
@@ -881,7 +936,7 @@ public abstract class AbsSender {
          * {"description":"[Error]: Bad Request: chat not found","error_code":400,"ok":false}
          */
         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-            throw new TelegramApiException("Error at sendAudio", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
+            throw new TelegramApiRequestException("Error at sendAudio", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
         }
 
         // and if not, we can expect a "result" section. and out of this can a new Message object be built
@@ -924,6 +979,9 @@ public abstract class AbsSender {
                 if (sendVoice.getDuration() != null) {
                     builder.addTextBody(SendVoice.DURATION_FIELD, sendVoice.getDuration().toString());
                 }
+                if (sendVoice.getCaption() != null) {
+                    builder.addTextBody(SendVoice.CAPTION_FIELD, sendVoice.getCaption());
+                }
                 HttpEntity multipart = builder.build();
                 httppost.setEntity(multipart);
             } else {
@@ -942,6 +1000,9 @@ public abstract class AbsSender {
                 if (sendVoice.getDuration() != null) {
                     nameValuePairs.add(new BasicNameValuePair(SendVoice.DURATION_FIELD, sendVoice.getDuration().toString()));
                 }
+                if (sendVoice.getCaption() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendVoice.CAPTION_FIELD, sendVoice.getCaption()));
+                }
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, StandardCharsets.UTF_8));
             }
 
@@ -956,7 +1017,7 @@ public abstract class AbsSender {
 
         JSONObject jsonObject = new JSONObject(responseContent);
         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-            throw new TelegramApiException("Error at sendVoice", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
+            throw new TelegramApiRequestException("Error at sendVoice", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
         }
 
         return new Message(jsonObject.getJSONObject(Constants.RESPONSEFIELDRESULT));
@@ -970,6 +1031,7 @@ public abstract class AbsSender {
             @Override
             public void run() {
                 try {
+                    method.validate();
                     String url = getBaseUrl() + method.getPath();
                     HttpPost httppost = new HttpPost(url);
                     httppost.setConfig(requestConfig);
@@ -986,7 +1048,7 @@ public abstract class AbsSender {
                         }
                         callback.onResult(method, jsonObject);
                     }
-                } catch (IOException e) {
+                } catch (IOException | TelegramApiValidationException e) {
                     callback.onException(method, e);
                 }
 
@@ -995,6 +1057,7 @@ public abstract class AbsSender {
     }
 
     private <T extends Serializable> T sendApiMethod(BotApiMethod<T> method) throws TelegramApiException {
+        method.validate();
         String responseContent;
         try {
             String url = getBaseUrl() + method.getPath();
@@ -1013,7 +1076,7 @@ public abstract class AbsSender {
 
         JSONObject jsonObject = new JSONObject(responseContent);
         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-            throw new TelegramApiException("Error at " + method.getPath(), jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
+            throw new TelegramApiRequestException("Error at " + method.getPath(), jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
         }
 
         return method.deserializeResponse(jsonObject);

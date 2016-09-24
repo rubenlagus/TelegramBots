@@ -22,7 +22,7 @@ public class SendDocument {
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     public static final String REPLYMARKUP_FIELD = "reply_markup";
     private String chatId; ///< Unique identifier for the chat to send the message to or Username for the channel to send the message to
-    private String document; ///< File file to send. file_id as String to resend a file that is already on the Telegram servers
+    private String document; ///< File file to send. file_id as String to resend a file that is already on the Telegram servers or Url to upload it
     private String caption; ///< Optional. Document caption (may also be used when resending documents by file_id), 0-200 characters
     /**
      * Optional. Sends the message silently. iOS users will not receive a notification, Android
@@ -63,22 +63,6 @@ public class SendDocument {
     public SendDocument setDocument(String document) {
         this.document = document;
         this.isNewDocument = false;
-        return this;
-    }
-
-    /**
-     * Use this method to set the document to a new file
-     *
-     * @param document     Path to the new file in your server
-     * @param documentName Name of the file itself
-     *
-     * @deprecated use {@link #setNewDocument(File)} or {@link #setNewDocument(InputStream)} instead.
-     */
-    @Deprecated
-    public SendDocument setNewDocument(String document, String documentName) {
-        this.document = document;
-        this.isNewDocument = true;
-        this.documentName = documentName;
         return this;
     }
 
@@ -128,22 +112,6 @@ public class SendDocument {
         return this;
     }
 
-    /**
-     * @deprecated Use {@link #getReplyToMessageId()} instead.
-     */
-    @Deprecated
-    public Integer getReplayToMessageId() {
-        return getReplyToMessageId();
-    }
-
-    /**
-     * @deprecated Use {@link #setReplyToMessageId(Integer)} instead.
-     */
-    @Deprecated
-    public SendDocument setReplayToMessageId(Integer replyToMessageId) {
-        return setReplyToMessageId(replyToMessageId);
-    }
-
     public Boolean getDisableNotification() {
         return disableNotification;
     }
@@ -174,22 +142,6 @@ public class SendDocument {
     public SendDocument setReplyMarkup(ReplyKeyboard replyMarkup) {
         this.replyMarkup = replyMarkup;
         return this;
-    }
-
-    /**
-     * @deprecated Use {@link #getReplyMarkup()} instead.
-     */
-    @Deprecated
-    public ReplyKeyboard getReplayMarkup() {
-        return getReplyMarkup();
-    }
-
-    /**
-     * @deprecated Use {@link #setReplyMarkup(ReplyKeyboard)} instead.
-     */
-    @Deprecated
-    public SendDocument setReplayMarkup(ReplyKeyboard replyMarkup) {
-        return setReplyMarkup(replyMarkup);
     }
 
     @Override

@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
@@ -31,6 +32,8 @@ public class InlineQueryResultCachedAudio implements InlineQueryResult {
     private static final String AUDIO_FILE_ID_FIELD = "audio_file_id";
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
+    private static final String CAPTION_FIELD = "caption";
+
     @JsonProperty(ID_FIELD)
     private String id; ///< Unique identifier of this result
     @JsonProperty(AUDIO_FILE_ID_FIELD)
@@ -39,6 +42,9 @@ public class InlineQueryResultCachedAudio implements InlineQueryResult {
     private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent instead of the audio
     @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
+    @JsonProperty(CAPTION_FIELD)
+    private String caption; ///< Optional. Audio caption (may also be used when resending documents by file_id), 0-200 characters
+
 
     public static String getType() {
         return type;
@@ -80,6 +86,31 @@ public class InlineQueryResultCachedAudio implements InlineQueryResult {
         return this;
     }
 
+    public String getCaption() {
+        return caption;
+    }
+
+    public InlineQueryResultCachedAudio setCaption(String caption) {
+        this.caption = caption;
+        return this;
+    }
+
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        if (id == null || id.isEmpty()) {
+            throw new TelegramApiValidationException("ID parameter can't be empty", this);
+        }
+        if (audioFileId == null || audioFileId.isEmpty()) {
+            throw new TelegramApiValidationException("AudioFileId parameter can't be empty", this);
+        }
+        if (inputMessageContent != null) {
+            inputMessageContent.validate();
+        }
+        if (replyMarkup != null) {
+            replyMarkup.validate();
+        }
+    }
+
     @Override
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
@@ -91,6 +122,9 @@ public class InlineQueryResultCachedAudio implements InlineQueryResult {
         }
         if (inputMessageContent != null) {
             jsonObject.put(INPUTMESSAGECONTENT_FIELD, inputMessageContent);
+        }
+        if (caption != null) {
+            jsonObject.put(CAPTION_FIELD, caption);
         }
 
         return jsonObject;
@@ -108,6 +142,9 @@ public class InlineQueryResultCachedAudio implements InlineQueryResult {
         if (inputMessageContent != null) {
             gen.writeObjectField(INPUTMESSAGECONTENT_FIELD, inputMessageContent);
         }
+        if (caption != null) {
+            gen.writeStringField(CAPTION_FIELD, caption);
+        }
         gen.writeEndObject();
         gen.flush();
     }
@@ -120,11 +157,11 @@ public class InlineQueryResultCachedAudio implements InlineQueryResult {
     @Override
     public String toString() {
         return "InlineQueryResultCachedAudio{" +
-                "type='" + type + '\'' +
-                ", id='" + id + '\'' +
+                "id='" + id + '\'' +
                 ", audioFileId='" + audioFileId + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
-                ", replyMarkup='" + replyMarkup + '\'' +
+                ", inputMessageContent=" + inputMessageContent +
+                ", replyMarkup=" + replyMarkup +
+                ", caption='" + caption + '\'' +
                 '}';
     }
 }
