@@ -24,4 +24,10 @@ public interface ITelegramLongPollingBot {
      * Return bot token to access Telegram API
      */
     String getBotToken();
+
+    /**
+     * Called when the BotSession is being closed
+     */
+    default void onClosing() {
+    }
 }

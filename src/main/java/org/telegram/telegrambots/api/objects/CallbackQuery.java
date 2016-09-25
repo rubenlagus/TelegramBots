@@ -26,6 +26,9 @@ public class CallbackQuery implements IBotApiObject {
     private static final String MESSAGE_FIELD = "message";
     private static final String INLINE_MESSAGE_ID_FIELD = "inline_message_id";
     private static final String DATA_FIELD = "data";
+    private static final String GAMEID_FIELD = "game_id";
+    private static final String CHAT_INSTANCE_FIELD = "chat_instance";
+
     @JsonProperty(ID_FIELD)
     private String id; ///< Unique identifier for this query
     @JsonProperty(FROM_FIELD)
@@ -47,6 +50,11 @@ public class CallbackQuery implements IBotApiObject {
      * @note Be aware that a bad client can send arbitrary data in this field
      */
     private String data;
+    @JsonProperty(GAMEID_FIELD)
+    private Integer gameId; ///< Optional. Game identifier as specified in the callback game button. Be aware that a bad client can send an arbitrary identifier in this field.
+    @JsonProperty(CHAT_INSTANCE_FIELD)
+    private String chatInstance; ///< Identifier, uniquely corresponding to the chat a message with the callback button was sent to
+
     public CallbackQuery() {
         super();
     }
@@ -55,6 +63,7 @@ public class CallbackQuery implements IBotApiObject {
         super();
         this.id = jsonObject.getString(ID_FIELD);
         this.from = new User(jsonObject.getJSONObject(FROM_FIELD));
+        chatInstance = jsonObject.getString(CHAT_INSTANCE_FIELD);
         if (jsonObject.has(MESSAGE_FIELD)) {
             this.message = new Message(jsonObject.getJSONObject(MESSAGE_FIELD));
         }
@@ -63,6 +72,9 @@ public class CallbackQuery implements IBotApiObject {
         }
         if (jsonObject.has(DATA_FIELD)) {
             data = jsonObject.getString(DATA_FIELD);
+        }
+        if (jsonObject.has(GAMEID_FIELD)) {
+            gameId = jsonObject.getInt(GAMEID_FIELD);
         }
     }
 
@@ -86,11 +98,20 @@ public class CallbackQuery implements IBotApiObject {
         return data;
     }
 
+    public Integer getGameId() {
+        return gameId;
+    }
+
+    public String getChatInstance() {
+        return chatInstance;
+    }
+
     @Override
     public void serialize(JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartObject();
         gen.writeStringField(ID_FIELD, id);
         gen.writeObjectField(FROM_FIELD, from);
+        gen.writeStringField(CHAT_INSTANCE_FIELD, chatInstance);
         if (message != null) {
             gen.writeObjectField(MESSAGE_FIELD, message);
         }
@@ -99,6 +120,9 @@ public class CallbackQuery implements IBotApiObject {
         }
         if (data != null) {
             gen.writeStringField(DATA_FIELD, data);
+        }
+        if (gameId != null) {
+            gen.writeNumberField(GAMEID_FIELD, gameId);
         }
         gen.writeEndObject();
         gen.flush();
@@ -117,6 +141,8 @@ public class CallbackQuery implements IBotApiObject {
                 ", message=" + message +
                 ", inlineMessageId='" + inlineMessageId + '\'' +
                 ", data='" + data + '\'' +
+                ", gameId=" + gameId +
+                ", chatInstance='" + chatInstance + '\'' +
                 '}';
     }
 }

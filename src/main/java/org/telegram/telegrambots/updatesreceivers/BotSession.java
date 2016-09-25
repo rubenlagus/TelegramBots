@@ -16,11 +16,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.telegrambots.Constants;
-import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.api.methods.updates.GetUpdates;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.BotOptions;
 import org.telegram.telegrambots.bots.ITelegramLongPollingBot;
+import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.logging.BotLogger;
 
 import java.io.IOException;
@@ -93,6 +93,9 @@ public class BotSession {
                 BotLogger.severe(LOGTAG, e);
             }
         }
+        if (callback != null) {
+            callback.onClosing();
+        }
     }
 
     private class ReaderThread extends Thread {
@@ -117,36 +120,39 @@ public class BotSession {
                         HttpEntity ht = response.getEntity();
                         BufferedHttpEntity buf = new BufferedHttpEntity(ht);
                         String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
-                        JSONObject jsonObject = new JSONObject(responseContent);
-                        if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-                            throw new TelegramApiRequestException("Error getting updates",
-                                    jsonObject.getString(Constants.ERRORDESCRIPTIONFIELD),
-                                    jsonObject.getInt(Constants.ERRORCODEFIELD));
-                        }
-                        JSONArray jsonArray = jsonObject.getJSONArray(Constants.RESPONSEFIELDRESULT);
-                        if (jsonArray.length() != 0) {
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                Update update = new Update(jsonArray.getJSONObject(i));
-                                if (update.getUpdateId() > lastReceivedUpdate) {
-                                    lastReceivedUpdate = update.getUpdateId();
-                                    receivedUpdates.addFirst(update);
+                        try {
+                            JSONObject jsonObject = new JSONObject(responseContent);
+                            if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
+                                throw new TelegramApiRequestException("Error getting updates",
+                                        jsonObject.getString(Constants.ERRORDESCRIPTIONFIELD),
+                                        jsonObject.getInt(Constants.ERRORCODEFIELD));
+                            }
+                            JSONArray jsonArray = jsonObject.getJSONArray(Constants.RESPONSEFIELDRESULT);
+                            if (jsonArray.length() != 0) {
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    Update update = new Update(jsonArray.getJSONObject(i));
+                                    if (update.getUpdateId() > lastReceivedUpdate) {
+                                        lastReceivedUpdate = update.getUpdateId();
+                                        receivedUpdates.addFirst(update);
+                                    }
                                 }
-                            }
-                            synchronized (receivedUpdates) {
-                                receivedUpdates.notifyAll();
-                            }
-                        } else {
-                            try {
-                                synchronized (this) {
-                                    this.wait(500);
+                                synchronized (receivedUpdates) {
+                                    receivedUpdates.notifyAll();
                                 }
-                            } catch (InterruptedException e) {
-                                BotLogger.severe(LOGTAG, e);
+                            } else {
+                                    synchronized (this) {
+                                        this.wait(500);
+                                    }
                             }
+                        } catch (JSONException e) {
+                            BotLogger.severe(responseContent, LOGTAG, e);
                         }
-                    } catch (InvalidObjectException | JSONException | TelegramApiRequestException e) {
+                    } catch (InvalidObjectException | TelegramApiRequestException e) {
                         BotLogger.severe(LOGTAG, e);
                     }
+                } catch (InterruptedException e) {
+                    receivedUpdates.clear();
+                    BotLogger.debug(LOGTAG, e);
                 } catch (Exception global) {
                     BotLogger.severe(LOGTAG, global);
                     try {
@@ -154,10 +160,12 @@ public class BotSession {
                             this.wait(500);
                         }
                     } catch (InterruptedException e) {
-                        BotLogger.severe(LOGTAG, e);
+                        receivedUpdates.clear();
+                        BotLogger.debug(LOGTAG, e);
                     }
                 }
             }
+            BotLogger.debug(LOGTAG, "Reader thread has being closed");
         }
     }
 
@@ -170,12 +178,7 @@ public class BotSession {
                     Update update = receivedUpdates.pollLast();
                     if (update == null) {
                         synchronized (receivedUpdates) {
-                            try {
-                                receivedUpdates.wait();
-                            } catch (InterruptedException e) {
-                                BotLogger.severe(LOGTAG, e);
-                                continue;
-                            }
+                            receivedUpdates.wait();
                             update = receivedUpdates.pollLast();
                             if (update == null) {
                                 continue;
@@ -183,10 +186,13 @@ public class BotSession {
                         }
                     }
                     callback.onUpdateReceived(update);
+                } catch (InterruptedException e) {
+                    BotLogger.debug(LOGTAG, e);
                 } catch (Exception e) {
                     BotLogger.severe(LOGTAG, e);
                 }
             }
+            BotLogger.debug(LOGTAG, "Handler thread has being closed");
         }
     }
 }

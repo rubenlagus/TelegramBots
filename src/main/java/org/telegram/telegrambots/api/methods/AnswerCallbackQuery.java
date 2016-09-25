@@ -25,6 +25,7 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
     private static final String CALLBACKQUERYID_FIELD = "callback_query_id";
     private static final String TEXT_FIELD = "text";
     private static final String SHOWALERT_FIELD = "show_alert";
+    private static final String URL_FIELD = "url";
 
     @JsonProperty(CALLBACKQUERYID_FIELD)
     private String callbackQueryId; ///< Unique identifier for the query to be answered
@@ -32,6 +33,8 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
     private String text; ///< Optional	Text of the notification. If not specified, nothing will be shown to the user, 0-200 characters
     @JsonProperty(SHOWALERT_FIELD)
     private Boolean showAlert; ///< Optional. If true, an alert will be shown by the client instead of a notificaiton at the top of the chat screen. Defaults to false.
+    @JsonProperty(URL_FIELD)
+    private String url; ///< Optional. URL that will be opened by the user's client. To enable this option for your bot, please contact @Botfather, send the command /setcustomurls, and accept the terms.
 
     public AnswerCallbackQuery() {
         super();
@@ -49,16 +52,27 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
         return this.text;
     }
 
-    public void setText(String text) {
+    public AnswerCallbackQuery setText(String text) {
         this.text = text;
+        return this;
     }
 
     public Boolean getShowAlert() {
         return this.showAlert;
     }
 
-    public void setShowAlert(Boolean showAlert) {
+    public AnswerCallbackQuery setShowAlert(Boolean showAlert) {
         this.showAlert = showAlert;
+        return this;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public AnswerCallbackQuery setUrl(String url) {
+        this.url = url;
+        return this;
     }
 
     @Override
@@ -70,6 +84,9 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
         }
         if (showAlert != null) {
             jsonObject.put(SHOWALERT_FIELD, showAlert);
+        }
+        if (url != null) {
+            jsonObject.put(URL_FIELD, url);
         }
         return jsonObject;
     }
@@ -105,6 +122,9 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
         if (showAlert != null) {
             gen.writeBooleanField(SHOWALERT_FIELD, showAlert);
         }
+        if (url != null) {
+            gen.writeStringField(URL_FIELD, url);
+        }
         gen.writeEndObject();
         gen.flush();
     }
@@ -120,6 +140,7 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
                 "callbackQueryId='" + callbackQueryId + '\'' +
                 ", text='" + text + '\'' +
                 ", showAlert=" + showAlert +
+                ", url='" + url + '\'' +
                 '}';
     }
 }

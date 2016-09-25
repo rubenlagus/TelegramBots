@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.telegram.telegrambots.api.interfaces.IBotApiObject;
 import org.telegram.telegrambots.api.interfaces.IToJson;
 import org.telegram.telegrambots.api.interfaces.IValidable;
+import org.telegram.telegrambots.api.objects.games.CallbackGame;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
@@ -27,6 +28,7 @@ public class InlineKeyboardButton implements IBotApiObject, IToJson, IValidable 
     private static final String TEXT_FIELD = "text";
     private static final String URL_FIELD = "url";
     private static final String CALLBACK_DATA_FIELD = "callback_data";
+    private static final String CALLBACK_GAME_FIELD = "callback_game";
     private static final String SWITCH_INLINE_QUERY_FIELD = "switch_inline_query";
     private static final String SWITCH_INLINE_QUERY_CURRENT_CHAT_FIELD = "switch_inline_query_current_chat";
     @JsonProperty(TEXT_FIELD)
@@ -35,6 +37,8 @@ public class InlineKeyboardButton implements IBotApiObject, IToJson, IValidable 
     private String url; ///< Optional. HTTP url to be opened when button is pressed
     @JsonProperty(CALLBACK_DATA_FIELD)
     private String callbackData; ///< Optional. Data to be sent in a callback query to the bot when button is pressed
+    @JsonProperty(CALLBACK_GAME_FIELD)
+    private CallbackGame callbackGame; ///< Optional. Description of the game that will be launched when the user presses the button
     @JsonProperty(SWITCH_INLINE_QUERY_FIELD)
     /**
      * Optional.
@@ -67,6 +71,9 @@ public class InlineKeyboardButton implements IBotApiObject, IToJson, IValidable 
         }
         if (jsonObject.has(CALLBACK_DATA_FIELD)) {
             callbackData = jsonObject.getString(CALLBACK_DATA_FIELD);
+        }
+        if (jsonObject.has(CALLBACK_GAME_FIELD)) {
+            callbackGame = new CallbackGame(jsonObject.getJSONObject(CALLBACK_GAME_FIELD));
         }
         if (jsonObject.has(SWITCH_INLINE_QUERY_FIELD)) {
             switchInlineQuery = jsonObject.getString(SWITCH_INLINE_QUERY_FIELD);
@@ -112,6 +119,15 @@ public class InlineKeyboardButton implements IBotApiObject, IToJson, IValidable 
         return this;
     }
 
+    public CallbackGame getCallbackGame() {
+        return callbackGame;
+    }
+
+    public InlineKeyboardButton setCallbackGame(CallbackGame callbackGame) {
+        this.callbackGame = callbackGame;
+        return this;
+    }
+
     public String getSwitchInlineQueryCurrentChat() {
         return switchInlineQueryCurrentChat;
     }
@@ -125,6 +141,9 @@ public class InlineKeyboardButton implements IBotApiObject, IToJson, IValidable 
     public void validate() throws TelegramApiValidationException {
         if (text == null || text.isEmpty()) {
             throw new TelegramApiValidationException("Text parameter can't be empty", this);
+        }
+        if (callbackGame != null) {
+            callbackGame.validate();
         }
     }
 
@@ -143,6 +162,9 @@ public class InlineKeyboardButton implements IBotApiObject, IToJson, IValidable 
         }
         if (switchInlineQueryCurrentChat != null) {
             jsonObject.put(SWITCH_INLINE_QUERY_CURRENT_CHAT_FIELD, switchInlineQueryCurrentChat);
+        }
+        if (callbackGame != null) {
+            jsonObject.put(CALLBACK_GAME_FIELD, callbackGame);
         }
 
         return jsonObject;
@@ -164,6 +186,9 @@ public class InlineKeyboardButton implements IBotApiObject, IToJson, IValidable 
         if (switchInlineQueryCurrentChat != null) {
             gen.writeStringField(SWITCH_INLINE_QUERY_CURRENT_CHAT_FIELD, switchInlineQueryCurrentChat);
         }
+        if (callbackGame != null) {
+            gen.writeObjectField(CALLBACK_GAME_FIELD, callbackGame);
+        }
         gen.writeEndObject();
         gen.flush();
     }
@@ -179,6 +204,7 @@ public class InlineKeyboardButton implements IBotApiObject, IToJson, IValidable 
                 "text='" + text + '\'' +
                 ", url='" + url + '\'' +
                 ", callbackData='" + callbackData + '\'' +
+                ", callbackGame=" + callbackGame +
                 ", switchInlineQuery='" + switchInlineQuery + '\'' +
                 ", switchInlineQueryCurrentChat='" + switchInlineQueryCurrentChat + '\'' +
                 '}';

@@ -26,6 +26,8 @@ import org.telegram.telegrambots.api.methods.ForwardMessage;
 import org.telegram.telegrambots.api.methods.GetFile;
 import org.telegram.telegrambots.api.methods.GetMe;
 import org.telegram.telegrambots.api.methods.GetUserProfilePhotos;
+import org.telegram.telegrambots.api.methods.games.GetGameHighScores;
+import org.telegram.telegrambots.api.methods.games.SetGameScore;
 import org.telegram.telegrambots.api.methods.groupadministration.GetChat;
 import org.telegram.telegrambots.api.methods.groupadministration.GetChatAdministrators;
 import org.telegram.telegrambots.api.methods.groupadministration.GetChatMember;
@@ -55,6 +57,7 @@ import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.User;
 import org.telegram.telegrambots.api.objects.UserProfilePhotos;
 import org.telegram.telegrambots.api.objects.WebhookInfo;
+import org.telegram.telegrambots.api.objects.games.GameHighScore;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
@@ -302,6 +305,20 @@ public abstract class AbsSender {
         return output;
     }
 
+    public final Serializable setGameScore(SetGameScore setGameScore) throws TelegramApiException {
+        if(setGameScore == null){
+            throw new TelegramApiException("Parameter setGameScore can not be null");
+        }
+        return sendApiMethod(setGameScore);
+    }
+
+    public final Serializable getGameHighScores(GetGameHighScores getGameHighScores) throws TelegramApiException {
+        if(getGameHighScores == null){
+            throw new TelegramApiException("Parameter getGameHighScores can not be null");
+        }
+        return sendApiMethod(getGameHighScores);
+    }
+
     // Send Requests Async
 
     public final void sendMessageAsync(SendMessage sendMessage, SentCallback<Message> sentCallback) throws TelegramApiException {
@@ -541,6 +558,26 @@ public abstract class AbsSender {
 
         GetWebhookInfo getWebhookInfo = new GetWebhookInfo();
         sendApiMethodAsync(getWebhookInfo, sentCallback);
+    }
+
+    public final void setGameScoreAsync(SetGameScore setGameScore, SentCallback<Serializable> sentCallback) throws TelegramApiException {
+        if (setGameScore == null) {
+            throw new TelegramApiException("Parameter setGameScore can not be null");
+        }
+        if (sentCallback == null) {
+            throw new TelegramApiException("Parameter sentCallback can not be null");
+        }
+        sendApiMethodAsync(setGameScore, sentCallback);
+    }
+
+    public final void getGameHighScoresAsync(GetGameHighScores getGameHighScores, SentCallback<ArrayList<GameHighScore>> sentCallback) throws TelegramApiException {
+        if (getGameHighScores == null) {
+            throw new TelegramApiException("Parameter getGameHighScores can not be null");
+        }
+        if (sentCallback == null) {
+            throw new TelegramApiException("Parameter sentCallback can not be null");
+        }
+        sendApiMethodAsync(getGameHighScores, sentCallback);
     }
 
     public final void downloadFileAsync(File file, DownloadFileCallback callback) throws TelegramApiException {
