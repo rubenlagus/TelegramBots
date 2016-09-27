@@ -2,7 +2,7 @@ package org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent;
 
 import org.telegram.telegrambots.api.interfaces.IBotApiObject;
 import org.telegram.telegrambots.api.interfaces.IToJson;
-import org.telegram.telegrambots.api.interfaces.IValidable;
+import org.telegram.telegrambots.api.interfaces.Validable;
 
 /**
  * @author Ruben Bermudez
@@ -11,5 +11,5 @@ import org.telegram.telegrambots.api.interfaces.IValidable;
  * query.
  * @date 10 of April of 2016
  */
-public interface InputMessageContent extends IBotApiObject, IToJson, IValidable {
+public interface InputMessageContent extends IBotApiObject, IToJson, Validable {
 }

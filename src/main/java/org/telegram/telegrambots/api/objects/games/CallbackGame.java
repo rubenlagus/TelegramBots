@@ -24,7 +24,7 @@ import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.interfaces.IBotApiObject;
-import org.telegram.telegrambots.api.interfaces.IValidable;
+import org.telegram.telegrambots.api.interfaces.Validable;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
@@ -35,7 +35,7 @@ import java.io.IOException;
  * @brief This object contains information about a game that will be returned as a response to a callback query.
  * @date 16 of September of 2016
  */
-public class CallbackGame implements IBotApiObject, IValidable {
+public class CallbackGame implements IBotApiObject, Validable {
     private static final String TITLE_FIELD = "title";
     private static final String ID_FIELD = "game_id";
     private static final String START_PARAMETER_FIELD = "start_parameter";

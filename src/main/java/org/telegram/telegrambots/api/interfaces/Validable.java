@@ -22,12 +22,12 @@ import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief TODO
+ * @brief Interface that can be implemented by objects that knows how to validate their fields
  * @date 16 of September of 2016
  */
-public interface IValidable {
+public interface Validable {
     /**
-     * Validates that mandatory fields are filled
+     * Validates that mandatory fields are filled and optional objects
      * @throws TelegramApiValidationException If any mandatory field is empty
      */
     void validate() throws TelegramApiValidationException;

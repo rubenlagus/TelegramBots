@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.interfaces.IBotApiObject;
 import org.telegram.telegrambots.api.interfaces.IToJson;
-import org.telegram.telegrambots.api.interfaces.IValidable;
+import org.telegram.telegrambots.api.interfaces.Validable;
 import org.telegram.telegrambots.api.objects.games.CallbackGame;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
@@ -23,7 +23,7 @@ import java.io.IOException;
  * display unsupported message.
  * @date 10 of April of 2016
  */
-public class InlineKeyboardButton implements IBotApiObject, IToJson, IValidable {
+public class InlineKeyboardButton implements IBotApiObject, IToJson, Validable {
 
     private static final String TEXT_FIELD = "text";
     private static final String URL_FIELD = "url";

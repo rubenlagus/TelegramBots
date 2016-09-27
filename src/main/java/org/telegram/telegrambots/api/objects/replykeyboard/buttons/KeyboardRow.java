@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.replykeyboard.buttons;
 
-import org.telegram.telegrambots.api.interfaces.IValidable;
+import org.telegram.telegrambots.api.interfaces.Validable;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @brief Row for ReplyKeyBoardMarkup
  * @date 10 of April of 2016
  */
-public class KeyboardRow extends ArrayList<KeyboardButton> implements IValidable {
+public class KeyboardRow extends ArrayList<KeyboardButton> implements Validable {
     public boolean add(String text) {
         return super.add(new KeyboardButton(text));
     }

@@ -17,18 +17,20 @@ public interface ITelegramWebhookBot {
     BotApiMethod onWebhookUpdateReceived(Update update);
 
     /**
-     * Return bot username of this bot
+     * Gets bot username of this bot
+     * @return Bot username
      */
     String getBotUsername();
 
     /**
-     * Return bot token to access Telegram API
+     * Gets bot token to access Telegram API
+     * @return Bot token
      */
     String getBotToken();
 
     /**
-     * TODO
-     * @return
+     * Gets in the url for the webhook
+     * @return path in the url
      */
     String getBotPath();
 }

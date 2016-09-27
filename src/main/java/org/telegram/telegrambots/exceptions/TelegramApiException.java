@@ -20,7 +20,7 @@ package org.telegram.telegrambots.exceptions;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief TODO
+ * @brief Base class for any exception from TelegramBots api
  * @date 16 of September of 2016
  */
 public class TelegramApiException extends Exception {

@@ -6,7 +6,7 @@ import java.util.logging.FileHandler;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief TODO
+ * @brief Handler to use a file as logs destination with {@link BotLogger}
  * @date 19 of May of 2016
  */
 public class BotsFileHandler extends FileHandler {

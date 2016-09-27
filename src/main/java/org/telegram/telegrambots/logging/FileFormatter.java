@@ -8,7 +8,7 @@ import java.util.logging.LogRecord;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief TODO
+ * @brief Formatter for {@link BotsFileHandler}
  * @date 19 of May of 2016
  */
 class FileFormatter extends Formatter {
