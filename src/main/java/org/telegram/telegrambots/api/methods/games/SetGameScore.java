@@ -33,30 +33,28 @@ import java.io.Serializable;
 /**
  * @author Ruben Bermudez
  * @version 2.4
- * @brief Use this method to set game score of the specified user in the game.
- * On success, if edited message is sent by the bot, the edited Message is returned,
- * otherwise True is returned.
- * If score is not greater than current users score in the chat,
- * an error with description “BOT_SCORE_NOT_MODIFIED” will be returned.
+ * @brief Use this method to set the score of the specified user in a game.
+ * On success, if the message was sent by the bot, returns the edited Message,
+ * otherwise returns True.
+ * If the new score is not greater than the user's current score in the chat,
+ * returns an error with the description “BOT_SCORE_NOT_MODIFIED”.
  * @date 16 of September of 2016
  */
 public class SetGameScore extends BotApiMethod<Serializable> {
     public static final String PATH = "setGameScore";
 
+    private static final String USER_ID_FIELD = "user_id";
+    private static final String SCORE_FIELD = "score";
     private static final String CHATID_FIELD = "chat_id";
     private static final String MESSAGEID_FIELD = "message_id";
     private static final String INLINE_MESSAGE_ID_FIELD = "inline_message_id";
     private static final String EDIT_MESSAGE_FIELD = "edit_message";
-    private static final String USER_ID_FIELD = "user_id";
-    private static final String GAME_ID_FIELD = "game_id";
-    private static final String SCORE_FIELD = "score";
 
     private String chatId; ///< Optional	Required if inline_message_id is not specified. Unique identifier for the target chat (or username of the target channel in the format @channelusername)
     private Integer messageId; ///< Optional	Required if inline_message_id is not specified. Unique identifier of the sent message
     private String inlineMessageId; ///< Optional	Required if chat_id and message_id are not specified. Identifier of the inline message
     private Boolean editMessage; ///< Optional	Pass True, if the message should be edited to include the current scoreboard
     private Integer userId; ///< User identifier
-    private Integer gameId; ///< Game identifier
     private Integer score; ///< New score, must be positive
 
     public SetGameScore() {
@@ -80,10 +78,6 @@ public class SetGameScore extends BotApiMethod<Serializable> {
 
     public Integer getUserId() {
         return userId;
-    }
-
-    public Integer getGameId() {
-        return gameId;
     }
 
     public Integer getScore() {
@@ -115,11 +109,6 @@ public class SetGameScore extends BotApiMethod<Serializable> {
         return this;
     }
 
-    public SetGameScore setGameId(Integer gameId) {
-        this.gameId = gameId;
-        return this;
-    }
-
     public SetGameScore setScore(Integer score) {
         this.score = score;
         return this;
@@ -148,9 +137,6 @@ public class SetGameScore extends BotApiMethod<Serializable> {
     public void validate() throws TelegramApiValidationException {
         if (userId == null) {
             throw new TelegramApiValidationException("UserId parameter can't be empty", this);
-        }
-        if (gameId == null) {
-            throw new TelegramApiValidationException("GameId parameter can't be empty", this);
         }
         if (score == null) {
             throw new TelegramApiValidationException("Score parameter can't be empty", this);
@@ -186,7 +172,6 @@ public class SetGameScore extends BotApiMethod<Serializable> {
             gen.writeBooleanField(EDIT_MESSAGE_FIELD, editMessage);
         }
         gen.writeNumberField(USER_ID_FIELD, userId);
-        gen.writeNumberField(GAME_ID_FIELD, gameId);
         gen.writeNumberField(SCORE_FIELD, score);
         gen.writeEndObject();
         gen.flush();
@@ -211,7 +196,6 @@ public class SetGameScore extends BotApiMethod<Serializable> {
             jsonObject.put(EDIT_MESSAGE_FIELD, editMessage);
         }
         jsonObject.put(USER_ID_FIELD, userId);
-        jsonObject.put(GAME_ID_FIELD, gameId);
         jsonObject.put(SCORE_FIELD, score);
 
         return jsonObject;
@@ -225,7 +209,6 @@ public class SetGameScore extends BotApiMethod<Serializable> {
                 ", inlineMessageId='" + inlineMessageId + '\'' +
                 ", editMessage=" + editMessage +
                 ", userId=" + userId +
-                ", gameId=" + gameId +
                 ", score=" + score +
                 '}';
     }

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.interfaces.IBotApiObject;
+import org.telegram.telegrambots.api.objects.games.Game;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,6 +53,8 @@ public class Message implements IBotApiObject {
     private static final String MIGRATETOCHAT_FIELD = "migrate_to_chat_id";
     private static final String MIGRATEFROMCHAT_FIELD = "migrate_from_chat_id";
     private static final String EDITDATE_FIELD = "edit_date";
+    private static final String GAME_FIELD = "game";
+
     @JsonProperty(MESSAGEID_FIELD)
     private Integer messageId; ///< Integer	Unique message identifier
     @JsonProperty(FROM_FIELD)
@@ -148,6 +151,8 @@ public class Message implements IBotApiObject {
     private Long migrateFromChatId; ///< Optional. The chat has been migrated from a chat with specified identifier, not exceeding 1e13 by absolute value
     @JsonProperty(EDITDATE_FIELD)
     private Integer editDate; ///< Optional. Date the message was last edited in Unix time
+    @JsonProperty(GAME_FIELD)
+    private Game game; ///< Optional. Message is a game, information about the game
 
     public Message() {
         super();
@@ -259,7 +264,9 @@ public class Message implements IBotApiObject {
         if (jsonObject.has(EDITDATE_FIELD)) {
             editDate = jsonObject.getInt(EDITDATE_FIELD);
         }
-
+        if (jsonObject.has(GAME_FIELD)) {
+            game = new Game(jsonObject.getJSONObject(GAME_FIELD));
+        }
         if (hasText() && entities != null) {
             entities.forEach(x -> x.computeText(text));
         }
@@ -441,6 +448,14 @@ public class Message implements IBotApiObject {
         return editDate;
     }
 
+    public Game getGame() {
+        return game;
+    }
+
+    private boolean hasGame() {
+        return game != null;
+    }
+
     public boolean hasEntities() {
         return entities != null && !entities.isEmpty();
     }
@@ -542,6 +557,9 @@ public class Message implements IBotApiObject {
         if (editDate != null) {
             gen.writeNumberField(EDITDATE_FIELD, editDate);
         }
+        if (game != null) {
+            gen.writeObjectField(GAME_FIELD, game);
+        }
         gen.writeEndObject();
         gen.flush();
     }
@@ -562,6 +580,7 @@ public class Message implements IBotApiObject {
                 ", forwardFromChat=" + forwardFromChat +
                 ", forwardDate=" + forwardDate +
                 ", text='" + text + '\'' +
+                ", entities=" + entities +
                 ", audio=" + audio +
                 ", document=" + document +
                 ", photo=" + photo +
@@ -570,6 +589,7 @@ public class Message implements IBotApiObject {
                 ", contact=" + contact +
                 ", location=" + location +
                 ", venue=" + venue +
+                ", pinnedMessage=" + pinnedMessage +
                 ", newChatMember=" + newChatMember +
                 ", leftChatMember=" + leftChatMember +
                 ", newChatTitle='" + newChatTitle + '\'' +
@@ -578,12 +598,13 @@ public class Message implements IBotApiObject {
                 ", groupchatCreated=" + groupchatCreated +
                 ", replyToMessage=" + replyToMessage +
                 ", voice=" + voice +
-                ", caption=" + caption +
+                ", caption='" + caption + '\'' +
                 ", superGroupCreated=" + superGroupCreated +
                 ", channelChatCreated=" + channelChatCreated +
                 ", migrateToChatId=" + migrateToChatId +
                 ", migrateFromChatId=" + migrateFromChatId +
                 ", editDate=" + editDate +
+                ", game=" + game +
                 '}';
     }
 }

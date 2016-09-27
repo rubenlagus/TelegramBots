@@ -33,25 +33,28 @@ import java.util.ArrayList;
 /**
  * @author Ruben Bermudez
  * @version 2.4
- * @brief Use this method to get game high score with a score of the specified user and some
- * of its neighbours in the game.
- * On success, Array of GameHighScore is returned.
+ * @brief Use this method to get data for high score tables.
+ * Will return the score of the specified user and several of his neighbors in a game.
+ * On success, returns an Array of GameHighScore objects.
+ * This method will currently return scores for the target user,
+ * plus two of his closest neighbors on each side. Will also return the top three users
+ * if he is not among the top three.
+ *
+ * Please note that this behavior is subject to change.
  * @date 16 of September of 2016
  */
 public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
-    public static final String PATH = "setGameScore";
+    public static final String PATH = "getGameHighScores";
 
     private static final String CHATID_FIELD = "chat_id";
     private static final String MESSAGEID_FIELD = "message_id";
     private static final String INLINE_MESSAGE_ID_FIELD = "inline_message_id";
     private static final String USER_ID_FIELD = "user_id";
-    private static final String GAME_ID_FIELD = "game_id";
 
     private String chatId; ///< Optional	Required if inline_message_id is not specified. Unique identifier for the target chat (or username of the target channel in the format @channelusername)
     private Integer messageId; ///< Optional	Required if inline_message_id is not specified. Unique identifier of the sent message
     private String inlineMessageId; ///< Optional	Required if chat_id and message_id are not specified. Identifier of the inline message
-    private Integer userId; ///< User identifier
-    private Integer gameId; ///< Game identifier
+    private Integer userId; ///<Target user id
 
     public GetGameHighScores() {
     }
@@ -72,10 +75,6 @@ public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
         return userId;
     }
 
-    public Integer getGameId() {
-        return gameId;
-    }
-
     public GetGameHighScores setChatId(String chatId) {
         this.chatId = chatId;
         return this;
@@ -93,11 +92,6 @@ public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
 
     public GetGameHighScores setUserId(Integer userId) {
         this.userId = userId;
-        return this;
-    }
-
-    public GetGameHighScores setGameId(Integer gameId) {
-        this.gameId = gameId;
         return this;
     }
 
@@ -123,9 +117,6 @@ public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
     public void validate() throws TelegramApiValidationException {
         if (userId == null) {
             throw new TelegramApiValidationException("UserId parameter can't be empty", this);
-        }
-        if (gameId == null) {
-            throw new TelegramApiValidationException("GameId parameter can't be empty", this);
         }
         if (inlineMessageId == null) {
             if (chatId == null) {
@@ -155,7 +146,6 @@ public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
             gen.writeStringField(INLINE_MESSAGE_ID_FIELD, inlineMessageId);
         }
         gen.writeNumberField(USER_ID_FIELD, userId);
-        gen.writeNumberField(GAME_ID_FIELD, gameId);
         gen.writeEndObject();
         gen.flush();
     }
@@ -176,7 +166,6 @@ public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
             jsonObject.put(INLINE_MESSAGE_ID_FIELD, inlineMessageId);
         }
         jsonObject.put(USER_ID_FIELD, userId);
-        jsonObject.put(GAME_ID_FIELD, gameId);
 
         return jsonObject;
     }
@@ -188,7 +177,6 @@ public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
                 ", messageId=" + messageId +
                 ", inlineMessageId='" + inlineMessageId + '\'' +
                 ", userId=" + userId +
-                ", gameId=" + gameId +
                 '}';
     }
 }

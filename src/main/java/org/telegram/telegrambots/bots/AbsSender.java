@@ -39,6 +39,7 @@ import org.telegram.telegrambots.api.methods.send.SendAudio;
 import org.telegram.telegrambots.api.methods.send.SendChatAction;
 import org.telegram.telegrambots.api.methods.send.SendContact;
 import org.telegram.telegrambots.api.methods.send.SendDocument;
+import org.telegram.telegrambots.api.methods.send.SendGame;
 import org.telegram.telegrambots.api.methods.send.SendLocation;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
@@ -319,6 +320,13 @@ public abstract class AbsSender {
         return sendApiMethod(getGameHighScores);
     }
 
+    public final Message sendGame(SendGame sendGame) throws TelegramApiException {
+        if(sendGame == null){
+            throw new TelegramApiException("Parameter sendGame can not be null");
+        }
+        return sendApiMethod(sendGame);
+    }
+
     // Send Requests Async
 
     public final void sendMessageAsync(SendMessage sendMessage, SentCallback<Message> sentCallback) throws TelegramApiException {
@@ -578,6 +586,16 @@ public abstract class AbsSender {
             throw new TelegramApiException("Parameter sentCallback can not be null");
         }
         sendApiMethodAsync(getGameHighScores, sentCallback);
+    }
+
+    public final void sendGameAsync(SendGame sendGame, SentCallback<Message> sentCallback) throws TelegramApiException {
+        if (sendGame == null) {
+            throw new TelegramApiException("Parameter sendGame can not be null");
+        }
+        if (sentCallback == null) {
+            throw new TelegramApiException("Parameter sentCallback can not be null");
+        }
+        sendApiMethodAsync(sendGame, sentCallback);
     }
 
     public final void downloadFileAsync(File file, DownloadFileCallback callback) throws TelegramApiException {
