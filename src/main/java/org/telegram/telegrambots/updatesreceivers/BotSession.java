@@ -123,9 +123,7 @@ public class BotSession {
                         try {
                             JSONObject jsonObject = new JSONObject(responseContent);
                             if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-                                throw new TelegramApiRequestException("Error getting updates",
-                                        jsonObject.getString(Constants.ERRORDESCRIPTIONFIELD),
-                                        jsonObject.getInt(Constants.ERRORCODEFIELD));
+                                throw new TelegramApiRequestException("Error getting updates", jsonObject);
                             }
                             JSONArray jsonArray = jsonObject.getJSONArray(Constants.RESPONSEFIELDRESULT);
                             if (jsonArray.length() != 0) {

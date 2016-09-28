@@ -17,6 +17,10 @@
 
 package org.telegram.telegrambots.exceptions;
 
+import org.json.JSONObject;
+import org.telegram.telegrambots.api.objects.ResponseParameters;
+
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -24,17 +28,25 @@ package org.telegram.telegrambots.exceptions;
  * @date 14 of January of 2016
  */
 public class TelegramApiRequestException extends TelegramApiException {
+    private static final String ERRORDESCRIPTIONFIELD = "description";
+    private static final String ERRORCODEFIELD = "error_code";
+    private static final String PARAMETERSFIELD = "parameters";
+
     private String apiResponse = null;
     private Integer errorCode = 0;
+    private ResponseParameters parameters;
 
     public TelegramApiRequestException(String message) {
         super(message);
     }
 
-    public TelegramApiRequestException(String message, String apiResponse, Integer errorCode) {
+    public TelegramApiRequestException(String message, JSONObject object) {
         super(message);
-        this.apiResponse = apiResponse;
-        this.errorCode = errorCode;
+        apiResponse = object.getString(ERRORDESCRIPTIONFIELD);
+        errorCode = object.getInt(ERRORCODEFIELD);
+        if (object.has(PARAMETERSFIELD)) {
+            parameters = new ResponseParameters(object.getJSONObject(PARAMETERSFIELD));
+        }
     }
 
     public TelegramApiRequestException(String message, Throwable cause) {
@@ -47,6 +59,10 @@ public class TelegramApiRequestException extends TelegramApiException {
 
     public Integer getErrorCode() {
         return errorCode;
+    }
+
+    public ResponseParameters getParameters() {
+        return parameters;
     }
 
     @Override

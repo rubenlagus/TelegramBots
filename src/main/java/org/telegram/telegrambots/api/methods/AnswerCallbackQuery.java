@@ -38,7 +38,13 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
     @JsonProperty(SHOWALERT_FIELD)
     private Boolean showAlert; ///< Optional. If true, an alert will be shown by the client instead of a notificaiton at the top of the chat screen. Defaults to false.
     @JsonProperty(URL_FIELD)
-    private String url; ///< Optional. URL that will be opened by the user's client. To enable this option for your bot, please contact @Botfather, send the command /setcustomurls, and accept the terms.
+    /**
+     * Optional. URL that will be opened by the user's client.
+     * If you have created a Game and accepted the conditions via @Botfather,
+     * specify the URL that opens your game. Otherwise you may use links
+     * InlineQueryResultGamelike telegram.me/your_bot?start=XXXX that open your bot with a parameter.
+     */
+    private String url;
 
     public AnswerCallbackQuery() {
         super();

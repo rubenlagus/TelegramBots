@@ -27,9 +27,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 
-import static org.telegram.telegrambots.Constants.ERRORCODEFIELD;
-import static org.telegram.telegrambots.Constants.ERRORDESCRIPTIONFIELD;
-
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -52,10 +49,10 @@ public class TelegramBotsApi {
 
     /**
      *
-     * @param keyStore
-     * @param keyStorePassword
-     * @param externalUrl
-     * @param internalUrl
+     * @param keyStore KeyStore for the server
+     * @param keyStorePassword Key store password for the server
+     * @param externalUrl External base url for the webhook
+     * @param internalUrl Internal base url for the webhook
      */
     public TelegramBotsApi(String keyStore, String keyStorePassword, String externalUrl, String internalUrl) throws TelegramApiRequestException {
         if (externalUrl == null || externalUrl.isEmpty()) {
@@ -73,10 +70,10 @@ public class TelegramBotsApi {
 
     /**
      *
-     * @param keyStore
-     * @param keyStorePassword
-     * @param externalUrl
-     * @param internalUrl
+     * @param keyStore KeyStore for the server
+     * @param keyStorePassword Key store password for the server
+     * @param externalUrl External base url for the webhook
+     * @param internalUrl Internal base url for the webhook
      * @param pathToCertificate Full path until .pem public certificate keys
      */
     public TelegramBotsApi(String keyStore, String keyStorePassword, String externalUrl, String internalUrl, String pathToCertificate) throws TelegramApiRequestException {
@@ -103,8 +100,8 @@ public class TelegramBotsApi {
     }
 
     /**
-     *
-     * @param bot
+     * Register a bot in the api that will receive updates using webhook method
+     * @param bot Bot to register
      */
     public void registerBot(TelegramWebhookBot bot) throws TelegramApiRequestException {
         if (useWebhook) {
@@ -113,11 +110,6 @@ public class TelegramBotsApi {
         }
     }
 
-    /**
-     *
-     * @param externalUrl
-     * @return
-     */
     private static String fixExternalUrl(String externalUrl) {
         if (externalUrl != null && !externalUrl.endsWith("/")) {
             externalUrl = externalUrl + "/";
@@ -165,7 +157,7 @@ public class TelegramBotsApi {
                 String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
                 JSONObject jsonObject = new JSONObject(responseContent);
                 if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-                    throw new TelegramApiRequestException(webHookURL == null ? "Error removing old webhook" : "Error setting webhook", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
+                    throw new TelegramApiRequestException(webHookURL == null ? "Error removing old webhook" : "Error setting webhook", jsonObject);
                 }
             }
         } catch (JSONException e) {

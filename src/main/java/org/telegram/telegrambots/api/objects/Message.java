@@ -560,6 +560,13 @@ public class Message implements IBotApiObject {
         if (game != null) {
             gen.writeObjectField(GAME_FIELD, game);
         }
+        if (entities != null) {
+            gen.writeArrayFieldStart(ENTITIES_FIELD);
+            for (MessageEntity entity : entities) {
+                gen.writeObject(entity);
+            }
+            gen.writeEndArray();
+        }
         gen.writeEndObject();
         gen.flush();
     }

@@ -53,9 +53,16 @@ public class CallbackQuery implements IBotApiObject {
      */
     private String data;
     @JsonProperty(GAMESHORTNAME_FIELD)
-    private String gameShortName; ///< Optional. Game short name.
+    /**
+     * Optional. Short name of a Game to be returned, serves as the unique identifier for the game
+     */
+    private String gameShortName;
     @JsonProperty(CHAT_INSTANCE_FIELD)
-    private String chatInstance; ///< Identifier, uniquely corresponding to the chat a message with the callback button was sent to
+    /**
+     * Identifier, uniquely corresponding to the chat to which the message with the
+     * callback button was sent. Useful for high scores in games.
+     */
+    private String chatInstance;
 
     public CallbackQuery() {
         super();

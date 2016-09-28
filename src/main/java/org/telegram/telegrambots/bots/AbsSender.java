@@ -77,9 +77,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import static org.telegram.telegrambots.Constants.ERRORCODEFIELD;
-import static org.telegram.telegrambots.Constants.ERRORDESCRIPTIONFIELD;
-
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -686,7 +683,7 @@ public abstract class AbsSender {
 
         JSONObject jsonObject = new JSONObject(responseContent);
         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-            throw new TelegramApiRequestException("Error at sendDocument", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
+            throw new TelegramApiRequestException("Error at sendDocument", jsonObject);
         }
 
         return new Message(jsonObject.getJSONObject(Constants.RESPONSEFIELDRESULT));
@@ -752,7 +749,7 @@ public abstract class AbsSender {
 
         JSONObject jsonObject = new JSONObject(responseContent);
         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-            throw new TelegramApiRequestException("Error at sendPhoto", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
+            throw new TelegramApiRequestException("Error at sendPhoto", jsonObject);
         }
 
         return new Message(jsonObject.getJSONObject(Constants.RESPONSEFIELDRESULT));
@@ -836,7 +833,7 @@ public abstract class AbsSender {
 
         JSONObject jsonObject = new JSONObject(responseContent);
         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-            throw new TelegramApiRequestException("Error at sendVideo", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
+            throw new TelegramApiRequestException("Error at sendVideo", jsonObject);
         }
 
         return new Message(jsonObject.getJSONObject(Constants.RESPONSEFIELDRESULT));
@@ -897,7 +894,7 @@ public abstract class AbsSender {
 
         JSONObject jsonObject = new JSONObject(responseContent);
         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-            throw new TelegramApiRequestException("Error at sendSticker", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
+            throw new TelegramApiRequestException("Error at sendSticker", jsonObject);
         }
 
         return new Message(jsonObject.getJSONObject(Constants.RESPONSEFIELDRESULT));
@@ -991,7 +988,7 @@ public abstract class AbsSender {
          * {"description":"[Error]: Bad Request: chat not found","error_code":400,"ok":false}
          */
         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-            throw new TelegramApiRequestException("Error at sendAudio", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
+            throw new TelegramApiRequestException("Error at sendAudio", jsonObject);
         }
 
         // and if not, we can expect a "result" section. and out of this can a new Message object be built
@@ -1072,7 +1069,7 @@ public abstract class AbsSender {
 
         JSONObject jsonObject = new JSONObject(responseContent);
         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-            throw new TelegramApiRequestException("Error at sendVoice", jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
+            throw new TelegramApiRequestException("Error at sendVoice", jsonObject);
         }
 
         return new Message(jsonObject.getJSONObject(Constants.RESPONSEFIELDRESULT));
@@ -1131,7 +1128,7 @@ public abstract class AbsSender {
 
         JSONObject jsonObject = new JSONObject(responseContent);
         if (!jsonObject.getBoolean(Constants.RESPONSEFIELDOK)) {
-            throw new TelegramApiRequestException("Error at " + method.getPath(), jsonObject.getString(ERRORDESCRIPTIONFIELD), jsonObject.getInt(ERRORCODEFIELD));
+            throw new TelegramApiRequestException("Error at " + method.getPath(), jsonObject);
         }
 
         return method.deserializeResponse(jsonObject);

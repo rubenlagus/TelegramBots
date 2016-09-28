@@ -11,6 +11,4 @@ public class Constants {
     public static final int GETUPDATESTIMEOUT = 50;
     public static final String RESPONSEFIELDOK = "ok";
     public static final String RESPONSEFIELDRESULT = "result";
-    public static final String ERRORDESCRIPTIONFIELD = "description";
-    public static final String ERRORCODEFIELD = "error_code";
 }
