@@ -147,9 +147,6 @@ public class InlineKeyboardButton implements IBotApiObject, IToJson, Validable {
         if (text == null || text.isEmpty()) {
             throw new TelegramApiValidationException("Text parameter can't be empty", this);
         }
-        if (callbackGame != null) {
-            callbackGame.validate();
-        }
     }
 
     @Override
