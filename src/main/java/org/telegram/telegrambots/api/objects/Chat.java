@@ -47,7 +47,10 @@ public class Chat implements IBotApiObject {
     @JsonProperty(USERNAME_FIELD)
     private String userName; ///< Optional. Interlocutor's last name for private chats
     @JsonProperty(ALL_MEMBERS_ARE_ADMINISTRATORS_FIELD)
-    private Boolean allMembersAreAdministrators; ///< Optional. True if admins are disabled in the chat
+    /**
+     * Optional. True if the group or supergroup has ‘All Members Are Admins’ enabled.
+     */
+    private Boolean allMembersAreAdministrators;
 
     public Chat() {
         super();

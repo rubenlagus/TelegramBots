@@ -29,9 +29,7 @@ import java.io.IOException;
 /**
  * @author Ruben Bermudez
  * @version 2.4
- * @brief This object contains information about a game that will be returned as a response to a
- * callback query. It has no fields, use BotFather to setup your game,
- * its short name will actt as an identifier.
+ * @brief A placeholder, currently holds no information. Use BotFather to set up your game.
  * @date 16 of September of 2016
  */
 public class CallbackGame implements IBotApiObject {
