@@ -19,6 +19,10 @@ import java.io.IOException;
  * the field message will be present. If the button was attached to a message sent via the bot
  * (in inline mode), the field inline_message_id will be present.
  * @note Exactly one of the fields data or game_short_name will be present.
+ * @note  After the user presses an inline button, Telegram clients will display a progress bar
+ * until you call answerCallbackQuery. It is, therefore, necessary to react by
+ * calling answerCallbackQuery even if no notification to the user is needed
+ * (e.g., without specifying any of the optional parameters).
  * @date 10 of April of 2016
  */
 public class CallbackQuery implements IBotApiObject {

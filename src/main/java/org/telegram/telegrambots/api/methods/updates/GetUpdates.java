@@ -31,7 +31,8 @@ public class GetUpdates implements IToJson {
      */
     private Integer limit;
     /**
-     * Optional	Timeout in seconds for long polling. Defaults to 0, i.e. usual short polling
+     * Optional. Timeout in seconds for long polling. Defaults to 0, i.e. usual short polling.
+     * Should be positive, 0 should be used for testing purposes only.
      */
     private Integer timeout;
 

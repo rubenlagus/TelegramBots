@@ -149,7 +149,9 @@ public class BotSession {
                         BotLogger.severe(LOGTAG, e);
                     }
                 } catch (InterruptedException e) {
-                    receivedUpdates.clear();
+                    if (!running) {
+                        receivedUpdates.clear();
+                    }
                     BotLogger.debug(LOGTAG, e);
                 } catch (Exception global) {
                     BotLogger.severe(LOGTAG, global);
@@ -158,7 +160,9 @@ public class BotSession {
                             this.wait(500);
                         }
                     } catch (InterruptedException e) {
-                        receivedUpdates.clear();
+                        if (!running) {
+                            receivedUpdates.clear();
+                        }
                         BotLogger.debug(LOGTAG, e);
                     }
                 }
