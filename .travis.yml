@@ -1,6 +1,7 @@
 language: java
 jdk:
   - oraclejdk8
+install: mvn install -DskipTests -Dgpg.skip
 script: mvn clean compile
 notifications:
   webhooks: 
