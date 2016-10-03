@@ -6,11 +6,31 @@
     <packaging>jar</packaging>
     <groupId>org.telegram</groupId>
     <artifactId>telegrambots</artifactId>
-    <version>2.4.0.BETA6-SNAPSHOT</version>
+    <version>2.4.0</version>
 
     <name>Telegram Bots</name>
     <url>https://github.com/rubenlagus/TelegramBots</url>
     <description>Easy to use library to create Telegram Bots</description>
+
+    <issueManagement>
+        <url>https://github.com/rubenlagus/TelegramBots/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+
+    <scm>
+        <url>https://github.com/rubenlagus/TelegramBots</url>
+        <connection>scm:git:git://github.com/rubenlagus/TelegramBots.git</connection>
+        <developerConnection>scm:git:git@github.com:rubenlagus/TelegramBots.git</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <email>rberlopez@gmail.com</email>
+            <name>Ruben Bermudez</name>
+            <url>https://github.com/rubenlagus</url>
+            <id>rubenlagus</id>
+        </developer>
+    </developers>
 
     <licenses>
         <license>
@@ -33,11 +53,12 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jersey.version>2.23</jersey.version>
-        <jerseybundle.version>1.19.1</jerseybundle.version>
+        <jersey.version>2.23.2</jersey.version>
+        <jerseybundle.version>1.19.2</jerseybundle.version>
         <httpcompontents.version>4.5.2</httpcompontents.version>
-        <json.version>20160212</json.version>
+        <json.version>20160810</json.version>
         <jackson.version>2.7.4</jackson.version>
+        <commons.version>2.5</commons.version>
     </properties>
 
     <dependencyManagement>
@@ -91,7 +112,7 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.4</version>
+            <version>${commons.version}</version>
         </dependency>
     </dependencies>
 
@@ -164,10 +185,8 @@
                 <version>3.0.0</version>
                 <executions>
                     <execution>
-                        <id>attach-sources</id>
-                        <phase>verify</phase>
                         <goals>
-                            <goal>jar-no-fork</goal>
+                            <goal>jar</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -178,11 +197,12 @@
                 <version>2.10.3</version>
                 <executions>
                     <execution>
-                        <id>attach-javadocs</id>
-                        <phase>site</phase>
                         <goals>
-                            <goal>javadoc-no-fork</goal>
+                            <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
