@@ -34,8 +34,9 @@
 
     <licenses>
         <license>
-            <name>GNU General Public License (GPL)</name>
-            <url>http://www.gnu.org/licenses/gpl.html</url>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
