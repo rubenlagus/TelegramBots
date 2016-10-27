@@ -1,13 +1,18 @@
 So, you just wanna program your own Telegram bot with @rubenlagus library TelegramBots? Then I'm going to show you how to start ;)
 
+_NOTE:_ There is also a draft for a video edition of this HOWTO aavailable [here](https://www.youtube.com/watch?v=_CqsglG310Q)
+
 ##### Table of Contents  
 [Preparations](#preparations)  
 [Let's code!](#lets_code)  
 [FAQ](#faq)  
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. [How to get picture?](#question_how_to_get_picture)  
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. [How to send photos?](#question_how_to_send_photos)  
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. [How to use custom keyboards?](#question_how_to_use_custom_keyboards)  
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4. [How can I compile my project?](#question_how_to_compile)  
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. [How to use custom keyboards?](#question_how_to_use_custom_keyboards)
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4. [How can I run my bot?](#question_how_to_host)     
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5. [I'm getting the error `terminated by other long poll or webhook`, what means it?](#question_terminted_by_other)    
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6. [How can I compile my project?](#question_how_to_compile)  
+    
     
     
 
@@ -194,7 +199,19 @@ public void onUpdateReceived(Update update) {
    Question: <a name="question_how_to_use_custom_keyboards"/> 
    <b>How to use custom keyboards?</b>    
    Answer: You can look at the [source code](https://github.com/rubenlagus/TelegramBotsExample/blob/master/src/main/java/org/telegram/updateshandlers/WeatherHandlers.java) for [@Weatherbot](https://telegram.me/weatherbot) in the [TelegramBotsExample](https://github.com/rubenlagus/TelegramBotsExample) repo. It should contain all necessary information about using custom keyboards.
-   
+
+  Question: <a name="question_how_to_host"/>
+   <b>How can I run my bot?</b>    
+   Answer: You don't need to spend alot of money into hosting your own telegram bot. Basiclly, there are two options around how to host.    
+   1. Hosting on your own hardware. It can be a Mini-PC like a Raspberry Pi. The costs for the hardware (~35€) and annual costs for power (~7-8€) are low. Keep in mind that your internet connection might be limited and a Mini-Pc is not ideal for a large base of users.    
+   2. Run your bot in a vServer/dedicated root server. There are many hosters out there that are providing cheap servers that fit your needs. The cheapest one should be openVZ-Containers or a KVM vServer. Example providers are [Hetzner](https://www.hetzner.de/ot/), [DigitalOcean](https://www.digitalocean.com/),  (are providing systems that have a high availability but cost's a bit more) and [OVH](https://ovh.com)
+
+
+
+   Question: <a name="question_terminted_by_other"/>
+   <b>I'm getting the error `terminated by other long poll or webhook`, what means it?</b>    
+   Answer: It means that you have already a running instance of your bot. Close running one and then you can start a new one
+
    <a name="question_how_to_compile"/>
    Question: <b>How can I compile my project?</b>     
    Answer: This is just one way, how you can compile it (here with maven). The example below below is compiling the TelegramBotsExample repo. 
