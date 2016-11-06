@@ -1,7 +1,7 @@
 So, you just wanna program your own Telegram bot with @rubenlagus library TelegramBots? Then I'm going to show you how to start ;)
 
 ##### Table of Contents  
-[Preperations](#preperations)  
+[Preparations](#preparations)  
 [Let's code!](#lets_code)  
 [FAQ](#faq)  
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. [How to get picture?](#question_how_to_get_picture)  
@@ -11,8 +11,8 @@ So, you just wanna program your own Telegram bot with @rubenlagus library Telegr
     
     
 
-<a name="preperations"/>
-## Preperations
+<a name="preparations"/>
+## Preparations
 First you need to download the latest .jar from the Release site [here](https://github.com/rubenlagus/TelegramBots/releases). You can choose between Jar with or without dependencies. If you don't know which one to choose, we recommend to download the full jar with all dependencies ;)
 
 Next, you need to integrate it into your project.
@@ -27,7 +27,7 @@ You can use it with Maven or Gradle directly from Central repository, just this 
     <dependency>
         <groupId>org.telegram</groupId>
         <artifactId>telegrambots</artifactId>
-        <version>2.4</version>
+        <version>2.4.0</version>
     </dependency>
 ```
 
