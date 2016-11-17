@@ -28,7 +28,7 @@ public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
 
     @JsonProperty(TYPE_FIELD)
-    private static final String type = "mpeg4_gif"; ///< Type of the result, must be "mpeg4_gif"
+    private final String type = "mpeg4_gif"; ///< Type of the result, must be "mpeg4_gif"
     @JsonProperty(ID_FIELD)
     private String id; ///< Unique identifier of this result, 1-64 bytes
     @JsonProperty(MPEG4URL_FIELD)
@@ -52,7 +52,7 @@ public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
         super();
     }
 
-    public static String getType() {
+    public String getType() {
         return type;
     }
 

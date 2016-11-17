@@ -108,7 +108,7 @@ public class TestRestApi extends JerseyTest {
 
         assertEquals("{\"inline_query_id\":\"id\",\"results\":[{\"@class\":\"org." +
                 "telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResultArticle\"," +
-                "\"id\":\"0\",\"title\":\"Title\",\"input_message_content\":{\"@class\":\"org." +
+                "\"type\":\"article\",\"id\":\"0\",\"title\":\"Title\",\"input_message_content\":{\"@class\":\"org." +
                 "telegram.telegrambots.api.objects.inlinequery.inputmessagecontent." +
                 "InputTextMessageContent\",\"message_text\":\"Text\",\"parse_mode\":\"Markdown\"}," +
                 "\"reply_markup\":{\"@class\":\"org.telegram.telegrambots.api.objects.replykeyboard" +
@@ -117,7 +117,7 @@ public class TestRestApi extends JerseyTest {
                 "\"Button1\",\"callback_data\":\"Callback\"}]]},\"url\":\"Url\",\"hide_url\":false," +
                 "\"description\":\"Description\",\"thumb_url\":\"ThumbUrl\",\"thumb_width\":10," +
                 "\"thumb_height\":20},{\"@class\":\"org.telegram.telegrambots.api.objects." +
-                "inlinequery.result.InlineQueryResultPhoto\",\"id\":\"1\",\"photo_url\":\"PhotoUrl" +
+                "inlinequery.result.InlineQueryResultPhoto\",\"type\":\"photo\",\"id\":\"1\",\"photo_url\":\"PhotoUrl" +
                 "\",\"mime_type\":\"image/jpg\",\"photo_width\":10,\"photo_height\":20,\"thumb_url" +
                 "\":\"ThumbUrl\",\"title\":\"Title\",\"description\":\"Description\",\"caption\":" +
                 "\"Caption\",\"input_message_content\":{\"@class\":\"org.telegram.telegrambots." +

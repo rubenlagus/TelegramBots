@@ -26,7 +26,7 @@ public class InlineQueryResultCachedSticker implements InlineQueryResult {
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
 
     @JsonProperty(TYPE_FIELD)
-    private static final String type = "sticker"; ///< Type of the result, must be "sticker"
+    private final String type = "sticker"; ///< Type of the result, must be "sticker"
     @JsonProperty(ID_FIELD)
     private String id; ///< Unique identifier of this result, 1-64 bytes
     @JsonProperty(STICKER_FILE_ID_FIELD)
@@ -40,7 +40,7 @@ public class InlineQueryResultCachedSticker implements InlineQueryResult {
         super();
     }
 
-    public static String getType() {
+    public String getType() {
         return type;
     }
 

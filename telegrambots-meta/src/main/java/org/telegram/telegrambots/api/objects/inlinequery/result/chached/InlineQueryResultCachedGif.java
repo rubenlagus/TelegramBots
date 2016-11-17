@@ -26,7 +26,7 @@ public class InlineQueryResultCachedGif implements InlineQueryResult {
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
 
     @JsonProperty(TYPE_FIELD)
-    private static final String type = "gif"; ///< Type of the result, must be "gif"
+    private final String type = "gif"; ///< Type of the result, must be "gif"
     @JsonProperty(ID_FIELD)
     private String id; ///< Unique identifier of this result, 1-64 bytes
     @JsonProperty(GIF_FILE_ID_FIELD)
@@ -44,7 +44,7 @@ public class InlineQueryResultCachedGif implements InlineQueryResult {
         super();
     }
 
-    public static String getType() {
+    public String getType() {
         return type;
     }
 
