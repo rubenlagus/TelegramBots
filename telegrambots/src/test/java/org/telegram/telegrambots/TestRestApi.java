@@ -2,7 +2,6 @@ package org.telegram.telegrambots;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.jersey.api.json.JSONConfiguration;
 
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -62,8 +61,7 @@ public class TestRestApi extends JerseyTest {
     @Override
     protected Application configure() {
         restApi = new RestApi();
-        return new ResourceConfig().register(restApi).register(JacksonFeature.class)
-                .property(JSONConfiguration.FEATURE_POJO_MAPPING, true);
+        return new ResourceConfig().register(restApi).register(JacksonFeature.class);
     }
 
     @Override

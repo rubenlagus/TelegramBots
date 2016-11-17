@@ -2,8 +2,6 @@ package org.telegram.telegrambots.updatesreceivers;
 
 import com.google.inject.Inject;
 
-import com.sun.jersey.api.json.JSONConfiguration;
-
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.ssl.SSLContextConfigurator;
 import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
@@ -60,7 +58,6 @@ public class DefaultWebhook implements Webhook {
         ResourceConfig rc = new ResourceConfig();
         rc.register(restApi);
         rc.register(JacksonFeature.class);
-        rc.property(JSONConfiguration.FEATURE_POJO_MAPPING, true);
         final HttpServer grizzlyServer = GrizzlyHttpServerFactory.createHttpServer(
                 getBaseURI(),
                 rc,

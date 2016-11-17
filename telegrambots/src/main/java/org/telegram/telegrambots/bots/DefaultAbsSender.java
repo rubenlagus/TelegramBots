@@ -40,7 +40,6 @@ import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -88,11 +87,29 @@ public abstract class DefaultAbsSender extends AbsSender{
 
     // Send Requests
 
+    public final java.io.File downloadFile(String filePath) throws TelegramApiException {
+        if(filePath == null || filePath.isEmpty()){
+            throw new TelegramApiException("Parameter file can not be null");
+        }
+        String url = File.getFileUrl(getBotToken(), filePath);
+        java.io.File output;
+        try {
+            output = java.io.File.createTempFile(Long.toString(System.currentTimeMillis()), ".tmp");
+            FileUtils.copyURLToFile(new URL(url), output);
+        } catch (MalformedURLException e) {
+            throw new TelegramApiException("Wrong url for file: " + url);
+        } catch (IOException e) {
+            throw new TelegramApiRequestException("Error downloading the file", e);
+        }
+
+        return output;
+    }
+
     public final java.io.File downloadFile(File file) throws TelegramApiException {
         if(file == null){
             throw new TelegramApiException("Parameter file can not be null");
         }
-        String url = MessageFormat.format(File.FILEBASEURL, getBotToken(), file.getFilePath());
+        String url = file.getFileUrl(getBotToken());
         java.io.File output;
         try {
             output = java.io.File.createTempFile(file.getFileId(), ".tmp");
@@ -106,8 +123,32 @@ public abstract class DefaultAbsSender extends AbsSender{
         return output;
     }
 
+    public final void downloadFileAsync(String filePath, DownloadFileCallback<String> callback) throws TelegramApiException {
+        if(filePath == null || filePath.isEmpty()){
+            throw new TelegramApiException("Parameter filePath can not be null");
+        }
+        if (callback == null) {
+            throw new TelegramApiException("Parameter callback can not be null");
+        }
 
-    public final void downloadFileAsync(File file, DownloadFileCallback callback) throws TelegramApiException {
+        exe.submit(new Runnable() {
+            @Override
+            public void run() {
+                String url = File.getFileUrl(getBotToken(), filePath);
+                try {
+                    java.io.File output = java.io.File.createTempFile(Long.toString(System.currentTimeMillis()), ".tmp");
+                    FileUtils.copyURLToFile(new URL(url), output);
+                    callback.onResult(filePath, output);
+                } catch (MalformedURLException e) {
+                    callback.onException(filePath, new TelegramApiException("Wrong url for file: " + url));
+                } catch (IOException e) {
+                    callback.onException(filePath, new TelegramApiRequestException("Error downloading the file", e));
+                }
+            }
+        });
+    }
+
+    public final void downloadFileAsync(File file, DownloadFileCallback<File> callback) throws TelegramApiException {
         if(file == null){
             throw new TelegramApiException("Parameter file can not be null");
         }
@@ -118,7 +159,7 @@ public abstract class DefaultAbsSender extends AbsSender{
         exe.submit(new Runnable() {
             @Override
             public void run() {
-                String url = MessageFormat.format(File.FILEBASEURL, getBotToken(), file.getFilePath());
+                String url = file.getFileUrl(getBotToken());
                 try {
                     java.io.File output = java.io.File.createTempFile(file.getFileId(), ".tmp");
                     FileUtils.copyURLToFile(new URL(url), output);
