@@ -37,7 +37,7 @@ public class InlineQueryResultGame implements InlineQueryResult {
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
 
     @JsonProperty(TYPE_FIELD)
-    private static final String type = "game"; ///< Type of the result, must be "game"
+    private final String type = "game"; ///< Type of the result, must be "game"
     @JsonProperty(ID_FIELD)
     private String id; ///< Unique identifier of this result, 1-64 bytes
     @JsonProperty(GAMESHORTNAME_FIELD)
@@ -49,7 +49,7 @@ public class InlineQueryResultGame implements InlineQueryResult {
         super();
     }
 
-    public static String getType() {
+    public String getType() {
         return type;
     }
 

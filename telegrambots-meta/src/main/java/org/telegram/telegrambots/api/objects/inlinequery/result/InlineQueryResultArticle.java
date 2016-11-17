@@ -27,7 +27,7 @@ public class InlineQueryResultArticle implements InlineQueryResult {
     private static final String THUMBHEIGHT_FIELD = "thumb_height";
 
     @JsonProperty(TYPE_FIELD)
-    private static final String type = "article"; ///< Type of the result, must be “article”
+    private final String type = "article"; ///< Type of the result, must be “article”
     @JsonProperty(ID_FIELD)
     private String id; ///< Unique identifier of this result, 1-64 bytes
     @JsonProperty(TITLE_FIELD)
@@ -53,7 +53,7 @@ public class InlineQueryResultArticle implements InlineQueryResult {
         super();
     }
 
-    public static String getType() {
+    public String getType() {
         return type;
     }
 

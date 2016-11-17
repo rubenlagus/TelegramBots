@@ -31,7 +31,7 @@ public class InlineQueryResultVenue implements InlineQueryResult {
     private static final String THUMBHEIGHT_FIELD = "thumb_height";
 
     @JsonProperty(TYPE_FIELD)
-    private static final String type = "venue"; ///< Type of the result, must be "venue"
+    private final String type = "venue"; ///< Type of the result, must be "venue"
     @JsonProperty(ID_FIELD)
     private String id; ///< Unique identifier of this result, 1-64 bytes
     @JsonProperty(TITLE_FIELD)
@@ -59,7 +59,7 @@ public class InlineQueryResultVenue implements InlineQueryResult {
         super();
     }
 
-    public static String getType() {
+    public String getType() {
         return type;
     }
 

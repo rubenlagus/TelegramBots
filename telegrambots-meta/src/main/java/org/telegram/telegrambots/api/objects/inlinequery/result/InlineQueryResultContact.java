@@ -30,7 +30,7 @@ public class InlineQueryResultContact implements InlineQueryResult {
     private static final String THUMBHEIGHT_FIELD = "thumb_height";
 
     @JsonProperty(TYPE_FIELD)
-    private static final String type = "contact"; ///< Type of the result, must be "contact"
+    private final String type = "contact"; ///< Type of the result, must be "contact"
     @JsonProperty(ID_FIELD)
     private String id; ///< Unique identifier of this result, 1-64 bytes
     @JsonProperty(PHONE_NUMBER_FIELD)
@@ -54,7 +54,7 @@ public class InlineQueryResultContact implements InlineQueryResult {
         super();
     }
 
-    public static String getType() {
+    public String getType() {
         return type;
     }
 
