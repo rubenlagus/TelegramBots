@@ -1,7 +1,7 @@
 package org.telegram.telegrambots.updateshandlers;
 
-import org.json.JSONObject;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
+import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 
 import java.io.Serializable;
 
@@ -15,16 +15,16 @@ public interface SentCallback<T extends Serializable> {
     /**
      * Called when the request is successful
      * @param method Method executed
-     * @param jsonObject Answer from Telegram server
+     * @param response Answer from Telegram server
      */
-    void onResult(BotApiMethod<T> method, JSONObject jsonObject);
+    void onResult(BotApiMethod<T> method, T response);
 
     /**
      * Called when the request fails
      * @param method Method executed
-     * @param jsonObject Answer from Telegram server (contains error information)
+     * @param apiException Answer from Telegram server (contains error information)
      */
-    void onError(BotApiMethod<T> method, JSONObject jsonObject);
+    void onError(BotApiMethod<T> method, TelegramApiRequestException apiException);
 
     /**
      * Called when the http request throw an exception

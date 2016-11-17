@@ -29,7 +29,7 @@ import java.nio.charset.StandardCharsets;
  * <a href="https://core.telegram.org/bots/api#setwebhook">webhook</a>
  * @date 14 of January of 2016
  */
-public abstract class TelegramWebhookBot extends AbsSender implements WebhookBot {
+public abstract class TelegramWebhookBot extends DefaultAbsSender implements WebhookBot {
     private final DefaultBotOptions botOptions;
 
     public TelegramWebhookBot() {
@@ -37,7 +37,7 @@ public abstract class TelegramWebhookBot extends AbsSender implements WebhookBot
     }
 
     public TelegramWebhookBot(DefaultBotOptions options) {
-        super();
+        super(options);
         this.botOptions = options;
     }
 

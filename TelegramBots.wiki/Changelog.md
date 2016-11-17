@@ -5,6 +5,7 @@
 4. Added extra validation to methods before performing requests.
 5. BotOptions has been renamed ot DefaultBotOptions. It allows now to set number of threads for async methods execution and the complete `RequestConfig` for customization purpose.
 6. Added convenient method for `setChatId` using just a `Long` value instead of an String.
-7. Moved to MIT license
+7. In `SentCallback` method `onError` changed second parameter to `TelegramApiRequestException` and `onResult` now receives the deserialized answer (of type `T`) instead of a `JSONObject` as second parameter
+8. Moved to MIT license
 
 **[[How to update to version 2.4.1|How-To-Update#2.4.1]]**
