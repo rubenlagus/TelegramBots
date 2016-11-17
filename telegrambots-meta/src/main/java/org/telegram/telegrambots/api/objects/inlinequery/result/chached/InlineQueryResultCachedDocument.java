@@ -30,7 +30,7 @@ public class InlineQueryResultCachedDocument implements InlineQueryResult {
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
 
     @JsonProperty(TYPE_FIELD)
-    private static final String type = "document"; ///< Type of the result, must be "document"
+    private final String type = "document"; ///< Type of the result, must be "document"
     @JsonProperty(ID_FIELD)
     private String id; ///< Unique identifier of this result, 1-64 bytes
     @JsonProperty(TITLE_FIELD)
@@ -50,7 +50,7 @@ public class InlineQueryResultCachedDocument implements InlineQueryResult {
         super();
     }
 
-    public static String getType() {
+    public String getType() {
         return type;
     }
 

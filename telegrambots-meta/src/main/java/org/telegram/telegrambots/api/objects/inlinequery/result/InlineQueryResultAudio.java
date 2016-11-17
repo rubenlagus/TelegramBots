@@ -29,7 +29,7 @@ public class InlineQueryResultAudio implements InlineQueryResult {
     private static final String CAPTION_FIELD = "caption";
 
     @JsonProperty(TYPE_FIELD)
-    private static final String type = "audio"; ///< Type of the result, must be "audio"
+    private final String type = "audio"; ///< Type of the result, must be "audio"
     @JsonProperty(ID_FIELD)
     private String id; ///< Unique identifier of this result
     @JsonProperty(AUDIOURL_FIELD)
@@ -51,7 +51,7 @@ public class InlineQueryResultAudio implements InlineQueryResult {
         super();
     }
 
-    public static String getType() {
+    public String getType() {
         return type;
     }
 

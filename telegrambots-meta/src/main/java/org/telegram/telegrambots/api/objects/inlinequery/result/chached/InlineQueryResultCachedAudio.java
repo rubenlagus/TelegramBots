@@ -27,7 +27,7 @@ public class InlineQueryResultCachedAudio implements InlineQueryResult {
     private static final String CAPTION_FIELD = "caption";
 
     @JsonProperty(TYPE_FIELD)
-    private static final String type = "audio"; ///< Type of the result, must be "audio"
+    private final String type = "audio"; ///< Type of the result, must be "audio"
     @JsonProperty(ID_FIELD)
     private String id; ///< Unique identifier of this result
     @JsonProperty(AUDIO_FILE_ID_FIELD)
@@ -43,7 +43,7 @@ public class InlineQueryResultCachedAudio implements InlineQueryResult {
         super();
     }
 
-    public static String getType() {
+    public String getType() {
         return type;
     }
 

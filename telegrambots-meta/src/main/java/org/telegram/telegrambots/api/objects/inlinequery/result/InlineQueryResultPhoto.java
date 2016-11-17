@@ -30,7 +30,7 @@ public class InlineQueryResultPhoto implements InlineQueryResult {
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
 
     @JsonProperty(TYPE_FIELD)
-    private static final String type = "photo"; ///< Type of the result, must be “photo”
+    private final String type = "photo"; ///< Type of the result, must be “photo”
     @JsonProperty(ID_FIELD)
     private String id; ///< Unique identifier of this result, 1-64 bytes
     @JsonProperty(PHOTOURL_FIELD)
@@ -58,7 +58,7 @@ public class InlineQueryResultPhoto implements InlineQueryResult {
         super();
     }
 
-    public static String getType() {
+    public String getType() {
         return type;
     }
 
