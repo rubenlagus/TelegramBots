@@ -12,6 +12,26 @@
     <url>https://github.com/rubenlagus/TelegramBots</url>
     <description>Easy to use library to create Telegram Bots</description>
 
+    <issueManagement>
+        <url>https://github.com/rubenlagus/TelegramBots/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+
+    <scm>
+        <url>https://github.com/rubenlagus/TelegramBots</url>
+        <connection>scm:git:git://github.com/rubenlagus/TelegramBots.git</connection>
+        <developerConnection>scm:git:git@github.com:rubenlagus/TelegramBots.git</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <email>rberlopez@gmail.com</email>
+            <name>Ruben Bermudez</name>
+            <url>https://github.com/rubenlagus</url>
+            <id>rubenlagus</id>
+        </developer>
+    </developers>
+
     <licenses>
         <license>
             <name>MIT License</name>
@@ -190,10 +210,8 @@
                 <version>3.0.0</version>
                 <executions>
                     <execution>
-                        <id>attach-sources</id>
-                        <phase>verify</phase>
                         <goals>
-                            <goal>jar-no-fork</goal>
+                            <goal>jar</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -204,11 +222,12 @@
                 <version>2.10.3</version>
                 <executions>
                     <execution>
-                        <id>attach-javadocs</id>
-                        <phase>site</phase>
                         <goals>
-                            <goal>javadoc-no-fork</goal>
+                            <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
