@@ -63,7 +63,7 @@ Once done, you just need to create a `org.telegram.telegrambots.TelegramBotsApi`
 
 ```
 
-For detailed explanation, visite our [How To](HOWTO.md) (thanks Clevero)
+For detailed explanation, visite our [How To](https://github.com/rubenlagus/TelegramBots/wiki/Getting-Started) (thanks Clevero)
 
 
 ## Example bots

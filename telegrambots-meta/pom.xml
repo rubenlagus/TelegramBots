@@ -23,6 +23,11 @@
         <developerConnection>scm:git:git@github.com:rubenlagus/TelegramBots.git</developerConnection>
     </scm>
 
+    <ciManagement>
+        <url>https://travis-ci.org/rubenlagus/TelegramBots</url>
+        <system>Travis</system>
+    </ciManagement>
+
     <developers>
         <developer>
             <email>rberlopez@gmail.com</email>
