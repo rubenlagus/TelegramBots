@@ -18,7 +18,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONObject;
 import org.telegram.telegrambots.ApiConstants;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.methods.send.SendAudio;
@@ -643,12 +642,11 @@ public abstract class DefaultAbsSender extends AbsSender{
                         HttpEntity ht = response.getEntity();
                         BufferedHttpEntity buf = new BufferedHttpEntity(ht);
                         String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
-
-                        JSONObject jsonObject = new JSONObject(responseContent);
-                        if (!jsonObject.getBoolean(ApiConstants.RESPONSE_FIELD_OK)) {
-                            callback.onError(method, jsonObject);
+                        try {
+                            callback.onResult(method, method.deserializeResponse(responseContent));
+                        } catch (TelegramApiRequestException e) {
+                            callback.onError(method, e);
                         }
-                        callback.onResult(method, jsonObject);
                     }
                 } catch (IOException | TelegramApiValidationException e) {
                     callback.onException(method, e);
