@@ -1,0 +1,9 @@
+{
+  "ok": false,
+  "error_code": 400,
+  "description": "Error descriptions",
+  "parameters": {
+    "migrate_to_chat_id": 12345,
+    "retry_after": 12
+  }
+}
