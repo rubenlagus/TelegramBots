@@ -9,3 +9,9 @@
     * `org.telegram.telegrambots.bots.BotOptions`. Use `org.telegram.telegrambots.bots.DefaultBotOptions` instead.
     * `getPersonal` from `AnswerInlineQuery`. Use `isPersonal` instead.
     * `FILEBASEURL` from `File`. Use `getFileUrl` instead.
+    
+    
+### <a id="2.4.4"></a>To version 2.4.4 ###
+1. Replace `ReplyKeyboardHide` by `ReplyKeyboardRemove` and its field `hideKeyboard` by `removeKeyboard` (remember getter and setters)
+2. Replace usage of `edit_message` by `disable_edit_message` (see [this post](https://telegram.me/BotNews/22))
+3. Removed deprecated stuff from version 2.4.3

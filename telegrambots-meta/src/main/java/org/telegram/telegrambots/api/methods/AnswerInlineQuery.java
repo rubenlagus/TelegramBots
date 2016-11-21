@@ -81,12 +81,6 @@ public class AnswerInlineQuery extends BotApiMethod<Boolean> {
         return this;
     }
 
-    @Deprecated
-    @JsonIgnore
-    public Boolean getPersonal() {
-        return isPersonal;
-    }
-
     public Boolean isPersonal() {
         return isPersonal;
     }

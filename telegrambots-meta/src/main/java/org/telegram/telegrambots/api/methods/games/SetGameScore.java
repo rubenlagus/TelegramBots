@@ -33,12 +33,12 @@ import java.util.Objects;
 /**
  * @author Ruben Bermudez
  * @version 2.4
- * @brief Use this method to set the score of the specified user in a game.
+ * Use this method to set the score of the specified user in a game.
  * On success, if the message was sent by the bot, returns the edited Message,
  * otherwise returns True.
- * If the new score is not greater than the user's current score in the chat,
- * returns an error with the description “BOT_SCORE_NOT_MODIFIED”.
- * @date 16 of September of 2016
+ *
+ * Returns an error, if the new score is not greater than the user's current score in
+ * the chat and force is False.
  */
 public class SetGameScore extends BotApiMethod<Serializable> {
     public static final String PATH = "setGameScore";
@@ -48,7 +48,8 @@ public class SetGameScore extends BotApiMethod<Serializable> {
     private static final String CHATID_FIELD = "chat_id";
     private static final String MESSAGEID_FIELD = "message_id";
     private static final String INLINE_MESSAGE_ID_FIELD = "inline_message_id";
-    private static final String EDIT_MESSAGE_FIELD = "edit_message";
+    private static final String DISABLEEDITMESSAGE_FIELD = "disable_edit_message";
+    private static final String FORCE_FIELD = "force";
 
     @JsonProperty(CHATID_FIELD)
     private String chatId; ///< Optional	Required if inline_message_id is not specified. Unique identifier for the target chat (or username of the target channel in the format @channelusername)
@@ -56,12 +57,14 @@ public class SetGameScore extends BotApiMethod<Serializable> {
     private Integer messageId; ///< Optional	Required if inline_message_id is not specified. Unique identifier of the sent message
     @JsonProperty(INLINE_MESSAGE_ID_FIELD)
     private String inlineMessageId; ///< Optional	Required if chat_id and message_id are not specified. Identifier of the inline message
-    @JsonProperty(EDIT_MESSAGE_FIELD)
-    private Boolean editMessage; ///< Optional	Pass True, if the message should be edited to include the current scoreboard
+    @JsonProperty(DISABLEEDITMESSAGE_FIELD)
+    private Boolean disableEditMessage; ///< Optional	Pass True, if the game message should not be automatically edited to include the current scoreboard. Defaults to False
     @JsonProperty(USER_ID_FIELD)
     private Integer userId; ///< User identifier
     @JsonProperty(SCORE_FIELD)
     private Integer score; ///< New score, must be positive
+    @JsonProperty(FORCE_FIELD)
+    private Boolean force; ///< Opfional. Pass True, if the high score is allowed to decrease. This can be useful when fixing mistakes or banning cheaters
 
     public SetGameScore() {
         super();
@@ -79,8 +82,8 @@ public class SetGameScore extends BotApiMethod<Serializable> {
         return inlineMessageId;
     }
 
-    public Boolean getEditMessage() {
-        return editMessage;
+    public Boolean getDisableEditMessage() {
+        return disableEditMessage;
     }
 
     public Integer getUserId() {
@@ -89,6 +92,10 @@ public class SetGameScore extends BotApiMethod<Serializable> {
 
     public Integer getScore() {
         return score;
+    }
+
+    public Boolean getForce() {
+        return force;
     }
 
     public SetGameScore setChatId(String chatId) {
@@ -112,8 +119,8 @@ public class SetGameScore extends BotApiMethod<Serializable> {
         return this;
     }
 
-    public SetGameScore setEditMessage(Boolean editMessage) {
-        this.editMessage = editMessage;
+    public SetGameScore setDisableEditMessage(Boolean disableEditMessage) {
+        this.disableEditMessage = disableEditMessage;
         return this;
     }
 
@@ -124,6 +131,11 @@ public class SetGameScore extends BotApiMethod<Serializable> {
 
     public SetGameScore setScore(Integer score) {
         this.score = score;
+        return this;
+    }
+
+    public SetGameScore setForce(Boolean force) {
+        this.force = force;
         return this;
     }
 
@@ -189,9 +201,10 @@ public class SetGameScore extends BotApiMethod<Serializable> {
                 "chatId='" + chatId + '\'' +
                 ", messageId=" + messageId +
                 ", inlineMessageId='" + inlineMessageId + '\'' +
-                ", editMessage=" + editMessage +
+                ", disableEditMessage=" + disableEditMessage +
                 ", userId=" + userId +
                 ", score=" + score +
+                ", force=" + force +
                 '}';
     }
 }

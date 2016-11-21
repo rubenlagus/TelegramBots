@@ -9,3 +9,12 @@
 8. Moved to MIT license
 
 **[[How to update to version 2.4.3|How-To-Update#2.4.3]]**
+
+### <a id="2.4.4"></a>2.4.4 ###
+1. Added `cache_time` to ÀnswerCallbackQuery method
+2. Added field `forward_from_message_id` to `Message` object
+3. Renamed `ReplyKeyboardHide` to `ReplyKeyboardRemove` and its field `hide_keyboard` to `remove_keyboard`
+4. Added field `force` and `disable_edit_message` to `SetGameScore`, removed `edit_message` one.
+5. Added `channel_post` and `edited_channel_post` to `Update` object.
+
+**[[How to update to version 2.4.4|How-To-Update#2.4.4]]**

@@ -28,6 +28,7 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
     private static final String TEXT_FIELD = "text";
     private static final String SHOWALERT_FIELD = "show_alert";
     private static final String URL_FIELD = "url";
+    private static final String CACHETIME_FIELD = "cache_time";
 
     @JsonProperty(CALLBACKQUERYID_FIELD)
     private String callbackQueryId; ///< Unique identifier for the query to be answered
@@ -35,14 +36,22 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
     private String text; ///< Optional	Text of the notification. If not specified, nothing will be shown to the user, 0-200 characters
     @JsonProperty(SHOWALERT_FIELD)
     private Boolean showAlert; ///< Optional. If true, an alert will be shown by the client instead of a notificaiton at the top of the chat screen. Defaults to false.
+    @JsonProperty(URL_FIELD)
     /**
      * Optional. URL that will be opened by the user's client.
      * If you have created a Game and accepted the conditions via @Botfather,
      * specify the URL that opens your game. Otherwise you may use links
      * InlineQueryResultGamelike telegram.me/your_bot?start=XXXX that open your bot with a parameter.
      */
-    @JsonProperty(URL_FIELD)
     private String url;
+    @JsonProperty(CACHETIME_FIELD)
+    /**
+     * Optional	The maximum amount of time in seconds that the result of the callback query
+     * may be cached client-side.
+     *
+     * @note Telegram apps will support caching starting in version 3.14. Defaults to 0.
+     */
+    private Integer cacheTime;
 
     public AnswerCallbackQuery() {
         super();
@@ -84,6 +93,14 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
         return this;
     }
 
+    public Integer getCacheTime() {
+        return cacheTime;
+    }
+
+    public void setCacheTime(Integer cacheTime) {
+        this.cacheTime = cacheTime;
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -118,6 +135,7 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
                 ", text='" + text + '\'' +
                 ", showAlert=" + showAlert +
                 ", url='" + url + '\'' +
+                ", cacheTime=" + cacheTime +
                 '}';
     }
 }

@@ -20,6 +20,8 @@ public class Update implements BotApiObject {
     private static final String CHOSENINLINEQUERY_FIELD = "chosen_inline_result";
     private static final String CALLBACKQUERY_FIELD = "callback_query";
     private static final String EDITEDMESSAGE_FIELD = "edited_message";
+    private static final String CHANNELPOST_FIELD = "channel_post";
+    private static final String EDITEDCHANNELPOST_FIELD = "edited_channel_post";
 
     @JsonProperty(UPDATEID_FIELD)
     private Integer updateId;
@@ -33,6 +35,11 @@ public class Update implements BotApiObject {
     private CallbackQuery callbackQuery; ///< Optional. New incoming callback query
     @JsonProperty(EDITEDMESSAGE_FIELD)
     private Message editedMessage; ///< Optional. New version of a message that is known to the bot and was edited
+    @JsonProperty(CHANNELPOST_FIELD)
+    private Message channelPost; ///< Optional. New incoming channel post of any kind — text, photo, sticker, etc.
+    @JsonProperty(EDITEDCHANNELPOST_FIELD)
+    private Message editedChannelPost; ///< Optional. New version of a channel post that is known to the bot and was edited
+
 
     public Update() {
         super();
@@ -62,6 +69,14 @@ public class Update implements BotApiObject {
         return editedMessage;
     }
 
+    public Message getChannelPost() {
+        return channelPost;
+    }
+
+    public Message getEditedChannelPost() {
+        return editedChannelPost;
+    }
+
     public boolean hasMessage() {
         return message != null;
     }
@@ -82,6 +97,14 @@ public class Update implements BotApiObject {
         return editedMessage != null;
     }
 
+    public boolean hasChannelPost() {
+        return channelPost != null;
+    }
+
+    public boolean hasEditedChannelPost() {
+        return editedChannelPost != null;
+    }
+
     @Override
     public String toString() {
         return "Update{" +
@@ -91,6 +114,8 @@ public class Update implements BotApiObject {
                 ", chosenInlineQuery=" + chosenInlineQuery +
                 ", callbackQuery=" + callbackQuery +
                 ", editedMessage=" + editedMessage +
+                ", channelPost=" + channelPost +
+                ", editedChannelPost=" + editedChannelPost +
                 '}';
     }
 }
