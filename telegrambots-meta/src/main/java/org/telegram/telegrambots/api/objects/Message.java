@@ -47,6 +47,7 @@ public class Message implements BotApiObject {
     private static final String MIGRATEFROMCHAT_FIELD = "migrate_from_chat_id";
     private static final String EDITDATE_FIELD = "edit_date";
     private static final String GAME_FIELD = "game";
+    private static final String FORWARDFROMMESSAGEID_FIELD = "forward_from_message_id";
 
     @JsonProperty(MESSAGEID_FIELD)
     private Integer messageId; ///< Integer	Unique message identifier
@@ -146,6 +147,8 @@ public class Message implements BotApiObject {
     private Integer editDate; ///< Optional. Date the message was last edited in Unix time
     @JsonProperty(GAME_FIELD)
     private Game game; ///< Optional. Message is a game, information about the game
+    @JsonProperty(FORWARDFROMMESSAGEID_FIELD)
+    private Integer forwardFromMessageId; ///< Optional. For forwarded channel posts, identifier of the original message in the channel
 
     public Message() {
         super();
@@ -272,6 +275,10 @@ public class Message implements BotApiObject {
         return migrateFromChatId;
     }
 
+    public Integer getForwardFromMessageId() {
+        return forwardFromMessageId;
+    }
+
     public boolean isGroupMessage() {
         return chat.isGroupChat();
     }
@@ -380,6 +387,7 @@ public class Message implements BotApiObject {
                 ", migrateFromChatId=" + migrateFromChatId +
                 ", editDate=" + editDate +
                 ", game=" + game +
+                ", forwardFromMessageId=" + forwardFromMessageId +
                 '}';
     }
 }

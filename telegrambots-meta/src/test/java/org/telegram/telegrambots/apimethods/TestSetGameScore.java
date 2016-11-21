@@ -24,7 +24,7 @@ public class TestSetGameScore {
     public void setUp() throws Exception {
         setGameScore = new SetGameScore();
         setGameScore.setChatId("12345");
-        setGameScore.setEditMessage(true);
+        setGameScore.setDisableEditMessage(true);
         setGameScore.setMessageId(54321);
         setGameScore.setScore(12);
         setGameScore.setUserId(98765);
@@ -34,7 +34,7 @@ public class TestSetGameScore {
     public void TestGetUpdatesMustBeSerializable() throws Exception {
         String json = mapper.writeValueAsString(setGameScore);
         Assert.assertNotNull(json);
-        Assert.assertEquals("{\"chat_id\":\"12345\",\"message_id\":54321,\"edit_message\":true,\"user_id\":98765,\"score\":12,\"method\":\"setGameScore\"}", json);
+        Assert.assertEquals("{\"chat_id\":\"12345\",\"message_id\":54321,\"disable_edit_message\":true,\"user_id\":98765,\"score\":12,\"method\":\"setGameScore\"}", json);
     }
 
     @Test

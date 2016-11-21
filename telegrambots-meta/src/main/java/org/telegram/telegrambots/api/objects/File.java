@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.api.objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
@@ -15,14 +14,6 @@ import java.text.MessageFormat;
  * @date 24 of June of 2015
  */
 public class File implements BotApiObject {
-    @JsonIgnore
-    /**
-     * @deprecated It is still public for backward compatibility, will be removed in next big release.
-     * use {@link #getFileUrl(String, String)} or {@link #getFileUrl(String)} instead.
-     */
-    @Deprecated
-    public static final String FILEBASEURL = "https://api.telegram.org/file/bot{0}/{1}";
-
     private static final String FILE_ID = "file_id";
     private static final String FILE_SIZE_FIELD = "file_size";
     private static final String FILE_PATH_FIELD = "file_path";

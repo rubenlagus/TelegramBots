@@ -279,7 +279,7 @@ public final class BotApiMethodHelperFactory {
     public static BotApiMethod getSetGameScore() {
         return new SetGameScore()
                 .setInlineMessageId("12345")
-                .setEditMessage(true)
+                .setDisableEditMessage(true)
                 .setScore(12)
                 .setUserId(98765);
     }
