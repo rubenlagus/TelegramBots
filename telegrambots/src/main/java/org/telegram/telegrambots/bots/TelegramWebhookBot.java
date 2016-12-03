@@ -10,6 +10,7 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.telegrambots.ApiConstants;
@@ -50,6 +51,12 @@ public abstract class TelegramWebhookBot extends DefaultAbsSender implements Web
             httppost.setConfig(botOptions.getRequestConfig());
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addTextBody(SetWebhook.URL_FIELD, url);
+            if (botOptions.getMaxWebhookConnections() != null) {
+                builder.addTextBody(SetWebhook.MAXCONNECTIONS_FIELD, botOptions.getMaxWebhookConnections().toString());
+            }
+            if (botOptions.getAllowedUpdates() != null) {
+                builder.addTextBody(SetWebhook.ALLOWEDUPDATES_FIELD, new JSONArray(botOptions.getMaxWebhookConnections()).toString());
+            }
             if (publicCertificatePath != null) {
                 File certificate = new File(publicCertificatePath);
                 if (certificate.exists()) {

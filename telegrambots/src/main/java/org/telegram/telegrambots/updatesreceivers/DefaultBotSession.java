@@ -158,10 +158,15 @@ public class DefaultBotSession implements BotSession {
             setPriority(Thread.MIN_PRIORITY);
             while (running) {
                 try {
-                    GetUpdates request = new GetUpdates();
-                    request.setLimit(100);
-                    request.setTimeout(ApiConstants.GETUPDATES_TIMEOUT);
-                    request.setOffset(lastReceivedUpdate + 1);
+                    GetUpdates request = new GetUpdates()
+                            .setLimit(100)
+                            .setTimeout(ApiConstants.GETUPDATES_TIMEOUT)
+                            .setOffset(lastReceivedUpdate + 1);
+
+                    if (options.getAllowedUpdates() != null) {
+                        request.setAllowedUpdates(options.getAllowedUpdates());
+                    }
+
                     String url = ApiConstants.BASE_URL + token + "/" + GetUpdates.PATH;
                     //http client
                     HttpPost httpPost = new HttpPost(url);

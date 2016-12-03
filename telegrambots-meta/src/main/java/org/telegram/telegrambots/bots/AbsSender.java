@@ -28,6 +28,7 @@ import org.telegram.telegrambots.api.methods.send.SendSticker;
 import org.telegram.telegrambots.api.methods.send.SendVenue;
 import org.telegram.telegrambots.api.methods.send.SendVideo;
 import org.telegram.telegrambots.api.methods.send.SendVoice;
+import org.telegram.telegrambots.api.methods.updates.DeleteWebhook;
 import org.telegram.telegrambots.api.methods.updates.GetWebhookInfo;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageCaption;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageReplyMarkup;
@@ -239,6 +240,13 @@ public abstract class AbsSender {
             throw new TelegramApiException("Parameter sendGame can not be null");
         }
         return sendApiMethod(sendGame);
+    }
+
+    public final Boolean deleteWebhook(DeleteWebhook deleteWebhook) throws TelegramApiException {
+        if(deleteWebhook == null){
+            throw new TelegramApiException("Parameter deleteWebhook can not be null");
+        }
+        return sendApiMethod(deleteWebhook);
     }
 
     // Send Requests Async
@@ -510,6 +518,16 @@ public abstract class AbsSender {
             throw new TelegramApiException("Parameter sentCallback can not be null");
         }
         sendApiMethodAsync(sendGame, sentCallback);
+    }
+
+    public final void deleteWebhook(DeleteWebhook deleteWebhook, SentCallback<Boolean> sentCallback) throws TelegramApiException {
+        if (deleteWebhook == null) {
+            throw new TelegramApiException("Parameter deleteWebhook can not be null");
+        }
+        if (sentCallback == null) {
+            throw new TelegramApiException("Parameter sentCallback can not be null");
+        }
+        sendApiMethodAsync(deleteWebhook, sentCallback);
     }
 
     // Specific Send Requests

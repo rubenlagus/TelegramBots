@@ -11,6 +11,7 @@ import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Ruben Bermudez
@@ -25,6 +26,8 @@ public class GetUpdates extends BotApiMethod<ArrayList<Update>>{
     private static final String OFFSET_FIELD = "offset";
     private static final String LIMIT_FIELD = "limit";
     private static final String TIMEOUT_FIELD = "timeout";
+    private static final String ALLOWEDUPDATES_FIELD = "allowed_updates";
+
     /**
      * Optional. Identifier of the first update to be returned. Must be greater by one than the
      * highest among the identifiers of previously received updates. By default, updates starting
@@ -47,6 +50,17 @@ public class GetUpdates extends BotApiMethod<ArrayList<Update>>{
      */
     @JsonProperty(TIMEOUT_FIELD)
     private Integer timeout;
+    /**
+     * List the types of updates you want your bot to receive.
+     * For example, specify [“message”, “edited_channel_post”, “callback_query”] to only receive
+     * updates of these types. Specify an empty list to receive all updates regardless of type (default).
+     * If not specified, the previous setting will be used.
+     *
+     * Please note that this parameter doesn't affect updates created before the call to the setWebhook,
+     * so unwanted updates may be received for a short period of time.
+     */
+    @JsonProperty(ALLOWEDUPDATES_FIELD)
+    private List<String> allowedUpdates;
 
     public GetUpdates() {
         super();
@@ -76,6 +90,15 @@ public class GetUpdates extends BotApiMethod<ArrayList<Update>>{
 
     public GetUpdates setTimeout(Integer timeout) {
         this.timeout = timeout;
+        return this;
+    }
+
+    public List<String> getAllowedUpdates() {
+        return allowedUpdates;
+    }
+
+    public GetUpdates setAllowedUpdates(List<String> allowedUpdates) {
+        this.allowedUpdates = allowedUpdates;
         return this;
     }
 
@@ -110,6 +133,7 @@ public class GetUpdates extends BotApiMethod<ArrayList<Update>>{
                 "offset=" + offset +
                 ", limit=" + limit +
                 ", timeout=" + timeout +
+                ", allowedUpdates=" + allowedUpdates +
                 '}';
     }
 }

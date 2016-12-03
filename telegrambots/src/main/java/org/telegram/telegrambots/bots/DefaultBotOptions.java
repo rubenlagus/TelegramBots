@@ -3,6 +3,8 @@ package org.telegram.telegrambots.bots;
 import org.apache.http.client.config.RequestConfig;
 import org.telegram.telegrambots.generics.BotOptions;
 
+import java.util.List;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -12,6 +14,8 @@ import org.telegram.telegrambots.generics.BotOptions;
 public class DefaultBotOptions implements BotOptions {
     private int maxThreads; ///< Max number of threads used for async methods executions (default 1)
     private RequestConfig requestConfig;
+    private Integer maxWebhookConnections;
+    private List<String> allowedUpdates;
 
     public DefaultBotOptions() {
         maxThreads = 1;
@@ -27,6 +31,22 @@ public class DefaultBotOptions implements BotOptions {
 
     public RequestConfig getRequestConfig() {
         return requestConfig;
+    }
+
+    public Integer getMaxWebhookConnections() {
+        return maxWebhookConnections;
+    }
+
+    public void setMaxWebhookConnections(Integer maxWebhookConnections) {
+        this.maxWebhookConnections = maxWebhookConnections;
+    }
+
+    public List<String> getAllowedUpdates() {
+        return allowedUpdates;
+    }
+
+    public void setAllowedUpdates(List<String> allowedUpdates) {
+        this.allowedUpdates = allowedUpdates;
     }
 
     /**
