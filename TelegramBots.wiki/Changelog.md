@@ -18,3 +18,9 @@
 5. Added `channel_post` and `edited_channel_post` to `Update` object.
 
 **[[How to update to version 2.4.4|How-To-Update#2.4.4]]**
+
+### <a id="2.4.4.1"></a>2.4.4.1 ###
+1. New `max_connections` in `setWebhook` method.
+2. New `allowed_updates` in `setWebhook` and `getUpdates`
+3. New `deleteWebhook` method
+4. Added new configs to DefaultBotOptions to handle `max_connections` and `allowed_updates`

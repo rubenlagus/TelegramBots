@@ -52,7 +52,7 @@ import java.util.concurrent.TimeUnit;
  * @date 14 of January of 2016
  */
 @SuppressWarnings("unused")
-public abstract class DefaultAbsSender extends AbsSender{
+public abstract class DefaultAbsSender extends AbsSender {
     private static final ContentType TEXT_PLAIN_CONTENT_TYPE = ContentType.create("text/plain", StandardCharsets.UTF_8);
 
     private final ExecutorService exe;
