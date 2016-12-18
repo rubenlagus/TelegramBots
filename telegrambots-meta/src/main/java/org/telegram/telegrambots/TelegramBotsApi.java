@@ -29,8 +29,8 @@ public class TelegramBotsApi {
 
     /**
      *
-     * @param keyStore KeyStore for the server
-     * @param keyStorePassword Key store password for the server
+     * @param keyStore KeyStore for the server. If null, an insecure HTTP server is started.
+     * @param keyStorePassword Key store password for the server. May be null if keyStore is null.
      * @param externalUrl External base url for the webhook
      * @param internalUrl Internal base url for the webhook
      */
