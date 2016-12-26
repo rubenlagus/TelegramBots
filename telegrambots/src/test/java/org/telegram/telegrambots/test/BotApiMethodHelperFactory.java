@@ -1,4 +1,4 @@
-package org.telegram.telegrambots;
+package org.telegram.telegrambots.test;
 
 import org.telegram.telegrambots.api.methods.ActionType;
 import org.telegram.telegrambots.api.methods.AnswerCallbackQuery;

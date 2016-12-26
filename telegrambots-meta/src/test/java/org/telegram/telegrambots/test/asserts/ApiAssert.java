@@ -1,4 +1,4 @@
-package org.telegram.telegrambots.asserts;
+package org.telegram.telegrambots.test.asserts;
 
 /**
  * @author Ruben Bermudez

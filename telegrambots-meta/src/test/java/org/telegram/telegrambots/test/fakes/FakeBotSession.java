@@ -1,4 +1,4 @@
-package org.telegram.telegrambots.fakes;
+package org.telegram.telegrambots.test.fakes;
 
 import org.telegram.telegrambots.generics.BotOptions;
 import org.telegram.telegrambots.generics.BotSession;
@@ -27,7 +27,7 @@ public class FakeBotSession implements BotSession {
     }
 
     @Override
-    public void close() {
+    public void stop() {
 
     }
 

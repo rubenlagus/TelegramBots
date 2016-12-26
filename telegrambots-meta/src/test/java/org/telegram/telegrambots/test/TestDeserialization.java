@@ -1,4 +1,4 @@
-package org.telegram.telegrambots;
+package org.telegram.telegrambots.test;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

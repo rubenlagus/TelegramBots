@@ -24,3 +24,9 @@
 2. New `allowed_updates` in `setWebhook` and `getUpdates`
 3. New `deleteWebhook` method
 4. Added new configs to DefaultBotOptions to handle `max_connections` and `allowed_updates`
+
+### <a id="2.4.4.3"></a>2.4.4.3 ###
+1. In `BotSession`, renamed `close` to `stop`. `Close` method is maintained for backward compatibility.
+2. Support crating webhook with HTTP servers (HTTPS must be managed via external tools)
+
+**[[How to update to version 2.4.4.3|How-To-Update#2.4.4.3]]**

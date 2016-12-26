@@ -1,11 +1,11 @@
-package org.telegram.telegrambots.apimethods;
+package org.telegram.telegrambots.test.apimethods;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.telegram.telegrambots.TelegramBotsHelper;
+import org.telegram.telegrambots.test.TelegramBotsHelper;
 import org.telegram.telegrambots.api.methods.games.SetGameScore;
 import org.telegram.telegrambots.api.objects.Message;
 

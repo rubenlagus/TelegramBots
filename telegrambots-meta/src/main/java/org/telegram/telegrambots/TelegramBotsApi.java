@@ -28,7 +28,29 @@ public class TelegramBotsApi {
     }
 
     /**
+     * Creates an HTTP server to receive webhook request
+     * @param externalUrl External base url for the webhook
+     * @param internalUrl Internal base url for the webhook
      *
+     * @implSpec This option requires externally handled HTTPS support (i.e. via proxy)
+     */
+    public TelegramBotsApi(String externalUrl, String internalUrl) throws TelegramApiRequestException {
+        if (externalUrl == null || externalUrl.isEmpty()) {
+            throw new TelegramApiRequestException("Parameter externalUrl can not be null or empty");
+        }
+        if (internalUrl == null || internalUrl.isEmpty()) {
+            throw new TelegramApiRequestException("Parameter internalUrl can not be null or empty");
+        }
+
+        this.useWebhook = true;
+        this.extrenalUrl = fixExternalUrl(externalUrl);
+        webhook = ApiContext.getInstance(Webhook.class);
+        webhook.setInternalUrl(internalUrl);
+        webhook.startServer();
+    }
+
+    /**
+     * Creates an HTTPS server to receive webhook request
      * @param keyStore KeyStore for the server
      * @param keyStorePassword Key store password for the server
      * @param externalUrl External base url for the webhook
@@ -41,6 +63,12 @@ public class TelegramBotsApi {
         if (internalUrl == null || internalUrl.isEmpty()) {
             throw new TelegramApiRequestException("Parameter internalUrl can not be null or empty");
         }
+        if (keyStore == null || keyStore.isEmpty()) {
+            throw new TelegramApiRequestException("Parameter keyStore can not be null or empty");
+        }
+        if (keyStorePassword == null || keyStorePassword.isEmpty()) {
+            throw new TelegramApiRequestException("Parameter keyStorePassword can not be null or empty");
+        }
 
         this.useWebhook = true;
         this.extrenalUrl = fixExternalUrl(externalUrl);
@@ -51,7 +79,7 @@ public class TelegramBotsApi {
     }
 
     /**
-     *
+     * Creates an HTTPS server with self-signed certificate to receive webhook request
      * @param keyStore KeyStore for the server
      * @param keyStorePassword Key store password for the server
      * @param externalUrl External base url for the webhook
@@ -65,6 +93,16 @@ public class TelegramBotsApi {
         if (internalUrl == null || internalUrl.isEmpty()) {
             throw new TelegramApiRequestException("Parameter internalUrl can not be null or empty");
         }
+        if (keyStore == null || keyStore.isEmpty()) {
+            throw new TelegramApiRequestException("Parameter keyStore can not be null or empty");
+        }
+        if (keyStorePassword == null || keyStorePassword.isEmpty()) {
+            throw new TelegramApiRequestException("Parameter keyStorePassword can not be null or empty");
+        }
+        if (pathToCertificate == null || pathToCertificate.isEmpty()) {
+            throw new TelegramApiRequestException("Parameter pathToCertificate can not be null or empty");
+        }
+
         this.useWebhook = true;
         this.extrenalUrl = fixExternalUrl(externalUrl);
         this.pathToCertificate = pathToCertificate;

@@ -39,11 +39,10 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Thread to request updates with active wait
- * @date 20 of June of 2015
+ * Thread to request updates with active wait
  */
 public class DefaultBotSession implements BotSession {
-    protected static final String LOGTAG = "BOTSESSION";
+    private static final String LOGTAG = "BOTSESSION";
 
     private volatile boolean running = false;
 
@@ -62,34 +61,40 @@ public class DefaultBotSession implements BotSession {
     }
 
     @Override
-    public void start() {
+    public synchronized void start() {
         if (running) {
             throw new IllegalStateException("Session already running");
         }
 
         running = true;
-        if (readerThread == null || readerThread.isInterrupted()) {
-            readerThread = new ReaderThread();
-            readerThread.setName(callback.getBotUsername() + " Telegram Connection");
-        }
+
+        lastReceivedUpdate = 0;
+
+        readerThread = new ReaderThread();
+        readerThread.setName(callback.getBotUsername() + " Telegram Connection");
         readerThread.start();
 
-        if (handlerThread == null || handlerThread.isInterrupted()) {
-            handlerThread = new HandlerThread();
-            handlerThread.setName(callback.getBotUsername() + " Telegram Executor");
-        }
+        handlerThread = new HandlerThread();
+        handlerThread.setName(callback.getBotUsername() + " Telegram Executor");
         handlerThread.start();
     }
 
     @Override
-    public void close() {
+    public synchronized void stop() {
+        if (!running) {
+            throw new IllegalStateException("Session already stopped");
+        }
+
         running = false;
+
         if (readerThread != null) {
             readerThread.interrupt();
         }
+
         if (handlerThread != null) {
             handlerThread.interrupt();
         }
+
         if (callback != null) {
             callback.onClosing();
         }
@@ -120,7 +125,7 @@ public class DefaultBotSession implements BotSession {
     }
 
     @Override
-    public boolean isRunning() {
+    public synchronized boolean isRunning() {
         return running;
     }
 
@@ -130,15 +135,14 @@ public class DefaultBotSession implements BotSession {
 
         @Override
         public synchronized void start() {
-            super.start();
-
             httpclient = HttpClientBuilder.create()
                     .setSSLHostnameVerifier(new NoopHostnameVerifier())
                     .setConnectionTimeToLive(70, TimeUnit.SECONDS)
                     .setMaxConnTotal(100)
                     .build();
-
             requestConfig = options.getRequestConfig();
+
+            super.start();
         }
 
         @Override
