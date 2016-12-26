@@ -1,4 +1,4 @@
-package org.telegram.telegrambots.fakes;
+package org.telegram.telegrambots.test.fakes;
 
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.generics.Webhook;

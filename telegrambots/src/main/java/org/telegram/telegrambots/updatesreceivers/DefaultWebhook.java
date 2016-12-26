@@ -49,20 +49,24 @@ public class DefaultWebhook implements Webhook {
     }
 
     public void startServer() throws TelegramApiRequestException {
-        SSLContextConfigurator sslContext = new SSLContextConfigurator();
-
-        // set up security context
-        sslContext.setKeyStoreFile(keystoreServerFile); // contains server keypair
-        sslContext.setKeyStorePass(keystoreServerPwd);
-
         ResourceConfig rc = new ResourceConfig();
         rc.register(restApi);
         rc.register(JacksonFeature.class);
-        final HttpServer grizzlyServer = GrizzlyHttpServerFactory.createHttpServer(
-                getBaseURI(),
-                rc,
-                true,
-                new SSLEngineConfigurator(sslContext).setClientMode(false).setNeedClientAuth(false));
+
+        final HttpServer grizzlyServer;
+        if (keystoreServerFile != null && keystoreServerPwd != null) {
+            SSLContextConfigurator sslContext = new SSLContextConfigurator();
+
+            // set up security context
+            sslContext.setKeyStoreFile(keystoreServerFile); // contains server keypair
+            sslContext.setKeyStorePass(keystoreServerPwd);
+
+            grizzlyServer = GrizzlyHttpServerFactory.createHttpServer(getBaseURI(), rc, true,
+                    new SSLEngineConfigurator(sslContext).setClientMode(false).setNeedClientAuth(false));
+        } else {
+            grizzlyServer = GrizzlyHttpServerFactory.createHttpServer(getBaseURI(), rc);
+        }
+
         try {
             grizzlyServer.start();
         } catch (IOException e) {

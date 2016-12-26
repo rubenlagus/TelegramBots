@@ -1,4 +1,4 @@
-package org.telegram.telegrambots.Fakes;
+package org.telegram.telegrambots.test.Fakes;
 
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.Update;
@@ -8,8 +8,6 @@ import org.telegram.telegrambots.generics.WebhookBot;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief TODO
- * @date 01 of November of 2016
  */
 public class FakeWebhook implements WebhookBot {
     private BotApiMethod returnValue;

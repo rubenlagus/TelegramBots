@@ -14,3 +14,6 @@
 1. Replace `ReplyKeyboardHide` by `ReplyKeyboardRemove` and its field `hideKeyboard` by `removeKeyboard` (remember getter and setters)
 2. Replace usage of `edit_message` by `disable_edit_message` (see [this post](https://telegram.me/BotNews/22))
 3. Removed deprecated stuff from version 2.4.3
+
+### <a id="2.4.4.3"></a>To version 2.4.4.3 ###
+1. Replace `BotSession.close()` by `BotSession.stop()`.
