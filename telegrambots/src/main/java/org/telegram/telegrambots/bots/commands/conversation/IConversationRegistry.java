@@ -7,9 +7,10 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 /**
- * The interface Conversation registry.
+ * The interface Conversation registry for {@link ConversationCommand}.
  *
- * @author Roman_Rahozhyn 12/26/16
+ * @author jrrakh
+ *         12/26/16
  */
 public interface IConversationRegistry {
 

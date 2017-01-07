@@ -4,10 +4,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @author Roman_Rahozhyn
+ * The ConversationLockHolder class.
+ * Keep lock for chat and {@link ConversationCommand}.
+ *
+ * @author jrrakh
  *         12/26/16
  */
-public class ConversationLockHolder {
+public final class ConversationLockHolder {
     private Map<Long, ConversationCommand> lock = new ConcurrentHashMap<>();
 
 

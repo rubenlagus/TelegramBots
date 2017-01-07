@@ -6,7 +6,9 @@ import org.telegram.telegrambots.bots.AbsSender;
 import org.telegram.telegrambots.bots.commands.BotCommand;
 
 /**
- * @author Roman_Rahozhyn
+ * The ConversationCommand class.
+ * Type of command which provide ability to create conversation with bot.
+ * @author jrrakh
  *         12/26/16
  */
 public abstract class ConversationCommand extends BotCommand {
@@ -23,17 +25,17 @@ public abstract class ConversationCommand extends BotCommand {
     }
 
     /**
-     * Update the command
+     * Execute on update, when message to bot sent.
      *
      * @param absSender absSender to send messages over
      * @param user      the user who sent the command
      * @param chat      the chat, to be able to send replies
      * @param arguments passed arguments
      */
-    public abstract void update(AbsSender absSender, User user, Chat chat, String[] arguments);
+    public abstract void onUpdate(AbsSender absSender, User user, Chat chat, String[] arguments);
 
     /**
-     * Cancel the command
+     * Execute when user cancel conversation command.
      *
      * @param absSender absSender to send messages over
      * @param user      the user who sent the command
@@ -43,7 +45,7 @@ public abstract class ConversationCommand extends BotCommand {
     public abstract void cancel(AbsSender absSender, User user, Chat chat, String[] arguments);
 
     /**
-     * Warning for command
+     * Execute if user try to execute another command while conversation command in process.
      *
      * @param absSender absSender to send messages over
      * @param user      the user who sent the command

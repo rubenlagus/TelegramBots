@@ -15,19 +15,42 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-public abstract class TelegramLongPollingConversationBot extends TelegramLongPollingBot
-    implements IConversationRegistry {
+/**
+ * The TelegramLongPollingConversationBot class.
+ * Implementation of LongPollingBot for {@link ConversationCommand}.
+ *
+ * @author jrrakh
+ *         12/26/16
+ */
+public abstract class TelegramLongPollingConversationBot
+    extends TelegramLongPollingBot implements IConversationRegistry {
+
+    private static final String DEFAULT_CANCEL_COMMAND_IDENTIFIER = "cancel";
     private IConversationRegistry commandRegistry;
     private ConversationLockHolder conversationHolderLock;
 
+    /**
+     * Instantiates a new Telegram long polling conversation bot.
+     */
     public TelegramLongPollingConversationBot() {
         this(ApiContext.getInstance(DefaultBotOptions.class));
     }
 
+    /**
+     * Instantiates a new Telegram long polling conversation bot.
+     *
+     * @param options the options
+     */
     public TelegramLongPollingConversationBot(DefaultBotOptions options) {
         this(options, true);
     }
 
+    /**
+     * Instantiates a new Telegram long polling conversation bot.
+     *
+     * @param options                   the options
+     * @param allowCommandsWithUsername the allow commands with username
+     */
     public TelegramLongPollingConversationBot(DefaultBotOptions options, boolean allowCommandsWithUsername) {
         super(options);
         this.commandRegistry = new ConversationRegistry(allowCommandsWithUsername, getBotUsername());
@@ -41,55 +64,64 @@ public abstract class TelegramLongPollingConversationBot extends TelegramLongPol
             Message message = update.getMessage();
             Chat chat = message.getChat();
             User user = message.getFrom();
+            UpdateData updateData = new UpdateData(message.getText());
             if (message.isCommand()) {
                 if (message.hasText()) {
-                    String text = message.getText();
-                    if (text.startsWith(BotCommand.COMMAND_INIT_CHARACTER)) {
-
-                        String messageBody = text.substring(1);
-                        String[] splittedMessage = messageBody.split(BotCommand.COMMAND_PARAMETER_SEPARATOR);
-                        String[] arguments = Arrays.copyOfRange(splittedMessage, 1, splittedMessage.length);
-                        String commandIdentifier = splittedMessage[0];
-
-                        if (commandIdentifier.equals("cancel") && conversationHolderLock.isLocked(chat.getId())) {
-                            conversationHolderLock.getLockedConversation(chat.getId())
-                                .cancel(this, user, chat, arguments);
-                            conversationHolderLock.unlock(chat.getId());
+                    if (updateData.isTextStartWithCommand()) {
+                        if (checkForCancelAndExecute(chat, user, updateData)) {
                             return;
                         }
-
-                        ConversationCommand command = commandRegistry.getRegisteredCommand(commandIdentifier);
-                        if (command != null) {
-                            if (!conversationHolderLock.isLocked(chat.getId())) {
-                                conversationHolderLock.lock(chat.getId(), command);
-                                command.execute(this, user, chat, arguments);
-                                return;
-                            }
+                        if (checkForCommandAndExecute(chat, user, updateData)) {
+                            return;
+                        }
+                        if (checkForWarningAndExecute(chat, user, updateData)) {
+                            return;
                         }
                     }
                 }
             }
-            String text = message.getText();
-            String messageBody = text.substring(1);
-            String[] splittedMessage = messageBody.split(BotCommand.COMMAND_PARAMETER_SEPARATOR);
-            String[] arguments = Arrays.copyOfRange(splittedMessage, 1, splittedMessage.length);
-            String commandIdentifier = splittedMessage[0];
-            ConversationCommand command = commandRegistry.getRegisteredCommand(commandIdentifier);
-            if (command != null && text.startsWith(BotCommand.COMMAND_INIT_CHARACTER)) {
-                command.warning(this, user, chat, arguments);
-                return;
-            }
-            if (conversationHolderLock.isLocked(chat.getId())) {
-                ConversationCommand lockedConversation = conversationHolderLock.getLockedConversation(chat.getId());
-                lockedConversation.update(this, user, chat, splittedMessage);
-                return;
-            }
+            checkForUpdateAndExecute(chat, user, updateData);
         }
-        processNonCommandUpdate(update);
     }
 
-    protected abstract void processNonCommandUpdate(Update update);
+    private void checkForUpdateAndExecute(Chat chat, User user, UpdateData updateData) {
+        if (conversationHolderLock.isLocked(chat.getId())) {
+            ConversationCommand lockedConversation = conversationHolderLock.getLockedConversation(chat.getId());
+            lockedConversation.onUpdate(this, user, chat, updateData.getArguments());
+        }
+    }
 
+    private boolean checkForWarningAndExecute(Chat chat, User user, UpdateData updateData) {
+        ConversationCommand command = commandRegistry.getRegisteredCommand(updateData.getCommandIdentifier());
+        if (command != null && updateData.getText().startsWith(BotCommand.COMMAND_INIT_CHARACTER)) {
+            command.warning(this, user, chat, updateData.getArguments());
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkForCommandAndExecute(Chat chat, User user, UpdateData updateData) {
+        ConversationCommand command = commandRegistry.getRegisteredCommand(updateData.getCommandIdentifier());
+        if (command != null) {
+            if (!conversationHolderLock.isLocked(chat.getId())) {
+                conversationHolderLock.lock(chat.getId(), command);
+                command.execute(this, user, chat, updateData.getArguments());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkForCancelAndExecute(Chat chat, User user, UpdateData updateData) {
+        if (updateData.getCommandIdentifier().equals(DEFAULT_CANCEL_COMMAND_IDENTIFIER)
+            && conversationHolderLock.isLocked(chat.getId())) {
+            conversationHolderLock.getLockedConversation(chat.getId())
+                .cancel(this, user, chat, updateData.getArguments());
+            conversationHolderLock.unlock(chat.getId());
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public void registerDefaultAction(BiConsumer<AbsSender, Message> defaultConsumer) {
@@ -125,5 +157,32 @@ public abstract class TelegramLongPollingConversationBot extends TelegramLongPol
     @Override
     public ConversationCommand getRegisteredCommand(String commandIdentifier) {
         return commandRegistry.getRegisteredCommand(commandIdentifier);
+    }
+
+    private final class UpdateData {
+        private final String text;
+        private final String messageBody;
+
+        private UpdateData(String text) {
+            this.text = text;
+            this.messageBody = text.substring(1);
+        }
+
+        private String getText() {
+            return text;
+        }
+
+        private String[] getArguments() {
+            String[] splittedMessage = messageBody.split(BotCommand.COMMAND_PARAMETER_SEPARATOR);
+            return Arrays.copyOfRange(splittedMessage, 1, splittedMessage.length);
+        }
+
+        private String getCommandIdentifier() {
+            return messageBody.split(BotCommand.COMMAND_PARAMETER_SEPARATOR)[0];
+        }
+
+        private boolean isTextStartWithCommand() {
+            return text.startsWith(BotCommand.COMMAND_INIT_CHARACTER);
+        }
     }
 }

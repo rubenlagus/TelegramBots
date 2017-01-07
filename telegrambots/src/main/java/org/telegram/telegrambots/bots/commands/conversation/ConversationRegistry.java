@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 
 /**
- * @author Roman_Rahozhyn
+ * @author jrrakh
  *         12/26/16
  */
 public class ConversationRegistry implements IConversationRegistry {
