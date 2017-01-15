@@ -164,21 +164,21 @@ public abstract class AbsSender {
         return sendApiMethod(getChatMemberCount);
     }
 
-    public final Message editMessageText(EditMessageText editMessageText) throws TelegramApiException {
+    public final Serializable editMessageText(EditMessageText editMessageText) throws TelegramApiException {
         if (editMessageText == null) {
             throw new TelegramApiException("Parameter editMessageText can not be null");
         }
         return sendApiMethod(editMessageText);
     }
 
-    public final Message editMessageCaption(EditMessageCaption editMessageCaption) throws TelegramApiException {
+    public final Serializable editMessageCaption(EditMessageCaption editMessageCaption) throws TelegramApiException {
         if (editMessageCaption == null) {
             throw new TelegramApiException("Parameter editMessageCaption can not be null");
         }
         return sendApiMethod(editMessageCaption);
     }
 
-    public final Message editMessageReplyMarkup(EditMessageReplyMarkup editMessageReplyMarkup) throws TelegramApiException {
+    public final Serializable editMessageReplyMarkup(EditMessageReplyMarkup editMessageReplyMarkup) throws TelegramApiException {
         if (editMessageReplyMarkup == null) {
             throw new TelegramApiException("Parameter editMessageReplyMarkup can not be null");
         }
@@ -407,7 +407,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(getChatMemberCount, sentCallback);
     }
 
-    public final void editMessageTextAsync(EditMessageText editMessageText, SentCallback<Message> sentCallback) throws TelegramApiException {
+    public final void editMessageTextAsync(EditMessageText editMessageText, SentCallback<Serializable> sentCallback) throws TelegramApiException {
         if (editMessageText == null) {
             throw new TelegramApiException("Parameter editMessageText can not be null");
         }
@@ -418,7 +418,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(editMessageText, sentCallback);
     }
 
-    public final void editMessageCaptionAsync(EditMessageCaption editMessageCaption, SentCallback<Message> sentCallback) throws TelegramApiException {
+    public final void editMessageCaptionAsync(EditMessageCaption editMessageCaption, SentCallback<Serializable> sentCallback) throws TelegramApiException {
         if (editMessageCaption == null) {
             throw new TelegramApiException("Parameter editMessageCaption can not be null");
         }
@@ -429,7 +429,7 @@ public abstract class AbsSender {
         sendApiMethodAsync(editMessageCaption, sentCallback);
     }
 
-    public final void editMessageReplyMarkup(EditMessageReplyMarkup editMessageReplyMarkup, SentCallback<Message> sentCallback) throws TelegramApiException {
+    public final void editMessageReplyMarkup(EditMessageReplyMarkup editMessageReplyMarkup, SentCallback<Serializable> sentCallback) throws TelegramApiException {
         if (editMessageReplyMarkup == null) {
             throw new TelegramApiException("Parameter editMessageReplyMarkup can not be null");
         }
