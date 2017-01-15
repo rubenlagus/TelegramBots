@@ -12,16 +12,17 @@ import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
  * @brief Use this method to edit text messages sent by the bot or via the bot (for inline bots). On
- * success, the edited Message is returned.
+ * success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
  * @date 10 of April of 2016
  */
-public class EditMessageText extends BotApiMethod<Message> {
+public class EditMessageText extends BotApiMethod<Serializable> {
     public static final String PATH = "editmessagetext";
 
     private static final String CHATID_FIELD = "chat_id";
@@ -159,7 +160,7 @@ public class EditMessageText extends BotApiMethod<Message> {
     }
 
     @Override
-    public Message deserializeResponse(String answer) throws TelegramApiRequestException {
+    public Serializable deserializeResponse(String answer) throws TelegramApiRequestException {
         try {
             ApiResponse<Message> result = OBJECT_MAPPER.readValue(answer,
                     new TypeReference<ApiResponse<Message>>(){});
@@ -169,7 +170,18 @@ public class EditMessageText extends BotApiMethod<Message> {
                 throw new TelegramApiRequestException("Error editing message text", result);
             }
         } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
+            try {
+                ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
+                        new TypeReference<ApiResponse<Boolean>>() {
+                        });
+                if (result.getOk()) {
+                    return result.getResult();
+                } else {
+                    throw new TelegramApiRequestException("Error editing message text", result);
+                }
+            } catch (IOException e2) {
+                throw new TelegramApiRequestException("Unable to deserialize response", e);
+            }
         }
     }
 

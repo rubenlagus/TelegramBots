@@ -30,3 +30,8 @@
 2. Support crating webhook with HTTP servers (HTTPS must be managed via external tools)
 
 **[[How to update to version 2.4.4.3|How-To-Update#2.4.4.3]]**
+
+### <a id="2.4.4.4"></a>2.4.4.4 ###
+1. EditMessageText, EditMessageCaption and EditMessageReplyMarkup now return a `Serializable` object that can be `Boolean` or `Message`
+
+**[[How to update to version 2.4.4.4|How-To-Update#2.4.4.4]]**

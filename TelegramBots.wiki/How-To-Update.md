@@ -17,3 +17,7 @@
 
 ### <a id="2.4.4.3"></a>To version 2.4.4.3 ###
 1. Replace `BotSession.close()` by `BotSession.stop()`.
+
+### <a id="2.4.4.4"></a>To version 2.4.4.4 ###
+1. All calls to `editMessageText`, `editMessageCaption` or `editMessageReplyMarkup` in `AbsSender` return value is changed to `Serializable`
+2. In `editMessageTextAsync`, `editMessageCaptionAsync` or `editMessageReplyMarkupAsync` in `AbsSender`, second parameter should become `SentCallback<Serializable>` due to new return type. 

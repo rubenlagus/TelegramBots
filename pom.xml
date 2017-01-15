@@ -7,7 +7,7 @@
     <groupId>org.telegram</groupId>
     <artifactId>Bots</artifactId>
     <packaging>pom</packaging>
-    <version>2.4.4.3</version>
+    <version>2.4.4.4</version>
 
     <modules>
         <module>telegrambots</module>
@@ -24,6 +24,6 @@
 
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>
-        <bots.version>2.4.4.3</bots.version>
+        <bots.version>2.4.4.4</bots.version>
     </properties>
 </project>
