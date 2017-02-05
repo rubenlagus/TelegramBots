@@ -5,6 +5,7 @@
 [![Build Status](https://travis-ci.org/rubenlagus/TelegramBots.svg?branch=master)](https://travis-ci.org/rubenlagus/TelegramBots)
 [![Jitpack](https://jitpack.io/v/rubenlagus/TelegramBots.svg)](https://jitpack.io/#rubenlagus/TelegramBots)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.telegram/telegrambots/badge.svg)](http://mvnrepository.com/artifact/org.telegram/telegrambots)
+[![Book Status](https://www.gitbook.com/button/status/book/monsterdeveloper/writing-telegram-bots-on-java)](https://www.gitbook.io/book/MonsterDeveloper/writing-telegram-bots-on-java/details)
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/rubenlagus/TelegramBots/blob/master/LICENSE)
 
 A simple to use library to create Telegram Bots in Java
@@ -63,7 +64,7 @@ Once done, you just need to create a `org.telegram.telegrambots.TelegramBotsApi`
 
 ```
 
-For detailed explanation, visite our [How To](https://github.com/rubenlagus/TelegramBots/wiki/Getting-Started) (thanks Clevero)
+For detailed explanation, take a look at [MonsterDeveloper's](https://github.com/MonsterDeveloper) [book about writing bots for Telegram](https://goo.gl/vj4Qr6) or [FAQ](https://github.com/rubenlagus/TelegramBots/wiki/Getting-Started) (thanks Clevero)
 
 
 ## Example bots
