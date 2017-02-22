@@ -12,6 +12,7 @@ import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * @author Ruben Bermudez
@@ -119,11 +120,25 @@ public class AnswerInlineQuery extends BotApiMethod<Boolean> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (inlineQueryId == null) {
+        if (inlineQueryId == null || inlineQueryId.isEmpty()) {
             throw new TelegramApiValidationException("InlineQueryId can't be empty", this);
         }
         if (results == null) {
             throw new TelegramApiValidationException("Results array can't be null", this);
+        }
+        if (switchPmText != null) {
+            if (switchPmText.isEmpty()) {
+                throw new TelegramApiValidationException("SwitchPmText can't be empty", this);
+            }
+            if (switchPmParameter == null || switchPmParameter.isEmpty()) {
+                throw new TelegramApiValidationException("SwitchPmParameter can't be empty if switchPmText is present", this);
+            }
+            if (switchPmParameter.length() > 64) {
+                throw new TelegramApiValidationException("SwitchPmParameter can't be longer than 64 chars", this);
+            }
+            if (!Pattern.matches("[A-Za-z0-9_]+", switchPmParameter.trim() )) {
+                throw new TelegramApiValidationException("SwitchPmParameter only allows A-Z, a-z, 0-9 and _ characters", this);
+            }
         }
         for (InlineQueryResult result : results) {
             result.validate();
