@@ -172,8 +172,8 @@ public class TestDeserialization {
         Assert.assertEquals("offset", inlineQuery.getOffset());
         assertFromUser(inlineQuery.getFrom());
         Assert.assertNotNull(inlineQuery.getLocation());
-        Assert.assertEquals(Double.valueOf("0.234242534"), inlineQuery.getLocation().getLatitude());
-        Assert.assertEquals(Double.valueOf("0.234242534"), inlineQuery.getLocation().getLongitude());
+        Assert.assertEquals(Float.valueOf("0.234242534"), inlineQuery.getLocation().getLatitude());
+        Assert.assertEquals(Float.valueOf("0.234242534"), inlineQuery.getLocation().getLongitude());
     }
 
     private void assertCallbackQuery(CallbackQuery callbackQuery) {

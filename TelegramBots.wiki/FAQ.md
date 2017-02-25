@@ -1,5 +1,6 @@
 * [How to get picture?](#how_to_get_picture)  
-* [How to send photos?](#how_to_send_photos)  
+* [How to send photos?](#how_to_send_photos)
+* [How do I send photos by file_id?](#how_to_send_photos_file_id)
 * [How to use custom keyboards?](#how_to_use_custom_keyboards)
 * [How can I run my bot?](#how_to_host)     
 * [How can I compile my project?](#how_to_compile)
@@ -122,6 +123,31 @@ There are several method to send a photo to an user using `sendPhoto` method: Wi
     }
 ```
 
+## <a id="how_to_send_photos_file_id"></a>How to send photo by its file_id? ##
+
+In this example we will check if user sends to bot a photo, if it is, get Photo's file_id and send this photo by file_id to user.
+```java
+// If it is a photo
+if (update.hasMessage() && update.getMessage().hasPhoto()) {
+            // Array with photos
+            List<PhotoSize> photos = update.getMessage().getPhoto();
+            // Get largest photo's file_id
+            String f_id = photos.stream()
+                    .sorted(Comparator.comparing(PhotoSize::getFileSize).reversed())
+                    .findFirst()
+                    .orElse(null).getFileId();
+            // Send photo by file_id we got before
+            SendPhoto msg = new SendPhoto()
+                    .setChatId(update.getMessage().getChatId())
+                    .setPhoto(f_id)
+                    .setCaption("Photo");
+            try {
+                sendPhoto(msg); // Call method to send the photo
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+        }
+```
 
 ## <a id="how_to_use_custom_keyboards"></a>How to use custom keyboards? ##
 

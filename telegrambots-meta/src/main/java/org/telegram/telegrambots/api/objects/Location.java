@@ -16,19 +16,19 @@ public class Location implements BotApiObject {
     private static final String LATITUDE_FIELD = "latitude";
 
     @JsonProperty(LONGITUDE_FIELD)
-    private Double longitude; ///< Longitude as defined by sender
+    private Float longitude; ///< Longitude as defined by sender
     @JsonProperty(LATITUDE_FIELD)
-    private Double latitude; ///< Latitude as defined by sender
+    private Float latitude; ///< Latitude as defined by sender
 
     public Location() {
         super();
     }
 
-    public Double getLongitude() {
+    public Float getLongitude() {
         return longitude;
     }
 
-    public Double getLatitude() {
+    public Float getLatitude() {
         return latitude;
     }
 
