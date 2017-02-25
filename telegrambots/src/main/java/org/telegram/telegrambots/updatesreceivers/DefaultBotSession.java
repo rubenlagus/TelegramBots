@@ -133,6 +133,7 @@ public class DefaultBotSession implements BotSession {
 
     private class ReaderThread extends Thread implements UpdatesReader {
         private CloseableHttpClient httpclient;
+        private ExponentialBackOff exponentialBackOff;
         private RequestConfig requestConfig;
 
         @Override
@@ -143,6 +144,11 @@ public class DefaultBotSession implements BotSession {
                     .setMaxConnTotal(100)
                     .build();
             requestConfig = options.getRequestConfig();
+            exponentialBackOff = options.getExponentialBackOff();
+
+            if (exponentialBackOff == null) {
+                exponentialBackOff = new ExponentialBackOff();
+            }
 
             if (requestConfig == null) {
                 requestConfig = RequestConfig.copy(RequestConfig.custom().build())
@@ -191,28 +197,37 @@ public class DefaultBotSession implements BotSession {
                         HttpEntity ht = response.getEntity();
                         BufferedHttpEntity buf = new BufferedHttpEntity(ht);
                         String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
-                        try {
-                            List<Update> updates = request.deserializeResponse(responseContent);
 
-                            if (updates.isEmpty()) {
-                                synchronized (this) {
-                                    this.wait(500);
-                                }
-                            } else {
-                                updates.removeIf(x -> x.getUpdateId() < lastReceivedUpdate);
-                                lastReceivedUpdate = updates.parallelStream()
-                                        .map(
-                                                Update::getUpdateId)
-                                        .max(Integer::compareTo)
-                                        .orElse(0);
-                                receivedUpdates.addAll(updates);
-
-                                synchronized (receivedUpdates) {
-                                    receivedUpdates.notifyAll();
-                                }
+                        if (response.getStatusLine().getStatusCode() >= 500) {
+                            BotLogger.warn(LOGTAG, responseContent);
+                            synchronized (this) {
+                                this.wait(500);
                             }
-                        }catch (JSONException e) {
-                            BotLogger.severe(responseContent, LOGTAG, e);
+                        } else {
+                            try {
+                                List<Update> updates = request.deserializeResponse(responseContent);
+                                exponentialBackOff.reset();
+
+                                if (updates.isEmpty()) {
+                                    synchronized (this) {
+                                        this.wait(500);
+                                    }
+                                } else {
+                                    updates.removeIf(x -> x.getUpdateId() < lastReceivedUpdate);
+                                    lastReceivedUpdate = updates.parallelStream()
+                                            .map(
+                                                    Update::getUpdateId)
+                                            .max(Integer::compareTo)
+                                            .orElse(0);
+                                    receivedUpdates.addAll(updates);
+
+                                    synchronized (receivedUpdates) {
+                                        receivedUpdates.notifyAll();
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                BotLogger.severe(responseContent, LOGTAG, e);
+                            }
                         }
                     } catch (InvalidObjectException | TelegramApiRequestException e) {
                         BotLogger.severe(LOGTAG, e);
@@ -226,7 +241,7 @@ public class DefaultBotSession implements BotSession {
                     BotLogger.severe(LOGTAG, global);
                     try {
                         synchronized (this) {
-                            this.wait(500);
+                            this.wait(exponentialBackOff.nextBackOffMillis());
                         }
                     } catch (InterruptedException e) {
                         if (!running) {

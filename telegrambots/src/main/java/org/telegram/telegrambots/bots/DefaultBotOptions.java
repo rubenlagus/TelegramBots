@@ -2,6 +2,7 @@ package org.telegram.telegrambots.bots;
 
 import org.apache.http.client.config.RequestConfig;
 import org.telegram.telegrambots.generics.BotOptions;
+import org.telegram.telegrambots.updatesreceivers.ExponentialBackOff;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
 public class DefaultBotOptions implements BotOptions {
     private int maxThreads; ///< Max number of threads used for async methods executions (default 1)
     private RequestConfig requestConfig;
+    private ExponentialBackOff exponentialBackOff;
     private Integer maxWebhookConnections;
     private List<String> allowedUpdates;
 
@@ -55,5 +57,17 @@ public class DefaultBotOptions implements BotOptions {
      */
     public void setRequestConfig(RequestConfig requestConfig) {
         this.requestConfig = requestConfig;
+    }
+
+    public ExponentialBackOff getExponentialBackOff() {
+        return exponentialBackOff;
+    }
+
+    /**
+     * @implSpec Default implementation assumes starting at 500ms and max time of 60 minutes
+     * @param exponentialBackOff ExponentialBackOff to be used when long polling fails
+     */
+    public void setExponentialBackOff(ExponentialBackOff exponentialBackOff) {
+        this.exponentialBackOff = exponentialBackOff;
     }
 }
