@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.telegram</groupId>
     <artifactId>telegrambots-meta</artifactId>
-    <version>2.4.4.4</version>
+    <version>2.4.4.5</version>
     <packaging>jar</packaging>
 
     <name>Telegram Bots Meta</name>
@@ -216,16 +216,16 @@
                 <executions>
                     <execution>
                         <id>enforce</id>
-                        <configuration>
-                            <rules>
-                                <DependencyConvergence />
-                            </rules>
-                        </configuration>
                         <goals>
                             <goal>enforce</goal>
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <rules>
+                        <DependencyConvergence />
+                    </rules>
+                </configuration>
             </plugin>
         </plugins>
         <pluginManagement>

@@ -36,6 +36,8 @@ import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
 
+import static org.telegram.telegrambots.Constants.SOCKET_TIMEOUT;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -141,6 +143,13 @@ public class DefaultBotSession implements BotSession {
                     .setMaxConnTotal(100)
                     .build();
             requestConfig = options.getRequestConfig();
+
+            if (requestConfig == null) {
+                requestConfig = RequestConfig.copy(RequestConfig.custom().build())
+                        .setSocketTimeout(SOCKET_TIMEOUT)
+                        .setConnectTimeout(SOCKET_TIMEOUT)
+                        .setConnectionRequestTimeout(SOCKET_TIMEOUT).build();
+            }
 
             super.start();
         }
