@@ -35,3 +35,11 @@
 1. EditMessageText, EditMessageCaption and EditMessageReplyMarkup now return a `Serializable` object that can be `Boolean` or `Message`
 
 **[[How to update to version 2.4.4.4|How-To-Update#2.4.4.4]]**
+
+### <a id="2.4.4.5"></a>2.4.4.5 ###
+1. New validations for AnswerInlineQuery according to Telegram Bots API changes.
+2. Added Maven-enforcer-plugin to Maven pom.
+3. Added new How to send photos by file_id to FAQ.
+4. Added reference to new gitbook about this library.
+5. Added custom ExponentialBackOff waiting time when having network problems in long-polling mode. (Custom implementation is allowed via BotOptions)
+3. Bug fixing: #184, #183
