@@ -60,7 +60,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <guice.version>4.1.0</guice.version>
-        <jackson.version>2.8.5</jackson.version>
+        <jackson.version>2.8.7</jackson.version>
+        <jacksonanotation.version>2.8.0</jacksonanotation.version>
         <json.version>20160810</json.version>
         <junit.version>4.12</junit.version>
     </properties>
@@ -85,7 +86,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>${jackson.version}</version>
+            <version>${jacksonanotation.version}</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
