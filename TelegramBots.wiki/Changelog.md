@@ -42,4 +42,4 @@
 3. Added new How to send photos by file_id to FAQ.
 4. Added reference to new gitbook about this library.
 5. Added custom ExponentialBackOff waiting time when having network problems in long-polling mode. (Custom implementation is allowed via BotOptions)
-3. Bug fixing: #184, #183
+6. Bug fixing: #184, #183
