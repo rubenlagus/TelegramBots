@@ -49,6 +49,8 @@ public class Message implements BotApiObject {
     private static final String GAME_FIELD = "game";
     private static final String FORWARDFROMMESSAGEID_FIELD = "forward_from_message_id";
 
+
+
     @JsonProperty(MESSAGEID_FIELD)
     private Integer messageId; ///< Integer	Unique message identifier
     @JsonProperty(FROM_FIELD)
@@ -150,8 +152,15 @@ public class Message implements BotApiObject {
     @JsonProperty(FORWARDFROMMESSAGEID_FIELD)
     private Integer forwardFromMessageId; ///< Optional. For forwarded channel posts, identifier of the original message in the channel
 
+    private boolean result;
+
     public Message() {
         super();
+    }
+
+    public Message(boolean result) {
+        super();
+        this.result = result;
     }
 
     public Integer getMessageId() {
@@ -351,6 +360,10 @@ public class Message implements BotApiObject {
         return photo != null && !photo.isEmpty();
     }
 
+    public boolean isResult() {
+        return result;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
@@ -388,6 +401,8 @@ public class Message implements BotApiObject {
                 ", editDate=" + editDate +
                 ", game=" + game +
                 ", forwardFromMessageId=" + forwardFromMessageId +
+                ", result=" + result +
                 '}';
     }
+
 }

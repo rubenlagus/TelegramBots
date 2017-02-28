@@ -65,6 +65,14 @@ public class TestDeserialization {
         Assert.assertEquals(Integer.valueOf(12), result.getParameters().getRetryAfter());
     }
 
+    @Test
+    public void TestEditMessageTextResponseAsResultDeserialization() throws IOException {
+        ApiResponse<Message> result = mapper.readValue(TelegramBotsHelper.GetSetGameScoreBooleanResponse(), new TypeReference<ApiResponse<Message>>(){});
+        Assert.assertNotNull(result);
+        Assert.assertTrue(result.getOk());
+        Assert.assertTrue(result.getResult().isResult());
+    }
+
     private void assertUpdate(Update update) {
         Assert.assertNotNull(update);
         Assert.assertEquals((Integer) 10000, update.getUpdateId());
