@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.bots;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -42,7 +41,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -63,7 +61,7 @@ public abstract class DefaultAbsSender extends AbsSender {
 
     protected DefaultAbsSender(DefaultBotOptions options) {
         super();
-        this.exe = Executors.newFixedThreadPool(options.getMaxThreads());
+        exe = options.getExecutorServiceSupplier().get();
         this.options = options;
         httpclient = HttpClientBuilder.create()
                 .setSSLHostnameVerifier(new NoopHostnameVerifier())
@@ -680,5 +678,14 @@ public abstract class DefaultAbsSender extends AbsSender {
 
     private String getBaseUrl() {
         return ApiConstants.BASE_URL + getBotToken() + "/";
+    }
+
+    /**
+     * Notice protected mod as this method should be called by concrete implementors
+     */
+    protected void dispose() {
+        if (exe!=null) {
+            exe.shutdown();
+        }
     }
 }
