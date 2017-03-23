@@ -5,6 +5,12 @@ import org.telegram.telegrambots.generics.BotOptions;
 import org.telegram.telegrambots.updatesreceivers.ExponentialBackOff;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.function.Supplier;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
@@ -13,17 +19,21 @@ import java.util.List;
  * @date 21 of July of 2016
  */
 public class DefaultBotOptions implements BotOptions {
-    private int maxThreads; ///< Max number of threads used for async methods executions (default 1)
+    private int maxThreads = 1; ///< Max number of threads used for async methods executions (default 1)
+    /**
+     * Custom executorService factory
+     */
+    private Supplier<ExecutorService> executorServiceSupplier = () -> Executors.newFixedThreadPool(maxThreads);
     private RequestConfig requestConfig;
     private ExponentialBackOff exponentialBackOff;
     private Integer maxWebhookConnections;
     private List<String> allowedUpdates;
 
-    public DefaultBotOptions() {
-        maxThreads = 1;
-    }
+    public DefaultBotOptions() {}
 
     public void setMaxThreads(int maxThreads) {
+        boolean inRange = maxThreads > 0 && maxThreads <= Runtime.getRuntime().availableProcessors();
+        checkArgument(inRange, "Given arg %d exceeds range of (0, availablProcessors]", maxThreads);
         this.maxThreads = maxThreads;
     }
 
@@ -69,5 +79,14 @@ public class DefaultBotOptions implements BotOptions {
      */
     public void setExponentialBackOff(ExponentialBackOff exponentialBackOff) {
         this.exponentialBackOff = exponentialBackOff;
+    }
+
+    public Supplier<ExecutorService> getExecutorServiceSupplier() {
+        return executorServiceSupplier;
+    }
+
+    public void setExecutorServiceSupplier(Supplier<ExecutorService> executorServiceSupplier) {
+        checkNotNull(executorServiceSupplier);
+        this.executorServiceSupplier = executorServiceSupplier;
     }
 }
