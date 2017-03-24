@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.inlinequery.result;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -30,32 +30,32 @@ public class InlineQueryResultVideo implements InlineQueryResult {
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
 
-    @JsonProperty(TYPE_FIELD)
+
     private final String type = "video"; ///< Type of the result, must be "video"
-    @JsonProperty(ID_FIELD)
+
     private String id; ///< Unique identifier of this result
-    @JsonProperty(MIMETYPE_FIELD)
-    private String mimeType; ///< Mime type of the content of video url, i.e. “text/html” or “video/mp4”
-    @JsonProperty(VIDEOURL_FIELD)
-    private String videoUrl; ///< A valid URL for the embedded video player or video file
-    @JsonProperty(VIDEOWIDTH_FIELD)
-    private Integer videoWidth; ///< Optional. Video width
-    @JsonProperty(VIDEOHEIGHT_FIELD)
-    private Integer videoHeight; ///< Optional. Video height
-    @JsonProperty(VIDEODURATION_FIELD)
-    private Integer videoDuration; ///< Optional. Video duration in seconds
-    @JsonProperty(THUMBURL_FIELD)
-    private String thumbUrl; ///< Optional. URL of the thumbnail (jpeg only) for the video
-    @JsonProperty(TITLE_FIELD)
+
+    private String mime_type; ///< Mime type of the content of video url, i.e. “text/html” or “video/mp4”
+
+    private String video_url; ///< A valid URL for the embedded video player or video file
+
+    private Integer video_width; ///< Optional. Video width
+
+    private Integer video_height; ///< Optional. Video height
+
+    private Integer video_duration; ///< Optional. Video duration in seconds
+
+    private String thumb_url; ///< Optional. URL of the thumbnail (jpeg only) for the video
+
     private String title; ///< Optional. Title for the result
-    @JsonProperty(DESCRIPTION_FIELD)
+
     private String description; ///< Optional. Short description of the result
-    @JsonProperty(CAPTION_FIELD)
+
     private String caption; ///< Optional. Caption of the video to be sent, 0-200 characters
-    @JsonProperty(INPUTMESSAGECONTENT_FIELD)
-    private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent instead of the photo
-    @JsonProperty(REPLY_MARKUP_FIELD)
-    private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
+
+    private InputMessageContent input_message_content; ///< Optional. Content of the message to be sent instead of the photo
+
+    private InlineKeyboardMarkup reply_markup; ///< Optional. Inline keyboard attached to the message
 
     public InlineQueryResultVideo() {
         super();
@@ -75,56 +75,56 @@ public class InlineQueryResultVideo implements InlineQueryResult {
     }
 
     public String getMimeType() {
-        return mimeType;
+        return mime_type;
     }
 
     public InlineQueryResultVideo setMimeType(String mimeType) {
-        this.mimeType = mimeType;
+        this.mime_type = mimeType;
         return this;
     }
 
     public String getVideoUrl() {
-        return videoUrl;
+        return video_url;
     }
 
     public InlineQueryResultVideo setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
+        this.video_url = videoUrl;
         return this;
     }
 
     public Integer getVideoWidth() {
-        return videoWidth;
+        return video_width;
     }
 
     public InlineQueryResultVideo setVideoWidth(Integer videoWidth) {
-        this.videoWidth = videoWidth;
+        this.video_width = videoWidth;
         return this;
     }
 
     public Integer getVideoHeight() {
-        return videoHeight;
+        return video_height;
     }
 
     public InlineQueryResultVideo setVideoHeight(Integer videoHeight) {
-        this.videoHeight = videoHeight;
+        this.video_height = videoHeight;
         return this;
     }
 
     public Integer getVideoDuration() {
-        return videoDuration;
+        return video_duration;
     }
 
     public InlineQueryResultVideo setVideoDuration(Integer videoDuration) {
-        this.videoDuration = videoDuration;
+        this.video_duration = videoDuration;
         return this;
     }
 
     public String getThumbUrl() {
-        return thumbUrl;
+        return thumb_url;
     }
 
     public InlineQueryResultVideo setThumbUrl(String thumbUrl) {
-        this.thumbUrl = thumbUrl;
+        this.thumb_url = thumbUrl;
         return this;
     }
 
@@ -156,20 +156,20 @@ public class InlineQueryResultVideo implements InlineQueryResult {
     }
 
     public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
+        return input_message_content;
     }
 
-    public InlineQueryResultVideo setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
+    public InlineQueryResultVideo setInputMessageContent(InputMessageContent input_message_content) {
+        this.input_message_content = input_message_content;
         return this;
     }
 
     public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
+        return reply_markup;
     }
 
     public InlineQueryResultVideo setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        this.reply_markup = replyMarkup;
         return this;
     }
 
@@ -178,14 +178,14 @@ public class InlineQueryResultVideo implements InlineQueryResult {
         if (id == null || id.isEmpty()) {
             throw new TelegramApiValidationException("ID parameter can't be empty", this);
         }
-        if (videoUrl == null || videoUrl.isEmpty()) {
+        if (video_url == null || video_url.isEmpty()) {
             throw new TelegramApiValidationException("VideoUrl parameter can't be empty", this);
         }
-        if (inputMessageContent != null) {
-            inputMessageContent.validate();
+        if (input_message_content != null) {
+            input_message_content.validate();
         }
-        if (replyMarkup != null) {
-            replyMarkup.validate();
+        if (reply_markup != null) {
+            reply_markup.validate();
         }
     }
 
@@ -194,17 +194,17 @@ public class InlineQueryResultVideo implements InlineQueryResult {
         return "InlineQueryResultVideo{" +
                 "type='" + type + '\'' +
                 ", id='" + id + '\'' +
-                ", mimeType='" + mimeType + '\'' +
-                ", videoUrl='" + videoUrl + '\'' +
-                ", videoWidth=" + videoWidth +
-                ", videoHeight=" + videoHeight +
-                ", videoDuration=" + videoDuration +
-                ", thumbUrl='" + thumbUrl + '\'' +
+                ", mimeType='" + mime_type + '\'' +
+                ", videoUrl='" + video_url + '\'' +
+                ", videoWidth=" + video_width +
+                ", videoHeight=" + video_height +
+                ", videoDuration=" + video_duration +
+                ", thumbUrl='" + thumb_url + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", caption='" + caption + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
-                ", replyMarkup='" + replyMarkup + '\'' +
+                ", inputMessageContent='" + input_message_content + '\'' +
+                ", replyMarkup='" + reply_markup + '\'' +
                 '}';
     }
 }

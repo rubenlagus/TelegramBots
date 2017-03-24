@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.api.methods.send;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.telegram.telegrambots.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.api.objects.Message;
@@ -8,6 +7,7 @@ import org.telegram.telegrambots.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.myclasses.TypeReference;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,23 +38,23 @@ public class SendAudio extends PartialBotApiMethod<Message> {
     public static final String CAPTION_FIELD = "caption";
 
     private Integer duration; ///< Integer	Duration of the audio in seconds as defined by sender
-    private String chatId; ///< Unique identifier for the chat to send the message to (or Username fro channels)
+    private String chat_id; ///< Unique identifier for the chat to send the message to (or Username fro channels)
     private String audio; ///< Audio file to send. file_id as String to resend an audio that is already on the Telegram servers or Url to upload it
-    private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
+    private Integer reply_to_message_id; ///< Optional. If the message is a reply, ID of the original message
     /**
      * Optional. Sends the message silently. iOS users will not receive a notification, Android
      * users will receive a notification with no sound. Other apps coming soon
      */
-    private Boolean disableNotification;
-    private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    private Boolean disable_notification;
+    private ReplyKeyboard reply_markup; ///< Optional. JSON-serialized object for a custom reply keyboard
     private String performer; ///< Optional. Performer of sent audio
     private String title; ///< Optional. Title of sent audio
     private String caption; ///< Optional. Audio caption (may also be used when resending documents by file_id), 0-200 characters
 
-    private boolean isNewAudio; ///< True to upload a new audio, false to use a fileId
-    private String audioName;
-    private File newAudioFile; ///< New audio file
-    private InputStream newAudioStream; ///< New audio stream
+    private boolean is_new_audio; ///< True to upload a new audio, false to use a fileId
+    private String audio_name;
+    private File new_audio_file; ///< New audio file
+    private InputStream new_audio_stream; ///< New audio stream
 
     public SendAudio() {
         super();
@@ -70,17 +70,17 @@ public class SendAudio extends PartialBotApiMethod<Message> {
     }
 
     public String getChatId() {
-        return chatId;
+        return chat_id;
     }
 
-    public SendAudio setChatId(String chatId) {
-        this.chatId = chatId;
+    public SendAudio setChatId(String chat_id) {
+        this.chat_id = chat_id;
         return this;
     }
 
-    public SendAudio setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
+    public SendAudio setChatId(Long chat_id) {
+        Objects.requireNonNull(chat_id);
+        this.chat_id = chat_id.toString();
         return this;
     }
 
@@ -96,7 +96,7 @@ public class SendAudio extends PartialBotApiMethod<Message> {
      */
     public SendAudio setAudio(String audio) {
         this.audio = audio;
-        this.isNewAudio = false;
+        this.is_new_audio = false;
         return this;
     }
 
@@ -106,35 +106,35 @@ public class SendAudio extends PartialBotApiMethod<Message> {
      * @param file New audio file
      */
     public SendAudio setNewAudio(File file) {
-        this.isNewAudio = true;
-        this.newAudioFile = file;
+        this.is_new_audio = true;
+        this.new_audio_file = file;
         return this;
     }
 
     public SendAudio setNewAudio(String audioName, InputStream inputStream) {
     	Objects.requireNonNull(audioName, "audioName cannot be null!");
     	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
-    	this.audioName = audioName;
-        this.isNewAudio = true;
-        this.newAudioStream = inputStream;
+    	this.audio_name = audioName;
+        this.is_new_audio = true;
+        this.new_audio_stream = inputStream;
         return this;
     }
 
     public Integer getReplyToMessageId() {
-        return replyToMessageId;
+        return reply_to_message_id;
     }
 
     public SendAudio setReplyToMessageId(Integer replyToMessageId) {
-        this.replyToMessageId = replyToMessageId;
+        this.reply_to_message_id = replyToMessageId;
         return this;
     }
 
     public ReplyKeyboard getReplyMarkup() {
-        return replyMarkup;
+        return reply_markup;
     }
 
     public SendAudio setReplyMarkup(ReplyKeyboard replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        this.reply_markup = replyMarkup;
         return this;
     }
 
@@ -157,33 +157,33 @@ public class SendAudio extends PartialBotApiMethod<Message> {
     }
 
     public Boolean getDisableNotification() {
-        return disableNotification;
+        return disable_notification;
     }
 
     public SendAudio enableNotification() {
-        this.disableNotification = false;
+        this.disable_notification = false;
         return this;
     }
 
     public SendAudio disableNotification() {
-        this.disableNotification = true;
+        this.disable_notification = true;
         return this;
     }
 
     public boolean isNewAudio() {
-        return isNewAudio;
+        return is_new_audio;
     }
 
     public String getAudioName() {
-        return audioName;
+        return audio_name;
     }
 
     public File getNewAudioFile() {
-        return newAudioFile;
+        return new_audio_file;
     }
 
     public InputStream getNewAudioStream() {
-        return newAudioStream;
+        return new_audio_stream;
     }
 
     public String getCaption() {
@@ -212,23 +212,23 @@ public class SendAudio extends PartialBotApiMethod<Message> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null) {
+        if (chat_id == null) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
 
-        if (isNewAudio) {
-            if (newAudioFile == null && newAudioStream == null) {
+        if (is_new_audio) {
+            if (new_audio_file == null && new_audio_stream == null) {
                 throw new TelegramApiValidationException("Audio can't be empty", this);
             }
-            if (newAudioStream != null && (audioName == null || audioName.isEmpty())) {
+            if (new_audio_stream != null && (audio_name == null || audio_name.isEmpty())) {
                 throw new TelegramApiValidationException("Audio name can't be empty", this);
             }
         } else if (audio == null) {
             throw new TelegramApiValidationException("Audio can't be empty", this);
         }
 
-        if (replyMarkup != null) {
-            replyMarkup.validate();
+        if (reply_markup != null) {
+            reply_markup.validate();
         }
     }
 
@@ -236,17 +236,17 @@ public class SendAudio extends PartialBotApiMethod<Message> {
     public String toString() {
         return "SendAudio{" +
                 "duration=" + duration +
-                ", chatId='" + chatId + '\'' +
+                ", chatId='" + chat_id + '\'' +
                 ", audio='" + audio + '\'' +
-                ", replyToMessageId=" + replyToMessageId +
-                ", disableNotification=" + disableNotification +
-                ", replyMarkup=" + replyMarkup +
+                ", replyToMessageId=" + reply_to_message_id +
+                ", disableNotification=" + disable_notification +
+                ", replyMarkup=" + reply_markup +
                 ", performer='" + performer + '\'' +
                 ", title='" + title + '\'' +
-                ", isNewAudio=" + isNewAudio +
-                ", audioName='" + audioName + '\'' +
-                ", newAudioFile=" + newAudioFile +
-                ", newAudioStream=" + newAudioStream +
+                ", isNewAudio=" + is_new_audio +
+                ", audioName='" + audio_name + '\'' +
+                ", newAudioFile=" + new_audio_file +
+                ", newAudioStream=" + new_audio_stream +
                 ", caption='" + caption + '\'' +
                 '}';
     }

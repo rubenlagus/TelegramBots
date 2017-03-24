@@ -1,13 +1,7 @@
 package org.telegram.telegrambots.updatesreceivers;
 
-import com.google.inject.Inject;
 
-import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.grizzly.ssl.SSLContextConfigurator;
-import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
-import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
-import org.glassfish.jersey.jackson.JacksonFeature;
-import org.glassfish.jersey.server.ResourceConfig;
+
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.generics.Webhook;
 import org.telegram.telegrambots.generics.WebhookBot;
@@ -29,7 +23,6 @@ public class DefaultWebhook implements Webhook {
 
     private final RestApi restApi;
 
-    @Inject
     public DefaultWebhook() throws TelegramApiRequestException {
         this.restApi = new RestApi();
     }
@@ -49,29 +42,7 @@ public class DefaultWebhook implements Webhook {
     }
 
     public void startServer() throws TelegramApiRequestException {
-        ResourceConfig rc = new ResourceConfig();
-        rc.register(restApi);
-        rc.register(JacksonFeature.class);
 
-        final HttpServer grizzlyServer;
-        if (keystoreServerFile != null && keystoreServerPwd != null) {
-            SSLContextConfigurator sslContext = new SSLContextConfigurator();
-
-            // set up security context
-            sslContext.setKeyStoreFile(keystoreServerFile); // contains server keypair
-            sslContext.setKeyStorePass(keystoreServerPwd);
-
-            grizzlyServer = GrizzlyHttpServerFactory.createHttpServer(getBaseURI(), rc, true,
-                    new SSLEngineConfigurator(sslContext).setClientMode(false).setNeedClientAuth(false));
-        } else {
-            grizzlyServer = GrizzlyHttpServerFactory.createHttpServer(getBaseURI(), rc);
-        }
-
-        try {
-            grizzlyServer.start();
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Error starting webhook server", e);
-        }
     }
 
     private URI getBaseURI() {

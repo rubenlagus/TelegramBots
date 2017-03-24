@@ -17,7 +17,7 @@
 
 package org.telegram.telegrambots.api.objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 
@@ -37,32 +37,32 @@ public class ResponseParameters implements BotApiObject {
      * difficulty/silent defects in interpreting it. But it is smaller than 52 bits,
      * so a signed 64 bit integer or double-precision float type are safe for storing this identifier.
      */
-    @JsonProperty(MIGRATETOCHATID_FIELD)
-    private Integer migrateToChatId;
+
+    private Integer migrate_to_chat_id;
     /**
      * Optional. In case of exceeding flood control a number of seconds to
      * wait before the request can be repeated
      */
-    @JsonProperty(RETRYAFTER_FIELD)
-    private Integer retryAfter;
+
+    private Integer retry_after;
 
     public ResponseParameters() {
         super();
     }
 
     public Integer getMigrateToChatId() {
-        return migrateToChatId;
+        return migrate_to_chat_id;
     }
 
     public Integer getRetryAfter() {
-        return retryAfter;
+        return retry_after;
     }
 
     @Override
     public String toString() {
         return "ResponseParameters{" +
-                "migrateToChatId=" + migrateToChatId +
-                ", retryAfter=" + retryAfter +
+                "migrateToChatId=" + migrate_to_chat_id +
+                ", retryAfter=" + retry_after +
                 '}';
     }
 }

@@ -1,13 +1,14 @@
 package org.telegram.telegrambots.api.methods.updates;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
+
+
 
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.myclasses.TypeReference;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,19 +37,19 @@ public class GetUpdates extends BotApiMethod<ArrayList<Update>>{
      * specified to retrieve updates starting from -offset update from the end of the updates queue.
      * All previous updates will forgotten.
      */
-    @JsonProperty(OFFSET_FIELD)
+
     private Integer offset;
     /**
      * Optional	Limits the number of updates to be retrieved. Values between 1—100 are accepted.
      * Defaults to 100
      */
-    @JsonProperty(LIMIT_FIELD)
+
     private Integer limit;
     /**
      * Optional. Timeout in seconds for long polling. Defaults to 0, i.e. usual short polling.
      * Should be positive, 0 should be used for testing purposes only.
      */
-    @JsonProperty(TIMEOUT_FIELD)
+
     private Integer timeout;
     /**
      * List the types of updates you want your bot to receive.
@@ -59,8 +60,8 @@ public class GetUpdates extends BotApiMethod<ArrayList<Update>>{
      * Please note that this parameter doesn't affect updates created before the call to the setWebhook,
      * so unwanted updates may be received for a short period of time.
      */
-    @JsonProperty(ALLOWEDUPDATES_FIELD)
-    private List<String> allowedUpdates;
+
+    private List<String> allowed_updates;
 
     public GetUpdates() {
         super();
@@ -94,11 +95,11 @@ public class GetUpdates extends BotApiMethod<ArrayList<Update>>{
     }
 
     public List<String> getAllowedUpdates() {
-        return allowedUpdates;
+        return allowed_updates;
     }
 
     public GetUpdates setAllowedUpdates(List<String> allowedUpdates) {
-        this.allowedUpdates = allowedUpdates;
+        this.allowed_updates = allowedUpdates;
         return this;
     }
 
@@ -133,7 +134,7 @@ public class GetUpdates extends BotApiMethod<ArrayList<Update>>{
                 "offset=" + offset +
                 ", limit=" + limit +
                 ", timeout=" + timeout +
-                ", allowedUpdates=" + allowedUpdates +
+                ", allowedUpdates=" + allowed_updates +
                 '}';
     }
 }

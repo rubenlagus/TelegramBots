@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 
@@ -19,17 +19,17 @@ public class Audio implements BotApiObject {
     private static final String TITLE_FIELD = "title";
     private static final String PERFORMER_FIELD = "performer";
 
-    @JsonProperty(FILEID_FIELD)
-    private String fileId; ///< Unique identifier for this file
-    @JsonProperty(DURATION_FIELD)
+
+    private String file_id; ///< Unique identifier for this file
+
     private Integer duration; ///< Integer	Duration of the audio in seconds as defined by sender
-    @JsonProperty(MIMETYPE_FIELD)
-    private String mimeType; ///< Optional. MIME type of the file as defined by sender
-    @JsonProperty(FILESIZE_FIELD)
-    private Integer fileSize; ///< Optional. File size
-    @JsonProperty(TITLE_FIELD)
+
+    private String mime_type; ///< Optional. MIME type of the file as defined by sender
+
+    private Integer file_size; ///< Optional. File size
+
     private String title; ///< Optional. Title of the audio as defined by sender or by audio tags
-    @JsonProperty(PERFORMER_FIELD)
+
     private String performer; ///< Optional. Performer of the audio as defined by sender or by audio tags
 
     public Audio() {
@@ -37,7 +37,7 @@ public class Audio implements BotApiObject {
     }
 
     public String getFileId() {
-        return fileId;
+        return file_id;
     }
 
     public Integer getDuration() {
@@ -45,11 +45,11 @@ public class Audio implements BotApiObject {
     }
 
     public String getMimeType() {
-        return mimeType;
+        return mime_type;
     }
 
     public Integer getFileSize() {
-        return fileSize;
+        return file_size;
     }
 
     public String getTitle() {
@@ -63,10 +63,10 @@ public class Audio implements BotApiObject {
     @Override
     public String toString() {
         return "Audio{" +
-                "fileId='" + fileId + '\'' +
+                "file_id='" + file_id + '\'' +
                 ", duration=" + duration +
-                ", mimeType='" + mimeType + '\'' +
-                ", fileSize=" + fileSize +
+                ", mimeType='" + mime_type + '\'' +
+                ", fileSize=" + file_size +
                 ", title='" + title + '\'' +
                 ", performer='" + performer + '\'' +
                 '}';

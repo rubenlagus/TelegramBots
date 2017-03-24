@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.inlinequery.result.chached;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
@@ -29,22 +29,22 @@ public class InlineQueryResultCachedDocument implements InlineQueryResult {
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
 
-    @JsonProperty(TYPE_FIELD)
+
     private final String type = "document"; ///< Type of the result, must be "document"
-    @JsonProperty(ID_FIELD)
+
     private String id; ///< Unique identifier of this result, 1-64 bytes
-    @JsonProperty(TITLE_FIELD)
+
     private String title; ///< Optional. Title for the result
-    @JsonProperty(DOCUMENT_FILE_ID_FIELD)
-    private String documentFileId; ///< A valid file identifier for the file
-    @JsonProperty(DESCRIPTION_FIELD)
+
+    private String document_file_id; ///< A valid file identifier for the file
+
     private String description; ///< Optional. Short description of the result
-    @JsonProperty(CAPTION_FIELD)
+
     private String caption; ///< Optional. Caption of the document to be sent, 0-200 characters
-    @JsonProperty(REPLY_MARKUP_FIELD)
-    private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
-    @JsonProperty(INPUTMESSAGECONTENT_FIELD)
-    private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent instead of the file
+
+    private InlineKeyboardMarkup reply_markup; ///< Optional. Inline keyboard attached to the message
+
+    private InputMessageContent input_message_content; ///< Optional. Content of the message to be sent instead of the file
 
     public InlineQueryResultCachedDocument() {
         super();
@@ -72,12 +72,12 @@ public class InlineQueryResultCachedDocument implements InlineQueryResult {
         return this;
     }
 
-    public String getDocumentFileId() {
-        return documentFileId;
+    public String getDocumen_file_id() {
+        return document_file_id;
     }
 
-    public InlineQueryResultCachedDocument setDocumentFileId(String documentFileId) {
-        this.documentFileId = documentFileId;
+    public InlineQueryResultCachedDocument setDocumen_file_id(String documen_file_id) {
+        this.document_file_id = documen_file_id;
         return this;
     }
 
@@ -100,20 +100,20 @@ public class InlineQueryResultCachedDocument implements InlineQueryResult {
     }
 
     public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
+        return reply_markup;
     }
 
     public InlineQueryResultCachedDocument setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        this.reply_markup = replyMarkup;
         return this;
     }
 
     public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
+        return input_message_content;
     }
 
-    public InlineQueryResultCachedDocument setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
+    public InlineQueryResultCachedDocument setInputMessageContent(InputMessageContent input_message_content) {
+        this.input_message_content = input_message_content;
         return this;
     }
 
@@ -122,17 +122,17 @@ public class InlineQueryResultCachedDocument implements InlineQueryResult {
         if (id == null || id.isEmpty()) {
             throw new TelegramApiValidationException("ID parameter can't be empty", this);
         }
-        if (documentFileId == null || documentFileId.isEmpty()) {
+        if (document_file_id == null || document_file_id.isEmpty()) {
             throw new TelegramApiValidationException("DocumentFileId parameter can't be empty", this);
         }
         if (title == null || title.isEmpty()) {
             throw new TelegramApiValidationException("Title parameter can't be empty", this);
         }
-        if (inputMessageContent != null) {
-            inputMessageContent.validate();
+        if (input_message_content != null) {
+            input_message_content.validate();
         }
-        if (replyMarkup != null) {
-            replyMarkup.validate();
+        if (reply_markup != null) {
+            reply_markup.validate();
         }
     }
 
@@ -141,12 +141,12 @@ public class InlineQueryResultCachedDocument implements InlineQueryResult {
         return "InlineQueryResultCachedDocument{" +
                 "type='" + type + '\'' +
                 ", id='" + id + '\'' +
-                ", documentFileId='" + documentFileId + '\'' +
+                ", documentFileId='" + document_file_id + '\'' +
                 ", caption='" + caption + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
-                ", replyMarkup='" + replyMarkup + '\'' +
+                ", inputMessageContent='" + input_message_content + '\'' +
+                ", replyMarkup='" + reply_markup + '\'' +
                 '}';
     }
 }

@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.inlinequery.result;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -26,28 +26,28 @@ public class InlineQueryResultArticle implements InlineQueryResult {
     private static final String THUMBWIDTH_FIELD = "thumb_width";
     private static final String THUMBHEIGHT_FIELD = "thumb_height";
 
-    @JsonProperty(TYPE_FIELD)
+
     private final String type = "article"; ///< Type of the result, must be “article”
-    @JsonProperty(ID_FIELD)
+
     private String id; ///< Unique identifier of this result, 1-64 bytes
-    @JsonProperty(TITLE_FIELD)
+
     private String title; ///< Title of the result
-    @JsonProperty(INPUTMESSAGECONTENT_FIELD)
-    private InputMessageContent inputMessageContent; ///< Content of the message to be sent
-    @JsonProperty(REPLY_MARKUP_FIELD)
-    private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
-    @JsonProperty(URL_FIELD)
+
+    private InputMessageContent input_message_content; ///< Content of the message to be sent
+
+    private InlineKeyboardMarkup reply_markup; ///< Optional. Inline keyboard attached to the message
+
     private String url; ///< Optional. URL of the result
-    @JsonProperty(HIDEURL_FIELD)
-    private Boolean hideUrl; ///< Optional. Pass True, if you don't want the URL to be shown in the message
-    @JsonProperty(DESCRIPTION_FIELD)
+
+    private Boolean hide_url; ///< Optional. Pass True, if you don't want the URL to be shown in the message
+
     private String description; ///< Optional. Short description of the result
-    @JsonProperty(THUMBURL_FIELD)
-    private String thumbUrl; ///< Optional. Url of the thumbnail for the result
-    @JsonProperty(THUMBWIDTH_FIELD)
-    private Integer thumbWidth; ///< Optional. Thumbnail width
-    @JsonProperty(THUMBHEIGHT_FIELD)
-    private Integer thumbHeight; ///< Optional. Thumbnail height
+
+    private String thumb_url; ///< Optional. Url of the thumbnail for the result
+
+    private Integer thumb_width; ///< Optional. Thumbnail width
+
+    private Integer thumb_height; ///< Optional. Thumbnail height
 
     public InlineQueryResultArticle() {
         super();
@@ -76,20 +76,20 @@ public class InlineQueryResultArticle implements InlineQueryResult {
     }
 
     public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
+        return input_message_content;
     }
 
-    public InlineQueryResultArticle setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
+    public InlineQueryResultArticle setInputMessageContent(InputMessageContent input_message_content) {
+        this.input_message_content = input_message_content;
         return this;
     }
 
     public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
+        return reply_markup;
     }
 
     public InlineQueryResultArticle setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        this.reply_markup = replyMarkup;
         return this;
     }
 
@@ -103,11 +103,11 @@ public class InlineQueryResultArticle implements InlineQueryResult {
     }
 
     public Boolean getHideUrl() {
-        return hideUrl;
+        return hide_url;
     }
 
     public InlineQueryResultArticle setHideUrl(Boolean hideUrl) {
-        this.hideUrl = hideUrl;
+        this.hide_url = hideUrl;
         return this;
     }
 
@@ -121,29 +121,29 @@ public class InlineQueryResultArticle implements InlineQueryResult {
     }
 
     public String getThumbUrl() {
-        return thumbUrl;
+        return thumb_url;
     }
 
     public InlineQueryResultArticle setThumbUrl(String thumbUrl) {
-        this.thumbUrl = thumbUrl;
+        this.thumb_url = thumbUrl;
         return this;
     }
 
     public Integer getThumbWidth() {
-        return thumbWidth;
+        return thumb_width;
     }
 
     public InlineQueryResultArticle setThumbWidth(Integer thumbWidth) {
-        this.thumbWidth = thumbWidth;
+        this.thumb_width = thumbWidth;
         return this;
     }
 
     public Integer getThumbHeight() {
-        return thumbHeight;
+        return thumb_height;
     }
 
     public InlineQueryResultArticle setThumbHeight(Integer thumbHeight) {
-        this.thumbHeight = thumbHeight;
+        this.thumb_height = thumbHeight;
         return this;
     }
 
@@ -155,12 +155,12 @@ public class InlineQueryResultArticle implements InlineQueryResult {
         if (title == null || title.isEmpty()) {
             throw new TelegramApiValidationException("Title parameter can't be empty", this);
         }
-        if (inputMessageContent == null) {
+        if (input_message_content == null) {
             throw new TelegramApiValidationException("InputMessageContent parameter can't be null", this);
         }
-        inputMessageContent.validate();
-        if (replyMarkup != null) {
-            replyMarkup.validate();
+        input_message_content.validate();
+        if (reply_markup != null) {
+            reply_markup.validate();
         }
     }
 
@@ -170,14 +170,14 @@ public class InlineQueryResultArticle implements InlineQueryResult {
                 "type='" + type + '\'' +
                 ", id='" + id + '\'' +
                 ", title='" + title + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
-                ", replyMarkup='" + replyMarkup + '\'' +
+                ", inputMessageContent='" + input_message_content + '\'' +
+                ", replyMarkup='" + reply_markup + '\'' +
                 ", url='" + url + '\'' +
-                ", hideUrl=" + hideUrl +
+                ", hideUrl=" + hide_url +
                 ", description='" + description + '\'' +
-                ", thumbUrl='" + thumbUrl + '\'' +
-                ", thumbWidth=" + thumbWidth +
-                ", thumbHeight=" + thumbHeight +
+                ", thumbUrl='" + thumb_url + '\'' +
+                ", thumbWidth=" + thumb_width +
+                ", thumbHeight=" + thumb_height +
                 '}';
     }
 }

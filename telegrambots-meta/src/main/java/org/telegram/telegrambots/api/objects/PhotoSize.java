@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 
@@ -18,23 +18,23 @@ public class PhotoSize implements BotApiObject {
     private static final String FILESIZE_FIELD = "file_size";
     private static final String FILEPATH_FIELD = "file_path";
 
-    @JsonProperty(FILEID_FIELD)
-    private String fileId; ///< Unique identifier for this file
-    @JsonProperty(WIDTH_FIELD)
+
+    private String file_id; ///< Unique identifier for this file
+
     private Integer width; ///< Photo width
-    @JsonProperty(HEIGHT_FIELD)
+
     private Integer height; ///< Photo height
-    @JsonProperty(FILESIZE_FIELD)
-    private Integer fileSize; ///< Optional. File size
-    @JsonProperty(FILEPATH_FIELD)
-    private String filePath; ///< Undocumented field. Optional. Can contain the path to download the file direclty without calling to getFile
+
+    private Integer file_size; ///< Optional. File size
+
+    private String file_path; ///< Undocumented field. Optional. Can contain the path to download the file direclty without calling to getFile
 
     public PhotoSize() {
         super();
     }
 
     public String getFileId() {
-        return fileId;
+        return file_id;
     }
 
     public Integer getWidth() {
@@ -46,24 +46,24 @@ public class PhotoSize implements BotApiObject {
     }
 
     public Integer getFileSize() {
-        return fileSize;
+        return file_size;
     }
 
     public String getFilePath() {
-        return filePath;
+        return file_path;
     }
 
     public boolean hasFilePath() {
-        return filePath != null && !filePath.isEmpty();
+        return file_path != null && !file_path.isEmpty();
     }
 
     @Override
     public String toString() {
         return "PhotoSize{" +
-                "fileId='" + fileId + '\'' +
+                "file_id='" + file_id + '\'' +
                 ", width=" + width +
                 ", height=" + height +
-                ", fileSize=" + fileSize +
+                ", fileSize=" + file_size +
                 '}';
     }
 }

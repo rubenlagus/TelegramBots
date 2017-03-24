@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 
@@ -18,40 +18,40 @@ public class File implements BotApiObject {
     private static final String FILE_SIZE_FIELD = "file_size";
     private static final String FILE_PATH_FIELD = "file_path";
 
-    @JsonProperty(FILE_ID)
-    private String fileId; ///< Unique identifier for this file
-    @JsonProperty(FILE_SIZE_FIELD)
-    private Integer fileSize; ///< Optional. File size, if known
-    @JsonProperty(FILE_PATH_FIELD)
-    private String filePath; ///< Optional. File path. Use https://api.telegram.org/file/bot<token>/<file_path> to get the file.
+
+    private String file_id; ///< Unique identifier for this file
+
+    private Integer fil_size; ///< Optional. File size, if known
+
+    private String file_path; ///< Optional. File path. Use https://api.telegram.org/file/bot<token>/<file_path> to get the file.
 
     public File() {
         super();
     }
 
     public String getFileId() {
-        return fileId;
+        return file_id;
     }
 
     public Integer getFileSize() {
-        return fileSize;
+        return fil_size;
     }
 
     public String getFilePath() {
-        return filePath;
+        return file_path;
     }
 
     @Override
     public String toString() {
         return "File{" +
-                "fileId='" + fileId + '\'' +
-                ", fileSize=" + fileSize +
-                ", filePath='" + filePath + '\'' +
+                "file_id='" + file_id + '\'' +
+                ", fileSize=" + fil_size +
+                ", filePath='" + file_path + '\'' +
                 '}';
     }
 
     public String getFileUrl(String botToken) {
-        return getFileUrl(botToken, filePath);
+        return getFileUrl(botToken, file_path);
     }
 
     public static String getFileUrl(String botToken, String filePath) {

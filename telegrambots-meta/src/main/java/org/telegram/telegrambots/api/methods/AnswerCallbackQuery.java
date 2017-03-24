@@ -1,11 +1,11 @@
 package org.telegram.telegrambots.api.methods;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
+
 
 import org.telegram.telegrambots.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.myclasses.TypeReference;
 
 import java.io.IOException;
 
@@ -30,13 +30,13 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
     private static final String URL_FIELD = "url";
     private static final String CACHETIME_FIELD = "cache_time";
 
-    @JsonProperty(CALLBACKQUERYID_FIELD)
-    private String callbackQueryId; ///< Unique identifier for the query to be answered
-    @JsonProperty(TEXT_FIELD)
+
+    private String callback_query_id; ///< Unique identifier for the query to be answered
+
     private String text; ///< Optional	Text of the notification. If not specified, nothing will be shown to the user, 0-200 characters
-    @JsonProperty(SHOWALERT_FIELD)
-    private Boolean showAlert; ///< Optional. If true, an alert will be shown by the client instead of a notificaiton at the top of the chat screen. Defaults to false.
-    @JsonProperty(URL_FIELD)
+
+    private Boolean show_alert; ///< Optional. If true, an alert will be shown by the client instead of a notificaiton at the top of the chat screen. Defaults to false.
+
     /**
      * Optional. URL that will be opened by the user's client.
      * If you have created a Game and accepted the conditions via @Botfather,
@@ -44,25 +44,25 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
      * InlineQueryResultGamelike telegram.me/your_bot?start=XXXX that open your bot with a parameter.
      */
     private String url;
-    @JsonProperty(CACHETIME_FIELD)
+
     /**
      * Optional	The maximum amount of time in seconds that the result of the callback query
      * may be cached client-side.
      *
      * @note Telegram apps will support caching starting in version 3.14. Defaults to 0.
      */
-    private Integer cacheTime;
+    private Integer cache_time;
 
     public AnswerCallbackQuery() {
         super();
     }
 
     public String getCallbackQueryId() {
-        return this.callbackQueryId;
+        return this.callback_query_id;
     }
 
     public AnswerCallbackQuery setCallbackQueryId(String callbackQueryId) {
-        this.callbackQueryId = callbackQueryId;
+        this.callback_query_id = callbackQueryId;
         return this;
     }
 
@@ -76,11 +76,11 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
     }
 
     public Boolean getShowAlert() {
-        return this.showAlert;
+        return this.show_alert;
     }
 
     public AnswerCallbackQuery setShowAlert(Boolean showAlert) {
-        this.showAlert = showAlert;
+        this.show_alert = showAlert;
         return this;
     }
 
@@ -94,11 +94,11 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
     }
 
     public Integer getCacheTime() {
-        return cacheTime;
+        return cache_time;
     }
 
     public void setCacheTime(Integer cacheTime) {
-        this.cacheTime = cacheTime;
+        this.cache_time = cacheTime;
     }
 
     @Override
@@ -123,7 +123,7 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (callbackQueryId == null) {
+        if (callback_query_id == null) {
             throw new TelegramApiValidationException("CallbackQueryId can't be null", this);
         }
     }
@@ -131,11 +131,11 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
     @Override
     public String toString() {
         return "AnswerCallbackQuery{" +
-                "callbackQueryId='" + callbackQueryId + '\'' +
+                "callbackQueryId='" + callback_query_id + '\'' +
                 ", text='" + text + '\'' +
-                ", showAlert=" + showAlert +
+                ", showAlert=" + show_alert +
                 ", url='" + url + '\'' +
-                ", cacheTime=" + cacheTime +
+                ", cacheTime=" + cache_time +
                 '}';
     }
 }

@@ -1,13 +1,14 @@
 package org.telegram.telegrambots.api.methods.groupadministration;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
+
+
 
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.Chat;
 import org.telegram.telegrambots.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.myclasses.TypeReference;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -23,25 +24,25 @@ public class GetChat extends BotApiMethod<Chat> {
 
     private static final String CHATID_FIELD = "chat_id";
 
-    @JsonProperty(CHATID_FIELD)
-    private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
+
+    private String chat_id; ///< Unique identifier for the chat to send the message to (Or username for channels)
 
     public GetChat() {
         super();
     }
 
     public String getChatId() {
-        return chatId;
+        return chat_id;
     }
 
-    public GetChat setChatId(String chatId) {
-        this.chatId = chatId;
+    public GetChat setChatId(String chat_id) {
+        this.chat_id = chat_id;
         return this;
     }
 
-    public GetChat setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
+    public GetChat setChatId(Long chat_id) {
+        Objects.requireNonNull(chat_id);
+        this.chat_id = chat_id.toString();
         return this;
     }
 
@@ -67,7 +68,7 @@ public class GetChat extends BotApiMethod<Chat> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null) {
+        if (chat_id == null) {
             throw new TelegramApiValidationException("ChatId can't be null", this);
         }
     }
@@ -75,7 +76,7 @@ public class GetChat extends BotApiMethod<Chat> {
     @Override
     public String toString() {
         return "GetChat{" +
-                "chatId='" + chatId + '\'' +
+                "chatId='" + chat_id + '\'' +
                 '}';
     }
 }

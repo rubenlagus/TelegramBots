@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.replykeyboard.buttons;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.InputBotApiObject;
 import org.telegram.telegrambots.api.interfaces.Validable;
@@ -25,22 +25,22 @@ public class KeyboardButton implements InputBotApiObject, Validable {
      * Text of the button.
      * If none of the optional fields are used, it will be sent to the bot as a message when the button is pressed
      */
-    @JsonProperty(TEXT_FIELD)
+
     private String text;
     /**
      * Optional.
      * If True, the user's phone number will be sent as a contact when the button is pressed.
      * Available in private chats only
      */
-    @JsonProperty(REQUEST_CONTACT_FIELD)
-    private Boolean requestContact;
+
+    private Boolean request_contact;
     /**
      * Optional.
      * If True, the user's current location will be sent when the button is pressed.
      * Available in private chats only
      */
-    @JsonProperty(REQUEST_LOCATION_FIELD)
-    private Boolean requestLocation;
+
+    private Boolean request_location;
 
     public KeyboardButton() {
         super();
@@ -61,20 +61,20 @@ public class KeyboardButton implements InputBotApiObject, Validable {
     }
 
     public Boolean getRequestContact() {
-        return requestContact;
+        return request_contact;
     }
 
     public KeyboardButton setRequestContact(Boolean requestContact) {
-        this.requestContact = requestContact;
+        this.request_contact = requestContact;
         return this;
     }
 
     public Boolean getRequestLocation() {
-        return requestLocation;
+        return request_location;
     }
 
     public KeyboardButton setRequestLocation(Boolean requestLocation) {
-        this.requestLocation = requestLocation;
+        this.request_location = requestLocation;
         return this;
     }
 
@@ -83,7 +83,7 @@ public class KeyboardButton implements InputBotApiObject, Validable {
         if (text == null || text.isEmpty()) {
             throw new TelegramApiValidationException("Text parameter can't be empty", this);
         }
-        if (requestContact != null && requestLocation != null && requestContact && requestLocation) {
+        if (request_contact != null && request_location != null && request_contact && request_location) {
             throw new TelegramApiValidationException("Cant request contact and location at the same time", this);
         }
     }
@@ -92,8 +92,8 @@ public class KeyboardButton implements InputBotApiObject, Validable {
     public String toString() {
         return "KeyboardButton{" +
                 "text=" + text +
-                ", requestContact=" + requestContact +
-                ", requestLocation=" + requestLocation +
+                ", requestContact=" + request_contact +
+                ", requestLocation=" + request_location +
                 '}';
     }
 }

@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.api.objects.inlinequery.ChosenInlineQuery;
@@ -23,22 +23,22 @@ public class Update implements BotApiObject {
     private static final String CHANNELPOST_FIELD = "channel_post";
     private static final String EDITEDCHANNELPOST_FIELD = "edited_channel_post";
 
-    @JsonProperty(UPDATEID_FIELD)
-    private Integer updateId;
-    @JsonProperty(MESSAGE_FIELD)
+
+    private Integer update_id;
+
     private Message message; ///< Optional. New incoming message of any kind — text, photo, sticker, etc.
-    @JsonProperty(INLINEQUERY_FIELD)
-    private InlineQuery inlineQuery; ///< Optional. New incoming inline query
-    @JsonProperty(CHOSENINLINEQUERY_FIELD)
-    private ChosenInlineQuery chosenInlineQuery; ///< Optional. The result of a inline query that was chosen by a user and sent to their chat partner
-    @JsonProperty(CALLBACKQUERY_FIELD)
-    private CallbackQuery callbackQuery; ///< Optional. New incoming callback query
-    @JsonProperty(EDITEDMESSAGE_FIELD)
-    private Message editedMessage; ///< Optional. New version of a message that is known to the bot and was edited
-    @JsonProperty(CHANNELPOST_FIELD)
-    private Message channelPost; ///< Optional. New incoming channel post of any kind — text, photo, sticker, etc.
-    @JsonProperty(EDITEDCHANNELPOST_FIELD)
-    private Message editedChannelPost; ///< Optional. New version of a channel post that is known to the bot and was edited
+
+    private InlineQuery inline_query; ///< Optional. New incoming inline query
+
+    private ChosenInlineQuery chosen_inline_query; ///< Optional. The result of a inline query that was chosen by a user and sent to their chat partner
+
+    private CallbackQuery callback_query; ///< Optional. New incoming callback query
+
+    private Message edited_message; ///< Optional. New version of a message that is known to the bot and was edited
+
+    private Message channel_post; ///< Optional. New incoming channel post of any kind — text, photo, sticker, etc.
+
+    private Message edited_channel_post; ///< Optional. New version of a channel post that is known to the bot and was edited
 
 
     public Update() {
@@ -46,7 +46,7 @@ public class Update implements BotApiObject {
     }
 
     public Integer getUpdateId() {
-        return updateId;
+        return update_id;
     }
 
     public Message getMessage() {
@@ -54,27 +54,27 @@ public class Update implements BotApiObject {
     }
 
     public InlineQuery getInlineQuery() {
-        return inlineQuery;
+        return inline_query;
     }
 
     public ChosenInlineQuery getChosenInlineQuery() {
-        return chosenInlineQuery;
+        return chosen_inline_query;
     }
 
     public CallbackQuery getCallbackQuery() {
-        return callbackQuery;
+        return callback_query;
     }
 
     public Message getEditedMessage() {
-        return editedMessage;
+        return edited_message;
     }
 
     public Message getChannelPost() {
-        return channelPost;
+        return channel_post;
     }
 
     public Message getEditedChannelPost() {
-        return editedChannelPost;
+        return edited_channel_post;
     }
 
     public boolean hasMessage() {
@@ -82,40 +82,40 @@ public class Update implements BotApiObject {
     }
 
     public boolean hasInlineQuery() {
-        return inlineQuery != null;
+        return inline_query != null;
     }
 
     public boolean hasChosenInlineQuery() {
-        return chosenInlineQuery != null;
+        return chosen_inline_query != null;
     }
 
     public boolean hasCallbackQuery() {
-        return callbackQuery != null;
+        return callback_query != null;
     }
 
     public boolean hasEditedMessage() {
-        return editedMessage != null;
+        return edited_message != null;
     }
 
     public boolean hasChannelPost() {
-        return channelPost != null;
+        return channel_post != null;
     }
 
     public boolean hasEditedChannelPost() {
-        return editedChannelPost != null;
+        return edited_channel_post != null;
     }
 
     @Override
     public String toString() {
         return "Update{" +
-                "updateId=" + updateId +
+                "updateId=" + update_id +
                 ", message=" + message +
-                ", inlineQuery=" + inlineQuery +
-                ", chosenInlineQuery=" + chosenInlineQuery +
-                ", callbackQuery=" + callbackQuery +
-                ", editedMessage=" + editedMessage +
-                ", channelPost=" + channelPost +
-                ", editedChannelPost=" + editedChannelPost +
+                ", inlineQuery=" + inline_query +
+                ", chosenInlineQuery=" + chosen_inline_query +
+                ", callbackQuery=" + callback_query +
+                ", editedMessage=" + edited_message +
+                ", channelPost=" + channel_post +
+                ", editedChannelPost=" + edited_channel_post +
                 '}';
     }
 }

@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.inlinequery.result.chached;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
@@ -27,19 +27,19 @@ public class InlineQueryResultCachedVoice implements InlineQueryResult {
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String CAPTION_FIELD = "caption";
 
-    @JsonProperty(TYPE_FIELD)
+
     private final String type = "voice"; ///< Type of the result, must be "voice"
-    @JsonProperty(ID_FIELD)
+
     private String id; ///< Unique identifier of this result, 1-64 bytes
-    @JsonProperty(VOICE_FILE_ID_FIELD)
-    private String voiceFileId; ///< A valid file identifier for the voice message
-    @JsonProperty(TITLE_FIELD)
+
+    private String voice_file_id; ///< A valid file identifier for the voice message
+
     private String title; ///< Recording title
-    @JsonProperty(INPUTMESSAGECONTENT_FIELD)
-    private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent instead of the voice recording
-    @JsonProperty(REPLY_MARKUP_FIELD)
-    private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
-    @JsonProperty(CAPTION_FIELD)
+
+    private InputMessageContent input_message_content; ///< Optional. Content of the message to be sent instead of the voice recording
+
+    private InlineKeyboardMarkup reply_markup; ///< Optional. Inline keyboard attached to the message
+
     private String caption; ///< Optional. Voice caption (may also be used when resending documents by file_id), 0-200 characters
 
     public InlineQueryResultCachedVoice() {
@@ -59,12 +59,12 @@ public class InlineQueryResultCachedVoice implements InlineQueryResult {
         return this;
     }
 
-    public String getVoiceFileId() {
-        return voiceFileId;
+    public String getVoic_file_id() {
+        return voice_file_id;
     }
 
-    public InlineQueryResultCachedVoice setVoiceFileId(String voiceFileId) {
-        this.voiceFileId = voiceFileId;
+    public InlineQueryResultCachedVoice setVoic_file_id(String voic_file_id) {
+        this.voice_file_id = voic_file_id;
         return this;
     }
 
@@ -78,20 +78,20 @@ public class InlineQueryResultCachedVoice implements InlineQueryResult {
     }
 
     public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
+        return input_message_content;
     }
 
-    public InlineQueryResultCachedVoice setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
+    public InlineQueryResultCachedVoice setInputMessageContent(InputMessageContent input_message_content) {
+        this.input_message_content = input_message_content;
         return this;
     }
 
     public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
+        return getReplyMarkup();
     }
 
     public InlineQueryResultCachedVoice setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        this.reply_markup = replyMarkup;
         return this;
     }
 
@@ -109,14 +109,14 @@ public class InlineQueryResultCachedVoice implements InlineQueryResult {
         if (id == null || id.isEmpty()) {
             throw new TelegramApiValidationException("ID parameter can't be empty", this);
         }
-        if (voiceFileId == null || voiceFileId.isEmpty()) {
+        if (voice_file_id == null || voice_file_id.isEmpty()) {
             throw new TelegramApiValidationException("VoiceFileId parameter can't be empty", this);
         }
-        if (inputMessageContent != null) {
-            inputMessageContent.validate();
+        if (input_message_content != null) {
+            input_message_content.validate();
         }
-        if (replyMarkup != null) {
-            replyMarkup.validate();
+        if (reply_markup != null) {
+            reply_markup.validate();
         }
     }
 
@@ -124,10 +124,10 @@ public class InlineQueryResultCachedVoice implements InlineQueryResult {
     public String toString() {
         return "InlineQueryResultCachedVoice{" +
                 "id='" + id + '\'' +
-                ", voiceFileId='" + voiceFileId + '\'' +
+                ", voiceFileId='" + voice_file_id + '\'' +
                 ", title='" + title + '\'' +
-                ", inputMessageContent=" + inputMessageContent +
-                ", replyMarkup=" + replyMarkup +
+                ", inputMessageContent=" + input_message_content +
+                ", replyMarkup=" + reply_markup +
                 ", caption='" + caption + '\'' +
                 '}';
     }

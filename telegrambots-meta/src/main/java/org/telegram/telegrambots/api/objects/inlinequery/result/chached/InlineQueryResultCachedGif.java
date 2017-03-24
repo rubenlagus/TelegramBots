@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.inlinequery.result.chached;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
@@ -25,20 +25,20 @@ public class InlineQueryResultCachedGif implements InlineQueryResult {
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
 
-    @JsonProperty(TYPE_FIELD)
+
     private final String type = "gif"; ///< Type of the result, must be "gif"
-    @JsonProperty(ID_FIELD)
+
     private String id; ///< Unique identifier of this result, 1-64 bytes
-    @JsonProperty(GIF_FILE_ID_FIELD)
-    private String gifFileId; ///< A valid file identifier for the GIF file
-    @JsonProperty(TITLE_FIELD)
+
+    private String gif_file_id; ///< A valid file identifier for the GIF file
+
     private String title; ///< Optional. Title for the result
-    @JsonProperty(CAPTION_FIELD)
+
     private String caption; ///< Optional. Caption of the GIF file to be sent
-    @JsonProperty(INPUTMESSAGECONTENT_FIELD)
-    private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent instead of the GIF animation
-    @JsonProperty(REPLY_MARKUP_FIELD)
-    private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
+
+    private InputMessageContent input_message_content; ///< Optional. Content of the message to be sent instead of the GIF animation
+
+    private InlineKeyboardMarkup reply_markup; ///< Optional. Inline keyboard attached to the message
 
     public InlineQueryResultCachedGif() {
         super();
@@ -57,12 +57,12 @@ public class InlineQueryResultCachedGif implements InlineQueryResult {
         return this;
     }
 
-    public String getGifFileId() {
-        return gifFileId;
+    public String getGi_file_id() {
+        return gif_file_id;
     }
 
-    public InlineQueryResultCachedGif setGifFileId(String gifFileId) {
-        this.gifFileId = gifFileId;
+    public InlineQueryResultCachedGif setGi_file_id(String gi_file_id) {
+        this.gif_file_id = gi_file_id;
         return this;
     }
 
@@ -85,20 +85,20 @@ public class InlineQueryResultCachedGif implements InlineQueryResult {
     }
 
     public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
+        return input_message_content;
     }
 
-    public InlineQueryResultCachedGif setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
+    public InlineQueryResultCachedGif setInputMessageContent(InputMessageContent input_message_content) {
+        this.input_message_content = input_message_content;
         return this;
     }
 
     public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
+        return reply_markup;
     }
 
     public InlineQueryResultCachedGif setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        this.reply_markup = replyMarkup;
         return this;
     }
 
@@ -107,14 +107,14 @@ public class InlineQueryResultCachedGif implements InlineQueryResult {
         if (id == null || id.isEmpty()) {
             throw new TelegramApiValidationException("ID parameter can't be empty", this);
         }
-        if (gifFileId == null || gifFileId.isEmpty()) {
+        if (gif_file_id == null || gif_file_id.isEmpty()) {
             throw new TelegramApiValidationException("GifFileId parameter can't be empty", this);
         }
-        if (inputMessageContent != null) {
-            inputMessageContent.validate();
+        if (input_message_content != null) {
+            input_message_content.validate();
         }
-        if (replyMarkup != null) {
-            replyMarkup.validate();
+        if (reply_markup != null) {
+            reply_markup.validate();
         }
     }
 
@@ -123,11 +123,11 @@ public class InlineQueryResultCachedGif implements InlineQueryResult {
         return "InlineQueryResultCachedGif{" +
                 "type='" + type + '\'' +
                 ", id='" + id + '\'' +
-                ", gifUrl='" + gifFileId + '\'' +
+                ", gifUrl='" + gif_file_id + '\'' +
                 ", title='" + title + '\'' +
                 ", caption='" + caption + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
-                ", replyMarkup='" + replyMarkup + '\'' +
+                ", inputMessageContent='" + input_message_content + '\'' +
+                ", replyMarkup='" + reply_markup + '\'' +
                 '}';
     }
 }

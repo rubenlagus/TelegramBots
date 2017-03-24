@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.inlinequery.result.chached;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
@@ -25,16 +25,16 @@ public class InlineQueryResultCachedSticker implements InlineQueryResult {
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
 
-    @JsonProperty(TYPE_FIELD)
+
     private final String type = "sticker"; ///< Type of the result, must be "sticker"
-    @JsonProperty(ID_FIELD)
+
     private String id; ///< Unique identifier of this result, 1-64 bytes
-    @JsonProperty(STICKER_FILE_ID_FIELD)
-    private String stickerFileId; ///< A valid file identifier of the sticker
-    @JsonProperty(INPUTMESSAGECONTENT_FIELD)
-    private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent instead of the sticker
-    @JsonProperty(REPLY_MARKUP_FIELD)
-    private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
+
+    private String sticker_file_id; ///< A valid file identifier of the sticker
+
+    private InputMessageContent input_message_content; ///< Optional. Content of the message to be sent instead of the sticker
+
+    private InlineKeyboardMarkup reply_markup; ///< Optional. Inline keyboard attached to the message
 
     public InlineQueryResultCachedSticker() {
         super();
@@ -53,30 +53,30 @@ public class InlineQueryResultCachedSticker implements InlineQueryResult {
         return this;
     }
 
-    public String getStickerFileId() {
-        return stickerFileId;
+    public String getSticke_file_id() {
+        return sticker_file_id;
     }
 
-    public InlineQueryResultCachedSticker setStickerFileId(String stickerFileId) {
-        this.stickerFileId = stickerFileId;
+    public InlineQueryResultCachedSticker setSticke_file_id(String sticke_file_id) {
+        this.sticker_file_id = sticke_file_id;
         return this;
     }
 
     public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
+        return input_message_content;
     }
 
-    public InlineQueryResultCachedSticker setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
+    public InlineQueryResultCachedSticker setInputMessageContent(InputMessageContent input_message_content) {
+        this.input_message_content = input_message_content;
         return this;
     }
 
     public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
+        return reply_markup;
     }
 
     public InlineQueryResultCachedSticker setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        this.reply_markup = replyMarkup;
         return this;
     }
 
@@ -85,14 +85,14 @@ public class InlineQueryResultCachedSticker implements InlineQueryResult {
         if (id == null || id.isEmpty()) {
             throw new TelegramApiValidationException("ID parameter can't be empty", this);
         }
-        if (stickerFileId == null || stickerFileId.isEmpty()) {
+        if (sticker_file_id == null || sticker_file_id.isEmpty()) {
             throw new TelegramApiValidationException("StickerFileId parameter can't be empty", this);
         }
-        if (inputMessageContent != null) {
-            inputMessageContent.validate();
+        if (input_message_content != null) {
+            input_message_content.validate();
         }
-        if (replyMarkup != null) {
-            replyMarkup.validate();
+        if (reply_markup != null) {
+            reply_markup.validate();
         }
     }
 
@@ -101,9 +101,9 @@ public class InlineQueryResultCachedSticker implements InlineQueryResult {
         return "InlineQueryResultCachedSticker{" +
                 "type='" + type + '\'' +
                 ", id='" + id + '\'' +
-                ", sticker_file_id='" + stickerFileId + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
-                ", replyMarkup='" + replyMarkup + '\'' +
+                ", sticker_file_id='" + sticker_file_id + '\'' +
+                ", inputMessageContent='" + input_message_content + '\'' +
+                ", replyMarkup='" + reply_markup + '\'' +
                 '}';
     }
 }

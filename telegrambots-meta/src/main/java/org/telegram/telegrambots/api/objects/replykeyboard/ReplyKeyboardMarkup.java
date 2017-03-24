@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.replykeyboard;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
@@ -21,19 +21,19 @@ public class ReplyKeyboardMarkup implements ReplyKeyboard {
     private static final String ONETIMEKEYBOARD_FIELD = "one_time_keyboard";
     private static final String SELECTIVE_FIELD = "selective";
 
-    @JsonProperty(KEYBOARD_FIELD)
+
     private List<KeyboardRow> keyboard; ///< Array of button rows, each represented by an Array of Strings
-    @JsonProperty(RESIZEKEYBOARD_FIELD)
-    private Boolean resizeKeyboard; ///< Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false.
-    @JsonProperty(ONETIMEKEYBOARD_FIELD)
-    private Boolean oneTimeKeyboad; ///< Optional. Requests clients to hide the keyboard as soon as it's been used. Defaults to false.
+
+    private Boolean resize_keyboard; ///< Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false.
+
+    private Boolean one_time_keyboard; ///< Optional. Requests clients to hide the keyboard as soon as it's been used. Defaults to false.
     /**
      * Optional. Use this parameter if you want to show the keyboard to specific users only.
      * Targets:
      *      1) users that are @mentioned in the text of the Message object;
      *      2) if the bot's message is a reply (has reply_to_message_id), sender of the original message.
      */
-    @JsonProperty(SELECTIVE_FIELD)
+
     private Boolean selective;
 
     public ReplyKeyboardMarkup() {
@@ -51,20 +51,20 @@ public class ReplyKeyboardMarkup implements ReplyKeyboard {
     }
 
     public Boolean getResizeKeyboard() {
-        return resizeKeyboard;
+        return resize_keyboard;
     }
 
     public ReplyKeyboardMarkup setResizeKeyboard(Boolean resizeKeyboard) {
-        this.resizeKeyboard = resizeKeyboard;
+        this.resize_keyboard = resizeKeyboard;
         return this;
     }
 
     public Boolean getOneTimeKeyboad() {
-        return oneTimeKeyboad;
+        return one_time_keyboard;
     }
 
     public ReplyKeyboardMarkup setOneTimeKeyboad(Boolean oneTimeKeyboad) {
-        this.oneTimeKeyboad = oneTimeKeyboad;
+        this.one_time_keyboard = oneTimeKeyboad;
         return this;
     }
 
@@ -91,8 +91,8 @@ public class ReplyKeyboardMarkup implements ReplyKeyboard {
     public String toString() {
         return "ReplyKeyboardMarkup{" +
                 "keyboard=" + keyboard +
-                ", resizeKeyboard=" + resizeKeyboard +
-                ", oneTimeKeyboad=" + oneTimeKeyboad +
+                ", resizeKeyboard=" + resize_keyboard +
+                ", oneTimeKeyboad=" + one_time_keyboard +
                 ", selective=" + selective +
                 '}';
     }

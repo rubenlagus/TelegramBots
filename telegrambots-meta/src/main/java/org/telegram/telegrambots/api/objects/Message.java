@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.api.objects.games.Game;
@@ -49,63 +49,63 @@ public class Message implements BotApiObject {
     private static final String GAME_FIELD = "game";
     private static final String FORWARDFROMMESSAGEID_FIELD = "forward_from_message_id";
 
-    @JsonProperty(MESSAGEID_FIELD)
-    private Integer messageId; ///< Integer	Unique message identifier
-    @JsonProperty(FROM_FIELD)
+
+    private Integer message_id; ///< Integer	Unique message identifier
+
     private User from; ///< Optional. Sender, can be empty for messages sent to channels
-    @JsonProperty(DATE_FIELD)
+
     private Integer date; ///< Optional. Date the message was sent in Unix time
-    @JsonProperty(CHAT_FIELD)
+
     private Chat chat; ///< Conversation the message belongs to
-    @JsonProperty(FORWARDFROM_FIELD)
-    private User forwardFrom; ///< Optional. For forwarded messages, sender of the original message
-    @JsonProperty(FORWARDFROMCHAT_FIELD)
-    private Chat forwardFromChat; ///< Optional. For messages forwarded from a channel, information about the original channel
-    @JsonProperty(FORWARDDATE_FIELD)
-    private Integer forwardDate; ///< Optional. For forwarded messages, date the original message was sent
-    @JsonProperty(TEXT_FIELD)
+
+    private User forward_from; ///< Optional. For forwarded messages, sender of the original message
+
+    private Chat forward_from_chat; ///< Optional. For messages forwarded from a channel, information about the original channel
+
+    private Integer forward_date; ///< Optional. For forwarded messages, date the original message was sent
+
     private String text; ///< Optional. For text messages, the actual UTF-8 text of the message
     /**
      * Optional. For text messages, special entities like usernames, URLs,
      * bot commands, etc. that appear in the text
      */
-    @JsonProperty(ENTITIES_FIELD)
+
     private List<MessageEntity> entities;
-    @JsonProperty(AUDIO_FIELD)
+
     private Audio audio; ///< Optional. Message is an audio file, information about the file
-    @JsonProperty(DOCUMENT_FIELD)
+
     private Document document; ///< Optional. Message is a general file, information about the file
-    @JsonProperty(PHOTO_FIELD)
+
     private List<PhotoSize> photo; ///< Optional. Message is a photo, available sizes of the photo
-    @JsonProperty(STICKER_FIELD)
+
     private Sticker sticker; ///< Optional. Message is a sticker, information about the sticker
-    @JsonProperty(VIDEO_FIELD)
+
     private Video video; ///< Optional. Message is a video, information about the video
-    @JsonProperty(CONTACT_FIELD)
+
     private Contact contact; ///< Optional. Message is a shared contact, information about the contact
-    @JsonProperty(LOCATION_FIELD)
+
     private Location location; ///< Optional. Message is a shared location, information about the location
-    @JsonProperty(VENUE_FIELD)
+
     private Venue venue; ///< Optional. Message is a venue, information about the venue
-    @JsonProperty(PINNED_MESSAGE_FIELD)
-    private Message pinnedMessage; ///< Optional. Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply.
-    @JsonProperty(NEWCHATMEMBER_FIELD)
-    private User newChatMember; ///< Optional. A new member was added to the group, information about them (this member may be bot itself)
-    @JsonProperty(LEFTCHATMEMBER_FIELD)
-    private User leftChatMember; ///< Optional. A member was removed from the group, information about them (this member may be bot itself)
-    @JsonProperty(NEWCHATTITLE_FIELD)
-    private String newChatTitle; ///< Optional. A chat title was changed to this value
-    @JsonProperty(NEWCHATPHOTO_FIELD)
-    private List<PhotoSize> newChatPhoto; ///< Optional. A chat photo was change to this value
-    @JsonProperty(DELETECHATPHOTO_FIELD)
-    private Boolean deleteChatPhoto; ///< Optional. Informs that the chat photo was deleted
-    @JsonProperty(GROUPCHATCREATED_FIELD)
-    private Boolean groupchatCreated; ///< Optional. Informs that the group has been created
-    @JsonProperty(REPLYTOMESSAGE_FIELD)
-    private Message replyToMessage;
-    @JsonProperty(VOICE_FIELD)
+
+    private Message pinned_message; ///< Optional. Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply.
+
+    private User new_chat_member; ///< Optional. A new member was added to the group, information about them (this member may be bot itself)
+
+    private User left_chat_member; ///< Optional. A member was removed from the group, information about them (this member may be bot itself)
+
+    private String new_chat_title; ///< Optional. A chat title was changed to this value
+
+    private List<PhotoSize> new_chat_photo; ///< Optional. A chat photo was change to this value
+
+    private Boolean delete_chat_photo; ///< Optional. Informs that the chat photo was deleted
+
+    private Boolean groupchat_created; ///< Optional. Informs that the group has been created
+
+    private Message reply_to_message;
+
     private Voice voice; ///< Optional. Message is a voice message, information about the file
-    @JsonProperty(CAPTION_FIELD)
+
     private String caption; ///< Optional. Caption for the document, photo or video, 0-200 characters
     /**
      * Optional. Service message: the supergroup has been created.
@@ -114,8 +114,8 @@ public class Message implements BotApiObject {
      * It can only be found in reply_to_message
      * if someone replies to a very first message in a directly created supergroup.
      */
-    @JsonProperty(SUPERGROUPCREATED_FIELD)
-    private Boolean superGroupCreated;
+
+    private Boolean supergroup_chat_created;
     /**
      * Optional. Service message: the channel has been created.
      * This field can‘t be received in a message coming through updates,
@@ -123,8 +123,8 @@ public class Message implements BotApiObject {
      * It can only be found in reply_to_message if someone
      * replies to a very first message in a channel.
      */
-    @JsonProperty(CHANNELCHATCREATED_FIELD)
-    private Boolean channelChatCreated;
+
+    private Boolean channel_chat_created;
     /**
      * Optional. The group has been migrated to a supergroup with the specified identifier.
      * This number may be greater than 32 bits and some programming languages
@@ -132,8 +132,8 @@ public class Message implements BotApiObject {
      * But it smaller than 52 bits, so a signed 64 bit integer or double-precision
      * float type are safe for storing this identifier.
      */
-    @JsonProperty(MIGRATETOCHAT_FIELD)
-    private Long migrateToChatId; ///< Optional. The chat has been migrated to a chat with specified identifier, not exceeding 1e13 by absolute value
+
+    private Long migrate_to_chat_id; ///< Optional. The chat has been migrated to a chat with specified identifier, not exceeding 1e13 by absolute value
     /**
      * Optional. The supergroup has been migrated from a group with the specified identifier.
      * This number may be greater than 32 bits and some programming languages
@@ -141,21 +141,21 @@ public class Message implements BotApiObject {
      * But it smaller than 52 bits, so a signed 64 bit integer or double-precision
      * float type are safe for storing this identifier.
      */
-    @JsonProperty(MIGRATEFROMCHAT_FIELD)
-    private Long migrateFromChatId; ///< Optional. The chat has been migrated from a chat with specified identifier, not exceeding 1e13 by absolute value
-    @JsonProperty(EDITDATE_FIELD)
-    private Integer editDate; ///< Optional. Date the message was last edited in Unix time
-    @JsonProperty(GAME_FIELD)
+
+    private Long migrate_from_chat_id; ///< Optional. The chat has been migrated from a chat with specified identifier, not exceeding 1e13 by absolute value
+
+    private Integer edit_date; ///< Optional. Date the message was last edited in Unix time
+
     private Game game; ///< Optional. Message is a game, information about the game
-    @JsonProperty(FORWARDFROMMESSAGEID_FIELD)
-    private Integer forwardFromMessageId; ///< Optional. For forwarded channel posts, identifier of the original message in the channel
+
+    private Integer forward_from_message_id; ///< Optional. For forwarded channel posts, identifier of the original message in the channel
 
     public Message() {
         super();
     }
 
     public Integer getMessageId() {
-        return messageId;
+        return message_id;
     }
 
     public User getFrom() {
@@ -171,11 +171,11 @@ public class Message implements BotApiObject {
     }
 
     public User getForwardFrom() {
-        return forwardFrom;
+        return forward_from;
     }
 
     public Integer getForwardDate() {
-        return forwardDate;
+        return forward_date;
     }
 
     public String getText() {
@@ -220,35 +220,35 @@ public class Message implements BotApiObject {
     }
 
     public Message getPinnedMessage() {
-        return pinnedMessage;
+        return pinned_message;
     }
 
     public User getNewChatMember() {
-        return newChatMember;
+        return new_chat_member;
     }
 
     public User getLeftChatMember() {
-        return leftChatMember;
+        return left_chat_member;
     }
 
     public String getNewChatTitle() {
-        return newChatTitle;
+        return new_chat_title;
     }
 
     public List<PhotoSize> getNewChatPhoto() {
-        return newChatPhoto;
+        return new_chat_photo;
     }
 
     public Boolean getDeleteChatPhoto() {
-        return deleteChatPhoto;
+        return delete_chat_photo;
     }
 
     public Boolean getGroupchatCreated() {
-        return groupchatCreated;
+        return groupchat_created;
     }
 
     public Message getReplyToMessage() {
-        return replyToMessage;
+        return reply_to_message;
     }
 
     public Voice getVoice() {
@@ -260,23 +260,23 @@ public class Message implements BotApiObject {
     }
 
     public Boolean getSuperGroupCreated() {
-        return superGroupCreated;
+        return supergroup_chat_created;
     }
 
     public Boolean getChannelChatCreated() {
-        return channelChatCreated;
+        return channel_chat_created;
     }
 
     public Long getMigrateToChatId() {
-        return migrateToChatId;
+        return migrate_to_chat_id;
     }
 
     public Long getMigrateFromChatId() {
-        return migrateFromChatId;
+        return migrate_from_chat_id;
     }
 
     public Integer getForwardFromMessageId() {
-        return forwardFromMessageId;
+        return forward_from_message_id;
     }
 
     public boolean isGroupMessage() {
@@ -320,7 +320,7 @@ public class Message implements BotApiObject {
     }
 
     public boolean isReply() {
-        return this.replyToMessage != null;
+        return this.reply_to_message != null;
     }
 
     public boolean hasLocation() {
@@ -328,11 +328,11 @@ public class Message implements BotApiObject {
     }
 
     public Chat getForwardFromChat() {
-        return forwardFromChat;
+        return forward_from_chat;
     }
 
     public Integer getEditDate() {
-        return editDate;
+        return edit_date;
     }
 
     public Game getGame() {
@@ -354,13 +354,13 @@ public class Message implements BotApiObject {
     @Override
     public String toString() {
         return "Message{" +
-                "messageId=" + messageId +
+                "messageId=" + message_id +
                 ", from=" + from +
                 ", date=" + date +
                 ", chat=" + chat +
-                ", forwardFrom=" + forwardFrom +
-                ", forwardFromChat=" + forwardFromChat +
-                ", forwardDate=" + forwardDate +
+                ", forwardFrom=" + forward_from +
+                ", forwardFromChat=" + forward_from_chat +
+                ", forwardDate=" + forward_date +
                 ", text='" + text + '\'' +
                 ", entities=" + entities +
                 ", audio=" + audio +
@@ -371,23 +371,23 @@ public class Message implements BotApiObject {
                 ", contact=" + contact +
                 ", location=" + location +
                 ", venue=" + venue +
-                ", pinnedMessage=" + pinnedMessage +
-                ", newChatMember=" + newChatMember +
-                ", leftChatMember=" + leftChatMember +
-                ", newChatTitle='" + newChatTitle + '\'' +
-                ", newChatPhoto=" + newChatPhoto +
-                ", deleteChatPhoto=" + deleteChatPhoto +
-                ", groupchatCreated=" + groupchatCreated +
-                ", replyToMessage=" + replyToMessage +
+                ", pinnedMessage=" + pinned_message +
+                ", newChatMember=" + new_chat_member +
+                ", leftChatMember=" + left_chat_member +
+                ", newChatTitle='" + new_chat_title + '\'' +
+                ", newChatPhoto=" + new_chat_photo +
+                ", deleteChatPhoto=" + delete_chat_photo +
+                ", groupchatCreated=" + groupchat_created +
+                ", replyToMessage=" + reply_to_message +
                 ", voice=" + voice +
                 ", caption='" + caption + '\'' +
-                ", superGroupCreated=" + superGroupCreated +
-                ", channelChatCreated=" + channelChatCreated +
-                ", migrateToChatId=" + migrateToChatId +
-                ", migrateFromChatId=" + migrateFromChatId +
-                ", editDate=" + editDate +
+                ", superGroupCreated=" + supergroup_chat_created +
+                ", channelChatCreated=" + channel_chat_created +
+                ", migrateToChatId=" + migrate_to_chat_id +
+                ", migrateFromChatId=" + migrate_from_chat_id +
+                ", editDate=" + edit_date +
                 ", game=" + game +
-                ", forwardFromMessageId=" + forwardFromMessageId +
+                ", forwardFromMessageId=" + forward_from_message_id +
                 '}';
     }
 }

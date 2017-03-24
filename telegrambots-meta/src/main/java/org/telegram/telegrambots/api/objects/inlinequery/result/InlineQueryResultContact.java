@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.inlinequery.result;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -29,26 +29,26 @@ public class InlineQueryResultContact implements InlineQueryResult {
     private static final String THUMBWIDTH_FIELD = "thumb_width";
     private static final String THUMBHEIGHT_FIELD = "thumb_height";
 
-    @JsonProperty(TYPE_FIELD)
+
     private final String type = "contact"; ///< Type of the result, must be "contact"
-    @JsonProperty(ID_FIELD)
+
     private String id; ///< Unique identifier of this result, 1-64 bytes
-    @JsonProperty(PHONE_NUMBER_FIELD)
-    private String phoneNumber; ///< Contact's phone number
-    @JsonProperty(FIRST_NAME_FIELD)
-    private String firstName; ///< Contact's first name
-    @JsonProperty(LAST_NAME_FIELD)
-    private String lastName; ///< Contact's last name
-    @JsonProperty(REPLY_MARKUP_FIELD)
-    private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
-    @JsonProperty(INPUTMESSAGECONTENT_FIELD)
-    private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent
-    @JsonProperty(THUMBURL_FIELD)
-    private String thumbUrl; ///< Optional. URL of the thumbnail (jpeg only) for the file
-    @JsonProperty(THUMBWIDTH_FIELD)
-    private Integer thumbWidth; ///< Optional. Thumbnail width
-    @JsonProperty(THUMBHEIGHT_FIELD)
-    private Integer thumbHeight; ///< Optional. Thumbnail height
+
+    private String phone_number; ///< Contact's phone number
+
+    private String first_name; ///< Contact's first name
+
+    private String last_name; ///< Contact's last name
+
+    private InlineKeyboardMarkup reply_narkup; ///< Optional. Inline keyboard attached to the message
+
+    private InputMessageContent input_message_content; ///< Optional. Content of the message to be sent
+
+    private String thumb_url; ///< Optional. URL of the thumbnail (jpeg only) for the file
+
+    private Integer thumb_width; ///< Optional. Thumbnail width
+
+    private Integer thumb_height; ///< Optional. Thumbnail height
 
     public InlineQueryResultContact() {
         super();
@@ -68,74 +68,74 @@ public class InlineQueryResultContact implements InlineQueryResult {
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        return phone_number;
     }
 
     public InlineQueryResultContact setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        this.phone_number = phoneNumber;
         return this;
     }
 
     public String getFirstName() {
-        return firstName;
+        return first_name;
     }
 
     public InlineQueryResultContact setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.first_name = firstName;
         return this;
     }
 
     public String getLastName() {
-        return lastName;
+        return last_name;
     }
 
     public InlineQueryResultContact setLastName(String lastName) {
-        this.lastName = lastName;
+        this.last_name = lastName;
         return this;
     }
 
     public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
+        return reply_narkup;
     }
 
     public InlineQueryResultContact setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        this.reply_narkup = replyMarkup;
         return this;
     }
 
     public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
+        return input_message_content;
     }
 
-    public InlineQueryResultContact setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
+    public InlineQueryResultContact setInputMessageContent(InputMessageContent input_message_content) {
+        this.input_message_content = input_message_content;
         return this;
     }
 
     public String getThumbUrl() {
-        return thumbUrl;
+        return thumb_url;
     }
 
     public InlineQueryResultContact setThumbUrl(String thumbUrl) {
-        this.thumbUrl = thumbUrl;
+        this.thumb_url = thumbUrl;
         return this;
     }
 
     public Integer getThumbWidth() {
-        return thumbWidth;
+        return thumb_width;
     }
 
     public InlineQueryResultContact setThumbWidth(Integer thumbWidth) {
-        this.thumbWidth = thumbWidth;
+        this.thumb_width = thumbWidth;
         return this;
     }
 
     public Integer getThumbHeight() {
-        return thumbHeight;
+        return thumb_height;
     }
 
     public InlineQueryResultContact setThumbHeight(Integer thumbHeight) {
-        this.thumbHeight = thumbHeight;
+        this.thumb_height = thumbHeight;
         return this;
     }
 
@@ -144,17 +144,17 @@ public class InlineQueryResultContact implements InlineQueryResult {
         if (id == null || id.isEmpty()) {
             throw new TelegramApiValidationException("ID parameter can't be empty", this);
         }
-        if (phoneNumber == null || phoneNumber.isEmpty()) {
+        if (phone_number == null || phone_number.isEmpty()) {
             throw new TelegramApiValidationException("PhoneNumber parameter can't be empty", this);
         }
-        if (firstName == null || firstName.isEmpty()) {
+        if (first_name == null || first_name.isEmpty()) {
             throw new TelegramApiValidationException("FirstName parameter can't be empty", this);
         }
-        if (inputMessageContent != null) {
-            inputMessageContent.validate();
+        if (input_message_content != null) {
+            input_message_content.validate();
         }
-        if (replyMarkup != null) {
-            replyMarkup.validate();
+        if (reply_narkup != null) {
+            reply_narkup.validate();
         }
     }
 
@@ -163,14 +163,14 @@ public class InlineQueryResultContact implements InlineQueryResult {
         return "InlineQueryResultContact{" +
                 "type='" + type + '\'' +
                 ", id='" + id + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", thumbHeight=" + thumbHeight +
-                ", thumbWidth=" + thumbWidth +
-                ", thumbUrl='" + thumbUrl + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
-                ", replyMarkup='" + replyMarkup + '\'' +
+                ", phoneNumber='" + phone_number + '\'' +
+                ", firstName='" + first_name + '\'' +
+                ", thumbHeight=" + thumb_height +
+                ", thumbWidth=" + thumb_width +
+                ", thumbUrl='" + thumb_url + '\'' +
+                ", lastName='" + last_name + '\'' +
+                ", inputMessageContent='" + input_message_content + '\'' +
+                ", replyMarkup='" + reply_narkup + '\'' +
                 '}';
     }
 }

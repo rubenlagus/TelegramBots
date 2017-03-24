@@ -1,12 +1,14 @@
 package org.telegram.telegrambots;
 
+
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
-
 import org.telegram.telegrambots.logging.BotLogger;
 
+import java.lang.reflect.Constructor;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,11 +19,15 @@ import java.util.Map;
  */
 public class ApiContext {
     private static final Object lock = new Object();
-    private static Injector INJECTOR;
     private static Map<Class, Class> bindings = new HashMap<>();
     private static Map<Class, Class> singletonBindings = new HashMap<>();
-
+    private static ApiContext apiContext;
+    private static Injector INJECTOR;
+public ApiContext(){
+    apiContext=this;
+}
     public static <T> T getInstance(Class<T> type) {
+
         return getInjector().getInstance(type);
     }
 

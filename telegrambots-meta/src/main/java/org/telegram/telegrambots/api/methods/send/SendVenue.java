@@ -1,7 +1,5 @@
 package org.telegram.telegrambots.api.methods.send;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.Message;
@@ -9,6 +7,7 @@ import org.telegram.telegrambots.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.myclasses.TypeReference;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -33,45 +32,45 @@ public class SendVenue extends BotApiMethod<Message> {
     private static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
 
-    @JsonProperty(CHATID_FIELD)
-    private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
-    @JsonProperty(LATITUDE_FIELD)
+
+    private String chat_id; ///< Unique identifier for the chat to send the message to (Or username for channels)
+
     private Float latitude; ///< Latitude of venue location
-    @JsonProperty(LONGITUDE_FIELD)
+
     private Float longitude; ///< Longitude of venue location
-    @JsonProperty(TITLE_FIELD)
+
     private String title; ///< Title of the venue
     /**
      * Optional. Sends the message silently. iOS users will not receive a notification, Android
      * users will receive a notification with no sound. Other apps coming soon
      */
-    @JsonProperty(DISABLENOTIFICATION_FIELD)
-    private Boolean disableNotification;
-    @JsonProperty(ADDRESS_FIELD)
+
+    private Boolean disable_notification;
+
     private String address; ///< Address of the venue
-    @JsonProperty(FOURSQUARE_ID_FIELD)
-    private String foursquareId; ///< Optional. Foursquare identifier of the venue
-    @JsonProperty(REPLYTOMESSAGEID_FIELD)
-    private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
-    @JsonProperty(REPLYMARKUP_FIELD)
-    private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+
+    private String foursquare_id; ///< Optional. Foursquare identifier of the venue
+
+    private Integer reply_to_message_id; ///< Optional. If the message is a reply, ID of the original message
+
+    private ReplyKeyboard reply_markup; ///< Optional. JSON-serialized object for a custom reply keyboard
 
     public SendVenue() {
         super();
     }
 
     public String getChatId() {
-        return chatId;
+        return chat_id;
     }
 
-    public SendVenue setChatId(String chatId) {
-        this.chatId = chatId;
+    public SendVenue setChatId(String chat_id) {
+        this.chat_id = chat_id;
         return this;
     }
 
-    public SendVenue setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
+    public SendVenue setChatId(Long chat_id) {
+        Objects.requireNonNull(chat_id);
+        this.chat_id = chat_id.toString();
         return this;
     }
 
@@ -94,34 +93,34 @@ public class SendVenue extends BotApiMethod<Message> {
     }
 
     public Integer getReplyToMessageId() {
-        return replyToMessageId;
+        return reply_to_message_id;
     }
 
     public SendVenue setReplyToMessageId(Integer replyToMessageId) {
-        this.replyToMessageId = replyToMessageId;
+        this.reply_to_message_id = replyToMessageId;
         return this;
     }
 
     public ReplyKeyboard getReplyMarkup() {
-        return replyMarkup;
+        return reply_markup;
     }
 
     public SendVenue setReplyMarkup(ReplyKeyboard replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        this.reply_markup = replyMarkup;
         return this;
     }
 
     public Boolean getDisableNotification() {
-        return disableNotification;
+        return disable_notification;
     }
 
     public SendVenue enableNotification() {
-        this.disableNotification = false;
+        this.disable_notification = false;
         return this;
     }
 
     public SendVenue disableNotification() {
-        this.disableNotification = true;
+        this.disable_notification = true;
         return this;
     }
 
@@ -144,11 +143,11 @@ public class SendVenue extends BotApiMethod<Message> {
     }
 
     public String getFoursquareId() {
-        return foursquareId;
+        return foursquare_id;
     }
 
     public SendVenue setFoursquareId(String foursquareId) {
-        this.foursquareId = foursquareId;
+        this.foursquare_id = foursquareId;
         return this;
     }
 
@@ -174,7 +173,7 @@ public class SendVenue extends BotApiMethod<Message> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null) {
+        if (chat_id == null) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
         if (longitude == null) {
@@ -189,22 +188,22 @@ public class SendVenue extends BotApiMethod<Message> {
         if (address == null) {
             throw new TelegramApiValidationException("Address parameter can't be empty", this);
         }
-        if (replyMarkup != null) {
-            replyMarkup.validate();
+        if (reply_markup != null) {
+            reply_markup.validate();
         }
     }
 
     @Override
     public String toString() {
         return "SendVenue{" +
-                "chatId='" + chatId + '\'' +
+                "chatId='" + chat_id + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", title=" + title +
                 ", address=" + address +
-                ", foursquareId=" + foursquareId +
-                ", replyToMessageId=" + replyToMessageId +
-                ", replyMarkup=" + replyMarkup +
+                ", foursquareId=" + foursquare_id +
+                ", replyToMessageId=" + reply_to_message_id +
+                ", replyMarkup=" + reply_markup +
                 '}';
     }
 }

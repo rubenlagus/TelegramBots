@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.inlinequery.result.chached;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
@@ -26,17 +26,17 @@ public class InlineQueryResultCachedAudio implements InlineQueryResult {
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String CAPTION_FIELD = "caption";
 
-    @JsonProperty(TYPE_FIELD)
+
     private final String type = "audio"; ///< Type of the result, must be "audio"
-    @JsonProperty(ID_FIELD)
+
     private String id; ///< Unique identifier of this result
-    @JsonProperty(AUDIO_FILE_ID_FIELD)
-    private String audioFileId; ///< A valid file identifier for the audio file
-    @JsonProperty(INPUTMESSAGECONTENT_FIELD)
-    private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent instead of the audio
-    @JsonProperty(REPLY_MARKUP_FIELD)
-    private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
-    @JsonProperty(CAPTION_FIELD)
+
+    private String audio_file_id; ///< A valid file identifier for the audio file
+
+    private InputMessageContent input_message_content; ///< Optional. Content of the message to be sent instead of the audio
+
+    private InlineKeyboardMarkup reply_markup; ///< Optional. Inline keyboard attached to the message
+
     private String caption; ///< Optional. Audio caption (may also be used when resending documents by file_id), 0-200 characters
 
     public InlineQueryResultCachedAudio() {
@@ -56,30 +56,30 @@ public class InlineQueryResultCachedAudio implements InlineQueryResult {
         return this;
     }
 
-    public String getAudioFileId() {
-        return audioFileId;
+    public String getAudi_file_id() {
+        return audio_file_id;
     }
 
-    public InlineQueryResultCachedAudio setAudioFileId(String audioFileId) {
-        this.audioFileId = audioFileId;
+    public InlineQueryResultCachedAudio setAudi_file_id(String audi_file_id) {
+        this.audio_file_id = audi_file_id;
         return this;
     }
 
     public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
+        return input_message_content;
     }
 
-    public InlineQueryResultCachedAudio setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
+    public InlineQueryResultCachedAudio setInputMessageContent(InputMessageContent input_message_content) {
+        this.input_message_content = input_message_content;
         return this;
     }
 
     public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
+        return reply_markup;
     }
 
     public InlineQueryResultCachedAudio setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        this.reply_markup = replyMarkup;
         return this;
     }
 
@@ -97,14 +97,14 @@ public class InlineQueryResultCachedAudio implements InlineQueryResult {
         if (id == null || id.isEmpty()) {
             throw new TelegramApiValidationException("ID parameter can't be empty", this);
         }
-        if (audioFileId == null || audioFileId.isEmpty()) {
+        if (audio_file_id == null || audio_file_id.isEmpty()) {
             throw new TelegramApiValidationException("AudioFileId parameter can't be empty", this);
         }
-        if (inputMessageContent != null) {
-            inputMessageContent.validate();
+        if (input_message_content != null) {
+            input_message_content.validate();
         }
-        if (replyMarkup != null) {
-            replyMarkup.validate();
+        if (reply_markup != null) {
+            reply_markup.validate();
         }
     }
 
@@ -112,9 +112,9 @@ public class InlineQueryResultCachedAudio implements InlineQueryResult {
     public String toString() {
         return "InlineQueryResultCachedAudio{" +
                 "id='" + id + '\'' +
-                ", audioFileId='" + audioFileId + '\'' +
-                ", inputMessageContent=" + inputMessageContent +
-                ", replyMarkup=" + replyMarkup +
+                ", audioFileId='" + audio_file_id + '\'' +
+                ", inputMessageContent=" + input_message_content +
+                ", replyMarkup=" + reply_markup +
                 ", caption='" + caption + '\'' +
                 '}';
     }

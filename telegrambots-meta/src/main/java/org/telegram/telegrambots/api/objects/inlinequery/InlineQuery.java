@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.inlinequery;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.api.objects.Location;
@@ -20,15 +20,15 @@ public class InlineQuery implements BotApiObject {
     private static final String QUERY_FIELD = "query";
     private static final String OFFSET_FIELD = "offset";
 
-    @JsonProperty(ID_FIELD)
+
     private String id; ///< Unique identifier for this query
-    @JsonProperty(FROM_FIELD)
+
     private User from; ///< Sender
-    @JsonProperty(LOCATION_FIELD)
+
     private Location location; ///< Optional. Sender location, only for bots that request user location
-    @JsonProperty(QUERY_FIELD)
+
     private String query; ///< Text of the query
-    @JsonProperty(OFFSET_FIELD)
+
     private String offset; ///< Offset of the results to be returned, can be controlled by the bot
 
     public InlineQuery() {

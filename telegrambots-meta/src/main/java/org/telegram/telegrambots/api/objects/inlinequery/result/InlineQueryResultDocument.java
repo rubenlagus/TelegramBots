@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.inlinequery.result;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -32,30 +32,30 @@ public class InlineQueryResultDocument implements InlineQueryResult {
     private static final String THUMBWIDTH_FIELD = "thumb_width";
     private static final String THUMBHEIGHT_FIELD = "thumb_height";
 
-    @JsonProperty(TYPE_FIELD)
+
     private final String type = "document"; ///< Type of the result, must be "document"
-    @JsonProperty(ID_FIELD)
+
     private String id; ///< Unique identifier of this result, 1-64 bytes
-    @JsonProperty(TITLE_FIELD)
+
     private String title; ///< Optional. Title for the result
-    @JsonProperty(DOCUMENTURL_FIELD)
-    private String documentUrl; ///< A valid URL for the file
-    @JsonProperty(MIMETYPE_FIELD)
-    private String mimeType; ///< Mime type of the content of the file, either “application/pdf” or “application/zip”
-    @JsonProperty(DESCRIPTION_FIELD)
+
+    private String document_url; ///< A valid URL for the file
+
+    private String mime_type; ///< Mime type of the content of the file, either “application/pdf” or “application/zip”
+
     private String description; ///< Optional. Short description of the result
-    @JsonProperty(CAPTION_FIELD)
+
     private String caption; ///< Optional. Caption of the document to be sent, 0-200 characters
-    @JsonProperty(REPLY_MARKUP_FIELD)
-    private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
-    @JsonProperty(INPUTMESSAGECONTENT_FIELD)
-    private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent instead of the file
-    @JsonProperty(THUMBURL_FIELD)
-    private String thumbUrl; ///< Optional. URL of the thumbnail (jpeg only) for the file
-    @JsonProperty(THUMBWIDTH_FIELD)
-    private Integer thumbWidth; ///< Optional. Thumbnail width
-    @JsonProperty(THUMBHEIGHT_FIELD)
-    private Integer thumbHeight; ///< Optional. Thumbnail height
+
+    private InlineKeyboardMarkup reply_markup; ///< Optional. Inline keyboard attached to the message
+
+    private InputMessageContent input_message_content; ///< Optional. Content of the message to be sent instead of the file
+
+    private String thumb_url; ///< Optional. URL of the thumbnail (jpeg only) for the file
+
+    private Integer thumb_width; ///< Optional. Thumbnail width
+
+    private Integer thumb_height; ///< Optional. Thumbnail height
 
     public InlineQueryResultDocument() {
         super();
@@ -84,20 +84,20 @@ public class InlineQueryResultDocument implements InlineQueryResult {
     }
 
     public String getDocumentUrl() {
-        return documentUrl;
+        return document_url;
     }
 
     public InlineQueryResultDocument setDocumentUrl(String documentUrl) {
-        this.documentUrl = documentUrl;
+        this.document_url = documentUrl;
         return this;
     }
 
     public String getMimeType() {
-        return mimeType;
+        return mime_type;
     }
 
     public InlineQueryResultDocument setMimeType(String mimeType) {
-        this.mimeType = mimeType;
+        this.mime_type = mimeType;
         return this;
     }
 
@@ -120,47 +120,47 @@ public class InlineQueryResultDocument implements InlineQueryResult {
     }
 
     public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
+        return reply_markup;
     }
 
     public InlineQueryResultDocument setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        this.reply_markup = replyMarkup;
         return this;
     }
 
     public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
+        return input_message_content;
     }
 
-    public InlineQueryResultDocument setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
+    public InlineQueryResultDocument setInputMessageContent(InputMessageContent input_message_content) {
+        this.input_message_content = input_message_content;
         return this;
     }
 
     public String getThumbUrl() {
-        return thumbUrl;
+        return thumb_url;
     }
 
     public InlineQueryResultDocument setThumbUrl(String thumbUrl) {
-        this.thumbUrl = thumbUrl;
+        this.thumb_url = thumbUrl;
         return this;
     }
 
     public Integer getThumbWidth() {
-        return thumbWidth;
+        return thumb_width;
     }
 
     public InlineQueryResultDocument setThumbWidth(Integer thumbWidth) {
-        this.thumbWidth = thumbWidth;
+        this.thumb_width = thumbWidth;
         return this;
     }
 
     public Integer getThumbHeight() {
-        return thumbHeight;
+        return thumb_height;
     }
 
     public InlineQueryResultDocument setThumbHeight(Integer thumbHeight) {
-        this.thumbHeight = thumbHeight;
+        this.thumb_height = thumbHeight;
         return this;
     }
 
@@ -169,20 +169,20 @@ public class InlineQueryResultDocument implements InlineQueryResult {
         if (id == null || id.isEmpty()) {
             throw new TelegramApiValidationException("ID parameter can't be empty", this);
         }
-        if (mimeType == null || mimeType.isEmpty()) {
+        if (mime_type == null || mime_type.isEmpty()) {
             throw new TelegramApiValidationException("Mimetype parameter can't be empty", this);
         }
-        if (documentUrl == null || documentUrl.isEmpty()) {
+        if (document_url == null || document_url.isEmpty()) {
             throw new TelegramApiValidationException("DocumentUrl parameter can't be empty", this);
         }
         if (title == null || title.isEmpty()) {
             throw new TelegramApiValidationException("Title parameter can't be empty", this);
         }
-        if (inputMessageContent != null) {
-            inputMessageContent.validate();
+        if (input_message_content != null) {
+            input_message_content.validate();
         }
-        if (replyMarkup != null) {
-            replyMarkup.validate();
+        if (reply_markup != null) {
+            reply_markup.validate();
         }
     }
 
@@ -191,16 +191,16 @@ public class InlineQueryResultDocument implements InlineQueryResult {
         return "InlineQueryResultDocument{" +
                 "type='" + type + '\'' +
                 ", id='" + id + '\'' +
-                ", mimeType='" + mimeType + '\'' +
-                ", documentUrl='" + documentUrl + '\'' +
-                ", thumbHeight=" + thumbHeight +
-                ", thumbWidth=" + thumbWidth +
-                ", thumbUrl='" + thumbUrl + '\'' +
+                ", mimeType='" + mime_type + '\'' +
+                ", documentUrl='" + document_url + '\'' +
+                ", thumbHeight=" + thumb_height +
+                ", thumbWidth=" + thumb_width +
+                ", thumbUrl='" + thumb_url + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", caption='" + caption + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
-                ", replyMarkup='" + replyMarkup + '\'' +
+                ", inputMessageContent='" + input_message_content + '\'' +
+                ", replyMarkup='" + reply_markup + '\'' +
                 '}';
     }
 }

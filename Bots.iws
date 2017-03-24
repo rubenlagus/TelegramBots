@@ -1,0 +1,1509 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="Bots:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0fbb2ff5-8d38-481a-8959-cc0e563b604d" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/telegrambots-meta/src/test/java/org/telegram/telegrambots/test/TelegramBotsHelper.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/telegrambots-meta/src/test/java/org/telegram/telegrambots/test/TestDeserialization.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/telegrambots-meta/src/test/java/org/telegram/telegrambots/test/TestTelegramApi.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/telegrambots-meta/src/test/java/org/telegram/telegrambots/test/apimethods/TestAnswerInlineQuery.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/telegrambots-meta/src/test/java/org/telegram/telegrambots/test/apimethods/TestGetUpdates.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/telegrambots-meta/src/test/java/org/telegram/telegrambots/test/apimethods/TestSetGameScore.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/telegrambots-meta/src/test/java/org/telegram/telegrambots/test/asserts/ApiAssert.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/telegrambots-meta/src/test/java/org/telegram/telegrambots/test/base/TestBase.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/telegrambots-meta/src/test/java/org/telegram/telegrambots/test/fakes/FakeBotSession.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/telegrambots-meta/src/test/java/org/telegram/telegrambots/test/fakes/FakeWebhook.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/telegrambots-meta/src/test/resources/ResponseWithError.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/telegrambots-meta/src/test/resources/ResponseWithoutError.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/telegrambots-meta/src/test/resources/ResponsesSetGameScore.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/telegrambots-meta/src/test/resources/Update.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/telegrambots/src/test/java/org/telegram/telegrambots/test/BotApiMethodHelperFactory.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/telegrambots/src/test/java/org/telegram/telegrambots/test/Fakes/FakeLongPollingBot.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/telegrambots/src/test/java/org/telegram/telegrambots/test/Fakes/FakeWebhook.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/telegrambots/src/test/java/org/telegram/telegrambots/test/TestDefaultBotSession.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/telegrambots/src/test/java/org/telegram/telegrambots/test/TestRestApi.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Bots.ipr" afterPath="$PROJECT_DIR$/Bots.ipr" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/pom.xml" afterPath="$PROJECT_DIR$/telegrambots-meta/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/ApiContext.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/ApiContext.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/interfaces/BotApiObject.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/interfaces/BotApiObject.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/interfaces/InputBotApiObject.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/interfaces/InputBotApiObject.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/AnswerCallbackQuery.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/AnswerCallbackQuery.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/AnswerInlineQuery.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/AnswerInlineQuery.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/BotApiMethod.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/BotApiMethod.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/ForwardMessage.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/ForwardMessage.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/GetFile.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/GetFile.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/GetMe.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/GetMe.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/GetUserProfilePhotos.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/GetUserProfilePhotos.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/PartialBotApiMethod.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/PartialBotApiMethod.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/games/GetGameHighScores.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/games/GetGameHighScores.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/games/SetGameScore.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/games/SetGameScore.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/groupadministration/GetChat.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/groupadministration/GetChat.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/groupadministration/GetChatAdministrators.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/groupadministration/GetChatAdministrators.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/groupadministration/GetChatMember.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/groupadministration/GetChatMember.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/groupadministration/GetChatMemberCount.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/groupadministration/GetChatMemberCount.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/groupadministration/KickChatMember.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/groupadministration/KickChatMember.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/groupadministration/LeaveChat.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/groupadministration/LeaveChat.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/groupadministration/UnbanChatMember.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/groupadministration/UnbanChatMember.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendAudio.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendAudio.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendChatAction.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendChatAction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendContact.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendContact.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendDocument.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendDocument.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendGame.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendGame.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendLocation.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendLocation.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendMessage.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendMessage.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendPhoto.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendPhoto.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendSticker.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendSticker.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendVenue.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendVenue.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendVideo.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendVideo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendVoice.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendVoice.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updates/DeleteWebhook.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updates/DeleteWebhook.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updates/GetUpdates.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updates/GetUpdates.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updates/GetWebhookInfo.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updates/GetWebhookInfo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updates/SetWebhook.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updates/SetWebhook.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updatingmessages/EditMessageCaption.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updatingmessages/EditMessageCaption.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updatingmessages/EditMessageReplyMarkup.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updatingmessages/EditMessageReplyMarkup.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updatingmessages/EditMessageText.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updatingmessages/EditMessageText.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Audio.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Audio.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/CallbackQuery.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/CallbackQuery.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Chat.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Chat.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/ChatMember.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/ChatMember.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Contact.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Contact.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Document.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Document.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/File.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/File.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Location.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Location.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Message.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Message.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/MessageEntity.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/MessageEntity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/PhotoSize.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/PhotoSize.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/ResponseParameters.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/ResponseParameters.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Sticker.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Sticker.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Update.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Update.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/User.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/User.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/UserProfilePhotos.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/UserProfilePhotos.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Venue.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Venue.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Video.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Video.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Voice.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Voice.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/WebhookInfo.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/WebhookInfo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/games/Animation.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/games/Animation.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/games/Game.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/games/Game.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/games/GameHighScore.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/games/GameHighScore.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/ChosenInlineQuery.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/ChosenInlineQuery.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/InlineQuery.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/InlineQuery.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/inputmessagecontent/InputContactMessageContent.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/inputmessagecontent/InputContactMessageContent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/inputmessagecontent/InputLocationMessageContent.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/inputmessagecontent/InputLocationMessageContent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/inputmessagecontent/InputTextMessageContent.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/inputmessagecontent/InputTextMessageContent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/inputmessagecontent/InputVenueMessageContent.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/inputmessagecontent/InputVenueMessageContent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultArticle.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultArticle.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultAudio.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultAudio.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultContact.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultContact.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultDocument.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultDocument.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultGame.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultGame.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultGif.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultGif.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultLocation.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultLocation.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultMpeg4Gif.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultMpeg4Gif.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultPhoto.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultPhoto.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultVenue.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultVenue.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultVideo.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultVideo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultVoice.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/InlineQueryResultVoice.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/chached/InlineQueryResultCachedAudio.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/chached/InlineQueryResultCachedAudio.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/chached/InlineQueryResultCachedDocument.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/chached/InlineQueryResultCachedDocument.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/chached/InlineQueryResultCachedGif.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/chached/InlineQueryResultCachedGif.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/chached/InlineQueryResultCachedMpeg4Gif.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/chached/InlineQueryResultCachedMpeg4Gif.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/chached/InlineQueryResultCachedPhoto.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/chached/InlineQueryResultCachedPhoto.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/chached/InlineQueryResultCachedSticker.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/chached/InlineQueryResultCachedSticker.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/chached/InlineQueryResultCachedVideo.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/chached/InlineQueryResultCachedVideo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/chached/InlineQueryResultCachedVoice.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result/chached/InlineQueryResultCachedVoice.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/replykeyboard/ApiResponse.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/replykeyboard/ApiResponse.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/replykeyboard/ForceReplyKeyboard.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/replykeyboard/ForceReplyKeyboard.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/replykeyboard/InlineKeyboardMarkup.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/replykeyboard/InlineKeyboardMarkup.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/replykeyboard/ReplyKeyboardMarkup.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/replykeyboard/ReplyKeyboardMarkup.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/replykeyboard/ReplyKeyboardRemove.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/replykeyboard/ReplyKeyboardRemove.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/replykeyboard/buttons/InlineKeyboardButton.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/replykeyboard/buttons/InlineKeyboardButton.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/replykeyboard/buttons/KeyboardButton.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/replykeyboard/buttons/KeyboardButton.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/exceptions/TelegramApiRequestException.java" afterPath="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/exceptions/TelegramApiRequestException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots/pom.xml" afterPath="$PROJECT_DIR$/telegrambots/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/bots/DefaultAbsSender.java" afterPath="$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/bots/DefaultAbsSender.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/updatesreceivers/DefaultBotSession.java" afterPath="$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/updatesreceivers/DefaultBotSession.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/updatesreceivers/DefaultWebhook.java" afterPath="$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/updatesreceivers/DefaultWebhook.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/updatesreceivers/ExponentialBackOff.java" afterPath="$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/updatesreceivers/ExponentialBackOff.java" />
+    </list>
+    <ignored path="$PROJECT_DIR$/telegrambots/target/" />
+    <ignored path="$PROJECT_DIR$/telegrambots-meta/target/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/Bots$Main.coverage" NAME="Main Coverage Results" MODIFIED="1490139475981" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="ApiContext.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/ApiContext.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-123">
+              <caret line="23" column="41" lean-forward="false" selection-start-line="23" selection-start-column="41" selection-end-line="23" selection-end-column="41" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ObjectMapper.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/myclasses/ObjectMapper.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-648">
+              <caret line="0" column="44" lean-forward="false" selection-start-line="0" selection-start-column="44" selection-end-line="0" selection-end-column="44" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TypeReference.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/myclasses/TypeReference.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Utils.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/myclasses/Utils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="12" column="5" lean-forward="false" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
+              <folding>
+                <element signature="e#341#342#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="17" column="9" lean-forward="true" selection-start-line="17" selection-start-column="9" selection-end-line="17" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MyTestBot.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/MyTestBot.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="540">
+              <caret line="40" column="24" lean-forward="true" selection-start-line="40" selection-start-column="24" selection-end-line="40" selection-end-column="24" />
+              <folding>
+                <element signature="e#1606#1607#0" expanded="true" />
+                <element signature="e#1637#1638#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TelegramLongPollingCommandBot.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/bots/TelegramLongPollingCommandBot.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="18">
+              <caret line="27" column="24" lean-forward="false" selection-start-line="27" selection-start-column="24" selection-end-line="27" selection-end-column="24" />
+              <folding>
+                <element signature="e#951#952#0" expanded="true" />
+                <element signature="e#1020#1021#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TelegramWebhookBot.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/bots/TelegramWebhookBot.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="36" column="24" lean-forward="false" selection-start-line="36" selection-start-column="24" selection-end-line="36" selection-end-column="24" />
+              <folding>
+                <element signature="e#1402#1403#0" expanded="true" />
+                <element signature="e#1471#1472#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BotLogger.class" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/telegrambots-meta/target/classes/org/telegram/telegrambots/logging/BotLogger.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-283">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="telegrambots.iml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/telegrambots/telegrambots.iml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>@JsonProperty\((.*)\)</find>
+      <find>import (.*)fasterxml(.*);</find>
+      <find>inputMessageContent</find>
+      <find>FileId</find>
+      <find>([a-z])file_id</find>
+      <find>fileId</find>
+      <find>chatId</find>
+      <find>userId</find>
+      <find>System\.out(.*);</find>
+      <find>\n\n</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>input_message_content</replace>
+      <replace>_file_id</replace>
+      <replace>file_id</replace>
+      <replace>chat_id</replace>
+      <replace>user_id</replace>
+      <replace />
+    </replaceStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots</dir>
+      <dir>$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery/result</dir>
+      <dir>$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/inlinequery</dir>
+      <dir>$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects</dir>
+      <dir>$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods</dir>
+      <dir>$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/myclasses</dir>
+    </dirStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GradleLocalSettings">
+    <option name="externalProjectsViewState">
+      <projects_view />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Chat.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Contact.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Document.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/File.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Message.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/PhotoSize.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/ResponseParameters.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Sticker.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Update.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/User.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/UserProfilePhotos.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Venue.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Video.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/Voice.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/WebhookInfo.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/games/GetGameHighScores.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/games/SetGameScore.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/groupadministration/GetChat.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/groupadministration/GetChatAdministrators.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/groupadministration/GetChatMember.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/GetUserProfilePhotos.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendAudio.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendContact.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendDocument.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendGame.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendLocation.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendMessage.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendPhoto.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendSticker.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendVenue.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendVideo.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendVoice.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updates/GetUpdates.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updates/SetWebhook.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updatingmessages/EditMessageCaption.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updatingmessages/EditMessageReplyMarkup.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updatingmessages/EditMessageText.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/AnswerCallbackQuery.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/AnswerInlineQuery.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/ForwardMessage.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/GetFile.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/myclasses/Utils.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/replykeyboard/InlineKeyboardMarkup.java" />
+        <option value="$PROJECT_DIR$/telegrambots/pom.xml" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/pom.xml" />
+        <option value="$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/updatesreceivers/ExponentialBackOff.java" />
+        <option value="$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/updatesreceivers/DefaultBotSession.java" />
+        <option value="$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/updatesreceivers/DefaultWebhook.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/ApiContext.java" />
+        <option value="$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/myclasses/ObjectMapper.java" />
+        <option value="$PROJECT_DIR$/src/MyTestBot.java" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="24" />
+    <option name="width" value="1920" />
+    <option name="height" value="1001" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Bots" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TelegramBots" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Bots" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TelegramBots" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="telegrambots-meta" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Bots" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TelegramBots" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="telegrambots-meta" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="telegrambots" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Bots" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TelegramBots" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="telegrambots-meta" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="telegrambots" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="myclasses" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Bots" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TelegramBots" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/telegrambots-meta" />
+    <property name="js.eslint.eslintPackage" value="" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.1637298" />
+    <property name="project.structure.side.proportion" value="0.24407375" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
+    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
+    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
+    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="bots" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="org.telegram.telegrambots.api.methods" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Main">
+    <configuration default="false" name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="Bots" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file id="idea.log" enabled="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android App">
+      <module name="" />
+      <option name="DEPLOY" value="true" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <Java />
+      <Profilers>
+        <option name="ENABLE_ADVANCED_PROFILING" value="true" />
+        <option name="GAPID_ENABLED" value="false" />
+        <option name="GAPID_DISABLE_PCS" value="false" />
+        <option name="SUPPORT_LIB_ENABLED" value="true" />
+        <option name="INSTRUMENTATION_ENABLED" value="true" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="EXTRA_OPTIONS" value="" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <Java />
+      <Profilers>
+        <option name="ENABLE_ADVANCED_PROFILING" value="true" />
+        <option name="GAPID_ENABLED" value="false" />
+        <option name="GAPID_DISABLE_PCS" value="false" />
+        <option name="SUPPORT_LIB_ENABLED" value="true" />
+        <option name="INSTRUMENTATION_ENABLED" value="true" />
+      </Profilers>
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <module />
+      <method />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="ArquillianTestNG" factoryName="">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Cold Fusion runner description" factoryName="Cold Fusion" custom_browser="" web_path="">
+      <method />
+    </configuration>
+    <configuration default="true" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="myFilePath" />
+      <option name="GLUE" />
+      <option name="myNameFilter" />
+      <option name="myGeneratedName" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="FlashRunConfigurationType" factoryName="Flash App">
+      <option name="BCName" value="" />
+      <option name="IOSSimulatorSdkPath" value="" />
+      <option name="adlOptions" value="" />
+      <option name="airProgramParameters" value="" />
+      <option name="appDescriptorForEmulator" value="Android" />
+      <option name="debugTransport" value="USB" />
+      <option name="debuggerSdkRaw" value="BC SDK" />
+      <option name="emulator" value="NexusOne" />
+      <option name="emulatorAdlOptions" value="" />
+      <option name="fastPackaging" value="true" />
+      <option name="fullScreenHeight" value="0" />
+      <option name="fullScreenWidth" value="0" />
+      <option name="launchUrl" value="false" />
+      <option name="launcherParameters">
+        <LauncherParameters>
+          <option name="browser" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
+          <option name="launcherType" value="OSDefault" />
+          <option name="newPlayerInstance" value="false" />
+          <option name="playerPath" value="/usr/bin/flashplayerdebugger" />
+        </LauncherParameters>
+      </option>
+      <option name="mobileRunTarget" value="Emulator" />
+      <option name="moduleName" value="" />
+      <option name="overriddenMainClass" value="" />
+      <option name="overriddenOutputFileName" value="" />
+      <option name="overrideMainClass" value="false" />
+      <option name="runTrusted" value="true" />
+      <option name="screenDpi" value="0" />
+      <option name="screenHeight" value="0" />
+      <option name="screenWidth" value="0" />
+      <option name="url" value="http://" />
+      <option name="usbDebugPort" value="7936" />
+      <method />
+    </configuration>
+    <configuration default="true" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" appDescriptorForEmulator="Android" class_name="" emulatorAdlOptions="" method_name="" package_name="" scope="Class">
+      <option name="BCName" value="" />
+      <option name="launcherParameters">
+        <LauncherParameters>
+          <option name="browser" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
+          <option name="launcherType" value="OSDefault" />
+          <option name="newPlayerInstance" value="false" />
+          <option name="playerPath" value="/usr/bin/flashplayerdebugger" />
+        </LauncherParameters>
+      </option>
+      <option name="moduleName" value="" />
+      <option name="trusted" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <method />
+    </configuration>
+    <configuration default="true" type="GrailsRunConfigurationType" factoryName="Grails">
+      <setting name="vmparams" value="" />
+      <setting name="cmdLine" value="run-app" />
+      <setting name="passParentEnv" value="true" />
+      <setting name="launchBrowser" value="true" />
+      <setting name="launchBrowserUrl" value="" />
+      <setting name="depsClasspath" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="JarApplication" factoryName="JAR Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="Java Scratch" factoryName="Java Scratch">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="SCRATCH_FILE_ID" value="0" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
+      <config-file value="" />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="telegrambots" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType" factoryName="Kotlin script">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <method />
+    </configuration>
+    <configuration default="true" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run" />
+      <scripts />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="osgi.bnd.run" factoryName="Run Launcher">
+      <method />
+    </configuration>
+    <configuration default="true" type="osgi.bnd.run" factoryName="Test Launcher (JUnit)">
+      <method />
+    </configuration>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="Application.Main" />
+    </list>
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0fbb2ff5-8d38-481a-8959-cc0e563b604d" name="Default" comment="" />
+      <created>1490122844128</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1490122844128</updated>
+      <workItem from="1490122845865" duration="17974000" />
+      <workItem from="1490203536888" duration="2780000" />
+      <workItem from="1490214373691" duration="12105000" />
+      <workItem from="1490388228589" duration="1842000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="34701000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="24" width="1920" height="1001" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32788798" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32788798" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25937834" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32788798" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329582" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="processedProjectFiles" value="true" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendPhoto.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="648">
+          <caret line="192" column="46" lean-forward="false" selection-start-line="192" selection-start-column="46" selection-end-line="192" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendSticker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="181" column="50" lean-forward="false" selection-start-line="181" selection-start-column="50" selection-end-line="181" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendVenue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="702">
+          <caret line="205" column="47" lean-forward="false" selection-start-line="205" selection-start-column="47" selection-end-line="205" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendVideo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="227" column="46" lean-forward="false" selection-start-line="227" selection-start-column="46" selection-end-line="227" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendVoice.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="601">
+          <caret line="212" column="54" lean-forward="false" selection-start-line="212" selection-start-column="54" selection-end-line="212" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updates/AllowedUpdates.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="6" column="19" lean-forward="false" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updates/DeleteWebhook.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="129">
+          <caret line="19" column="13" lean-forward="false" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updates/GetUpdates.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="136" column="53" lean-forward="false" selection-start-line="136" selection-start-column="53" selection-end-line="136" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updates/GetWebhookInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="129">
+          <caret line="23" column="13" lean-forward="false" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updates/SetWebhook.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="86" column="53" lean-forward="false" selection-start-line="86" selection-start-column="53" selection-end-line="86" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updatingmessages/EditMessageCaption.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="162" column="47" lean-forward="false" selection-start-line="162" selection-start-column="47" selection-end-line="162" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updatingmessages/EditMessageReplyMarkup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="157" column="47" lean-forward="false" selection-start-line="157" selection-start-column="47" selection-end-line="157" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/updatingmessages/EditMessageText.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="222" column="47" lean-forward="false" selection-start-line="222" selection-start-column="47" selection-end-line="222" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/ActionType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-87">
+          <caret line="8" column="12" lean-forward="false" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/AnswerCallbackQuery.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="601">
+          <caret line="137" column="43" lean-forward="false" selection-start-line="137" selection-start-column="43" selection-end-line="137" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/AnswerInlineQuery.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="601">
+          <caret line="175" column="46" lean-forward="false" selection-start-line="175" selection-start-column="46" selection-end-line="175" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/BotApiMethod.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="13" column="22" lean-forward="false" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/ForwardMessage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="131" column="43" lean-forward="false" selection-start-line="131" selection-start-column="43" selection-end-line="131" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/GetFile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="75" column="36" lean-forward="false" selection-start-line="75" selection-start-column="36" selection-end-line="75" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/GetMe.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="19" column="13" lean-forward="false" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/GetUserProfilePhotos.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="117">
+          <caret line="26" column="20" lean-forward="false" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/ParseMode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/PartialBotApiMethod.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="14" column="22" lean-forward="false" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/methods/send/SendMessage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="162" column="0" lean-forward="false" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/api/objects/replykeyboard/InlineKeyboardMarkup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="28" column="44" lean-forward="true" selection-start-line="28" selection-start-column="44" selection-end-line="28" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TelegramBots.wiki/_Footer.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="0">
+            <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/updatesreceivers/ExponentialBackOff.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="189" column="40" lean-forward="true" selection-start-line="189" selection-start-column="40" selection-end-line="189" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/TelegramBotsApi.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="120" column="0" lean-forward="false" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/updatesreceivers/DefaultWebhook.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/bots/DefaultBotOptions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-18">
+          <caret line="21" column="30" lean-forward="true" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+          <folding>
+            <element signature="e#721#722#0" expanded="false" />
+            <element signature="e#751#752#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/updatesreceivers/DefaultBotSession.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4050">
+          <caret line="263" column="63" lean-forward="true" selection-start-line="263" selection-start-column="63" selection-end-line="263" selection-end-column="63" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/bots/TelegramLongPollingBot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="34" column="0" lean-forward="false" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+          <folding>
+            <element signature="e#1224#1225#0" expanded="false" />
+            <element signature="e#1293#1294#0" expanded="false" />
+            <element signature="e#1387#1388#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/bots/DefaultAbsSender.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="66" column="0" lean-forward="false" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2898">
+          <caret line="161" column="44" lean-forward="false" selection-start-line="161" selection-start-column="44" selection-end-line="161" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Bots.ipr">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/eclipse configuration.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="0">
+            <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Bots.iws">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3024">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1062">
+          <caret line="59" column="26" lean-forward="false" selection-start-line="59" selection-start-column="26" selection-end-line="59" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.travis.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots/telegrambots.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/target/classes/org/telegram/telegrambots/logging/BotLogger.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-283">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/bots/TelegramLongPollingCommandBot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="27" column="24" lean-forward="false" selection-start-line="27" selection-start-column="24" selection-end-line="27" selection-end-column="24" />
+          <folding>
+            <element signature="e#951#952#0" expanded="true" />
+            <element signature="e#1020#1021#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/bots/TelegramWebhookBot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="36" column="24" lean-forward="false" selection-start-line="36" selection-start-column="24" selection-end-line="36" selection-end-column="24" />
+          <folding>
+            <element signature="e#1402#1403#0" expanded="true" />
+            <element signature="e#1471#1472#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/ApiContext.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-123">
+          <caret line="23" column="41" lean-forward="false" selection-start-line="23" selection-start-column="41" selection-end-line="23" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/myclasses/ObjectMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-648">
+          <caret line="0" column="44" lean-forward="false" selection-start-line="0" selection-start-column="44" selection-end-line="0" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/myclasses/TypeReference.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/telegrambots-meta/src/main/java/org/telegram/telegrambots/myclasses/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="12" column="5" lean-forward="false" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
+          <folding>
+            <element signature="e#341#342#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="17" column="9" lean-forward="true" selection-start-line="17" selection-start-column="9" selection-end-line="17" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/MyTestBot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="40" column="24" lean-forward="true" selection-start-line="40" selection-start-column="24" selection-end-line="40" selection-end-column="24" />
+          <folding>
+            <element signature="e#1606#1607#0" expanded="true" />
+            <element signature="e#1637#1638#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <last-edited>Bots:jar</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.1150748" />
+                <option value="0.5" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.608046" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.608046" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>telegrambots-meta</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.24407375" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: aopalliance:aopalliance:1.0</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.608046" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>

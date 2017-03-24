@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.inlinequery.result.chached;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
@@ -26,21 +26,21 @@ public class InlineQueryResultCachedPhoto implements InlineQueryResult {
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
 
-    @JsonProperty(TYPE_FIELD)
+
     private final String type = "photo"; ///< Type of the result, must be “photo”
-    @JsonProperty(ID_FIELD)
+
     private String id; ///< Unique identifier of this result, 1-64 bytes
-    @JsonProperty(PHOTOFILEID_FIELD)
-    private String photoFileId; ///< A valid file identifier of the photo
-    @JsonProperty(TITLE_FIELD)
+
+    private String phot_file_id; ///< A valid file identifier of the photo
+
     private String title; ///< Optional. Title for the result
-    @JsonProperty(DESCRIPTION_FIELD)
+
     private String description; ///< Optional. Short description of the result
-    @JsonProperty(CAPTION_FIELD)
+
     private String caption; ///< Optional. Caption of the photo to be sent
-    @JsonProperty(INPUTMESSAGECONTENT_FIELD)
-    private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent instead of the photo
-    @JsonProperty(REPLY_MARKUP_FIELD)
+
+    private InputMessageContent input_message_content; ///< Optional. Content of the message to be sent instead of the photo
+
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
 
     public InlineQueryResultCachedPhoto() {
@@ -60,12 +60,12 @@ public class InlineQueryResultCachedPhoto implements InlineQueryResult {
         return this;
     }
 
-    public String getPhotoFileId() {
-        return photoFileId;
+    public String getPhot_file_id() {
+        return phot_file_id;
     }
 
-    public InlineQueryResultCachedPhoto setPhotoFileId(String photoFileId) {
-        this.photoFileId = photoFileId;
+    public InlineQueryResultCachedPhoto setPhot_file_id(String phot_file_id) {
+        this.phot_file_id = phot_file_id;
         return this;
     }
 
@@ -97,11 +97,11 @@ public class InlineQueryResultCachedPhoto implements InlineQueryResult {
     }
 
     public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
+        return input_message_content;
     }
 
-    public InlineQueryResultCachedPhoto setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
+    public InlineQueryResultCachedPhoto setInputMessageContent(InputMessageContent input_message_content) {
+        this.input_message_content = input_message_content;
         return this;
     }
 
@@ -119,11 +119,11 @@ public class InlineQueryResultCachedPhoto implements InlineQueryResult {
         if (id == null || id.isEmpty()) {
             throw new TelegramApiValidationException("ID parameter can't be empty", this);
         }
-        if (photoFileId == null || photoFileId.isEmpty()) {
+        if (phot_file_id == null || phot_file_id.isEmpty()) {
             throw new TelegramApiValidationException("PhotoFileId parameter can't be empty", this);
         }
-        if (inputMessageContent != null) {
-            inputMessageContent.validate();
+        if (input_message_content != null) {
+            input_message_content.validate();
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
@@ -135,11 +135,11 @@ public class InlineQueryResultCachedPhoto implements InlineQueryResult {
         return "InlineQueryResultCachedPhoto{" +
                 "type='" + type + '\'' +
                 ", id='" + id + '\'' +
-                ", photoFileId='" + photoFileId + '\'' +
+                ", photoFileId='" + phot_file_id + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", caption='" + caption + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
+                ", inputMessageContent='" + input_message_content + '\'' +
                 ", replyMarkup='" + replyMarkup + '\'' +
                 '}';
     }

@@ -1,8 +1,8 @@
 package org.telegram.telegrambots.updatesreceivers;
 
-import com.google.inject.Inject;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
+
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
@@ -27,6 +27,7 @@ import org.telegram.telegrambots.generics.LongPollingBot;
 import org.telegram.telegrambots.generics.UpdatesHandler;
 import org.telegram.telegrambots.generics.UpdatesReader;
 import org.telegram.telegrambots.logging.BotLogger;
+import org.telegram.telegrambots.myclasses.ObjectMapper;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
@@ -58,7 +59,6 @@ public class DefaultBotSession implements BotSession {
     private int lastReceivedUpdate = 0;
     private DefaultBotOptions options;
 
-    @Inject
     public DefaultBotSession() {
     }
 

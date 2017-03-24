@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 
@@ -19,17 +19,17 @@ public class Sticker implements BotApiObject {
     private static final String FILESIZE_FIELD = "file_size";
     private static final String EMOJI_FIELD = "emoji";
 
-    @JsonProperty(FILEID_FIELD)
-    private String fileId; ///< Unique identifier for this file
-    @JsonProperty(WIDTH_FIELD)
+
+    private String file_id; ///< Unique identifier for this file
+
     private Integer width; ///< Sticker width
-    @JsonProperty(HEIGHT_FIELD)
+
     private Integer height; ///< Sticker height
-    @JsonProperty(THUMB_FIELD)
+
     private PhotoSize thumb; ///< Optional. Sticker thumbnail in .webp or .jpg format
-    @JsonProperty(FILESIZE_FIELD)
-    private Integer fileSize; ///< Optional. File size
-    @JsonProperty(EMOJI_FIELD)
+
+    private Integer file_size; ///< Optional. File size
+
     private String emoji; ///< Optional. Emoji associated with the sticker
 
     public Sticker() {
@@ -37,7 +37,7 @@ public class Sticker implements BotApiObject {
     }
 
     public String getFileId() {
-        return fileId;
+        return file_id;
     }
 
     public Integer getWidth() {
@@ -53,7 +53,7 @@ public class Sticker implements BotApiObject {
     }
 
     public Integer getFileSize() {
-        return fileSize;
+        return file_size;
     }
 
     public String getEmoji() {
@@ -63,11 +63,11 @@ public class Sticker implements BotApiObject {
     @Override
     public String toString() {
         return "Sticker{" +
-                "fileId='" + fileId + '\'' +
+                "file_id='" + file_id + '\'' +
                 ", width=" + width +
                 ", height=" + height +
                 ", thumb=" + thumb +
-                ", fileSize=" + fileSize +
+                ", fileSize=" + file_size +
                 ", emoji=" + emoji +
                 '}';
     }

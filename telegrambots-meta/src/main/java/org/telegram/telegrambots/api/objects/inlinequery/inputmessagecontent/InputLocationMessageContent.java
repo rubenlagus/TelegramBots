@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
@@ -17,9 +17,9 @@ public class InputLocationMessageContent implements InputMessageContent {
     private static final String LATITUDE_FIELD = "latitude";
     private static final String LONGITUDE_FIELD = "longitude";
 
-    @JsonProperty(LATITUDE_FIELD)
+
     private Float latitude; ///< Latitude of the location in degrees
-    @JsonProperty(LONGITUDE_FIELD)
+
     private Float longitude; ///< Longitude of the location in degrees
 
     public InputLocationMessageContent() {

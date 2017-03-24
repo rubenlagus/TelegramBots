@@ -1,12 +1,12 @@
 package org.telegram.telegrambots.api.methods;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
+
 
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.myclasses.TypeReference;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -25,81 +25,81 @@ public class ForwardMessage extends BotApiMethod<Message> {
     private static final String MESSAGEID_FIELD = "message_id";
     private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
 
-    @JsonProperty(CHATID_FIELD)
-    private String chatId; ///< Unique identifier for the chat to send the message to (or username for channels)
-    @JsonProperty(FROMCHATID_FIELD)
-    private String fromChatId; ///< Unique identifier for the chat where the original message was sent — User or GroupChat id
-    @JsonProperty(MESSAGEID_FIELD)
-    private Integer messageId; ///< Unique message identifier
+
+    private String chat_id; ///< Unique identifier for the chat to send the message to (or username for channels)
+
+    private String from_chat_id; ///< Unique identifier for the chat where the original message was sent — User or GroupChat id
+
+    private Integer message_id; ///< Unique message identifier
     /**
      * Optional. Sends the message silently.
      * iOS users will not receive a notification,
      * Android users will receive a notification with no sound.
      * Other apps coming soon
      */
-    @JsonProperty(DISABLENOTIFICATION_FIELD)
-    private Boolean disableNotification;
+
+    private Boolean disable_notification;
 
     public ForwardMessage() {
         super();
     }
 
     public String getChatId() {
-        return chatId;
+        return chat_id;
     }
 
-    public ForwardMessage setChatId(String chatId) {
-        this.chatId = chatId;
+    public ForwardMessage setChatId(String chat_id) {
+        this.chat_id = chat_id;
         return this;
     }
 
-    public ForwardMessage setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
+    public ForwardMessage setChatId(Long chat_id) {
+        Objects.requireNonNull(chat_id);
+        this.chat_id = chat_id.toString();
         return this;
     }
 
     public String getFromChatId() {
-        return fromChatId;
+        return from_chat_id;
     }
 
     public ForwardMessage setFromChatId(String fromChatId) {
-        this.fromChatId = fromChatId;
+        this.from_chat_id = fromChatId;
         return this;
     }
 
     public Integer getMessageId() {
-        return messageId;
+        return message_id;
     }
 
     public ForwardMessage setMessageId(Integer messageId) {
-        this.messageId = messageId;
+        this.message_id = messageId;
         return this;
     }
 
     public Boolean getDisableNotification() {
-        return disableNotification;
+        return disable_notification;
     }
 
     public ForwardMessage enableNotification() {
-        this.disableNotification = false;
+        this.disable_notification = false;
         return this;
     }
 
     public ForwardMessage disableNotification() {
-        this.disableNotification = true;
+        this.disable_notification = true;
         return this;
     }
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null) {
+        if (chat_id == null) {
             throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
-        if (fromChatId == null) {
+        if (from_chat_id == null) {
             throw new TelegramApiValidationException("FromChatId can't be empty", this);
         }
-        if (messageId == null) {
+        if (message_id == null) {
             throw new TelegramApiValidationException("MessageId can't be empty", this);
         }
     }
@@ -127,9 +127,9 @@ public class ForwardMessage extends BotApiMethod<Message> {
     @Override
     public String toString() {
         return "ForwardMessage{" +
-                "chatId='" + chatId + '\'' +
-                ", fromChatId=" + fromChatId +
-                ", messageId=" + messageId +
+                "chatId='" + chat_id + '\'' +
+                ", fromChatId=" + from_chat_id +
+                ", messageId=" + message_id +
                 '}';
     }
 }

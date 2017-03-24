@@ -17,7 +17,7 @@
 
 package org.telegram.telegrambots.api.objects.games;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.api.objects.User;
@@ -33,11 +33,11 @@ public class GameHighScore implements BotApiObject {
     private static final String USER_FIELD = "user";
     private static final String SCORE_FIELD = "score";
 
-    @JsonProperty(POSITION_FIELD)
+
     private Integer position; ///< Position in the game high score table
-    @JsonProperty(USER_FIELD)
+
     private User user; ///< User
-    @JsonProperty(SCORE_FIELD)
+
     private Integer score; ///< Score
 
     public Integer getPosition() {
