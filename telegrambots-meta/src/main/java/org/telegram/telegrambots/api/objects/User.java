@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 
@@ -17,14 +17,14 @@ public class User implements BotApiObject {
     private static final String LASTNAME_FIELD = "last_name";
     private static final String USERNAME_FIELD = "username";
 
-    @JsonProperty(ID_FIELD)
+
     private Integer id; ///< Unique identifier for this user or bot
-    @JsonProperty(FIRSTNAME_FIELD)
-    private String firstName; ///< User‘s or bot’s first name
-    @JsonProperty(LASTNAME_FIELD)
-    private String lastName; ///< Optional. User‘s or bot’s last name
-    @JsonProperty(USERNAME_FIELD)
-    private String userName; ///< Optional. User‘s or bot’s username
+
+    private String first_name; ///< User‘s or bot’s first name
+
+    private String last_name; ///< Optional. User‘s or bot’s last name
+
+    private String user_name; ///< Optional. User‘s or bot’s username
 
     public User() {
         super();
@@ -35,24 +35,24 @@ public class User implements BotApiObject {
     }
 
     public String getFirstName() {
-        return firstName;
+        return first_name;
     }
 
     public String getLastName() {
-        return lastName;
+        return last_name;
     }
 
     public String getUserName() {
-        return userName;
+        return user_name;
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", userName='" + userName + '\'' +
+                ", firstName='" + first_name + '\'' +
+                ", lastName='" + last_name + '\'' +
+                ", userName='" + user_name + '\'' +
                 '}';
     }
 }

@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.inlinequery.result;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -29,30 +29,30 @@ public class InlineQueryResultPhoto implements InlineQueryResult {
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
 
-    @JsonProperty(TYPE_FIELD)
+
     private final String type = "photo"; ///< Type of the result, must be “photo”
-    @JsonProperty(ID_FIELD)
+
     private String id; ///< Unique identifier of this result, 1-64 bytes
-    @JsonProperty(PHOTOURL_FIELD)
-    private String photoUrl; ///< A valid URL of the photo. Photo size must not exceed 5MB
-    @JsonProperty(MIMETYPE_FIELD)
-    private String mimeType; ///< Optional. MIME type of the photo, defaults to image/jpeg
-    @JsonProperty(PHOTOWIDTH_FIELD)
-    private Integer photoWidth; ///< Optional. Width of the photo
-    @JsonProperty(PHOTOHEIGHT_FIELD)
-    private Integer photoHeight; ///< Optional. Height of the photo
-    @JsonProperty(THUMBURL_FIELD)
-    private String thumbUrl; ///< Optional. URL of the thumbnail for the photo
-    @JsonProperty(TITLE_FIELD)
+
+    private String photo_url; ///< A valid URL of the photo. Photo size must not exceed 5MB
+
+    private String mime_type; ///< Optional. MIME type of the photo, defaults to image/jpeg
+
+    private Integer photo_width; ///< Optional. Width of the photo
+
+    private Integer photo_height; ///< Optional. Height of the photo
+
+    private String thumb_url; ///< Optional. URL of the thumbnail for the photo
+
     private String title; ///< Optional. Title for the result
-    @JsonProperty(DESCRIPTION_FIELD)
+
     private String description; ///< Optional. Short description of the result
-    @JsonProperty(CAPTION_FIELD)
+
     private String caption; ///< Optional. Caption of the photo to be sent
-    @JsonProperty(INPUTMESSAGECONTENT_FIELD)
-    private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent instead of the photo
-    @JsonProperty(REPLY_MARKUP_FIELD)
-    private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
+
+    private InputMessageContent input_message_content; ///< Optional. Content of the message to be sent instead of the photo
+
+    private InlineKeyboardMarkup reply_markup; ///< Optional. Inline keyboard attached to the message
 
     public InlineQueryResultPhoto() {
         super();
@@ -72,47 +72,47 @@ public class InlineQueryResultPhoto implements InlineQueryResult {
     }
 
     public String getPhotoUrl() {
-        return photoUrl;
+        return photo_url;
     }
 
     public InlineQueryResultPhoto setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
+        this.photo_url = photoUrl;
         return this;
     }
 
     public String getMimeType() {
-        return mimeType;
+        return mime_type;
     }
 
     public InlineQueryResultPhoto setMimeType(String mimeType) {
-        this.mimeType = mimeType;
+        this.mime_type = mimeType;
         return this;
     }
 
     public Integer getPhotoWidth() {
-        return photoWidth;
+        return photo_width;
     }
 
     public InlineQueryResultPhoto setPhotoWidth(Integer photoWidth) {
-        this.photoWidth = photoWidth;
+        this.photo_width = photoWidth;
         return this;
     }
 
     public Integer getPhotoHeight() {
-        return photoHeight;
+        return photo_height;
     }
 
     public InlineQueryResultPhoto setPhotoHeight(Integer photoHeight) {
-        this.photoHeight = photoHeight;
+        this.photo_height = photoHeight;
         return this;
     }
 
     public String getThumbUrl() {
-        return thumbUrl;
+        return thumb_url;
     }
 
     public InlineQueryResultPhoto setThumbUrl(String thumbUrl) {
-        this.thumbUrl = thumbUrl;
+        this.thumb_url = thumbUrl;
         return this;
     }
 
@@ -144,20 +144,20 @@ public class InlineQueryResultPhoto implements InlineQueryResult {
     }
 
     public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
+        return input_message_content;
     }
 
-    public InlineQueryResultPhoto setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
+    public InlineQueryResultPhoto setInputMessageContent(InputMessageContent input_message_content) {
+        this.input_message_content = input_message_content;
         return this;
     }
 
     public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
+        return reply_markup;
     }
 
     public InlineQueryResultPhoto setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        this.reply_markup = replyMarkup;
         return this;
     }
 
@@ -166,14 +166,14 @@ public class InlineQueryResultPhoto implements InlineQueryResult {
         if (id == null || id.isEmpty()) {
             throw new TelegramApiValidationException("ID parameter can't be empty", this);
         }
-        if (photoUrl == null || photoUrl.isEmpty()) {
+        if (photo_url == null || photo_url.isEmpty()) {
             throw new TelegramApiValidationException("PhotoUrl parameter can't be empty", this);
         }
-        if (inputMessageContent != null) {
-            inputMessageContent.validate();
+        if (input_message_content != null) {
+            input_message_content.validate();
         }
-        if (replyMarkup != null) {
-            replyMarkup.validate();
+        if (reply_markup != null) {
+            reply_markup.validate();
         }
     }
 
@@ -182,16 +182,16 @@ public class InlineQueryResultPhoto implements InlineQueryResult {
         return "InlineQueryResultPhoto{" +
                 "type='" + type + '\'' +
                 ", id='" + id + '\'' +
-                ", photoUrl='" + photoUrl + '\'' +
-                ", mimeType='" + mimeType + '\'' +
-                ", photoWidth=" + photoWidth +
-                ", photoHeight=" + photoHeight +
-                ", thumbUrl='" + thumbUrl + '\'' +
+                ", photoUrl='" + photo_url + '\'' +
+                ", mimeType='" + mime_type + '\'' +
+                ", photoWidth=" + photo_width +
+                ", photoHeight=" + photo_height +
+                ", thumbUrl='" + thumb_url + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", caption='" + caption + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
-                ", replyMarkup='" + replyMarkup + '\'' +
+                ", inputMessageContent='" + input_message_content + '\'' +
+                ", replyMarkup='" + reply_markup + '\'' +
                 '}';
     }
 }

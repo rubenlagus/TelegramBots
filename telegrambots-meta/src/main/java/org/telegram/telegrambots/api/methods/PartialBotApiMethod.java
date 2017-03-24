@@ -1,10 +1,9 @@
 package org.telegram.telegrambots.api.methods;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.telegram.telegrambots.api.interfaces.Validable;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.myclasses.ObjectMapper;
 
 import java.io.Serializable;
 
@@ -14,7 +13,7 @@ import java.io.Serializable;
  * Api method that can't be use completely as Json
  */
 public abstract class PartialBotApiMethod<T extends Serializable> implements Validable {
-    @JsonIgnore
+
     protected static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     /**

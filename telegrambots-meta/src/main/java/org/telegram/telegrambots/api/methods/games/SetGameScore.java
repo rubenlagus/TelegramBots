@@ -17,14 +17,15 @@
 
 package org.telegram.telegrambots.api.methods.games;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
+
+
 
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.myclasses.TypeReference;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -51,19 +52,19 @@ public class SetGameScore extends BotApiMethod<Serializable> {
     private static final String DISABLEEDITMESSAGE_FIELD = "disable_edit_message";
     private static final String FORCE_FIELD = "force";
 
-    @JsonProperty(CHATID_FIELD)
-    private String chatId; ///< Optional	Required if inline_message_id is not specified. Unique identifier for the target chat (or username of the target channel in the format @channelusername)
-    @JsonProperty(MESSAGEID_FIELD)
-    private Integer messageId; ///< Optional	Required if inline_message_id is not specified. Unique identifier of the sent message
-    @JsonProperty(INLINE_MESSAGE_ID_FIELD)
-    private String inlineMessageId; ///< Optional	Required if chat_id and message_id are not specified. Identifier of the inline message
-    @JsonProperty(DISABLEEDITMESSAGE_FIELD)
-    private Boolean disableEditMessage; ///< Optional	Pass True, if the game message should not be automatically edited to include the current scoreboard. Defaults to False
-    @JsonProperty(USER_ID_FIELD)
-    private Integer userId; ///< User identifier
-    @JsonProperty(SCORE_FIELD)
+
+    private String chat_id; ///< Optional	Required if inline_message_id is not specified. Unique identifier for the target chat (or username of the target channel in the format @channelusername)
+
+    private Integer message_id; ///< Optional	Required if inline_message_id is not specified. Unique identifier of the sent message
+
+    private String inline_message_id; ///< Optional	Required if chat_id and message_id are not specified. Identifier of the inline message
+
+    private Boolean disable_edit_message; ///< Optional	Pass True, if the game message should not be automatically edited to include the current scoreboard. Defaults to False
+
+    private Integer user_id; ///< User identifier
+
     private Integer score; ///< New score, must be positive
-    @JsonProperty(FORCE_FIELD)
+
     private Boolean force; ///< Opfional. Pass True, if the high score is allowed to decrease. This can be useful when fixing mistakes or banning cheaters
 
     public SetGameScore() {
@@ -71,23 +72,23 @@ public class SetGameScore extends BotApiMethod<Serializable> {
     }
 
     public String getChatId() {
-        return chatId;
+        return chat_id;
     }
 
     public Integer getMessageId() {
-        return messageId;
+        return message_id;
     }
 
     public String getInlineMessageId() {
-        return inlineMessageId;
+        return inline_message_id;
     }
 
     public Boolean getDisableEditMessage() {
-        return disableEditMessage;
+        return disable_edit_message;
     }
 
     public Integer getUserId() {
-        return userId;
+        return user_id;
     }
 
     public Integer getScore() {
@@ -98,34 +99,34 @@ public class SetGameScore extends BotApiMethod<Serializable> {
         return force;
     }
 
-    public SetGameScore setChatId(String chatId) {
-        this.chatId = chatId;
+    public SetGameScore setChatId(String chat_id) {
+        this.chat_id = chat_id;
         return this;
     }
 
-    public SetGameScore setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
+    public SetGameScore setChatId(Long chat_id) {
+        Objects.requireNonNull(chat_id);
+        this.chat_id = chat_id.toString();
         return this;
     }
 
     public SetGameScore setMessageId(Integer messageId) {
-        this.messageId = messageId;
+        this.message_id = messageId;
         return this;
     }
 
     public SetGameScore setInlineMessageId(String inlineMessageId) {
-        this.inlineMessageId = inlineMessageId;
+        this.inline_message_id = inlineMessageId;
         return this;
     }
 
     public SetGameScore setDisableEditMessage(Boolean disableEditMessage) {
-        this.disableEditMessage = disableEditMessage;
+        this.disable_edit_message = disableEditMessage;
         return this;
     }
 
-    public SetGameScore setUserId(Integer userId) {
-        this.userId = userId;
+    public SetGameScore setUserId(Integer user_id) {
+        this.user_id = user_id;
         return this;
     }
 
@@ -172,24 +173,24 @@ public class SetGameScore extends BotApiMethod<Serializable> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (userId == null) {
+        if (user_id == null) {
             throw new TelegramApiValidationException("UserId parameter can't be empty", this);
         }
         if (score == null) {
             throw new TelegramApiValidationException("Score parameter can't be empty", this);
         }
-        if (inlineMessageId == null) {
-            if (chatId == null) {
+        if (inline_message_id == null) {
+            if (chat_id == null) {
                 throw new TelegramApiValidationException("ChatId parameter can't be empty if inlineMessageId is not present", this);
             }
-            if (messageId == null) {
+            if (message_id == null) {
                 throw new TelegramApiValidationException("MessageId parameter can't be empty if inlineMessageId is not present", this);
             }
         } else {
-            if (chatId != null) {
+            if (chat_id != null) {
                 throw new TelegramApiValidationException("ChatId parameter must be empty if inlineMessageId is provided", this);
             }
-            if (messageId != null) {
+            if (message_id != null) {
                 throw new TelegramApiValidationException("MessageId parameter must be empty if inlineMessageId is provided", this);
             }
         }
@@ -198,11 +199,11 @@ public class SetGameScore extends BotApiMethod<Serializable> {
     @Override
     public String toString() {
         return "SetGameScore{" +
-                "chatId='" + chatId + '\'' +
-                ", messageId=" + messageId +
-                ", inlineMessageId='" + inlineMessageId + '\'' +
-                ", disableEditMessage=" + disableEditMessage +
-                ", userId=" + userId +
+                "chatId='" + chat_id + '\'' +
+                ", messageId=" + message_id +
+                ", inlineMessageId='" + inline_message_id + '\'' +
+                ", disableEditMessage=" + disable_edit_message +
+                ", userId=" + user_id +
                 ", score=" + score +
                 ", force=" + force +
                 '}';

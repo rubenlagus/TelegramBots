@@ -1,14 +1,13 @@
 package org.telegram.telegrambots.api.methods.send;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
+
 
 import org.telegram.telegrambots.api.methods.ActionType;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.myclasses.TypeReference;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -28,15 +27,15 @@ public class SendChatAction extends BotApiMethod<Boolean> {
     public static final String CHATID_FIELD = "chat_id";
     public static final String ACTION_FIELD = "action";
 
-    @JsonProperty(CHATID_FIELD)
-    private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
+
+    private String chat_id; ///< Unique identifier for the chat to send the message to (Or username for channels)
     /**
      * Type of action to broadcast. Choose one, depending on what the user is about to receive:
      * 'typing' for text messages 'upload_photo' for photos 'record_video' or 'upload_video' for
      * videos 'record_audio' or 'upload_audio' for audio files 'upload_document' for general files,
      * 'find_location' for location data.
      */
-    @JsonProperty(ACTION_FIELD)
+
     private String action;
 
     public SendChatAction() {
@@ -44,26 +43,25 @@ public class SendChatAction extends BotApiMethod<Boolean> {
     }
 
     public String getChatId() {
-        return chatId;
+        return chat_id;
     }
 
-    @JsonIgnore
+
     public ActionType getAction() {
         return ActionType.get(action);
     }
 
-    public SendChatAction setChatId(String chatId) {
-        this.chatId = chatId;
+    public SendChatAction setChatId(String chat_id) {
+        this.chat_id = chat_id;
         return this;
     }
 
-    public SendChatAction setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
+    public SendChatAction setChatId(Long chat_id) {
+        Objects.requireNonNull(chat_id);
+        this.chat_id = chat_id.toString();
         return this;
     }
 
-    @JsonIgnore
     public SendChatAction setAction(ActionType action) {
         this.action = action.toString();
         return this;
@@ -91,7 +89,7 @@ public class SendChatAction extends BotApiMethod<Boolean> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null) {
+        if (chat_id == null) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
         if (action == null) {
@@ -102,7 +100,7 @@ public class SendChatAction extends BotApiMethod<Boolean> {
     @Override
     public String toString() {
         return "SendChatAction{" +
-                "chatId='" + chatId + '\'' +
+                "chatId='" + chat_id + '\'' +
                 ", action='" + action + '\'' +
                 '}';
     }

@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 
@@ -14,9 +14,9 @@ public class ChatMember implements BotApiObject {
     private static final String USER_FIELD = "user";
     private static final String STATUS_FIELD = "status";
 
-    @JsonProperty(USER_FIELD)
+
     private User user; ///< Information about the user
-    @JsonProperty(STATUS_FIELD)
+
     private String status; ///< The member's status in the chat. Can be “creator”, “administrator”, “member”, “left” or “kicked”
 
     public ChatMember() {

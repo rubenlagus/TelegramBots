@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.inlinequery.result;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -30,30 +30,30 @@ public class InlineQueryResultVenue implements InlineQueryResult {
     private static final String THUMBWIDTH_FIELD = "thumb_width";
     private static final String THUMBHEIGHT_FIELD = "thumb_height";
 
-    @JsonProperty(TYPE_FIELD)
+
     private final String type = "venue"; ///< Type of the result, must be "venue"
-    @JsonProperty(ID_FIELD)
+
     private String id; ///< Unique identifier of this result, 1-64 bytes
-    @JsonProperty(TITLE_FIELD)
+
     private String title; ///< Optional. Location title
-    @JsonProperty(LATITUDE_FIELD)
+
     private Float latitude; ///< Venue latitude in degrees
-    @JsonProperty(LONGITUDE_FIELD)
+
     private Float longitude; ///< Venue longitude in degrees
-    @JsonProperty(ADDRESS_FIELD)
+
     private String address; ///< Address of the venue
-    @JsonProperty(FOURSQUARE_ID_FIELD)
-    private String foursquareId; ///< Optional. Foursquare identifier of the venue if known
-    @JsonProperty(REPLY_MARKUP_FIELD)
-    private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
-    @JsonProperty(INPUTMESSAGECONTENT_FIELD)
-    private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent
-    @JsonProperty(THUMBURL_FIELD)
-    private String thumbUrl; ///< Optional. URL of the thumbnail (jpeg only) for the file
-    @JsonProperty(THUMBWIDTH_FIELD)
-    private Integer thumbWidth; ///< Optional. Thumbnail width
-    @JsonProperty(THUMBHEIGHT_FIELD)
-    private Integer thumbHeight; ///< Optional. Thumbnail height
+
+    private String foursquare_id; ///< Optional. Foursquare identifier of the venue if known
+
+    private InlineKeyboardMarkup reply_markup; ///< Optional. Inline keyboard attached to the message
+
+    private InputMessageContent input_message_content; ///< Optional. Content of the message to be sent
+
+    private String thumb_url; ///< Optional. URL of the thumbnail (jpeg only) for the file
+
+    private Integer thumb_width; ///< Optional. Thumbnail width
+
+    private Integer thumb_height; ///< Optional. Thumbnail height
 
     public InlineQueryResultVenue() {
         super();
@@ -109,56 +109,56 @@ public class InlineQueryResultVenue implements InlineQueryResult {
     }
 
     public String getFoursquareId() {
-        return foursquareId;
+        return foursquare_id;
     }
 
     public InlineQueryResultVenue setFoursquareId(String foursquareId) {
-        this.foursquareId = foursquareId;
+        this.foursquare_id = foursquareId;
         return this;
     }
 
     public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
+        return reply_markup;
     }
 
     public InlineQueryResultVenue setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        this.reply_markup = replyMarkup;
         return this;
     }
 
     public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
+        return input_message_content;
     }
 
-    public InlineQueryResultVenue setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
+    public InlineQueryResultVenue setInputMessageContent(InputMessageContent input_message_content) {
+        this.input_message_content = input_message_content;
         return this;
     }
 
     public String getThumbUrl() {
-        return thumbUrl;
+        return thumb_url;
     }
 
     public InlineQueryResultVenue setThumbUrl(String thumbUrl) {
-        this.thumbUrl = thumbUrl;
+        this.thumb_url = thumbUrl;
         return this;
     }
 
     public Integer getThumbWidth() {
-        return thumbWidth;
+        return thumb_width;
     }
 
     public InlineQueryResultVenue setThumbWidth(Integer thumbWidth) {
-        this.thumbWidth = thumbWidth;
+        this.thumb_width = thumbWidth;
         return this;
     }
 
     public Integer getThumbHeight() {
-        return thumbHeight;
+        return thumb_height;
     }
 
     public InlineQueryResultVenue setThumbHeight(Integer thumbHeight) {
-        this.thumbHeight = thumbHeight;
+        this.thumb_height = thumbHeight;
         return this;
     }
 
@@ -179,11 +179,11 @@ public class InlineQueryResultVenue implements InlineQueryResult {
         if (address == null || address.isEmpty()) {
             throw new TelegramApiValidationException("Longitude parameter can't be empty", this);
         }
-        if (inputMessageContent != null) {
-            inputMessageContent.validate();
+        if (input_message_content != null) {
+            input_message_content.validate();
         }
-        if (replyMarkup != null) {
-            replyMarkup.validate();
+        if (reply_markup != null) {
+            reply_markup.validate();
         }
 
     }
@@ -195,14 +195,14 @@ public class InlineQueryResultVenue implements InlineQueryResult {
                 ", id='" + id + '\'' +
                 ", mimeType='" + latitude + '\'' +
                 ", documentUrl='" + longitude + '\'' +
-                ", thumbHeight=" + thumbHeight +
-                ", thumbWidth=" + thumbWidth +
-                ", thumbUrl='" + thumbUrl + '\'' +
+                ", thumbHeight=" + thumb_height +
+                ", thumbWidth=" + thumb_width +
+                ", thumbUrl='" + thumb_url + '\'' +
                 ", title='" + title + '\'' +
-                ", foursquareId='" + foursquareId + '\'' +
+                ", foursquareId='" + foursquare_id + '\'' +
                 ", address='" + address + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
-                ", replyMarkup='" + replyMarkup + '\'' +
+                ", inputMessageContent='" + input_message_content + '\'' +
+                ", replyMarkup='" + reply_markup + '\'' +
                 '}';
     }
 }

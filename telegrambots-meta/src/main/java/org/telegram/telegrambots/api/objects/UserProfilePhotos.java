@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 
@@ -17,9 +17,9 @@ public class UserProfilePhotos implements BotApiObject {
     private static final String TOTALCOUNT_FIELD = "total_count";
     private static final String PHOTOS_FIELD = "photos";
 
-    @JsonProperty(TOTALCOUNT_FIELD)
-    private Integer totalCount; ///< Total number of profile pictures the target user has
-    @JsonProperty(PHOTOS_FIELD)
+
+    private Integer total_count; ///< Total number of profile pictures the target user has
+
     private List<List<PhotoSize>> photos; ///< Requested profile pictures (in up to 4 sizes each)
 
     public UserProfilePhotos() {
@@ -27,7 +27,7 @@ public class UserProfilePhotos implements BotApiObject {
     }
 
     public Integer getTotalCount() {
-        return totalCount;
+        return total_count;
     }
 
     public List<List<PhotoSize>> getPhotos() {
@@ -37,7 +37,7 @@ public class UserProfilePhotos implements BotApiObject {
     @Override
     public String toString() {
         return "UserProfilePhotos{" +
-                "totalCount=" + totalCount +
+                "totalCount=" + total_count +
                 ", photos=" + photos +
                 '}';
     }

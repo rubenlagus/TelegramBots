@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.methods.ParseMode;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
@@ -17,75 +17,75 @@ public class InputTextMessageContent implements InputMessageContent {
     private static final String PARSEMODE_FIELD = "parse_mode";
     private static final String DISABLEWEBPAGEPREVIEW_FIELD = "disable_web_page_preview";
 
-    @JsonProperty(MESSAGETEXT_FIELD)
-    private String messageText; ///< Text of a message to be sent, 1-4096 characters
-    @JsonProperty(PARSEMODE_FIELD)
-    private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
-    @JsonProperty(DISABLEWEBPAGEPREVIEW_FIELD)
-    private Boolean disableWebPagePreview; ///< Optional. Disables link previews for links in the sent message
+
+    private String message_text; ///< Text of a message to be sent, 1-4096 characters
+
+    private String parse_mode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
+
+    private Boolean disable_web_page_preview; ///< Optional. Disables link previews for links in the sent message
 
     public InputTextMessageContent() {
         super();
     }
 
     public String getMessageText() {
-        return messageText;
+        return message_text;
     }
 
     public InputTextMessageContent setMessageText(String messageText) {
-        this.messageText = messageText;
+        this.message_text = messageText;
         return this;
     }
 
     public String getParseMode() {
-        return parseMode;
+        return parse_mode;
     }
 
     public InputTextMessageContent setParseMode(String parseMode) {
-        this.parseMode = parseMode;
+        this.parse_mode = parseMode;
         return this;
     }
 
     public Boolean getDisableWebPagePreview() {
-        return disableWebPagePreview;
+        return disable_web_page_preview;
     }
 
     public InputTextMessageContent setDisableWebPagePreview(Boolean disableWebPagePreview) {
-        this.disableWebPagePreview = disableWebPagePreview;
+        this.disable_web_page_preview = disableWebPagePreview;
         return this;
     }
 
     public InputTextMessageContent enableMarkdown(boolean enable) {
         if (enable) {
-            this.parseMode = ParseMode.MARKDOWN;
+            this.parse_mode = ParseMode.MARKDOWN;
         } else {
-            this.parseMode = null;
+            this.parse_mode= null;
         }
         return this;
     }
 
     public InputTextMessageContent enableHtml(boolean enable) {
         if (enable) {
-            this.parseMode = ParseMode.HTML;
+            this.parse_mode = ParseMode.HTML;
         } else {
-            this.parseMode = null;
+            this.parse_mode = null;
         }
         return this;
     }
 
     public InputTextMessageContent disableWebPagePreview() {
-        disableWebPagePreview = true;
+        disable_web_page_preview = true;
         return this;
     }
 
     public InputTextMessageContent enableWebPagePreview() {
-        disableWebPagePreview = null;
+        disable_web_page_preview = null;
         return this;
     }
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (messageText == null || messageText.isEmpty()) {
+        if (message_text == null || message_text.isEmpty()) {
             throw new TelegramApiValidationException("MessageText parameter can't be empty", this);
         }
     }
@@ -93,9 +93,9 @@ public class InputTextMessageContent implements InputMessageContent {
     @Override
     public String toString() {
         return "InputTextMessageContent{" +
-                ", messageText='" + messageText + '\'' +
-                ", parseMode='" + parseMode + '\'' +
-                ", disableWebPagePreview=" + disableWebPagePreview +
+                ", messageText='" + message_text + '\'' +
+                ", parseMode='" +parse_mode + '\'' +
+                ", disableWebPagePreview=" + disable_web_page_preview +
                 '}';
     }
 }

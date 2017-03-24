@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.replykeyboard;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
@@ -21,23 +21,23 @@ public class ForceReplyKeyboard implements ReplyKeyboard {
      * Shows reply interface to the user, as if they manually selected the bot‘s message and tapped
      * ’Reply'
      */
-    @JsonProperty(FORCEREPLY_FIELD)
-    private Boolean forceReply;
+
+    private Boolean force_reply;
     /**
      * Use this parameter if you want to force reply from specific users only. Targets: 1) users
      * that are @mentioned in the text of the Message object; 2) if the bot's message is a reply
      * (has reply_to_message_id), sender of the original message.
      */
-    @JsonProperty(SELECTIVE_FIELD)
+
     private Boolean selective;
 
     public ForceReplyKeyboard() {
         super();
-        this.forceReply = true;
+        this.force_reply = true;
     }
 
     public Boolean getForceReply() {
-        return forceReply;
+        return force_reply;
     }
 
     public Boolean getSelective() {
@@ -51,7 +51,7 @@ public class ForceReplyKeyboard implements ReplyKeyboard {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (forceReply == null) {
+        if (force_reply == null) {
             throw new TelegramApiValidationException("ForceReply parameter can't not be null", this);
         }
     }
@@ -59,7 +59,7 @@ public class ForceReplyKeyboard implements ReplyKeyboard {
     @Override
     public String toString() {
         return "ForceReplyKeyboard{" +
-                "forceReply=" + forceReply +
+                "forceReply=" + force_reply +
                 ", selective=" + selective +
                 '}';
     }

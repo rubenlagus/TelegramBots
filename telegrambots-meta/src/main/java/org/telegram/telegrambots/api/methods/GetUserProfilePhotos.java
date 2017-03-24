@@ -1,12 +1,12 @@
 package org.telegram.telegrambots.api.methods;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
+
 
 import org.telegram.telegrambots.api.objects.UserProfilePhotos;
 import org.telegram.telegrambots.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.myclasses.TypeReference;
 
 import java.io.IOException;
 
@@ -23,17 +23,17 @@ public class GetUserProfilePhotos extends BotApiMethod<UserProfilePhotos> {
     private static final String OFFSET_FIELD = "offset";
     private static final String LIMIT_FIELD = "limit";
 
-    @JsonProperty(USERID_FIELD)
-    private Integer userId; ///< Unique identifier of the target user
+
+    private Integer user_id; ///< Unique identifier of the target user
     /**
      * Sequential number of the first photo to be returned. By default, all photos are returned.
      */
-    @JsonProperty(OFFSET_FIELD)
+
     private Integer offset;
     /**
      * Optional. Limits the number of photos to be retrieved. Values between 1—100 are accepted. Defaults to 100.
      */
-    @JsonProperty(LIMIT_FIELD)
+
     private Integer limit;
 
     public GetUserProfilePhotos() {
@@ -41,11 +41,11 @@ public class GetUserProfilePhotos extends BotApiMethod<UserProfilePhotos> {
     }
 
     public Integer getUserId() {
-        return userId;
+        return user_id;
     }
 
-    public GetUserProfilePhotos setUserId(Integer userId) {
-        this.userId = userId;
+    public GetUserProfilePhotos setUserId(Integer user_id) {
+        this.user_id = user_id;
         return this;
     }
 
@@ -89,7 +89,7 @@ public class GetUserProfilePhotos extends BotApiMethod<UserProfilePhotos> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (userId == null) {
+        if (user_id == null) {
             throw new TelegramApiValidationException("UserId parameter can't be empty", this);
         }
         if (offset == null) {
@@ -100,7 +100,7 @@ public class GetUserProfilePhotos extends BotApiMethod<UserProfilePhotos> {
     @Override
     public String toString() {
         return "GetUserProfilePhotos{" +
-                "userId=" + userId +
+                "userId=" + user_id +
                 ", offset=" + offset +
                 ", limit=" + limit +
                 '}';

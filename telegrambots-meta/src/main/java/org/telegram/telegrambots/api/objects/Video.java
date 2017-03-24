@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 
@@ -20,27 +20,27 @@ public class Video implements BotApiObject {
     private static final String MIMETYPE_FIELD = "mime_type";
     private static final String FILESIZE_FIELD = "file_size";
 
-    @JsonProperty(FILEID_FIELD)
-    private String fileId; ///< Unique identifier for this file
-    @JsonProperty(WIDTH_FIELD)
+
+    private String file_id; ///< Unique identifier for this file
+
     private Integer width; ///< Video width as defined by sender
-    @JsonProperty(HEIGHT_FIELD)
+
     private Integer height; ///< Video height as defined by sender
-    @JsonProperty(DURATION_FIELD)
+
     private Integer duration; ///< Duration of the video in seconds as defined by sender
-    @JsonProperty(THUMB_FIELD)
+
     private PhotoSize thumb; ///< Video thumbnail
-    @JsonProperty(MIMETYPE_FIELD)
-    private String mimeType; ///< Optional. Mime type of a file as defined by sender
-    @JsonProperty(FILESIZE_FIELD)
-    private Integer fileSize; ///< Optional. File size
+
+    private String mime_type; ///< Optional. Mime type of a file as defined by sender
+
+    private Integer file_size; ///< Optional. File size
 
     public Video() {
         super();
     }
 
     public String getFileId() {
-        return fileId;
+        return file_id;
     }
 
     public Integer getWidth() {
@@ -60,23 +60,23 @@ public class Video implements BotApiObject {
     }
 
     public String getMimeType() {
-        return mimeType;
+        return mime_type;
     }
 
     public Integer getFileSize() {
-        return fileSize;
+        return file_size;
     }
 
     @Override
     public String toString() {
         return "Video{" +
-                "fileId='" + fileId + '\'' +
+                "file_id='" + file_id + '\'' +
                 ", width=" + width +
                 ", height=" + height +
                 ", duration=" + duration +
                 ", thumb=" + thumb +
-                ", mimeType='" + mimeType + '\'' +
-                ", fileSize=" + fileSize +
+                ", mimeType='" + mime_type + '\'' +
+                ", fileSize=" + file_size +
                 '}';
     }
 }

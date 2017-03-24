@@ -20,13 +20,13 @@ public class SetWebhook {
     public static final String ALLOWEDUPDATES_FIELD = "allowed_updates";
 
     private String url; ///< Optional. HTTPS url to send updates to. Use an empty string to remove webhook integration
-    private String certificateFile; ///< Optional. Upload your public key certificate so that the root certificate in use can be checked
+    private String certificate_file; ///< Optional. Upload your public key certificate so that the root certificate in use can be checked
     /**
      * Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100.
      * Defaults to 40. Use lower values to limit the load on your bot‘s server,
      * and higher values to increase your bot’s throughput.
      */
-    private Integer maxConnections;
+    private Integer max_connections;
     /**
      * List the types of updates you want your bot to receive.
      * For example, specify [“message”, “edited_channel_post”, “callback_query”] to only receive
@@ -36,7 +36,7 @@ public class SetWebhook {
      * Please note that this parameter doesn't affect updates created before the call to the setWebhook,
      * so unwanted updates may be received for a short period of time.
      */
-    private List<String> allowedUpdates;
+    private List<String> allowed_updates;
 
     public SetWebhook() {
         this.url = "";
@@ -52,29 +52,29 @@ public class SetWebhook {
     }
 
     public String getCertificateFile() {
-        return certificateFile;
+        return certificate_file;
     }
 
     public SetWebhook setCertificateFile(String certificateFile) {
-        this.certificateFile = certificateFile;
+        this.certificate_file = certificateFile;
         return this;
     }
 
     public Integer getMaxConnections() {
-        return maxConnections;
+        return max_connections;
     }
 
     public SetWebhook setMaxConnections(Integer maxConnections) {
-        this.maxConnections = maxConnections;
+        this.max_connections = maxConnections;
         return this;
     }
 
     public List<String> getAllowedUpdates() {
-        return allowedUpdates;
+        return allowed_updates;
     }
 
     public SetWebhook setAllowedUpdates(List<String> allowedUpdates) {
-        this.allowedUpdates = allowedUpdates;
+        this.allowed_updates = allowedUpdates;
         return this;
     }
 
@@ -82,9 +82,9 @@ public class SetWebhook {
     public String toString() {
         return "SetWebhook{" +
                 "url='" + url + '\'' +
-                ", certificateFile='" + certificateFile + '\'' +
-                ", maxConnections=" + maxConnections +
-                ", allowedUpdates=" + allowedUpdates +
+                ", certificateFile='" + certificate_file + '\'' +
+                ", maxConnections=" + max_connections +
+                ", allowedUpdates=" + allowed_updates +
                 '}';
     }
 }

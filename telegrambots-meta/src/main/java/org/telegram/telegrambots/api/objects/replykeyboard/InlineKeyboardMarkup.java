@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.replykeyboard;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
@@ -21,29 +21,29 @@ public class InlineKeyboardMarkup implements ReplyKeyboard {
 
     private static final String KEYBOARD_FIELD = "inline_keyboard";
 
-    @JsonProperty(KEYBOARD_FIELD)
-    private List<List<InlineKeyboardButton>> keyboard; ///< Array of button rows, each represented by an Array of Strings
+
+    private List<List<InlineKeyboardButton>> inline_keyboard; ///< Array of button rows, each represented by an Array of Strings
 
     public InlineKeyboardMarkup() {
         super();
-        keyboard = new ArrayList<>();
+        inline_keyboard = new ArrayList<>();
     }
 
     public List<List<InlineKeyboardButton>> getKeyboard() {
-        return keyboard;
+        return inline_keyboard;
     }
 
     public InlineKeyboardMarkup setKeyboard(List<List<InlineKeyboardButton>> keyboard) {
-        this.keyboard = keyboard;
+        this.inline_keyboard = keyboard;
         return this;
     }
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (keyboard == null) {
+        if (inline_keyboard == null) {
             throw new TelegramApiValidationException("Keyboard parameter can't be null", this);
         }
-        for (List<InlineKeyboardButton> inlineKeyboardButtons : keyboard) {
+        for (List<InlineKeyboardButton> inlineKeyboardButtons : inline_keyboard) {
             for (InlineKeyboardButton inlineKeyboardButton : inlineKeyboardButtons) {
                 inlineKeyboardButton.validate();
             }
@@ -53,7 +53,7 @@ public class InlineKeyboardMarkup implements ReplyKeyboard {
     @Override
     public String toString() {
         return "InlineKeyboardMarkup{" +
-                "inline_keyboard=" + keyboard +
+                "inline_keyboard=" + inline_keyboard +
                 '}';
     }
 }

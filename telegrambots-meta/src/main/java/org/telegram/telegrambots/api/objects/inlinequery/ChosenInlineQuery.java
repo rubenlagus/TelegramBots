@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.inlinequery;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.api.objects.Location;
@@ -20,11 +20,11 @@ public class ChosenInlineQuery implements BotApiObject {
     private static final String INLINE_MESSAGE_ID_FIELD = "inline_message_id";
     private static final String QUERY_FIELD = "query";
 
-    @JsonProperty(RESULTID_FIELD)
-    private String resultId; ///< The unique identifier for the result that was chosen.
-    @JsonProperty(FROM_FIELD)
+
+    private String result_id; ///< The unique identifier for the result that was chosen.
+
     private User from; ///< The user that chose the result.
-    @JsonProperty(LOCATION_FIELD)
+
     private Location location; ///< Optional. Sender location, only for bots that require user location
     /**
      * Optional.
@@ -32,9 +32,9 @@ public class ChosenInlineQuery implements BotApiObject {
      * Available only if there is an inline keyboard attached to the message.
      * Will be also received in callback queries and can be used to edit the message.
      */
-    @JsonProperty(INLINE_MESSAGE_ID_FIELD)
-    private String inlineMessageId;
-    @JsonProperty(QUERY_FIELD)
+
+    private String inline_message_id;
+
     private String query; ///< The query that was used to obtain the result.
 
     public ChosenInlineQuery() {
@@ -42,7 +42,7 @@ public class ChosenInlineQuery implements BotApiObject {
     }
 
     public String getResultId() {
-        return resultId;
+        return result_id;
     }
 
     public User getFrom() {
@@ -54,7 +54,7 @@ public class ChosenInlineQuery implements BotApiObject {
     }
 
     public String getInlineMessageId() {
-        return inlineMessageId;
+        return inline_message_id;
     }
 
     public String getQuery() {
@@ -64,10 +64,10 @@ public class ChosenInlineQuery implements BotApiObject {
     @Override
     public String toString() {
         return "ChosenInlineQuery{" +
-                "resultId='" + resultId + '\'' +
+                "resultId='" + result_id + '\'' +
                 ", from=" + from +
                 ", location=" + location +
-                ", inlineMessageId=" + inlineMessageId +
+                ", inlineMessageId=" + result_id +
                 ", query='" + query + '\'' +
                 '}';
     }

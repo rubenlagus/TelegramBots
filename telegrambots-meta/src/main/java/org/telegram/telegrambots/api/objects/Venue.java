@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 
@@ -16,14 +16,14 @@ public class Venue implements BotApiObject {
     private static final String ADDRESS_FIELD = "address";
     private static final String FOURSQUARE_ID_FIELD = "foursquare_id";
 
-    @JsonProperty(LOCATION_FIELD)
+
     private Location location; ///< Venue location
-    @JsonProperty(TITLE_FIELD)
+
     private String title; ///< Name of the venue
-    @JsonProperty(ADDRESS_FIELD)
+
     private String address; ///< Address of the venue
-    @JsonProperty(FOURSQUARE_ID_FIELD)
-    private String foursquareId; ///< Optional. Foursquare identifier of the venue
+
+    private String foursquare_id; ///< Optional. Foursquare identifier of the venue
 
     public Venue() {
         super();
@@ -42,7 +42,7 @@ public class Venue implements BotApiObject {
     }
 
     public String getFoursquareId() {
-        return foursquareId;
+        return foursquare_id;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class Venue implements BotApiObject {
                 "location=" + location +
                 ", title=" + title +
                 ", address=" + address +
-                ", foursquareId=" + foursquareId +
+                ", foursquareId=" + foursquare_id +
                 '}';
     }
 }

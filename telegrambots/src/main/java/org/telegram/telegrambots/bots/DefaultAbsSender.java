@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.bots;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpEntity;
@@ -31,6 +31,7 @@ import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.myclasses.ObjectMapper;
 import org.telegram.telegrambots.updateshandlers.DownloadFileCallback;
 import org.telegram.telegrambots.updateshandlers.SentCallback;
 

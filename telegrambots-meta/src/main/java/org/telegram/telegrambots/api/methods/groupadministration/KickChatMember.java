@@ -1,12 +1,13 @@
 package org.telegram.telegrambots.api.methods.groupadministration;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
+
+
 
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.myclasses.TypeReference;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -29,36 +30,36 @@ public class KickChatMember extends BotApiMethod<Boolean> {
     private static final String CHATID_FIELD = "chat_id";
     private static final String USER_ID_FIELD = "user_id";
 
-    @JsonProperty(CHATID_FIELD)
-    private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
-    @JsonProperty(USER_ID_FIELD)
-    private Integer userId; ///< Unique identifier of the target user
+
+    private String chat_id; ///< Unique identifier for the chat to send the message to (Or username for channels)
+
+    private Integer user_id; ///< Unique identifier of the target user
 
     public KickChatMember() {
         super();
     }
 
     public String getChatId() {
-        return chatId;
+        return chat_id;
     }
 
-    public KickChatMember setChatId(String chatId) {
-        this.chatId = chatId;
+    public KickChatMember setChatId(String chat_id) {
+        this.chat_id = chat_id;
         return this;
     }
 
-    public KickChatMember setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
+    public KickChatMember setChatId(Long chat_id) {
+        Objects.requireNonNull(chat_id);
+        this.chat_id = chat_id.toString();
         return this;
     }
 
     public Integer getUserId() {
-        return userId;
+        return user_id;
     }
 
-    public KickChatMember setUserId(Integer userId) {
-        this.userId = userId;
+    public KickChatMember setUserId(Integer user_id) {
+        this.user_id = user_id;
         return this;
     }
 
@@ -84,10 +85,10 @@ public class KickChatMember extends BotApiMethod<Boolean> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null) {
+        if (chat_id == null) {
             throw new TelegramApiValidationException("ChatId can't be null", this);
         }
-        if (userId == null) {
+        if (user_id == null) {
             throw new TelegramApiValidationException("UserId can't be null", this);
         }
     }
@@ -95,8 +96,8 @@ public class KickChatMember extends BotApiMethod<Boolean> {
     @Override
     public String toString() {
         return "KickChatMember{" +
-                "chatId='" + chatId + '\'' +
-                ", userId='" + userId +
+                "chatId='" + chat_id + '\'' +
+                ", userId='" + user_id +
                 '}';
     }
 }

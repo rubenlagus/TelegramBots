@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
@@ -20,16 +20,16 @@ public class InputVenueMessageContent implements InputMessageContent {
     private static final String ADDRESS_FIELD = "address";
     private static final String FOURSQUARE_ID_FIELD = "foursquare_id";
 
-    @JsonProperty(LATITUDE_FIELD)
+
     private Float latitude; ///< Latitude of the venue in degrees
-    @JsonProperty(LONGITUDE_FIELD)
+
     private Float longitude; ///< Longitude of the venue in degrees
-    @JsonProperty(TITLE_FIELD)
+
     private String title; ///< Name of the venue
-    @JsonProperty(ADDRESS_FIELD)
+
     private String address; ///< Address of the venue
-    @JsonProperty(FOURSQUARE_ID_FIELD)
-    private String foursquareId; ///< Optional. Foursquare identifier of the venue, if known
+
+    private String foursquare_id; ///< Optional. Foursquare identifier of the venue, if known
 
     public InputVenueMessageContent() {
         super();
@@ -72,11 +72,11 @@ public class InputVenueMessageContent implements InputMessageContent {
     }
 
     public String getFoursquareId() {
-        return foursquareId;
+        return foursquare_id;
     }
 
     public InputVenueMessageContent setFoursquareId(String foursquareId) {
-        this.foursquareId = foursquareId;
+        this.foursquare_id = foursquareId;
         return this;
     }
 
@@ -103,7 +103,7 @@ public class InputVenueMessageContent implements InputMessageContent {
                 ", longitude='" + longitude + '\'' +
                 ", title='" + title + '\'' +
                 ", address='" + address + '\'' +
-                ", foursquareId='" + foursquareId + '\'' +
+                ", foursquareId='" + foursquare_id + '\'' +
                 '}';
     }
 }

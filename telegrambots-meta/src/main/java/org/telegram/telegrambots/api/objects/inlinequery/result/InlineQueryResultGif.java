@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.inlinequery.result;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -27,26 +27,26 @@ public class InlineQueryResultGif implements InlineQueryResult {
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
 
-    @JsonProperty(TYPE_FIELD)
+
     private final String type = "gif"; ///< Type of the result, must be "gif"
-    @JsonProperty(ID_FIELD)
+
     private String id; ///< Unique identifier of this result, 1-64 bytes
-    @JsonProperty(GIFURL_FIELD)
-    private String gifUrl; ///< A valid URL for the GIF file. File size must not exceed 1MB
-    @JsonProperty(GIFWIDTH_FIELD)
-    private Integer gifWidth; ///< Optional. Width of the GIF
-    @JsonProperty(GIFHEIGHT_FIELD)
-    private Integer gifHeight; ///< Optional. Height of the GIF
-    @JsonProperty(THUMBURL_FIELD)
-    private String thumbUrl; ///< Optional. URL of a static thumbnail for the result (jpeg or gif)
-    @JsonProperty(TITLE_FIELD)
+
+    private String gif_url; ///< A valid URL for the GIF file. File size must not exceed 1MB
+
+    private Integer gif_width; ///< Optional. Width of the GIF
+
+    private Integer gif_height; ///< Optional. Height of the GIF
+
+    private String thumb_url; ///< Optional. URL of a static thumbnail for the result (jpeg or gif)
+
     private String title; ///< Optional. Title for the result
-    @JsonProperty(CAPTION_FIELD)
+
     private String caption; ///< Optional. Caption of the GIF file to be sent
-    @JsonProperty(INPUTMESSAGECONTENT_FIELD)
-    private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent instead of the GIF animation
-    @JsonProperty(REPLY_MARKUP_FIELD)
-    private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
+
+    private InputMessageContent input_message_content; ///< Optional. Content of the message to be sent instead of the GIF animation
+
+    private InlineKeyboardMarkup reply_markup; ///< Optional. Inline keyboard attached to the message
 
     public InlineQueryResultGif() {
         super();
@@ -66,38 +66,38 @@ public class InlineQueryResultGif implements InlineQueryResult {
     }
 
     public String getGifUrl() {
-        return gifUrl;
+        return gif_url;
     }
 
     public InlineQueryResultGif setGifUrl(String gifUrl) {
-        this.gifUrl = gifUrl;
+        this.gif_url = gifUrl;
         return this;
     }
 
     public Integer getGifWidth() {
-        return gifWidth;
+        return gif_width;
     }
 
     public InlineQueryResultGif setGifWidth(Integer gifWidth) {
-        this.gifWidth = gifWidth;
+        this.gif_width = gifWidth;
         return this;
     }
 
     public Integer getGifHeight() {
-        return gifHeight;
+        return gif_height;
     }
 
     public InlineQueryResultGif setGifHeight(Integer gifHeight) {
-        this.gifHeight = gifHeight;
+        this.gif_height = gifHeight;
         return this;
     }
 
     public String getThumbUrl() {
-        return thumbUrl;
+        return thumb_url;
     }
 
     public InlineQueryResultGif setThumbUrl(String thumbUrl) {
-        this.thumbUrl = thumbUrl;
+        this.thumb_url = thumbUrl;
         return this;
     }
 
@@ -120,20 +120,20 @@ public class InlineQueryResultGif implements InlineQueryResult {
     }
 
     public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
+        return input_message_content;
     }
 
-    public InlineQueryResultGif setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
+    public InlineQueryResultGif setInputMessageContent(InputMessageContent input_message_content) {
+        this.input_message_content = input_message_content;
         return this;
     }
 
     public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
+        return reply_markup;
     }
 
     public InlineQueryResultGif setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        this.reply_markup = replyMarkup;
         return this;
     }
 
@@ -142,14 +142,14 @@ public class InlineQueryResultGif implements InlineQueryResult {
         if (id == null || id.isEmpty()) {
             throw new TelegramApiValidationException("ID parameter can't be empty", this);
         }
-        if (gifUrl == null || gifUrl.isEmpty()) {
+        if (gif_url == null || gif_url.isEmpty()) {
             throw new TelegramApiValidationException("GifUrl parameter can't be empty", this);
         }
-        if (inputMessageContent != null) {
-            inputMessageContent.validate();
+        if (input_message_content != null) {
+            input_message_content.validate();
         }
-        if (replyMarkup != null) {
-            replyMarkup.validate();
+        if (reply_markup != null) {
+            reply_markup.validate();
         }
     }
 
@@ -158,14 +158,14 @@ public class InlineQueryResultGif implements InlineQueryResult {
         return "InlineQueryResultGif{" +
                 "type='" + type + '\'' +
                 ", id='" + id + '\'' +
-                ", gifUrl='" + gifUrl + '\'' +
-                ", gifWidth=" + gifWidth +
-                ", gifHeight=" + gifHeight +
-                ", thumbUrl='" + thumbUrl + '\'' +
+                ", gifUrl='" + gif_url + '\'' +
+                ", gifWidth=" + gif_width +
+                ", gifHeight=" + gif_height +
+                ", thumbUrl='" + thumb_url + '\'' +
                 ", title='" + title + '\'' +
                 ", caption='" + caption + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
-                ", replyMarkup='" + replyMarkup + '\'' +
+                ", inputMessageContent='" + input_message_content + '\'' +
+                ", replyMarkup='" + reply_markup + '\'' +
                 '}';
     }
 }

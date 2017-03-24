@@ -16,7 +16,7 @@
  */
 package org.telegram.telegrambots.api.objects.games;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.api.objects.PhotoSize;
@@ -34,15 +34,15 @@ public class Animation implements BotApiObject {
     private static final String MIMETYPE_FIELD = "mime_type";
     private static final String FILESIZE_FIELD = "file_size";
 
-    @JsonProperty(FILEID_FIELD)
-    private String fileId; ///< Unique file identifier
-    @JsonProperty(THUMB_FIELD)
+
+    private String file_id; ///< Unique file identifier
+
     private PhotoSize thumb; ///< Optional. Animation thumbnail as defined by sender
-    @JsonProperty(FILENAME_FIELD)
-    private String fileName; ///< Optional. Original animation filename as defined by sender
-    @JsonProperty(MIMETYPE_FIELD)
+
+    private String file_name; ///< Optional. Original animation filename as defined by sender
+
     private String mimetype; ///< Optional. MIME type of the file as defined by sender
-    @JsonProperty(FILESIZE_FIELD)
+
     private Integer fileSize; ///< Optional. File size
 
     public Animation() {
@@ -50,7 +50,7 @@ public class Animation implements BotApiObject {
     }
 
     public String getFileId() {
-        return fileId;
+        return file_id;
     }
 
     public PhotoSize getThumb() {
@@ -58,7 +58,7 @@ public class Animation implements BotApiObject {
     }
 
     public String getFileName() {
-        return fileName;
+        return file_name;
     }
 
     public String getMimetype() {
@@ -72,9 +72,9 @@ public class Animation implements BotApiObject {
     @Override
     public String toString() {
         return "Animation{" +
-                "fileId='" + fileId + '\'' +
+                "file_id='" + file_id + '\'' +
                 ", thumb=" + thumb +
-                ", fileName='" + fileName + '\'' +
+                ", fileName='" + file_id + '\'' +
                 ", mimetype='" + mimetype + '\'' +
                 ", fileSize=" + fileSize +
                 '}';

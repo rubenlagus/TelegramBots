@@ -1,10 +1,12 @@
 package org.telegram.telegrambots.api.objects.replykeyboard;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+
+
+
+import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.ResponseParameters;
+import org.telegram.telegrambots.api.objects.Update;
 
 import java.io.Serializable;
 
@@ -14,8 +16,7 @@ import java.io.Serializable;
  * @brief TODO
  * @date 06 of November of 2016
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
+
 public class ApiResponse<T> implements Serializable {
     private static final String OK_FIELD = "ok";
     private static final String ERROR_CODE_FIELD = "error_code";
@@ -23,15 +24,13 @@ public class ApiResponse<T> implements Serializable {
     private static final String PARAMETERS_FIELD = "parameters";
     private static final String RESULT_FIELD = "result";
 
-    @JsonProperty(OK_FIELD)
     private Boolean ok;
-    @JsonProperty(ERROR_CODE_FIELD)
-    private Integer errorCode;
-    @JsonProperty(DESCRIPTION_CODE_FIELD)
-    private String errorDescription;
-    @JsonProperty(PARAMETERS_FIELD)
+    private Integer error_code;
+
+    private String error_description;
+
     private ResponseParameters parameters;
-    @JsonProperty(RESULT_FIELD)
+
     private T result;
 
     public Boolean getOk() {
@@ -39,15 +38,19 @@ public class ApiResponse<T> implements Serializable {
     }
 
     public Integer getErrorCode() {
-        return errorCode;
+        return error_code;
     }
 
     public String getErrorDescription() {
-        return errorDescription;
+        return error_description;
     }
 
+
+
     public T getResult() {
-        return result;
+
+
+        return (T)result;
     }
 
     public ResponseParameters getParameters() {
@@ -64,8 +67,8 @@ public class ApiResponse<T> implements Serializable {
         } else {
             return "ApiResponse{" +
                     "ok=" + ok +
-                    ", errorCode=" + errorCode +
-                    ", errorDescription='" + errorDescription + '\'' +
+                    ", errorCode=" + error_code +
+                    ", errorDescription='" + error_description + '\'' +
                     ", parameters='" + parameters + '\'' +
                     '}';
         }

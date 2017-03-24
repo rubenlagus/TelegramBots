@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.inlinequery.result.chached;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
@@ -26,21 +26,21 @@ public class InlineQueryResultCachedVideo implements InlineQueryResult {
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
 
-    @JsonProperty(TYPE_FIELD)
+
     private final String type = "video"; ///< Type of the result, must be "video"
-    @JsonProperty(ID_FIELD)
+
     private String id; ///< Unique identifier of this result
-    @JsonProperty(VIDEO_FILE_ID_FIELD)
-    private String videoFileId; ///< A valid file identifier for the video file
-    @JsonProperty(TITLE_FIELD)
+
+    private String video_file_id; ///< A valid file identifier for the video file
+
     private String title; ///< Optional. Title for the result
-    @JsonProperty(DESCRIPTION_FIELD)
+
     private String description; ///< Optional. Short description of the result
-    @JsonProperty(CAPTION_FIELD)
+
     private String caption; ///< Optional. Caption of the video to be sent, 0-200 characters
-    @JsonProperty(INPUTMESSAGECONTENT_FIELD)
-    private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent instead of the photo
-    @JsonProperty(REPLY_MARKUP_FIELD)
+
+    private InputMessageContent input_message_content; ///< Optional. Content of the message to be sent instead of the photo
+
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
 
     public InlineQueryResultCachedVideo() {
@@ -60,12 +60,12 @@ public class InlineQueryResultCachedVideo implements InlineQueryResult {
         return this;
     }
 
-    public String getVideoFileId() {
-        return videoFileId;
+    public String getVide_file_id() {
+        return video_file_id;
     }
 
-    public InlineQueryResultCachedVideo setVideoFileId(String videoFileId) {
-        this.videoFileId = videoFileId;
+    public InlineQueryResultCachedVideo setVide_file_id(String vide_file_id) {
+        this.video_file_id = vide_file_id;
         return this;
     }
 
@@ -97,11 +97,11 @@ public class InlineQueryResultCachedVideo implements InlineQueryResult {
     }
 
     public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
+        return input_message_content;
     }
 
-    public InlineQueryResultCachedVideo setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
+    public InlineQueryResultCachedVideo setInputMessageContent(InputMessageContent input_message_content) {
+        this.input_message_content = input_message_content;
         return this;
     }
 
@@ -119,11 +119,11 @@ public class InlineQueryResultCachedVideo implements InlineQueryResult {
         if (id == null || id.isEmpty()) {
             throw new TelegramApiValidationException("ID parameter can't be empty", this);
         }
-        if (videoFileId == null || videoFileId.isEmpty()) {
+        if (video_file_id == null || video_file_id.isEmpty()) {
             throw new TelegramApiValidationException("VideoFileId parameter can't be empty", this);
         }
-        if (inputMessageContent != null) {
-            inputMessageContent.validate();
+        if (input_message_content != null) {
+            input_message_content.validate();
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
@@ -136,10 +136,10 @@ public class InlineQueryResultCachedVideo implements InlineQueryResult {
                 "type='" + type + '\'' +
                 ", id='" + id + '\'' +
                 ", caption='" + caption + '\'' +
-                ", videoFileId='" + videoFileId + '\'' +
+                ", videoFileId='" + video_file_id + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
+                ", inputMessageContent='" + input_message_content + '\'' +
                 ", replyMarkup='" + replyMarkup + '\'' +
                 '}';
     }

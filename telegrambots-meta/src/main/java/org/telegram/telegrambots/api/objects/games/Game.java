@@ -16,7 +16,7 @@
  */
 package org.telegram.telegrambots.api.objects.games;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.api.objects.MessageEntity;
@@ -40,11 +40,11 @@ public class Game implements BotApiObject {
     private static final String TEXT_FIELD = "text";
     private static final String TEXTENTITIES_FIELD = "text_entities";
 
-    @JsonProperty(TITLE_FIELD)
+
     private String title; ///< Title of the game
-    @JsonProperty(DESCRIPTION_FIELD)
+
     private String description; ///< Description of the game
-    @JsonProperty(PHOTO_FIELD)
+
     private List<PhotoSize> photo; ///< Photo
     /**
      * Optional. Brief description of the game or high scores included in the game message.
@@ -52,15 +52,15 @@ public class Game implements BotApiObject {
      * when the bot calls setGameScore, or manually edited using editMessageText.
      * 0-4096 characters.
      */
-    @JsonProperty(TEXT_FIELD)
+
     private String text;
     /**
      * Optional. Special entities that appear in text, such as usernames,
      * URLs, bot commands, etc.
      */
-    @JsonProperty(TEXTENTITIES_FIELD)
+
     private List<MessageEntity> entities;
-    @JsonProperty(ANIMATION_FIELD)
+
     private Animation animation; ///< Optional. Animation
 
     public Game() {

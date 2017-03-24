@@ -1,7 +1,5 @@
 package org.telegram.telegrambots.api.methods.send;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.Message;
@@ -9,6 +7,7 @@ import org.telegram.telegrambots.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.myclasses.TypeReference;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -31,100 +30,100 @@ public class SendContact extends BotApiMethod<Message> {
     private static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
 
-    @JsonProperty(CHATID_FIELD)
-    private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
-    @JsonProperty(PHONE_NUMBER_FIELD)
-    private String phoneNumber; ///< User's phone number
-    @JsonProperty(FIRST_NAME_FIELD)
-    private String firstName; ///< User's first name
-    @JsonProperty(LAST_NAME_FIELD)
-    private String lastName; ///< Optional. User's last name
+
+    private String chat_id; ///< Unique identifier for the chat to send the message to (Or username for channels)
+
+    private String phone_number; ///< User's phone number
+
+    private String first_name; ///< User's first name
+
+    private String last_name; ///< Optional. User's last name
     /**
      * Optional. Sends the message silently. iOS users will not receive a notification, Android
      * users will receive a notification with no sound. Other apps coming soon
      */
-    @JsonProperty(DISABLENOTIFICATION_FIELD)
-    private Boolean disableNotification;
-    @JsonProperty(REPLYTOMESSAGEID_FIELD)
-    private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
-    @JsonProperty(REPLYMARKUP_FIELD)
-    private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+
+    private Boolean disable_notification;
+
+    private Integer reply_to_message_id; ///< Optional. If the message is a reply, ID of the original message
+
+    private ReplyKeyboard reply_markup; ///< Optional. JSON-serialized object for a custom reply keyboard
 
     public SendContact() {
         super();
     }
 
     public String getChatId() {
-        return chatId;
+        return chat_id;
     }
 
-    public SendContact setChatId(String chatId) {
-        this.chatId = chatId;
+    public SendContact setChatId(String chat_id) {
+        this.chat_id = chat_id;
         return this;
     }
 
-    public SendContact setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
+    public SendContact setChatId(Long chat_id) {
+        Objects.requireNonNull(chat_id);
+        this.chat_id = chat_id.toString();
         return this;
     }
 
     public Integer getReplyToMessageId() {
-        return replyToMessageId;
+        return reply_to_message_id;
     }
 
     public SendContact setReplyToMessageId(Integer replyToMessageId) {
-        this.replyToMessageId = replyToMessageId;
+        this.reply_to_message_id = replyToMessageId;
         return this;
     }
 
     public ReplyKeyboard getReplyMarkup() {
-        return replyMarkup;
+        return reply_markup;
     }
 
     public SendContact setReplyMarkup(ReplyKeyboard replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        this.reply_markup = replyMarkup;
         return this;
     }
 
     public Boolean getDisableNotification() {
-        return disableNotification;
+        return disable_notification;
     }
 
     public SendContact enableNotification() {
-        this.disableNotification = false;
+        this.disable_notification = false;
         return this;
     }
 
     public SendContact disableNotification() {
-        this.disableNotification = true;
+        this.disable_notification = true;
         return this;
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        return phone_number;
     }
 
     public SendContact setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        this.phone_number = phoneNumber;
         return this;
     }
 
     public String getFirstName() {
-        return firstName;
+        return first_name;
     }
 
     public SendContact setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.first_name = firstName;
         return this;
     }
 
     public String getLastName() {
-        return lastName;
+        return last_name;
     }
 
     public SendContact setLastName(String lastName) {
-        this.lastName = lastName;
+        this.last_name = lastName;
         return this;
     }
 
@@ -150,29 +149,29 @@ public class SendContact extends BotApiMethod<Message> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null) {
+        if (chat_id == null) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
-        if (phoneNumber == null) {
+        if (phone_number == null) {
             throw new TelegramApiValidationException("PhoneNumber parameter can't be empty", this);
         }
-        if (firstName == null) {
+        if (first_name == null) {
             throw new TelegramApiValidationException("FirstName parameter can't be empty", this);
         }
-        if (replyMarkup != null) {
-            replyMarkup.validate();
+        if (reply_markup != null) {
+            reply_markup.validate();
         }
     }
 
     @Override
     public String toString() {
         return "SendContact{" +
-                "chatId='" + chatId + '\'' +
-                ", phoneNumber=" + phoneNumber +
-                ", firstName=" + firstName +
-                ", lastName=" + lastName +
-                ", replyToMessageId=" + replyToMessageId +
-                ", replyMarkup=" + replyMarkup +
+                "chatId='" + chat_id + '\'' +
+                ", phoneNumber=" + phone_number +
+                ", firstName=" + first_name +
+                ", lastName=" + last_name +
+                ", replyToMessageId=" + reply_to_message_id +
+                ", replyMarkup=" + reply_markup +
                 '}';
     }
 }

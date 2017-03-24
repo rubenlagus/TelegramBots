@@ -1,13 +1,12 @@
 package org.telegram.telegrambots.api.methods;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
+
 
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
 import org.telegram.telegrambots.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.myclasses.TypeReference;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -30,31 +29,31 @@ public class AnswerInlineQuery extends BotApiMethod<Boolean> {
     private static final String SWITCH_PM_TEXT_FIELD = "switch_pm_text";
     private static final String SWITCH_PM_PARAMETER_FIELD = "switch_pm_parameter";
 
-    @JsonProperty(INLINEQUERYID_FIELD)
-    private String inlineQueryId; ///< Unique identifier for answered query
-    @JsonProperty(RESULTS_FIELD)
+
+    private String inline_query_id; ///< Unique identifier for answered query
+
     private List<InlineQueryResult> results; ///< A JSON-serialized array of results for the inline query
-    @JsonProperty(CACHETIME_FIELD)
-    private Integer cacheTime; ///< Optional	The maximum amount of time the result of the inline query may be cached on the server
-    @JsonProperty(ISPERSONAL_FIELD)
-    private Boolean isPersonal; ///< Pass True, if results may be cached on the server side only for the user that sent the query. By default, results may be returned to any user who sends the same query
-    @JsonProperty(NEXTOFFSET_FIELD)
-    private String nextOffset; ///< Optional. Pass the offset that a client should send in the next query with the same text to receive more results. Pass an empty string if there are no more results or if you don‘t support pagination. Offset length can’t exceed 64 bytes.
-    @JsonProperty(SWITCH_PM_TEXT_FIELD)
-    private String switchPmText; ///< Optional. If passed, clients will display a button with specified text that switches the user to a private chat with the bot and sends the bot a start message with the parameter switch_pm_parameter
-    @JsonProperty(SWITCH_PM_PARAMETER_FIELD)
-    private String switchPmParameter; ///< Optional. Parameter for the start message sent to the bot when user presses the switch button
+
+    private Integer cache_time; ///< Optional	The maximum amount of time the result of the inline query may be cached on the server
+
+    private Boolean is_personal; ///< Pass True, if results may be cached on the server side only for the user that sent the query. By default, results may be returned to any user who sends the same query
+
+    private String next_offset; ///< Optional. Pass the offset that a client should send in the next query with the same text to receive more results. Pass an empty string if there are no more results or if you don‘t support pagination. Offset length can’t exceed 64 bytes.
+
+    private String switch_pm_text; ///< Optional. If passed, clients will display a button with specified text that switches the user to a private chat with the bot and sends the bot a start message with the parameter switch_pm_parameter
+
+    private String switch_pm_parameter; ///< Optional. Parameter for the start message sent to the bot when user presses the switch button
 
     public AnswerInlineQuery() {
         super();
     }
 
     public String getInlineQueryId() {
-        return inlineQueryId;
+        return inline_query_id;
     }
 
     public AnswerInlineQuery setInlineQueryId(String inlineQueryId) {
-        this.inlineQueryId = inlineQueryId;
+        this.inline_query_id = inlineQueryId;
         return this;
     }
 
@@ -67,76 +66,76 @@ public class AnswerInlineQuery extends BotApiMethod<Boolean> {
         return this;
     }
 
-    @JsonIgnore
+
     public AnswerInlineQuery setResults(InlineQueryResult... results) {
         this.results = Arrays.asList(results);
         return this;
     }
 
     public Integer getCacheTime() {
-        return cacheTime;
+        return cache_time;
     }
 
     public AnswerInlineQuery setCacheTime(Integer cacheTime) {
-        this.cacheTime = cacheTime;
+        this.cache_time = cacheTime;
         return this;
     }
 
     public Boolean isPersonal() {
-        return isPersonal;
+        return is_personal;
     }
 
     public AnswerInlineQuery setPersonal(Boolean personal) {
-        isPersonal = personal;
+        is_personal = personal;
         return this;
     }
 
     public String getNextOffset() {
-        return nextOffset;
+        return next_offset;
     }
 
     public AnswerInlineQuery setNextOffset(String nextOffset) {
-        this.nextOffset = nextOffset;
+        this.next_offset = nextOffset;
         return this;
     }
 
     public String getSwitchPmText() {
-        return switchPmText;
+        return switch_pm_text;
     }
 
     public AnswerInlineQuery setSwitchPmText(String switchPmText) {
-        this.switchPmText = switchPmText;
+        this.switch_pm_text = switchPmText;
         return this;
     }
 
     public String getSwitchPmParameter() {
-        return switchPmParameter;
+        return switch_pm_parameter;
     }
 
     public AnswerInlineQuery setSwitchPmParameter(String switchPmParameter) {
-        this.switchPmParameter = switchPmParameter;
+        this.switch_pm_parameter = switchPmParameter;
         return this;
     }
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (inlineQueryId == null || inlineQueryId.isEmpty()) {
+        if (inline_query_id == null || inline_query_id.isEmpty()) {
             throw new TelegramApiValidationException("InlineQueryId can't be empty", this);
         }
         if (results == null) {
             throw new TelegramApiValidationException("Results array can't be null", this);
         }
-        if (switchPmText != null) {
-            if (switchPmText.isEmpty()) {
+        if (switch_pm_text != null) {
+            if (switch_pm_text.isEmpty()) {
                 throw new TelegramApiValidationException("SwitchPmText can't be empty", this);
             }
-            if (switchPmParameter == null || switchPmParameter.isEmpty()) {
+            if (switch_pm_parameter == null || switch_pm_parameter.isEmpty()) {
                 throw new TelegramApiValidationException("SwitchPmParameter can't be empty if switchPmText is present", this);
             }
-            if (switchPmParameter.length() > 64) {
+            if (switch_pm_parameter.length() > 64) {
                 throw new TelegramApiValidationException("SwitchPmParameter can't be longer than 64 chars", this);
             }
-            if (!Pattern.matches("[A-Za-z0-9_]+", switchPmParameter.trim() )) {
+            if (!Pattern.matches("[A-Za-z0-9_]+", switch_pm_parameter.trim() )) {
                 throw new TelegramApiValidationException("SwitchPmParameter only allows A-Z, a-z, 0-9 and _ characters", this);
             }
         }
@@ -168,13 +167,13 @@ public class AnswerInlineQuery extends BotApiMethod<Boolean> {
     @Override
     public String toString() {
         return "AnswerInlineQuery{" +
-                "inlineQueryId='" + inlineQueryId + '\'' +
+                "inlineQueryId='" + inline_query_id + '\'' +
                 ", results=" + results +
-                ", cacheTime=" + cacheTime +
-                ", isPersonal=" + isPersonal +
-                ", switchPmText=" + switchPmText +
-                ", switchPmParameter=" + switchPmParameter +
-                ", nextOffset='" + nextOffset + '\'' +
+                ", cacheTime=" + cache_time +
+                ", isPersonal=" + is_personal +
+                ", switchPmText=" + switch_pm_text +
+                ", switchPmParameter=" + switch_pm_parameter +
+                ", nextOffset='" + next_offset + '\'' +
                 '}';
     }
 }

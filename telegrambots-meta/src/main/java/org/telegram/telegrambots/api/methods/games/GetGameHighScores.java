@@ -16,14 +16,15 @@
  */
 package org.telegram.telegrambots.api.methods.games;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
+
+
 
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.games.GameHighScore;
 import org.telegram.telegrambots.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.myclasses.TypeReference;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,58 +52,58 @@ public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
     private static final String INLINE_MESSAGE_ID_FIELD = "inline_message_id";
     private static final String USER_ID_FIELD = "user_id";
 
-    @JsonProperty(CHATID_FIELD)
-    private String chatId; ///< Optional	Required if inline_message_id is not specified. Unique identifier for the target chat (or username of the target channel in the format @channelusername)
-    @JsonProperty(MESSAGEID_FIELD)
-    private Integer messageId; ///< Optional	Required if inline_message_id is not specified. Unique identifier of the sent message
-    @JsonProperty(INLINE_MESSAGE_ID_FIELD)
-    private String inlineMessageId; ///< Optional	Required if chat_id and message_id are not specified. Identifier of the inline message
-    @JsonProperty(USER_ID_FIELD)
-    private Integer userId; ///<Target user id
+
+    private String chat_id; ///< Optional	Required if inline_message_id is not specified. Unique identifier for the target chat (or username of the target channel in the format @channelusername)
+
+    private Integer message_id; ///< Optional	Required if inline_message_id is not specified. Unique identifier of the sent message
+
+    private String inline_message_id; ///< Optional	Required if chat_id and message_id are not specified. Identifier of the inline message
+
+    private Integer user_id; ///<Target user id
 
     public GetGameHighScores() {
         super();
     }
 
     public String getChatId() {
-        return chatId;
+        return chat_id;
     }
 
     public Integer getMessageId() {
-        return messageId;
+        return message_id;
     }
 
     public String getInlineMessageId() {
-        return inlineMessageId;
+        return inline_message_id;
     }
 
     public Integer getUserId() {
-        return userId;
+        return user_id;
     }
 
-    public GetGameHighScores setChatId(String chatId) {
-        this.chatId = chatId;
+    public GetGameHighScores setChatId(String chat_id) {
+        this.chat_id = chat_id;
         return this;
     }
 
-    public GetGameHighScores setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
+    public GetGameHighScores setChatId(Long chat_id) {
+        Objects.requireNonNull(chat_id);
+        this.chat_id = chat_id.toString();
         return this;
     }
 
     public GetGameHighScores setMessageId(Integer messageId) {
-        this.messageId = messageId;
+        this.message_id = messageId;
         return this;
     }
 
     public GetGameHighScores setInlineMessageId(String inlineMessageId) {
-        this.inlineMessageId = inlineMessageId;
+        this.inline_message_id = inlineMessageId;
         return this;
     }
 
-    public GetGameHighScores setUserId(Integer userId) {
-        this.userId = userId;
+    public GetGameHighScores setUserId(Integer user_id) {
+        this.user_id = user_id;
         return this;
     }
 
@@ -128,21 +129,21 @@ public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (userId == null) {
+        if (user_id == null) {
             throw new TelegramApiValidationException("UserId parameter can't be empty", this);
         }
-        if (inlineMessageId == null) {
-            if (chatId == null) {
+        if (inline_message_id == null) {
+            if (chat_id == null) {
                 throw new TelegramApiValidationException("ChatId parameter can't be empty if inlineMessageId is not present", this);
             }
-            if (messageId == null) {
+            if (message_id == null) {
                 throw new TelegramApiValidationException("MessageId parameter can't be empty if inlineMessageId is not present", this);
             }
         } else {
-            if (chatId != null) {
+            if (chat_id != null) {
                 throw new TelegramApiValidationException("ChatId parameter must be empty if inlineMessageId is provided", this);
             }
-            if (messageId != null) {
+            if (message_id != null) {
                 throw new TelegramApiValidationException("MessageId parameter must be empty if inlineMessageId is provided", this);
             }
         }
@@ -151,10 +152,10 @@ public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
     @Override
     public String toString() {
         return "GetGameHighScores{" +
-                "chatId='" + chatId + '\'' +
-                ", messageId=" + messageId +
-                ", inlineMessageId='" + inlineMessageId + '\'' +
-                ", userId=" + userId +
+                "chatId='" + chat_id + '\'' +
+                ", messageId=" + message_id +
+                ", inlineMessageId='" + inline_message_id + '\'' +
+                ", userId=" + user_id +
                 '}';
     }
 }

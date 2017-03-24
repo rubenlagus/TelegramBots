@@ -1,7 +1,7 @@
 package org.telegram.telegrambots.api.objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 
@@ -34,17 +34,16 @@ public class MessageEntity implements BotApiObject {
      * text_mention (for users without usernames)
      */
 
-    @JsonProperty(TYPE_FIELD)
+
     private String type;
-    @JsonProperty(OFFSET_FIELD)
+
     private Integer offset; ///< Offset in UTF-16 code units to the start of the entity
-    @JsonProperty(LENGTH_FIELD)
+
     private Integer length; ///< Length of the entity in UTF-16 code units
-    @JsonProperty(URL_FIELD)
+
     private String url; ///< Optional. For “text_link” only, url that will be opened after user taps on the text
-    @JsonProperty(USER_FIELD)
+
     private User user; ///< Optional. For “text_mention” only, the mentioned user
-    @JsonIgnore
     private String text; ///< Text present in the entity. Computed from offset and length
 
     public MessageEntity() {

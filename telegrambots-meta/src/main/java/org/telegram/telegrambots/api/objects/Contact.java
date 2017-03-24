@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 
@@ -17,42 +17,42 @@ public class Contact implements BotApiObject {
     private static final String LASTNAME_FIELD = "last_name";
     private static final String USERID_FIELD = "user_id";
 
-    @JsonProperty(PHONENUMBER_FIELD)
-    private String phoneNumber; ///< Contact's phone number
-    @JsonProperty(FIRSTNAME_FIELD)
-    private String firstName; ///< Contact's first name
-    @JsonProperty(LASTNAME_FIELD)
-    private String lastName; ///< Optional. Contact's last name
-    @JsonProperty(USERID_FIELD)
-    private Integer userID; ///< Optional. Contact's user identifier in Telegram
+
+    private String phone_number; ///< Contact's phone number
+
+    private String first_name; ///< Contact's first name
+
+    private String last_name; ///< Optional. Contact's last name
+
+    private Integer user_id; ///< Optional. Contact's user identifier in Telegram
 
     public Contact() {
         super();
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        return phone_number;
     }
 
     public String getFirstName() {
-        return firstName;
+        return first_name;
     }
 
     public String getLastName() {
-        return lastName;
+        return last_name;
     }
 
     public Integer getUserID() {
-        return userID;
+        return user_id;
     }
 
     @Override
     public String toString() {
         return "Contact{" +
-                "phoneNumber='" + phoneNumber + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", userID=" + userID +
+                "phoneNumber='" + phone_number + '\'' +
+                ", firstName='" + first_name + '\'' +
+                ", lastName='" + last_name + '\'' +
+                ", userID=" + user_id +
                 '}';
     }
 }

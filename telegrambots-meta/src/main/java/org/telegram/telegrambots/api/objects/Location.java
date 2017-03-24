@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 
@@ -15,9 +15,9 @@ public class Location implements BotApiObject {
     private static final String LONGITUDE_FIELD = "longitude";
     private static final String LATITUDE_FIELD = "latitude";
 
-    @JsonProperty(LONGITUDE_FIELD)
+
     private Float longitude; ///< Longitude as defined by sender
-    @JsonProperty(LATITUDE_FIELD)
+
     private Float latitude; ///< Latitude as defined by sender
 
     public Location() {

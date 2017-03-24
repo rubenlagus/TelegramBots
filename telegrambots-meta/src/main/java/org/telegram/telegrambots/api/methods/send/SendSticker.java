@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.methods.send;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+
 
 import org.telegram.telegrambots.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.api.objects.Message;
@@ -8,6 +8,7 @@ import org.telegram.telegrambots.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.myclasses.TypeReference;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,37 +29,37 @@ public class SendSticker extends PartialBotApiMethod<Message> {
     public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     public static final String REPLYMARKUP_FIELD = "reply_markup";
-    private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
+    private String chat_id; ///< Unique identifier for the chat to send the message to (Or username for channels)
     private String sticker; ///< Sticker file to send. file_id as String to resend a sticker that is already on the Telegram servers or URL to upload it
     /**
      * Optional. Sends the message silently. iOS users will not receive a notification, Android
      * users will receive a notification with no sound. Other apps coming soon
      */
-    private Boolean disableNotification;
-    private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
-    private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    private Boolean disable_notification;
+    private Integer reply_to_message_id; ///< Optional. If the message is a reply, ID of the original message
+    private ReplyKeyboard reply_markup; ///< Optional. JSON-serialized object for a custom reply keyboard
 
-    private boolean isNewSticker; ///< True to upload a new sticker, false to use a fileId
-    private String stickerName;
-    private File newStickerFile; ///< New sticker file
-    private InputStream newStickerStream; ///< New sticker stream
+    private boolean is_new_sticker; ///< True to upload a new sticker, false to use a fileId
+    private String sticker_name;
+    private File new_sticker_file; ///< New sticker file
+    private InputStream new_sticker_stream; ///< New sticker stream
 
     public SendSticker() {
         super();
     }
 
     public String getChatId() {
-        return chatId;
+        return chat_id;
     }
 
-    public SendSticker setChatId(String chatId) {
-        this.chatId = chatId;
+    public SendSticker setChatId(String chat_id) {
+        this.chat_id = chat_id;
         return this;
     }
 
-    public SendSticker setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
+    public SendSticker setChatId(Long chat_id) {
+        Objects.requireNonNull(chat_id);
+        this.chat_id = chat_id.toString();
         return this;
     }
 
@@ -68,71 +69,71 @@ public class SendSticker extends PartialBotApiMethod<Message> {
 
     public SendSticker setSticker(String sticker) {
         this.sticker = sticker;
-        this.isNewSticker = false;
+        this.is_new_sticker = false;
         return this;
     }
 
     public Integer getReplyToMessageId() {
-        return replyToMessageId;
+        return reply_to_message_id;
     }
 
     public SendSticker setReplyToMessageId(Integer replyToMessageId) {
-        this.replyToMessageId = replyToMessageId;
+        this.reply_to_message_id = replyToMessageId;
         return this;
     }
 
     public ReplyKeyboard getReplyMarkup() {
-        return replyMarkup;
+        return reply_markup;
     }
 
     public SendSticker setReplyMarkup(ReplyKeyboard replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        this.reply_markup = replyMarkup;
         return this;
     }
 
     public SendSticker setNewSticker(File file) {
-        this.isNewSticker = true;
-        this.newStickerFile = file;
+        this.is_new_sticker = true;
+        this.new_sticker_file = file;
         return this;
     }
 
     public SendSticker setNewSticker(String stickerName, InputStream inputStream) {
     	Objects.requireNonNull(stickerName, "stickerName cannot be null!");
     	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
-    	this.stickerName = stickerName;
-        this.isNewSticker = true;
-        this.newStickerStream = inputStream;
+    	this.sticker_name = stickerName;
+        this.is_new_sticker = true;
+        this.new_sticker_stream = inputStream;
         return this;
     }
 
     public Boolean getDisableNotification() {
-        return disableNotification;
+        return disable_notification;
     }
 
     public SendSticker enableNotification() {
-        this.disableNotification = false;
+        this.disable_notification = false;
         return this;
     }
 
     public SendSticker disableNotification() {
-        this.disableNotification = true;
+        this.disable_notification = true;
         return this;
     }
 
     public boolean isNewSticker() {
-        return isNewSticker;
+        return is_new_sticker;
     }
 
     public String getStickerName() {
-        return stickerName;
+        return sticker_name;
     }
 
     public File getNewStickerFile() {
-        return newStickerFile;
+        return new_sticker_file;
     }
 
     public InputStream getNewStickerStream() {
-        return newStickerStream;
+        return new_sticker_stream;
     }
 
     @Override
@@ -152,33 +153,33 @@ public class SendSticker extends PartialBotApiMethod<Message> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null) {
+        if (chat_id == null) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
 
-        if (isNewSticker) {
-            if (newStickerFile == null && newStickerStream == null) {
+        if (is_new_sticker) {
+            if (new_sticker_file == null && new_sticker_stream == null) {
                 throw new TelegramApiValidationException("Sticker can't be empty", this);
             }
-            if (newStickerStream != null && (stickerName == null || stickerName.isEmpty())) {
+            if (new_sticker_stream != null && (sticker_name == null || sticker_name.isEmpty())) {
                 throw new TelegramApiValidationException("Sticker name can't be empty", this);
             }
         } else if (sticker == null) {
             throw new TelegramApiValidationException("Sticker can't be empty", this);
         }
-        if (replyMarkup != null) {
-            replyMarkup.validate();
+        if (reply_markup != null) {
+            reply_markup.validate();
         }
     }
 
     @Override
     public String toString() {
         return "SendSticker{" +
-                "chatId='" + chatId + '\'' +
+                "chatId='" + chat_id + '\'' +
                 ", sticker='" + sticker + '\'' +
-                ", replyToMessageId=" + replyToMessageId +
-                ", replyMarkup=" + replyMarkup +
-                ", isNewSticker=" + isNewSticker +
+                ", replyToMessageId=" + reply_to_message_id +
+                ", replyMarkup=" + reply_markup +
+                ", isNewSticker=" + is_new_sticker +
                 '}';
     }
 }

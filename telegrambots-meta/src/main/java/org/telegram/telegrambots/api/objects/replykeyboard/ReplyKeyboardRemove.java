@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects.replykeyboard;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
@@ -17,23 +17,23 @@ public class ReplyKeyboardRemove implements ReplyKeyboard {
     private static final String REMOVEKEYBOARD_FIELD = "remove_keyboard";
     private static final String SELECTIVE_FIELD = "selective";
 
-    @JsonProperty(REMOVEKEYBOARD_FIELD)
-    private Boolean removeKeyboard; ///< Requests clients to remove the custom keyboard
+
+    private Boolean remove_keyboard; ///< Requests clients to remove the custom keyboard
     /**
      * Optional. Use this parameter if you want to show the keyboard to specific users only.
      * Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's
      * message is a reply (has reply_to_message_id), sender of the original message.
      */
-    @JsonProperty(SELECTIVE_FIELD)
+
     private Boolean selective;
 
     public ReplyKeyboardRemove() {
         super();
-        this.removeKeyboard = true;
+        this.remove_keyboard = true;
     }
 
     public Boolean getRemoveKeyboard() {
-        return removeKeyboard;
+        return remove_keyboard;
     }
 
     public Boolean getSelective() {
@@ -47,7 +47,7 @@ public class ReplyKeyboardRemove implements ReplyKeyboard {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (removeKeyboard == null) {
+        if (remove_keyboard == null) {
             throw new TelegramApiValidationException("RemoveKeyboard parameter can't be null", this);
         }
     }
@@ -55,7 +55,7 @@ public class ReplyKeyboardRemove implements ReplyKeyboard {
     @Override
     public String toString() {
         return "ReplyKeyboardRemove{" +
-                "removeKeyboard=" + removeKeyboard +
+                "removeKeyboard=" + remove_keyboard +
                 ", selective=" + selective +
                 '}';
     }

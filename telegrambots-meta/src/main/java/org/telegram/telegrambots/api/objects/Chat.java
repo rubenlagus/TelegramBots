@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 
@@ -30,23 +30,23 @@ public class Chat implements BotApiObject {
      * have difficulty/silent defects in interpreting it. But it smaller than 52 bits,
      * so a signed 64 bit integer or double-precision float type are safe for storing this identifier.
      */
-    @JsonProperty(ID_FIELD)
+
     private Long id; ///< Unique identifier for this chat, not exciding 1e13 by absolute value
-    @JsonProperty(TYPE_FIELD)
+
     private String type; ///< Type of the chat, one of “private”, “group” or “channel”
-    @JsonProperty(TITLE_FIELD)
+
     private String title; ///< Optional. Title of the chat, only for channels and group chat
-    @JsonProperty(FIRSTNAME_FIELD)
-    private String firstName; ///< Optional. Username of the chat, only for private chats and channels if available
-    @JsonProperty(LASTNAME_FIELD)
-    private String lastName; ///< Optional. Interlocutor's first name for private chats
-    @JsonProperty(USERNAME_FIELD)
-    private String userName; ///< Optional. Interlocutor's last name for private chats
+
+    private String first_name; ///< Optional. Username of the chat, only for private chats and channels if available
+
+    private String last_name; ///< Optional. Interlocutor's first name for private chats
+
+    private String user_name; ///< Optional. Interlocutor's last name for private chats
     /**
      * Optional. True if the group or supergroup has ‘All Members Are Admins’ enabled.
      */
-    @JsonProperty(ALL_MEMBERS_ARE_ADMINISTRATORS_FIELD)
-    private Boolean allMembersAreAdministrators;
+
+    private Boolean all_members_are_administrators;
 
     public Chat() {
         super();
@@ -77,19 +77,19 @@ public class Chat implements BotApiObject {
     }
 
     public String getFirstName() {
-        return firstName;
+        return first_name;
     }
 
     public String getLastName() {
-        return lastName;
+        return last_name;
     }
 
     public String getUserName() {
-        return userName;
+        return user_name;
     }
 
     public Boolean getAllMembersAreAdministrators() {
-        return allMembersAreAdministrators;
+        return all_members_are_administrators;
     }
 
     @Override
@@ -98,10 +98,10 @@ public class Chat implements BotApiObject {
                 "id=" + id +
                 ", type='" + type + '\'' +
                 ", title='" + title + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", userName='" + userName + '\'' +
-                ", allMembersAreAdministrators=" + allMembersAreAdministrators +
+                ", firstName='" + first_name + '\'' +
+                ", lastName='" + last_name + '\'' +
+                ", userName='" + user_name + '\'' +
+                ", allMembersAreAdministrators=" + all_members_are_administrators +
                 '}';
     }
 }

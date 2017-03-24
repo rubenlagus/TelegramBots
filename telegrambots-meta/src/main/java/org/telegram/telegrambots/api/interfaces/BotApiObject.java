@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.api.interfaces;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
+
 
 import java.io.Serializable;
 
@@ -10,7 +9,5 @@ import java.io.Serializable;
  * @version 1.0
  * An object from the Bots API received from Telegram Servers
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public interface BotApiObject extends Serializable {
 }

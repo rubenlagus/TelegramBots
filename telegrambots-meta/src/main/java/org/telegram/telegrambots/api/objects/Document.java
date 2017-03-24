@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 
@@ -19,23 +19,23 @@ public class Document implements BotApiObject {
     private static final String MIMETYPE_FIELD = "mime_type";
     private static final String FILESIZE_FIELD = "file_size";
 
-    @JsonProperty(FILEID_FIELD)
-    private String fileId; ///< Unique identifier for this file
-    @JsonProperty(THUMB_FIELD)
+
+    private String file_id; ///< Unique identifier for this file
+
     private PhotoSize thumb; ///< Document thumbnail as defined by sender
-    @JsonProperty(FILENAME_FIELD)
-    private String fileName; ///< Optional. Original filename as defined by sender
-    @JsonProperty(MIMETYPE_FIELD)
-    private String mimeType; ///< Optional. Mime type of a file as defined by sender
-    @JsonProperty(FILESIZE_FIELD)
-    private Integer fileSize; ///< Optional. File size
+
+    private String file_name; ///< Optional. Original filename as defined by sender
+
+    private String mime_type; ///< Optional. Mime type of a file as defined by sender
+
+    private Integer file_size; ///< Optional. File size
 
     public Document() {
         super();
     }
 
     public String getFileId() {
-        return fileId;
+        return file_id;
     }
 
     public PhotoSize getThumb() {
@@ -43,25 +43,25 @@ public class Document implements BotApiObject {
     }
 
     public String getFileName() {
-        return fileName;
+        return file_name;
     }
 
     public String getMimeType() {
-        return mimeType;
+        return mime_type;
     }
 
     public Integer getFileSize() {
-        return fileSize;
+        return file_size;
     }
 
     @Override
     public String toString() {
         return "Document{" +
-                "fileId='" + fileId + '\'' +
+                "file_id='" + file_id + '\'' +
                 ", thumb=" + thumb +
-                ", fileName='" + fileName + '\'' +
-                ", mimeType='" + mimeType + '\'' +
-                ", fileSize=" + fileSize +
+                ", fileName='" + file_name + '\'' +
+                ", mimeType='" + mime_type + '\'' +
+                ", fileSize=" + file_size +
                 '}';
     }
 }

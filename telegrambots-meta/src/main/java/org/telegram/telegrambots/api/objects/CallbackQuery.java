@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.api.objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 
@@ -29,9 +29,9 @@ public class CallbackQuery implements BotApiObject {
     private static final String GAMESHORTNAME_FIELD = "game_short_name";
     private static final String CHAT_INSTANCE_FIELD = "chat_instance";
 
-    @JsonProperty(ID_FIELD)
+
     private String id; ///< Unique identifier for this query
-    @JsonProperty(FROM_FIELD)
+
     private User from; ///< Sender
     /**
      * Optional.
@@ -39,28 +39,28 @@ public class CallbackQuery implements BotApiObject {
      *
      * @note The message content and message date will not be available if the message is too old
      */
-    @JsonProperty(MESSAGE_FIELD)
+
     private Message message;
-    @JsonProperty(INLINE_MESSAGE_ID_FIELD)
-    private String inlineMessageId; ///< Optional. Identifier of the message sent via the bot in inline mode, that originated the query
+
+    private String inline_message_id; ///< Optional. Identifier of the message sent via the bot in inline mode, that originated the query
     /**
      *
      * Optional. Data associated with the callback button.
      * @note Be aware that a bad client can send arbitrary data in this field
      */
-    @JsonProperty(DATA_FIELD)
+
     private String data;
     /**
      * Optional. Short name of a Game to be returned, serves as the unique identifier for the game
      */
-    @JsonProperty(GAMESHORTNAME_FIELD)
-    private String gameShortName;
+
+    private String game_short_name;
     /**
      * Identifier, uniquely corresponding to the chat to which the message with the
      * callback button was sent. Useful for high scores in games.
      */
-    @JsonProperty(CHAT_INSTANCE_FIELD)
-    private String chatInstance;
+
+    private String chat_instance;
 
     public CallbackQuery() {
         super();
@@ -79,7 +79,7 @@ public class CallbackQuery implements BotApiObject {
     }
 
     public String getInlineMessageId() {
-        return this.inlineMessageId;
+        return this.inline_message_id;
     }
 
     public String getData() {
@@ -87,11 +87,11 @@ public class CallbackQuery implements BotApiObject {
     }
 
     public String getGameShortName() {
-        return gameShortName;
+        return game_short_name;
     }
 
     public String getChatInstance() {
-        return chatInstance;
+        return chat_instance;
     }
 
     @Override
@@ -100,10 +100,10 @@ public class CallbackQuery implements BotApiObject {
                 "id='" + id + '\'' +
                 ", from=" + from +
                 ", message=" + message +
-                ", inlineMessageId='" + inlineMessageId + '\'' +
+                ", inlineMessageId='" + inline_message_id + '\'' +
                 ", data='" + data + '\'' +
-                ", gameShortName='" + gameShortName + '\'' +
-                ", chatInstance='" + chatInstance + '\'' +
+                ", gameShortName='" + game_short_name + '\'' +
+                ", chatInstance='" + chat_instance + '\'' +
                 '}';
     }
 }

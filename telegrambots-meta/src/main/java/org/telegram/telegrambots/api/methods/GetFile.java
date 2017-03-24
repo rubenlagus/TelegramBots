@@ -1,12 +1,12 @@
 package org.telegram.telegrambots.api.methods;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
+
 
 import org.telegram.telegrambots.api.objects.File;
 import org.telegram.telegrambots.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.myclasses.TypeReference;
 
 import java.io.IOException;
 
@@ -27,25 +27,25 @@ public class GetFile extends BotApiMethod<File> {
 
     private static final String FILEID_FIELD = "file_id";
 
-    @JsonProperty(FILEID_FIELD)
-    private String fileId; ///< File identifier to get info about
+
+    private String file_id; ///< File identifier to get info about
 
     public GetFile() {
         super();
     }
 
     public String getFileId() {
-        return fileId;
+        return file_id;
     }
 
     public GetFile setFileId(String fileId) {
-        this.fileId = fileId;
+        this.file_id = fileId;
         return this;
     }
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (fileId == null) {
+        if (file_id == null) {
             throw new TelegramApiValidationException("FileId can't be empty", this);
         }
     }
@@ -73,7 +73,7 @@ public class GetFile extends BotApiMethod<File> {
     @Override
     public String toString() {
         return "GetFile{" +
-                "fileId='" + fileId + '\'' +
+                "fileId='" + file_id + '\'' +
                 '}';
     }
 }

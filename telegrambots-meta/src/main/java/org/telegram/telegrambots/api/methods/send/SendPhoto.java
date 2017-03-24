@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.api.methods.send;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.telegram.telegrambots.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.api.objects.Message;
@@ -8,6 +7,7 @@ import org.telegram.telegrambots.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.myclasses.TypeReference;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,38 +29,38 @@ public class SendPhoto extends PartialBotApiMethod<Message> {
     public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     public static final String REPLYMARKUP_FIELD = "reply_markup";
-    private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
+    private String chat_id; ///< Unique identifier for the chat to send the message to (Or username for channels)
     private String photo; ///< Photo to send. file_id as String to resend a photo that is already on the Telegram servers or URL to upload it
     private String caption; ///< Optional Photo caption (may also be used when resending photos by file_id).
     /**
      * Optional. Sends the message silently. iOS users will not receive a notification, Android
      * users will receive a notification with no sound. Other apps coming soon
      */
-    private Boolean disableNotification;
-    private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
-    private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    private Boolean disable_notification;
+    private Integer reply_to_message_id; ///< Optional. If the message is a reply, ID of the original message
+    private ReplyKeyboard reply_markup; ///< Optional. JSON-serialized object for a custom reply keyboard
 
-    private boolean isNewPhoto; ///< True if the photo must be uploaded from a file, file if it is a fileId
-    private String photoName; ///< Name of the photo
-    private File newPhotoFile; // New photo file
-    private InputStream newPhotoStream; // New photo stream
+    private boolean is_new_photo; ///< True if the photo must be uploaded from a file, file if it is a fileId
+    private String photo_name; ///< Name of the photo
+    private File new_photo_file; // New photo file
+    private InputStream new_photo_stream; // New photo stream
 
     public SendPhoto() {
         super();
     }
 
     public String getChatId() {
-        return chatId;
+        return chat_id;
     }
 
-    public SendPhoto setChatId(String chatId) {
-        this.chatId = chatId;
+    public SendPhoto setChatId(String chat_id) {
+        this.chat_id = chat_id;
         return this;
     }
 
-    public SendPhoto setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
+    public SendPhoto setChatId(Long chat_id) {
+        Objects.requireNonNull(chat_id);
+        this.chat_id = chat_id.toString();
         return this;
     }
 
@@ -70,7 +70,7 @@ public class SendPhoto extends PartialBotApiMethod<Message> {
 
     public SendPhoto setPhoto(String photo) {
         this.photo = photo;
-        this.isNewPhoto = false;
+        this.is_new_photo = false;
         return this;
     }
 
@@ -84,65 +84,65 @@ public class SendPhoto extends PartialBotApiMethod<Message> {
     }
 
     public Integer getReplyToMessageId() {
-        return replyToMessageId;
+        return reply_to_message_id;
     }
 
     public SendPhoto setReplyToMessageId(Integer replyToMessageId) {
-        this.replyToMessageId = replyToMessageId;
+        this.reply_to_message_id = replyToMessageId;
         return this;
     }
 
     public ReplyKeyboard getReplyMarkup() {
-        return replyMarkup;
+        return reply_markup;
     }
 
     public SendPhoto setReplyMarkup(ReplyKeyboard replyMarkup) {
-        this.replyMarkup = replyMarkup;
+        this.reply_markup = replyMarkup;
         return this;
     }
 
     public boolean isNewPhoto() {
-        return isNewPhoto;
+        return is_new_photo;
     }
 
     public String getPhotoName() {
-        return photoName;
+        return photo_name;
     }
 
     public File getNewPhotoFile() {
-        return newPhotoFile;
+        return new_photo_file;
     }
 
     public InputStream getNewPhotoStream() {
-        return newPhotoStream;
+        return new_photo_stream;
     }
 
     public Boolean getDisableNotification() {
-        return disableNotification;
+        return disable_notification;
     }
 
     public SendPhoto enableNotification() {
-        this.disableNotification = false;
+        this.disable_notification = false;
         return this;
     }
 
     public SendPhoto disableNotification() {
-        this.disableNotification = true;
+        this.disable_notification = true;
         return this;
     }
 
     public SendPhoto setNewPhoto(File file) {
-        this.newPhotoFile = file;
-        this.isNewPhoto = true;
+        this.new_photo_file = file;
+        this.is_new_photo = true;
         return this;
     }
 
     public SendPhoto setNewPhoto(String photoName, InputStream inputStream) {
     	Objects.requireNonNull(photoName, "photoName cannot be null!");
     	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
-    	this.photoName = photoName;
-        this.newPhotoStream = inputStream;
-        this.isNewPhoto = true;
+    	this.photo_name = photoName;
+        this.new_photo_stream = inputStream;
+        this.is_new_photo = true;
         return this;
     }
 
@@ -163,34 +163,34 @@ public class SendPhoto extends PartialBotApiMethod<Message> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null) {
+        if (chat_id == null) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
 
-        if (isNewPhoto) {
-            if (newPhotoFile == null && newPhotoStream == null) {
+        if (is_new_photo) {
+            if (new_photo_file == null && new_photo_stream == null) {
                 throw new TelegramApiValidationException("Photo can't be empty", this);
             }
-            if (newPhotoStream != null && (photoName == null || photoName.isEmpty())) {
+            if (new_photo_stream != null && (photo_name == null || photo_name.isEmpty())) {
                 throw new TelegramApiValidationException("Photo name can't be empty", this);
             }
         } else if (photo == null) {
             throw new TelegramApiValidationException("Photo can't be empty", this);
         }
-        if (replyMarkup != null) {
-            replyMarkup.validate();
+        if (reply_markup != null) {
+            reply_markup.validate();
         }
     }
 
     @Override
     public String toString() {
         return "SendPhoto{" +
-                "chatId='" + chatId + '\'' +
+                "chatId='" + chat_id + '\'' +
                 ", photo='" + photo + '\'' +
                 ", caption='" + caption + '\'' +
-                ", replyToMessageId=" + replyToMessageId +
-                ", replyMarkup=" + replyMarkup +
-                ", isNewPhoto=" + isNewPhoto +
+                ", replyToMessageId=" + reply_to_message_id +
+                ", replyMarkup=" + reply_markup +
+                ", isNewPhoto=" + is_new_photo +
                 '}';
     }
 }

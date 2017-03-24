@@ -13,7 +13,8 @@
  */
 package org.telegram.telegrambots.updatesreceivers;
 
-import com.google.common.base.Preconditions;
+
+import jersey.repackaged.com.google.common.base.Preconditions;
 
 /**
  * Implementation of BackOff that increases the back off period for each retry attempt using

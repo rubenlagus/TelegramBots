@@ -17,12 +17,13 @@
 
 package org.telegram.telegrambots.exceptions;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 import org.json.JSONObject;
 import org.telegram.telegrambots.api.objects.ResponseParameters;
 import org.telegram.telegrambots.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.logging.BotLogger;
+import org.telegram.telegrambots.myclasses.ObjectMapper;
 
 import java.io.IOException;
 
