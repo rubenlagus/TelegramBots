@@ -1,9 +1,10 @@
 package org.telegram.telegrambots.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.telegram.telegrambots.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.api.objects.games.Game;
+import org.telegram.telegrambots.api.objects.payments.Invoice;
+import org.telegram.telegrambots.api.objects.payments.SuccessfulPayment;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class Message implements BotApiObject {
     private static final String LOCATION_FIELD = "location";
     private static final String VENUE_FIELD = "venue";
     private static final String PINNED_MESSAGE_FIELD = "pinned_message";
-    private static final String NEWCHATMEMBER_FIELD = "new_chat_member";
+    private static final String NEWCHATMEMBERS_FIELD = "new_chat_members";
     private static final String LEFTCHATMEMBER_FIELD = "left_chat_member";
     private static final String NEWCHATTITLE_FIELD = "new_chat_title";
     private static final String NEWCHATPHOTO_FIELD = "new_chat_photo";
@@ -48,6 +49,8 @@ public class Message implements BotApiObject {
     private static final String EDITDATE_FIELD = "edit_date";
     private static final String GAME_FIELD = "game";
     private static final String FORWARDFROMMESSAGEID_FIELD = "forward_from_message_id";
+    private static final String INVOICE_FIELD = "invoice";
+    private static final String SUCCESSFUL_PAYMENT_FIELD = "successful_payment";
 
     @JsonProperty(MESSAGEID_FIELD)
     private Integer messageId; ///< Integer	Unique message identifier
@@ -89,8 +92,8 @@ public class Message implements BotApiObject {
     private Venue venue; ///< Optional. Message is a venue, information about the venue
     @JsonProperty(PINNED_MESSAGE_FIELD)
     private Message pinnedMessage; ///< Optional. Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply.
-    @JsonProperty(NEWCHATMEMBER_FIELD)
-    private User newChatMember; ///< Optional. A new member was added to the group, information about them (this member may be bot itself)
+    @JsonProperty(NEWCHATMEMBERS_FIELD)
+    private List<User> newChatMembers; ///< Optional. New members were added to the group or supergroup, information about them (there are may be the bot itself among them)
     @JsonProperty(LEFTCHATMEMBER_FIELD)
     private User leftChatMember; ///< Optional. A member was removed from the group, information about them (this member may be bot itself)
     @JsonProperty(NEWCHATTITLE_FIELD)
@@ -149,6 +152,10 @@ public class Message implements BotApiObject {
     private Game game; ///< Optional. Message is a game, information about the game
     @JsonProperty(FORWARDFROMMESSAGEID_FIELD)
     private Integer forwardFromMessageId; ///< Optional. For forwarded channel posts, identifier of the original message in the channel
+    @JsonProperty(INVOICE_FIELD)
+    private Invoice invoice; ///< Optional. Message is an invoice for a payment, information about the invoice.
+    @JsonProperty(SUCCESSFUL_PAYMENT_FIELD)
+    private SuccessfulPayment successfulPayment; ///< Optional. Message is a service message about a successful payment, information about the payment.
 
     public Message() {
         super();
@@ -223,8 +230,8 @@ public class Message implements BotApiObject {
         return pinnedMessage;
     }
 
-    public User getNewChatMember() {
-        return newChatMember;
+    public List<User> getNewChatMembers() {
+        return newChatMembers;
     }
 
     public User getLeftChatMember() {
@@ -351,6 +358,22 @@ public class Message implements BotApiObject {
         return photo != null && !photo.isEmpty();
     }
 
+    public boolean hasInvoice() {
+        return invoice != null;
+    }
+
+    public boolean hasSuccessfulPayment() {
+        return successfulPayment != null;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public SuccessfulPayment getSuccessfulPayment() {
+        return successfulPayment;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
@@ -372,7 +395,7 @@ public class Message implements BotApiObject {
                 ", location=" + location +
                 ", venue=" + venue +
                 ", pinnedMessage=" + pinnedMessage +
-                ", newChatMember=" + newChatMember +
+                ", newChatMembers=" + newChatMembers +
                 ", leftChatMember=" + leftChatMember +
                 ", newChatTitle='" + newChatTitle + '\'' +
                 ", newChatPhoto=" + newChatPhoto +
@@ -388,6 +411,8 @@ public class Message implements BotApiObject {
                 ", editDate=" + editDate +
                 ", game=" + game +
                 ", forwardFromMessageId=" + forwardFromMessageId +
+                ", invoice=" + invoice +
+                ", successfulPayment=" + successfulPayment +
                 '}';
     }
 }

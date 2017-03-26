@@ -1,45 +1,16 @@
 package org.telegram.telegrambots.bots;
 
-import org.telegram.telegrambots.api.methods.AnswerCallbackQuery;
-import org.telegram.telegrambots.api.methods.AnswerInlineQuery;
-import org.telegram.telegrambots.api.methods.BotApiMethod;
-import org.telegram.telegrambots.api.methods.ForwardMessage;
-import org.telegram.telegrambots.api.methods.GetFile;
-import org.telegram.telegrambots.api.methods.GetMe;
-import org.telegram.telegrambots.api.methods.GetUserProfilePhotos;
+import org.telegram.telegrambots.api.methods.*;
 import org.telegram.telegrambots.api.methods.games.GetGameHighScores;
 import org.telegram.telegrambots.api.methods.games.SetGameScore;
-import org.telegram.telegrambots.api.methods.groupadministration.GetChat;
-import org.telegram.telegrambots.api.methods.groupadministration.GetChatAdministrators;
-import org.telegram.telegrambots.api.methods.groupadministration.GetChatMember;
-import org.telegram.telegrambots.api.methods.groupadministration.GetChatMemberCount;
-import org.telegram.telegrambots.api.methods.groupadministration.KickChatMember;
-import org.telegram.telegrambots.api.methods.groupadministration.LeaveChat;
-import org.telegram.telegrambots.api.methods.groupadministration.UnbanChatMember;
-import org.telegram.telegrambots.api.methods.send.SendAudio;
-import org.telegram.telegrambots.api.methods.send.SendChatAction;
-import org.telegram.telegrambots.api.methods.send.SendContact;
-import org.telegram.telegrambots.api.methods.send.SendDocument;
-import org.telegram.telegrambots.api.methods.send.SendGame;
-import org.telegram.telegrambots.api.methods.send.SendLocation;
-import org.telegram.telegrambots.api.methods.send.SendMessage;
-import org.telegram.telegrambots.api.methods.send.SendPhoto;
-import org.telegram.telegrambots.api.methods.send.SendSticker;
-import org.telegram.telegrambots.api.methods.send.SendVenue;
-import org.telegram.telegrambots.api.methods.send.SendVideo;
-import org.telegram.telegrambots.api.methods.send.SendVoice;
+import org.telegram.telegrambots.api.methods.groupadministration.*;
+import org.telegram.telegrambots.api.methods.send.*;
 import org.telegram.telegrambots.api.methods.updates.DeleteWebhook;
 import org.telegram.telegrambots.api.methods.updates.GetWebhookInfo;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageCaption;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
-import org.telegram.telegrambots.api.objects.Chat;
-import org.telegram.telegrambots.api.objects.ChatMember;
-import org.telegram.telegrambots.api.objects.File;
-import org.telegram.telegrambots.api.objects.Message;
-import org.telegram.telegrambots.api.objects.User;
-import org.telegram.telegrambots.api.objects.UserProfilePhotos;
-import org.telegram.telegrambots.api.objects.WebhookInfo;
+import org.telegram.telegrambots.api.objects.*;
 import org.telegram.telegrambots.api.objects.games.GameHighScore;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updateshandlers.SentCallback;
@@ -247,6 +218,27 @@ public abstract class AbsSender {
             throw new TelegramApiException("Parameter deleteWebhook can not be null");
         }
         return sendApiMethod(deleteWebhook);
+    }
+
+    public final Message sendInvoice(SendInvoice sendInvoice) throws TelegramApiException {
+        if(sendInvoice == null){
+            throw new TelegramApiException("Parameter sendInvoice can not be null");
+        }
+        return sendApiMethod(sendInvoice);
+    }
+
+    public final Boolean answerShippingQuery(AnswerShippingQuery answerShippingQuery) throws TelegramApiException {
+        if(answerShippingQuery == null){
+            throw new TelegramApiException("Parameter answerShippingQuery can not be null");
+        }
+        return sendApiMethod(answerShippingQuery);
+    }
+
+    public final Boolean answerPreCheckoutQuery(AnswerPreCheckoutQuery answerPreCheckoutQuery) throws TelegramApiException {
+        if(answerPreCheckoutQuery == null){
+            throw new TelegramApiException("Parameter answerPreCheckoutQuery can not be null");
+        }
+        return sendApiMethod(answerPreCheckoutQuery);
     }
 
     // Send Requests Async
@@ -528,6 +520,36 @@ public abstract class AbsSender {
             throw new TelegramApiException("Parameter sentCallback can not be null");
         }
         sendApiMethodAsync(deleteWebhook, sentCallback);
+    }
+
+    public final void sendInvoice(SendInvoice sendInvoice, SentCallback<Message> sentCallback) throws TelegramApiException {
+        if (sendInvoice == null) {
+            throw new TelegramApiException("Parameter sendInvoice can not be null");
+        }
+        if (sentCallback == null) {
+            throw new TelegramApiException("Parameter sentCallback can not be null");
+        }
+        sendApiMethodAsync(sendInvoice, sentCallback);
+    }
+
+    public final void answerShippingQuery(AnswerShippingQuery answerShippingQuery, SentCallback<Boolean> sentCallback) throws TelegramApiException {
+        if (answerShippingQuery == null) {
+            throw new TelegramApiException("Parameter answerShippingQuery can not be null");
+        }
+        if (sentCallback == null) {
+            throw new TelegramApiException("Parameter sentCallback can not be null");
+        }
+        sendApiMethodAsync(answerShippingQuery, sentCallback);
+    }
+
+    public final void answerPreCheckoutQuery(AnswerPreCheckoutQuery answerPreCheckoutQuery, SentCallback<Boolean> sentCallback) throws TelegramApiException {
+        if (answerPreCheckoutQuery == null) {
+            throw new TelegramApiException("Parameter answerPreCheckoutQuery can not be null");
+        }
+        if (sentCallback == null) {
+            throw new TelegramApiException("Parameter sentCallback can not be null");
+        }
+        sendApiMethodAsync(answerPreCheckoutQuery, sentCallback);
     }
 
     // Specific Send Requests

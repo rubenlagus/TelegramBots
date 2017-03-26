@@ -45,6 +45,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import static org.telegram.telegrambots.Constants.SOCKET_TIMEOUT;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -72,6 +74,13 @@ public abstract class DefaultAbsSender extends AbsSender {
                 .build();
 
         requestConfig = options.getRequestConfig();
+
+        if (requestConfig == null) {
+            requestConfig = RequestConfig.copy(RequestConfig.custom().build())
+                    .setSocketTimeout(SOCKET_TIMEOUT)
+                    .setConnectTimeout(SOCKET_TIMEOUT)
+                    .setConnectionRequestTimeout(SOCKET_TIMEOUT).build();
+        }
     }
 
     /**

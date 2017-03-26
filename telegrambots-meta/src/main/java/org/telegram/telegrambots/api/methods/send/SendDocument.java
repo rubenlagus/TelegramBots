@@ -32,11 +32,7 @@ public class SendDocument extends PartialBotApiMethod<Message> {
     private String chatId; ///< Unique identifier for the chat to send the message to or Username for the channel to send the message to
     private String document; ///< File file to send. file_id as String to resend a file that is already on the Telegram servers or Url to upload it
     private String caption; ///< Optional. Document caption (may also be used when resending documents by file_id), 0-200 characters
-    /**
-     * Optional. Sends the message silently. iOS users will not receive a notification, Android
-     * users will receive a notification with no sound. Other apps coming soon
-     */
-    private Boolean disableNotification;
+    private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
 

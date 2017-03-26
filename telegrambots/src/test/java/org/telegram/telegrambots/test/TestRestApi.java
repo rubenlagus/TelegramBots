@@ -392,6 +392,23 @@ public class TestRestApi extends JerseyTest {
         assertEquals("{\"chat_id\":\"12345\",\"user_id\":98765,\"method\":\"unbanchatmember\"}", map(result));
     }
 
+    @Test
+    public void TestSendInvoice() {
+        webhookBot.setReturnValue(BotApiMethodHelperFactory.getSendInvoice());
+
+        Entity<Update> entity = Entity.json(getUpdate());
+        BotApiMethod result =
+                target("callback/testbot")
+                        .request(MediaType.APPLICATION_JSON)
+                        .post(entity, SendInvoice.class);
+
+        assertEquals("{\"chat_id\":12345,\"title\":\"Random title\",\"description\":\"Random description\"" +
+                ",\"payload\":\"Random Payload\",\"provider_token\":\"Random provider token\",\"start_parameter\":" +
+                "\"STARTPARAM\",\"currency\":\"EUR\",\"prices\":[{\"@class\":" +
+                "\"org.telegram.telegrambots.api.objects.payments.LabeledPrice\",\"label\":\"LABEL\"," +
+                "\"amount\":1000}],\"method\":\"sendinvoice\"}", map(result));
+    }
+
     private Update getUpdate() {
         ObjectMapper mapper = new ObjectMapper();
         try {

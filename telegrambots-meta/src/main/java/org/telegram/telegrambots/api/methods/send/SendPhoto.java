@@ -32,11 +32,7 @@ public class SendPhoto extends PartialBotApiMethod<Message> {
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     private String photo; ///< Photo to send. file_id as String to resend a photo that is already on the Telegram servers or URL to upload it
     private String caption; ///< Optional Photo caption (may also be used when resending photos by file_id).
-    /**
-     * Optional. Sends the message silently. iOS users will not receive a notification, Android
-     * users will receive a notification with no sound. Other apps coming soon
-     */
-    private Boolean disableNotification;
+    private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
 

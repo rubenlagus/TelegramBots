@@ -39,12 +39,8 @@ public class SendMessage extends BotApiMethod<Message> {
     private String parseMode; ///< Optional. Send Markdown, if you want Telegram apps to show bold, italic and URL text in your bot's message.
     @JsonProperty(DISABLEWEBPAGEPREVIEW_FIELD)
     private Boolean disableWebPagePreview; ///< Optional. Disables link previews for links in this message
-    /**
-     * Optional. Sends the message silently. iOS users will not receive a notification, Android
-     * users will receive a notification with no sound. Other apps coming soon
-     */
     @JsonProperty(DISABLENOTIFICATION_FIELD)
-    private Boolean disableNotification;
+    private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     @JsonProperty(REPLYTOMESSAGEID_FIELD)
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     @JsonProperty(REPLYMARKUP_FIELD)

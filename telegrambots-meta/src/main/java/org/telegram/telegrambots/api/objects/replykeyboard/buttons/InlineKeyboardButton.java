@@ -14,7 +14,6 @@ import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
  * optional fields.
  * @note This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * display unsupported message.
- * @date 10 of April of 2016
  */
 public class InlineKeyboardButton implements InputBotApiObject, Validable {
 
@@ -24,6 +23,7 @@ public class InlineKeyboardButton implements InputBotApiObject, Validable {
     private static final String CALLBACK_GAME_FIELD = "callback_game";
     private static final String SWITCH_INLINE_QUERY_FIELD = "switch_inline_query";
     private static final String SWITCH_INLINE_QUERY_CURRENT_CHAT_FIELD = "switch_inline_query_current_chat";
+    private static final String BUY_FIELD = "buy";
 
     @JsonProperty(TEXT_FIELD)
     private String text; ///< Label text on the button
@@ -43,7 +43,8 @@ public class InlineKeyboardButton implements InputBotApiObject, Validable {
      * If set, pressing the button will prompt the user to select one of their chats,
      * open that chat and insert the bot‘s username and the specified inline query in the input field.
      * Can be empty, in which case just the bot’s username will be inserted.
-     * @note: This offers an easy way for users to start using your bot in inline mode when
+     *
+     * @note This offers an easy way for users to start using your bot in inline mode when
      * they are currently in a private chat with it.
      * Especially useful when combined with switch_pm… actions – in this case the user will
      * be automatically returned to the chat they switched from, skipping the chat selection screen.
@@ -57,6 +58,14 @@ public class InlineKeyboardButton implements InputBotApiObject, Validable {
      */
     @JsonProperty(SWITCH_INLINE_QUERY_CURRENT_CHAT_FIELD)
     private String switchInlineQueryCurrentChat;
+
+    /**
+     * Optional. Specify True, to send a Buy button.
+     *
+     * @note This type of button must always be the first button in the first row.
+     */
+    @JsonProperty(BUY_FIELD)
+    private Boolean buy;
 
     public InlineKeyboardButton() {
         super();
@@ -116,6 +125,15 @@ public class InlineKeyboardButton implements InputBotApiObject, Validable {
         return this;
     }
 
+    public Boolean getBuy() {
+        return buy;
+    }
+
+    public InlineKeyboardButton setBuy(Boolean buy) {
+        this.buy = buy;
+        return this;
+    }
+
     @Override
     public void validate() throws TelegramApiValidationException {
         if (text == null || text.isEmpty()) {
@@ -132,6 +150,7 @@ public class InlineKeyboardButton implements InputBotApiObject, Validable {
                 ", callbackGame=" + callbackGame +
                 ", switchInlineQuery='" + switchInlineQuery + '\'' +
                 ", switchInlineQueryCurrentChat='" + switchInlineQueryCurrentChat + '\'' +
+                ", buy=" + buy +
                 '}';
     }
 }

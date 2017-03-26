@@ -26,7 +26,7 @@ public class ReplyKeyboardMarkup implements ReplyKeyboard {
     @JsonProperty(RESIZEKEYBOARD_FIELD)
     private Boolean resizeKeyboard; ///< Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false.
     @JsonProperty(ONETIMEKEYBOARD_FIELD)
-    private Boolean oneTimeKeyboad; ///< Optional. Requests clients to hide the keyboard as soon as it's been used. Defaults to false.
+    private Boolean oneTimeKeyboard; ///< Optional. Requests clients to hide the keyboard as soon as it's been used. Defaults to false.
     /**
      * Optional. Use this parameter if you want to show the keyboard to specific users only.
      * Targets:
@@ -59,12 +59,12 @@ public class ReplyKeyboardMarkup implements ReplyKeyboard {
         return this;
     }
 
-    public Boolean getOneTimeKeyboad() {
-        return oneTimeKeyboad;
+    public Boolean getOneTimeKeyboard() {
+        return oneTimeKeyboard;
     }
 
-    public ReplyKeyboardMarkup setOneTimeKeyboad(Boolean oneTimeKeyboad) {
-        this.oneTimeKeyboad = oneTimeKeyboad;
+    public ReplyKeyboardMarkup setOneTimeKeyboard(Boolean oneTimeKeyboard) {
+        this.oneTimeKeyboard = oneTimeKeyboard;
         return this;
     }
 
@@ -92,7 +92,7 @@ public class ReplyKeyboardMarkup implements ReplyKeyboard {
         return "ReplyKeyboardMarkup{" +
                 "keyboard=" + keyboard +
                 ", resizeKeyboard=" + resizeKeyboard +
-                ", oneTimeKeyboad=" + oneTimeKeyboad +
+                ", oneTimeKeyboard=" + oneTimeKeyboard +
                 ", selective=" + selective +
                 '}';
     }

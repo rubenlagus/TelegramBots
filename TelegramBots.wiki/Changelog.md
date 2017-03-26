@@ -43,3 +43,11 @@
 4. Added reference to new gitbook about this library.
 5. Added custom ExponentialBackOff waiting time when having network problems in long-polling mode. (Custom implementation is allowed via BotOptions)
 6. Bug fixing: #184, #183
+
+### <a id="2.4.4.6"></a>2.4.4.6 ###
+1. New field `gif_duration` and `mpeg4_duration` in `InlineQueryResultGif` and `InlineQueryResultMpeg4Gif`.
+2. Field `new_chat_member` was replaced by `new_chat_members` in `Message` object.
+3. Some methods gets now constructors with mandatory parameters to simplify their creation (including preconditions).
+4. New Payments API methods
+
+**[[How to update to version 2.4.4.6|How-To-Update#2.4.4.6]]**

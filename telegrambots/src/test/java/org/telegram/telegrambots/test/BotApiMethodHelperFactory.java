@@ -18,12 +18,7 @@ import org.telegram.telegrambots.api.methods.groupadministration.GetChatMemberCo
 import org.telegram.telegrambots.api.methods.groupadministration.KickChatMember;
 import org.telegram.telegrambots.api.methods.groupadministration.LeaveChat;
 import org.telegram.telegrambots.api.methods.groupadministration.UnbanChatMember;
-import org.telegram.telegrambots.api.methods.send.SendChatAction;
-import org.telegram.telegrambots.api.methods.send.SendContact;
-import org.telegram.telegrambots.api.methods.send.SendGame;
-import org.telegram.telegrambots.api.methods.send.SendLocation;
-import org.telegram.telegrambots.api.methods.send.SendMessage;
-import org.telegram.telegrambots.api.methods.send.SendVenue;
+import org.telegram.telegrambots.api.methods.send.*;
 import org.telegram.telegrambots.api.methods.updates.GetWebhookInfo;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageCaption;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageReplyMarkup;
@@ -33,6 +28,7 @@ import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.Inp
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResultArticle;
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResultPhoto;
+import org.telegram.telegrambots.api.objects.payments.LabeledPrice;
 import org.telegram.telegrambots.api.objects.replykeyboard.ForceReplyKeyboard;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
@@ -191,7 +187,7 @@ public final class BotApiMethodHelperFactory {
     private static ReplyKeyboard getKeyboardMarkup() {
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
         keyboardMarkup.setResizeKeyboard(true);
-        keyboardMarkup.setOneTimeKeyboad(true);
+        keyboardMarkup.setOneTimeKeyboard(true);
         keyboardMarkup.setSelective(true);
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow row = new KeyboardRow();
@@ -288,5 +284,20 @@ public final class BotApiMethodHelperFactory {
         return new UnbanChatMember()
                 .setChatId("12345")
                 .setUserId(98765);
+    }
+
+    public static BotApiMethod getSendInvoice() {
+        List<LabeledPrice> prices = new ArrayList<>();
+        prices.add(new LabeledPrice("LABEL", 1000));
+
+        return new SendInvoice()
+                .setChatId(12345)
+                .setTitle("Random title")
+                .setDescription("Random description")
+                .setPayload("Random Payload")
+                .setProviderToken("Random provider token")
+                .setStartParameter("STARTPARAM")
+                .setCurrency("EUR")
+                .setPrices(prices);
     }
 }

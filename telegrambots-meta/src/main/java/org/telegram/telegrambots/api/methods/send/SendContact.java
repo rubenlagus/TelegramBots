@@ -39,12 +39,8 @@ public class SendContact extends BotApiMethod<Message> {
     private String firstName; ///< User's first name
     @JsonProperty(LAST_NAME_FIELD)
     private String lastName; ///< Optional. User's last name
-    /**
-     * Optional. Sends the message silently. iOS users will not receive a notification, Android
-     * users will receive a notification with no sound. Other apps coming soon
-     */
     @JsonProperty(DISABLENOTIFICATION_FIELD)
-    private Boolean disableNotification;
+    private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     @JsonProperty(REPLYTOMESSAGEID_FIELD)
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     @JsonProperty(REPLYMARKUP_FIELD)
