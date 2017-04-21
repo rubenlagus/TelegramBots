@@ -183,7 +183,9 @@ public class Message implements BotApiObject {
     }
 
     public List<MessageEntity> getEntities() {
-        entities.forEach(x -> x.computeText(text));
+        if (entities != null) {
+            entities.forEach(x -> x.computeText(text));
+        }
         return entities;
     }
 
