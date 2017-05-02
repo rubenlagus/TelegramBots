@@ -39,11 +39,6 @@ import com.google.common.base.Preconditions;
  * <b>Note:</b> max_interval caps the retry_interval and not the randomized_interval.
  * </p>
  *
- * <p>
- * If the time elapsed since an {@link ExponentialBackOff} instance is created goes past the
- * max_elapsed_time then the method {@link #nextBackOffMillis()} starts returning
- * {@link ExponentialBackOff#STOP}. The elapsed time can be reset by calling {@link #reset()}.
- * </p>
  *
  * <p>
  * Example: The default retry_interval is .5 seconds, default randomization_factor is 0.5, default

@@ -7,6 +7,7 @@ import org.telegram.telegrambots.api.methods.groupadministration.*;
 import org.telegram.telegrambots.api.methods.send.*;
 import org.telegram.telegrambots.api.methods.updates.DeleteWebhook;
 import org.telegram.telegrambots.api.methods.updates.GetWebhookInfo;
+import org.telegram.telegrambots.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageCaption;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
@@ -239,6 +240,13 @@ public abstract class AbsSender {
             throw new TelegramApiException("Parameter answerPreCheckoutQuery can not be null");
         }
         return sendApiMethod(answerPreCheckoutQuery);
+    }
+
+    public final Boolean deleteMessage(DeleteMessage deleteMessage) throws TelegramApiException {
+        if(deleteMessage == null){
+            throw new TelegramApiException("Parameter deleteMessage can not be null");
+        }
+        return sendApiMethod(deleteMessage);
     }
 
     // Send Requests Async
@@ -552,12 +560,24 @@ public abstract class AbsSender {
         sendApiMethodAsync(answerPreCheckoutQuery, sentCallback);
     }
 
+    public final void deleteMessage(DeleteMessage deleteMessage, SentCallback<Boolean> sentCallback) throws TelegramApiException {
+        if (deleteMessage == null) {
+            throw new TelegramApiException("Parameter deleteMessage can not be null");
+        }
+        if (sentCallback == null) {
+            throw new TelegramApiException("Parameter sentCallback can not be null");
+        }
+        sendApiMethodAsync(deleteMessage, sentCallback);
+    }
+
     // Specific Send Requests
     public abstract Message sendDocument(SendDocument sendDocument) throws TelegramApiException;
 
     public abstract Message sendPhoto(SendPhoto sendPhoto) throws TelegramApiException;
 
     public abstract Message sendVideo(SendVideo sendVideo) throws TelegramApiException;
+
+    public abstract Message sendVideoNote(SendVideoNote sendVideoNote) throws TelegramApiException;
 
     public abstract Message sendSticker(SendSticker sendSticker) throws TelegramApiException;
 

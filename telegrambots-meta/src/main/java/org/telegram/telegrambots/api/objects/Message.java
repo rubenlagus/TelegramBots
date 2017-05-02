@@ -11,8 +11,7 @@ import java.util.List;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief This object represents a message.
- * @date 20 of June of 2015
+ * This object represents a message.
  */
 public class Message implements BotApiObject {
     private static final String MESSAGEID_FIELD = "message_id";
@@ -51,6 +50,7 @@ public class Message implements BotApiObject {
     private static final String FORWARDFROMMESSAGEID_FIELD = "forward_from_message_id";
     private static final String INVOICE_FIELD = "invoice";
     private static final String SUCCESSFUL_PAYMENT_FIELD = "successful_payment";
+    private static final String VIDEO_NOTE_FIELD = "video_note";
 
     @JsonProperty(MESSAGEID_FIELD)
     private Integer messageId; ///< Integer	Unique message identifier
@@ -93,7 +93,7 @@ public class Message implements BotApiObject {
     @JsonProperty(PINNED_MESSAGE_FIELD)
     private Message pinnedMessage; ///< Optional. Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply.
     @JsonProperty(NEWCHATMEMBERS_FIELD)
-    private List<User> newChatMembers; ///< Optional. New members were added to the group or supergroup, information about them (there are may be the bot itself among them)
+    private List<User> newChatMembers; ///< Optional. New members were added to the group or supergroup, information about them (the bot itself may be one of these members)
     @JsonProperty(LEFTCHATMEMBER_FIELD)
     private User leftChatMember; ///< Optional. A member was removed from the group, information about them (this member may be bot itself)
     @JsonProperty(NEWCHATTITLE_FIELD)
@@ -156,6 +156,8 @@ public class Message implements BotApiObject {
     private Invoice invoice; ///< Optional. Message is an invoice for a payment, information about the invoice.
     @JsonProperty(SUCCESSFUL_PAYMENT_FIELD)
     private SuccessfulPayment successfulPayment; ///< Optional. Message is a service message about a successful payment, information about the payment.
+    @JsonProperty(VIDEO_NOTE_FIELD)
+    private VideoNote videoNote; ///< Optional. Message is a video note, information about the video message
 
     public Message() {
         super();
@@ -374,6 +376,10 @@ public class Message implements BotApiObject {
         return successfulPayment;
     }
 
+    public VideoNote getVideoNote() {
+        return videoNote;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
@@ -413,6 +419,7 @@ public class Message implements BotApiObject {
                 ", forwardFromMessageId=" + forwardFromMessageId +
                 ", invoice=" + invoice +
                 ", successfulPayment=" + successfulPayment +
+                ", videoNote=" + videoNote +
                 '}';
     }
 }

@@ -1,11 +1,12 @@
 package org.telegram.telegrambots.api.objects.replykeyboard.buttons;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.telegram.telegrambots.api.interfaces.InputBotApiObject;
 import org.telegram.telegrambots.api.interfaces.Validable;
 import org.telegram.telegrambots.api.objects.games.CallbackGame;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
@@ -23,7 +24,7 @@ public class InlineKeyboardButton implements InputBotApiObject, Validable {
     private static final String CALLBACK_GAME_FIELD = "callback_game";
     private static final String SWITCH_INLINE_QUERY_FIELD = "switch_inline_query";
     private static final String SWITCH_INLINE_QUERY_CURRENT_CHAT_FIELD = "switch_inline_query_current_chat";
-    private static final String BUY_FIELD = "buy";
+    private static final String PAY_FIELD = "pay";
 
     @JsonProperty(TEXT_FIELD)
     private String text; ///< Label text on the button
@@ -64,11 +65,15 @@ public class InlineKeyboardButton implements InputBotApiObject, Validable {
      *
      * @note This type of button must always be the first button in the first row.
      */
-    @JsonProperty(BUY_FIELD)
-    private Boolean buy;
+    @JsonProperty(PAY_FIELD)
+    private Boolean pay;
 
     public InlineKeyboardButton() {
         super();
+    }
+
+    public InlineKeyboardButton(String text) {
+        this.text = checkNotNull(text);
     }
 
     public String getText() {
@@ -125,12 +130,12 @@ public class InlineKeyboardButton implements InputBotApiObject, Validable {
         return this;
     }
 
-    public Boolean getBuy() {
-        return buy;
+    public Boolean getPay() {
+        return pay;
     }
 
-    public InlineKeyboardButton setBuy(Boolean buy) {
-        this.buy = buy;
+    public InlineKeyboardButton setPay(Boolean pay) {
+        this.pay = pay;
         return this;
     }
 
@@ -150,7 +155,7 @@ public class InlineKeyboardButton implements InputBotApiObject, Validable {
                 ", callbackGame=" + callbackGame +
                 ", switchInlineQuery='" + switchInlineQuery + '\'' +
                 ", switchInlineQueryCurrentChat='" + switchInlineQueryCurrentChat + '\'' +
-                ", buy=" + buy +
+                ", pay=" + pay +
                 '}';
     }
 }
