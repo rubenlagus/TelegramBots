@@ -65,7 +65,7 @@ public class SendVideoNote extends PartialBotApiMethod<Message> {
      * @param chatId Chat Id to send the video note
      * @param videoNote Video note file_id to send
      */
-    public SendVideoNote(Integer chatId, String videoNote) {
+    public SendVideoNote(Long chatId, String videoNote) {
         this.chatId = checkNotNull(chatId).toString();
         this.videoNote = checkNotNull(videoNote);
         this.isNewVideoNote = false;

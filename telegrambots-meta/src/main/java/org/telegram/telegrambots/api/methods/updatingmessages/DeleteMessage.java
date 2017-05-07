@@ -48,7 +48,7 @@ public class DeleteMessage extends BotApiMethod<Boolean> {
         this.messageId = checkNotNull(messageId);
     }
 
-    public DeleteMessage(Integer chatId, Integer messageId) {
+    public DeleteMessage(Long chatId, Integer messageId) {
         this.chatId = checkNotNull(chatId).toString();
         this.messageId = checkNotNull(messageId);
     }

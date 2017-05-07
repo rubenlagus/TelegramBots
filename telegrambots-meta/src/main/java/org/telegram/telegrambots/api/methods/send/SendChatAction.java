@@ -49,7 +49,7 @@ public class SendChatAction extends BotApiMethod<Boolean> {
         this.action = checkNotNull(action);
     }
 
-    public SendChatAction(Integer chatId, String action) {
+    public SendChatAction(Long chatId, String action) {
         this.chatId = checkNotNull(chatId).toString();
         this.action = checkNotNull(action);
     }

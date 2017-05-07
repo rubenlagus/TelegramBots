@@ -56,7 +56,7 @@ public class SendMessage extends BotApiMethod<Message> {
         this.text = checkNotNull(text);
     }
 
-    public SendMessage(Integer chatId, String text) {
+    public SendMessage(Long chatId, String text) {
         this.chatId = checkNotNull(chatId).toString();
         this.text = checkNotNull(text);
     }
