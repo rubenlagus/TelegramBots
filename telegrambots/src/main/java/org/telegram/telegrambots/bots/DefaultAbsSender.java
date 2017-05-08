@@ -754,7 +754,7 @@ public abstract class DefaultAbsSender extends AbsSender {
         return method.deserializeResponse(responseContent);
     }
 
-    private String getBaseUrl() {
+    protected String getBaseUrl() {
         return ApiConstants.BASE_URL + getBotToken() + "/";
     }
 }
