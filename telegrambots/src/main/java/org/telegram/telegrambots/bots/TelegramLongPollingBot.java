@@ -38,7 +38,7 @@ public abstract class TelegramLongPollingBot extends DefaultAbsSender implements
     @Override
     public void clearWebhook() throws TelegramApiRequestException {
         try (CloseableHttpClient httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).build()) {
-            String url = ApiConstants.BASE_URL + getBotToken() + "/" + SetWebhook.PATH;
+            String url = getOptions().getBaseUrl() + getBotToken() + "/" + SetWebhook.PATH;
             HttpGet httpGet = new HttpGet(url);
             httpGet.setConfig(getOptions().getRequestConfig());
             try (CloseableHttpResponse response = httpclient.execute(httpGet)) {

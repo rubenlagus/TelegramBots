@@ -186,7 +186,7 @@ public class DefaultBotSession implements BotSession {
                         request.setAllowedUpdates(options.getAllowedUpdates());
                     }
 
-                    String url = ApiConstants.BASE_URL + token + "/" + GetUpdates.PATH;
+                    String url = options.getBaseUrl() + token + "/" + GetUpdates.PATH;
                     //http client
                     HttpPost httpPost = new HttpPost(url);
                     httpPost.addHeader("charset", StandardCharsets.UTF_8.name());

@@ -17,7 +17,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.telegram.telegrambots.ApiConstants;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.methods.send.*;
 import org.telegram.telegrambots.api.objects.File;
@@ -755,6 +754,6 @@ public abstract class DefaultAbsSender extends AbsSender {
     }
 
     protected String getBaseUrl() {
-        return ApiConstants.BASE_URL + getBotToken() + "/";
+        return options.getBaseUrl() + getBotToken() + "/";
     }
 }
