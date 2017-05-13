@@ -18,7 +18,7 @@ public class BotLogger {
     }
 
     public static Level getLevel() {
-	logger.getLevel();
+	return logger.getLevel();
     }
 
     public static void registerLogger(Handler handler) {
