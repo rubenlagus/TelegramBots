@@ -41,12 +41,8 @@ public class SendVenue extends BotApiMethod<Message> {
     private Float longitude; ///< Longitude of venue location
     @JsonProperty(TITLE_FIELD)
     private String title; ///< Title of the venue
-    /**
-     * Optional. Sends the message silently. iOS users will not receive a notification, Android
-     * users will receive a notification with no sound. Other apps coming soon
-     */
     @JsonProperty(DISABLENOTIFICATION_FIELD)
-    private Boolean disableNotification;
+    private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     @JsonProperty(ADDRESS_FIELD)
     private String address; ///< Address of the venue
     @JsonProperty(FOURSQUARE_ID_FIELD)

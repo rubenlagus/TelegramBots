@@ -21,3 +21,6 @@
 ### <a id="2.4.4.4"></a>To version 2.4.4.4 ###
 1. All calls to `editMessageText`, `editMessageCaption` or `editMessageReplyMarkup` in `AbsSender` return value is changed to `Serializable`
 2. In `editMessageTextAsync`, `editMessageCaptionAsync` or `editMessageReplyMarkupAsync` in `AbsSender`, second parameter should become `SentCallback<Serializable>` due to new return type. 
+
+### <a id="3.0"></a>To version 3.0 ###
+1. In `Message` object, field `new_chat_member` was replaced by `new_chat_members` that is now an array of users.

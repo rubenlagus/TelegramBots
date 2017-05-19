@@ -39,11 +39,7 @@ public class SendVideo extends PartialBotApiMethod<Message> {
     private String caption; ///< OptionaL. Video caption (may also be used when resending videos by file_id).
     private Integer width; ///< Optional. Video width
     private Integer height; ///< OptionaL. Video height
-    /**
-     * Optional. Sends the message silently. iOS users will not receive a notification, Android
-     * users will receive a notification with no sound. Other apps coming soon
-     */
-    private Boolean disableNotification;
+    private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
 

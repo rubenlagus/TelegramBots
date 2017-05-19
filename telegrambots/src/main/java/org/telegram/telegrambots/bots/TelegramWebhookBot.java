@@ -45,7 +45,7 @@ public abstract class TelegramWebhookBot extends DefaultAbsSender implements Web
     @Override
     public void setWebhook(String url, String publicCertificatePath) throws TelegramApiRequestException {
         try (CloseableHttpClient httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier()).build()) {
-            String requestUrl = ApiConstants.BASE_URL + getBotToken() + "/" + SetWebhook.PATH;
+            String requestUrl = getBaseUrl() + getBotToken() + "/" + SetWebhook.PATH;
 
             HttpPost httppost = new HttpPost(requestUrl);
             httppost.setConfig(botOptions.getRequestConfig());

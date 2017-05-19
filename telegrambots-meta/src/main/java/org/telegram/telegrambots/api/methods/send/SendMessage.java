@@ -14,11 +14,12 @@ import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 import java.io.IOException;
 import java.util.Objects;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Use this method to send text messages. On success, the sent Message is returned.
- * @date 20 of June of 2015
+ * Use this method to send text messages. On success, the sent Message is returned.
  */
 public class SendMessage extends BotApiMethod<Message> {
     public static final String PATH = "sendmessage";
@@ -39,12 +40,8 @@ public class SendMessage extends BotApiMethod<Message> {
     private String parseMode; ///< Optional. Send Markdown, if you want Telegram apps to show bold, italic and URL text in your bot's message.
     @JsonProperty(DISABLEWEBPAGEPREVIEW_FIELD)
     private Boolean disableWebPagePreview; ///< Optional. Disables link previews for links in this message
-    /**
-     * Optional. Sends the message silently. iOS users will not receive a notification, Android
-     * users will receive a notification with no sound. Other apps coming soon
-     */
     @JsonProperty(DISABLENOTIFICATION_FIELD)
-    private Boolean disableNotification;
+    private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     @JsonProperty(REPLYTOMESSAGEID_FIELD)
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     @JsonProperty(REPLYMARKUP_FIELD)
@@ -52,6 +49,16 @@ public class SendMessage extends BotApiMethod<Message> {
 
     public SendMessage() {
         super();
+    }
+
+    public SendMessage(String chatId, String text) {
+        this.chatId = checkNotNull(chatId);
+        this.text = checkNotNull(text);
+    }
+
+    public SendMessage(Long chatId, String text) {
+        this.chatId = checkNotNull(chatId).toString();
+        this.text = checkNotNull(text);
     }
 
     public String getChatId() {

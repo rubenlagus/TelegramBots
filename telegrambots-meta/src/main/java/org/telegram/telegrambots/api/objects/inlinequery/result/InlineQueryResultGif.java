@@ -26,6 +26,7 @@ public class InlineQueryResultGif implements InlineQueryResult {
     private static final String CAPTION_FIELD = "caption";
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
+    private static final String GIF_DURATION_FIELD = "gif_duration";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "gif"; ///< Type of the result, must be "gif"
@@ -47,6 +48,8 @@ public class InlineQueryResultGif implements InlineQueryResult {
     private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent instead of the GIF animation
     @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
+    @JsonProperty(GIF_DURATION_FIELD)
+    private Integer gifDuration; ///< Optional. Duration of the GIF
 
     public InlineQueryResultGif() {
         super();
@@ -137,6 +140,14 @@ public class InlineQueryResultGif implements InlineQueryResult {
         return this;
     }
 
+    public Integer getGifDuration() {
+        return gifDuration;
+    }
+
+    public void setGifDuration(Integer gifDuration) {
+        this.gifDuration = gifDuration;
+    }
+
     @Override
     public void validate() throws TelegramApiValidationException {
         if (id == null || id.isEmpty()) {
@@ -164,8 +175,9 @@ public class InlineQueryResultGif implements InlineQueryResult {
                 ", thumbUrl='" + thumbUrl + '\'' +
                 ", title='" + title + '\'' +
                 ", caption='" + caption + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
-                ", replyMarkup='" + replyMarkup + '\'' +
+                ", inputMessageContent=" + inputMessageContent +
+                ", replyMarkup=" + replyMarkup +
+                ", gifDuration=" + gifDuration +
                 '}';
     }
 }

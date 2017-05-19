@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.bots;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -18,14 +17,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.telegram.telegrambots.ApiConstants;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
-import org.telegram.telegrambots.api.methods.send.SendAudio;
-import org.telegram.telegrambots.api.methods.send.SendDocument;
-import org.telegram.telegrambots.api.methods.send.SendPhoto;
-import org.telegram.telegrambots.api.methods.send.SendSticker;
-import org.telegram.telegrambots.api.methods.send.SendVideo;
-import org.telegram.telegrambots.api.methods.send.SendVoice;
+import org.telegram.telegrambots.api.methods.send.*;
 import org.telegram.telegrambots.api.objects.File;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
@@ -44,6 +37,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
+import static org.telegram.telegrambots.Constants.SOCKET_TIMEOUT;
 
 /**
  * @author Ruben Bermudez
@@ -72,6 +67,13 @@ public abstract class DefaultAbsSender extends AbsSender {
                 .build();
 
         requestConfig = options.getRequestConfig();
+
+        if (requestConfig == null) {
+            requestConfig = RequestConfig.copy(RequestConfig.custom().build())
+                    .setSocketTimeout(SOCKET_TIMEOUT)
+                    .setConnectTimeout(SOCKET_TIMEOUT)
+                    .setConnectionRequestTimeout(SOCKET_TIMEOUT).build();
+        }
     }
 
     /**
@@ -395,6 +397,79 @@ public abstract class DefaultAbsSender extends AbsSender {
     }
 
     @Override
+    public final Message sendVideoNote(SendVideoNote sendVideoNote) throws TelegramApiException {
+        if(sendVideoNote == null){
+            throw new TelegramApiException("Parameter sendVideoNote can not be null");
+        }
+
+        sendVideoNote.validate();
+        String responseContent;
+        try {
+            String url = getBaseUrl() + SendVideoNote.PATH;
+            HttpPost httppost = new HttpPost(url);
+            httppost.setConfig(requestConfig);
+            if (sendVideoNote.isNewVideoNote()) {
+                MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+                builder.addTextBody(SendVideoNote.CHATID_FIELD, sendVideoNote.getChatId());
+                if (sendVideoNote.getNewVideoNoteFile() != null) {
+                    builder.addBinaryBody(SendVideoNote.VIDEONOTE_FIELD, sendVideoNote.getNewVideoNoteFile());
+                } else if (sendVideoNote.getNewVideoNoteStream() != null) {
+                    builder.addBinaryBody(SendVideoNote.VIDEONOTE_FIELD, sendVideoNote.getNewVideoNoteStream(), ContentType.APPLICATION_OCTET_STREAM, sendVideoNote.getVideoNoteName());
+                } else {
+                    builder.addBinaryBody(SendVideoNote.VIDEONOTE_FIELD, new java.io.File(sendVideoNote.getVideoNote()), ContentType.APPLICATION_OCTET_STREAM, sendVideoNote.getVideoNoteName());
+                }
+                if (sendVideoNote.getReplyMarkup() != null) {
+                    builder.addTextBody(SendVideoNote.REPLYMARKUP_FIELD, objectMapper.writeValueAsString(sendVideoNote.getReplyMarkup()), TEXT_PLAIN_CONTENT_TYPE);
+                }
+                if (sendVideoNote.getReplyToMessageId() != null) {
+                    builder.addTextBody(SendVideoNote.REPLYTOMESSAGEID_FIELD, sendVideoNote.getReplyToMessageId().toString());
+                }
+                if (sendVideoNote.getDuration() != null) {
+                    builder.addTextBody(SendVideoNote.DURATION_FIELD, sendVideoNote.getDuration().toString());
+                }
+                if (sendVideoNote.getLength() != null) {
+                    builder.addTextBody(SendVideoNote.LENGTH_FIELD, sendVideoNote.getLength().toString());
+                }
+                if (sendVideoNote.getDisableNotification() != null) {
+                    builder.addTextBody(SendVideoNote.DISABLENOTIFICATION_FIELD, sendVideoNote.getDisableNotification().toString());
+                }
+                HttpEntity multipart = builder.build();
+                httppost.setEntity(multipart);
+            } else {
+                List<NameValuePair> nameValuePairs = new ArrayList<>();
+                nameValuePairs.add(new BasicNameValuePair(SendVideoNote.CHATID_FIELD, sendVideoNote.getChatId()));
+                nameValuePairs.add(new BasicNameValuePair(SendVideoNote.VIDEONOTE_FIELD, sendVideoNote.getVideoNote()));
+                if (sendVideoNote.getReplyMarkup() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendVideoNote.REPLYMARKUP_FIELD, objectMapper.writeValueAsString(sendVideoNote.getReplyMarkup())));
+                }
+                if (sendVideoNote.getReplyToMessageId() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendVideoNote.REPLYTOMESSAGEID_FIELD, sendVideoNote.getReplyToMessageId().toString()));
+                }
+                if (sendVideoNote.getDuration() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendVideoNote.DURATION_FIELD, sendVideoNote.getDuration().toString()));
+                }
+                if (sendVideoNote.getLength() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendVideoNote.LENGTH_FIELD, sendVideoNote.getLength().toString()));
+                }
+                if (sendVideoNote.getDisableNotification() != null) {
+                    nameValuePairs.add(new BasicNameValuePair(SendVideoNote.DISABLENOTIFICATION_FIELD, sendVideoNote.getDisableNotification().toString()));
+                }
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, StandardCharsets.UTF_8));
+            }
+
+            try (CloseableHttpResponse response = httpclient.execute(httppost)) {
+                HttpEntity ht = response.getEntity();
+                BufferedHttpEntity buf = new BufferedHttpEntity(ht);
+                responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
+            }
+        } catch (IOException e) {
+            throw new TelegramApiException("Unable to send video note", e);
+        }
+
+        return sendVideoNote.deserializeResponse(responseContent);
+    }
+
+    @Override
     public final Message sendSticker(SendSticker sendSticker) throws TelegramApiException {
         if(sendSticker == null){
             throw new TelegramApiException("Parameter sendSticker can not be null");
@@ -678,7 +753,7 @@ public abstract class DefaultAbsSender extends AbsSender {
         return method.deserializeResponse(responseContent);
     }
 
-    private String getBaseUrl() {
-        return ApiConstants.BASE_URL + getBotToken() + "/";
+    protected String getBaseUrl() {
+        return options.getBaseUrl() + getBotToken() + "/";
     }
 }

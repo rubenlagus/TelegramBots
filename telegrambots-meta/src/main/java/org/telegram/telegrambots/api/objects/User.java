@@ -6,9 +6,8 @@ import org.telegram.telegrambots.api.interfaces.BotApiObject;
 
 /**
  * @author Ruben Bermudez
- * @version 1.0
- * @brief This object represents a Telegram user or bot.
- * @date 20 of June of 2015
+ * @version 3.0
+ * This object represents a Telegram user or bot.
  */
 public class User implements BotApiObject {
 
@@ -16,6 +15,7 @@ public class User implements BotApiObject {
     private static final String FIRSTNAME_FIELD = "first_name";
     private static final String LASTNAME_FIELD = "last_name";
     private static final String USERNAME_FIELD = "username";
+    private static final String LANGUAGECODE_FIELD = "language_code";
 
     @JsonProperty(ID_FIELD)
     private Integer id; ///< Unique identifier for this user or bot
@@ -25,6 +25,8 @@ public class User implements BotApiObject {
     private String lastName; ///< Optional. User‘s or bot’s last name
     @JsonProperty(USERNAME_FIELD)
     private String userName; ///< Optional. User‘s or bot’s username
+    @JsonProperty(LANGUAGECODE_FIELD)
+    private String languageCode; ///< Optional. IETF language tag of the user's language
 
     public User() {
         super();
@@ -46,6 +48,10 @@ public class User implements BotApiObject {
         return userName;
     }
 
+    public String getLanguageCode() {
+        return languageCode;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -53,6 +59,7 @@ public class User implements BotApiObject {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", userName='" + userName + '\'' +
+                ", languageCode='" + languageCode + '\'' +
                 '}';
     }
 }

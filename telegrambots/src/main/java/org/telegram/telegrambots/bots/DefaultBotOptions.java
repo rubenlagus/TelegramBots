@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.bots;
 
 import org.apache.http.client.config.RequestConfig;
+import org.telegram.telegrambots.ApiConstants;
 import org.telegram.telegrambots.generics.BotOptions;
 import org.telegram.telegrambots.updatesreceivers.ExponentialBackOff;
 
@@ -17,10 +18,20 @@ public class DefaultBotOptions implements BotOptions {
     private RequestConfig requestConfig;
     private ExponentialBackOff exponentialBackOff;
     private Integer maxWebhookConnections;
+    private String baseUrl;
     private List<String> allowedUpdates;
 
     public DefaultBotOptions() {
         maxThreads = 1;
+        baseUrl = ApiConstants.BASE_URL;
+    }
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
     }
 
     public void setMaxThreads(int maxThreads) {

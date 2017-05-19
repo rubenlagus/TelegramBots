@@ -7,4 +7,5 @@ package org.telegram.telegrambots.generics;
  * @date 29 of October of 2016
  */
 public interface BotOptions {
+    String getBaseUrl();
 }

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.telegram</groupId>
     <artifactId>telegrambots-meta</artifactId>
-    <version>2.4.4.5</version>
+    <version>3.0</version>
     <packaging>jar</packaging>
 
     <name>Telegram Bots Meta</name>
@@ -227,6 +227,17 @@
                         <DependencyConvergence />
                     </rules>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
         <pluginManagement>

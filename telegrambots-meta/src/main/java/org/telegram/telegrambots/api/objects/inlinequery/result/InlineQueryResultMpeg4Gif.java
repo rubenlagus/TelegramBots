@@ -26,6 +26,7 @@ public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
     private static final String CAPTION_FIELD = "caption";
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
+    private static final String MPEG4_DURATION_FIELD = "mpeg4_duration";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "mpeg4_gif"; ///< Type of the result, must be "mpeg4_gif"
@@ -47,6 +48,8 @@ public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
     private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent instead of the photo
     @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
+    @JsonProperty(MPEG4_DURATION_FIELD)
+    private Integer mpeg4Duration; ///< Optional. Video duration
 
     public InlineQueryResultMpeg4Gif() {
         super();
@@ -137,6 +140,14 @@ public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
         return this;
     }
 
+    public Integer getMpeg4Duration() {
+        return mpeg4Duration;
+    }
+
+    public void setMpeg4Duration(Integer mpeg4Duration) {
+        this.mpeg4Duration = mpeg4Duration;
+    }
+
     @Override
     public void validate() throws TelegramApiValidationException {
         if (id == null || id.isEmpty()) {
@@ -164,8 +175,9 @@ public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
                 ", thumbUrl='" + thumbUrl + '\'' +
                 ", title='" + title + '\'' +
                 ", caption='" + caption + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
-                ", replyMarkup='" + replyMarkup + '\'' +
+                ", inputMessageContent=" + inputMessageContent +
+                ", replyMarkup=" + replyMarkup +
+                ", mpeg4Duration=" + mpeg4Duration +
                 '}';
     }
 }
