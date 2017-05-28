@@ -54,3 +54,8 @@
 7. New Video Messages API methods
 
 **[[How to update to version 3.0|How-To-Update#3.0]]**
+
+### <a id="3.0.1"></a>3.0.1 ###
+1. Added `getLevel` to `BotLogger` class.
+2. Fix wrong URL when setting webhook
+3. Bug Fixing: #244, #233
