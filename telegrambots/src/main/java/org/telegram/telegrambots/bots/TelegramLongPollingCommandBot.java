@@ -32,6 +32,7 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      * Creates a TelegramLongPollingCommandBot with custom options and allowing commands with
      * usernames
      * Use ICommandRegistry's methods on this bot to register commands
+     *
      * @param options Bot options
      */
     public TelegramLongPollingCommandBot(DefaultBotOptions options) {
@@ -40,14 +41,32 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
 
     /**
      * Creates a TelegramLongPollingCommandBot
-     * Use ICommandRegistry's methods on this bot to register commands
-     * @param options Bot options
+     * Use ICommandRegistry's methods on this bot to register commands.
+     * <p>
+     * This ctor will call {@link #getBotUsername()}
+     * </p>
+     *
+     * @param options                   Bot options
      * @param allowCommandsWithUsername true to allow commands with parameters (default),
      *                                  false otherwise
      */
     public TelegramLongPollingCommandBot(DefaultBotOptions options, boolean allowCommandsWithUsername) {
         super(options);
         this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, getBotUsername());
+    }
+
+    /**
+     * Creates a TelegramLongPollingCommandBot
+     * Use ICommandRegistry's methods on this bot to register commands.
+     *
+     * @param options                   Bot options
+     * @param botUsername               the name of the bot, used in the {@link CommandRegistry}.
+     * @param allowCommandsWithUsername true to allow commands with parameters (default),
+     *                                  false otherwise
+     */
+    public TelegramLongPollingCommandBot(DefaultBotOptions options, String botUsername, boolean allowCommandsWithUsername) {
+        super(options);
+        this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, botUsername);
     }
 
     @Override
@@ -65,16 +84,16 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
 
     /**
      * Override this function in your bot implementation to filter messages with commands
-     *
+     * <p>
      * For example, if you want to prevent commands execution incoming from group chat:
-     *   #
-     *   # return !message.getChat().isGroupChat();
-     *   #
+     * #
+     * # return !message.getChat().isGroupChat();
+     * #
      *
-     * @note Default implementation doesn't filter anything
      * @param message Received message
      * @return true if the message must be ignored by the command bot and treated as a non command message,
      * false otherwise
+     * @note Default implementation doesn't filter anything
      */
     protected boolean filter(Message message) {
         return false;
@@ -117,10 +136,10 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
 
     /**
      * Process all updates, that are not commands.
-     * @warning Commands that have valid syntax but are not registered on this bot,
-     * won't be forwarded to this method <b>if a default action is present</b>.
      *
      * @param update the update
+     * @warning Commands that have valid syntax but are not registered on this bot,
+     * won't be forwarded to this method <b>if a default action is present</b>.
      */
     public abstract void processNonCommandUpdate(Update update);
 }
