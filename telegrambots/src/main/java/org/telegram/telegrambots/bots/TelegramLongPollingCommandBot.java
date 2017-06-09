@@ -44,10 +44,26 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      * @param options Bot options
      * @param allowCommandsWithUsername true to allow commands with parameters (default),
      *                                  false otherwise
+     *
+     * @deprecated When calling this constructor, method getUsername() is not yet initialized in a subclass
      */
+    @Deprecated
     public TelegramLongPollingCommandBot(DefaultBotOptions options, boolean allowCommandsWithUsername) {
         super(options);
         this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, getBotUsername());
+    }
+
+    /**
+     * Creates a TelegramLongPollingCommandBot
+     * Use ICommandRegistry's methods on this bot to register commands
+     * @param options Bot options
+     * @param botUsername bot username of this bot
+     * @param allowCommandsWithUsername true to allow commands with parameters (default),
+     *                                  false otherwise
+     */
+    public TelegramLongPollingCommandBot(DefaultBotOptions options, String botUsername, boolean allowCommandsWithUsername) {
+        super(options);
+        this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, botUsername);
     }
 
     @Override
