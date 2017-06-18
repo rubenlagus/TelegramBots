@@ -59,3 +59,9 @@
 1. Added `getLevel` to `BotLogger` class.
 2. Fix wrong URL when setting webhook
 3. Bug Fixing: #244, #233
+
+### <a id="3.0.2"></a>3.0.2 ###
+1. Bug Fixing: #250
+2. Added new module `telegrambots-extensions` that should contains any extensions of the API such as CommandBot or TimedBot.
+
+**[[How to update to version 3.0.2|How-To-Update#3.0.2]]**

@@ -1,6 +1,7 @@
-package org.telegram.telegrambots.bots;
+package org.telegram.telegrambots.bots.timedbot;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
