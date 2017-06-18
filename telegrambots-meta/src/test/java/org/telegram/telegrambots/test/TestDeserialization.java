@@ -27,8 +27,6 @@ import java.util.List;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief TODO
- * @date 04 of November of 2016
  */
 public class TestDeserialization {
     private ObjectMapper mapper;

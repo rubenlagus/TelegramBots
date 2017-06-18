@@ -1,4 +1,4 @@
-package org.telegram.telegrambots.bots.commands;
+package org.telegram.telegrambots.bots.commandbot.commands;
 
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.bots.AbsSender;

@@ -17,6 +17,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="telegrambots" />
+        <module name="telegrambots-extensions" />
         <module name="telegrambots-meta" />
       </profile>
       <profile name="Annotation profile for Bots" enabled="true">
@@ -29,11 +30,13 @@
     <bytecodeTargetLevel>
       <module name="Bots" target="1.5" />
       <module name="telegrambots" target="1.8" />
+      <module name="telegrambots-extensions" target="1.8" />
       <module name="telegrambots-meta" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/telegrambots" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/telegrambots-extensions" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/telegrambots-meta" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
@@ -261,6 +264,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Bots.iml" filepath="$PROJECT_DIR$/Bots.iml" />
       <module fileurl="file://$PROJECT_DIR$/telegrambots/telegrambots.iml" filepath="$PROJECT_DIR$/telegrambots/telegrambots.iml" />
+      <module fileurl="file://$PROJECT_DIR$/telegrambots-extensions/telegrambots-extensions.iml" filepath="$PROJECT_DIR$/telegrambots-extensions/telegrambots-extensions.iml" />
       <module fileurl="file://$PROJECT_DIR$/telegrambots-meta/telegrambots-meta.iml" filepath="$PROJECT_DIR$/telegrambots-meta/telegrambots-meta.iml" />
     </modules>
   </component>
@@ -832,6 +836,28 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/2.0.2-beta/mockito-all-2.0.2-beta-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.telegram:telegrambots-meta:3.0.1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots-meta/3.0.1/telegrambots-meta-3.0.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots-meta/3.0.1/telegrambots-meta-3.0.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots-meta/3.0.1/telegrambots-meta-3.0.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.telegram:telegrambots:3.0.1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots/3.0.1/telegrambots-3.0.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots/3.0.1/telegrambots-3.0.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots/3.0.1/telegrambots-3.0.1-sources.jar!/" />
       </SOURCES>
     </library>
   </component>

@@ -11,8 +11,7 @@ import java.io.Serializable;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief TODO
- * @date 06 of November of 2016
+ * Response from Telegram Server
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)

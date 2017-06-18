@@ -1,12 +1,15 @@
-package org.telegram.telegrambots.bots;
+package org.telegram.telegrambots.bots.commandbot;
 
 
 import org.telegram.telegrambots.ApiContext;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
-import org.telegram.telegrambots.bots.commands.BotCommand;
-import org.telegram.telegrambots.bots.commands.CommandRegistry;
-import org.telegram.telegrambots.bots.commands.ICommandRegistry;
+import org.telegram.telegrambots.bots.AbsSender;
+import org.telegram.telegrambots.bots.DefaultBotOptions;
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.bots.commandbot.commands.BotCommand;
+import org.telegram.telegrambots.bots.commandbot.commands.CommandRegistry;
+import org.telegram.telegrambots.bots.commandbot.commands.ICommandRegistry;
 
 import java.util.Collection;
 import java.util.Map;
@@ -19,13 +22,27 @@ import java.util.function.BiConsumer;
  */
 public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingBot implements ICommandRegistry {
     private final CommandRegistry commandRegistry;
+    private String botUsername;
 
     /**
      * Creates a TelegramLongPollingCommandBot using default options
      * Use ICommandRegistry's methods on this bot to register commands
+     *
+     * @deprecated Uses {@link #TelegramLongPollingCommandBot(String)} instead
      */
+    @Deprecated
     public TelegramLongPollingCommandBot() {
         this(ApiContext.getInstance(DefaultBotOptions.class));
+    }
+
+    /**
+     * Creates a TelegramLongPollingCommandBot using default options
+     * Use ICommandRegistry's methods on this bot to register commands
+     *
+     * @param botUsername Username of the bot
+     */
+    public TelegramLongPollingCommandBot(String botUsername) {
+        this(ApiContext.getInstance(DefaultBotOptions.class), botUsername);
     }
 
     /**
@@ -33,9 +50,23 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      * usernames
      * Use ICommandRegistry's methods on this bot to register commands
      * @param options Bot options
+     *
+     * @deprecated Use {@link #TelegramLongPollingCommandBot(DefaultBotOptions, String)} instead
      */
+    @Deprecated
     public TelegramLongPollingCommandBot(DefaultBotOptions options) {
         this(options, true);
+    }
+
+    /**
+     * Creates a TelegramLongPollingCommandBot with custom options and allowing commands with
+     * usernames
+     * Use ICommandRegistry's methods on this bot to register commands
+     * @param options Bot options
+     * @param botUsername Username of the bot
+     */
+    public TelegramLongPollingCommandBot(DefaultBotOptions options, String botUsername) {
+        this(options, true, botUsername);
     }
 
     /**
@@ -44,10 +75,27 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      * @param options Bot options
      * @param allowCommandsWithUsername true to allow commands with parameters (default),
      *                                  false otherwise
+     *
+     * @deprecated Use {@link #TelegramLongPollingCommandBot(DefaultBotOptions, boolean, String)} instead
      */
+    @Deprecated
     public TelegramLongPollingCommandBot(DefaultBotOptions options, boolean allowCommandsWithUsername) {
         super(options);
         this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, getBotUsername());
+    }
+
+    /**
+     * Creates a TelegramLongPollingCommandBot
+     * Use ICommandRegistry's methods on this bot to register commands
+     * @param options Bot options
+     * @param allowCommandsWithUsername true to allow commands with parameters (default),
+     *                                  false otherwise
+     * @param botUsername bot username of this bot
+     */
+    public TelegramLongPollingCommandBot(DefaultBotOptions options, boolean allowCommandsWithUsername, String botUsername) {
+        super(options);
+        this.botUsername = botUsername;
+        this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, botUsername);
     }
 
     @Override
@@ -113,6 +161,15 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
     @Override
     public final BotCommand getRegisteredCommand(String commandIdentifier) {
         return commandRegistry.getRegisteredCommand(commandIdentifier);
+    }
+
+    /**
+     * TODO This method will become final in next mayor release, avoid overriding it
+     * @return Bot username
+     */
+    @Override
+    public String getBotUsername() {
+        return botUsername;
     }
 
     /**

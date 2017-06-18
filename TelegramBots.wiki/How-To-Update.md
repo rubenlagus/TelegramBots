@@ -24,3 +24,7 @@
 
 ### <a id="3.0"></a>To version 3.0 ###
 1. In `Message` object, field `new_chat_member` was replaced by `new_chat_members` that is now an array of users.
+
+### <a id="3.0.2"></a>To version 3.0.2 ###
+1. If you were using `TelegramLongPollingCommandBot`, add the new [extensions dependency](https://github.com/rubenlagus/TelegramBots/tree/master/telegrambots-extensions) to your maven and fix import statements in your project.
+2. If you were using `TelegramLongPollingCommandBot`, make sure you start using constructors with username and prevent overriding `getUsername` method.

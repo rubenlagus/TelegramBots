@@ -43,8 +43,6 @@ import java.util.List;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief TODO
- * @date 02 of November of 2016
  */
 public final class BotApiMethodHelperFactory {
     private BotApiMethodHelperFactory() {
@@ -102,7 +100,7 @@ public final class BotApiMethodHelperFactory {
     }
 
     public static BotApiMethod getForwardMessage() {
-        return new ForwardMessage()
+        return new ForwardMessage(54L, 123L, 55)
                 .setFromChatId("From")
                 .setChatId("To")
                 .setMessageId(15)

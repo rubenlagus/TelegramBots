@@ -59,3 +59,11 @@
 1. Added `getLevel` to `BotLogger` class.
 2. Fix wrong URL when setting webhook
 3. Bug Fixing: #244, #233
+
+### <a id="3.0.2"></a>3.0.2 ###
+1. Bug Fixing: #250
+2. Added new module `telegrambots-extensions` that should contains any extensions of the API such as CommandBot or TimedBot.
+3. `TelegramLongPollingCommandBot` receives now the bot username as constructor parameters, all deprecated constructors will be removed in next mayor release.
+4. `getUsername` method from `TelegramLongPollingCommandBot` can be considered `final` and will be so in next mayor release.
+
+**[[How to update to version 3.0.2|How-To-Update#3.0.2]]**

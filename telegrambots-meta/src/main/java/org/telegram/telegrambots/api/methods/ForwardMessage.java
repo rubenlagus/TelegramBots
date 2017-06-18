@@ -14,8 +14,7 @@ import java.util.Objects;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Use this method to send text messages. On success, the sent Message is returned.
- * @date 20 of June of 2015
+ * Use this method to send text messages. On success, the sent Message is returned.
  */
 public class ForwardMessage extends BotApiMethod<Message> {
     public static final String PATH = "forwardmessage";
@@ -44,6 +43,42 @@ public class ForwardMessage extends BotApiMethod<Message> {
         super();
     }
 
+    public ForwardMessage(String chatId, String fromChatId, Integer messageId) {
+        this();
+        Objects.requireNonNull(chatId);
+        Objects.requireNonNull(fromChatId);
+        this.chatId = chatId;
+        this.fromChatId = fromChatId;
+        this.messageId = messageId;
+    }
+
+    public ForwardMessage(String chatId, Long fromChatId, Integer messageId) {
+        this();
+        Objects.requireNonNull(chatId);
+        Objects.requireNonNull(fromChatId);
+        this.chatId = chatId;
+        this.fromChatId = fromChatId.toString();
+        this.messageId = messageId;
+    }
+
+    public ForwardMessage(Long chatId, String fromChatId, Integer messageId) {
+        this();
+        Objects.requireNonNull(chatId);
+        Objects.requireNonNull(fromChatId);
+        this.chatId = chatId.toString();
+        this.fromChatId = fromChatId;
+        this.messageId = messageId;
+    }
+
+    public ForwardMessage(Long chatId, Long fromChatId, Integer messageId) {
+        this();
+        Objects.requireNonNull(chatId);
+        Objects.requireNonNull(fromChatId);
+        this.chatId = chatId.toString();
+        this.fromChatId = fromChatId.toString();
+        this.messageId = messageId;
+    }
+
     public String getChatId() {
         return chatId;
     }
@@ -65,6 +100,12 @@ public class ForwardMessage extends BotApiMethod<Message> {
 
     public ForwardMessage setFromChatId(String fromChatId) {
         this.fromChatId = fromChatId;
+        return this;
+    }
+
+    public ForwardMessage setFromChatId(Long fromChatId) {
+        Objects.requireNonNull(fromChatId);
+        this.fromChatId = fromChatId.toString();
         return this;
     }
 
@@ -93,10 +134,10 @@ public class ForwardMessage extends BotApiMethod<Message> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null) {
+        if (chatId == null || chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
-        if (fromChatId == null) {
+        if (fromChatId == null || fromChatId.isEmpty()) {
             throw new TelegramApiValidationException("FromChatId can't be empty", this);
         }
         if (messageId == null) {
@@ -128,8 +169,9 @@ public class ForwardMessage extends BotApiMethod<Message> {
     public String toString() {
         return "ForwardMessage{" +
                 "chatId='" + chatId + '\'' +
-                ", fromChatId=" + fromChatId +
+                ", fromChatId='" + fromChatId + '\'' +
                 ", messageId=" + messageId +
+                ", disableNotification=" + disableNotification +
                 '}';
     }
 }
