@@ -102,7 +102,7 @@ public final class BotApiMethodHelperFactory {
     }
 
     public static BotApiMethod getForwardMessage() {
-        return new ForwardMessage()
+        return new ForwardMessage(54L, 123L, 55)
                 .setFromChatId("From")
                 .setChatId("To")
                 .setMessageId(15)
