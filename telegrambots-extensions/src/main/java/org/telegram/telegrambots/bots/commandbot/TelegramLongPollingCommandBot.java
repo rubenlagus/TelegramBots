@@ -53,6 +53,19 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
         this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, getBotUsername());
     }
 
+    /**
+     * Creates a TelegramLongPollingCommandBot
+     * Use ICommandRegistry's methods on this bot to register commands
+     * @param options Bot options
+     * @param allowCommandsWithUsername true to allow commands with parameters (default),
+     *                                  false otherwise
+     * @param botUsername bot username of this bot
+     */
+    public TelegramLongPollingCommandBot(DefaultBotOptions options, boolean allowCommandsWithUsername, String botUsername) {
+        super(options);
+        this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, botUsername);
+    }
+
     @Override
     public final void onUpdateReceived(Update update) {
         if (update.hasMessage()) {
