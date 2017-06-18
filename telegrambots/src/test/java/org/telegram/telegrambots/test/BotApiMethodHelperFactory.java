@@ -43,8 +43,6 @@ import java.util.List;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief TODO
- * @date 02 of November of 2016
  */
 public final class BotApiMethodHelperFactory {
     private BotApiMethodHelperFactory() {

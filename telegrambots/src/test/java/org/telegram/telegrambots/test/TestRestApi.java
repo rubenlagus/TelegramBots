@@ -31,8 +31,6 @@ import static org.junit.Assert.fail;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief TODO
- * @date 01 of November of 2016
  */
 public class TestRestApi extends JerseyTest {
 

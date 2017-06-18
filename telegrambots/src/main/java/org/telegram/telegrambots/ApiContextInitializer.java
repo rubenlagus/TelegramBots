@@ -8,8 +8,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultWebhook;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief TODO
- * @date 29 of October of 2016
+ * Initialization of ApiContext
  */
 public final class ApiContextInitializer {
     private ApiContextInitializer() {
