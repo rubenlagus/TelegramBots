@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.bots;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -565,10 +566,10 @@ public abstract class DefaultAbsSender extends AbsSender {
                     builder.addTextBody(SendAudio.REPLYTOMESSAGEID_FIELD, sendAudio.getReplyToMessageId().toString());
                 }
                 if (sendAudio.getPerformer() != null) {
-                    builder.addTextBody(SendAudio.PERFOMER_FIELD, sendAudio.getPerformer());
+                    builder.addTextBody(SendAudio.PERFOMER_FIELD, sendAudio.getPerformer(), TEXT_PLAIN_CONTENT_TYPE);
                 }
                 if (sendAudio.getTitle() != null) {
-                    builder.addTextBody(SendAudio.TITLE_FIELD, sendAudio.getTitle());
+                    builder.addTextBody(SendAudio.TITLE_FIELD, sendAudio.getTitle(), TEXT_PLAIN_CONTENT_TYPE);
                 }
                 if(sendAudio.getDuration() != null){
                     builder.addTextBody(SendAudio.DURATION_FIELD, sendAudio.getDuration().toString());
