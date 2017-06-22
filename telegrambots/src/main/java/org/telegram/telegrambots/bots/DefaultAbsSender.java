@@ -577,7 +577,7 @@ public abstract class DefaultAbsSender extends AbsSender {
                     builder.addTextBody(SendAudio.DISABLENOTIFICATION_FIELD, sendAudio.getDisableNotification().toString());
                 }
                 if (sendAudio.getCaption() != null) {
-                    builder.addTextBody(SendAudio.CAPTION_FIELD, sendAudio.getCaption());
+                    builder.addTextBody(SendAudio.CAPTION_FIELD, sendAudio.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
                 }
                 HttpEntity multipart = builder.build();
                 httppost.setEntity(multipart);
@@ -660,7 +660,7 @@ public abstract class DefaultAbsSender extends AbsSender {
                     builder.addTextBody(SendVoice.DURATION_FIELD, sendVoice.getDuration().toString());
                 }
                 if (sendVoice.getCaption() != null) {
-                    builder.addTextBody(SendVoice.CAPTION_FIELD, sendVoice.getCaption());
+                    builder.addTextBody(SendVoice.CAPTION_FIELD, sendVoice.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
                 }
                 HttpEntity multipart = builder.build();
                 httppost.setEntity(multipart);
