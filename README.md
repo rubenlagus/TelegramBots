@@ -36,7 +36,7 @@ Just import add the library to your project with one of these options:
 ```
 
   2. Using Jitpack from [here](https://jitpack.io/#rubenlagus/TelegramBots/3.0.2)
-  3. Download the jar(including all dependencies) from [here](https://github.com/rubenlagus/TelegramBots/releases/tag/3.0.2)
+  3. Download the jar(including all dependencies) from [here](https://github.com/rubenlagus/TelegramBots/releases/download/v3.0.2/telegrambots-3.0.2-jar-with-dependencies.jar)
 
 In order to use Long Polling mode, just create your own bot extending `org.telegram.telegrambots.bots.TelegramLongPollingBot`.
 
