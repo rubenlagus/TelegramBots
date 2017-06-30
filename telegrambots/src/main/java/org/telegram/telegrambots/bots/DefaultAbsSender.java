@@ -486,10 +486,10 @@ public abstract class DefaultAbsSender extends AbsSender {
                 builder.addTextBody(SendAudio.REPLYTOMESSAGEID_FIELD, sendAudio.getReplyToMessageId().toString());
             }
             if (sendAudio.getPerformer() != null) {
-                builder.addTextBody(SendAudio.PERFOMER_FIELD, sendAudio.getPerformer());
+                builder.addTextBody(SendAudio.PERFOMER_FIELD, sendAudio.getPerformer(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendAudio.getTitle() != null) {
-                builder.addTextBody(SendAudio.TITLE_FIELD, sendAudio.getTitle());
+                builder.addTextBody(SendAudio.TITLE_FIELD, sendAudio.getTitle(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if(sendAudio.getDuration() != null){
                 builder.addTextBody(SendAudio.DURATION_FIELD, sendAudio.getDuration().toString());
@@ -498,7 +498,7 @@ public abstract class DefaultAbsSender extends AbsSender {
                 builder.addTextBody(SendAudio.DISABLENOTIFICATION_FIELD, sendAudio.getDisableNotification().toString());
             }
             if (sendAudio.getCaption() != null) {
-                builder.addTextBody(SendAudio.CAPTION_FIELD, sendAudio.getCaption());
+                builder.addTextBody(SendAudio.CAPTION_FIELD, sendAudio.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
             }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
@@ -561,7 +561,7 @@ public abstract class DefaultAbsSender extends AbsSender {
                 builder.addTextBody(SendVoice.DURATION_FIELD, sendVoice.getDuration().toString());
             }
             if (sendVoice.getCaption() != null) {
-                builder.addTextBody(SendVoice.CAPTION_FIELD, sendVoice.getCaption());
+                builder.addTextBody(SendVoice.CAPTION_FIELD, sendVoice.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
             }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
