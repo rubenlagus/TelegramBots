@@ -66,8 +66,8 @@ public class GetChatMemberCount extends BotApiMethod<Integer> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null) {
-            throw new TelegramApiValidationException("ChatId can't be null", this);
+        if (chatId == null || chatId.isEmpty()) {
+            throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
     }
 

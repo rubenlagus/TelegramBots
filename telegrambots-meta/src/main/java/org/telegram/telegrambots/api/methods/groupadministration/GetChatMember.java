@@ -80,8 +80,8 @@ public class GetChatMember extends BotApiMethod<ChatMember> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null) {
-            throw new TelegramApiValidationException("ChatId can't be null", this);
+        if (chatId == null || chatId.isEmpty()) {
+            throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
         if (userId == null) {
             throw new TelegramApiValidationException("UserId can't be null", this);

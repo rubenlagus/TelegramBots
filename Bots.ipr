@@ -838,28 +838,6 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/2.0.2-beta/mockito-all-2.0.2-beta-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.telegram:telegrambots-meta:3.0.1">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots-meta/3.0.1/telegrambots-meta-3.0.1.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots-meta/3.0.1/telegrambots-meta-3.0.1-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots-meta/3.0.1/telegrambots-meta-3.0.1-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.telegram:telegrambots:3.0.1">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots/3.0.1/telegrambots-3.0.1.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots/3.0.1/telegrambots-3.0.1-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots/3.0.1/telegrambots-3.0.1-sources.jar!/" />
-      </SOURCES>
-    </library>
   </component>
   <component name="masterDetails">
     <states>

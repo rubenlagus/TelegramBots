@@ -7,18 +7,21 @@ import org.telegram.telegrambots.api.interfaces.BotApiObject;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief This object represents a Telegram chat with an user or a group
- * @date 24 of June of 2015
+ * This object represents a Telegram chat with an user or a group
  */
 public class Chat implements BotApiObject {
 
     private static final String ID_FIELD = "id";
     private static final String TYPE_FIELD = "type";
     private static final String TITLE_FIELD = "title";
+    private static final String USERNAME_FIELD = "username";
     private static final String FIRSTNAME_FIELD = "first_name";
     private static final String LASTNAME_FIELD = "last_name";
-    private static final String USERNAME_FIELD = "username";
     private static final String ALL_MEMBERS_ARE_ADMINISTRATORS_FIELD = "all_members_are_administrators";
+    private static final String PHOTO_FIELD = "photo";
+    private static final String DESCRIPTION_FIELD = "description";
+    private static final String INVITELINK_FIELD = "invite_link";
+
     private static final String USERCHATTYPE = "private";
     private static final String GROUPCHATTYPE = "group";
     private static final String CHANNELCHATTYPE = "channel";
@@ -43,10 +46,16 @@ public class Chat implements BotApiObject {
     @JsonProperty(USERNAME_FIELD)
     private String userName; ///< Optional. Interlocutor's last name for private chats
     /**
-     * Optional. True if the group or supergroup has ‘All Members Are Admins’ enabled.
+     * Optional. True if a group has ‘All Members Are Admins’ enabled.
      */
     @JsonProperty(ALL_MEMBERS_ARE_ADMINISTRATORS_FIELD)
     private Boolean allMembersAreAdministrators;
+    @JsonProperty(PHOTO_FIELD)
+    private ChatPhoto photo; ///< Optional. Chat photo. Returned only in getChat.
+    @JsonProperty(DESCRIPTION_FIELD)
+    private String description; ///< Optional. Description, for supergroups and channel chats. Returned only in getChat.
+    @JsonProperty(INVITELINK_FIELD)
+    private String inviteLink; ///< Optional. Chat invite link, for supergroups and channel chats. Returned only in getChat.
 
     public Chat() {
         super();
@@ -92,6 +101,18 @@ public class Chat implements BotApiObject {
         return allMembersAreAdministrators;
     }
 
+    public ChatPhoto getPhoto() {
+        return photo;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getInviteLink() {
+        return inviteLink;
+    }
+
     @Override
     public String toString() {
         return "Chat{" +
@@ -102,6 +123,9 @@ public class Chat implements BotApiObject {
                 ", lastName='" + lastName + '\'' +
                 ", userName='" + userName + '\'' +
                 ", allMembersAreAdministrators=" + allMembersAreAdministrators +
+                ", photo=" + photo +
+                ", description='" + description + '\'' +
+                ", inviteLink='" + inviteLink + '\'' +
                 '}';
     }
 }
