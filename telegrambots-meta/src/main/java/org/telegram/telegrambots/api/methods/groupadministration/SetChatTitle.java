@@ -2,7 +2,6 @@ package org.telegram.telegrambots.api.methods.groupadministration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
@@ -15,59 +14,62 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
- * @version 1.0
- * Use this method to unban a previously kicked user in a supergroup. The user will not
- * return to the group automatically, but will be able to join via link, etc. The bot must be an
- * administrator in the group for this to work. Returns True on success.
+ * @version 3.1
+ * Use this method to change the title of a chat. Titles can't be changed for private chats.
+ * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+ * Returns True on success.
+ *
+ * @apiNote In regular groups (non-supergroups), this method will only work if the ‘All Members Are Admins’ setting is off in the target group.
  */
-public class UnbanChatMember extends BotApiMethod<Boolean> {
-    public static final String PATH = "unbanchatmember";
+public class SetChatTitle extends BotApiMethod<Boolean> {
+    public static final String PATH = "setChatTitle";
 
     private static final String CHATID_FIELD = "chat_id";
-    private static final String USER_ID_FIELD = "user_id";
+    private static final String TITLE_FIELD = "title";
 
     @JsonProperty(CHATID_FIELD)
-    private String chatId; ///< Required. Unique identifier for the chat to send the message to (Or username for channels)
-    @JsonProperty(USER_ID_FIELD)
-    private Integer userId; ///< Required. Unique identifier of the target user
+    private String chatId; ///< Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+    @JsonProperty(TITLE_FIELD)
+    private String title; ///< Required. New chat title, 1-255 characters
 
-    public UnbanChatMember() {
+    public SetChatTitle() {
         super();
     }
 
-    public UnbanChatMember(String chatId, Integer userId) {
+    public SetChatTitle(String chatId, String title) {
         super();
         this.chatId = checkNotNull(chatId);
-        this.userId = checkNotNull(userId);
+        this.title = checkNotNull(title);
     }
 
-    public UnbanChatMember(Long chatId, Integer userId) {
+    public SetChatTitle(Long chatId, String title) {
         super();
         this.chatId = checkNotNull(chatId).toString();
-        this.userId = checkNotNull(userId);
+        this.title = checkNotNull(title);
     }
 
     public String getChatId() {
         return chatId;
     }
 
-    public UnbanChatMember setChatId(String chatId) {
+    public SetChatTitle setChatId(String chatId) {
         this.chatId = chatId;
         return this;
     }
 
-    public UnbanChatMember setChatId(Long chatId) {
+    public SetChatTitle setChatId(Long chatId) {
         Objects.requireNonNull(chatId);
         this.chatId = chatId.toString();
         return this;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public String getTitle() {
+        return title;
     }
 
-    public UnbanChatMember setUserId(Integer userId) {
-        this.userId = userId;
+    public SetChatTitle setTitle(String title) {
+        Objects.requireNonNull(title);
+        this.title = title;
         return this;
     }
 
@@ -84,7 +86,7 @@ public class UnbanChatMember extends BotApiMethod<Boolean> {
             if (result.getOk()) {
                 return result.getResult();
             } else {
-                throw new TelegramApiRequestException("Error unbanning chat member", result);
+                throw new TelegramApiRequestException("Error setting chat title", result);
             }
         } catch (IOException e) {
             throw new TelegramApiRequestException("Unable to deserialize response", e);
@@ -96,16 +98,16 @@ public class UnbanChatMember extends BotApiMethod<Boolean> {
         if (chatId == null || chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
-        if (userId == null) {
-            throw new TelegramApiValidationException("UserId can't be null", this);
+        if (title == null || title.isEmpty()) {
+            throw new TelegramApiValidationException("Title can't be empty", this);
         }
     }
 
     @Override
     public String toString() {
-        return "UnbanChatMember{" +
+        return "SetChatTitle{" +
                 "chatId='" + chatId + '\'' +
-                ", userId='" + userId +
+                ", title='" + title + '\'' +
                 '}';
     }
 }

@@ -11,32 +11,47 @@ import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 import java.io.IOException;
 import java.util.Objects;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Use this method to kick a user from a group or a supergroup. In the case of supergroups,
+ * Use this method to kick a user from a group, a supergroup or a channel. In the case of supergroups,
  * the user will not be able to return to the group on their own using invite links, etc., unless
  * unbanned first. The bot must be an administrator in the group for this to work. Returns True on
  * success.
- * @note This will method only work if the ‘All Members Are Admins’ setting is off in the target
+ * @apiNote  This will method only work if the ‘All Members Are Admins’ setting is off in the target
  * group. Otherwise members may only be removed by the group's creator or by the member that added
  * them.
- * @date 10 of April of 2016
  */
 public class KickChatMember extends BotApiMethod<Boolean> {
     public static final String PATH = "kickchatmember";
 
     private static final String CHATID_FIELD = "chat_id";
     private static final String USER_ID_FIELD = "user_id";
+    private static final String UNTILDATE_FIELD = "until_date";
 
     @JsonProperty(CHATID_FIELD)
-    private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
+    private String chatId; ///< Required. Unique identifier for the chat to send the message to (Or username for channels)
     @JsonProperty(USER_ID_FIELD)
-    private Integer userId; ///< Unique identifier of the target user
+    private Integer userId; ///< Required. Unique identifier of the target user
+    @JsonProperty(UNTILDATE_FIELD)
+    private Integer untilDate; ///< Date when the user will be unbanned, unix time. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever
 
     public KickChatMember() {
         super();
     }
+
+    public KickChatMember(String chatId, Integer userId) {
+        this.chatId = checkNotNull(chatId);
+        this.userId = checkNotNull(userId);
+    }
+
+    public KickChatMember(Long chatId, Integer userId) {
+        this.chatId = checkNotNull(chatId).toString();
+        this.userId = checkNotNull(userId);
+    }
+
 
     public String getChatId() {
         return chatId;
@@ -62,6 +77,15 @@ public class KickChatMember extends BotApiMethod<Boolean> {
         return this;
     }
 
+    public Integer getUntilDate() {
+        return untilDate;
+    }
+
+    public KickChatMember setUntilDate(Integer untilDate) {
+        this.untilDate = untilDate;
+        return this;
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -84,8 +108,8 @@ public class KickChatMember extends BotApiMethod<Boolean> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null) {
-            throw new TelegramApiValidationException("ChatId can't be null", this);
+        if (chatId == null || chatId.isEmpty()) {
+            throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
         if (userId == null) {
             throw new TelegramApiValidationException("UserId can't be null", this);
@@ -96,7 +120,8 @@ public class KickChatMember extends BotApiMethod<Boolean> {
     public String toString() {
         return "KickChatMember{" +
                 "chatId='" + chatId + '\'' +
-                ", userId='" + userId +
+                ", userId=" + userId +
+                ", untilDate=" + untilDate +
                 '}';
     }
 }

@@ -12,11 +12,12 @@ import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 import java.io.IOException;
 import java.util.Objects;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Use this method to get information about the chat. Returns Chat object on success.
- * @date 20 of May of 2016
+ * Use this method to get information about the chat. Returns Chat object on success.
  */
 public class GetChat extends BotApiMethod<Chat> {
     public static final String PATH = "getChat";
@@ -28,6 +29,16 @@ public class GetChat extends BotApiMethod<Chat> {
 
     public GetChat() {
         super();
+    }
+
+    public GetChat(String chatId) {
+        super();
+        this.chatId = checkNotNull(chatId);
+    }
+
+    public GetChat(Long chatId) {
+        super();
+        this.chatId = checkNotNull(chatId).toString();
     }
 
     public String getChatId() {
@@ -67,8 +78,8 @@ public class GetChat extends BotApiMethod<Chat> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null) {
-            throw new TelegramApiValidationException("ChatId can't be null", this);
+        if (chatId == null || chatId.isEmpty()) {
+            throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
     }
 
