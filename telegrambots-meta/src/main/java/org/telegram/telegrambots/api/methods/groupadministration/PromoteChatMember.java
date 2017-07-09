@@ -25,7 +25,7 @@ public class PromoteChatMember extends BotApiMethod<Boolean> {
 
     private static final String CHATID_FIELD = "chat_id";
     private static final String USER_ID_FIELD = "user_id";
-    private static final String CANCHANGEINFORMATION_FIELD = "can_change_information";
+    private static final String CANCHANGEINFORMATION_FIELD = "can_change_info";
     private static final String CANPOSTMESSAGES_FIELD = "can_post_messages";
     private static final String CANEDITMESSAGES_FIELD = "can_edit_messages";
     private static final String CANDELETEMESSAGES_FIELD = "can_delete_messages";

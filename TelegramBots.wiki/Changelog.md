@@ -76,3 +76,6 @@
 5. Added new constructors to `GetChat`, `GetChatAdministrators`, `GetChatMember`, `GetChatMemberCount`, `KickChatMember`, `LeaveChat` and `UnbanChatMember` with mandatory fields as parameters.
 
 **[[How to update to version 3.1.0|How-To-Update#3.1.0]]**
+
+### <a id="3.1.1"></a>3.1.1 ###
+1. Fix bug #264
