@@ -21,7 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  */
 public class RestrictChatMember extends BotApiMethod<Boolean> {
-    public static final String PATH = "kickchatmember";
+    public static final String PATH = "restrictchatmember";
 
     private static final String CHATID_FIELD = "chat_id";
     private static final String USER_ID_FIELD = "user_id";
