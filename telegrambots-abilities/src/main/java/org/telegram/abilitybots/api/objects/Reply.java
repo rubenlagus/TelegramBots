@@ -5,6 +5,7 @@ import org.telegram.telegrambots.api.objects.Update;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -31,7 +32,9 @@ public final class Reply {
   }
 
   public boolean isOkFor(Update update) {
-    return conditions.stream().reduce(true, (state, cond) -> state && cond.test(update), Boolean::logicalAnd);
+    // The following variable is required to avoid bug #JDK-8044546
+    BiFunction<Boolean, Predicate<Update>, Boolean> stateAnd = (state, cond) -> state && cond.test(update);
+    return conditions.stream().reduce(true, stateAnd, Boolean::logicalAnd);
   }
 
   public void actOn(Update update) {

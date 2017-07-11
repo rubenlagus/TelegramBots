@@ -27,6 +27,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiFunction;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
@@ -728,9 +730,11 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
   boolean checkMessageFlags(Trio<Update, Ability, String[]> trio) {
     Ability ability = trio.b();
     Update update = trio.a();
-
+    
+    // The following variable is required to avoid bug #JDK-8044546
+    BiFunction<Boolean, Predicate<Update>, Boolean> flagAnd = (flag, nextFlag) -> flag && nextFlag.test(update);
     return ability.flags().stream()
-        .reduce(true, (flag, nextFlag) -> flag && nextFlag.test(update), Boolean::logicalAnd);
+        .reduce(true, flagAnd, Boolean::logicalAnd);
   }
 
   private File downloadFileWithId(String fileId) throws TelegramApiException {
