@@ -13,6 +13,7 @@
         <module>telegrambots</module>
         <module>telegrambots-meta</module>
         <module>telegrambots-extensions</module>
+        <module>telegrambots-abilities</module>
     </modules>
 
     <licenses>
