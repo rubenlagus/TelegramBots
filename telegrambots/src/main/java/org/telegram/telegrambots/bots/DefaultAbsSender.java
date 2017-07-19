@@ -179,8 +179,6 @@ public abstract class DefaultAbsSender extends AbsSender {
         }
 
         sendDocument.validate();
-        String responseContent;
-
         try {
             String url = getBaseUrl() + SendDocument.PATH;
             HttpPost httppost = new HttpPost(url);
@@ -214,8 +212,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
-            responseContent = sendHttpPostRequest(httppost);
-            return sendDocument.deserializeResponse(responseContent);
+            return sendDocument.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send document", e);
         }
@@ -228,7 +225,6 @@ public abstract class DefaultAbsSender extends AbsSender {
         }
 
         sendPhoto.validate();
-        String responseContent;
         try {
             String url = getBaseUrl() + SendPhoto.PATH;
             HttpPost httppost = new HttpPost(url);
@@ -262,8 +258,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
-            responseContent = sendHttpPostRequest(httppost);
-            return sendPhoto.deserializeResponse(responseContent);
+            return sendPhoto.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send photo", e);
         }
@@ -276,7 +271,6 @@ public abstract class DefaultAbsSender extends AbsSender {
         }
 
         sendVideo.validate();
-        String responseContent;
         try {
             String url = getBaseUrl() + SendVideo.PATH;
             HttpPost httppost = new HttpPost(url);
@@ -319,8 +313,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
-            responseContent = sendHttpPostRequest(httppost);
-            return sendVideo.deserializeResponse(responseContent);
+            return sendVideo.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send video", e);
         }
@@ -333,7 +326,6 @@ public abstract class DefaultAbsSender extends AbsSender {
         }
 
         sendVideoNote.validate();
-        String responseContent;
         try {
             String url = getBaseUrl() + SendVideoNote.PATH;
             HttpPost httppost = new HttpPost(url);
@@ -371,8 +363,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             httppost.setEntity(multipart);
 
 
-            responseContent = sendHttpPostRequest(httppost);
-            return sendVideoNote.deserializeResponse(responseContent);
+            return sendVideoNote.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send video note", e);
         }
@@ -385,7 +376,6 @@ public abstract class DefaultAbsSender extends AbsSender {
         }
 
         sendSticker.validate();
-        String responseContent;
         try {
             String url = getBaseUrl() + SendSticker.PATH;
             HttpPost httppost = new HttpPost(url);
@@ -416,8 +406,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
-            responseContent = sendHttpPostRequest(httppost);
-            return sendSticker.deserializeResponse(responseContent);
+            return sendSticker.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send sticker", e);
         }
@@ -435,8 +424,6 @@ public abstract class DefaultAbsSender extends AbsSender {
             throw new TelegramApiException("Parameter sendAudio can not be null");
         }
         sendAudio.validate();
-        String responseContent;
-
         try {
             String url = getBaseUrl() + SendAudio.PATH;
             HttpPost httppost = new HttpPost(url);
@@ -479,8 +466,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             httppost.setEntity(multipart);
 
 
-            responseContent = sendHttpPostRequest(httppost);
-            return sendAudio.deserializeResponse(responseContent);
+            return sendAudio.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send sticker", e);
         }
@@ -499,8 +485,6 @@ public abstract class DefaultAbsSender extends AbsSender {
             throw new TelegramApiException("Parameter sendVoice can not be null");
         }
         sendVoice.validate();
-        String responseContent;
-
         try {
             String url = getBaseUrl() + SendVoice.PATH;
             HttpPost httppost = new HttpPost(url);
@@ -536,8 +520,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
-            responseContent = sendHttpPostRequest(httppost);
-            return sendVoice.deserializeResponse(responseContent);
+            return sendVoice.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send voice", e);
         }
@@ -549,7 +532,6 @@ public abstract class DefaultAbsSender extends AbsSender {
             throw new TelegramApiException("Parameter setChatPhoto can not be null");
         }
         setChatPhoto.validate();
-        String responseContent;
 
         try {
             String url = getBaseUrl() + SetChatPhoto.PATH;
@@ -566,8 +548,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
-            responseContent = sendHttpPostRequest(httppost);
-            return setChatPhoto.deserializeResponse(responseContent);
+            return setChatPhoto.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
             throw new TelegramApiException("Unable to set chat photo", e);
         }
@@ -583,14 +564,12 @@ public abstract class DefaultAbsSender extends AbsSender {
             public void run() {
                 try {
                     method.validate();
-                    String responseContent;
                     String url = getBaseUrl() + method.getMethod();
                     HttpPost httppost = new HttpPost(url);
                     httppost.setConfig(requestConfig);
                     httppost.addHeader("charset", StandardCharsets.UTF_8.name());
                     httppost.setEntity(new StringEntity(objectMapper.writeValueAsString(method), ContentType.APPLICATION_JSON));
-
-                    responseContent = sendHttpPostRequest(httppost);
+                    String responseContent = sendHttpPostRequest(httppost);
 
                     try {
                         callback.onResult(method, method.deserializeResponse(responseContent));
@@ -608,15 +587,13 @@ public abstract class DefaultAbsSender extends AbsSender {
     @Override
     protected final <T extends Serializable, Method extends BotApiMethod<T>> T sendApiMethod(Method method) throws TelegramApiException {
         method.validate();
-        String responseContent;
         try {
             String url = getBaseUrl() + method.getMethod();
             HttpPost httppost = new HttpPost(url);
             httppost.setConfig(requestConfig);
             httppost.addHeader("charset", StandardCharsets.UTF_8.name());
             httppost.setEntity(new StringEntity(objectMapper.writeValueAsString(method), ContentType.APPLICATION_JSON));
-            responseContent = sendHttpPostRequest(httppost);
-            return method.deserializeResponse(responseContent);
+            return method.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
             throw new TelegramApiException("Unable to execute " + method.getMethod() + " method", e);
         }
