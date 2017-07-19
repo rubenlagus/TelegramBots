@@ -90,8 +90,9 @@ public abstract class DefaultAbsSender extends AbsSender {
         }
         String url = File.getFileUrl(getBotToken(), filePath);
         java.io.File output;
+        String tempFileName = Long.toString(System.currentTimeMillis());
         try {
-            output = java.io.File.createTempFile(Long.toString(System.currentTimeMillis()), ".tmp");
+            output = java.io.File.createTempFile(tempFileName, ".tmp");
             FileUtils.copyURLToFile(new URL(url), output);
         } catch (MalformedURLException e) {
             throw new TelegramApiException("Wrong url for file: " + url);
@@ -108,8 +109,9 @@ public abstract class DefaultAbsSender extends AbsSender {
         }
         String url = file.getFileUrl(getBotToken());
         java.io.File output;
+        String tempFileName = file.getFileId();
         try {
-            output = java.io.File.createTempFile(file.getFileId(), ".tmp");
+            output = java.io.File.createTempFile(tempFileName, ".tmp");
             FileUtils.copyURLToFile(new URL(url), output);
         } catch (MalformedURLException e) {
             throw new TelegramApiException("Wrong url for file: " + url);
@@ -132,8 +134,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             @Override
             public void run() {
                 String url = File.getFileUrl(getBotToken(), filePath);
+                String tempFileName = Long.toString(System.currentTimeMillis());
                 try {
-                    java.io.File output = java.io.File.createTempFile(Long.toString(System.currentTimeMillis()), ".tmp");
+                    java.io.File output = java.io.File.createTempFile(tempFileName, ".tmp");
                     FileUtils.copyURLToFile(new URL(url), output);
                     callback.onResult(filePath, output);
                 } catch (MalformedURLException e) {
@@ -157,8 +160,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             @Override
             public void run() {
                 String url = file.getFileUrl(getBotToken());
+                String tempFileName = file.getFileId();
                 try {
-                    java.io.File output = java.io.File.createTempFile(file.getFileId(), ".tmp");
+                    java.io.File output = java.io.File.createTempFile(tempFileName, ".tmp");
                     FileUtils.copyURLToFile(new URL(url), output);
                     callback.onResult(file, output);
                 } catch (MalformedURLException e) {
