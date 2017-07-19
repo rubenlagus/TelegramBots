@@ -90,14 +90,14 @@ public abstract class DefaultAbsSender extends AbsSender {
         }
         String url = File.getFileUrl(getBotToken(), filePath);
         String tempFileName = Long.toString(System.currentTimeMillis());
-        return tryToDownloadToTemporaryFile(url, tempFileName);
+        return downloadToTemporaryFileWrappingExceptions(url, tempFileName);
     }
 
     public final java.io.File downloadFile(File file) throws TelegramApiException {
         assertParamNotNull(file, "file");
         String url = file.getFileUrl(getBotToken());
         String tempFileName = file.getFileId();
-        return tryToDownloadToTemporaryFile(url, tempFileName);
+        return downloadToTemporaryFileWrappingExceptions(url, tempFileName);
     }
 
     public final void downloadFileAsync(String filePath, DownloadFileCallback<String> callback) throws TelegramApiException {
@@ -527,7 +527,7 @@ public abstract class DefaultAbsSender extends AbsSender {
         };
     }
 
-    private java.io.File tryToDownloadToTemporaryFile(String url, String tempFileName) throws TelegramApiException {
+    private java.io.File downloadToTemporaryFileWrappingExceptions(String url, String tempFileName) throws TelegramApiException {
         try {
             return downloadToTemporaryFile(url, tempFileName);
         } catch (MalformedURLException e) {
