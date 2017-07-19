@@ -94,9 +94,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     }
 
     public final java.io.File downloadFile(File file) throws TelegramApiException {
-        if(file == null){
-            throw new TelegramApiException("Parameter file can not be null");
-        }
+        assertParamNotNull(file, "file");
         String url = file.getFileUrl(getBotToken());
         String tempFileName = file.getFileId();
         return tryToDownloadToTemporaryFile(url, tempFileName);
@@ -106,21 +104,15 @@ public abstract class DefaultAbsSender extends AbsSender {
         if(filePath == null || filePath.isEmpty()){
             throw new TelegramApiException("Parameter filePath can not be null");
         }
-        if (callback == null) {
-            throw new TelegramApiException("Parameter callback can not be null");
-        }
+        assertParamNotNull(callback, "callback");
         String url = File.getFileUrl(getBotToken(), filePath);
         String tempFileName = Long.toString(System.currentTimeMillis());
         exe.submit(getDownloadFileAsyncJob(filePath, callback, url, tempFileName));
     }
 
     public final void downloadFileAsync(File file, DownloadFileCallback<File> callback) throws TelegramApiException {
-        if(file == null){
-            throw new TelegramApiException("Parameter file can not be null");
-        }
-        if (callback == null) {
-            throw new TelegramApiException("Parameter callback can not be null");
-        }
+        assertParamNotNull(file, "file");
+        assertParamNotNull(callback, "callback");
         String url = file.getFileUrl(getBotToken());
         String tempFileName = file.getFileId();
         exe.submit(getDownloadFileAsyncJob(file, callback, url, tempFileName));
@@ -130,9 +122,7 @@ public abstract class DefaultAbsSender extends AbsSender {
 
     @Override
     public final Message sendDocument(SendDocument sendDocument) throws TelegramApiException {
-        if(sendDocument == null){
-            throw new TelegramApiException("Parameter sendDocument can not be null");
-        }
+        assertParamNotNull(sendDocument, "sendDocument");
 
         sendDocument.validate();
         try {
@@ -175,9 +165,7 @@ public abstract class DefaultAbsSender extends AbsSender {
 
     @Override
     public final Message sendPhoto(SendPhoto sendPhoto) throws TelegramApiException {
-        if(sendPhoto == null){
-            throw new TelegramApiException("Parameter sendPhoto can not be null");
-        }
+        assertParamNotNull(sendPhoto, "sendPhoto");
 
         sendPhoto.validate();
         try {
@@ -220,9 +208,7 @@ public abstract class DefaultAbsSender extends AbsSender {
 
     @Override
     public final Message sendVideo(SendVideo sendVideo) throws TelegramApiException {
-        if(sendVideo == null){
-            throw new TelegramApiException("Parameter sendVideo can not be null");
-        }
+        assertParamNotNull(sendVideo, "sendVideo");
 
         sendVideo.validate();
         try {
@@ -274,9 +260,7 @@ public abstract class DefaultAbsSender extends AbsSender {
 
     @Override
     public final Message sendVideoNote(SendVideoNote sendVideoNote) throws TelegramApiException {
-        if(sendVideoNote == null){
-            throw new TelegramApiException("Parameter sendVideoNote can not be null");
-        }
+        assertParamNotNull(sendVideoNote, "sendVideoNote");
 
         sendVideoNote.validate();
         try {
@@ -323,9 +307,7 @@ public abstract class DefaultAbsSender extends AbsSender {
 
     @Override
     public final Message sendSticker(SendSticker sendSticker) throws TelegramApiException {
-        if(sendSticker == null){
-            throw new TelegramApiException("Parameter sendSticker can not be null");
-        }
+        assertParamNotNull(sendSticker, "sendSticker");
 
         sendSticker.validate();
         try {
@@ -371,9 +353,7 @@ public abstract class DefaultAbsSender extends AbsSender {
      */
     @Override
     public final Message sendAudio(SendAudio sendAudio) throws TelegramApiException {
-        if(sendAudio == null){
-            throw new TelegramApiException("Parameter sendAudio can not be null");
-        }
+        assertParamNotNull(sendAudio, "sendAudio");
         sendAudio.validate();
         try {
             String url = getBaseUrl() + SendAudio.PATH;
@@ -431,9 +411,7 @@ public abstract class DefaultAbsSender extends AbsSender {
      */
     @Override
     public final Message sendVoice(SendVoice sendVoice) throws TelegramApiException {
-        if(sendVoice == null){
-            throw new TelegramApiException("Parameter sendVoice can not be null");
-        }
+        assertParamNotNull(sendVoice, "sendVoice");
         sendVoice.validate();
         try {
             String url = getBaseUrl() + SendVoice.PATH;
@@ -477,9 +455,7 @@ public abstract class DefaultAbsSender extends AbsSender {
 
     @Override
     public Boolean setChatPhoto(SetChatPhoto setChatPhoto) throws TelegramApiException {
-        if(setChatPhoto == null){
-            throw new TelegramApiException("Parameter setChatPhoto can not be null");
-        }
+        assertParamNotNull(setChatPhoto, "setChatPhoto");
         setChatPhoto.validate();
 
         try {
@@ -592,5 +568,11 @@ public abstract class DefaultAbsSender extends AbsSender {
 
     protected String getBaseUrl() {
         return options.getBaseUrl() + getBotToken() + "/";
+    }
+
+    private void assertParamNotNull(Object param, String paramName) throws TelegramApiException {
+        if (param == null) {
+            throw new TelegramApiException("Parameter " + paramName + " can not be null");
+        }
     }
 }
