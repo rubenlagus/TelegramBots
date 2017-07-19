@@ -577,13 +577,15 @@ public abstract class DefaultAbsSender extends AbsSender {
 
     @Override
     protected final <T extends Serializable, Method extends BotApiMethod<T>> T sendApiMethod(Method method) throws TelegramApiException {
-        method.validate();
         try {
+            method.validate();
             String url = getBaseUrl() + method.getMethod();
             HttpPost httppost = configuredHttpPost(url);
             httppost.addHeader("charset", StandardCharsets.UTF_8.name());
             httppost.setEntity(new StringEntity(objectMapper.writeValueAsString(method), ContentType.APPLICATION_JSON));
-            return method.deserializeResponse(sendHttpPostRequest(httppost));
+            String responseContent = sendHttpPostRequest(httppost);
+
+            return method.deserializeResponse(responseContent);
         } catch (IOException e) {
             throw new TelegramApiException("Unable to execute " + method.getMethod() + " method", e);
         }
