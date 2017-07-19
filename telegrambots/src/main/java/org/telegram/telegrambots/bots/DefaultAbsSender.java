@@ -555,13 +555,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             @Override
             public void run() {
                 try {
-                    method.validate();
-                    String url = getBaseUrl() + method.getMethod();
-                    HttpPost httppost = configuredHttpPost(url);
-                    httppost.addHeader("charset", StandardCharsets.UTF_8.name());
-                    httppost.setEntity(new StringEntity(objectMapper.writeValueAsString(method), ContentType.APPLICATION_JSON));
-                    String responseContent = sendHttpPostRequest(httppost);
-
+                    String responseContent = sendMethodRequest(method);
                     try {
                         callback.onResult(method, method.deserializeResponse(responseContent));
                     } catch (TelegramApiRequestException e) {
@@ -578,17 +572,20 @@ public abstract class DefaultAbsSender extends AbsSender {
     @Override
     protected final <T extends Serializable, Method extends BotApiMethod<T>> T sendApiMethod(Method method) throws TelegramApiException {
         try {
-            method.validate();
-            String url = getBaseUrl() + method.getMethod();
-            HttpPost httppost = configuredHttpPost(url);
-            httppost.addHeader("charset", StandardCharsets.UTF_8.name());
-            httppost.setEntity(new StringEntity(objectMapper.writeValueAsString(method), ContentType.APPLICATION_JSON));
-            String responseContent = sendHttpPostRequest(httppost);
-
+            String responseContent = sendMethodRequest(method);
             return method.deserializeResponse(responseContent);
         } catch (IOException e) {
             throw new TelegramApiException("Unable to execute " + method.getMethod() + " method", e);
         }
+    }
+
+    private <T extends Serializable, Method extends BotApiMethod<T>> String sendMethodRequest(Method method) throws TelegramApiValidationException, IOException {
+        method.validate();
+        String url = getBaseUrl() + method.getMethod();
+        HttpPost httppost = configuredHttpPost(url);
+        httppost.addHeader("charset", StandardCharsets.UTF_8.name());
+        httppost.setEntity(new StringEntity(objectMapper.writeValueAsString(method), ContentType.APPLICATION_JSON));
+        return sendHttpPostRequest(httppost);
     }
 
     private String sendHttpPostRequest(HttpPost httppost) throws IOException {
