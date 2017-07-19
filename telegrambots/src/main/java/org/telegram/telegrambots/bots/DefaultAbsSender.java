@@ -109,22 +109,9 @@ public abstract class DefaultAbsSender extends AbsSender {
         if (callback == null) {
             throw new TelegramApiException("Parameter callback can not be null");
         }
-
-        exe.submit(new Runnable() {
-            @Override
-            public void run() {
-                String url = File.getFileUrl(getBotToken(), filePath);
-                String tempFileName = Long.toString(System.currentTimeMillis());
-                try {
-                    java.io.File output = downloadToTemporaryFile(url, tempFileName);
-                    callback.onResult(filePath, output);
-                } catch (MalformedURLException e) {
-                    callback.onException(filePath, new TelegramApiException("Wrong url for file: " + url));
-                } catch (IOException e) {
-                    callback.onException(filePath, new TelegramApiRequestException("Error downloading the file", e));
-                }
-            }
-        });
+        String url = File.getFileUrl(getBotToken(), filePath);
+        String tempFileName = Long.toString(System.currentTimeMillis());
+        exe.submit(getDownloadFileAsyncJob(filePath, callback, url, tempFileName));
     }
 
     public final void downloadFileAsync(File file, DownloadFileCallback<File> callback) throws TelegramApiException {
@@ -134,22 +121,9 @@ public abstract class DefaultAbsSender extends AbsSender {
         if (callback == null) {
             throw new TelegramApiException("Parameter callback can not be null");
         }
-
-        exe.submit(new Runnable() {
-            @Override
-            public void run() {
-                String url = file.getFileUrl(getBotToken());
-                String tempFileName = file.getFileId();
-                try {
-                    java.io.File output = downloadToTemporaryFile(url, tempFileName);
-                    callback.onResult(file, output);
-                } catch (MalformedURLException e) {
-                    callback.onException(file, new TelegramApiException("Wrong url for file: " + url));
-                } catch (IOException e) {
-                    callback.onException(file, new TelegramApiRequestException("Error downloading the file", e));
-                }
-            }
-        });
+        String url = file.getFileUrl(getBotToken());
+        String tempFileName = file.getFileId();
+        exe.submit(getDownloadFileAsyncJob(file, callback, url, tempFileName));
     }
 
     // Specific Send Requests
@@ -559,6 +533,22 @@ public abstract class DefaultAbsSender extends AbsSender {
         } catch (IOException e) {
             throw new TelegramApiException("Unable to execute " + method.getMethod() + " method", e);
         }
+    }
+
+    private <T> Runnable getDownloadFileAsyncJob(T fileIdentifier, DownloadFileCallback<T> callback, String url, String tempFileName) {
+        //noinspection Convert2Lambda
+        return new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    callback.onResult(fileIdentifier, downloadToTemporaryFile(url, tempFileName));
+                } catch (MalformedURLException e) {
+                    callback.onException(fileIdentifier, new TelegramApiException("Wrong url for file: " + url));
+                } catch (IOException e) {
+                    callback.onException(fileIdentifier, new TelegramApiRequestException("Error downloading the file", e));
+                }
+            }
+        };
     }
 
     private java.io.File tryToDownloadToTemporaryFile(String url, String tempFileName) throws TelegramApiException {
