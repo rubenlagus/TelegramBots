@@ -219,11 +219,10 @@ public abstract class DefaultAbsSender extends AbsSender {
                 BufferedHttpEntity buf = new BufferedHttpEntity(ht);
                 responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
             }
+            return sendDocument.deserializeResponse(responseContent);
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send document", e);
         }
-
-        return sendDocument.deserializeResponse(responseContent);
     }
 
     @Override
@@ -272,11 +271,10 @@ public abstract class DefaultAbsSender extends AbsSender {
                 BufferedHttpEntity buf = new BufferedHttpEntity(ht);
                 responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
             }
+            return sendPhoto.deserializeResponse(responseContent);
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send photo", e);
         }
-
-        return sendPhoto.deserializeResponse(responseContent);
     }
 
     @Override
@@ -334,11 +332,10 @@ public abstract class DefaultAbsSender extends AbsSender {
                 BufferedHttpEntity buf = new BufferedHttpEntity(ht);
                 responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
             }
+            return sendVideo.deserializeResponse(responseContent);
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send video", e);
         }
-
-        return sendVideo.deserializeResponse(responseContent);
     }
 
     @Override
@@ -391,11 +388,10 @@ public abstract class DefaultAbsSender extends AbsSender {
                 BufferedHttpEntity buf = new BufferedHttpEntity(ht);
                 responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
             }
+            return sendVideoNote.deserializeResponse(responseContent);
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send video note", e);
         }
-
-        return sendVideoNote.deserializeResponse(responseContent);
     }
 
     @Override
@@ -441,11 +437,10 @@ public abstract class DefaultAbsSender extends AbsSender {
                 BufferedHttpEntity buf = new BufferedHttpEntity(ht);
                 responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
             }
+            return sendSticker.deserializeResponse(responseContent);
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send sticker", e);
         }
-
-        return sendSticker.deserializeResponse(responseContent);
     }
 
     /**
@@ -509,11 +504,10 @@ public abstract class DefaultAbsSender extends AbsSender {
                 BufferedHttpEntity buf = new BufferedHttpEntity(ht);
                 responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
             }
+            return sendAudio.deserializeResponse(responseContent);
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send sticker", e);
         }
-
-        return sendAudio.deserializeResponse(responseContent);
     }
 
     /**
@@ -571,11 +565,10 @@ public abstract class DefaultAbsSender extends AbsSender {
                 BufferedHttpEntity buf = new BufferedHttpEntity(ht);
                 responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
             }
+            return sendVoice.deserializeResponse(responseContent);
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send voice", e);
         }
-
-        return sendVoice.deserializeResponse(responseContent);
     }
 
     @Override
@@ -606,11 +599,10 @@ public abstract class DefaultAbsSender extends AbsSender {
                 BufferedHttpEntity buf = new BufferedHttpEntity(ht);
                 responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
             }
+            return setChatPhoto.deserializeResponse(responseContent);
         } catch (IOException e) {
             throw new TelegramApiException("Unable to set chat photo", e);
         }
-
-        return setChatPhoto.deserializeResponse(responseContent);
     }
 
     // Simplified methods
@@ -623,20 +615,23 @@ public abstract class DefaultAbsSender extends AbsSender {
             public void run() {
                 try {
                     method.validate();
+                    String responseContent;
                     String url = getBaseUrl() + method.getMethod();
                     HttpPost httppost = new HttpPost(url);
                     httppost.setConfig(requestConfig);
                     httppost.addHeader("charset", StandardCharsets.UTF_8.name());
                     httppost.setEntity(new StringEntity(objectMapper.writeValueAsString(method), ContentType.APPLICATION_JSON));
+
                     try (CloseableHttpResponse response = httpclient.execute(httppost)) {
                         HttpEntity ht = response.getEntity();
                         BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-                        String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
-                        try {
-                            callback.onResult(method, method.deserializeResponse(responseContent));
-                        } catch (TelegramApiRequestException e) {
-                            callback.onError(method, e);
-                        }
+                        responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
+                    }
+
+                    try {
+                        callback.onResult(method, method.deserializeResponse(responseContent));
+                    } catch (TelegramApiRequestException e) {
+                        callback.onError(method, e);
                     }
                 } catch (IOException | TelegramApiValidationException e) {
                     callback.onException(method, e);
@@ -661,11 +656,10 @@ public abstract class DefaultAbsSender extends AbsSender {
                 BufferedHttpEntity buf = new BufferedHttpEntity(ht);
                 responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
             }
+            return method.deserializeResponse(responseContent);
         } catch (IOException e) {
             throw new TelegramApiException("Unable to execute " + method.getMethod() + " method", e);
         }
-
-        return method.deserializeResponse(responseContent);
     }
 
     protected String getBaseUrl() {
