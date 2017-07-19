@@ -181,8 +181,7 @@ public abstract class DefaultAbsSender extends AbsSender {
         sendDocument.validate();
         try {
             String url = getBaseUrl() + SendDocument.PATH;
-            HttpPost httppost = new HttpPost(url);
-            httppost.setConfig(requestConfig);
+            HttpPost httppost = configuredHttpPost(url);
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addTextBody(SendDocument.CHATID_FIELD, sendDocument.getChatId());
@@ -227,8 +226,7 @@ public abstract class DefaultAbsSender extends AbsSender {
         sendPhoto.validate();
         try {
             String url = getBaseUrl() + SendPhoto.PATH;
-            HttpPost httppost = new HttpPost(url);
-            httppost.setConfig(requestConfig);
+            HttpPost httppost = configuredHttpPost(url);
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addTextBody(SendPhoto.CHATID_FIELD, sendPhoto.getChatId());
@@ -273,8 +271,7 @@ public abstract class DefaultAbsSender extends AbsSender {
         sendVideo.validate();
         try {
             String url = getBaseUrl() + SendVideo.PATH;
-            HttpPost httppost = new HttpPost(url);
-            httppost.setConfig(requestConfig);
+            HttpPost httppost = configuredHttpPost(url);
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addTextBody(SendVideo.CHATID_FIELD, sendVideo.getChatId());
@@ -328,8 +325,7 @@ public abstract class DefaultAbsSender extends AbsSender {
         sendVideoNote.validate();
         try {
             String url = getBaseUrl() + SendVideoNote.PATH;
-            HttpPost httppost = new HttpPost(url);
-            httppost.setConfig(requestConfig);
+            HttpPost httppost = configuredHttpPost(url);
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addTextBody(SendVideoNote.CHATID_FIELD, sendVideoNote.getChatId());
@@ -378,8 +374,7 @@ public abstract class DefaultAbsSender extends AbsSender {
         sendSticker.validate();
         try {
             String url = getBaseUrl() + SendSticker.PATH;
-            HttpPost httppost = new HttpPost(url);
-            httppost.setConfig(requestConfig);
+            HttpPost httppost = configuredHttpPost(url);
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addTextBody(SendSticker.CHATID_FIELD, sendSticker.getChatId());
@@ -426,8 +421,7 @@ public abstract class DefaultAbsSender extends AbsSender {
         sendAudio.validate();
         try {
             String url = getBaseUrl() + SendAudio.PATH;
-            HttpPost httppost = new HttpPost(url);
-            httppost.setConfig(requestConfig);
+            HttpPost httppost = configuredHttpPost(url);
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addTextBody(SendAudio.CHATID_FIELD, sendAudio.getChatId());
             if (sendAudio.isNewAudio()) {
@@ -487,8 +481,7 @@ public abstract class DefaultAbsSender extends AbsSender {
         sendVoice.validate();
         try {
             String url = getBaseUrl() + SendVoice.PATH;
-            HttpPost httppost = new HttpPost(url);
-            httppost.setConfig(requestConfig);
+            HttpPost httppost = configuredHttpPost(url);
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addTextBody(SendVoice.CHATID_FIELD, sendVoice.getChatId());
             if (sendVoice.isNewVoice()) {
@@ -535,8 +528,7 @@ public abstract class DefaultAbsSender extends AbsSender {
 
         try {
             String url = getBaseUrl() + SetChatPhoto.PATH;
-            HttpPost httppost = new HttpPost(url);
-            httppost.setConfig(requestConfig);
+            HttpPost httppost = configuredHttpPost(url);
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addTextBody(SetChatPhoto.CHATID_FIELD, setChatPhoto.getChatId());
@@ -565,8 +557,7 @@ public abstract class DefaultAbsSender extends AbsSender {
                 try {
                     method.validate();
                     String url = getBaseUrl() + method.getMethod();
-                    HttpPost httppost = new HttpPost(url);
-                    httppost.setConfig(requestConfig);
+                    HttpPost httppost = configuredHttpPost(url);
                     httppost.addHeader("charset", StandardCharsets.UTF_8.name());
                     httppost.setEntity(new StringEntity(objectMapper.writeValueAsString(method), ContentType.APPLICATION_JSON));
                     String responseContent = sendHttpPostRequest(httppost);
@@ -589,8 +580,7 @@ public abstract class DefaultAbsSender extends AbsSender {
         method.validate();
         try {
             String url = getBaseUrl() + method.getMethod();
-            HttpPost httppost = new HttpPost(url);
-            httppost.setConfig(requestConfig);
+            HttpPost httppost = configuredHttpPost(url);
             httppost.addHeader("charset", StandardCharsets.UTF_8.name());
             httppost.setEntity(new StringEntity(objectMapper.writeValueAsString(method), ContentType.APPLICATION_JSON));
             return method.deserializeResponse(sendHttpPostRequest(httppost));
@@ -605,6 +595,12 @@ public abstract class DefaultAbsSender extends AbsSender {
             BufferedHttpEntity buf = new BufferedHttpEntity(ht);
             return EntityUtils.toString(buf, StandardCharsets.UTF_8);
         }
+    }
+
+    private HttpPost configuredHttpPost(String url) {
+        HttpPost httppost = new HttpPost(url);
+        httppost.setConfig(requestConfig);
+        return httppost;
     }
 
     protected String getBaseUrl() {
