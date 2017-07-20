@@ -187,7 +187,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             httppost.setConfig(requestConfig);
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-            builder.addTextBody(SendDocument.CHATID_FIELD, sendDocument.getChatId());
+            builder.addTextBody(SendDocument.CHATID_FIELD, sendDocument.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
             if (sendDocument.isNewDocument()) {
                 if (sendDocument.getNewDocumentFile() != null) {
                     builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, sendDocument.getNewDocumentFile());
@@ -197,19 +197,19 @@ public abstract class DefaultAbsSender extends AbsSender {
                     builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, new java.io.File(sendDocument.getDocument()), ContentType.APPLICATION_OCTET_STREAM, sendDocument.getDocumentName());
                 }
             } else {
-                builder.addTextBody(SendDocument.DOCUMENT_FIELD, sendDocument.getDocument());
+                builder.addTextBody(SendDocument.DOCUMENT_FIELD, sendDocument.getDocument(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendDocument.getReplyMarkup() != null) {
                 builder.addTextBody(SendDocument.REPLYMARKUP_FIELD, objectMapper.writeValueAsString(sendDocument.getReplyMarkup()), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendDocument.getReplyToMessageId() != null) {
-                builder.addTextBody(SendDocument.REPLYTOMESSAGEID_FIELD, sendDocument.getReplyToMessageId().toString());
+                builder.addTextBody(SendDocument.REPLYTOMESSAGEID_FIELD, sendDocument.getReplyToMessageId().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendDocument.getCaption() != null) {
                 builder.addTextBody(SendDocument.CAPTION_FIELD, sendDocument.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendDocument.getDisableNotification() != null) {
-                builder.addTextBody(SendDocument.DISABLENOTIFICATION_FIELD, sendDocument.getDisableNotification().toString());
+                builder.addTextBody(SendDocument.DISABLENOTIFICATION_FIELD, sendDocument.getDisableNotification().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
