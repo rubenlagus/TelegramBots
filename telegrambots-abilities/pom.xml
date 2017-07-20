@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.telegram</groupId>
     <artifactId>telegrambots-abilities</artifactId>
-    <version>3.1.0</version>
+    <version>3.1.2</version>
     <packaging>jar</packaging>
 
     <name>Telegram Ability Bot</name>
@@ -59,7 +59,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <bots.version>3.1.0</bots.version>
+        <bots.version>3.1.2</bots.version>
+        <commonslang.version>3.5</commonslang.version>
+        <mapdb.version>3.0.4</mapdb.version>
+        <guava.version>19.0</guava.version>
     </properties>
 
     <dependencies>
@@ -71,18 +74,19 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.5</version>
+            <version>${commonslang.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mapdb</groupId>
             <artifactId>mapdb</artifactId>
-            <version>3.0.4</version>
+            <version>${mapdb.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>19.0</version>
+            <version>${guava.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>

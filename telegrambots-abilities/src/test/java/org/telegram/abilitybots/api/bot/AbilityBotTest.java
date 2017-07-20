@@ -28,7 +28,6 @@ import static java.util.Collections.emptySet;
 import static org.apache.commons.lang3.ArrayUtils.addAll;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.telegram.abilitybots.api.bot.AbilityBot.RECOVERY_MESSAGE;
@@ -45,10 +44,10 @@ import static org.telegram.abilitybots.api.objects.Privacy.ADMIN;
 import static org.telegram.abilitybots.api.objects.Privacy.PUBLIC;
 
 public class AbilityBotTest {
-  public static final String[] EMPTY_ARRAY = {};
-  public static final long GROUP_ID = 10L;
-  public static final String TEST = "test";
-  public static final String[] TEXT = {TEST};
+  private static final String[] EMPTY_ARRAY = {};
+  private static final long GROUP_ID = 10L;
+  private static final String TEST = "test";
+  private static final String[] TEXT = {TEST};
   public static final EndUser MUSER = endUser(1, "first", "last", "username");
   public static final EndUser CREATOR = endUser(1337, "creatorFirst", "creatorLast", "creatorUsername");
 

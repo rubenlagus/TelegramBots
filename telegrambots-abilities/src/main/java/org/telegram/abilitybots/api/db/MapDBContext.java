@@ -3,7 +3,6 @@ package org.telegram.abilitybots.api.db;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.ImmutableMap;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
 import org.mapdb.Serializer;
@@ -29,6 +28,7 @@ import static org.telegram.abilitybots.api.bot.AbilityBot.USERS;
  * @author Abbas Abou Daya
  * @see <a href="https://github.com/jankotek/mapdb">MapDB project</a>
  */
+@SuppressWarnings("unchecked")
 public class MapDBContext implements DBContext {
   private static final String TAG = DBContext.class.getSimpleName();
 
