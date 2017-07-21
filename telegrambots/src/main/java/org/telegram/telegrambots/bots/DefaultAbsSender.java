@@ -378,7 +378,7 @@ public abstract class DefaultAbsSender extends AbsSender {
                     builder.addBinaryBody(SendAudio.AUDIO_FIELD, new java.io.File(sendAudio.getAudio()), ContentType.create("audio/mpeg"), sendAudio.getAudioName());
                 }
             } else {
-                builder.addTextBody(SendAudio.AUDIO_FIELD, sendAudio.getAudio());
+                builder.addTextBody(SendAudio.AUDIO_FIELD, sendAudio.getAudio(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendAudio.getReplyMarkup() != null) {
                 builder.addTextBody(SendAudio.REPLYMARKUP_FIELD, objectMapper.writeValueAsString(sendAudio.getReplyMarkup()), TEXT_PLAIN_CONTENT_TYPE);
