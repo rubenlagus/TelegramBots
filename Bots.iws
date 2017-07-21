@@ -21,11 +21,11 @@
       <file leaf-file-name="DefaultAbsSender.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/bots/DefaultAbsSender.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="460">
+            <state relative-caret-position="-378">
               <caret line="137" column="0" lean-forward="false" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
               <folding>
-                <marker date="1505668167000" expanded="false" signature="36567:36578" ph=" { " />
-                <marker date="1505668167000" expanded="false" signature="36628:36634" ph=" }" />
+                <marker date="1505668242000" expanded="false" signature="36567:36578" ph=" { " />
+                <marker date="1505668242000" expanded="false" signature="36628:36634" ph=" }" />
               </folding>
             </state>
           </provider>
@@ -318,12 +318,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1505667793371</updated>
-      <workItem from="1505667795415" duration="368000" />
+      <workItem from="1505667795415" duration="455000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="368000" />
+    <option name="totallyTimeSpent" value="455000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="726" extended-state="6" />
@@ -377,11 +377,11 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/telegrambots/src/main/java/org/telegram/telegrambots/bots/DefaultAbsSender.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
+        <state relative-caret-position="-378">
           <caret line="137" column="0" lean-forward="false" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
           <folding>
-            <marker date="1505668167000" expanded="false" signature="36567:36578" ph=" { " />
-            <marker date="1505668167000" expanded="false" signature="36628:36634" ph=" }" />
+            <marker date="1505668242000" expanded="false" signature="36567:36578" ph=" { " />
+            <marker date="1505668242000" expanded="false" signature="36628:36634" ph=" }" />
           </folding>
         </state>
       </provider>
