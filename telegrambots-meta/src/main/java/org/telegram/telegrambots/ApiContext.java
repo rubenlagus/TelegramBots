@@ -50,6 +50,7 @@ public class ApiContext {
         return INJECTOR;
     }
 
+    @SuppressWarnings("unchecked")
     private static class ApiModule extends AbstractModule {
         @Override
         protected void configure() {

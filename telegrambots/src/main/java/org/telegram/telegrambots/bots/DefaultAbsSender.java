@@ -17,6 +17,9 @@ import org.apache.http.util.EntityUtils;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.methods.groupadministration.SetChatPhoto;
 import org.telegram.telegrambots.api.methods.send.*;
+import org.telegram.telegrambots.api.methods.stickers.AddStickerToSet;
+import org.telegram.telegrambots.api.methods.stickers.CreateNewStickerSet;
+import org.telegram.telegrambots.api.methods.stickers.UploadStickerFile;
 import org.telegram.telegrambots.api.objects.File;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
@@ -475,6 +478,100 @@ public abstract class DefaultAbsSender extends AbsSender {
             return setChatPhoto.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
             throw new TelegramApiException("Unable to set chat photo", e);
+        }
+    }
+
+
+    @Override
+    public Boolean addStickerToSet(AddStickerToSet addStickerToSet) throws TelegramApiException {
+        assertParamNotNull(addStickerToSet, "addStickerToSet");
+        addStickerToSet.validate();
+        try {
+            String url = getBaseUrl() + AddStickerToSet.PATH;
+            HttpPost httppost = configuredHttpPost(url);
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.addTextBody(AddStickerToSet.USERID_FIELD, addStickerToSet.getUserId().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            builder.addTextBody(AddStickerToSet.NAME_FIELD, addStickerToSet.getName(), TEXT_PLAIN_CONTENT_TYPE);
+            builder.addTextBody(AddStickerToSet.EMOJIS_FIELD, addStickerToSet.getEmojis(), TEXT_PLAIN_CONTENT_TYPE);
+            if (addStickerToSet.isNewPngSticker()) {
+                if (addStickerToSet.getPngStickerFile() != null) {
+                    builder.addBinaryBody(AddStickerToSet.PNGSTICKER_FIELD, addStickerToSet.getPngStickerFile());
+                } else if (addStickerToSet.getPngStickerStream() != null) {
+                    builder.addBinaryBody(AddStickerToSet.PNGSTICKER_FIELD, addStickerToSet.getPngStickerStream(), ContentType.APPLICATION_OCTET_STREAM, addStickerToSet.getPngStickerName());
+                } else {
+                    builder.addBinaryBody(AddStickerToSet.PNGSTICKER_FIELD, new java.io.File(addStickerToSet.getPngSticker()), ContentType.create("image/png"), addStickerToSet.getPngStickerName());
+                }
+            } else {
+                builder.addTextBody(AddStickerToSet.PNGSTICKER_FIELD, addStickerToSet.getPngSticker());
+            }
+            if (addStickerToSet.getMaskPosition() != null) {
+                builder.addTextBody(AddStickerToSet.MASKPOSITION_FIELD, objectMapper.writeValueAsString(addStickerToSet.getMaskPosition()), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            HttpEntity multipart = builder.build();
+            httppost.setEntity(multipart);
+
+            return addStickerToSet.deserializeResponse(sendHttpPostRequest(httppost));
+        } catch (IOException e) {
+            throw new TelegramApiException("Unable to add sticker to set", e);
+        }
+    }
+
+    @Override
+    public Boolean createNewStickerSet(CreateNewStickerSet createNewStickerSet) throws TelegramApiException {
+        assertParamNotNull(createNewStickerSet, "createNewStickerSet");
+        createNewStickerSet.validate();
+        try {
+            String url = getBaseUrl() + CreateNewStickerSet.PATH;
+            HttpPost httppost = configuredHttpPost(url);
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.addTextBody(CreateNewStickerSet.USERID_FIELD, createNewStickerSet.getUserId().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            builder.addTextBody(CreateNewStickerSet.NAME_FIELD, createNewStickerSet.getName(), TEXT_PLAIN_CONTENT_TYPE);
+            builder.addTextBody(CreateNewStickerSet.TITLE_FIELD, createNewStickerSet.getTitle(), TEXT_PLAIN_CONTENT_TYPE);
+            builder.addTextBody(CreateNewStickerSet.EMOJIS_FIELD, createNewStickerSet.getEmojis(), TEXT_PLAIN_CONTENT_TYPE);
+            builder.addTextBody(CreateNewStickerSet.CONTAINSMASKS_FIELD, createNewStickerSet.getContainsMasks().toString());
+            if (createNewStickerSet.isNewPngSticker()) {
+                if (createNewStickerSet.getPngStickerFile() != null) {
+                    builder.addBinaryBody(CreateNewStickerSet.PNGSTICKER_FIELD, createNewStickerSet.getPngStickerFile());
+                } else if (createNewStickerSet.getPngStickerStream() != null) {
+                    builder.addBinaryBody(CreateNewStickerSet.PNGSTICKER_FIELD, createNewStickerSet.getPngStickerStream(), ContentType.APPLICATION_OCTET_STREAM, createNewStickerSet.getPngStickerName());
+                } else {
+                    builder.addBinaryBody(CreateNewStickerSet.PNGSTICKER_FIELD, new java.io.File(createNewStickerSet.getPngSticker()), ContentType.create("image/png"), createNewStickerSet.getPngStickerName());
+                }
+            } else {
+                builder.addTextBody(CreateNewStickerSet.PNGSTICKER_FIELD, createNewStickerSet.getPngSticker());
+            }
+            if (createNewStickerSet.getMaskPosition() != null) {
+                builder.addTextBody(CreateNewStickerSet.MASKPOSITION_FIELD, objectMapper.writeValueAsString(createNewStickerSet.getMaskPosition()), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            HttpEntity multipart = builder.build();
+            httppost.setEntity(multipart);
+
+            return createNewStickerSet.deserializeResponse(sendHttpPostRequest(httppost));
+        } catch (IOException e) {
+            throw new TelegramApiException("Unable to create new sticker set", e);
+        }
+    }
+
+    @Override
+    public File uploadStickerFile(UploadStickerFile uploadStickerFile) throws TelegramApiException {
+        assertParamNotNull(uploadStickerFile, "uploadStickerFile");
+        uploadStickerFile.validate();
+        try {
+            String url = getBaseUrl() + UploadStickerFile.PATH;
+            HttpPost httppost = configuredHttpPost(url);
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.addTextBody(UploadStickerFile.USERID_FIELD, uploadStickerFile.getUserId().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            if (uploadStickerFile.getNewPngStickerFile() != null) {
+                builder.addBinaryBody(UploadStickerFile.PNGSTICKER_FIELD, uploadStickerFile.getNewPngStickerFile());
+            } else if (uploadStickerFile.getNewPngStickerStream() != null) {
+                builder.addBinaryBody(UploadStickerFile.PNGSTICKER_FIELD, uploadStickerFile.getNewPngStickerStream(), ContentType.APPLICATION_OCTET_STREAM, uploadStickerFile.getNewPngStickerName());
+            }
+            HttpEntity multipart = builder.build();
+            httppost.setEntity(multipart);
+
+            return uploadStickerFile.deserializeResponse(sendHttpPostRequest(httppost));
+        } catch (IOException e) {
+            throw new TelegramApiException("Unable to upload new sticker file", e);
         }
     }
 

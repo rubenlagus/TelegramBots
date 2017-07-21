@@ -83,3 +83,14 @@
 
 ### <a id="3.1.2"></a>3.1.2 ###
 1. Fix bug #266
+
+### <a id="3.2"></a>3.2 ###
+1. Support for Api Version [3.2](https://core.telegram.org/bots/api-changelog#july-21-2017)
+2. Deprecated all redundant methods in AbsSender, will be removed in next major release
+3. New Abstract methods `addStickerToSet`, `createNewStickerSet` and `uploadStickerFile` in AbsSender.
+4. Abilities module
+5. Removed deprecated methods from previous versions
+6. Bug fixing: #257, #270
+7. Simplify code from DefaultAbsSender: #272
+
+**[[How to update to version 3.2|How-To-Update#3.2]]**

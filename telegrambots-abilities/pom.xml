@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.telegram</groupId>
     <artifactId>telegrambots-abilities</artifactId>
-    <version>3.1.2</version>
+    <version>3.2</version>
     <packaging>jar</packaging>
 
     <name>Telegram Ability Bot</name>
@@ -35,6 +35,12 @@
             <url>https://github.com/addo37</url>
             <id>addo37</id>
         </developer>
+        <developer>
+            <email>rberlopez@gmail.com</email>
+            <name>Ruben Bermudez</name>
+            <url>https://github.com/rubenlagus</url>
+            <id>rubenlagus</id>
+        </developer>
     </developers>
 
     <licenses>
@@ -59,7 +65,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <bots.version>3.1.2</bots.version>
+        <bots.version>3.2</bots.version>
         <commonslang.version>3.5</commonslang.version>
         <mapdb.version>3.0.4</mapdb.version>
         <guava.version>19.0</guava.version>

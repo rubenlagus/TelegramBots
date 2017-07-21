@@ -28,3 +28,8 @@
 ### <a id="3.0.2"></a>To version 3.0.2 ###
 1. If you were using `TelegramLongPollingCommandBot`, add the new [extensions dependency](https://github.com/rubenlagus/TelegramBots/tree/master/telegrambots-extensions) to your maven and fix import statements in your project.
 2. If you were using `TelegramLongPollingCommandBot`, make sure you start using constructors with username and prevent overriding `getUsername` method.
+
+
+### <a id="3.2"></a>To version 3.2 ###
+1. Replace usage of all deprecated methods from AbsSender with methods `execute` or `executeAsync`.
+2. If you are extending AbsSender class, implement new added methods.

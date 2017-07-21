@@ -46,6 +46,7 @@ public final class Ability {
   private final List<Reply> replies;
   private final List<Predicate<Update>> flags;
 
+  @SafeVarargs
   private Ability(String name, String info, Locality locality, Privacy privacy, int argNum, Consumer<MessageContext> action, Consumer<MessageContext> postAction, List<Reply> replies, Predicate<Update>... flags) {
     checkArgument(!isEmpty(name), "Method name cannot be empty");
     checkArgument(!containsWhitespace(name), "Method name cannot contain spaces");

@@ -27,6 +27,7 @@ public final class Reply {
     this.action = action;
   }
 
+  @SafeVarargs
   public static Reply of(Consumer<Update> action, Predicate<Update>... conditions) {
     return new Reply(asList(conditions), action);
   }
