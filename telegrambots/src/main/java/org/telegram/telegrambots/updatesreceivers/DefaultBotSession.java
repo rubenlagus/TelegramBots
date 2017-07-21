@@ -1,9 +1,7 @@
 package org.telegram.telegrambots.updatesreceivers;
 
-import com.google.inject.Inject;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.google.inject.Inject;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -21,15 +19,12 @@ import org.telegram.telegrambots.api.methods.updates.GetUpdates;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
-import org.telegram.telegrambots.generics.BotOptions;
-import org.telegram.telegrambots.generics.BotSession;
-import org.telegram.telegrambots.generics.LongPollingBot;
-import org.telegram.telegrambots.generics.UpdatesHandler;
-import org.telegram.telegrambots.generics.UpdatesReader;
+import org.telegram.telegrambots.generics.*;
 import org.telegram.telegrambots.logging.BotLogger;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
+import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidParameterException;
 import java.util.List;
@@ -229,6 +224,8 @@ public class DefaultBotSession implements BotSession {
                                 BotLogger.severe(responseContent, LOGTAG, e);
                             }
                         }
+                    } catch (SocketTimeoutException e) {
+                        BotLogger.fine(LOGTAG, e);
                     } catch (InvalidObjectException | TelegramApiRequestException e) {
                         BotLogger.severe(LOGTAG, e);
                     }

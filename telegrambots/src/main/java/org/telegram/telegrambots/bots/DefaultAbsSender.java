@@ -17,6 +17,9 @@ import org.apache.http.util.EntityUtils;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.methods.groupadministration.SetChatPhoto;
 import org.telegram.telegrambots.api.methods.send.*;
+import org.telegram.telegrambots.api.methods.stickers.AddStickerToSet;
+import org.telegram.telegrambots.api.methods.stickers.CreateNewStickerSet;
+import org.telegram.telegrambots.api.methods.stickers.UploadStickerFile;
 import org.telegram.telegrambots.api.objects.File;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
@@ -89,105 +92,48 @@ public abstract class DefaultAbsSender extends AbsSender {
             throw new TelegramApiException("Parameter file can not be null");
         }
         String url = File.getFileUrl(getBotToken(), filePath);
-        java.io.File output;
-        try {
-            output = java.io.File.createTempFile(Long.toString(System.currentTimeMillis()), ".tmp");
-            FileUtils.copyURLToFile(new URL(url), output);
-        } catch (MalformedURLException e) {
-            throw new TelegramApiException("Wrong url for file: " + url);
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Error downloading the file", e);
-        }
-
-        return output;
+        String tempFileName = Long.toString(System.currentTimeMillis());
+        return downloadToTemporaryFileWrappingExceptions(url, tempFileName);
     }
 
     public final java.io.File downloadFile(File file) throws TelegramApiException {
-        if(file == null){
-            throw new TelegramApiException("Parameter file can not be null");
-        }
+        assertParamNotNull(file, "file");
         String url = file.getFileUrl(getBotToken());
-        java.io.File output;
-        try {
-            output = java.io.File.createTempFile(file.getFileId(), ".tmp");
-            FileUtils.copyURLToFile(new URL(url), output);
-        } catch (MalformedURLException e) {
-            throw new TelegramApiException("Wrong url for file: " + url);
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Error downloading the file", e);
-        }
-
-        return output;
+        String tempFileName = file.getFileId();
+        return downloadToTemporaryFileWrappingExceptions(url, tempFileName);
     }
 
     public final void downloadFileAsync(String filePath, DownloadFileCallback<String> callback) throws TelegramApiException {
         if(filePath == null || filePath.isEmpty()){
             throw new TelegramApiException("Parameter filePath can not be null");
         }
-        if (callback == null) {
-            throw new TelegramApiException("Parameter callback can not be null");
-        }
-
-        exe.submit(new Runnable() {
-            @Override
-            public void run() {
-                String url = File.getFileUrl(getBotToken(), filePath);
-                try {
-                    java.io.File output = java.io.File.createTempFile(Long.toString(System.currentTimeMillis()), ".tmp");
-                    FileUtils.copyURLToFile(new URL(url), output);
-                    callback.onResult(filePath, output);
-                } catch (MalformedURLException e) {
-                    callback.onException(filePath, new TelegramApiException("Wrong url for file: " + url));
-                } catch (IOException e) {
-                    callback.onException(filePath, new TelegramApiRequestException("Error downloading the file", e));
-                }
-            }
-        });
+        assertParamNotNull(callback, "callback");
+        String url = File.getFileUrl(getBotToken(), filePath);
+        String tempFileName = Long.toString(System.currentTimeMillis());
+        exe.submit(getDownloadFileAsyncJob(filePath, callback, url, tempFileName));
     }
 
     public final void downloadFileAsync(File file, DownloadFileCallback<File> callback) throws TelegramApiException {
-        if(file == null){
-            throw new TelegramApiException("Parameter file can not be null");
-        }
-        if (callback == null) {
-            throw new TelegramApiException("Parameter callback can not be null");
-        }
-
-        exe.submit(new Runnable() {
-            @Override
-            public void run() {
-                String url = file.getFileUrl(getBotToken());
-                try {
-                    java.io.File output = java.io.File.createTempFile(file.getFileId(), ".tmp");
-                    FileUtils.copyURLToFile(new URL(url), output);
-                    callback.onResult(file, output);
-                } catch (MalformedURLException e) {
-                    callback.onException(file, new TelegramApiException("Wrong url for file: " + url));
-                } catch (IOException e) {
-                    callback.onException(file, new TelegramApiRequestException("Error downloading the file", e));
-                }
-            }
-        });
+        assertParamNotNull(file, "file");
+        assertParamNotNull(callback, "callback");
+        String url = file.getFileUrl(getBotToken());
+        String tempFileName = file.getFileId();
+        exe.submit(getDownloadFileAsyncJob(file, callback, url, tempFileName));
     }
 
     // Specific Send Requests
 
     @Override
     public final Message sendDocument(SendDocument sendDocument) throws TelegramApiException {
-        if(sendDocument == null){
-            throw new TelegramApiException("Parameter sendDocument can not be null");
-        }
+        assertParamNotNull(sendDocument, "sendDocument");
 
         sendDocument.validate();
-        String responseContent;
-
         try {
             String url = getBaseUrl() + SendDocument.PATH;
-            HttpPost httppost = new HttpPost(url);
-            httppost.setConfig(requestConfig);
+            HttpPost httppost = configuredHttpPost(url);
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-            builder.addTextBody(SendDocument.CHATID_FIELD, sendDocument.getChatId());
+            builder.addTextBody(SendDocument.CHATID_FIELD, sendDocument.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
             if (sendDocument.isNewDocument()) {
                 if (sendDocument.getNewDocumentFile() != null) {
                     builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, sendDocument.getNewDocumentFile());
@@ -197,47 +143,37 @@ public abstract class DefaultAbsSender extends AbsSender {
                     builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, new java.io.File(sendDocument.getDocument()), ContentType.APPLICATION_OCTET_STREAM, sendDocument.getDocumentName());
                 }
             } else {
-                builder.addTextBody(SendDocument.DOCUMENT_FIELD, sendDocument.getDocument());
+                builder.addTextBody(SendDocument.DOCUMENT_FIELD, sendDocument.getDocument(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendDocument.getReplyMarkup() != null) {
                 builder.addTextBody(SendDocument.REPLYMARKUP_FIELD, objectMapper.writeValueAsString(sendDocument.getReplyMarkup()), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendDocument.getReplyToMessageId() != null) {
-                builder.addTextBody(SendDocument.REPLYTOMESSAGEID_FIELD, sendDocument.getReplyToMessageId().toString());
+                builder.addTextBody(SendDocument.REPLYTOMESSAGEID_FIELD, sendDocument.getReplyToMessageId().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendDocument.getCaption() != null) {
                 builder.addTextBody(SendDocument.CAPTION_FIELD, sendDocument.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendDocument.getDisableNotification() != null) {
-                builder.addTextBody(SendDocument.DISABLENOTIFICATION_FIELD, sendDocument.getDisableNotification().toString());
+                builder.addTextBody(SendDocument.DISABLENOTIFICATION_FIELD, sendDocument.getDisableNotification().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
-            try (CloseableHttpResponse response = httpclient.execute(httppost)) {
-                HttpEntity ht = response.getEntity();
-                BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-                responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
-            }
+            return sendDocument.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send document", e);
         }
-
-        return sendDocument.deserializeResponse(responseContent);
     }
 
     @Override
     public final Message sendPhoto(SendPhoto sendPhoto) throws TelegramApiException {
-        if(sendPhoto == null){
-            throw new TelegramApiException("Parameter sendPhoto can not be null");
-        }
+        assertParamNotNull(sendPhoto, "sendPhoto");
 
         sendPhoto.validate();
-        String responseContent;
         try {
             String url = getBaseUrl() + SendPhoto.PATH;
-            HttpPost httppost = new HttpPost(url);
-            httppost.setConfig(requestConfig);
+            HttpPost httppost = configuredHttpPost(url);
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addTextBody(SendPhoto.CHATID_FIELD, sendPhoto.getChatId());
@@ -267,30 +203,20 @@ public abstract class DefaultAbsSender extends AbsSender {
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
-            try (CloseableHttpResponse response = httpclient.execute(httppost)) {
-                HttpEntity ht = response.getEntity();
-                BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-                responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
-            }
+            return sendPhoto.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send photo", e);
         }
-
-        return sendPhoto.deserializeResponse(responseContent);
     }
 
     @Override
     public final Message sendVideo(SendVideo sendVideo) throws TelegramApiException {
-        if(sendVideo == null){
-            throw new TelegramApiException("Parameter sendVideo can not be null");
-        }
+        assertParamNotNull(sendVideo, "sendVideo");
 
         sendVideo.validate();
-        String responseContent;
         try {
             String url = getBaseUrl() + SendVideo.PATH;
-            HttpPost httppost = new HttpPost(url);
-            httppost.setConfig(requestConfig);
+            HttpPost httppost = configuredHttpPost(url);
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addTextBody(SendVideo.CHATID_FIELD, sendVideo.getChatId());
@@ -329,30 +255,20 @@ public abstract class DefaultAbsSender extends AbsSender {
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
-            try (CloseableHttpResponse response = httpclient.execute(httppost)) {
-                HttpEntity ht = response.getEntity();
-                BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-                responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
-            }
+            return sendVideo.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send video", e);
         }
-
-        return sendVideo.deserializeResponse(responseContent);
     }
 
     @Override
     public final Message sendVideoNote(SendVideoNote sendVideoNote) throws TelegramApiException {
-        if(sendVideoNote == null){
-            throw new TelegramApiException("Parameter sendVideoNote can not be null");
-        }
+        assertParamNotNull(sendVideoNote, "sendVideoNote");
 
         sendVideoNote.validate();
-        String responseContent;
         try {
             String url = getBaseUrl() + SendVideoNote.PATH;
-            HttpPost httppost = new HttpPost(url);
-            httppost.setConfig(requestConfig);
+            HttpPost httppost = configuredHttpPost(url);
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addTextBody(SendVideoNote.CHATID_FIELD, sendVideoNote.getChatId());
@@ -386,30 +302,20 @@ public abstract class DefaultAbsSender extends AbsSender {
             httppost.setEntity(multipart);
 
 
-            try (CloseableHttpResponse response = httpclient.execute(httppost)) {
-                HttpEntity ht = response.getEntity();
-                BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-                responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
-            }
+            return sendVideoNote.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send video note", e);
         }
-
-        return sendVideoNote.deserializeResponse(responseContent);
     }
 
     @Override
     public final Message sendSticker(SendSticker sendSticker) throws TelegramApiException {
-        if(sendSticker == null){
-            throw new TelegramApiException("Parameter sendSticker can not be null");
-        }
+        assertParamNotNull(sendSticker, "sendSticker");
 
         sendSticker.validate();
-        String responseContent;
         try {
             String url = getBaseUrl() + SendSticker.PATH;
-            HttpPost httppost = new HttpPost(url);
-            httppost.setConfig(requestConfig);
+            HttpPost httppost = configuredHttpPost(url);
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addTextBody(SendSticker.CHATID_FIELD, sendSticker.getChatId());
@@ -436,16 +342,10 @@ public abstract class DefaultAbsSender extends AbsSender {
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
-            try (CloseableHttpResponse response = httpclient.execute(httppost)) {
-                HttpEntity ht = response.getEntity();
-                BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-                responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
-            }
+            return sendSticker.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send sticker", e);
         }
-
-        return sendSticker.deserializeResponse(responseContent);
     }
 
     /**
@@ -456,16 +356,11 @@ public abstract class DefaultAbsSender extends AbsSender {
      */
     @Override
     public final Message sendAudio(SendAudio sendAudio) throws TelegramApiException {
-        if(sendAudio == null){
-            throw new TelegramApiException("Parameter sendAudio can not be null");
-        }
+        assertParamNotNull(sendAudio, "sendAudio");
         sendAudio.validate();
-        String responseContent;
-
         try {
             String url = getBaseUrl() + SendAudio.PATH;
-            HttpPost httppost = new HttpPost(url);
-            httppost.setConfig(requestConfig);
+            HttpPost httppost = configuredHttpPost(url);
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addTextBody(SendAudio.CHATID_FIELD, sendAudio.getChatId());
             if (sendAudio.isNewAudio()) {
@@ -504,16 +399,10 @@ public abstract class DefaultAbsSender extends AbsSender {
             httppost.setEntity(multipart);
 
 
-            try (CloseableHttpResponse response = httpclient.execute(httppost)) {
-                HttpEntity ht = response.getEntity();
-                BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-                responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
-            }
+            return sendAudio.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send sticker", e);
         }
-
-        return sendAudio.deserializeResponse(responseContent);
     }
 
     /**
@@ -525,16 +414,11 @@ public abstract class DefaultAbsSender extends AbsSender {
      */
     @Override
     public final Message sendVoice(SendVoice sendVoice) throws TelegramApiException {
-        if(sendVoice == null){
-            throw new TelegramApiException("Parameter sendVoice can not be null");
-        }
+        assertParamNotNull(sendVoice, "sendVoice");
         sendVoice.validate();
-        String responseContent;
-
         try {
             String url = getBaseUrl() + SendVoice.PATH;
-            HttpPost httppost = new HttpPost(url);
-            httppost.setConfig(requestConfig);
+            HttpPost httppost = configuredHttpPost(url);
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addTextBody(SendVoice.CHATID_FIELD, sendVoice.getChatId());
             if (sendVoice.isNewVoice()) {
@@ -566,30 +450,20 @@ public abstract class DefaultAbsSender extends AbsSender {
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
-            try (CloseableHttpResponse response = httpclient.execute(httppost)) {
-                HttpEntity ht = response.getEntity();
-                BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-                responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
-            }
+            return sendVoice.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
             throw new TelegramApiException("Unable to send voice", e);
         }
-
-        return sendVoice.deserializeResponse(responseContent);
     }
 
     @Override
     public Boolean setChatPhoto(SetChatPhoto setChatPhoto) throws TelegramApiException {
-        if(setChatPhoto == null){
-            throw new TelegramApiException("Parameter setChatPhoto can not be null");
-        }
+        assertParamNotNull(setChatPhoto, "setChatPhoto");
         setChatPhoto.validate();
-        String responseContent;
 
         try {
             String url = getBaseUrl() + SetChatPhoto.PATH;
-            HttpPost httppost = new HttpPost(url);
-            httppost.setConfig(requestConfig);
+            HttpPost httppost = configuredHttpPost(url);
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addTextBody(SetChatPhoto.CHATID_FIELD, setChatPhoto.getChatId());
@@ -601,16 +475,104 @@ public abstract class DefaultAbsSender extends AbsSender {
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
-            try (CloseableHttpResponse response = httpclient.execute(httppost)) {
-                HttpEntity ht = response.getEntity();
-                BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-                responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
-            }
+            return setChatPhoto.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
             throw new TelegramApiException("Unable to set chat photo", e);
         }
+    }
 
-        return setChatPhoto.deserializeResponse(responseContent);
+
+    @Override
+    public Boolean addStickerToSet(AddStickerToSet addStickerToSet) throws TelegramApiException {
+        assertParamNotNull(addStickerToSet, "addStickerToSet");
+        addStickerToSet.validate();
+        try {
+            String url = getBaseUrl() + AddStickerToSet.PATH;
+            HttpPost httppost = configuredHttpPost(url);
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.addTextBody(AddStickerToSet.USERID_FIELD, addStickerToSet.getUserId().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            builder.addTextBody(AddStickerToSet.NAME_FIELD, addStickerToSet.getName(), TEXT_PLAIN_CONTENT_TYPE);
+            builder.addTextBody(AddStickerToSet.EMOJIS_FIELD, addStickerToSet.getEmojis(), TEXT_PLAIN_CONTENT_TYPE);
+            if (addStickerToSet.isNewPngSticker()) {
+                if (addStickerToSet.getPngStickerFile() != null) {
+                    builder.addBinaryBody(AddStickerToSet.PNGSTICKER_FIELD, addStickerToSet.getPngStickerFile());
+                } else if (addStickerToSet.getPngStickerStream() != null) {
+                    builder.addBinaryBody(AddStickerToSet.PNGSTICKER_FIELD, addStickerToSet.getPngStickerStream(), ContentType.APPLICATION_OCTET_STREAM, addStickerToSet.getPngStickerName());
+                } else {
+                    builder.addBinaryBody(AddStickerToSet.PNGSTICKER_FIELD, new java.io.File(addStickerToSet.getPngSticker()), ContentType.create("image/png"), addStickerToSet.getPngStickerName());
+                }
+            } else {
+                builder.addTextBody(AddStickerToSet.PNGSTICKER_FIELD, addStickerToSet.getPngSticker());
+            }
+            if (addStickerToSet.getMaskPosition() != null) {
+                builder.addTextBody(AddStickerToSet.MASKPOSITION_FIELD, objectMapper.writeValueAsString(addStickerToSet.getMaskPosition()), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            HttpEntity multipart = builder.build();
+            httppost.setEntity(multipart);
+
+            return addStickerToSet.deserializeResponse(sendHttpPostRequest(httppost));
+        } catch (IOException e) {
+            throw new TelegramApiException("Unable to add sticker to set", e);
+        }
+    }
+
+    @Override
+    public Boolean createNewStickerSet(CreateNewStickerSet createNewStickerSet) throws TelegramApiException {
+        assertParamNotNull(createNewStickerSet, "createNewStickerSet");
+        createNewStickerSet.validate();
+        try {
+            String url = getBaseUrl() + CreateNewStickerSet.PATH;
+            HttpPost httppost = configuredHttpPost(url);
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.addTextBody(CreateNewStickerSet.USERID_FIELD, createNewStickerSet.getUserId().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            builder.addTextBody(CreateNewStickerSet.NAME_FIELD, createNewStickerSet.getName(), TEXT_PLAIN_CONTENT_TYPE);
+            builder.addTextBody(CreateNewStickerSet.TITLE_FIELD, createNewStickerSet.getTitle(), TEXT_PLAIN_CONTENT_TYPE);
+            builder.addTextBody(CreateNewStickerSet.EMOJIS_FIELD, createNewStickerSet.getEmojis(), TEXT_PLAIN_CONTENT_TYPE);
+            builder.addTextBody(CreateNewStickerSet.CONTAINSMASKS_FIELD, createNewStickerSet.getContainsMasks().toString());
+            if (createNewStickerSet.isNewPngSticker()) {
+                if (createNewStickerSet.getPngStickerFile() != null) {
+                    builder.addBinaryBody(CreateNewStickerSet.PNGSTICKER_FIELD, createNewStickerSet.getPngStickerFile());
+                } else if (createNewStickerSet.getPngStickerStream() != null) {
+                    builder.addBinaryBody(CreateNewStickerSet.PNGSTICKER_FIELD, createNewStickerSet.getPngStickerStream(), ContentType.APPLICATION_OCTET_STREAM, createNewStickerSet.getPngStickerName());
+                } else {
+                    builder.addBinaryBody(CreateNewStickerSet.PNGSTICKER_FIELD, new java.io.File(createNewStickerSet.getPngSticker()), ContentType.create("image/png"), createNewStickerSet.getPngStickerName());
+                }
+            } else {
+                builder.addTextBody(CreateNewStickerSet.PNGSTICKER_FIELD, createNewStickerSet.getPngSticker());
+            }
+            if (createNewStickerSet.getMaskPosition() != null) {
+                builder.addTextBody(CreateNewStickerSet.MASKPOSITION_FIELD, objectMapper.writeValueAsString(createNewStickerSet.getMaskPosition()), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            HttpEntity multipart = builder.build();
+            httppost.setEntity(multipart);
+
+            return createNewStickerSet.deserializeResponse(sendHttpPostRequest(httppost));
+        } catch (IOException e) {
+            throw new TelegramApiException("Unable to create new sticker set", e);
+        }
+    }
+
+    @Override
+    public File uploadStickerFile(UploadStickerFile uploadStickerFile) throws TelegramApiException {
+        assertParamNotNull(uploadStickerFile, "uploadStickerFile");
+        uploadStickerFile.validate();
+        try {
+            String url = getBaseUrl() + UploadStickerFile.PATH;
+            HttpPost httppost = configuredHttpPost(url);
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.addTextBody(UploadStickerFile.USERID_FIELD, uploadStickerFile.getUserId().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            if (uploadStickerFile.getNewPngStickerFile() != null) {
+                builder.addBinaryBody(UploadStickerFile.PNGSTICKER_FIELD, uploadStickerFile.getNewPngStickerFile());
+            } else if (uploadStickerFile.getNewPngStickerStream() != null) {
+                builder.addBinaryBody(UploadStickerFile.PNGSTICKER_FIELD, uploadStickerFile.getNewPngStickerStream(), ContentType.APPLICATION_OCTET_STREAM, uploadStickerFile.getNewPngStickerName());
+            }
+            HttpEntity multipart = builder.build();
+            httppost.setEntity(multipart);
+
+            return uploadStickerFile.deserializeResponse(sendHttpPostRequest(httppost));
+        } catch (IOException e) {
+            throw new TelegramApiException("Unable to upload new sticker file", e);
+        }
     }
 
     // Simplified methods
@@ -622,21 +584,11 @@ public abstract class DefaultAbsSender extends AbsSender {
             @Override
             public void run() {
                 try {
-                    method.validate();
-                    String url = getBaseUrl() + method.getMethod();
-                    HttpPost httppost = new HttpPost(url);
-                    httppost.setConfig(requestConfig);
-                    httppost.addHeader("charset", StandardCharsets.UTF_8.name());
-                    httppost.setEntity(new StringEntity(objectMapper.writeValueAsString(method), ContentType.APPLICATION_JSON));
-                    try (CloseableHttpResponse response = httpclient.execute(httppost)) {
-                        HttpEntity ht = response.getEntity();
-                        BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-                        String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
-                        try {
-                            callback.onResult(method, method.deserializeResponse(responseContent));
-                        } catch (TelegramApiRequestException e) {
-                            callback.onError(method, e);
-                        }
+                    String responseContent = sendMethodRequest(method);
+                    try {
+                        callback.onResult(method, method.deserializeResponse(responseContent));
+                    } catch (TelegramApiRequestException e) {
+                        callback.onError(method, e);
                     }
                 } catch (IOException | TelegramApiValidationException e) {
                     callback.onException(method, e);
@@ -648,27 +600,76 @@ public abstract class DefaultAbsSender extends AbsSender {
 
     @Override
     protected final <T extends Serializable, Method extends BotApiMethod<T>> T sendApiMethod(Method method) throws TelegramApiException {
-        method.validate();
-        String responseContent;
         try {
-            String url = getBaseUrl() + method.getMethod();
-            HttpPost httppost = new HttpPost(url);
-            httppost.setConfig(requestConfig);
-            httppost.addHeader("charset", StandardCharsets.UTF_8.name());
-            httppost.setEntity(new StringEntity(objectMapper.writeValueAsString(method), ContentType.APPLICATION_JSON));
-            try (CloseableHttpResponse response = httpclient.execute(httppost)) {
-                HttpEntity ht = response.getEntity();
-                BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-                responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
-            }
+            String responseContent = sendMethodRequest(method);
+            return method.deserializeResponse(responseContent);
         } catch (IOException e) {
             throw new TelegramApiException("Unable to execute " + method.getMethod() + " method", e);
         }
+    }
 
-        return method.deserializeResponse(responseContent);
+    private <T> Runnable getDownloadFileAsyncJob(T fileIdentifier, DownloadFileCallback<T> callback, String url, String tempFileName) {
+        //noinspection Convert2Lambda
+        return new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    callback.onResult(fileIdentifier, downloadToTemporaryFile(url, tempFileName));
+                } catch (MalformedURLException e) {
+                    callback.onException(fileIdentifier, new TelegramApiException("Wrong url for file: " + url));
+                } catch (IOException e) {
+                    callback.onException(fileIdentifier, new TelegramApiRequestException("Error downloading the file", e));
+                }
+            }
+        };
+    }
+
+    private java.io.File downloadToTemporaryFileWrappingExceptions(String url, String tempFileName) throws TelegramApiException {
+        try {
+            return downloadToTemporaryFile(url, tempFileName);
+        } catch (MalformedURLException e) {
+            throw new TelegramApiException("Wrong url for file: " + url);
+        } catch (IOException e) {
+            throw new TelegramApiRequestException("Error downloading the file", e);
+        }
+    }
+
+    private java.io.File downloadToTemporaryFile(String url, String tempFileName) throws IOException {
+        java.io.File output = java.io.File.createTempFile(tempFileName, ".tmp");
+        FileUtils.copyURLToFile(new URL(url), output);
+        return output;
+    }
+
+    private <T extends Serializable, Method extends BotApiMethod<T>> String sendMethodRequest(Method method) throws TelegramApiValidationException, IOException {
+        method.validate();
+        String url = getBaseUrl() + method.getMethod();
+        HttpPost httppost = configuredHttpPost(url);
+        httppost.addHeader("charset", StandardCharsets.UTF_8.name());
+        httppost.setEntity(new StringEntity(objectMapper.writeValueAsString(method), ContentType.APPLICATION_JSON));
+        return sendHttpPostRequest(httppost);
+    }
+
+    private String sendHttpPostRequest(HttpPost httppost) throws IOException {
+        try (CloseableHttpResponse response = httpclient.execute(httppost)) {
+            HttpEntity ht = response.getEntity();
+            BufferedHttpEntity buf = new BufferedHttpEntity(ht);
+            return EntityUtils.toString(buf, StandardCharsets.UTF_8);
+        }
+    }
+
+    private HttpPost configuredHttpPost(String url) {
+        HttpPost httppost = new HttpPost(url);
+        httppost.setConfig(requestConfig);
+        return httppost;
     }
 
     protected String getBaseUrl() {
         return options.getBaseUrl() + getBotToken() + "/";
+    }
+
+    private void assertParamNotNull(Object param, String paramName) throws TelegramApiException {
+        if (param == null) {
+            throw new TelegramApiException("Parameter " + paramName + " can not be null");
+        }
     }
 }

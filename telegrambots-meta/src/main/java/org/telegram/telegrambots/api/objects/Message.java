@@ -5,6 +5,7 @@ import org.telegram.telegrambots.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.api.objects.games.Game;
 import org.telegram.telegrambots.api.objects.payments.Invoice;
 import org.telegram.telegrambots.api.objects.payments.SuccessfulPayment;
+import org.telegram.telegrambots.api.objects.stickers.Sticker;
 
 import java.util.List;
 
