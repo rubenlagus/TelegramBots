@@ -18,6 +18,7 @@ import org.telegram.telegrambots.ApiConstants;
 import org.telegram.telegrambots.api.methods.updates.GetUpdates;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
+import org.telegram.telegrambots.bots.TelegramBatchLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.generics.*;
 import org.telegram.telegrambots.logging.BotLogger;
@@ -27,6 +28,8 @@ import java.io.InvalidObjectException;
 import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
@@ -252,23 +255,46 @@ public class DefaultBotSession implements BotSession {
         }
     }
 
+    private List<Update> getUpdateList() {
+        List<Update> updates = new ArrayList<>();
+        for (Iterator<Update> it = receivedUpdates.iterator(); it.hasNext();) {
+            updates.add(it.next());
+            it.remove();
+        }
+        return updates;
+    }
+
     private class HandlerThread extends Thread implements UpdatesHandler {
         @Override
         public void run() {
             setPriority(Thread.MIN_PRIORITY);
             while (running) {
                 try {
-                    Update update = receivedUpdates.pollLast();
-                    if (update == null) {
-                        synchronized (receivedUpdates) {
-                            receivedUpdates.wait();
-                            update = receivedUpdates.pollLast();
-                            if (update == null) {
-                                continue;
+                    if (callback instanceof TelegramBatchLongPollingBot) {
+                        List<Update> updates = getUpdateList();
+                        if (updates.isEmpty()) {
+                            synchronized (receivedUpdates) {
+                                receivedUpdates.wait();
+                                updates = getUpdateList();
+                                if (updates.isEmpty()) {
+                                    continue;
+                                }
                             }
                         }
+                        ((TelegramBatchLongPollingBot) callback).onUpdatesReceived(updates);
+                    } else {
+                        Update update = receivedUpdates.pollFirst();
+                        if (update == null) {
+                            synchronized (receivedUpdates) {
+                                receivedUpdates.wait();
+                                update = receivedUpdates.pollFirst();
+                                if (update == null) {
+                                    continue;
+                                }
+                            }
+                        }
+                        callback.onUpdateReceived(update);
                     }
-                    callback.onUpdateReceived(update);
                 } catch (InterruptedException e) {
                     BotLogger.debug(LOGTAG, e);
                 } catch (Exception e) {
