@@ -13,6 +13,7 @@ public class User implements BotApiObject {
 
     private static final String ID_FIELD = "id";
     private static final String FIRSTNAME_FIELD = "first_name";
+    private static final String ISBOT_FIELD = "is_bot";
     private static final String LASTNAME_FIELD = "last_name";
     private static final String USERNAME_FIELD = "username";
     private static final String LANGUAGECODE_FIELD = "language_code";
@@ -21,6 +22,8 @@ public class User implements BotApiObject {
     private Integer id; ///< Unique identifier for this user or bot
     @JsonProperty(FIRSTNAME_FIELD)
     private String firstName; ///< User‘s or bot’s first name
+    @JsonProperty(ISBOT_FIELD)
+    private Boolean isBot; ///< True, if this user is a bot
     @JsonProperty(LASTNAME_FIELD)
     private String lastName; ///< Optional. User‘s or bot’s last name
     @JsonProperty(USERNAME_FIELD)
@@ -52,11 +55,16 @@ public class User implements BotApiObject {
         return languageCode;
     }
 
+    public Boolean getBot() {
+        return isBot;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
+                ", isBot=" + isBot +
                 ", lastName='" + lastName + '\'' +
                 ", userName='" + userName + '\'' +
                 ", languageCode='" + languageCode + '\'' +
