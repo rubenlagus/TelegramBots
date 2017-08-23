@@ -52,6 +52,8 @@ public class Message implements BotApiObject {
     private static final String INVOICE_FIELD = "invoice";
     private static final String SUCCESSFUL_PAYMENT_FIELD = "successful_payment";
     private static final String VIDEO_NOTE_FIELD = "video_note";
+    private static final String AUTHORSIGNATURE_FIELD = "author_signature";
+    private static final String FORWARDSIGNATURE_FIELD = "forward_signature";
 
     @JsonProperty(MESSAGEID_FIELD)
     private Integer messageId; ///< Integer	Unique message identifier
@@ -159,6 +161,11 @@ public class Message implements BotApiObject {
     private SuccessfulPayment successfulPayment; ///< Optional. Message is a service message about a successful payment, information about the payment.
     @JsonProperty(VIDEO_NOTE_FIELD)
     private VideoNote videoNote; ///< Optional. Message is a video note, information about the video message
+    @JsonProperty(AUTHORSIGNATURE_FIELD)
+    private String authorSignature; ///< Optional. Post author signature for posts in channel chats
+    @JsonProperty(FORWARDSIGNATURE_FIELD)
+    private String forwardSignature; ///< Optional. Post author signature for messages forwarded from channel chats
+
 
     public Message() {
         super();

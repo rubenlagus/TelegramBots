@@ -506,6 +506,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             String url = getBaseUrl() + AddStickerToSet.PATH;
             HttpPost httppost = configuredHttpPost(url);
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(AddStickerToSet.USERID_FIELD, addStickerToSet.getUserId().toString(), TEXT_PLAIN_CONTENT_TYPE);
             builder.addTextBody(AddStickerToSet.NAME_FIELD, addStickerToSet.getName(), TEXT_PLAIN_CONTENT_TYPE);
             builder.addTextBody(AddStickerToSet.EMOJIS_FIELD, addStickerToSet.getEmojis(), TEXT_PLAIN_CONTENT_TYPE);
@@ -518,7 +519,7 @@ public abstract class DefaultAbsSender extends AbsSender {
                     builder.addBinaryBody(AddStickerToSet.PNGSTICKER_FIELD, new java.io.File(addStickerToSet.getPngSticker()), ContentType.create("image/png"), addStickerToSet.getPngStickerName());
                 }
             } else {
-                builder.addTextBody(AddStickerToSet.PNGSTICKER_FIELD, addStickerToSet.getPngSticker());
+                builder.addTextBody(AddStickerToSet.PNGSTICKER_FIELD, addStickerToSet.getPngSticker(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (addStickerToSet.getMaskPosition() != null) {
                 builder.addTextBody(AddStickerToSet.MASKPOSITION_FIELD, objectMapper.writeValueAsString(addStickerToSet.getMaskPosition()), TEXT_PLAIN_CONTENT_TYPE);
@@ -540,11 +541,12 @@ public abstract class DefaultAbsSender extends AbsSender {
             String url = getBaseUrl() + CreateNewStickerSet.PATH;
             HttpPost httppost = configuredHttpPost(url);
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(CreateNewStickerSet.USERID_FIELD, createNewStickerSet.getUserId().toString(), TEXT_PLAIN_CONTENT_TYPE);
             builder.addTextBody(CreateNewStickerSet.NAME_FIELD, createNewStickerSet.getName(), TEXT_PLAIN_CONTENT_TYPE);
             builder.addTextBody(CreateNewStickerSet.TITLE_FIELD, createNewStickerSet.getTitle(), TEXT_PLAIN_CONTENT_TYPE);
             builder.addTextBody(CreateNewStickerSet.EMOJIS_FIELD, createNewStickerSet.getEmojis(), TEXT_PLAIN_CONTENT_TYPE);
-            builder.addTextBody(CreateNewStickerSet.CONTAINSMASKS_FIELD, createNewStickerSet.getContainsMasks().toString());
+            builder.addTextBody(CreateNewStickerSet.CONTAINSMASKS_FIELD, createNewStickerSet.getContainsMasks().toString(), TEXT_PLAIN_CONTENT_TYPE);
             if (createNewStickerSet.isNewPngSticker()) {
                 if (createNewStickerSet.getPngStickerFile() != null) {
                     builder.addBinaryBody(CreateNewStickerSet.PNGSTICKER_FIELD, createNewStickerSet.getPngStickerFile());
@@ -554,7 +556,7 @@ public abstract class DefaultAbsSender extends AbsSender {
                     builder.addBinaryBody(CreateNewStickerSet.PNGSTICKER_FIELD, new java.io.File(createNewStickerSet.getPngSticker()), ContentType.create("image/png"), createNewStickerSet.getPngStickerName());
                 }
             } else {
-                builder.addTextBody(CreateNewStickerSet.PNGSTICKER_FIELD, createNewStickerSet.getPngSticker());
+                builder.addTextBody(CreateNewStickerSet.PNGSTICKER_FIELD, createNewStickerSet.getPngSticker(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (createNewStickerSet.getMaskPosition() != null) {
                 builder.addTextBody(CreateNewStickerSet.MASKPOSITION_FIELD, objectMapper.writeValueAsString(createNewStickerSet.getMaskPosition()), TEXT_PLAIN_CONTENT_TYPE);
@@ -576,6 +578,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             String url = getBaseUrl() + UploadStickerFile.PATH;
             HttpPost httppost = configuredHttpPost(url);
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(UploadStickerFile.USERID_FIELD, uploadStickerFile.getUserId().toString(), TEXT_PLAIN_CONTENT_TYPE);
             if (uploadStickerFile.getNewPngStickerFile() != null) {
                 builder.addBinaryBody(UploadStickerFile.PNGSTICKER_FIELD, uploadStickerFile.getNewPngStickerFile());
