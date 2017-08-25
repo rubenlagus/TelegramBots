@@ -80,8 +80,25 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
+      <repositories>
+    <repository>
+        <id>spigot-repo</id>
+        <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+    </repository>
+  </repositories>
     <dependencies>
+      <dependency>
+  		<groupId>org.bukkit</groupId>
+        <artifactId>bukkit</artifactId>
+        <version>1.12.1-R0.1-SNAPSHOT</version>
+        <scope>provided</scope>
+        <exclusions>
+                <exclusion>
+                    <groupId>com.googlecode.json-simple</groupId>
+                    <artifactId>json-simple</artifactId>
+                </exclusion>
+            </exclusions>
+  	  </dependency>
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots-meta</artifactId>
@@ -184,6 +201,16 @@
         <finalName>${project.artifactId}-${project.version}</finalName>
         <testOutputDirectory>${project.build.directory}/test-classes</testOutputDirectory>
         <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+        <resources>
+            <resource>
+            <targetPath>.</targetPath>
+            <filtering>true</filtering>
+            <directory>${basedir}</directory>
+                <includes>
+                    <include>plugin.yml</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
