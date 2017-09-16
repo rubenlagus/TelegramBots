@@ -1,0 +1,4 @@
+name: TelegramBotsAPI
+main: org.telegram.telegrambots.bukkit.BukkitPlugin
+version: 3.3
+commands:
