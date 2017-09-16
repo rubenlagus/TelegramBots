@@ -97,7 +97,7 @@ public final class CommandRegistry implements ICommandRegistry {
             String text = message.getText();
             if (text.startsWith(BotCommand.COMMAND_INIT_CHARACTER)) {
                 String commandMessage = text.substring(1);
-                String[] commandSplit = commandMessage.split(BotCommand.COMMAND_PARAMETER_SEPARATOR);
+                String[] commandSplit = commandMessage.split(BotCommand.COMMAND_PARAMETER_SEPARATOR_REGEXP);
 
                 String command = removeUsernameFromCommandIfNeeded(commandSplit[0]);
 
