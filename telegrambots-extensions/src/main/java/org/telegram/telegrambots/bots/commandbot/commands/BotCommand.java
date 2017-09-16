@@ -11,7 +11,7 @@ import org.telegram.telegrambots.bots.AbsSender;
  */
 public abstract class BotCommand {
     public final static String COMMAND_INIT_CHARACTER = "/";
-    public static final String COMMAND_PARAMETER_SEPARATOR_REGEXP = "\\s+";
+    public static final String COMMAND_PARAMETER_SEPARATOR = " ";
     private final static int COMMAND_MAX_LENGTH = 32;
 
     private final String commandIdentifier;
