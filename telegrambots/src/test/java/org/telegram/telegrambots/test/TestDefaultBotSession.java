@@ -15,9 +15,7 @@ import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
-import org.telegram.telegrambots.bots.TelegramBatchLongPollingBot;
 import org.telegram.telegrambots.generics.LongPollingBot;
-import org.telegram.telegrambots.test.Fakes.FakeBatchLongPollingBot;
 import org.telegram.telegrambots.test.Fakes.FakeLongPollingBot;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
@@ -90,7 +88,7 @@ public class TestDefaultBotSession {
     }
 
     @Test
-    public void testUpdatesForStandardLongPollingBot() throws Exception {
+    public void testUpdates() throws Exception {
         LongPollingBot bot = Mockito.spy(new FakeLongPollingBot());
         session = getDefaultBotSession(bot);
         AtomicInteger flag = new AtomicInteger();
@@ -118,8 +116,8 @@ public class TestDefaultBotSession {
     }
 
     @Test
-    public void testUpdatesForBatchLongPollingBot() throws Exception {
-        TelegramBatchLongPollingBot bot = Mockito.spy(new FakeBatchLongPollingBot());
+    public void testBatchUpdates() throws Exception {
+        LongPollingBot bot = Mockito.spy(new FakeLongPollingBot());
         session = getDefaultBotSession(bot);
         AtomicInteger flag = new AtomicInteger();
         Update[] updates = createFakeUpdates(9);

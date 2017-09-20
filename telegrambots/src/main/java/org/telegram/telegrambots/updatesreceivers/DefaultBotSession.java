@@ -18,7 +18,6 @@ import org.telegram.telegrambots.ApiConstants;
 import org.telegram.telegrambots.api.methods.updates.GetUpdates;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
-import org.telegram.telegrambots.bots.TelegramBatchLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.generics.*;
 import org.telegram.telegrambots.logging.BotLogger;
@@ -289,31 +288,17 @@ public class DefaultBotSession implements BotSession {
             setPriority(Thread.MIN_PRIORITY);
             while (running) {
                 try {
-                    if (callback instanceof TelegramBatchLongPollingBot) {
-                        List<Update> updates = getUpdateList();
-                        if (updates.isEmpty()) {
-                            synchronized (receivedUpdates) {
-                                receivedUpdates.wait();
-                                updates = getUpdateList();
-                                if (updates.isEmpty()) {
-                                    continue;
-                                }
+                    List<Update> updates = getUpdateList();
+                    if (updates.isEmpty()) {
+                        synchronized (receivedUpdates) {
+                            receivedUpdates.wait();
+                            updates = getUpdateList();
+                            if (updates.isEmpty()) {
+                                continue;
                             }
                         }
-                        ((TelegramBatchLongPollingBot) callback).onUpdatesReceived(updates);
-                    } else {
-                        Update update = receivedUpdates.pollFirst();
-                        if (update == null) {
-                            synchronized (receivedUpdates) {
-                                receivedUpdates.wait();
-                                update = receivedUpdates.pollFirst();
-                                if (update == null) {
-                                    continue;
-                                }
-                            }
-                        }
-                        callback.onUpdateReceived(update);
                     }
+                    callback.onUpdatesReceived(updates);
                 } catch (InterruptedException e) {
                     BotLogger.debug(LOGTAG, e);
                 } catch (Exception e) {
