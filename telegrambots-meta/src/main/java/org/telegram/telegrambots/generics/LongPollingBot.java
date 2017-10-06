@@ -3,6 +3,8 @@ package org.telegram.telegrambots.generics;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 
+import java.util.List;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -15,6 +17,15 @@ public interface LongPollingBot {
      * @param update Update received
      */
     void onUpdateReceived(Update update);
+
+    /**
+     * This method is called when receiving updates via GetUpdates method.
+     * If not reimplemented - it just sends updates by one into {@link #onUpdateReceived(Update)}
+     * @param updates list of Update received
+     */
+    default void onUpdatesReceived(List<Update> updates) {
+        updates.forEach(this::onUpdateReceived);
+    }
 
     /**
      * Return bot username of this bot
