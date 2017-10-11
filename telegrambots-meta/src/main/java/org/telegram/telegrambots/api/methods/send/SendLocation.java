@@ -2,7 +2,6 @@ package org.telegram.telegrambots.api.methods.send;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.replykeyboard.ApiResponse;
@@ -13,11 +12,12 @@ import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 import java.io.IOException;
 import java.util.Objects;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Use this method to send point on the map. On success, the sent Message is returned.
- * @date 20 of June of 2015
+ * Use this method to send point on the map. On success, the sent Message is returned.
  */
 public class SendLocation extends BotApiMethod<Message> {
     public static final String PATH = "sendlocation";
@@ -28,6 +28,7 @@ public class SendLocation extends BotApiMethod<Message> {
     private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     private static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
+    private static final String LIVEPERIOD_FIELD = "live_period";
 
     @JsonProperty(CHATID_FIELD)
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
@@ -41,10 +42,19 @@ public class SendLocation extends BotApiMethod<Message> {
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     @JsonProperty(REPLYMARKUP_FIELD)
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    @JsonProperty(LIVEPERIOD_FIELD)
+    private Integer livePeriod; ///< Optional. Period in seconds for which the location will be updated (see Live Locations), should be between 60 and 86400.
 
     public SendLocation() {
         super();
     }
+
+    public SendLocation(Float latitude, Float longitude) {
+        super();
+        this.latitude = checkNotNull(latitude);
+        this.longitude = checkNotNull(longitude);
+    }
+
 
     public String getChatId() {
         return chatId;
@@ -56,7 +66,6 @@ public class SendLocation extends BotApiMethod<Message> {
     }
 
     public SendLocation setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
         this.chatId = chatId.toString();
         return this;
     }
@@ -66,6 +75,7 @@ public class SendLocation extends BotApiMethod<Message> {
     }
 
     public SendLocation setLatitude(Float latitude) {
+        Objects.requireNonNull(latitude);
         this.latitude = latitude;
         return this;
     }
@@ -75,6 +85,7 @@ public class SendLocation extends BotApiMethod<Message> {
     }
 
     public SendLocation setLongitude(Float longitude) {
+        Objects.requireNonNull(longitude);
         this.longitude = longitude;
         return this;
     }
@@ -108,6 +119,15 @@ public class SendLocation extends BotApiMethod<Message> {
 
     public SendLocation disableNotification() {
         this.disableNotification = true;
+        return this;
+    }
+
+    public Integer getLivePeriod() {
+        return livePeriod;
+    }
+
+    public SendLocation setLivePeriod(Integer livePeriod) {
+        this.livePeriod = livePeriod;
         return this;
     }
 
@@ -145,6 +165,9 @@ public class SendLocation extends BotApiMethod<Message> {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
+        if (livePeriod != null && (livePeriod < 60 || livePeriod > 86400)) {
+            throw new TelegramApiValidationException("Live period parameter must be between 60 and 86400", this);
+        }
     }
 
     @Override
@@ -153,8 +176,10 @@ public class SendLocation extends BotApiMethod<Message> {
                 "chatId='" + chatId + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
+                ", disableNotification=" + disableNotification +
                 ", replyToMessageId=" + replyToMessageId +
                 ", replyMarkup=" + replyMarkup +
+                ", livePeriod=" + livePeriod +
                 '}';
     }
 }

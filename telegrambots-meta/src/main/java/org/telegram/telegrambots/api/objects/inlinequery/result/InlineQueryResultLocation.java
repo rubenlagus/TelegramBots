@@ -9,12 +9,11 @@ import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Represents a location on a map. By default, the location will be sent by the user.
+ * Represents a location on a map. By default, the location will be sent by the user.
  * Alternatively, you can use input_message_content to send a message with the specified content
  * instead of the location.
  * @note This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * ignore them.
- * @date 10 of April of 2016
  */
 public class InlineQueryResultLocation implements InlineQueryResult {
 
@@ -28,6 +27,7 @@ public class InlineQueryResultLocation implements InlineQueryResult {
     private static final String THUMBURL_FIELD = "thumb_url";
     private static final String THUMBWIDTH_FIELD = "thumb_width";
     private static final String THUMBHEIGHT_FIELD = "thumb_height";
+    private static final String LIVEPERIOD_FIELD = "live_period";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "location"; ///< Type of the result, must be "location"
@@ -49,6 +49,8 @@ public class InlineQueryResultLocation implements InlineQueryResult {
     private Integer thumbWidth; ///< Optional. Thumbnail width
     @JsonProperty(THUMBHEIGHT_FIELD)
     private Integer thumbHeight; ///< Optional. Thumbnail height
+    @JsonProperty(LIVEPERIOD_FIELD)
+    private Integer livePeriod; ///< Optional. Period in seconds for which the location can be updated, should be between 60 and 86400.
 
     public InlineQueryResultLocation() {
         super();
@@ -139,6 +141,15 @@ public class InlineQueryResultLocation implements InlineQueryResult {
         return this;
     }
 
+    public Integer getLivePeriod() {
+        return livePeriod;
+    }
+
+    public InlineQueryResultLocation setLivePeriod(Integer livePeriod) {
+        this.livePeriod = livePeriod;
+        return this;
+    }
+
     @Override
     public void validate() throws TelegramApiValidationException {
         if (id == null || id.isEmpty()) {
@@ -153,6 +164,9 @@ public class InlineQueryResultLocation implements InlineQueryResult {
         if (longitude == null) {
             throw new TelegramApiValidationException("Longitude parameter can't be empty", this);
         }
+        if (livePeriod != null && (livePeriod < 60 || livePeriod > 86400)) {
+            throw new TelegramApiValidationException("Live period parameter must be between 60 and 86400", this);
+        }
         if (inputMessageContent != null) {
             inputMessageContent.validate();
         }
@@ -166,14 +180,15 @@ public class InlineQueryResultLocation implements InlineQueryResult {
         return "InlineQueryResultLocation{" +
                 "type='" + type + '\'' +
                 ", id='" + id + '\'' +
-                ", mimeType='" + latitude + '\'' +
-                ", documentUrl='" + longitude + '\'' +
-                ", thumbHeight=" + thumbHeight +
-                ", thumbWidth=" + thumbWidth +
-                ", thumbUrl='" + thumbUrl + '\'' +
                 ", title='" + title + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
-                ", replyMarkup='" + replyMarkup + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", replyMarkup=" + replyMarkup +
+                ", inputMessageContent=" + inputMessageContent +
+                ", thumbUrl='" + thumbUrl + '\'' +
+                ", thumbWidth=" + thumbWidth +
+                ", thumbHeight=" + thumbHeight +
+                ", livePeriod=" + livePeriod +
                 '}';
     }
 }
