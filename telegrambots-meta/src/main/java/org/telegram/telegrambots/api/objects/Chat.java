@@ -22,6 +22,8 @@ public class Chat implements BotApiObject {
     private static final String DESCRIPTION_FIELD = "description";
     private static final String INVITELINK_FIELD = "invite_link";
     private static final String PINNEDMESSAGE_FIELD = "pinned_message";
+    private static final String STICKERSETNAME_FIELD = "sticker_set_name";
+    private static final String CANSETSTICKERSET_FIELD = "can_set_sticker_set";
 
     private static final String USERCHATTYPE = "private";
     private static final String GROUPCHATTYPE = "group";
@@ -59,6 +61,10 @@ public class Chat implements BotApiObject {
     private String inviteLink; ///< Optional. Chat invite link, for supergroups and channel chats. Returned only in getChat.
     @JsonProperty(PINNEDMESSAGE_FIELD)
     private Message pinnedMessage; ///< Optional. Pinned message, for supergroups. Returned only in getChat.
+    @JsonProperty(STICKERSETNAME_FIELD)
+    private String stickerSetName; ///< Optional. For supergroups, name of Group sticker set. Returned only in getChat.
+    @JsonProperty(CANSETSTICKERSET_FIELD)
+    private Message canSetStickerSet; ///< Optional. True, if the bot can change group the sticker set. Returned only in getChat.
 
     public Chat() {
         super();
@@ -120,6 +126,14 @@ public class Chat implements BotApiObject {
         return pinnedMessage;
     }
 
+    public String getStickerSetName() {
+        return stickerSetName;
+    }
+
+    public Message getCanSetStickerSet() {
+        return canSetStickerSet;
+    }
+
     @Override
     public String toString() {
         return "Chat{" +
@@ -134,6 +148,8 @@ public class Chat implements BotApiObject {
                 ", description='" + description + '\'' +
                 ", inviteLink='" + inviteLink + '\'' +
                 ", pinnedMessage=" + pinnedMessage +
+                ", stickerSetName='" + stickerSetName + '\'' +
+                ", canSetStickerSet=" + canSetStickerSet +
                 '}';
     }
 }

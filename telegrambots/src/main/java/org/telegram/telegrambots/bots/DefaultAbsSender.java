@@ -133,6 +133,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             HttpPost httppost = configuredHttpPost(url);
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(SendDocument.CHATID_FIELD, sendDocument.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
             if (sendDocument.isNewDocument()) {
@@ -177,6 +178,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             HttpPost httppost = configuredHttpPost(url);
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(SendPhoto.CHATID_FIELD, sendPhoto.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
             if (sendPhoto.isNewPhoto()) {
@@ -221,6 +223,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             HttpPost httppost = configuredHttpPost(url);
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(SendVideo.CHATID_FIELD, sendVideo.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
             if (sendVideo.isNewVideo()) {
@@ -274,6 +277,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             HttpPost httppost = configuredHttpPost(url);
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(SendVideoNote.CHATID_FIELD, sendVideoNote.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
             if (sendVideoNote.isNewVideoNote()) {
@@ -322,6 +326,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             HttpPost httppost = configuredHttpPost(url);
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(SendSticker.CHATID_FIELD, sendSticker.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
             if (sendSticker.isNewSticker()) {
@@ -367,6 +372,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             String url = getBaseUrl() + SendAudio.PATH;
             HttpPost httppost = configuredHttpPost(url);
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(SendAudio.CHATID_FIELD, sendAudio.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
             if (sendAudio.isNewAudio()) {
@@ -426,6 +432,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             String url = getBaseUrl() + SendVoice.PATH;
             HttpPost httppost = configuredHttpPost(url);
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(SendVoice.CHATID_FIELD, sendVoice.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
             if (sendVoice.isNewVoice()) {
@@ -473,6 +480,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             HttpPost httppost = configuredHttpPost(url);
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(SetChatPhoto.CHATID_FIELD, setChatPhoto.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
             if (setChatPhoto.getPhoto() != null) {
@@ -498,6 +506,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             String url = getBaseUrl() + AddStickerToSet.PATH;
             HttpPost httppost = configuredHttpPost(url);
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(AddStickerToSet.USERID_FIELD, addStickerToSet.getUserId().toString(), TEXT_PLAIN_CONTENT_TYPE);
             builder.addTextBody(AddStickerToSet.NAME_FIELD, addStickerToSet.getName(), TEXT_PLAIN_CONTENT_TYPE);
@@ -533,6 +542,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             String url = getBaseUrl() + CreateNewStickerSet.PATH;
             HttpPost httppost = configuredHttpPost(url);
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(CreateNewStickerSet.USERID_FIELD, createNewStickerSet.getUserId().toString(), TEXT_PLAIN_CONTENT_TYPE);
             builder.addTextBody(CreateNewStickerSet.NAME_FIELD, createNewStickerSet.getName(), TEXT_PLAIN_CONTENT_TYPE);
@@ -570,6 +580,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             String url = getBaseUrl() + UploadStickerFile.PATH;
             HttpPost httppost = configuredHttpPost(url);
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(UploadStickerFile.USERID_FIELD, uploadStickerFile.getUserId().toString(), TEXT_PLAIN_CONTENT_TYPE);
             if (uploadStickerFile.getNewPngStickerFile() != null) {

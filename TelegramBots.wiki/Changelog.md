@@ -1,5 +1,12 @@
-### <a id="3.2"></a>3.2 ###
-1. Support for Api Version [3.3](https://core.telegram.org/bots/api-changelog#july-21-2017)
+### <a id="3.4"></a>3.4 ###
+1. Support for Api Version [3.4](https://core.telegram.org/bots/api-changelog#october-11-2017)
+2. Use regular expressions to split parameters in `TelegramLongPollingCommandBot` (#309)
+3. Option to handle bunch of updates at a time via `onUpdatesReceived` in `TelegramLongPollingBot` (#284)
+4. Fix characters encoding (#275)
+ 
+
+### <a id="3.3"></a>3.3 ###
+1. Support for Api Version [3.3](https://core.telegram.org/bots/api-changelog#august-23-2017)
 
 
 ### <a id="3.2"></a>3.2 ###
