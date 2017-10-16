@@ -139,6 +139,8 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendDocument.isNewDocument()) {
                 if (sendDocument.getNewDocumentFile() != null) {
                     builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, sendDocument.getNewDocumentFile());
+                } else if (sendDocument.getDocument() != null) {
+                	builder.addTextBody(SendDocument.DOCUMENT_FIELD, sendDocument.getDocument(), TEXT_PLAIN_CONTENT_TYPE);
                 } else if (sendDocument.getNewDocumentStream() != null) {
                     builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, sendDocument.getNewDocumentStream(), ContentType.APPLICATION_OCTET_STREAM, sendDocument.getDocumentName());
                 } else {
