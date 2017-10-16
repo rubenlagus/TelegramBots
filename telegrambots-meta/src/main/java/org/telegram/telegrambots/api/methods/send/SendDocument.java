@@ -75,6 +75,19 @@ public class SendDocument extends PartialBotApiMethod<Message> {
         this.isNewDocument = false;
         return this;
     }
+    
+    
+    /**
+     * Use this method to set the document to an external url that Telegram will download and send
+     * 
+     * @param url url of the resources to send
+     * @note The url must be accessible from any IP for Telegram to retrieve it
+     */
+    public SendDocument setURL(String url) {
+    	this.document = url;
+    	this.isNewDocument = true;
+    	return this;
+    }
 
     /**
      * Use this method to set the document to a new file
@@ -176,7 +189,7 @@ public class SendDocument extends PartialBotApiMethod<Message> {
         }
 
         if (isNewDocument) {
-            if (newDocumentFile == null && newDocumentStream == null) {
+            if (newDocumentFile == null && newDocumentStream == null && document == null) {
                 throw new TelegramApiValidationException("Document can't be empty", this);
             }
             if (newDocumentStream != null && (documentName == null || documentName.isEmpty())) {
