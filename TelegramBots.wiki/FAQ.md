@@ -186,7 +186,7 @@ Custom keyboards can be appended to messages using the `setReplyMarkup`. In this
 
         try {
             // Send the message
-            sendMessage(message);
+            execute(message);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
