@@ -38,8 +38,8 @@ public class DefaultBot extends AbilityBot {
     return getDefaultBuilder()
         .name(DEFAULT)
         .info("dis iz default command")
-        .reply(upd -> sender.send("reply", upd.getMessage().getChatId()), MESSAGE, update -> update.getMessage().getText().equals("must reply"))
-        .reply(upd -> sender.send("reply", upd.getCallbackQuery().getMessage().getChatId()), CALLBACK_QUERY)
+        .reply(upd -> silent.send("reply", upd.getMessage().getChatId()), MESSAGE, update -> update.getMessage().getText().equals("must reply"))
+        .reply(upd -> silent.send("reply", upd.getCallbackQuery().getMessage().getChatId()), CALLBACK_QUERY)
         .build();
   }
 
@@ -69,10 +69,5 @@ public class DefaultBot extends AbilityBot {
 
   public Ability testAbility() {
     return getDefaultBuilder().build();
-  }
-
-  @VisibleForTesting
-  void setSender(MessageSender sender) {
-    this.sender = sender;
   }
 }
