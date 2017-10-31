@@ -18,7 +18,7 @@ public void sayHello() {
 }
 ```
 
-This is how you would define a method that says hello in the basic API. How do you go around testing it? If you do attempt to Junit test this method, what will you be testing? If change the method signature to return the string sent, then you can test the hello message content. However, can you test that you've actually `executed` the command?
+This is how you would define a method that says hello in the basic API. How do you go around testing it? If you do attempt to Junit test this method, what will you be testing? If you change the method signature to return the string sent, then you can test the hello message content. However, can you test that you've actually `executed` the command?
 
 ## Mock Testing
 *This section assumes you're familiar with mock testing. Mock testing is basically replacing a real object X with a fake object Y (a mock) of the same type. By doing that, you're able to test whether certain functions were executed.*
@@ -28,9 +28,11 @@ Obviously, you can't, but there's a twist to it. You can always mock the whole b
 ## MessageSender Interface
 All ability bots declare two utility objects.
 ### The Sender Object
-The sender object is an implementation of the [MessageSender](../../telegrambots-abilities/src/main/java/org/telegram/abilitybots/api/sender/MessageSender.java) interface. The interface mirrors 
+The `sender` object is an implementation of the [MessageSender](../../telegrambots-abilities/src/main/java/org/telegram/abilitybots/api/sender/MessageSender.java) interface. The interface mirrors 
 all the bot sending methods. A user can supply his own MessageSender, but the AbilityBot module specifies a [DefaultSender](../../telegrambots-abilities/src/main/java/org/telegram/abilitybots/api/sender/DefaultSender.java) As you might guess, the default sender is simply a proxy for the bot API methods.
 
+### The Silent Object
+The `silent` object is exactly like the sender object, but silent. Its methods return `Optional<T>`. On exception, it will be an empty optional. The sender object is provided to reduce verboseness of the code (reducing try-catch blocks with something more elegant).
  ## AbilityBot Testing
  Let's suppose that you have an ability that says "Hello World!" declared as such:
  ```java
@@ -169,4 +171,23 @@ public class ExampleBotTest {
 ```
 
 ## Silent Testing
-As mentioned before, we also have another object that is able to send messages silently called `silent`. If you're using this object, you will also need to mock it and use it in the test. It is handled in exactly the same way.
+As mentioned before, we also have another object that is able to send messages silently called `silent`. The constructor of the silent sender requires a MessageSender object. If your abilities use the `silent` object, be sure to:
+```java
+public class ExampleBotTest {
+  ...
+  private DBContext db;
+  private MessageSender sender;
+
+@Before
+  public void setUp() {
+    bot = new ExampleBot(db);
+    sender = mock(MessageSender.class);
+    bot.silent = new SilentSender(sender);
+    ...
+  }
+  
+  ...
+}
+```
+
+Do note that in your test assertions, don't use the silent object. Mocked assertion require the mock object. If you recall, the silent object uses the sender object, so your tests will still be correct if you're asserting on the `sender` object rather than the silent one.

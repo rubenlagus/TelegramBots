@@ -73,5 +73,5 @@ public Ability playWithMe() {
 ```
 
 In this example, we showcase how we can supply our own predicates. The two new predicates are `isReplyToMessage` and `isReplyToBot`. 
-The checks are made so that, once you execute your logic there is not need to check for the validity of the reply.
+The checks are made so that, once you execute your logic there is no need to check for the validity of the reply.
 They were all made once the action logic is being executed.
