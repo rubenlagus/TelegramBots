@@ -216,7 +216,7 @@ SendMessage sn = new SendMessage();
 execute(sn);
 ```
 
-If you extend ```TelegramLongPollingCommandBot```, then use ```AbsSender.execute()``` instead. Example:
+If you extend ```TelegramLongPollingCommandBot```, then use ```AbsSender.execute()``` instead.
 
 
 ## <a id="example_webhook"></a>Is there any example for WebHook? ##
