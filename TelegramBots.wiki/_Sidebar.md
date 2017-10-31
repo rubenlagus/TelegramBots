@@ -9,5 +9,6 @@
     * [[Database Handling]]
     * [[Bot Testing]]
     * [[Bot Recovery]]
+    * [[Advanced]]
 * [[Changelog]]
     * [[How To Update]]
