@@ -1,7 +1,7 @@
-#AbilityBot
-This section of the tutorial will present a barebone example on creating your first AbilityBot! It is highly recommended to write your very first bot via the [simple users guide](./Simple-Example.md). That will give you a sense of how the basic API allows you to handle commands and features.
+# AbilityBot
+This section of the tutorial will present a barebone example on creating your first AbilityBot! It is highly recommended to write your very first bot via the [[Getting Started|Getting-Started]]. That will give you a sense of how the basic API allows you to handle commands and features.
 
-##Dependencies
+## Dependencies
 As with any Java project, you will need to set your dependencies.
 
 * **Maven**
@@ -20,7 +20,7 @@ As with any Java project, you will need to set your dependencies.
     
 * [Plain Imports/Jars](https://github.com/rubenlagus/TelegramBots/releases)
 
-##Bot Declaration
+## Bot Declaration
 To use the abilities module, you will need to extend AbilityBot.
 ```java
 import org.telegram.abilitybots.api.bot.AbilityBot;
@@ -30,7 +30,7 @@ public class HelloBot extends AbilityBot {
 }
 ```
 
-##Bot Implementation
+## Bot Implementation
 Bot token and nickname are passed via the constructor and don't require an override.
 ```java
  public HelloBot(String token, String username) {
@@ -59,7 +59,7 @@ So, if your Telegram ID Is 123456789, then add the following method:
 
 That's it to have a valid, compilable and ready to be deployed bot. However, your bot doesn't have a single command to use. Let's declare one!
 
-##Hello Ability
+## Hello Ability
 To add a feature to your bot, you add an ability. That's it! No routing from onUpdateReceived, no separate checks and no crossovers. Let's write our first ability that simply says hello!
 
 ```java
@@ -97,7 +97,7 @@ public class Application {
 }
 ```
 
-If you're in doubt that you're missing some code, the full code example can be inspected [Here]()
+If you're in doubt that you're missing some code, the full code example can be inspected [here](https://github.com/addo37/ExampleBots/tree/master/src/main/java/org/telegram/examplebots).
 ## Testing Your Bot
 Go ahead and "/hello" to your bot. It should respond back with "Hello World!".
 

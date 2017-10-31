@@ -72,10 +72,10 @@ The `silent` object is created with every AbilityBot. It provides helper and uti
 manage errors by checking for the presence of the optional `.isPresent()`. This decreases verboseness while still being able to execute routines correctly.
 Do note that:
 * You can still access the bot's methods and functions inside the lambda function in your action definition. That includes all the DefaultAbsSender methods execute, executeAsync, setChatPhoto, etc....
-* `silent` uses another accessible object named `sender`. Refer to [[Bot Testing]] for the main use case of sender as an interface to all bot methods.
+* `silent` uses another accessible object named `sender`. Refer to [[Bot Testing|Bot-Testing]] for the main use case of sender as an interface to all bot methods.
 
 With abilities, you can specify the context of the feature. If you only want the command to be available for groups, then you can set `.locality(GROUP)`. If it is a very sensitive command that only admins should have access to, then set `.privacy(ADMIN)`.
-This allows for abilities with protection guarantees on who can use and where it can be used.
+This allows for abilities with protection guarantees on who can use it and where it can be used.
 
 The following is a snippet of how this would look like with the plain basic API. 
 ```java

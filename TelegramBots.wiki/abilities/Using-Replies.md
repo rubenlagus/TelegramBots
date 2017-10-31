@@ -1,8 +1,8 @@
-#Replies
+# Replies
 
 A reply is AbilityBot's swiss army knife. It comes in two variants and is able to handle all possible use cases.
 
-##Standalone Reply
+## Standalone Reply
 Standalone replies are replies declared on their own without being attached to an ability. Here's an example of a possible reply declaration:
 ```java
 /**
@@ -20,7 +20,7 @@ Let's break this down. Replies require a lambda function (consumer) that is able
 from the update and sends a "Yuck" message. `Reply.of(upd)` would be enough. However, replies accept a var-arg of type `Predicate<Update>`. These predicates are the necessary conditions so that the bot acts the reply. We specify Flag.PHOTO to let the bot know
  that we only want the reply to act on images only! The Flag is a public enum at your disposal. It contains other conditionals like checking for videos, messages, voice, documents, etc...
  
-##Ability Reply
+## Ability Reply
 In exactly the same manner, you are able to attach replies to abilities. This way you can localize replies that relate to the same ability.
 ```java
 public Ability playWithMe() {

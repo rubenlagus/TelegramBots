@@ -1,8 +1,8 @@
-#Database Handling
+# Database Handling
 AbilityBots come with an embedded DB. Users are free to implement their own databases via implementing the [DBContext](../../telegrambots-abilities/src/main/java/org/telegram/abilitybots/api/db/DBContext.java) class.
-The abstraction has multiple constructors to accommodate user-defined implementations of [DBContext](../../telegrambots-abilities/src/main/java/org/telegram/abilitybots/api/db/DBContext.java) and [MessageSender](../../telegrambots-abilities/src/main/java/org/telegram/abilitybots/api/sender/MessageSender.java). We'll talk about the message sender interface in the [bot testing](Bot-Testing.md) section.
+The abstraction has multiple constructors to accommodate user-defined implementations of [DBContext](../../telegrambots-abilities/src/main/java/org/telegram/abilitybots/api/db/DBContext.java) and [MessageSender](../../telegrambots-abilities/src/main/java/org/telegram/abilitybots/api/sender/MessageSender.java). We'll talk about the message sender interface in the [[Bot Testing|Bot-Testing]] section.
 
-##Example
+## Example
 We'll be introducing an ability that maintains a special counter for every user. At every /increment, the user will receive a message with the previous number + 1. We'll initially start from zero and increment onwards.
 
 ```java
