@@ -1,6 +1,5 @@
 package org.telegram.abilitybots.api.sender;
 
-import org.telegram.telegrambots.api.methods.AnswerInlineQuery;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.methods.groupadministration.SetChatPhoto;
 import org.telegram.telegrambots.api.methods.send.*;

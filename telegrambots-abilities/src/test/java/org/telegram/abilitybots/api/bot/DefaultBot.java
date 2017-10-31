@@ -1,10 +1,8 @@
 package org.telegram.abilitybots.api.bot;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.telegram.abilitybots.api.db.DBContext;
 import org.telegram.abilitybots.api.objects.Ability;
 import org.telegram.abilitybots.api.objects.Ability.AbilityBuilder;
-import org.telegram.abilitybots.api.sender.MessageSender;
 
 import static org.telegram.abilitybots.api.objects.Ability.builder;
 import static org.telegram.abilitybots.api.objects.Flag.CALLBACK_QUERY;

@@ -10,7 +10,12 @@ import org.telegram.telegrambots.logging.BotLogger;
 import java.io.Serializable;
 import java.util.Optional;
 
-//TODO: DOC
+
+/**
+ * A silent sender that returns {@link Optional} objects upon execution. Mainly used to decrease verboseness of exception handling.
+ *
+ * @author Abbas Abou Daya
+ */
 public class SilentSender {
   private static final String TAG = SilentSender.class.getSimpleName();
 
@@ -37,6 +42,24 @@ public class SilentSender {
     return execute(msg);
   }
 
+  public <T extends Serializable, Method extends BotApiMethod<T>> Optional<T> execute(Method method) {
+    try {
+      return Optional.ofNullable(sender.execute(method));
+    } catch (TelegramApiException e) {
+      BotLogger.error("Could not execute bot API method", TAG, e);
+      return Optional.empty();
+    }
+  }
+
+  public <T extends Serializable, Method extends BotApiMethod<T>> Optional<T> executeAsync(Method method) {
+    try {
+      return Optional.ofNullable(sender.execute(method));
+    } catch (TelegramApiException e) {
+      BotLogger.error("Could not execute bot API method", TAG, e);
+      return Optional.empty();
+    }
+  }
+
   private Optional<Message> doSendMessage(String txt, long groupId, boolean format) {
     SendMessage smsg = new SendMessage();
     smsg.setChatId(groupId);
@@ -44,24 +67,5 @@ public class SilentSender {
     smsg.enableMarkdown(format);
 
     return execute(smsg);
-  }
-
-  private <T extends Serializable, Method extends BotApiMethod<T>> Optional<T> execute(Method method) {
-    try {
-      return Optional.ofNullable(sender.execute(method));
-    } catch (TelegramApiException e) {
-      BotLogger.error("Could not execute bot API method", TAG, e);
-      return Optional.empty();
-    }
-  }
-
-  private <T extends Serializable, Method extends BotApiMethod<T>> Optional<T> executeAsync(Method method) {
-    try {
-      return Optional.ofNullable(sender.execute(method));
-    } catch (TelegramApiException e) {
-      BotLogger.error("Could not execute bot API method", TAG, e);
-      return Optional.empty();
-    }
-
   }
 }
