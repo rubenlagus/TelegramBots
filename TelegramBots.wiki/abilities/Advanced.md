@@ -23,17 +23,12 @@ It is possible to declare "DEFAULT" abilities that process non-command messages.
 This ability will send a *"Daaaaang, what a nice photo!"* whenever the bot receives a photo. This is one use case where replies and abilities are interchangeable.
 
 ## The Global Flag
-However, there is one important note here. This ability without any additional code will not be able to process photos. There is a global flag in AbilityBot that restricts the kind of "updates" it can process.
-To freely process any update given to your bot, make sure to:
+There is a global flag in AbilityBot that restricts the kind of "updates" it can process. The default implementation is passthrough - it allows all updates to be processed.
+As an example, if you want to restrict the updates to photos only, then you may do:
 
 ```java
-/**
-   * By default, any update that does not have a message will not pass through abilities.
-   * To customize that, you can just override this global flag and make it return true at every update.
-   * This way, the ability flags will be the only ones responsible for checking the update's validity.
-   */
   @Override
   public boolean checkGlobalFlags(Update update) {
-    return true;
+    return Flag.PHOTO;
   }
 ```
