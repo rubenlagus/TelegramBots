@@ -410,13 +410,9 @@ public class AbilityBotTest {
   }
 
   @Test
-  public void canCheckGlobalFlags() {
+  public void defaultGlobalFlagIsTrue() {
     Update update = mock(Update.class);
-    Message message = mock(Message.class);
-
-    when(update.hasMessage()).thenReturn(true);
-    when(update.getMessage()).thenReturn(message);
-    assertEquals("Unexpected result when checking for locality", true, bot.checkGlobalFlags(update));
+    assertEquals("Unexpected result when checking for the default global flags", true, bot.checkGlobalFlags(update));
   }
 
   @Test(expected = ArithmeticException.class)

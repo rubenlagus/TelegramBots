@@ -220,15 +220,15 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
   }
 
   /**
-   * Test the update against the provided global flags. The default implementation requires a {@link Flag#MESSAGE}.
+   * Test the update against the provided global flags. The default implementation is a passthrough to all updates.
    * <p>
-   * This method should be <b>overridden</b> if the user wants updates that don't require a MESSAGE to pass through.
+   * This method should be <b>overridden</b> if the user wants to restrict bot usage to only certain updates.
    *
    * @param update a Telegram {@link Update}
    * @return <tt>true</tt> if the update satisfies the global flags
    */
   protected boolean checkGlobalFlags(Update update) {
-    return MESSAGE.test(update);
+    return true;
   }
 
   /**
