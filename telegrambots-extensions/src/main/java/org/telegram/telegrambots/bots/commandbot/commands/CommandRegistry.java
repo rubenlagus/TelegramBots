@@ -16,7 +16,7 @@ import java.util.function.BiConsumer;
  */
 public final class CommandRegistry implements ICommandRegistry {
 
-    private final Map<String, BotCommand> commandRegistryMap = new HashMap<>();
+    private final Map<String, DefaultBotCommand> commandRegistryMap = new HashMap<>();
     private final boolean allowCommandsWithUsername;
     private final String botUsername;
     private BiConsumer<AbsSender, Message> defaultConsumer;
@@ -37,7 +37,7 @@ public final class CommandRegistry implements ICommandRegistry {
     }
 
     @Override
-    public final boolean register(BotCommand botCommand) {
+    public final boolean register(DefaultBotCommand botCommand) {
         if (commandRegistryMap.containsKey(botCommand.getCommandIdentifier())) {
             return false;
         }
@@ -46,16 +46,16 @@ public final class CommandRegistry implements ICommandRegistry {
     }
 
     @Override
-    public final Map<BotCommand, Boolean> registerAll(BotCommand... botCommands) {
-        Map<BotCommand, Boolean> resultMap = new HashMap<>(botCommands.length);
-        for (BotCommand botCommand : botCommands) {
+    public final Map<DefaultBotCommand, Boolean> registerAll(DefaultBotCommand... botCommands) {
+        Map<DefaultBotCommand, Boolean> resultMap = new HashMap<>(botCommands.length);
+        for (DefaultBotCommand botCommand : botCommands) {
             resultMap.put(botCommand, register(botCommand));
         }
         return resultMap;
     }
 
     @Override
-    public final boolean deregister(BotCommand botCommand) {
+    public final boolean deregister(DefaultBotCommand botCommand) {
         if (commandRegistryMap.containsKey(botCommand.getCommandIdentifier())) {
             commandRegistryMap.remove(botCommand.getCommandIdentifier());
             return true;
@@ -64,21 +64,21 @@ public final class CommandRegistry implements ICommandRegistry {
     }
 
     @Override
-    public final Map<BotCommand, Boolean> deregisterAll(BotCommand... botCommands) {
-        Map<BotCommand, Boolean> resultMap = new HashMap<>(botCommands.length);
-        for (BotCommand botCommand : botCommands) {
+    public final Map<DefaultBotCommand, Boolean> deregisterAll(DefaultBotCommand... botCommands) {
+        Map<DefaultBotCommand, Boolean> resultMap = new HashMap<>(botCommands.length);
+        for (DefaultBotCommand botCommand : botCommands) {
             resultMap.put(botCommand, deregister(botCommand));
         }
         return resultMap;
     }
 
     @Override
-    public final Collection<BotCommand> getRegisteredCommands() {
+    public final Collection<DefaultBotCommand> getRegisteredCommands() {
         return commandRegistryMap.values();
     }
 
     @Override
-    public final BotCommand getRegisteredCommand(String commandIdentifier) {
+    public final DefaultBotCommand getRegisteredCommand(String commandIdentifier) {
         return commandRegistryMap.get(commandIdentifier);
     }
 
@@ -95,15 +95,15 @@ public final class CommandRegistry implements ICommandRegistry {
     public final boolean executeCommand(AbsSender absSender, Message message) {
         if (message.hasText()) {
             String text = message.getText();
-            if (text.startsWith(BotCommand.COMMAND_INIT_CHARACTER)) {
+            if (text.startsWith(DefaultBotCommand.COMMAND_INIT_CHARACTER)) {
                 String commandMessage = text.substring(1);
-                String[] commandSplit = commandMessage.split(BotCommand.COMMAND_PARAMETER_SEPARATOR_REGEXP);
+                String[] commandSplit = commandMessage.split(DefaultBotCommand.COMMAND_PARAMETER_SEPARATOR_REGEXP);
 
                 String command = removeUsernameFromCommandIfNeeded(commandSplit[0]);
 
                 if (commandRegistryMap.containsKey(command)) {
                     String[] parameters = Arrays.copyOfRange(commandSplit, 1, commandSplit.length);
-                    commandRegistryMap.get(command).execute(absSender, message.getFrom(), message.getChat(), parameters);
+                    commandRegistryMap.get(command).execute(absSender, message, parameters);
                     return true;
                 } else if (defaultConsumer != null) {
                     defaultConsumer.accept(absSender, message);

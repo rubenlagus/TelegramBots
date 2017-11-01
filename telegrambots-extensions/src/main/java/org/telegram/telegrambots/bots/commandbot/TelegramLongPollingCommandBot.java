@@ -7,8 +7,8 @@ import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.AbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.bots.commandbot.commands.CommandRegistry;
+import org.telegram.telegrambots.bots.commandbot.commands.DefaultBotCommand;
 import org.telegram.telegrambots.bots.commandbot.commands.ICommandRegistry;
 
 import java.util.Collection;
@@ -90,27 +90,27 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
     }
 
     @Override
-    public final boolean register(BotCommand botCommand) {
+    public final boolean register(DefaultBotCommand botCommand) {
         return commandRegistry.register(botCommand);
     }
 
     @Override
-    public final Map<BotCommand, Boolean> registerAll(BotCommand... botCommands) {
+    public final Map<DefaultBotCommand, Boolean> registerAll(DefaultBotCommand... botCommands) {
         return commandRegistry.registerAll(botCommands);
     }
 
     @Override
-    public final boolean deregister(BotCommand botCommand) {
+    public final boolean deregister(DefaultBotCommand botCommand) {
         return commandRegistry.deregister(botCommand);
     }
 
     @Override
-    public final Map<BotCommand, Boolean> deregisterAll(BotCommand... botCommands) {
+    public final Map<DefaultBotCommand, Boolean> deregisterAll(DefaultBotCommand... botCommands) {
         return commandRegistry.deregisterAll(botCommands);
     }
 
     @Override
-    public final Collection<BotCommand> getRegisteredCommands() {
+    public final Collection<DefaultBotCommand> getRegisteredCommands() {
         return commandRegistry.getRegisteredCommands();
     }
 
@@ -120,7 +120,7 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
     }
 
     @Override
-    public final BotCommand getRegisteredCommand(String commandIdentifier) {
+    public final DefaultBotCommand getRegisteredCommand(String commandIdentifier) {
         return commandRegistry.getRegisteredCommand(commandIdentifier);
     }
 
