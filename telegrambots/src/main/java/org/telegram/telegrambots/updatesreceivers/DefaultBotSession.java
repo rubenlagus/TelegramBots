@@ -24,6 +24,7 @@ import org.telegram.telegrambots.logging.BotLogger;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidParameterException;
@@ -258,6 +259,10 @@ public class DefaultBotSession implements BotSession {
                     } catch (JSONException e) {
                         BotLogger.severe(responseContent, LOGTAG, e);
                     }
+                }
+            } catch (SocketException e) {
+                if (!e.getMessage().equals("Socket Closed")) {
+                    BotLogger.severe(LOGTAG, e);
                 }
             } catch (SocketTimeoutException e) {
                 BotLogger.fine(LOGTAG, e);
