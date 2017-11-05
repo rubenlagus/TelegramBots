@@ -77,7 +77,15 @@ Do note that:
 With abilities, you can specify the context of the feature. If you only want the command to be available for groups, then you can set `.locality(GROUP)`. If it is a very sensitive command that only admins should have access to, then set `.privacy(ADMIN)`.
 This allows for abilities with protection guarantees on who can use it and where it can be used.
 
-The following is a snippet of how this would look like with the plain basic API. 
+All abilities have access to the following important methods.
+* `users()` - Returns a map of ID -> User
+* `userIds()` - Returns a map of Username -> ID
+* `blacklist()` - Returns a set of IDs of banned users
+* `admins()` - Returns a set of IDs of bot administrators
+
+`users()` and `userIds()` accumulate data of all the users who have contacted your bot. Even when a user changes some information (like his or her nickname), the bot will be able to detect the change and update its DB accordingly.
+
+The following is a snippet of how this ability would look like with the plain basic API. 
 ```java
    @Override
    public void onUpdateReceived(Update update) {
