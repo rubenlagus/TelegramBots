@@ -261,7 +261,7 @@ public class DefaultBotSession implements BotSession {
                     }
                 }
             } catch (SocketException e) {
-                if (!e.getMessage().equals("Socket Closed") {
+                if (!e.getMessage().equals("Socket Closed")) {
                     BotLogger.severe(LOGTAG, e);
                 }
             } catch (SocketTimeoutException e) {
