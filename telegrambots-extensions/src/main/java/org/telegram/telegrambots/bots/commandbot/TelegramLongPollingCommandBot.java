@@ -38,7 +38,8 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      * Creates a TelegramLongPollingCommandBot with custom options and allowing commands with
      * usernames
      * Use ICommandRegistry's methods on this bot to register commands
-     * @param options Bot options
+     *
+     * @param options     Bot options
      * @param botUsername Username of the bot
      */
     public TelegramLongPollingCommandBot(DefaultBotOptions options, String botUsername) {
@@ -48,10 +49,11 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
     /**
      * Creates a TelegramLongPollingCommandBot
      * Use ICommandRegistry's methods on this bot to register commands
-     * @param options Bot options
+     *
+     * @param options                   Bot options
      * @param allowCommandsWithUsername true to allow commands with parameters (default),
      *                                  false otherwise
-     * @param botUsername bot username of this bot
+     * @param botUsername               bot username of this bot
      */
     public TelegramLongPollingCommandBot(DefaultBotOptions options, boolean allowCommandsWithUsername, String botUsername) {
         super(options);
@@ -64,26 +66,39 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
         if (update.hasMessage()) {
             Message message = update.getMessage();
             if (message.isCommand() && !filter(message)) {
-                if (commandRegistry.executeCommand(this, message)) {
-                    return;
+                if (!commandRegistry.executeCommand(this, message)) {
+                    //we have received a not registered command, handle it as invalid
+                    processInvalidCommandUpdate(update);
                 }
+                return;
             }
         }
         processNonCommandUpdate(update);
     }
 
     /**
+     * This method is called when user sends a not registered command. By default it will just call processNonCommandUpdate(),
+     * override it in your implementation if you want your bot to do other things, such as sending an error message
+     *
+     * @param update Received update from Telegram
+     */
+    protected void processInvalidCommandUpdate(Update update) {
+        processNonCommandUpdate(update);
+    }
+
+
+    /**
      * Override this function in your bot implementation to filter messages with commands
-     *
+     * <p>
      * For example, if you want to prevent commands execution incoming from group chat:
-     *   #
-     *   # return !message.getChat().isGroupChat();
-     *   #
+     * #
+     * # return !message.getChat().isGroupChat();
+     * #
      *
-     * @note Default implementation doesn't filter anything
      * @param message Received message
      * @return true if the message must be ignored by the command bot and treated as a non command message,
      * false otherwise
+     * @note Default implementation doesn't filter anything
      */
     protected boolean filter(Message message) {
         return false;
@@ -134,10 +149,10 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
 
     /**
      * Process all updates, that are not commands.
-     * @warning Commands that have valid syntax but are not registered on this bot,
-     * won't be forwarded to this method <b>if a default action is present</b>.
      *
      * @param update the update
+     * @warning Commands that have valid syntax but are not registered on this bot,
+     * won't be forwarded to this method <b>if a default action is present</b>.
      */
     public abstract void processNonCommandUpdate(Update update);
 }
