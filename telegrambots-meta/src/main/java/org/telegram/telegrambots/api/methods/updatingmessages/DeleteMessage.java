@@ -85,7 +85,7 @@ public class DeleteMessage extends BotApiMethod<Boolean> {
             if (result.getOk()) {
                 return result.getResult();
             } else {
-                throw new TelegramApiRequestException("Error editing message caption", result);
+                throw new TelegramApiRequestException("Error deleting message", result);
             }
         } catch (IOException e) {
             throw new TelegramApiRequestException("Unable to deserialize response", e);
