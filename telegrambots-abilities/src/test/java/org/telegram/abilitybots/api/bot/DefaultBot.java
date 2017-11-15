@@ -1,10 +1,8 @@
 package org.telegram.abilitybots.api.bot;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.telegram.abilitybots.api.db.DBContext;
 import org.telegram.abilitybots.api.objects.Ability;
 import org.telegram.abilitybots.api.objects.Ability.AbilityBuilder;
-import org.telegram.abilitybots.api.sender.MessageSender;
 
 import static org.telegram.abilitybots.api.objects.Ability.builder;
 import static org.telegram.abilitybots.api.objects.Flag.CALLBACK_QUERY;
@@ -38,8 +36,8 @@ public class DefaultBot extends AbilityBot {
     return getDefaultBuilder()
         .name(DEFAULT)
         .info("dis iz default command")
-        .reply(upd -> sender.send("reply", upd.getMessage().getChatId()), MESSAGE, update -> update.getMessage().getText().equals("must reply"))
-        .reply(upd -> sender.send("reply", upd.getCallbackQuery().getMessage().getChatId()), CALLBACK_QUERY)
+        .reply(upd -> silent.send("reply", upd.getMessage().getChatId()), MESSAGE, update -> update.getMessage().getText().equals("must reply"))
+        .reply(upd -> silent.send("reply", upd.getCallbackQuery().getMessage().getChatId()), CALLBACK_QUERY)
         .build();
   }
 
@@ -69,10 +67,5 @@ public class DefaultBot extends AbilityBot {
 
   public Ability testAbility() {
     return getDefaultBuilder().build();
-  }
-
-  @VisibleForTesting
-  void setSender(MessageSender sender) {
-    this.sender = sender;
   }
 }

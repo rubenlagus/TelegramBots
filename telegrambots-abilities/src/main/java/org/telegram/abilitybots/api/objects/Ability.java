@@ -149,7 +149,7 @@ public final class Ability {
     private Consumer<MessageContext> consumer;
     private Consumer<MessageContext> postConsumer;
     private List<Reply> replies;
-    private Flag[] flags;
+    private Predicate<Update>[] flags;
 
     private AbilityBuilder() {
       replies = newArrayList();
@@ -170,7 +170,7 @@ public final class Ability {
       return this;
     }
 
-    public AbilityBuilder flag(Flag... flags) {
+    public AbilityBuilder flag(Predicate<Update>... flags) {
       this.flags = flags;
       return this;
     }
