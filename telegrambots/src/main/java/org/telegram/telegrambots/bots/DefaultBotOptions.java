@@ -26,6 +26,7 @@ public class DefaultBotOptions implements BotOptions {
         baseUrl = ApiConstants.BASE_URL;
     }
 
+    @Override
     public String getBaseUrl() {
         return baseUrl;
     }

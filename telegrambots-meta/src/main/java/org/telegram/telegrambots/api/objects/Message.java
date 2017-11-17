@@ -55,6 +55,7 @@ public class Message implements BotApiObject {
     private static final String VIDEO_NOTE_FIELD = "video_note";
     private static final String AUTHORSIGNATURE_FIELD = "author_signature";
     private static final String FORWARDSIGNATURE_FIELD = "forward_signature";
+    private static final String MEDIAGROUPID_FIELD = "media_group_id";
 
     @JsonProperty(MESSAGEID_FIELD)
     private Integer messageId; ///< Integer	Unique message identifier
@@ -172,7 +173,8 @@ public class Message implements BotApiObject {
     private String authorSignature; ///< Optional. Post author signature for posts in channel chats
     @JsonProperty(FORWARDSIGNATURE_FIELD)
     private String forwardSignature; ///< Optional. Post author signature for messages forwarded from channel chats
-
+    @JsonProperty(MEDIAGROUPID_FIELD)
+    private String mediaGroupId;
 
     public Message() {
         super();
@@ -412,6 +414,10 @@ public class Message implements BotApiObject {
         return forwardSignature;
     }
 
+    public String getMediaGroupId() {
+        return mediaGroupId;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
@@ -455,6 +461,7 @@ public class Message implements BotApiObject {
                 ", videoNote=" + videoNote +
                 ", authorSignature='" + authorSignature + '\'' +
                 ", forwardSignature='" + forwardSignature + '\'' +
+                ", mediaGroupId='" + mediaGroupId + '\'' +
                 '}';
     }
 }

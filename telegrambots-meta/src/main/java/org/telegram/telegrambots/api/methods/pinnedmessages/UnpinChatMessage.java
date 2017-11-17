@@ -8,7 +8,6 @@ import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -16,7 +15,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * @author Ruben Bermudez
  * @version 3.1
- * Use this method to unpin a message in a supergroup chat.
+ * Use this method to unpin a message in a supergroup or channel.
  * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
  * Returns True on success.
  */
@@ -26,7 +25,7 @@ public class UnpinChatMessage extends BotApiMethod<Boolean> {
     private static final String CHATID_FIELD = "chat_id";
 
     @JsonProperty(CHATID_FIELD)
-    private String chatId; ///< Required. Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+    private String chatId; ///< Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
 
     public UnpinChatMessage() {
         super();
