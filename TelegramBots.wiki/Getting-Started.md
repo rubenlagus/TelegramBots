@@ -11,13 +11,13 @@ First you need ot get the library and add it to your project. There are few poss
            <dependency>
               <groupId>org.telegram</groupId>
               <artifactId>telegrambots</artifactId>
-              <version>3.4</version>
+              <version>3.5</version>
            </dependency>
         ```
     * With **Gradle**:
     
         ```groovy
-          compile group: 'org.telegram', name: 'telegrambots', version: '3.4'
+          compile group: 'org.telegram', name: 'telegrambots', version: '3.5'
         ```
  
 2. Don't like **Maven Central Repository**? It can also be taken from [Jitpack](https://jitpack.io/#rubenlagus/TelegramBots).
@@ -88,7 +88,7 @@ Now that we have the library, we can start coding. There are few steps to follow
                         .setChatId(update.getMessage().getChatId())
                         .setText(update.getMessage().getText());
                 try {
-                    sendMessage(message); // Call method to send the message
+                    execute(message); // Call method to send the message
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }

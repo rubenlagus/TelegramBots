@@ -41,7 +41,7 @@ public class ChatMember implements BotApiObject {
     @JsonProperty(CANPOSTMESSAGES_FIELD)
     private Boolean canPostMessages; ///< Optional. Administrators only. True, if the administrator can post in the channel, channels only
     @JsonProperty(CANEDITMESSAGES_FIELD)
-    private Boolean canEditMessages; ///< Optional. Administrators only. True, if the administrator can edit messages of other users, channels only
+    private Boolean canEditMessages; ///< Optional. Administrators only. True, if the administrator can edit messages of other users and can pin messages, channels only
     @JsonProperty(CANDELETEMESSAGES_FIELD)
     private Boolean canDeleteMessages; ///< Optional. Administrators only. True, if the administrator can delete messages of other users
     @JsonProperty(CANINVITEUSERS_FIELD)
@@ -49,7 +49,7 @@ public class ChatMember implements BotApiObject {
     @JsonProperty(CANRESTRICTUSERS_FIELD)
     private Boolean canRestrictUsers; ///< Optional. Administrators only. True, if the administrator can restrict, ban or unban chat members
     @JsonProperty(CANPINMESSAGES_FIELD)
-    private Boolean canPinMessages; ///< Optional. Administrators only. True, if the administrator can pin messages, supergroups only
+    private Boolean canPinMessages; ///< Optional. Administrators only. True, if the administrator can pin messages
     @JsonProperty(CANPROMOTEMEMBERS_FIELD)
     private Boolean canPromoteMembers; ///< Optional. Administrators only. True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that it has promoted, directly or indirectly (promoted by administators that were appointed by the bot)
     @JsonProperty(CANSENDMESSAGES_FIELD)

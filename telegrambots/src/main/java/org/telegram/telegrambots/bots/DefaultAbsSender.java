@@ -22,6 +22,7 @@ import org.telegram.telegrambots.api.methods.stickers.CreateNewStickerSet;
 import org.telegram.telegrambots.api.methods.stickers.UploadStickerFile;
 import org.telegram.telegrambots.api.objects.File;
 import org.telegram.telegrambots.api.objects.Message;
+import org.telegram.telegrambots.api.objects.media.InputMedia;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
@@ -33,6 +34,7 @@ import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -492,6 +494,49 @@ public abstract class DefaultAbsSender extends AbsSender {
             httppost.setEntity(multipart);
 
             return setChatPhoto.deserializeResponse(sendHttpPostRequest(httppost));
+        } catch (IOException e) {
+            throw new TelegramApiException("Unable to set chat photo", e);
+        }
+    }
+
+    @Override
+    public List<Message> sendMediaGroup(SendMediaGroup sendMediaGroup) throws TelegramApiException {
+        assertParamNotNull(sendMediaGroup, "sendMediaGroup");
+        sendMediaGroup.validate();
+
+        try {
+            String url = getBaseUrl() + SendMediaGroup.PATH;
+            HttpPost httppost = configuredHttpPost(url);
+
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setLaxMode();
+            builder.setCharset(StandardCharsets.UTF_8);
+            builder.addTextBody(SendMediaGroup.CHATID_FIELD, sendMediaGroup.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
+            builder.addTextBody(SendMediaGroup.MEDIA_FIELD, objectMapper.writeValueAsString(sendMediaGroup.getMedia()), TEXT_PLAIN_CONTENT_TYPE);
+
+            for (InputMedia inputMedia : sendMediaGroup.getMedia()) {
+                if (inputMedia.isNewMedia()) {
+                    if (inputMedia.getMediaFile() != null) {
+                        builder.addBinaryBody(inputMedia.getMediaName(), inputMedia.getMediaFile(), ContentType.APPLICATION_OCTET_STREAM, inputMedia.getMediaName());
+                    } else if (inputMedia.getNewMediaStream() != null) {
+                        builder.addBinaryBody(inputMedia.getMediaName(), inputMedia.getNewMediaStream(), ContentType.APPLICATION_OCTET_STREAM, inputMedia.getMediaName());
+                    }
+                }
+            }
+
+            if (sendMediaGroup.getDisableNotification() != null) {
+                builder.addTextBody(SendMediaGroup.DISABLENOTIFICATION_FIELD, sendMediaGroup.getDisableNotification().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            }
+
+            if (sendMediaGroup.getReplyToMessageId() != null) {
+                builder.addTextBody(SendMediaGroup.REPLYTOMESSAGEID_FIELD, sendMediaGroup.getReplyToMessageId().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            }
+
+
+            HttpEntity multipart = builder.build();
+            httppost.setEntity(multipart);
+
+            return sendMediaGroup.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
             throw new TelegramApiException("Unable to set chat photo", e);
         }

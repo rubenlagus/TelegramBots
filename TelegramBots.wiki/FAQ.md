@@ -2,9 +2,10 @@
 * [How to send photos?](#how_to_send_photos)
 * [How do I send photos by file_id?](#how_to_send_photos_file_id)
 * [How to use custom keyboards?](#how_to_use_custom_keyboards)
-* [How can I run my bot?](#how_to_host)     
+* [How can I run my bot?](#how_to_host)
 * [How can I compile my project?](#how_to_compile)
-
+* [Method ```sendMessage()``` (or other) is deprecated, what should I do?](#sendmessage_deprecated)
+* [Is there any example for WebHook?](#example_webhook)
 
 ## <a id="how_to_get_picture"></a>How to download photo? ##
 
@@ -42,8 +43,8 @@ public String getFilePath(PhotoSize photo) {
         GetFile getFileMethod = new GetFile();
         getFileMethod.setFileId(photo.getFileId());
         try {
-            // We execute the method using AbsSender::getFile method.
-            File file = getFile(getFileMethod);
+            // We execute the method using AbsSender::execute method.
+            File file = execute(getFileMethod);
             // We now have the file_path
             return file.getFilePath();
         } catch (TelegramApiException e) {
@@ -186,7 +187,7 @@ Custom keyboards can be appended to messages using the `setReplyMarkup`. In this
 
         try {
             // Send the message
-            sendMessage(message);
+            execute(message);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
@@ -199,8 +200,24 @@ You don't need to spend a lot of money into hosting your own telegram bot. Basic
    
    1. Hosting on your own hardware. It can be a Mini-PC like a Raspberry Pi. The costs for the hardware (~35€) and annual costs for power (~7-8€) are low. Keep in mind that your internet connection might be limited and a Mini-Pc is not ideal for a large users base.
    2. Run your bot in a Virtual Server/dedicated root server. There are many hosters out there that are providing cheap servers that fit your needs. The cheapest one should be openVZ-Containers or a KVM vServer. Example providers are [Hetzner](https://www.hetzner.de/ot/), [DigitalOcean](https://www.digitalocean.com/),  (are providing systems that have a high availability but cost's a bit more) and [OVH](https://ovh.com)
+For a deeper explanation for deploying your bot on DigitalOcean please see the [Lesson 5. Deploy your bot](https://monsterdeveloper.gitbooks.io/writing-telegram-bots-on-java/content/lesson-5.-deploy-your-bot.html) chapter in [MonsterDeveloper](https://github.com/MonsterDeveloper)'s book
 
 ## <a id="how_to_compile"></a>How can I compile my project? ##
 
 This is just one way, how you can compile it (here with maven). The example below below is compiling the TelegramBotsExample repo. 
    [![asciicast](https://asciinema.org/a/4np9i2u9onuitkg287ism23kj.png)](https://asciinema.org/a/4np9i2u9onuitkg287ism23kj)
+   
+## <a id="sendmessage_deprecated"></a>Method ```sendMessage()``` (or other) is deprecated, what should I do? ##
+Please use ```execute()``` instead. 
+Example:
+```java
+SendMessage sn = new SendMessage();
+//add chat id and text
+execute(sn);
+```
+
+If you extend ```TelegramLongPollingCommandBot```, then use ```AbsSender.execute()``` instead.
+
+
+## <a id="example_webhook"></a>Is there any example for WebHook? ##
+Please see the example Bot for https://telegram.me/SnowcrashBot in the [TelegramBotsExample]() repo and also an [example bot for Sping Boot](https://github.com/UnAfraid/SpringTelegramBot) from [UnAfraid](https://github.com/UnAfraid) [here](https://github.com/UnAfraid/SpringTelegramBot/blob/master/src/main/java/com/github/unafraid/spring/bot/TelegramWebhookBot.java)

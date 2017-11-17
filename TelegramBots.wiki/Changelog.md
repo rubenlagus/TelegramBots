@@ -1,3 +1,11 @@
+### <a id="3.5"></a>3.5 ###
+1. Support for Api Version [3.5](https://core.telegram.org/bots/api-changelog#november-17-2017)
+2. Bug fixing: #168, #329 and #335
+3. Added processInvalidCommandUpdate (#337)
+4. AbilitiyBot update and tutorial (#324)
+5. Add DefaultBotCommand with message ID (#330)
+6. New wiki content (#326 and #327)
+
 ### <a id="3.4"></a>3.4 ###
 1. Support for Api Version [3.4](https://core.telegram.org/bots/api-changelog#october-11-2017)
 2. Use regular expressions to split parameters in `TelegramLongPollingCommandBot` (#309)

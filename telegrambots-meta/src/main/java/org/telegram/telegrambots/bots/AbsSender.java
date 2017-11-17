@@ -826,6 +826,13 @@ public abstract class AbsSender {
     public abstract Message sendVoice(SendVoice sendVoice) throws TelegramApiException;
 
     /**
+     * Send a media group (https://core.telegram.org/bots/api#sendMediaGroup)
+     * @return If success, list of generated messages
+     * @throws TelegramApiException If there is any error sending the media group
+     */
+    public abstract List<Message> sendMediaGroup(SendMediaGroup sendMediaGroup) throws TelegramApiException;
+
+    /**
      * Set chat profile photo (https://core.telegram.org/bots/api#setChatPhoto)
      * @param setChatPhoto Information to set the photo
      * @return If success, true is returned

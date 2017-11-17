@@ -51,7 +51,7 @@ public class PromoteChatMember extends BotApiMethod<Boolean> {
     @JsonProperty(CANRESTRICTMEMBERS_FIELD)
     private Boolean canRestrictMembers; ///< Pass True, if the administrator can restrict, ban or unban chat members
     @JsonProperty(CANPINMESSAGES_FIELD)
-    private Boolean canPinMessages; ///< Pass True, if the administrator can pin messages, supergroups only
+    private Boolean canPinMessages; ///< Pass True, if the administrator can pin messages
     @JsonProperty(CANPROMOTEMEMBERS_FIELD)
     private Boolean canPromoteMembers; ///< Pass True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administators that were appointed by the him)
 
