@@ -190,9 +190,7 @@ public class DefaultBotSession implements BotSession {
                         try {
                             List<Update> updates = updatesSupplier.getUpdates();
                             if (updates.isEmpty()) {
-                                if (running) {
-                                    lock.wait(500);
-                                }
+                                lock.wait(500);
                             } else {
                                 updates.removeIf(x -> x.getUpdateId() < lastReceivedUpdate);
                                 lastReceivedUpdate = updates.parallelStream()
@@ -211,6 +209,7 @@ public class DefaultBotSession implements BotSession {
                                 receivedUpdates.clear();
                             }
                             BotLogger.debug(LOGTAG, e);
+                            interrupt();
                         } catch (Exception global) {
                             BotLogger.severe(LOGTAG, global);
                             try {
@@ -222,6 +221,7 @@ public class DefaultBotSession implements BotSession {
                                     receivedUpdates.clear();
                                 }
                                 BotLogger.debug(LOGTAG, e);
+                                interrupt();
                             }
                         }
                     }
@@ -230,7 +230,7 @@ public class DefaultBotSession implements BotSession {
             BotLogger.debug(LOGTAG, "Reader thread has being closed");
         }
 
-        private List<Update> getUpdatesFromServer() throws InterruptedException, Exception {
+        private List<Update> getUpdatesFromServer() throws IOException {
             GetUpdates request = new GetUpdates()
                     .setLimit(100)
                     .setTimeout(ApiConstants.GETUPDATES_TIMEOUT)
@@ -266,12 +266,13 @@ public class DefaultBotSession implements BotSession {
                         BotLogger.severe(responseContent, LOGTAG, e);
                     }
                 }
-            } catch (SocketException e) {
+            } catch (SocketException | InvalidObjectException | TelegramApiRequestException e) {
                 BotLogger.severe(LOGTAG, e);
             } catch (SocketTimeoutException e) {
                 BotLogger.fine(LOGTAG, e);
-            } catch (InvalidObjectException | TelegramApiRequestException e) {
-                BotLogger.severe(LOGTAG, e);
+            } catch (InterruptedException e) {
+                BotLogger.fine(LOGTAG, e);
+                interrupt();
             }
             return Collections.emptyList();
         }
@@ -279,7 +280,7 @@ public class DefaultBotSession implements BotSession {
 
     public interface UpdatesSupplier {
 
-        List<Update> getUpdates() throws InterruptedException, Exception;
+        List<Update> getUpdates() throws Exception;
     }
 
     private List<Update> getUpdateList() {
@@ -310,6 +311,7 @@ public class DefaultBotSession implements BotSession {
                     callback.onUpdatesReceived(updates);
                 } catch (InterruptedException e) {
                     BotLogger.debug(LOGTAG, e);
+                    interrupt();
                 } catch (Exception e) {
                     BotLogger.severe(LOGTAG, e);
                 }
