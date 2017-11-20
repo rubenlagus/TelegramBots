@@ -7,6 +7,7 @@ import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Ruben Bermudez
@@ -48,6 +49,21 @@ public class InlineKeyboardMarkup implements ReplyKeyboard {
                 inlineKeyboardButton.validate();
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof InlineKeyboardMarkup)) {
+            return false;
+        }
+        InlineKeyboardMarkup inlineKeyboardMarkup = (InlineKeyboardMarkup) o;
+        return Objects.equals(keyboard, inlineKeyboardMarkup.keyboard);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(keyboard);
     }
 
     @Override
