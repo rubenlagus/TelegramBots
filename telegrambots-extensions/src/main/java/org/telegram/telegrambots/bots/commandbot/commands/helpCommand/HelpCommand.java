@@ -56,12 +56,12 @@ public class HelpCommand extends ManCommand {
 	}
 	
 	/**
-	 * Reads the extended Description from a BotCommand. If the Command is not of Type {@link IManCommand}, it returns the normal Description;
+	 * Reads the extended Description from a BotCommand. If the Command is not of Type {@link IManCommand}, it calls toString();
 	 * @param command a command the extended Descriptions is read from
-	 * @return the extended Description or the normal Description if IManCommand is not implemented
+	 * @return the extended Description or the toString() if IManCommand is not implemented
 	 */
 	public static String getManText(BotCommand command) {
-		return IManCommand.class.isInstance(command) ? getManText((IManCommand) command) : command.getDescription();
+		return IManCommand.class.isInstance(command) ? getManText((IManCommand) command) : command.toString();
 	}
 	
 	/**
