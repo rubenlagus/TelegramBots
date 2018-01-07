@@ -79,7 +79,7 @@ https://telegram.me/directionsbot (**Basic messages**)
 
 https://telegram.me/filesbot (**Send files by file_id**)
 
-https://telegram.me/TGlanguagesbot (**Send files uploding them**)
+https://telegram.me/TGlanguagesbot (**Send files uploading them**)
 
 https://telegram.me/RaeBot (**Inline support**)
 
