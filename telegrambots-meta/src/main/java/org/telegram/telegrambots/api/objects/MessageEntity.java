@@ -13,6 +13,47 @@ import org.telegram.telegrambots.api.interfaces.BotApiObject;
  * @date 20 of June of 2015
  */
 public class MessageEntity implements BotApiObject {
+    /**
+     * Class-container for entity type constants
+     */
+    class EntityTypes {
+        /**
+         * {@literal @}username
+         */
+        final public static String MENTION = "mention";
+
+        /**
+         * #hashtag
+         */
+        final public static String HASHTAG = "hashtag";
+
+        /**
+         * /bot_command
+         */
+        final public static String BOT_COMMAND = "bot_command";
+
+        /**
+         * https://example.com
+         */
+        final public static String URL = "url";
+
+        /**
+         * email@example.com
+         */
+        final public static String EMAIL = "email";
+
+        /**
+         * Text mention for users without usernames
+         */
+        final public static String TEXT_MENTION = "text_mention";
+
+        final public static String BOLD_TEXT = "bold";
+        final public static String ITALIC_TEXT = "italic";
+        final public static String CODE_STRING = "code";
+        final public static String CODE_BLOCK = "pre";
+
+        private EntityTypes() {}
+    }
 
     private static final String TYPE_FIELD = "type";
     private static final String OFFSET_FIELD = "offset";
