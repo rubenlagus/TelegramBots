@@ -1,7 +1,7 @@
 # Advanced
 This will be more of a FAQ on some important notes before you embark on your next big bot project!
 
-## Default Abilties
+## Default Abilities
 
 It is possible to declare "DEFAULT" abilities that process non-command messages. This is quite close to a reply. If a user says "Hey there" and the default ability is implemented, it will process this input.
 ```java
