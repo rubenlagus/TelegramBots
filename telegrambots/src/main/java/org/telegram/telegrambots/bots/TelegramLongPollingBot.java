@@ -55,4 +55,10 @@ public abstract class TelegramLongPollingBot extends DefaultAbsSender implements
             throw new TelegramApiRequestException("Error executing setWebook method", e);
         }
     }
+
+    @Override
+    public void onClosing() {
+        exe.shutdown();
+    }
+
 }
