@@ -11,6 +11,10 @@ public enum Privacy {
    */
   PUBLIC,
   /**
+   * Only group admins would get to initiate this command.
+   */
+  GROUP_ADMIN,
+  /**
    * A global admin of the bot, regardless of the group the bot is in.
    */
   ADMIN,

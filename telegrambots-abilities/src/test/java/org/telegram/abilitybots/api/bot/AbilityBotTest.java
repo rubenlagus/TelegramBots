@@ -2,7 +2,6 @@ package org.telegram.abilitybots.api.bot;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Files;
-import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.junit.After;
 import org.junit.Before;
@@ -13,6 +12,7 @@ import org.telegram.abilitybots.api.sender.MessageSender;
 import org.telegram.abilitybots.api.sender.SilentSender;
 import org.telegram.abilitybots.api.util.Pair;
 import org.telegram.abilitybots.api.util.Trio;
+import org.telegram.telegrambots.api.methods.groupadministration.GetChatAdministrators;
 import org.telegram.telegrambots.api.objects.*;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
@@ -21,11 +21,14 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
 import static java.lang.String.format;
 import static java.util.Collections.emptySet;
+import static java.util.Optional.empty;
 import static org.apache.commons.io.FileUtils.deleteQuietly;
 import static org.apache.commons.lang3.ArrayUtils.addAll;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
@@ -43,8 +46,7 @@ import static org.telegram.abilitybots.api.objects.Flag.MESSAGE;
 import static org.telegram.abilitybots.api.objects.Locality.ALL;
 import static org.telegram.abilitybots.api.objects.Locality.GROUP;
 import static org.telegram.abilitybots.api.objects.MessageContext.newContext;
-import static org.telegram.abilitybots.api.objects.Privacy.ADMIN;
-import static org.telegram.abilitybots.api.objects.Privacy.PUBLIC;
+import static org.telegram.abilitybots.api.objects.Privacy.*;
 
 public class AbilityBotTest {
   private static final String[] EMPTY_ARRAY = {};
@@ -77,7 +79,7 @@ public class AbilityBotTest {
 
     bot.onUpdateReceived(update);
 
-    verify(silent, times(1)).send(format("Sorry, %s-only feature.", "admin"), MUSER.id());
+    verify(silent, times(1)).send("Sorry, you don't have the required access level to do that.", MUSER.id());
   }
 
   @Test
@@ -342,18 +344,59 @@ public class AbilityBotTest {
     Message message = mock(Message.class);
     org.telegram.telegrambots.api.objects.User user = mock(User.class);
     Ability publicAbility = getDefaultBuilder().privacy(PUBLIC).build();
+    Ability groupAdminAbility = getDefaultBuilder().privacy(GROUP_ADMIN).build();
     Ability adminAbility = getDefaultBuilder().privacy(ADMIN).build();
     Ability creatorAbility = getDefaultBuilder().privacy(Privacy.CREATOR).build();
 
     Trio<Update, Ability, String[]> publicTrio = Trio.of(update, publicAbility, TEXT);
+    Trio<Update, Ability, String[]> groupAdminTrio = Trio.of(update, groupAdminAbility, TEXT);
     Trio<Update, Ability, String[]> adminTrio = Trio.of(update, adminAbility, TEXT);
     Trio<Update, Ability, String[]> creatorTrio = Trio.of(update, creatorAbility, TEXT);
 
     mockUser(update, message, user);
 
     assertEquals("Unexpected result when checking for privacy", true, bot.checkPrivacy(publicTrio));
+    assertEquals("Unexpected result when checking for privacy", false, bot.checkPrivacy(groupAdminTrio));
     assertEquals("Unexpected result when checking for privacy", false, bot.checkPrivacy(adminTrio));
     assertEquals("Unexpected result when checking for privacy", false, bot.checkPrivacy(creatorTrio));
+  }
+
+  @Test
+  public void canValidateGroupAdminPrivacy() throws TelegramApiException {
+    Update update = mock(Update.class);
+    Message message = mock(Message.class);
+    org.telegram.telegrambots.api.objects.User user = mock(User.class);
+    Ability groupAdminAbility = getDefaultBuilder().privacy(GROUP_ADMIN).build();
+
+    Trio<Update, Ability, String[]> groupAdminTrio = Trio.of(update, groupAdminAbility, TEXT);
+
+    mockUser(update, message, user);
+    when(message.isGroupMessage()).thenReturn(true);
+
+    ChatMember member = mock(ChatMember.class);
+    when(member.getUser()).thenReturn(user);
+    when(member.getUser()).thenReturn(user);
+
+    when(silent.execute(any(GetChatAdministrators.class))).thenReturn(Optional.of(newArrayList(member)));
+
+    assertEquals("Unexpected result when checking for privacy", true, bot.checkPrivacy(groupAdminTrio));
+  }
+
+  @Test
+  public void canRestrictNormalUsersFromGroupAdminAbilities() throws TelegramApiException {
+    Update update = mock(Update.class);
+    Message message = mock(Message.class);
+    org.telegram.telegrambots.api.objects.User user = mock(User.class);
+    Ability groupAdminAbility = getDefaultBuilder().privacy(GROUP_ADMIN).build();
+
+    Trio<Update, Ability, String[]> groupAdminTrio = Trio.of(update, groupAdminAbility, TEXT);
+
+    mockUser(update, message, user);
+    when(message.isGroupMessage()).thenReturn(true);
+
+    when(silent.execute(any(GetChatAdministrators.class))).thenReturn(empty());
+
+    assertEquals("Unexpected result when checking for privacy", false, bot.checkPrivacy(groupAdminTrio));
   }
 
   @Test
@@ -434,6 +477,25 @@ public class AbilityBotTest {
     Message message = mock(Message.class);
 
     String text = "/test";
+    when(update.hasMessage()).thenReturn(true);
+    when(update.getMessage()).thenReturn(message);
+    when(update.getMessage().hasText()).thenReturn(true);
+    when(message.getText()).thenReturn(text);
+
+    Trio<Update, Ability, String[]> trio = bot.getAbility(update);
+
+    Ability expected = bot.testAbility();
+    Ability actual = trio.b();
+
+    assertEquals("Wrong ability was fetched", expected, actual);
+  }
+
+  @Test
+  public void canFetchAbilityCaseInsensitive() {
+    Update update = mock(Update.class);
+    Message message = mock(Message.class);
+
+    String text = "/tESt";
     when(update.hasMessage()).thenReturn(true);
     when(update.getMessage()).thenReturn(message);
     when(update.getMessage().hasText()).thenReturn(true);
