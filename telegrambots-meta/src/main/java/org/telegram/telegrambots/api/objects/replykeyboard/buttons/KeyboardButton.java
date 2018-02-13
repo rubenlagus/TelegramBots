@@ -6,6 +6,8 @@ import org.telegram.telegrambots.api.interfaces.InputBotApiObject;
 import org.telegram.telegrambots.api.interfaces.Validable;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
+import java.util.Objects;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -86,6 +88,27 @@ public class KeyboardButton implements InputBotApiObject, Validable {
         if (requestContact != null && requestLocation != null && requestContact && requestLocation) {
             throw new TelegramApiValidationException("Cant request contact and location at the same time", this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof KeyboardButton)) {
+            return false;
+        }
+        KeyboardButton keyboardButton = (KeyboardButton) o;
+        return Objects.equals(requestContact, keyboardButton.requestContact)
+                && Objects.equals(requestLocation, keyboardButton.requestLocation)
+                && Objects.equals(text, keyboardButton.text)
+                ;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                requestContact,
+                requestLocation,
+                text);
     }
 
     @Override

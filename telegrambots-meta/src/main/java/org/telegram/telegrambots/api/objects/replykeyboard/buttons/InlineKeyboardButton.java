@@ -6,6 +6,8 @@ import org.telegram.telegrambots.api.interfaces.Validable;
 import org.telegram.telegrambots.api.objects.games.CallbackGame;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
+import java.util.Objects;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -144,6 +146,35 @@ public class InlineKeyboardButton implements InputBotApiObject, Validable {
         if (text == null || text.isEmpty()) {
             throw new TelegramApiValidationException("Text parameter can't be empty", this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof InlineKeyboardButton)) {
+            return false;
+        }
+        InlineKeyboardButton inlineKeyboardButton = (InlineKeyboardButton) o;
+        return Objects.equals(callbackData, inlineKeyboardButton.callbackData)
+                && Objects.equals(callbackGame, inlineKeyboardButton.callbackGame)
+                && Objects.equals(pay, inlineKeyboardButton.pay)
+                && Objects.equals(switchInlineQuery, inlineKeyboardButton.switchInlineQuery)
+                && Objects.equals(switchInlineQueryCurrentChat, inlineKeyboardButton.switchInlineQueryCurrentChat)
+                && Objects.equals(text, inlineKeyboardButton.text)
+                && Objects.equals(url, inlineKeyboardButton.url)
+                ;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                callbackData,
+                callbackGame,
+                pay,
+                switchInlineQuery,
+                switchInlineQueryCurrentChat,
+                text,
+                url);
     }
 
     @Override
