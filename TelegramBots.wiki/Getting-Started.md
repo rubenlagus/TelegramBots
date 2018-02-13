@@ -53,7 +53,7 @@ Now that we have the library, we can start coding. There are few steps to follow
 
     ```
 
-    * `getBotUsermane()`:  This method must always return your **Bot username**. May look like:
+    * `getBotUsername()`:  This method must always return your **Bot username**. May look like:
 
 
         ```java
