@@ -20,6 +20,7 @@
         <module name="telegrambots-abilities" />
         <module name="telegrambots-extensions" />
         <module name="telegrambots-meta" />
+        <module name="telegrambotsextensions" />
       </profile>
       <profile name="Annotation profile for Bots" enabled="true">
         <sourceOutputDir name="../telegrambots/target/generated-sources/annotations" />
@@ -34,6 +35,7 @@
       <module name="telegrambots-abilities" target="1.8" />
       <module name="telegrambots-extensions" target="1.8" />
       <module name="telegrambots-meta" target="1.8" />
+      <module name="telegrambotsextensions" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
@@ -130,6 +132,8 @@
     <config-path />
   </component>
   <component name="KotlinCommonCompilerArguments">
+    <option name="languageVersion" value="1.0" />
+    <option name="apiVersion" value="1.0" />
     <option name="coroutinesWarn" value="false" />
   </component>
   <component name="MavenProjectsManager">
@@ -273,6 +277,7 @@
       <module fileurl="file://$PROJECT_DIR$/telegrambots-abilities/telegrambots-abilities.iml" filepath="$PROJECT_DIR$/telegrambots-abilities/telegrambots-abilities.iml" />
       <module fileurl="file://$PROJECT_DIR$/telegrambots-extensions/telegrambots-extensions.iml" filepath="$PROJECT_DIR$/telegrambots-extensions/telegrambots-extensions.iml" />
       <module fileurl="file://$PROJECT_DIR$/telegrambots-meta/telegrambots-meta.iml" filepath="$PROJECT_DIR$/telegrambots-meta/telegrambots-meta.iml" />
+      <module fileurl="file://$PROJECT_DIR$/telegrambots-extensions/telegrambotsextensions.iml" filepath="$PROJECT_DIR$/telegrambots-extensions/telegrambotsextensions.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">

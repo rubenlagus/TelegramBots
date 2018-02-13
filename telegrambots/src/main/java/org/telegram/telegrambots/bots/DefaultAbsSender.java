@@ -137,6 +137,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
+            builder.setLaxMode();
             builder.addTextBody(SendDocument.CHATID_FIELD, sendDocument.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
             if (sendDocument.isNewDocument()) {
                 if (sendDocument.getNewDocumentFile() != null) {
@@ -182,6 +183,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
+            builder.setLaxMode();
             builder.addTextBody(SendPhoto.CHATID_FIELD, sendPhoto.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
             if (sendPhoto.isNewPhoto()) {
                 if (sendPhoto.getNewPhotoFile() != null) {
@@ -227,6 +229,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
+            builder.setLaxMode();
             builder.addTextBody(SendVideo.CHATID_FIELD, sendVideo.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
             if (sendVideo.isNewVideo()) {
                 if (sendVideo.getNewVideoFile() != null) {
@@ -281,6 +284,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
+            builder.setLaxMode();
             builder.addTextBody(SendVideoNote.CHATID_FIELD, sendVideoNote.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
             if (sendVideoNote.isNewVideoNote()) {
                 if (sendVideoNote.getNewVideoNoteFile() != null) {
@@ -330,6 +334,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
+            builder.setLaxMode();
             builder.addTextBody(SendSticker.CHATID_FIELD, sendSticker.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
             if (sendSticker.isNewSticker()) {
                 if (sendSticker.getNewStickerFile() != null) {
@@ -376,6 +381,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
+            builder.setLaxMode();
             builder.addTextBody(SendAudio.CHATID_FIELD, sendAudio.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
             if (sendAudio.isNewAudio()) {
                 if (sendAudio.getNewAudioFile() != null) {
@@ -386,7 +392,7 @@ public abstract class DefaultAbsSender extends AbsSender {
                     builder.addBinaryBody(SendAudio.AUDIO_FIELD, new java.io.File(sendAudio.getAudio()), ContentType.create("audio/mpeg"), sendAudio.getAudioName());
                 }
             } else {
-                builder.addTextBody(SendAudio.AUDIO_FIELD, sendAudio.getAudio());
+                builder.addTextBody(SendAudio.AUDIO_FIELD, sendAudio.getAudio(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendAudio.getReplyMarkup() != null) {
                 builder.addTextBody(SendAudio.REPLYMARKUP_FIELD, objectMapper.writeValueAsString(sendAudio.getReplyMarkup()), TEXT_PLAIN_CONTENT_TYPE);
@@ -436,6 +442,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
+            builder.setLaxMode();
             builder.addTextBody(SendVoice.CHATID_FIELD, sendVoice.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
             if (sendVoice.isNewVoice()) {
                 if (sendVoice.getNewVoiceFile() != null) {
@@ -484,6 +491,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
+            builder.setLaxMode();
             builder.addTextBody(SetChatPhoto.CHATID_FIELD, setChatPhoto.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
             if (setChatPhoto.getPhoto() != null) {
                 builder.addBinaryBody(SetChatPhoto.PHOTO_FIELD, setChatPhoto.getPhoto());
