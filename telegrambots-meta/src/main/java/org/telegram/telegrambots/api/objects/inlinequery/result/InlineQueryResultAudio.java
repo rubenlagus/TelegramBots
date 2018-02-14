@@ -9,12 +9,11 @@ import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Represents a link to an mp3 audio file. By default, this audio file will be sent by the
+ * Represents a link to an mp3 audio file. By default, this audio file will be sent by the
  * user. Alternatively, you can use input_message_content to send a message with the specified
  * content instead of the audio.
  * @note This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * ignore them.
- * @date 10 of April of 2016
  */
 public class InlineQueryResultAudio implements InlineQueryResult {
 
@@ -27,6 +26,7 @@ public class InlineQueryResultAudio implements InlineQueryResult {
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String CAPTION_FIELD = "caption";
+    private static final String PARSEMODE_FIELD = "parse_mode";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "audio"; ///< Type of the result, must be "audio"
@@ -46,6 +46,8 @@ public class InlineQueryResultAudio implements InlineQueryResult {
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
     @JsonProperty(CAPTION_FIELD)
     private String caption; ///< Optional. Audio caption (may also be used when resending documents by file_id), 0-200 characters
+    @JsonProperty(PARSEMODE_FIELD)
+    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
 
     public InlineQueryResultAudio() {
         super();
@@ -127,6 +129,15 @@ public class InlineQueryResultAudio implements InlineQueryResult {
         return this;
     }
 
+    public String getParseMode() {
+        return parseMode;
+    }
+
+    public InlineQueryResultAudio setParseMode(String parseMode) {
+        this.parseMode = parseMode;
+        return this;
+    }
+
     @Override
     public void validate() throws TelegramApiValidationException {
         if (id == null || id.isEmpty()) {
@@ -146,7 +157,8 @@ public class InlineQueryResultAudio implements InlineQueryResult {
     @Override
     public String toString() {
         return "InlineQueryResultAudio{" +
-                "id='" + id + '\'' +
+                "type='" + type + '\'' +
+                ", id='" + id + '\'' +
                 ", audioUrl='" + audioUrl + '\'' +
                 ", title='" + title + '\'' +
                 ", performer='" + performer + '\'' +
@@ -154,6 +166,7 @@ public class InlineQueryResultAudio implements InlineQueryResult {
                 ", inputMessageContent=" + inputMessageContent +
                 ", replyMarkup=" + replyMarkup +
                 ", caption='" + caption + '\'' +
+                ", parseMode='" + parseMode + '\'' +
                 '}';
     }
 }

@@ -17,6 +17,7 @@ public abstract class InputMedia<T> implements InputBotApiObject, Validable {
     protected static final String TYPE_FIELD = "type";
     private static final String MEDIA_FIELD = "media";
     private static final String CAPTION_FIELD = "caption";
+    private static final String PARSEMODE_FIELD = "parse_mode";
 
     @JsonProperty(MEDIA_FIELD)
     /**
@@ -27,7 +28,8 @@ public abstract class InputMedia<T> implements InputBotApiObject, Validable {
     private String media;
     @JsonProperty(CAPTION_FIELD)
     private String caption; ///< Optional. Caption of the media to be sent, 0-200 characters
-
+    @JsonProperty(PARSEMODE_FIELD)
+    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
     @JsonIgnore
     private boolean isNewMedia; ///< True to upload a new media, false to use a fileId or URL
     @JsonIgnore
@@ -110,6 +112,15 @@ public abstract class InputMedia<T> implements InputBotApiObject, Validable {
 
     public InputMedia setCaption(String caption) {
         this.caption = caption;
+        return this;
+    }
+
+    public String getParseMode() {
+        return parseMode;
+    }
+
+    public InputMedia<T> setParseMode(String parseMode) {
+        this.parseMode = parseMode;
         return this;
     }
 

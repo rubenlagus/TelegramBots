@@ -1,3 +1,7 @@
+### <a id="3.6"></a>3.6 ###
+1. Support for Api Version [3.6](https://core.telegram.org/bots/api-changelog#february-13-2018)
+2. Bug fixing and other improvements
+
 ### <a id="3.5"></a>3.5 ###
 1. Support for Api Version [3.5](https://core.telegram.org/bots/api-changelog#november-17-2017)
 2. Bug fixing: #168, #329 and #335

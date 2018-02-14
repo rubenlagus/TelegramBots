@@ -16,9 +16,8 @@ import java.io.Serializable;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Use this method to edit captions of messages sent by the bot or via the bot (for inline
+ * Use this method to edit captions of messages sent by the bot or via the bot (for inline
  * bots). On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
- * @date 10 of April of 2016
  */
 public class EditMessageCaption extends BotApiMethod<Serializable> {
     public static final String PATH = "editmessagecaption";
@@ -28,6 +27,7 @@ public class EditMessageCaption extends BotApiMethod<Serializable> {
     private static final String INLINE_MESSAGE_ID_FIELD = "inline_message_id";
     private static final String CAPTION_FIELD = "caption";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
+    private static final String PARSEMODE_FIELD = "parse_mode";
 
     /**
      * Required if inline_message_id is not specified. Unique identifier for the chat to send the
@@ -49,6 +49,8 @@ public class EditMessageCaption extends BotApiMethod<Serializable> {
     private String caption; ///< Optional. New caption of the message
     @JsonProperty(REPLYMARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. A JSON-serialized object for an inline keyboard.
+    @JsonProperty(PARSEMODE_FIELD)
+    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
 
     public EditMessageCaption() {
         super();
@@ -96,6 +98,15 @@ public class EditMessageCaption extends BotApiMethod<Serializable> {
 
     public EditMessageCaption setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
         this.replyMarkup = replyMarkup;
+        return this;
+    }
+
+    public String getParseMode() {
+        return parseMode;
+    }
+
+    public EditMessageCaption setParseMode(String parseMode) {
+        this.parseMode = parseMode;
         return this;
     }
 
@@ -155,11 +166,12 @@ public class EditMessageCaption extends BotApiMethod<Serializable> {
     @Override
     public String toString() {
         return "EditMessageCaption{" +
-                "chatId=" + chatId +
+                "chatId='" + chatId + '\'' +
                 ", messageId=" + messageId +
-                ", inlineMessageId=" + inlineMessageId +
-                ", caption=" + caption +
+                ", inlineMessageId='" + inlineMessageId + '\'' +
+                ", caption='" + caption + '\'' +
                 ", replyMarkup=" + replyMarkup +
+                ", parseMode='" + parseMode + '\'' +
                 '}';
     }
 }

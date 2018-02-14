@@ -24,6 +24,7 @@ public class InlineQueryResultCachedMpeg4Gif implements InlineQueryResult {
     private static final String CAPTION_FIELD = "caption";
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
+    private static final String PARSEMODE_FIELD = "parse_mode";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "mpeg4_gif"; ///< Type of the result, must be "mpeg4_gif"
@@ -39,6 +40,8 @@ public class InlineQueryResultCachedMpeg4Gif implements InlineQueryResult {
     private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent instead of the photo
     @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
+    @JsonProperty(PARSEMODE_FIELD)
+    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
 
     public InlineQueryResultCachedMpeg4Gif() {
         super();
@@ -102,6 +105,15 @@ public class InlineQueryResultCachedMpeg4Gif implements InlineQueryResult {
         return this;
     }
 
+    public String getParseMode() {
+        return parseMode;
+    }
+
+    public InlineQueryResultCachedMpeg4Gif setParseMode(String parseMode) {
+        this.parseMode = parseMode;
+        return this;
+    }
+
     @Override
     public void validate() throws TelegramApiValidationException {
         if (id == null || id.isEmpty()) {
@@ -123,11 +135,12 @@ public class InlineQueryResultCachedMpeg4Gif implements InlineQueryResult {
         return "InlineQueryResultCachedMpeg4Gif{" +
                 "type='" + type + '\'' +
                 ", id='" + id + '\'' +
-                ", mpeg4Url='" + mpeg4FileId + '\'' +
+                ", mpeg4FileId='" + mpeg4FileId + '\'' +
                 ", title='" + title + '\'' +
                 ", caption='" + caption + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
-                ", replyMarkup='" + replyMarkup + '\'' +
+                ", inputMessageContent=" + inputMessageContent +
+                ", replyMarkup=" + replyMarkup +
+                ", parseMode='" + parseMode + '\'' +
                 '}';
     }
 }

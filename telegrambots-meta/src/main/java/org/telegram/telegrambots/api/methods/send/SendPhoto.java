@@ -17,8 +17,7 @@ import java.util.Objects;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Use this method to send photos. On success, the sent Message is returned.
- * @date 20 of June of 2015
+ * Use this method to send photos. On success, the sent Message is returned.
  */
 public class SendPhoto extends PartialBotApiMethod<Message> {
     public static final String PATH = "sendphoto";
@@ -29,12 +28,15 @@ public class SendPhoto extends PartialBotApiMethod<Message> {
     public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     public static final String REPLYMARKUP_FIELD = "reply_markup";
+    public static final String PARSEMODE_FIELD = "parse_mode";
+
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     private String photo; ///< Photo to send. file_id as String to resend a photo that is already on the Telegram servers or URL to upload it
     private String caption; ///< Optional Photo caption (may also be used when resending photos by file_id).
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
 
     private boolean isNewPhoto; ///< True if the photo must be uploaded from a file, file if it is a fileId
     private String photoName; ///< Name of the photo
@@ -142,6 +144,15 @@ public class SendPhoto extends PartialBotApiMethod<Message> {
         return this;
     }
 
+    public String getParseMode() {
+        return parseMode;
+    }
+
+    public SendPhoto setParseMode(String parseMode) {
+        this.parseMode = parseMode;
+        return this;
+    }
+
     @Override
     public Message deserializeResponse(String answer) throws TelegramApiRequestException {
         try {
@@ -184,9 +195,14 @@ public class SendPhoto extends PartialBotApiMethod<Message> {
                 "chatId='" + chatId + '\'' +
                 ", photo='" + photo + '\'' +
                 ", caption='" + caption + '\'' +
+                ", disableNotification=" + disableNotification +
                 ", replyToMessageId=" + replyToMessageId +
                 ", replyMarkup=" + replyMarkup +
+                ", parseMode='" + parseMode + '\'' +
                 ", isNewPhoto=" + isNewPhoto +
+                ", photoName='" + photoName + '\'' +
+                ", newPhotoFile=" + newPhotoFile +
+                ", newPhotoStream=" + newPhotoStream +
                 '}';
     }
 }

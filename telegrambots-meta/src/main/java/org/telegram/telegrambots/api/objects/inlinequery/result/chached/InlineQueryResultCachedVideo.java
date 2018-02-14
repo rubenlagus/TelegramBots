@@ -10,13 +10,11 @@ import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Represents a link to a video file stored on the Telegram servers. By default, this video
+ * Represents a link to a video file stored on the Telegram servers. By default, this video
  * file will be sent by the user with an optional caption. Alternatively, you can use
  * input_message_content to send a message with the specified content instead of the video.
- * @date 10 of April of 2016
  */
 public class InlineQueryResultCachedVideo implements InlineQueryResult {
-
     private static final String TYPE_FIELD = "type";
     private static final String ID_FIELD = "id";
     private static final String VIDEO_FILE_ID_FIELD = "video_file_id";
@@ -25,6 +23,7 @@ public class InlineQueryResultCachedVideo implements InlineQueryResult {
     private static final String CAPTION_FIELD = "caption";
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
+    private static final String PARSEMODE_FIELD = "parse_mode";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "video"; ///< Type of the result, must be "video"
@@ -42,6 +41,8 @@ public class InlineQueryResultCachedVideo implements InlineQueryResult {
     private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent instead of the photo
     @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
+    @JsonProperty(PARSEMODE_FIELD)
+    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
 
     public InlineQueryResultCachedVideo() {
         super();
@@ -114,6 +115,15 @@ public class InlineQueryResultCachedVideo implements InlineQueryResult {
         return this;
     }
 
+    public String getParseMode() {
+        return parseMode;
+    }
+
+    public InlineQueryResultCachedVideo setParseMode(String parseMode) {
+        this.parseMode = parseMode;
+        return this;
+    }
+
     @Override
     public void validate() throws TelegramApiValidationException {
         if (id == null || id.isEmpty()) {
@@ -135,12 +145,13 @@ public class InlineQueryResultCachedVideo implements InlineQueryResult {
         return "InlineQueryResultCachedVideo{" +
                 "type='" + type + '\'' +
                 ", id='" + id + '\'' +
-                ", caption='" + caption + '\'' +
                 ", videoFileId='" + videoFileId + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
-                ", replyMarkup='" + replyMarkup + '\'' +
+                ", caption='" + caption + '\'' +
+                ", inputMessageContent=" + inputMessageContent +
+                ", replyMarkup=" + replyMarkup +
+                ", parseMode='" + parseMode + '\'' +
                 '}';
     }
 }
