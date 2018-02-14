@@ -27,6 +27,7 @@ public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String MPEG4_DURATION_FIELD = "mpeg4_duration";
+    private static final String PARSEMODE_FIELD = "parse_mode";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "mpeg4_gif"; ///< Type of the result, must be "mpeg4_gif"
@@ -50,6 +51,8 @@ public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
     @JsonProperty(MPEG4_DURATION_FIELD)
     private Integer mpeg4Duration; ///< Optional. Video duration
+    @JsonProperty(PARSEMODE_FIELD)
+    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
 
     public InlineQueryResultMpeg4Gif() {
         super();
@@ -144,8 +147,18 @@ public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
         return mpeg4Duration;
     }
 
-    public void setMpeg4Duration(Integer mpeg4Duration) {
+    public InlineQueryResultMpeg4Gif setMpeg4Duration(Integer mpeg4Duration) {
         this.mpeg4Duration = mpeg4Duration;
+        return this;
+    }
+
+    public String getParseMode() {
+        return parseMode;
+    }
+
+    public InlineQueryResultMpeg4Gif setParseMode(String parseMode) {
+        this.parseMode = parseMode;
+        return this;
     }
 
     @Override
@@ -178,6 +191,7 @@ public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
                 ", inputMessageContent=" + inputMessageContent +
                 ", replyMarkup=" + replyMarkup +
                 ", mpeg4Duration=" + mpeg4Duration +
+                ", parseMode='" + parseMode + '\'' +
                 '}';
     }
 }

@@ -10,13 +10,11 @@ import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Represents a link to an animated GIF file stored on the Telegram servers. By default, this
+ * Represents a link to an animated GIF file stored on the Telegram servers. By default, this
  * animated GIF file will be sent by the user with an optional caption. Alternatively, you can use
  * input_message_content to send a message with specified content instead of the animation.
- * @date 10 of April of 2016
  */
 public class InlineQueryResultCachedGif implements InlineQueryResult {
-
     private static final String TYPE_FIELD = "type";
     private static final String ID_FIELD = "id";
     private static final String GIF_FILE_ID_FIELD = "gif_file_id";
@@ -24,6 +22,7 @@ public class InlineQueryResultCachedGif implements InlineQueryResult {
     private static final String CAPTION_FIELD = "caption";
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
+    private static final String PARSEMODE_FIELD = "parse_mode";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "gif"; ///< Type of the result, must be "gif"
@@ -39,6 +38,8 @@ public class InlineQueryResultCachedGif implements InlineQueryResult {
     private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent instead of the GIF animation
     @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
+    @JsonProperty(PARSEMODE_FIELD)
+    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
 
     public InlineQueryResultCachedGif() {
         super();
@@ -102,6 +103,15 @@ public class InlineQueryResultCachedGif implements InlineQueryResult {
         return this;
     }
 
+    public String getParseMode() {
+        return parseMode;
+    }
+
+    public InlineQueryResultCachedGif setParseMode(String parseMode) {
+        this.parseMode = parseMode;
+        return this;
+    }
+
     @Override
     public void validate() throws TelegramApiValidationException {
         if (id == null || id.isEmpty()) {
@@ -123,11 +133,12 @@ public class InlineQueryResultCachedGif implements InlineQueryResult {
         return "InlineQueryResultCachedGif{" +
                 "type='" + type + '\'' +
                 ", id='" + id + '\'' +
-                ", gifUrl='" + gifFileId + '\'' +
+                ", gifFileId='" + gifFileId + '\'' +
                 ", title='" + title + '\'' +
                 ", caption='" + caption + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
-                ", replyMarkup='" + replyMarkup + '\'' +
+                ", inputMessageContent=" + inputMessageContent +
+                ", replyMarkup=" + replyMarkup +
+                ", parseMode='" + parseMode + '\'' +
                 '}';
     }
 }

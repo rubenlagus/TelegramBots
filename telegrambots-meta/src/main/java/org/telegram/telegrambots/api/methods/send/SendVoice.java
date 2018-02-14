@@ -17,10 +17,9 @@ import java.util.Objects;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Use this method to send voice notes, if you want Telegram clients to display the file as a
+ * Use this method to send voice notes, if you want Telegram clients to display the file as a
  * playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS
  * (other formats may be sent as Audio or Document).
- * @date 16 of July of 2015
  */
 public class SendVoice extends PartialBotApiMethod<Message> {
     public static final String PATH = "sendvoice";
@@ -32,6 +31,7 @@ public class SendVoice extends PartialBotApiMethod<Message> {
     public static final String REPLYMARKUP_FIELD = "reply_markup";
     public static final String DURATION_FIELD = "duration";
     public static final String CAPTION_FIELD = "caption";
+    public static final String PARSEMODE_FIELD = "parse_mode";
 
     private String chatId; ///< Unique identifier for the chat sent message to (Or username for channels)
     private String voice; ///< Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.
@@ -40,6 +40,7 @@ public class SendVoice extends PartialBotApiMethod<Message> {
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
     private Integer duration; ///< Optional. Duration of sent audio in seconds
     private String caption; ///< Optional. Voice caption (may also be used when resending videos by file_id).
+    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
 
     private boolean isNewVoice; ///< True to upload a new voice note, false to use a fileId
     private String voiceName; ///< Name of the voice note
@@ -156,6 +157,15 @@ public class SendVoice extends PartialBotApiMethod<Message> {
         return this;
     }
 
+    public String getParseMode() {
+        return parseMode;
+    }
+
+    public SendVoice setParseMode(String parseMode) {
+        this.parseMode = parseMode;
+        return this;
+    }
+
     @Override
     public Message deserializeResponse(String answer) throws TelegramApiRequestException {
         try {
@@ -203,6 +213,7 @@ public class SendVoice extends PartialBotApiMethod<Message> {
                 ", replyMarkup=" + replyMarkup +
                 ", duration=" + duration +
                 ", caption='" + caption + '\'' +
+                ", parseMode='" + parseMode + '\'' +
                 ", isNewVoice=" + isNewVoice +
                 ", voiceName='" + voiceName + '\'' +
                 ", newVoiceFile=" + newVoiceFile +

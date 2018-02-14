@@ -16,6 +16,7 @@ public class InputMediaVideo extends InputMedia<InputMediaVideo> {
     private static final String WIDTH_FIELD = "width";
     private static final String HEIGHT_FIELD = "height";
     private static final String DURATION_FIELD = "duration";
+    private static final String SUPPORTSSTREAMING_FIELD = "supports_streaming";
 
     @JsonProperty(WIDTH_FIELD)
     private int width; ///< Optional. Video width
@@ -23,6 +24,8 @@ public class InputMediaVideo extends InputMedia<InputMediaVideo> {
     private int height; ///< Optional. Video height
     @JsonProperty(DURATION_FIELD)
     private int duration; ///< Optional. Video duration
+    @JsonProperty(SUPPORTSSTREAMING_FIELD)
+    private Boolean supportsStreaming; ///< Optional. Pass True, if the uploaded video is suitable for streaming
 
     public InputMediaVideo() {
         super();

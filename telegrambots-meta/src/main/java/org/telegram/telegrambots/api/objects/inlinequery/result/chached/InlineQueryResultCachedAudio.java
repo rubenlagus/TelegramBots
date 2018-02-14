@@ -25,6 +25,7 @@ public class InlineQueryResultCachedAudio implements InlineQueryResult {
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String CAPTION_FIELD = "caption";
+    private static final String PARSEMODE_FIELD = "parse_mode";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "audio"; ///< Type of the result, must be "audio"
@@ -38,6 +39,8 @@ public class InlineQueryResultCachedAudio implements InlineQueryResult {
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
     @JsonProperty(CAPTION_FIELD)
     private String caption; ///< Optional. Audio caption (may also be used when resending documents by file_id), 0-200 characters
+    @JsonProperty(PARSEMODE_FIELD)
+    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
 
     public InlineQueryResultCachedAudio() {
         super();
@@ -92,6 +95,15 @@ public class InlineQueryResultCachedAudio implements InlineQueryResult {
         return this;
     }
 
+    public String getParseMode() {
+        return parseMode;
+    }
+
+    public InlineQueryResultCachedAudio setParseMode(String parseMode) {
+        this.parseMode = parseMode;
+        return this;
+    }
+
     @Override
     public void validate() throws TelegramApiValidationException {
         if (id == null || id.isEmpty()) {
@@ -111,11 +123,13 @@ public class InlineQueryResultCachedAudio implements InlineQueryResult {
     @Override
     public String toString() {
         return "InlineQueryResultCachedAudio{" +
-                "id='" + id + '\'' +
+                "type='" + type + '\'' +
+                ", id='" + id + '\'' +
                 ", audioFileId='" + audioFileId + '\'' +
                 ", inputMessageContent=" + inputMessageContent +
                 ", replyMarkup=" + replyMarkup +
                 ", caption='" + caption + '\'' +
+                ", parseMode='" + parseMode + '\'' +
                 '}';
     }
 }

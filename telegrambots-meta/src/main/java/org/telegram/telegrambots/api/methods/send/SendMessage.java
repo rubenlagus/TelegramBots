@@ -188,6 +188,35 @@ public class SendMessage extends BotApiMethod<Message> {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof SendMessage)) {
+            return false;
+        }
+        SendMessage sendMessage = (SendMessage) o;
+        return Objects.equals(chatId, sendMessage.chatId)
+                && Objects.equals(disableNotification, sendMessage.disableNotification)
+                && Objects.equals(disableWebPagePreview, sendMessage.disableWebPagePreview)
+                && Objects.equals(parseMode, sendMessage.parseMode)
+                && Objects.equals(replyMarkup, sendMessage.replyMarkup)
+                && Objects.equals(replyToMessageId, sendMessage.replyToMessageId)
+                && Objects.equals(text, sendMessage.text)
+                ;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                chatId,
+                disableNotification,
+                disableWebPagePreview,
+                parseMode,
+                replyMarkup,
+                replyToMessageId,
+                text);
+    }
+
+    @Override
     public String toString() {
         return "SendMessage{" +
                 "chatId='" + chatId + '\'' +

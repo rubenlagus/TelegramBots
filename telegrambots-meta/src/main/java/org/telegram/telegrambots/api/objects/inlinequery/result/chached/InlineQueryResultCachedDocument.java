@@ -10,13 +10,12 @@ import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Represents a link to a file stored on the Telegram servers. By default, this file will be
+ * Represents a link to a file stored on the Telegram servers. By default, this file will be
  * sent by the user with an optional caption. Alternatively, you can use input_message_content to
  * send a message with the specified content instead of the file.
  * @note Currently, only pdf-files and zip archives can be sent using this method.
  * @note This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * ignore them.
- * @date 10 of April of 2016
  */
 public class InlineQueryResultCachedDocument implements InlineQueryResult {
 
@@ -28,6 +27,7 @@ public class InlineQueryResultCachedDocument implements InlineQueryResult {
     private static final String CAPTION_FIELD = "caption";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
+    private static final String PARSEMODE_FIELD = "parse_mode";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "document"; ///< Type of the result, must be "document"
@@ -45,6 +45,8 @@ public class InlineQueryResultCachedDocument implements InlineQueryResult {
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
     @JsonProperty(INPUTMESSAGECONTENT_FIELD)
     private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent instead of the file
+    @JsonProperty(PARSEMODE_FIELD)
+    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
 
     public InlineQueryResultCachedDocument() {
         super();
@@ -117,6 +119,15 @@ public class InlineQueryResultCachedDocument implements InlineQueryResult {
         return this;
     }
 
+    public String getParseMode() {
+        return parseMode;
+    }
+
+    public InlineQueryResultCachedDocument setParseMode(String parseMode) {
+        this.parseMode = parseMode;
+        return this;
+    }
+
     @Override
     public void validate() throws TelegramApiValidationException {
         if (id == null || id.isEmpty()) {
@@ -141,12 +152,13 @@ public class InlineQueryResultCachedDocument implements InlineQueryResult {
         return "InlineQueryResultCachedDocument{" +
                 "type='" + type + '\'' +
                 ", id='" + id + '\'' +
-                ", documentFileId='" + documentFileId + '\'' +
-                ", caption='" + caption + '\'' +
                 ", title='" + title + '\'' +
+                ", documentFileId='" + documentFileId + '\'' +
                 ", description='" + description + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
-                ", replyMarkup='" + replyMarkup + '\'' +
+                ", caption='" + caption + '\'' +
+                ", replyMarkup=" + replyMarkup +
+                ", inputMessageContent=" + inputMessageContent +
+                ", parseMode='" + parseMode + '\'' +
                 '}';
     }
 }

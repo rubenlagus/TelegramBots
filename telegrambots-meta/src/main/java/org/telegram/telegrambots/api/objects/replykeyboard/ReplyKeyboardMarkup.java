@@ -7,6 +7,7 @@ import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Ruben Bermudez
@@ -85,6 +86,29 @@ public class ReplyKeyboardMarkup implements ReplyKeyboard {
         for (KeyboardRow keyboardButtons : keyboard) {
             keyboardButtons.validate();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof ReplyKeyboardMarkup)) {
+            return false;
+        }
+        ReplyKeyboardMarkup replyKeyboardMarkup = (ReplyKeyboardMarkup) o;
+        return Objects.equals(keyboard, replyKeyboardMarkup.keyboard)
+                && Objects.equals(oneTimeKeyboard, replyKeyboardMarkup.oneTimeKeyboard)
+                && Objects.equals(resizeKeyboard, replyKeyboardMarkup.resizeKeyboard)
+                && Objects.equals(selective, replyKeyboardMarkup.selective)
+                ;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                keyboard,
+                oneTimeKeyboard,
+                resizeKeyboard,
+                selective);
     }
 
     @Override

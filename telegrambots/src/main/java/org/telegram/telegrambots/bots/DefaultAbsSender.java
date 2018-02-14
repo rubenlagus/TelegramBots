@@ -51,7 +51,7 @@ import static org.telegram.telegrambots.Constants.SOCKET_TIMEOUT;
 public abstract class DefaultAbsSender extends AbsSender {
     private static final ContentType TEXT_PLAIN_CONTENT_TYPE = ContentType.create("text/plain", StandardCharsets.UTF_8);
 
-    private final ExecutorService exe;
+    protected final ExecutorService exe;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final DefaultBotOptions options;
     private volatile CloseableHttpClient httpclient;
@@ -157,6 +157,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             }
             if (sendDocument.getCaption() != null) {
                 builder.addTextBody(SendDocument.CAPTION_FIELD, sendDocument.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
+                if (sendDocument.getParseMode() != null) {
+                    builder.addTextBody(SendDocument.PARSEMODE_FIELD, sendDocument.getParseMode(), TEXT_PLAIN_CONTENT_TYPE);
+                }
             }
             if (sendDocument.getDisableNotification() != null) {
                 builder.addTextBody(SendDocument.DISABLENOTIFICATION_FIELD, sendDocument.getDisableNotification().toString(), TEXT_PLAIN_CONTENT_TYPE);
@@ -202,6 +205,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             }
             if (sendPhoto.getCaption() != null) {
                 builder.addTextBody(SendPhoto.CAPTION_FIELD, sendPhoto.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
+                if (sendPhoto.getParseMode() != null) {
+                    builder.addTextBody(SendPhoto.PARSEMODE_FIELD, sendPhoto.getParseMode(), TEXT_PLAIN_CONTENT_TYPE);
+                }
             }
             if (sendPhoto.getDisableNotification() != null) {
                 builder.addTextBody(SendPhoto.DISABLENOTIFICATION_FIELD, sendPhoto.getDisableNotification().toString(), TEXT_PLAIN_CONTENT_TYPE);
@@ -247,6 +253,12 @@ public abstract class DefaultAbsSender extends AbsSender {
             }
             if (sendVideo.getCaption() != null) {
                 builder.addTextBody(SendVideo.CAPTION_FIELD, sendVideo.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
+                if (sendVideo.getParseMode() != null) {
+                    builder.addTextBody(SendVideo.PARSEMODE_FIELD, sendVideo.getParseMode(), TEXT_PLAIN_CONTENT_TYPE);
+                }
+            }
+            if (sendVideo.getSupportsStreaming() != null) {
+                builder.addTextBody(SendVideo.SUPPORTSSTREAMING_FIELD, sendVideo.getSupportsStreaming().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendVideo.getDuration() != null) {
                 builder.addTextBody(SendVideo.DURATION_FIELD, sendVideo.getDuration().toString(), TEXT_PLAIN_CONTENT_TYPE);
@@ -408,6 +420,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             }
             if (sendAudio.getCaption() != null) {
                 builder.addTextBody(SendAudio.CAPTION_FIELD, sendAudio.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
+                if (sendAudio.getParseMode() != null) {
+                    builder.addTextBody(SendAudio.PARSEMODE_FIELD, sendAudio.getParseMode(), TEXT_PLAIN_CONTENT_TYPE);
+                }
             }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
@@ -462,6 +477,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             }
             if (sendVoice.getCaption() != null) {
                 builder.addTextBody(SendVoice.CAPTION_FIELD, sendVoice.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
+                if (sendVoice.getParseMode() != null) {
+                    builder.addTextBody(SendVoice.PARSEMODE_FIELD, sendVoice.getParseMode(), TEXT_PLAIN_CONTENT_TYPE);
+                }
             }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);

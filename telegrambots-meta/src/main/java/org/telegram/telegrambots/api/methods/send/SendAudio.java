@@ -17,12 +17,11 @@ import java.util.Objects;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Use this method to send audio files, Use this method to send audio files, if you want
+ * Use this method to send audio files, Use this method to send audio files, if you want
  * Telegram clients to display them in the music player. Your audio must be in an .mp3 format. On
  * success, the sent Message is returned. Bots can currently send audio files of up to 50 MB in
  * size, this limit may be changed in the future.
  * @note For sending voice notes, use sendVoice method instead.
- * @date 16 of July of 2015
  */
 public class SendAudio extends PartialBotApiMethod<Message> {
     public static final String PATH = "sendaudio";
@@ -36,6 +35,8 @@ public class SendAudio extends PartialBotApiMethod<Message> {
     public static final String PERFOMER_FIELD = "performer";
     public static final String TITLE_FIELD = "title";
     public static final String CAPTION_FIELD = "caption";
+    public static final String PARSEMODE_FIELD = "parse_mode";
+
 
     private Integer duration; ///< Integer	Duration of the audio in seconds as defined by sender
     private String chatId; ///< Unique identifier for the chat to send the message to (or Username fro channels)
@@ -46,6 +47,7 @@ public class SendAudio extends PartialBotApiMethod<Message> {
     private String performer; ///< Optional. Performer of sent audio
     private String title; ///< Optional. Title of sent audio
     private String caption; ///< Optional. Audio caption (may also be used when resending documents by file_id), 0-200 characters
+    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
 
     private boolean isNewAudio; ///< True to upload a new audio, false to use a fileId
     private String audioName;
@@ -191,6 +193,15 @@ public class SendAudio extends PartialBotApiMethod<Message> {
         return this;
     }
 
+    public String getParseMode() {
+        return parseMode;
+    }
+
+    public SendAudio setParseMode(String parseMode) {
+        this.parseMode = parseMode;
+        return this;
+    }
+
     @Override
     public Message deserializeResponse(String answer) throws TelegramApiRequestException {
         try {
@@ -239,11 +250,12 @@ public class SendAudio extends PartialBotApiMethod<Message> {
                 ", replyMarkup=" + replyMarkup +
                 ", performer='" + performer + '\'' +
                 ", title='" + title + '\'' +
+                ", caption='" + caption + '\'' +
+                ", parseMode='" + parseMode + '\'' +
                 ", isNewAudio=" + isNewAudio +
                 ", audioName='" + audioName + '\'' +
                 ", newAudioFile=" + newAudioFile +
                 ", newAudioStream=" + newAudioStream +
-                ", caption='" + caption + '\'' +
                 '}';
     }
 }

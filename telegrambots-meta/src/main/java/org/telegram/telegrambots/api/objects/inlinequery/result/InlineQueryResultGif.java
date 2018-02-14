@@ -9,13 +9,11 @@ import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Represents a link to an animated GIF file. By default, this animated GIF file will be sent
+ * Represents a link to an animated GIF file. By default, this animated GIF file will be sent
  * by the user with optional caption. Alternatively, you can use input_message_content to send a
  * message with the specified content instead of the animation.
- * @date 01 of January of 2016
  */
 public class InlineQueryResultGif implements InlineQueryResult {
-
     private static final String TYPE_FIELD = "type";
     private static final String ID_FIELD = "id";
     private static final String GIFURL_FIELD = "gif_url";
@@ -27,6 +25,7 @@ public class InlineQueryResultGif implements InlineQueryResult {
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String GIF_DURATION_FIELD = "gif_duration";
+    private static final String PARSEMODE_FIELD = "parse_mode";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "gif"; ///< Type of the result, must be "gif"
@@ -50,6 +49,8 @@ public class InlineQueryResultGif implements InlineQueryResult {
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
     @JsonProperty(GIF_DURATION_FIELD)
     private Integer gifDuration; ///< Optional. Duration of the GIF
+    @JsonProperty(PARSEMODE_FIELD)
+    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
 
     public InlineQueryResultGif() {
         super();
@@ -144,8 +145,18 @@ public class InlineQueryResultGif implements InlineQueryResult {
         return gifDuration;
     }
 
-    public void setGifDuration(Integer gifDuration) {
+    public InlineQueryResultGif setGifDuration(Integer gifDuration) {
         this.gifDuration = gifDuration;
+        return this;
+    }
+
+    public String getParseMode() {
+        return parseMode;
+    }
+
+    public InlineQueryResultGif setParseMode(String parseMode) {
+        this.parseMode = parseMode;
+        return this;
     }
 
     @Override
@@ -178,6 +189,7 @@ public class InlineQueryResultGif implements InlineQueryResult {
                 ", inputMessageContent=" + inputMessageContent +
                 ", replyMarkup=" + replyMarkup +
                 ", gifDuration=" + gifDuration +
+                ", parseMode='" + parseMode + '\'' +
                 '}';
     }
 }

@@ -9,15 +9,13 @@ import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Represents a link to a voice recording in an .ogg container encoded with OPUS. By default,
+ * Represents a link to a voice recording in an .ogg container encoded with OPUS. By default,
  * this voice recording will be sent by the user. Alternatively, you can use input_message_content
  * to send a message with the specified content instead of the the voice message.
  * @note This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * ignore them.
- * @date 10 of April of 2016
  */
 public class InlineQueryResultVoice implements InlineQueryResult {
-
     private static final String TYPE_FIELD = "type";
     private static final String ID_FIELD = "id";
     private static final String VOICEURL_FIELD = "voice_url";
@@ -26,6 +24,7 @@ public class InlineQueryResultVoice implements InlineQueryResult {
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String CAPTION_FIELD = "caption";
+    private static final String PARSEMODE_FIELD = "parse_mode";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "voice"; ///< Type of the result, must be "voice"
@@ -43,6 +42,8 @@ public class InlineQueryResultVoice implements InlineQueryResult {
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
     @JsonProperty(CAPTION_FIELD)
     private String caption; ///< Optional. Voice caption (may also be used when resending documents by file_id), 0-200 characters
+    @JsonProperty(PARSEMODE_FIELD)
+    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
 
     public InlineQueryResultVoice() {
         super();
@@ -134,13 +135,15 @@ public class InlineQueryResultVoice implements InlineQueryResult {
     @Override
     public String toString() {
         return "InlineQueryResultVoice{" +
-                "id='" + id + '\'' +
+                "type='" + type + '\'' +
+                ", id='" + id + '\'' +
                 ", voiceUrl='" + voiceUrl + '\'' +
                 ", title='" + title + '\'' +
                 ", voiceDuration=" + voiceDuration +
                 ", inputMessageContent=" + inputMessageContent +
                 ", replyMarkup=" + replyMarkup +
                 ", caption='" + caption + '\'' +
+                ", parseMode='" + parseMode + '\'' +
                 '}';
     }
 }

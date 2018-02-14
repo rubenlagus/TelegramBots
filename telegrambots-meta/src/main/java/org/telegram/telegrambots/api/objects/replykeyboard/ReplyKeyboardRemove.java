@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
+import java.util.Objects;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -50,6 +52,25 @@ public class ReplyKeyboardRemove implements ReplyKeyboard {
         if (removeKeyboard == null) {
             throw new TelegramApiValidationException("RemoveKeyboard parameter can't be null", this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof ReplyKeyboardRemove)) {
+            return false;
+        }
+        ReplyKeyboardRemove replyKeyboardRemove = (ReplyKeyboardRemove) o;
+        return Objects.equals(removeKeyboard, replyKeyboardRemove.removeKeyboard)
+                && Objects.equals(selective, replyKeyboardRemove.selective)
+                ;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                removeKeyboard,
+                selective);
     }
 
     @Override
