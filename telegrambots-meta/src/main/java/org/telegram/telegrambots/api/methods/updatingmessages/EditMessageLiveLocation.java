@@ -104,7 +104,7 @@ public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
     }
 
     public EditMessageLiveLocation setLatitude(Float latitude) {
-        Objects.requireNonNull(chatId);
+        Objects.requireNonNull(latitude);
         this.latitude = latitude;
         return this;
     }
@@ -114,7 +114,7 @@ public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
     }
 
     public EditMessageLiveLocation setLongitud(Float longitud) {
-        Objects.requireNonNull(chatId);
+        Objects.requireNonNull(longitud);
         this.longitud = longitud;
         return this;
     }

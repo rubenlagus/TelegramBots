@@ -60,7 +60,6 @@ public class StopMessageLiveLocation extends BotApiMethod<Serializable> {
     }
 
     public StopMessageLiveLocation setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
         this.chatId = chatId.toString();
         return this;
     }

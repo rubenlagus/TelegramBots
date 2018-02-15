@@ -104,7 +104,6 @@ public class SetGameScore extends BotApiMethod<Serializable> {
     }
 
     public SetGameScore setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
         this.chatId = chatId.toString();
         return this;
     }
