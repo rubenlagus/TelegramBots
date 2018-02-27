@@ -31,7 +31,7 @@ public abstract class DefaultBotCommand extends BotCommand {
      * @param arguments passed arguments
      */
     @Override
-    void processMessage(AbsSender absSender, Message message, String[] arguments) {
+    public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         execute(absSender, message.getFrom(), message.getChat(), message.getMessageId(), arguments);
     }
 
