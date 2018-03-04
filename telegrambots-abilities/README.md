@@ -98,7 +98,7 @@ The following is a snippet of how this would look like with the plain basic API.
    }
 
    public void sayHelloWorld(Update update) {
-       if (!update.hasMessage() || !update.getMessage().isUserMessage() || !update.getMessage().hasText() || update.getMessage.getText().isEmpty())
+       if (!update.hasMessage() || !update.getMessage().isUserMessage() || !update.getMessage().hasText() || update.getMessage().getText().isEmpty())
            return;
        User maybeAdmin = update.getMessage().getFrom();
        /* Query DB for if the user is an admin, can be SQL, Reddis, Ignite, etc...
