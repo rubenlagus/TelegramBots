@@ -59,7 +59,7 @@ public class TestDeserialization {
         Assert.assertEquals(Integer.valueOf(400), result.getErrorCode());
         Assert.assertEquals("Error descriptions", result.getErrorDescription());
         Assert.assertNotNull(result.getParameters());
-        Assert.assertEquals(Integer.valueOf(12345), result.getParameters().getMigrateToChatId());
+        Assert.assertEquals(Long.valueOf(12345), result.getParameters().getMigrateToChatId());
         Assert.assertEquals(Integer.valueOf(12), result.getParameters().getRetryAfter());
     }
 
