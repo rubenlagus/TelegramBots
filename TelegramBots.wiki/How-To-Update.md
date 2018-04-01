@@ -1,6 +1,6 @@
 ### <a id="2.4.3"></a>To version 2.4.3 ###
 1. Replace `BotOptions` by `DefaultBotOptions`.
-2. At the beginning of your program (before creating your `TelegramBotsApi` instance, add the following line:
+2. At the beginning of your program (before creating your `TelegramBotsApi` or `Bot` instance, add the following line:
     ```java
     ApiContextInitializer.init();
     ```
