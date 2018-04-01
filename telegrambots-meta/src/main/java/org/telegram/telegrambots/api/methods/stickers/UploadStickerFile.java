@@ -21,7 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class UploadStickerFile extends PartialBotApiMethod<File> {
     public static final String PATH = "uploadStickerFile";
 
-    public static final String USERID_FIELD = "name";
+    public static final String USERID_FIELD = "user_id";
     public static final String PNGSTICKER_FIELD = "png_sticker";
 
     private Integer userId; ///< User identifier of sticker file owner
