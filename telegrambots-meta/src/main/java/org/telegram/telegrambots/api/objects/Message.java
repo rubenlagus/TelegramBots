@@ -397,6 +397,10 @@ public class Message implements BotApiObject {
         return successfulPayment != null;
     }
 
+    public boolean hasContact() {
+        return contact != null;
+    }
+
     public Invoice getInvoice() {
         return invoice;
     }
