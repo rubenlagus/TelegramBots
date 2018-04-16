@@ -12,6 +12,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.ProxyAuthenticationStrategy;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.telegram.telegrambots.ApiConstants;
@@ -145,13 +146,32 @@ public class DefaultBotSession implements BotSession {
             this.lock = lock;
         }
 
+        protected CloseableHttpClient createHttpClient() {
+            CloseableHttpClient localClient = null;
+
+            if (options.getCredentialsProvider() != null) {
+                localClient = HttpClientBuilder.create()
+                        .setProxy(options.getHttpProxy())
+                        .setProxyAuthenticationStrategy(new ProxyAuthenticationStrategy())
+                        .setDefaultCredentialsProvider(options.getCredentialsProvider())
+                        .setSSLHostnameVerifier(new NoopHostnameVerifier())
+                        .setConnectionTimeToLive(70, TimeUnit.SECONDS)
+                        .setMaxConnTotal(100)
+                        .build();
+            } else {
+                localClient = HttpClientBuilder.create()
+                        .setSSLHostnameVerifier(new NoopHostnameVerifier())
+                        .setConnectionTimeToLive(70, TimeUnit.SECONDS)
+                        .setMaxConnTotal(100)
+                        .build();
+            }
+
+            return localClient;
+        }
+
         @Override
         public synchronized void start() {
-            httpclient = HttpClientBuilder.create()
-                    .setSSLHostnameVerifier(new NoopHostnameVerifier())
-                    .setConnectionTimeToLive(70, TimeUnit.SECONDS)
-                    .setMaxConnTotal(100)
-                    .build();
+            httpclient = createHttpClient();
             requestConfig = options.getRequestConfig();
             exponentialBackOff = options.getExponentialBackOff();
 

@@ -13,6 +13,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.ProxyAuthenticationStrategy;
 import org.apache.http.util.EntityUtils;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.methods.groupadministration.SetChatPhoto;
@@ -54,18 +55,30 @@ public abstract class DefaultAbsSender extends AbsSender {
     protected final ExecutorService exe;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final DefaultBotOptions options;
-    private volatile CloseableHttpClient httpclient;
+    protected volatile CloseableHttpClient httpclient;
     private volatile RequestConfig requestConfig;
 
     protected DefaultAbsSender(DefaultBotOptions options) {
         super();
         this.exe = Executors.newFixedThreadPool(options.getMaxThreads());
         this.options = options;
-        httpclient = HttpClientBuilder.create()
-                .setSSLHostnameVerifier(new NoopHostnameVerifier())
-                .setConnectionTimeToLive(70, TimeUnit.SECONDS)
-                .setMaxConnTotal(100)
-                .build();
+
+        if (options.getCredentialsProvider() != null) {
+            httpclient = HttpClientBuilder.create()
+                    .setProxy(options.getHttpProxy())
+                    .setProxyAuthenticationStrategy(new ProxyAuthenticationStrategy())
+                    .setDefaultCredentialsProvider(options.getCredentialsProvider())
+                    .setSSLHostnameVerifier(new NoopHostnameVerifier())
+                    .setConnectionTimeToLive(70, TimeUnit.SECONDS)
+                    .setMaxConnTotal(100)
+                    .build();
+        } else {
+            httpclient = HttpClientBuilder.create()
+                    .setSSLHostnameVerifier(new NoopHostnameVerifier())
+                    .setConnectionTimeToLive(70, TimeUnit.SECONDS)
+                    .setMaxConnTotal(100)
+                    .build();
+        }
 
         requestConfig = options.getRequestConfig();
 
@@ -121,6 +134,29 @@ public abstract class DefaultAbsSender extends AbsSender {
         String url = file.getFileUrl(getBotToken());
         String tempFileName = file.getFileId();
         exe.submit(getDownloadFileAsyncJob(file, callback, url, tempFileName));
+    }
+
+    protected CloseableHttpClient createHttpClient() {
+        CloseableHttpClient localClient = null;
+
+        if (options.getCredentialsProvider() != null) {
+            localClient = HttpClientBuilder.create()
+                    .setProxy(options.getHttpProxy())
+                    .setProxyAuthenticationStrategy(new ProxyAuthenticationStrategy())
+                    .setDefaultCredentialsProvider(options.getCredentialsProvider())
+                    .setSSLHostnameVerifier(new NoopHostnameVerifier())
+                    .setConnectionTimeToLive(70, TimeUnit.SECONDS)
+                    .setMaxConnTotal(100)
+                    .build();
+        } else {
+            localClient = HttpClientBuilder.create()
+                    .setSSLHostnameVerifier(new NoopHostnameVerifier())
+                    .setConnectionTimeToLive(70, TimeUnit.SECONDS)
+                    .setMaxConnTotal(100)
+                    .build();
+        }
+
+        return localClient;
     }
 
     // Specific Send Requests

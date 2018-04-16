@@ -1,5 +1,7 @@
 package org.telegram.telegrambots.bots;
 
+import org.apache.http.HttpHost;
+import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.config.RequestConfig;
 import org.telegram.telegrambots.ApiConstants;
 import org.telegram.telegrambots.generics.BotOptions;
@@ -20,6 +22,9 @@ public class DefaultBotOptions implements BotOptions {
     private Integer maxWebhookConnections;
     private String baseUrl;
     private List<String> allowedUpdates;
+
+    private CredentialsProvider credentialsProvider;
+    private HttpHost httpProxy;
 
     public DefaultBotOptions() {
         maxThreads = 1;
@@ -81,5 +86,21 @@ public class DefaultBotOptions implements BotOptions {
      */
     public void setExponentialBackOff(ExponentialBackOff exponentialBackOff) {
         this.exponentialBackOff = exponentialBackOff;
+    }
+
+    public CredentialsProvider getCredentialsProvider() {
+        return credentialsProvider;
+    }
+
+    public void setCredentialsProvider(CredentialsProvider credentialsProvider) {
+        this.credentialsProvider = credentialsProvider;
+    }
+
+    public HttpHost getHttpProxy() {
+        return httpProxy;
+    }
+
+    public void setHttpProxy(HttpHost httpProxy) {
+        this.httpProxy = httpProxy;
     }
 }
