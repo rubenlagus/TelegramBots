@@ -13,6 +13,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.ProxyAuthenticationStrategy;
 import org.apache.http.util.EntityUtils;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.methods.groupadministration.SetChatPhoto;
@@ -61,11 +62,23 @@ public abstract class DefaultAbsSender extends AbsSender {
         super();
         this.exe = Executors.newFixedThreadPool(options.getMaxThreads());
         this.options = options;
-        httpclient = HttpClientBuilder.create()
-                .setSSLHostnameVerifier(new NoopHostnameVerifier())
-                .setConnectionTimeToLive(70, TimeUnit.SECONDS)
-                .setMaxConnTotal(100)
-                .build();
+
+        if (options.getCredentialsProvider() != null) {
+            httpclient = HttpClientBuilder.create()
+                    .setProxy(options.getHttpProxy())
+                    .setProxyAuthenticationStrategy(new ProxyAuthenticationStrategy())
+                    .setDefaultCredentialsProvider(options.getCredentialsProvider())
+                    .setSSLHostnameVerifier(new NoopHostnameVerifier())
+                    .setConnectionTimeToLive(70, TimeUnit.SECONDS)
+                    .setMaxConnTotal(100)
+                    .build();
+        } else {
+            httpclient = HttpClientBuilder.create()
+                    .setSSLHostnameVerifier(new NoopHostnameVerifier())
+                    .setConnectionTimeToLive(70, TimeUnit.SECONDS)
+                    .setMaxConnTotal(100)
+                    .build();
+        }
 
         requestConfig = options.getRequestConfig();
 
@@ -85,6 +98,29 @@ public abstract class DefaultAbsSender extends AbsSender {
 
     public final DefaultBotOptions getOptions() {
         return options;
+    }
+
+    protected CloseableHttpClient createHttpClient() {
+        CloseableHttpClient localClient = null;
+
+        if (options.getCredentialsProvider() != null) {
+            localClient = HttpClientBuilder.create()
+                    .setProxy(options.getHttpProxy())
+                    .setProxyAuthenticationStrategy(new ProxyAuthenticationStrategy())
+                    .setDefaultCredentialsProvider(options.getCredentialsProvider())
+                    .setSSLHostnameVerifier(new NoopHostnameVerifier())
+                    .setConnectionTimeToLive(70, TimeUnit.SECONDS)
+                    .setMaxConnTotal(100)
+                    .build();
+        } else {
+            localClient = HttpClientBuilder.create()
+                    .setSSLHostnameVerifier(new NoopHostnameVerifier())
+                    .setConnectionTimeToLive(70, TimeUnit.SECONDS)
+                    .setMaxConnTotal(100)
+                    .build();
+        }
+
+        return localClient;
     }
 
     // Send Requests
