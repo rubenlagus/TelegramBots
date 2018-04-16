@@ -63,22 +63,7 @@ public abstract class DefaultAbsSender extends AbsSender {
         this.exe = Executors.newFixedThreadPool(options.getMaxThreads());
         this.options = options;
 
-        if (options.getCredentialsProvider() != null) {
-            httpclient = HttpClientBuilder.create()
-                    .setProxy(options.getHttpProxy())
-                    .setProxyAuthenticationStrategy(new ProxyAuthenticationStrategy())
-                    .setDefaultCredentialsProvider(options.getCredentialsProvider())
-                    .setSSLHostnameVerifier(new NoopHostnameVerifier())
-                    .setConnectionTimeToLive(70, TimeUnit.SECONDS)
-                    .setMaxConnTotal(100)
-                    .build();
-        } else {
-            httpclient = HttpClientBuilder.create()
-                    .setSSLHostnameVerifier(new NoopHostnameVerifier())
-                    .setConnectionTimeToLive(70, TimeUnit.SECONDS)
-                    .setMaxConnTotal(100)
-                    .build();
-        }
+        httpclient = createHttpClient();
 
         requestConfig = options.getRequestConfig();
 
