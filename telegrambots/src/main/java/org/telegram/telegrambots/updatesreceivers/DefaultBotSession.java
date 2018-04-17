@@ -20,6 +20,7 @@ import org.telegram.telegrambots.api.methods.updates.GetUpdates;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.facilities.TelegramHttpClientBuilder;
 import org.telegram.telegrambots.generics.*;
 import org.telegram.telegrambots.logging.BotLogger;
 
@@ -146,32 +147,9 @@ public class DefaultBotSession implements BotSession {
             this.lock = lock;
         }
 
-        protected CloseableHttpClient createHttpClient() {
-            CloseableHttpClient localClient = null;
-
-            if (options.getCredentialsProvider() != null) {
-                localClient = HttpClientBuilder.create()
-                        .setProxy(options.getHttpProxy())
-                        .setProxyAuthenticationStrategy(new ProxyAuthenticationStrategy())
-                        .setDefaultCredentialsProvider(options.getCredentialsProvider())
-                        .setSSLHostnameVerifier(new NoopHostnameVerifier())
-                        .setConnectionTimeToLive(70, TimeUnit.SECONDS)
-                        .setMaxConnTotal(100)
-                        .build();
-            } else {
-                localClient = HttpClientBuilder.create()
-                        .setSSLHostnameVerifier(new NoopHostnameVerifier())
-                        .setConnectionTimeToLive(70, TimeUnit.SECONDS)
-                        .setMaxConnTotal(100)
-                        .build();
-            }
-
-            return localClient;
-        }
-
         @Override
         public synchronized void start() {
-            httpclient = createHttpClient();
+            httpclient = TelegramHttpClientBuilder.build(options);
             requestConfig = options.getRequestConfig();
             exponentialBackOff = options.getExponentialBackOff();
 

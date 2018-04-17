@@ -27,6 +27,7 @@ import org.telegram.telegrambots.api.objects.media.InputMedia;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.facilities.TelegramHttpClientBuilder;
 import org.telegram.telegrambots.updateshandlers.DownloadFileCallback;
 import org.telegram.telegrambots.updateshandlers.SentCallback;
 
@@ -63,7 +64,7 @@ public abstract class DefaultAbsSender extends AbsSender {
         this.exe = Executors.newFixedThreadPool(options.getMaxThreads());
         this.options = options;
 
-        httpclient = createHttpClient();
+        httpclient = TelegramHttpClientBuilder.build(options);
 
         requestConfig = options.getRequestConfig();
 
@@ -83,29 +84,6 @@ public abstract class DefaultAbsSender extends AbsSender {
 
     public final DefaultBotOptions getOptions() {
         return options;
-    }
-
-    protected CloseableHttpClient createHttpClient() {
-        CloseableHttpClient localClient = null;
-
-        if (options.getCredentialsProvider() != null) {
-            localClient = HttpClientBuilder.create()
-                    .setProxy(options.getHttpProxy())
-                    .setProxyAuthenticationStrategy(new ProxyAuthenticationStrategy())
-                    .setDefaultCredentialsProvider(options.getCredentialsProvider())
-                    .setSSLHostnameVerifier(new NoopHostnameVerifier())
-                    .setConnectionTimeToLive(70, TimeUnit.SECONDS)
-                    .setMaxConnTotal(100)
-                    .build();
-        } else {
-            localClient = HttpClientBuilder.create()
-                    .setSSLHostnameVerifier(new NoopHostnameVerifier())
-                    .setConnectionTimeToLive(70, TimeUnit.SECONDS)
-                    .setMaxConnTotal(100)
-                    .build();
-        }
-
-        return localClient;
     }
 
     // Send Requests
