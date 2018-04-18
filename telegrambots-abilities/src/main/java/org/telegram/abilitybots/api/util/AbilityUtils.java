@@ -1,10 +1,15 @@
 package org.telegram.abilitybots.api.util;
 
+import com.google.common.base.Strings;
 import org.telegram.abilitybots.api.db.DBContext;
 import org.telegram.abilitybots.api.objects.MessageContext;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.User;
 
+import java.text.MessageFormat;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -172,4 +177,25 @@ public final class AbilityUtils {
   public static Predicate<Update> isReplyTo(String msg) {
     return update -> update.getMessage().getReplyToMessage().getText().equals(msg);
   }
+
+  public static String getLocalizedMessage(String messageCode, Locale locale, Object...arguments) {
+    ResourceBundle bundle;
+    if(locale == null){
+      bundle = ResourceBundle.getBundle("default_messages");
+    }else {
+      try {
+        bundle = ResourceBundle.getBundle("messages", locale);
+      } catch (MissingResourceException e) {
+        bundle = ResourceBundle.getBundle("default_messages");
+      }
+    }
+    String message = bundle.getString(messageCode);
+    return MessageFormat.format(message, arguments);
+  }
+
+  public static String getLocalizedMessage(String messageCode, String languageCode, Object...arguments){
+    Locale locale = Strings.isNullOrEmpty(languageCode) ? null : Locale.forLanguageTag(languageCode);
+    return getLocalizedMessage(messageCode, locale, arguments);
+  }
+
 }

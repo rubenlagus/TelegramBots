@@ -556,6 +556,7 @@ public class AbilityBotTest {
     when(message.hasText()).thenReturn(true);
     MessageContext context = mock(MessageContext.class);
     when(context.chatId()).thenReturn(GROUP_ID);
+    when(context.user()).thenReturn(MUSER);
 
     bot.reportCommands().action().accept(context);
 
