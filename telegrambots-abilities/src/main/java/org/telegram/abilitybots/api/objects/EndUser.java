@@ -1,11 +1,14 @@
 package org.telegram.abilitybots.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import org.telegram.telegrambots.api.objects.User;
 
 import java.io.Serializable;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -27,12 +30,15 @@ public final class EndUser implements Serializable {
   private final String lastName;
   @JsonProperty("username")
   private final String username;
+  @JsonIgnore
+  private Locale locale;
 
-  private EndUser(Integer id, String firstName, String lastName, String username) {
+  private EndUser(Integer id, String firstName, String lastName, String username, Locale locale) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
     this.username = username;
+    this.locale = locale != null? locale : Locale.ENGLISH;
   }
 
   @JsonCreator
@@ -40,7 +46,7 @@ public final class EndUser implements Serializable {
                                 @JsonProperty("firstName") String firstName,
                                 @JsonProperty("lastName") String lastName,
                                 @JsonProperty("username") String username) {
-    return new EndUser(id, firstName, lastName, username);
+    return new EndUser(id, firstName, lastName, username, null);
   }
 
   /**
@@ -50,7 +56,8 @@ public final class EndUser implements Serializable {
    * @return an augmented end-user
    */
   public static EndUser fromUser(User user) {
-    return new EndUser(user.getId(), user.getFirstName(), user.getLastName(), user.getUserName());
+    Locale locale = Strings.isNullOrEmpty(user.getLanguageCode()) ? null : Locale.forLanguageTag(user.getLanguageCode());
+    return new EndUser(user.getId(), user.getFirstName(), user.getLastName(), user.getUserName(), locale);
   }
 
   public int id() {
@@ -68,6 +75,8 @@ public final class EndUser implements Serializable {
   public String username() {
     return username;
   }
+
+  public Locale locale() { return locale; }
 
   /**
    * The full name is identified as the concatenation of the first and last name, separated by a space.
@@ -118,12 +127,13 @@ public final class EndUser implements Serializable {
     return Objects.equals(id, endUser.id) &&
         Objects.equals(firstName, endUser.firstName) &&
         Objects.equals(lastName, endUser.lastName) &&
-        Objects.equals(username, endUser.username);
+        Objects.equals(username, endUser.username) &&
+        Objects.equals(locale, endUser.locale);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, firstName, lastName, username);
+    return Objects.hash(id, firstName, lastName, username, locale);
   }
 
   @Override
@@ -133,6 +143,7 @@ public final class EndUser implements Serializable {
         .add("firstName", firstName)
         .add("lastName", lastName)
         .add("username", username)
+        .add("locale", locale.toString())
         .toString();
   }
 }
