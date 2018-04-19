@@ -10,7 +10,7 @@ import org.telegram.telegrambots.bots.AbsSender;
  *
  * @author Timo Schulz (Mit0x2)
  */
-public abstract class BotCommand {
+public abstract class BotCommand implements IBotCommand {
     public final static String COMMAND_INIT_CHARACTER = "/";
     public static final String COMMAND_PARAMETER_SEPARATOR_REGEXP = "\\s+";
     private final static int COMMAND_MAX_LENGTH = 32;
@@ -74,7 +74,7 @@ public abstract class BotCommand {
      * @param message   the message to process
      * @param arguments passed arguments
      */
-    void processMessage(AbsSender absSender, Message message, String[] arguments) {
+    public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         execute(absSender, message.getFrom(), message.getChat(), arguments);
     }
 
