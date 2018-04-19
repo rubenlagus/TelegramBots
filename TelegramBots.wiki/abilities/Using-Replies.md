@@ -12,7 +12,7 @@ public Reply sayYuckOnImage() {
   // getChatId is a public utility function in rg.telegram.abilitybots.api.util.AbilityUtils
   Consumer<Update> action = upd -> silent.send("Yuck", getChatId(upd)); 
   
-  return Reply.of(upd, Flag.PHOTO)
+  return Reply.of(action, Flag.PHOTO)
 }
 ```
 
