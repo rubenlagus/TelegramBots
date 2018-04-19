@@ -63,7 +63,6 @@ public class EditMessageReplyMarkup extends BotApiMethod<Serializable> {
     }
 
     public EditMessageReplyMarkup setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
         this.chatId = chatId.toString();
         return this;
     }

@@ -97,8 +97,9 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
         return cacheTime;
     }
 
-    public void setCacheTime(Integer cacheTime) {
+    public AnswerCallbackQuery setCacheTime(Integer cacheTime) {
         this.cacheTime = cacheTime;
+        return this;
     }
 
     @Override

@@ -86,7 +86,6 @@ public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
     }
 
     public GetGameHighScores setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
         this.chatId = chatId.toString();
         return this;
     }
