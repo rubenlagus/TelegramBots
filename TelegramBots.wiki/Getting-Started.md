@@ -11,7 +11,7 @@ First you need ot get the library and add it to your project. There are few poss
            <dependency>
               <groupId>org.telegram</groupId>
               <artifactId>telegrambots</artifactId>
-              <version>3.6</version>
+              <version>3.6.1</version>
            </dependency>
         ```
     * With **Gradle**:

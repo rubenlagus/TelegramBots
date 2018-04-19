@@ -18,7 +18,7 @@ Usage
     <dependency>
         <groupId>org.telegram</groupId>
         <artifactId>telegrambots-abilities</artifactId>
-        <version>3.6</version>
+        <version>3.6.1</version>
     </dependency>
 ```
 
