@@ -56,7 +56,7 @@ After that your bot will look like:
 ```java
   //Standart Spring component annotation
   @Component
-  public class MusicBotImpl extends TelegramLongPollingBot {
+  public class YourBotName extends TelegramLongPollingBot {
     //Bot body.
   }
 ```
