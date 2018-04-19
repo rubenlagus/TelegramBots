@@ -14,6 +14,7 @@
         <module>telegrambots-meta</module>
         <module>telegrambots-extensions</module>
         <module>telegrambots-abilities</module>
+        <module>telegrambots-spring-boot-starter</module>
     </modules>
 
     <licenses>
