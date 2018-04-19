@@ -13,6 +13,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.ProxyAuthenticationStrategy;
 import org.apache.http.util.EntityUtils;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.methods.groupadministration.SetChatPhoto;
@@ -26,6 +27,7 @@ import org.telegram.telegrambots.api.objects.media.InputMedia;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.facilities.TelegramHttpClientBuilder;
 import org.telegram.telegrambots.updateshandlers.DownloadFileCallback;
 import org.telegram.telegrambots.updateshandlers.SentCallback;
 
@@ -61,11 +63,8 @@ public abstract class DefaultAbsSender extends AbsSender {
         super();
         this.exe = Executors.newFixedThreadPool(options.getMaxThreads());
         this.options = options;
-        httpclient = HttpClientBuilder.create()
-                .setSSLHostnameVerifier(new NoopHostnameVerifier())
-                .setConnectionTimeToLive(70, TimeUnit.SECONDS)
-                .setMaxConnTotal(100)
-                .build();
+
+        httpclient = TelegramHttpClientBuilder.build(options);
 
         requestConfig = options.getRequestConfig();
 
