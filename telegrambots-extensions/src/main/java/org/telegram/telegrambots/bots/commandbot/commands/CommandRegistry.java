@@ -16,7 +16,7 @@ import java.util.function.BiConsumer;
  */
 public final class CommandRegistry implements ICommandRegistry {
 
-    private final Map<String, BotCommand> commandRegistryMap = new HashMap<>();
+    private final Map<String, IBotCommand> commandRegistryMap = new HashMap<>();
     private final boolean allowCommandsWithUsername;
     private final String botUsername;
     private BiConsumer<AbsSender, Message> defaultConsumer;
@@ -37,7 +37,7 @@ public final class CommandRegistry implements ICommandRegistry {
     }
 
     @Override
-    public final boolean register(BotCommand botCommand) {
+    public final boolean register(IBotCommand botCommand) {
         if (commandRegistryMap.containsKey(botCommand.getCommandIdentifier())) {
             return false;
         }
@@ -46,16 +46,16 @@ public final class CommandRegistry implements ICommandRegistry {
     }
 
     @Override
-    public final Map<BotCommand, Boolean> registerAll(BotCommand... botCommands) {
-        Map<BotCommand, Boolean> resultMap = new HashMap<>(botCommands.length);
-        for (BotCommand botCommand : botCommands) {
+    public final Map<IBotCommand, Boolean> registerAll(IBotCommand... botCommands) {
+        Map<IBotCommand, Boolean> resultMap = new HashMap<>(botCommands.length);
+        for (IBotCommand botCommand : botCommands) {
             resultMap.put(botCommand, register(botCommand));
         }
         return resultMap;
     }
 
     @Override
-    public final boolean deregister(BotCommand botCommand) {
+    public final boolean deregister(IBotCommand botCommand) {
         if (commandRegistryMap.containsKey(botCommand.getCommandIdentifier())) {
             commandRegistryMap.remove(botCommand.getCommandIdentifier());
             return true;
@@ -64,21 +64,21 @@ public final class CommandRegistry implements ICommandRegistry {
     }
 
     @Override
-    public final Map<BotCommand, Boolean> deregisterAll(BotCommand... botCommands) {
-        Map<BotCommand, Boolean> resultMap = new HashMap<>(botCommands.length);
-        for (BotCommand botCommand : botCommands) {
+    public final Map<IBotCommand, Boolean> deregisterAll(IBotCommand... botCommands) {
+        Map<IBotCommand, Boolean> resultMap = new HashMap<>(botCommands.length);
+        for (IBotCommand botCommand : botCommands) {
             resultMap.put(botCommand, deregister(botCommand));
         }
         return resultMap;
     }
 
     @Override
-    public final Collection<BotCommand> getRegisteredCommands() {
+    public final Collection<IBotCommand> getRegisteredCommands() {
         return commandRegistryMap.values();
     }
 
     @Override
-    public final BotCommand getRegisteredCommand(String commandIdentifier) {
+    public final IBotCommand getRegisteredCommand(String commandIdentifier) {
         return commandRegistryMap.get(commandIdentifier);
     }
 

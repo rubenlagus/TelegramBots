@@ -8,8 +8,8 @@ As with any Java project, you will need to set your dependencies.
 ```xml
    <dependency>
       <groupId>org.telegram</groupId>
-      <artifactId>telegrambots-abilties</artifactId>
-      <version>3.6</version>
+      <artifactId>telegrambots-abilities</artifactId>
+      <version>3.6.1</version>
    </dependency>
 ```
 * **Gradle**

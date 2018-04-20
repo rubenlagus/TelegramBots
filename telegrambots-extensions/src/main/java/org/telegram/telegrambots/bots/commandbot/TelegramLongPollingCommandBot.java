@@ -9,6 +9,7 @@ import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.bots.commandbot.commands.CommandRegistry;
+import org.telegram.telegrambots.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.bots.commandbot.commands.ICommandRegistry;
 
 import java.util.Collection;
@@ -105,27 +106,27 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
     }
 
     @Override
-    public final boolean register(BotCommand botCommand) {
+    public final boolean register(IBotCommand botCommand) {
         return commandRegistry.register(botCommand);
     }
 
     @Override
-    public final Map<BotCommand, Boolean> registerAll(BotCommand... botCommands) {
+    public final Map<IBotCommand, Boolean> registerAll(IBotCommand... botCommands) {
         return commandRegistry.registerAll(botCommands);
     }
 
     @Override
-    public final boolean deregister(BotCommand botCommand) {
+    public final boolean deregister(IBotCommand botCommand) {
         return commandRegistry.deregister(botCommand);
     }
 
     @Override
-    public final Map<BotCommand, Boolean> deregisterAll(BotCommand... botCommands) {
+    public final Map<IBotCommand, Boolean> deregisterAll(IBotCommand... botCommands) {
         return commandRegistry.deregisterAll(botCommands);
     }
 
     @Override
-    public final Collection<BotCommand> getRegisteredCommands() {
+    public final Collection<IBotCommand> getRegisteredCommands() {
         return commandRegistry.getRegisteredCommands();
     }
 
@@ -135,7 +136,7 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
     }
 
     @Override
-    public final BotCommand getRegisteredCommand(String commandIdentifier) {
+    public final IBotCommand getRegisteredCommand(String commandIdentifier) {
         return commandRegistry.getRegisteredCommand(commandIdentifier);
     }
 

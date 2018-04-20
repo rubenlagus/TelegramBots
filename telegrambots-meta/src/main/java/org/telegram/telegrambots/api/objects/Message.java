@@ -357,6 +357,10 @@ public class Message implements BotApiObject {
         return this.document != null;
     }
 
+    public boolean hasVideo() {
+        return this.video != null;
+    }
+
     public boolean isReply() {
         return this.replyToMessage != null;
     }
@@ -395,6 +399,10 @@ public class Message implements BotApiObject {
 
     public boolean hasSuccessfulPayment() {
         return successfulPayment != null;
+    }
+
+    public boolean hasContact() {
+        return contact != null;
     }
 
     public Invoice getInvoice() {

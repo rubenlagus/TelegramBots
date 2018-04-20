@@ -6,6 +6,7 @@
 * [How can I compile my project?](#how_to_compile)
 * [Method ```sendMessage()``` (or other) is deprecated, what should I do?](#sendmessage_deprecated)
 * [Is there any example for WebHook?](#example_webhook)
+* [How to use spring boot starter?](#spring_boot_starter)
 
 ## <a id="how_to_get_picture"></a>How to download photo? ##
 
@@ -221,3 +222,34 @@ If you extend ```TelegramLongPollingCommandBot```, then use ```AbsSender.execute
 
 ## <a id="example_webhook"></a>Is there any example for WebHook? ##
 Please see the example Bot for https://telegram.me/SnowcrashBot in the [TelegramBotsExample]() repo and also an [example bot for Sping Boot](https://github.com/UnAfraid/SpringTelegramBot) from [UnAfraid](https://github.com/UnAfraid) [here](https://github.com/UnAfraid/SpringTelegramBot/blob/master/src/main/java/com/github/unafraid/spring/bot/TelegramWebhookBot.java)
+
+
+
+## <a id="spring_boot_starter"></a>How to use spring boot starter ##
+----------
+Your main spring boot class should look like this:
+
+```java
+@SpringBootApplication
+//Add this annotation to enable automatic bots initializing
+@EnableTelegramBots
+public class YourApplicationMainClass {
+
+	public static void main(String[] args) {
+	    //Add this line to initialize bots context
+		ApiContextInitializer.init();
+		
+		SpringApplication.run(MusicUploaderApplication.class, args);
+	}
+}
+```
+
+After that your bot will look like:
+```java
+  //Standart Spring component annotation
+  @Component
+  public class YourBotClassName extends TelegramLongPollingBot {
+    //Bot body.
+  }
+```
+Also you could just implement LongPollingBot or WebHookBot interfaces. All this bots will be registered in context and connected to Telegram api.

@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.telegram</groupId>
-    <artifactId>telegrambotsextensions</artifactId>
+    <artifactId>telegrambots-spring-boot-starter</artifactId>
     <version>3.6.1</version>
     <packaging>jar</packaging>
 
-    <name>Telegram Bots Extensions</name>
+    <name>Telegram Bots Spring Boot Starter</name>
     <url>https://github.com/rubenlagus/TelegramBots</url>
-    <description>Extensions Bots for Telegram Bots library</description>
+    <description>Easy to use library to create Telegram Bots</description>
 
     <issueManagement>
         <url>https://github.com/rubenlagus/TelegramBots/issues</url>
@@ -30,10 +30,10 @@
 
     <developers>
         <developer>
-            <email>rberlopez@gmail.com</email>
-            <name>Ruben Bermudez</name>
-            <url>https://github.com/rubenlagus</url>
-            <id>rubenlagus</id>
+            <email>homich1991@gmail.com</email>
+            <name>Roman Meerson</name>
+            <url>https://github.com/homich1991</url>
+            <id>homich1991</id>
         </developer>
     </developers>
 
@@ -60,13 +60,25 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <bots.version>3.6.1</bots.version>
+        <spring-boot.version>1.5.10.RELEASE</spring-boot.version>
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots</artifactId>
             <version>${bots.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
     </dependencies>
 

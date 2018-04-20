@@ -7,13 +7,14 @@
     <groupId>org.telegram</groupId>
     <artifactId>Bots</artifactId>
     <packaging>pom</packaging>
-    <version>3.6</version>
+    <version>3.6.1</version>
 
     <modules>
         <module>telegrambots</module>
         <module>telegrambots-meta</module>
         <module>telegrambots-extensions</module>
         <module>telegrambots-abilities</module>
+        <module>telegrambots-spring-boot-starter</module>
     </modules>
 
     <licenses>
@@ -26,6 +27,6 @@
 
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>
-        <bots.version>3.6</bots.version>
+        <bots.version>3.6.1</bots.version>
     </properties>
 </project>

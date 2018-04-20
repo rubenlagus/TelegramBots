@@ -1,15 +1,14 @@
 package org.telegram.telegrambots.bots.commandbot.commands.helpCommand;
 
-import java.util.Collection;
-
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Chat;
 import org.telegram.telegrambots.api.objects.User;
 import org.telegram.telegrambots.bots.AbsSender;
-import org.telegram.telegrambots.bots.commandbot.TelegramLongPollingCommandBot;
-import org.telegram.telegrambots.bots.commandbot.commands.BotCommand;
+import org.telegram.telegrambots.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.bots.commandbot.commands.ICommandRegistry;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
+
+import java.util.Collection;
 
 /**
  * A special bot command used for printing help messages similiar to the Linux man command.
@@ -29,9 +28,9 @@ public class HelpCommand extends ManCommand {
 	 * @param botCommands the Commands that should be included in the String
 	 * @return a formatted String containing command and description for all supplied commands
 	 */
-	public static String getHelpText(BotCommand...botCommands) {
+	public static String getHelpText(IBotCommand...botCommands) {
 		StringBuilder reply = new StringBuilder();
-		for (BotCommand com : botCommands) {
+		for (IBotCommand com : botCommands) {
 			reply.append(com.toString()).append(System.lineSeparator()).append(System.lineSeparator());
 		}
 		return reply.toString();
@@ -42,8 +41,8 @@ public class HelpCommand extends ManCommand {
 	 * @param botCommands a collection of commands that should be included in the String
 	 * @return a formatted String containing command and description for all supplied commands
 	 */
-	public static String getHelpText(Collection<BotCommand> botCommands) {
-		return getHelpText(botCommands.toArray(new BotCommand[botCommands.size()]));
+	public static String getHelpText(Collection<IBotCommand> botCommands) {
+		return getHelpText(botCommands.toArray(new IBotCommand[botCommands.size()]));
 	}
 
 	/**
@@ -60,7 +59,7 @@ public class HelpCommand extends ManCommand {
 	 * @param command a command the extended Descriptions is read from
 	 * @return the extended Description or the toString() if IManCommand is not implemented
 	 */
-	public static String getManText(BotCommand command) {
+	public static String getManText(IBotCommand command) {
 		return IManCommand.class.isInstance(command) ? getManText((IManCommand) command) : command.toString();
 	}
 	
@@ -96,7 +95,7 @@ public class HelpCommand extends ManCommand {
 			ICommandRegistry registry = (ICommandRegistry) absSender;
 			
 			if (arguments.length > 0) {
-				BotCommand command = registry.getRegisteredCommand(arguments[0]);
+				IBotCommand command = registry.getRegisteredCommand(arguments[0]);
 				String reply = getManText(command);
 				try {
 					absSender.execute(new SendMessage(chat.getId(), reply).setParseMode("HTML"));

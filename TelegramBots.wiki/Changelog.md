@@ -1,3 +1,8 @@
+### <a id="3.6.1"></a>3.6.1 ###
+1. Support for proxy connections
+2. New module for Spring
+3. Bug fixing
+
 ### <a id="3.6"></a>3.6 ###
 1. Support for Api Version [3.6](https://core.telegram.org/bots/api-changelog#february-13-2018)
 2. Bug fixing and other improvements

@@ -8,6 +8,7 @@ import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -59,6 +60,12 @@ public class DeleteMessage extends BotApiMethod<Boolean> {
 
     public DeleteMessage setChatId(String chatId) {
         this.chatId = chatId;
+        return this;
+    }
+
+    public DeleteMessage setChatId(Long chatId) {
+        Objects.requireNonNull(chatId);
+        this.chatId = chatId.toString();
         return this;
     }
 
