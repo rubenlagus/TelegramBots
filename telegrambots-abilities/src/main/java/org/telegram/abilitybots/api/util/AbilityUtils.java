@@ -159,12 +159,15 @@ public final class AbilityUtils {
   public static String getLocalizedMessage(String messageCode, Locale locale, Object...arguments) {
     ResourceBundle bundle;
     if(locale == null){
-      bundle = ResourceBundle.getBundle("default_messages");
+      bundle = ResourceBundle.getBundle("messages", Locale.ROOT);
     }else {
       try {
-        bundle = ResourceBundle.getBundle("messages", locale);
+        bundle = ResourceBundle.getBundle(
+                "messages",
+                locale,
+                ResourceBundle.Control.getNoFallbackControl(ResourceBundle.Control.FORMAT_PROPERTIES));
       } catch (MissingResourceException e) {
-        bundle = ResourceBundle.getBundle("default_messages");
+        bundle = ResourceBundle.getBundle("messages", Locale.ROOT);
       }
     }
     String message = bundle.getString(messageCode);
