@@ -1,7 +1,6 @@
 package org.telegram.abilitybots.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
@@ -30,7 +29,7 @@ public final class EndUser implements Serializable {
   private final String lastName;
   @JsonProperty("username")
   private final String username;
-  @JsonIgnore
+  @JsonProperty("locale")
   private Locale locale;
 
   private EndUser(Integer id, String firstName, String lastName, String username, Locale locale) {
@@ -45,8 +44,9 @@ public final class EndUser implements Serializable {
   public static EndUser endUser(@JsonProperty("id") Integer id,
                                 @JsonProperty("firstName") String firstName,
                                 @JsonProperty("lastName") String lastName,
-                                @JsonProperty("username") String username) {
-    return new EndUser(id, firstName, lastName, username, null);
+                                @JsonProperty("username") String username,
+                                @JsonProperty("locale") Locale locale) {
+    return new EndUser(id, firstName, lastName, username, locale);
   }
 
   /**
