@@ -36,8 +36,6 @@ import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
-import static org.telegram.abilitybots.api.bot.AbilityBot.RECOVERY_MESSAGE;
-import static org.telegram.abilitybots.api.bot.AbilityBot.RECOVER_SUCCESS;
 import static org.telegram.abilitybots.api.bot.DefaultBot.getDefaultBuilder;
 import static org.telegram.abilitybots.api.db.MapDBContext.offlineInstance;
 import static org.telegram.abilitybots.api.objects.EndUser.endUser;
@@ -49,6 +47,10 @@ import static org.telegram.abilitybots.api.objects.MessageContext.newContext;
 import static org.telegram.abilitybots.api.objects.Privacy.*;
 
 public class AbilityBotTest {
+  // Messages
+  protected static final String RECOVERY_MESSAGE = "I am ready to receive the backup file. Please reply to this message with the backup file attached.";
+  protected static final String RECOVER_SUCCESS = "I have successfully recovered.";
+
   private static final String[] EMPTY_ARRAY = {};
   private static final long GROUP_ID = 10L;
   private static final String TEST = "test";
