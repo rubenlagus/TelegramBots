@@ -102,11 +102,6 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
   protected static final String RECOVER = "recover";
   protected static final String COMMANDS = "commands";
 
-  // Messages
-  // TODO replace hardcoded messages...
-  protected static final String RECOVERY_MESSAGE = "I am ready to receive the backup file. Please reply to this message with the backup file attached.";
-  protected static final String RECOVER_SUCCESS = "I have successfully recovered.";
-
   // DB and sender
   protected final DBContext db;
   protected MessageSender sender;
@@ -270,7 +265,7 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
     try {
       return getUser(username).id();
     } catch (IllegalStateException ex) {
-      silent.send(format("Sorry, I could not find the user [%s].", username), chatId);
+      silent.send(getLocalizedMessage("userNotFound","", username), chatId); // TODO how to retrieve language?
       throw propagate(ex);
     }
   }
@@ -362,7 +357,8 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
         .locality(USER)
         .privacy(CREATOR)
         .input(0)
-        .action(ctx -> silent.forceReply(RECOVERY_MESSAGE, ctx.chatId()))
+        .action(ctx -> silent.forceReply(
+                getLocalizedMessage("ability.recover.message", ctx.user().locale()), ctx.chatId()))
         .reply(update -> {
           Long chatId = update.getMessage().getChatId();
           String fileId = update.getMessage().getDocument().getFileId();
@@ -370,7 +366,8 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
           try (FileReader reader = new FileReader(downloadFileWithId(fileId))) {
             String backupData = IOUtils.toString(reader);
             if (db.recover(backupData)) {
-              silent.send(RECOVER_SUCCESS, chatId);
+              silent.send(getLocalizedMessage("ability.recover.success",
+                      AbilityUtils.getUser(update).getLanguageCode()), chatId); // TODO how to retrieve language?
             } else {
               silent.send(getLocalizedMessage("ability.recover.fail",
                       AbilityUtils.getUser(update).getLanguageCode()), chatId);
@@ -380,7 +377,7 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
             silent.send(getLocalizedMessage("ability.recover.error",
                     AbilityUtils.getUser(update).getLanguageCode()), chatId);
           }
-        }, MESSAGE, DOCUMENT, REPLY, isReplyTo(RECOVERY_MESSAGE))
+        }, MESSAGE, DOCUMENT, REPLY, isReplyTo(getLocalizedMessage("ability.recover.success", ""))) // TODO how to retrieve language?
         .build();
   }
 
