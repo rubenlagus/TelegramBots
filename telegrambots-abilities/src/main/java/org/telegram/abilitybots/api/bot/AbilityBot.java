@@ -367,7 +367,8 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
             String backupData = IOUtils.toString(reader);
             if (db.recover(backupData)) {
               silent.send(getLocalizedMessage("ability.recover.success",
-                      AbilityUtils.getUser(update).getLanguageCode()), chatId); // TODO how to retrieve language?
+                      ""), chatId);
+              // TODO how to retrieve language? Getting java.lang.IllegalStateException: Could not retrieve originating user from update
             } else {
               silent.send(getLocalizedMessage("ability.recover.fail",
                       AbilityUtils.getUser(update).getLanguageCode()), chatId);
