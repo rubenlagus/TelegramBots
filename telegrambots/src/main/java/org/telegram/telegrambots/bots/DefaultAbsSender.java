@@ -33,6 +33,7 @@ import org.telegram.telegrambots.updateshandlers.SentCallback;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -56,7 +57,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     protected final ExecutorService exe;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final DefaultBotOptions options;
-    private volatile CloseableHttpClient httpclient;
+    private volatile CloseableHttpClient httpClient;
     private volatile RequestConfig requestConfig;
 
     protected DefaultAbsSender(DefaultBotOptions options) {
@@ -64,16 +65,32 @@ public abstract class DefaultAbsSender extends AbsSender {
         this.exe = Executors.newFixedThreadPool(options.getMaxThreads());
         this.options = options;
 
-        httpclient = TelegramHttpClientBuilder.build(options);
+        httpClient = TelegramHttpClientBuilder.build(options);
+        configureHttpContext();
 
         requestConfig = options.getRequestConfig();
-
         if (requestConfig == null) {
             requestConfig = RequestConfig.copy(RequestConfig.custom().build())
                     .setSocketTimeout(SOCKET_TIMEOUT)
                     .setConnectTimeout(SOCKET_TIMEOUT)
                     .setConnectionRequestTimeout(SOCKET_TIMEOUT).build();
         }
+    }
+
+    private void configureHttpContext() {
+
+        if (options.getProxyType() != DefaultBotOptions.ProxyType.NO_PROXY) {
+            InetSocketAddress socksaddr = new InetSocketAddress(options.getProxyHost(), options.getProxyPort());
+            options.getHttpContext().setAttribute("socketAddress", socksaddr);
+        }
+
+        if (options.getProxyType() == DefaultBotOptions.ProxyType.SOCKS4) {
+            options.getHttpContext().setAttribute("socksVersion", 4);
+        }
+        if (options.getProxyType() == DefaultBotOptions.ProxyType.SOCKS5) {
+            options.getHttpContext().setAttribute("socksVersion", 5);
+        }
+
     }
 
     /**
@@ -734,7 +751,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     }
 
     private String sendHttpPostRequest(HttpPost httppost) throws IOException {
-        try (CloseableHttpResponse response = httpclient.execute(httppost)) {
+        try (CloseableHttpResponse response = httpClient.execute(httppost, options.getHttpContext())) {
             HttpEntity ht = response.getEntity();
             BufferedHttpEntity buf = new BufferedHttpEntity(ht);
             return EntityUtils.toString(buf, StandardCharsets.UTF_8);
