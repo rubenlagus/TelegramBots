@@ -18,19 +18,6 @@ public class TelegramHttpClientBuilder {
                 .setSSLHostnameVerifier(new NoopHostnameVerifier())
                 .setConnectionTimeToLive(70, TimeUnit.SECONDS)
                 .setMaxConnTotal(100);
-
-        if (options.getHttpProxy() != null) {
-
-            httpClientBuilder.setProxy(options.getHttpProxy());
-
-            if (options.getCredentialsProvider() != null) {
-                httpClientBuilder
-                        .setProxyAuthenticationStrategy(new ProxyAuthenticationStrategy())
-                        .setDefaultCredentialsProvider(options.getCredentialsProvider());
-            }
-
-        }
-
         return httpClientBuilder.build();
     }
 

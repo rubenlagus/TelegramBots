@@ -23,9 +23,6 @@ public class DefaultBotOptions implements BotOptions {
     private String baseUrl;
     private List<String> allowedUpdates;
 
-    private CredentialsProvider credentialsProvider;
-    private HttpHost httpProxy;
-
     public DefaultBotOptions() {
         maxThreads = 1;
         baseUrl = ApiConstants.BASE_URL;
@@ -88,19 +85,4 @@ public class DefaultBotOptions implements BotOptions {
         this.exponentialBackOff = exponentialBackOff;
     }
 
-    public CredentialsProvider getCredentialsProvider() {
-        return credentialsProvider;
-    }
-
-    public void setCredentialsProvider(CredentialsProvider credentialsProvider) {
-        this.credentialsProvider = credentialsProvider;
-    }
-
-    public HttpHost getHttpProxy() {
-        return httpProxy;
-    }
-
-    public void setHttpProxy(HttpHost httpProxy) {
-        this.httpProxy = httpProxy;
-    }
 }
