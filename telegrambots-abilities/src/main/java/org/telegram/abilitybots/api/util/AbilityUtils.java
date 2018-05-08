@@ -13,6 +13,9 @@ import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import static java.util.ResourceBundle.Control.FORMAT_PROPERTIES;
+import static java.util.ResourceBundle.Control.getNoFallbackControl;
+import static java.util.ResourceBundle.getBundle;
 import static org.telegram.abilitybots.api.objects.Flag.*;
 
 /**
@@ -158,16 +161,16 @@ public final class AbilityUtils {
 
   public static String getLocalizedMessage(String messageCode, Locale locale, Object...arguments) {
     ResourceBundle bundle;
-    if(locale == null){
-      bundle = ResourceBundle.getBundle("messages", Locale.ROOT);
-    }else {
+    if (locale == null) {
+      bundle = getBundle("messages", Locale.ROOT);
+    } else {
       try {
-        bundle = ResourceBundle.getBundle(
+        bundle = getBundle(
                 "messages",
                 locale,
-                ResourceBundle.Control.getNoFallbackControl(ResourceBundle.Control.FORMAT_PROPERTIES));
+                getNoFallbackControl(FORMAT_PROPERTIES));
       } catch (MissingResourceException e) {
-        bundle = ResourceBundle.getBundle("messages", Locale.ROOT);
+        bundle = getBundle("messages", Locale.ROOT);
       }
     }
     String message = bundle.getString(messageCode);
