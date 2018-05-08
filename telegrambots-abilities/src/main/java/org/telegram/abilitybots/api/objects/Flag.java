@@ -11,7 +11,7 @@ import static java.util.Objects.nonNull;
 /**
  * Flags are an conditions that are applied on an {@link Update}.
  * <p>
- * They can be used on {@link AbilityBuilder#flag(Flag...)} and on the post conditions in {@link AbilityBuilder#reply(Consumer, Predicate[])}.
+ * They can be used on {@link AbilityBuilder#flag(Predicate[])} and on the post conditions in {@link AbilityBuilder#reply(Consumer, Predicate[])}.
  *
  * @author Abbas Abou Daya
  */

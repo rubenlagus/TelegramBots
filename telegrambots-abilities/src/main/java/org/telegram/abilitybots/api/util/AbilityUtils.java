@@ -87,6 +87,28 @@ public final class AbilityUtils {
   }
 
   /**
+   * A "best-effort" boolean stating whether the update is a super-group message or not.
+   *
+   * @param update a Telegram {@link Update}
+   * @return whether the update is linked to a group
+   */
+  public static boolean isSuperGroupUpdate(Update update) {
+    if (MESSAGE.test(update)) {
+      return update.getMessage().isSuperGroupMessage();
+    } else if (CALLBACK_QUERY.test(update)) {
+      return update.getCallbackQuery().getMessage().isSuperGroupMessage();
+    } else if (CHANNEL_POST.test(update)) {
+      return update.getChannelPost().isSuperGroupMessage();
+    } else if (EDITED_CHANNEL_POST.test(update)) {
+      return update.getEditedChannelPost().isSuperGroupMessage();
+    } else if (EDITED_MESSAGE.test(update)) {
+      return update.getEditedMessage().isSuperGroupMessage();
+    } else {
+      return false;
+    }
+  }
+
+  /**
    * Fetches the direct chat ID of the specified update.
    *
    * @param update a Telegram {@link Update}
