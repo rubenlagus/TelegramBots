@@ -48,8 +48,8 @@ import static org.telegram.abilitybots.api.objects.Privacy.*;
 
 public class AbilityBotTest {
   // Messages
-  protected static final String RECOVERY_MESSAGE = "I am ready to receive the backup file. Please reply to this message with the backup file attached.";
-  protected static final String RECOVER_SUCCESS = "I have successfully recovered.";
+  private static final String RECOVERY_MESSAGE = "I am ready to receive the backup file. Please reply to this message with the backup file attached.";
+  private static final String RECOVER_SUCCESS = "I have successfully recovered.";
 
   private static final String[] EMPTY_ARRAY = {};
   private static final long GROUP_ID = 10L;

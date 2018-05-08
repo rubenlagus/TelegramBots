@@ -19,8 +19,8 @@ import static org.telegram.abilitybots.api.db.MapDBContext.offlineInstance;
 import static org.telegram.abilitybots.api.objects.EndUser.endUser;
 
 public class AbilityBotI18nTest {
-    public static final EndUser NO_LANGUAGE_USER = endUser(1, "first", "last", "username", null);
-    public static final EndUser ITALIAN_USER = endUser(2, "first", "last", "username", Locale.ITALY);
+    private static final EndUser NO_LANGUAGE_USER = endUser(1, "first", "last", "username", null);
+    private static final EndUser ITALIAN_USER = endUser(2, "first", "last", "username", Locale.ITALY);
 
     private DBContext db;
     private DefaultBot bot;
@@ -54,8 +54,6 @@ public class AbilityBotI18nTest {
 
         verify(silent, times(1))
                 .send("No public commands found.", NO_LANGUAGE_USER.id());
-
-        //
 
         MessageContext context1 = mock(MessageContext.class);
         when(context1.chatId()).thenReturn(Long.valueOf(ITALIAN_USER.id()));

@@ -37,7 +37,7 @@ public final class EndUser implements Serializable {
     this.firstName = firstName;
     this.lastName = lastName;
     this.username = username;
-    this.locale = locale != null? locale : Locale.ENGLISH;
+    this.locale = locale;
   }
 
   @JsonCreator
@@ -143,7 +143,7 @@ public final class EndUser implements Serializable {
         .add("firstName", firstName)
         .add("lastName", lastName)
         .add("username", username)
-        .add("locale", locale.toString())
+        .add("locale", locale)
         .toString();
   }
 }
