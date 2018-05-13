@@ -10,7 +10,6 @@ import org.telegram.abilitybots.api.sender.MessageSender;
 import org.telegram.abilitybots.api.sender.SilentSender;
 
 import java.io.IOException;
-import java.util.Locale;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.mockito.Mockito.*;
@@ -19,8 +18,8 @@ import static org.telegram.abilitybots.api.db.MapDBContext.offlineInstance;
 import static org.telegram.abilitybots.api.objects.EndUser.endUser;
 
 public class AbilityBotI18nTest {
-    private static final EndUser NO_LANGUAGE_USER = endUser(1, "first", "last", "username", null);
-    private static final EndUser ITALIAN_USER = endUser(2, "first", "last", "username", Locale.ITALY);
+    private static final EndUser NO_LANGUAGE_USER = endUser(1, "first", "last", "username");
+    private static final EndUser ITALIAN_USER = endUser(2, "first", "last", "username");
 
     private DBContext db;
     private DefaultBot bot;
