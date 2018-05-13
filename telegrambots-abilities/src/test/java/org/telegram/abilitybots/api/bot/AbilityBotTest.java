@@ -55,8 +55,8 @@ public class AbilityBotTest {
   private static final long GROUP_ID = 10L;
   private static final String TEST = "test";
   private static final String[] TEXT = {TEST};
-  public static final EndUser MUSER = endUser(1, "first", "last", "username", null);
-  public static final EndUser CREATOR = endUser(1337, "creatorFirst", "creatorLast", "creatorUsername", null);
+  public static final EndUser MUSER = endUser(1, "first", "last", "username");
+  public static final EndUser CREATOR = endUser(1337, "creatorFirst", "creatorLast", "creatorUsername");
 
   private DefaultBot bot;
   private DBContext db;
@@ -295,7 +295,7 @@ public class AbilityBotTest {
     String newFirstName = MUSER.firstName() + "-test";
     String newLastName = MUSER.lastName() + "-test";
     int sameId = MUSER.id();
-    EndUser changedUser = endUser(sameId, newFirstName, newLastName, newUsername, null);
+    EndUser changedUser = endUser(sameId, newFirstName, newLastName, newUsername);
 
     mockAlternateUser(update, message, user, changedUser);
 

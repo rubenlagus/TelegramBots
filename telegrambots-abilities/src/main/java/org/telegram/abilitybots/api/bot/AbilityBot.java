@@ -303,7 +303,7 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
               })
               .sorted()
               .reduce((a, b) -> format("%s%n%s", a, b))
-              .orElse(getLocalizedMessage(ABILITY_COMMANDS_NOT_FOUND, ctx.user().locale()));
+              .orElse(getLocalizedMessage(ABILITY_COMMANDS_NOT_FOUND, AbilityUtils.getUser(ctx.update()).getLanguageCode()));
 
           silent.send(commands, ctx.chatId());
         })
@@ -359,7 +359,7 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
         .privacy(CREATOR)
         .input(0)
         .action(ctx -> silent.forceReply(
-                getLocalizedMessage(ABILITY_RECOVER_MESSAGE, ctx.user().locale()), ctx.chatId()))
+                getLocalizedMessage(ABILITY_RECOVER_MESSAGE, AbilityUtils.getUser(ctx.update()).getLanguageCode()), ctx.chatId()))
         .reply(update -> {
           Long chatId = update.getMessage().getChatId();
           String fileId = update.getMessage().getDocument().getFileId();
@@ -413,10 +413,10 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
 
           Set<Integer> blacklist = blacklist();
           if (blacklist.contains(userId))
-            silent.sendMd(getLocalizedMessage(ABILITY_BAN_FAIL, ctx.user().locale(), escape(bannedUser)), ctx.chatId());
+            silent.sendMd(getLocalizedMessage(ABILITY_BAN_FAIL, AbilityUtils.getUser(ctx.update()).getLanguageCode(), escape(bannedUser)), ctx.chatId());
           else {
             blacklist.add(userId);
-            silent.sendMd(getLocalizedMessage(ABILITY_BAN_SUCCESS, ctx.user().locale(), escape(bannedUser)), ctx.chatId());
+            silent.sendMd(getLocalizedMessage(ABILITY_BAN_SUCCESS, AbilityUtils.getUser(ctx.update()).getLanguageCode(), escape(bannedUser)), ctx.chatId());
           }
         })
         .post(commitTo(db))
@@ -441,9 +441,9 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
           Set<Integer> blacklist = blacklist();
 
           if (!blacklist.remove(userId))
-            silent.sendMd(getLocalizedMessage(ABILITY_UNBAN_FAIL, ctx.user().locale(), escape(username)), ctx.chatId());
+            silent.sendMd(getLocalizedMessage(ABILITY_UNBAN_FAIL, AbilityUtils.getUser(ctx.update()).getLanguageCode(), escape(username)), ctx.chatId());
           else {
-            silent.sendMd(getLocalizedMessage(ABILITY_UNBAN_SUCCESS, ctx.user().locale(), escape(username)), ctx.chatId());
+            silent.sendMd(getLocalizedMessage(ABILITY_UNBAN_SUCCESS, AbilityUtils.getUser(ctx.update()).getLanguageCode(), escape(username)), ctx.chatId());
           }
         })
         .post(commitTo(db))
@@ -465,10 +465,10 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
 
           Set<Integer> admins = admins();
           if (admins.contains(userId))
-            silent.sendMd(getLocalizedMessage(ABILITY_PROMOTE_FAIL, ctx.user().locale(), escape(username)), ctx.chatId());
+            silent.sendMd(getLocalizedMessage(ABILITY_PROMOTE_FAIL, AbilityUtils.getUser(ctx.update()).getLanguageCode(), escape(username)), ctx.chatId());
           else {
             admins.add(userId);
-            silent.sendMd(getLocalizedMessage(ABILITY_PROMOTE_SUCCESS, ctx.user().locale(), escape(username)), ctx.chatId());
+            silent.sendMd(getLocalizedMessage(ABILITY_PROMOTE_SUCCESS, AbilityUtils.getUser(ctx.update()).getLanguageCode(), escape(username)), ctx.chatId());
           }
         }).post(commitTo(db))
         .build();
@@ -489,9 +489,9 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
 
           Set<Integer> admins = admins();
           if (admins.remove(userId)) {
-            silent.sendMd(getLocalizedMessage(ABILITY_DEMOTE_SUCCESS, ctx.user().locale(), escape(username)), ctx.chatId());
+            silent.sendMd(getLocalizedMessage(ABILITY_DEMOTE_SUCCESS, AbilityUtils.getUser(ctx.update()).getLanguageCode(), escape(username)), ctx.chatId());
           } else {
-            silent.sendMd(getLocalizedMessage(ABILITY_DEMOTE_FAIL, ctx.user().locale(), escape(username)), ctx.chatId());
+            silent.sendMd(getLocalizedMessage(ABILITY_DEMOTE_FAIL, AbilityUtils.getUser(ctx.update()).getLanguageCode(), escape(username)), ctx.chatId());
           }
         })
         .post(commitTo(db))
@@ -516,10 +516,10 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
             long chatId = ctx.chatId();
 
             if (admins.contains(id))
-              silent.send(getLocalizedMessage(ABILITY_CLAIM_FAIL, ctx.user().locale()), chatId);
+              silent.send(getLocalizedMessage(ABILITY_CLAIM_FAIL, AbilityUtils.getUser(ctx.update()).getLanguageCode()), chatId);
             else {
               admins.add(id);
-              silent.send(getLocalizedMessage(ABILITY_CLAIM_SUCCESS, ctx.user().locale()), chatId);
+              silent.send(getLocalizedMessage(ABILITY_CLAIM_SUCCESS, AbilityUtils.getUser(ctx.update()).getLanguageCode()), chatId);
             }
           } else {
             // This is not a joke
