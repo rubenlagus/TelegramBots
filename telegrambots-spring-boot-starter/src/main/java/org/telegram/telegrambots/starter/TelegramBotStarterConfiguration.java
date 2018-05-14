@@ -24,8 +24,12 @@ public class TelegramBotStarterConfiguration {
     private final List<LongPollingBot> longPollingBots;
     private final List<WebhookBot> webHookBots;
 
-    @Autowired
     private TelegramBotsApi telegramBotsApi;
+
+    @Autowired
+    public void setTelegramBotsApi(TelegramBotsApi telegramBotsApi) {
+        this.telegramBotsApi = telegramBotsApi;
+    }
 
     public TelegramBotStarterConfiguration(@Autowired(required = false) List<LongPollingBot> longPollingBots,
                                            @Autowired(required = false) List<WebhookBot> webHookBots) {
