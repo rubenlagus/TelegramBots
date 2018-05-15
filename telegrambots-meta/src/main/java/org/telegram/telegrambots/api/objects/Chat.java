@@ -94,6 +94,10 @@ public class Chat implements BotApiObject {
         return title;
     }
 
+    public String getType() {
+        return type;
+    }
+
     public String getFirstName() {
         return firstName;
     }
