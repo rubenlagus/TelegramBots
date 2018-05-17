@@ -637,7 +637,7 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
     Privacy privacy;
     int id = user.id();
 
-    privacy = isCreator(id) ? CREATOR : isAdmin(id) ? ADMIN : isGroupAdmin(update, id)? GROUP_ADMIN : PUBLIC;
+    privacy = isCreator(id) ? CREATOR : isAdmin(id) ? ADMIN : (isGroupUpdate(update) || isSuperGroupUpdate(update)) && isGroupAdmin(update, id)? GROUP_ADMIN : PUBLIC;
 
     boolean isOk = privacy.compareTo(trio.b().privacy()) >= 0;
 
@@ -650,7 +650,7 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
   private boolean isGroupAdmin(Update update, int id) {
     GetChatAdministrators admins = new GetChatAdministrators().setChatId(getChatId(update));
 
-    return isGroupUpdate(update) && silent.execute(admins)
+    return silent.execute(admins)
         .orElse(new ArrayList<>()).stream()
         .anyMatch(member -> member.getUser().getId() == id);
   }

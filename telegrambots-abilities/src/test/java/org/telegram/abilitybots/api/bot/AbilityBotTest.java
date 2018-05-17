@@ -362,7 +362,7 @@ public class AbilityBotTest {
   }
 
   @Test
-  public void canValidateGroupAdminPrivacy() throws TelegramApiException {
+  public void canValidateGroupAdminPrivacy() {
     Update update = mock(Update.class);
     Message message = mock(Message.class);
     org.telegram.telegrambots.api.objects.User user = mock(User.class);
@@ -383,7 +383,7 @@ public class AbilityBotTest {
   }
 
   @Test
-  public void canRestrictNormalUsersFromGroupAdminAbilities() throws TelegramApiException {
+  public void canRestrictNormalUsersFromGroupAdminAbilities() {
     Update update = mock(Update.class);
     Message message = mock(Message.class);
     org.telegram.telegrambots.api.objects.User user = mock(User.class);
