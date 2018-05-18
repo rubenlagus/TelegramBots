@@ -4,70 +4,79 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.telegram.abilitybots.api.db.DBContext;
-import org.telegram.abilitybots.api.objects.EndUser;
 import org.telegram.abilitybots.api.objects.MessageContext;
 import org.telegram.abilitybots.api.sender.MessageSender;
 import org.telegram.abilitybots.api.sender.SilentSender;
+import org.telegram.telegrambots.api.objects.User;
 
 import java.io.IOException;
 
+import static java.lang.Long.valueOf;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.mockito.Mockito.*;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
+import static org.telegram.abilitybots.api.bot.AbilityBotTest.mockContext;
+import static org.telegram.abilitybots.api.bot.AbilityBotTest.newUser;
 import static org.telegram.abilitybots.api.db.MapDBContext.offlineInstance;
-import static org.telegram.abilitybots.api.objects.EndUser.endUser;
 
 public class AbilityBotI18nTest {
-    private static final EndUser NO_LANGUAGE_USER = endUser(1, "first", "last", "username");
-    private static final EndUser ITALIAN_USER = endUser(2, "first", "last", "username");
+  private static final User NO_LANGUAGE_USER = newUser(1, "first", "last", "username", null);
+  private static final User ITALIAN_USER = newUser(2, "first", "last", "username", "it-IT");
 
-    private DBContext db;
-    private DefaultBot bot;
+  private DBContext db;
+  private NoPublicCommandsBot bot;
 
-    private NoPublicCommandsBot noCommandsBot;
+  private MessageSender sender;
+  private SilentSender silent;
 
-    private MessageSender sender;
-    private SilentSender silent;
+  @Before
+  public void setUp() {
+    db = offlineInstance("db");
+    bot = new NoPublicCommandsBot(EMPTY, EMPTY, db);
 
-    @Before
-    public void setUp() {
-        db = offlineInstance("db");
-        bot = new DefaultBot(EMPTY, EMPTY, db);
+    sender = mock(MessageSender.class);
+    silent = mock(SilentSender.class);
 
-        silent = mock(SilentSender.class);
+    bot.sender = sender;
+    bot.silent = silent;
+  }
 
-        bot.sender = sender;
-        bot.silent = silent;
-    }
+  @Test
+  public void missingPublicCommandsLocalizedCorrectly1() {
+    MessageContext context = mockContext(NO_LANGUAGE_USER);
 
-    @Test
-    public void missingPublicCommandsLocalizedCorrectly() {
-        NoPublicCommandsBot noCommandsBot = new NoPublicCommandsBot(EMPTY, EMPTY, db);
-        noCommandsBot.silent = silent;
+    bot.reportCommands().action().accept(context);
 
-        MessageContext context = mock(MessageContext.class);
-        when(context.chatId()).thenReturn(Long.valueOf(NO_LANGUAGE_USER.id()));
-        when(context.user()).thenReturn(NO_LANGUAGE_USER);
+    verify(silent, times(1))
+        .send("No public commands found.", NO_LANGUAGE_USER.getId());
+  }
 
-        noCommandsBot.reportCommands().action().accept(context);
+  @Test
+  public void missingPublicCommandsLocalizedCorrectly2() {
+    MessageContext context1 = mockContext(ITALIAN_USER);
 
-        verify(silent, times(1))
-                .send("No public commands found.", NO_LANGUAGE_USER.id());
+    bot.reportCommands().action().accept(context1);
 
-        MessageContext context1 = mock(MessageContext.class);
-        when(context1.chatId()).thenReturn(Long.valueOf(ITALIAN_USER.id()));
-        when(context1.user()).thenReturn(ITALIAN_USER);
-
-        noCommandsBot.reportCommands().action().accept(context1);
-
-        verify(silent, times(1))
-                .send("Non sono presenti comandi pubblici.", ITALIAN_USER.id());
-    }
+    verify(silent, times(1))
+        .send("Non sono presenti comandi pubblici.", ITALIAN_USER.getId());
+  }
 
 
-    @After
-    public void tearDown() throws IOException {
-        db.clear();
-        db.close();
-    }
+  @After
+  public void tearDown() throws IOException {
+    db.clear();
+    db.close();
+  }
+
+  public static class NoPublicCommandsBot extends AbilityBot {
+
+      protected NoPublicCommandsBot(String botToken, String botUsername, DBContext db) {
+          super(botToken, botUsername, db);
+      }
+
+      @Override
+      public int creatorId() {
+          return 0;
+      }
+  }
 }
