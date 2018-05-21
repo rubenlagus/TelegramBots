@@ -3,7 +3,7 @@ package org.telegram.abilitybots.api.db;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.telegram.abilitybots.api.objects.EndUser;
+import org.telegram.telegrambots.api.objects.User;
 
 import java.io.IOException;
 import java.util.Map;
@@ -12,12 +12,11 @@ import java.util.Set;
 import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Sets.newHashSet;
 import static java.lang.String.format;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.telegram.abilitybots.api.bot.AbilityBot.USERS;
 import static org.telegram.abilitybots.api.bot.AbilityBot.USER_ID;
 import static org.telegram.abilitybots.api.bot.AbilityBotTest.CREATOR;
-import static org.telegram.abilitybots.api.bot.AbilityBotTest.MUSER;
+import static org.telegram.abilitybots.api.bot.AbilityBotTest.USER;
 import static org.telegram.abilitybots.api.db.MapDBContext.offlineInstance;
 
 public class MapDBContextTest {
@@ -32,22 +31,22 @@ public class MapDBContextTest {
 
   @Test
   public void canRecoverDB() {
-    Map<Integer, EndUser> users = db.getMap(USERS);
+    Map<Integer, User> users = db.getMap(USERS);
     Map<String, Integer> userIds = db.getMap(USER_ID);
-    users.put(CREATOR.id(), CREATOR);
-    users.put(MUSER.id(), MUSER);
-    userIds.put(CREATOR.username(), CREATOR.id());
-    userIds.put(MUSER.username(), MUSER.id());
+    users.put(CREATOR.getId(), CREATOR);
+    users.put(USER.getId(), USER);
+    userIds.put(CREATOR.getUserName(), CREATOR.getId());
+    userIds.put(USER.getUserName(), USER.getId());
 
     db.getSet("AYRE").add(123123);
-    Map<Integer, EndUser> originalUsers = newHashMap(users);
+    Map<Integer, User> originalUsers = newHashMap(users);
     String beforeBackupInfo = db.info(USERS);
 
     Object jsonBackup = db.backup();
     db.clear();
     boolean recovered = db.recover(jsonBackup);
 
-    Map<Integer, EndUser> recoveredUsers = db.getMap(USERS);
+    Map<Integer, User> recoveredUsers = db.getMap(USERS);
     String afterRecoveryInfo = db.info(USERS);
 
     assertTrue("Could not recover database successfully", recovered);
@@ -56,24 +55,24 @@ public class MapDBContextTest {
   }
 
   @Test
-  public void canFallbackDBIfRecoveryFails() throws IOException {
-    Set<EndUser> users = db.getSet(USERS);
+  public void canFallbackDBIfRecoveryFails() {
+    Set<User> users = db.getSet(USERS);
     users.add(CREATOR);
-    users.add(MUSER);
+    users.add(USER);
 
-    Set<EndUser> originalSet = newHashSet(users);
+    Set<User> originalSet = newHashSet(users);
     Object jsonBackup = db.backup();
     String corruptBackup = "!@#$" + String.valueOf(jsonBackup);
     boolean recovered = db.recover(corruptBackup);
 
-    Set<EndUser> recoveredSet = db.getSet(USERS);
+    Set<User> recoveredSet = db.getSet(USERS);
 
-    assertEquals("Recovery was successful from a CORRUPT backup", false, recovered);
+    assertFalse("Recovery was successful from a CORRUPT backup", recovered);
     assertEquals("Set before and after corrupt recovery are not equal", originalSet, recoveredSet);
   }
 
   @Test
-  public void canGetSummary() throws IOException {
+  public void canGetSummary() {
     String anotherTest = TEST + 1;
     db.getSet(TEST).add(TEST);
     db.getSet(anotherTest).add(anotherTest);
@@ -86,7 +85,7 @@ public class MapDBContextTest {
   }
 
   @Test
-  public void canGetInfo() throws IOException {
+  public void canGetInfo() {
     db.getSet(TEST).add(TEST);
 
     String actualInfo = db.info(TEST);
@@ -97,7 +96,7 @@ public class MapDBContextTest {
   }
 
   @Test(expected = IllegalStateException.class)
-  public void cantGetInfoFromNonexistentDBStructureName() throws IOException {
+  public void cantGetInfoFromNonexistentDBStructureName() {
     db.info(TEST);
   }
 

@@ -10,12 +10,14 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.StringJoiner;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import static java.util.ResourceBundle.Control.FORMAT_PROPERTIES;
 import static java.util.ResourceBundle.Control.getNoFallbackControl;
 import static java.util.ResourceBundle.getBundle;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.telegram.abilitybots.api.objects.Flag.*;
 
 /**
@@ -204,4 +206,42 @@ public final class AbilityUtils {
     return getLocalizedMessage(messageCode, locale, arguments);
   }
 
+  /**
+   * The short name is one of the following:
+   * <ol>
+   * <li>First name</li>
+   * <li>Last name</li>
+   * <li>Username</li>
+   * </ol>
+   * The method will try to return the first valid name in the specified order.
+   *
+   * @return the short name of the user
+   */
+  public static String shortName(User user) {
+    if (!isEmpty(user.getFirstName()))
+      return user.getFirstName();
+
+    if (!isEmpty(user.getLastName()))
+      return user.getLastName();
+
+    return user.getUserName();
+  }
+
+  /**
+   * The full name is identified as the concatenation of the first and last name, separated by a space.
+   * This method can return an empty name if both first and last name are empty.
+   *
+   * @return the full name of the user
+   * @param user
+   */
+  public static String fullName(User user) {
+    StringJoiner name = new StringJoiner(" ");
+
+    if (!isEmpty(user.getFirstName()))
+      name.add(user.getFirstName());
+    if (!isEmpty(user.getLastName()))
+      name.add(user.getLastName());
+
+    return name.toString();
+  }
 }

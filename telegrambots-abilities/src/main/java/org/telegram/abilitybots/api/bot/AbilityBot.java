@@ -14,6 +14,7 @@ import org.telegram.telegrambots.api.methods.groupadministration.GetChatAdminist
 import org.telegram.telegrambots.api.methods.send.SendDocument;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.api.objects.User;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
@@ -44,7 +45,6 @@ import static java.util.stream.Collectors.toMap;
 import static jersey.repackaged.com.google.common.base.Throwables.propagate;
 import static org.telegram.abilitybots.api.db.MapDBContext.onlineInstance;
 import static org.telegram.abilitybots.api.objects.Ability.builder;
-import static org.telegram.abilitybots.api.objects.EndUser.fromUser;
 import static org.telegram.abilitybots.api.objects.Flag.*;
 import static org.telegram.abilitybots.api.objects.Locality.*;
 import static org.telegram.abilitybots.api.objects.MessageContext.newContext;
@@ -145,9 +145,9 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
   }
 
   /**
-   * @return the map of ID -> EndUser
+   * @return the map of ID -> User
    */
-  protected Map<Integer, EndUser> users() {
+  protected Map<Integer, User> users() {
     return db.getMap(USERS);
   }
 
@@ -232,7 +232,7 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
    * @param username the username of the required user
    * @return the user
    */
-  protected EndUser getUser(String username) {
+  protected User getUser(String username) {
     Integer id = userIds().get(username.toLowerCase());
     if (id == null) {
       throw new IllegalStateException(format("Could not find ID corresponding to username [%s]", username));
@@ -247,13 +247,13 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
    * @param id the id of the required user
    * @return the user
    */
-  protected EndUser getUser(int id) {
-    EndUser endUser = users().get(id);
-    if (endUser == null) {
+  protected User getUser(int id) {
+    User user = users().get(id);
+    if (user == null) {
       throw new IllegalStateException(format("Could not find user corresponding to id [%d]", id));
     }
 
-    return endUser;
+    return user;
   }
 
   /**
@@ -264,9 +264,9 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
    */
   protected int getUserIdSendError(String username, long chatId) {
     try {
-      return getUser(username).id();
+      return getUser(username).getId();
     } catch (IllegalStateException ex) {
-      silent.send(getLocalizedMessage(USER_NOT_FOUND,"", username), chatId); // TODO how to retrieve language?
+      silent.send(getLocalizedMessage(USER_NOT_FOUND, "", username), chatId); // TODO how to retrieve language?
       throw propagate(ex);
     }
   }
@@ -303,7 +303,7 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
               })
               .sorted()
               .reduce((a, b) -> format("%s%n%s", a, b))
-              .orElse(getLocalizedMessage(ABILITY_COMMANDS_NOT_FOUND, AbilityUtils.getUser(ctx.update()).getLanguageCode()));
+              .orElse(getLocalizedMessage(ABILITY_COMMANDS_NOT_FOUND, ctx.user().getLanguageCode()));
 
           silent.send(commands, ctx.chatId());
         })
@@ -359,7 +359,7 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
         .privacy(CREATOR)
         .input(0)
         .action(ctx -> silent.forceReply(
-                getLocalizedMessage(ABILITY_RECOVER_MESSAGE, AbilityUtils.getUser(ctx.update()).getLanguageCode()), ctx.chatId()))
+            getLocalizedMessage(ABILITY_RECOVER_MESSAGE, ctx.user().getLanguageCode()), ctx.chatId()))
         .reply(update -> {
           Long chatId = update.getMessage().getChatId();
           String fileId = update.getMessage().getDocument().getFileId();
@@ -367,17 +367,13 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
           try (FileReader reader = new FileReader(downloadFileWithId(fileId))) {
             String backupData = IOUtils.toString(reader);
             if (db.recover(backupData)) {
-              silent.send(getLocalizedMessage(ABILITY_RECOVER_SUCCESS,
-                      ""), chatId);
-              // TODO how to retrieve language? Getting java.lang.IllegalStateException: Could not retrieve originating user from update
+              send(ABILITY_RECOVER_SUCCESS, update, chatId);
             } else {
-              silent.send(getLocalizedMessage(ABILITY_RECOVER_FAIL,
-                      AbilityUtils.getUser(update).getLanguageCode()), chatId);
+              send(ABILITY_RECOVER_FAIL, update, chatId);
             }
           } catch (Exception e) {
             BotLogger.error("Could not recover DB from backup", TAG, e);
-            silent.send(getLocalizedMessage(ABILITY_RECOVER_ERROR,
-                    AbilityUtils.getUser(update).getLanguageCode()), chatId);
+            send(ABILITY_RECOVER_ERROR, update, chatId);
           }
         }, MESSAGE, DOCUMENT, REPLY, isReplyTo(getLocalizedMessage(ABILITY_RECOVER_SUCCESS, ""))) // TODO how to retrieve language?
         .build();
@@ -405,18 +401,18 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
 
           // Protection from abuse
           if (userId == creatorId()) {
-            userId = ctx.user().id();
-            bannedUser = isNullOrEmpty(ctx.user().username()) ? addTag(ctx.user().username()) : ctx.user().shortName();
+            userId = ctx.user().getId();
+            bannedUser = isNullOrEmpty(ctx.user().getUserName()) ? addTag(ctx.user().getUserName()) : shortName(ctx.user());
           } else {
             bannedUser = addTag(username);
           }
 
           Set<Integer> blacklist = blacklist();
           if (blacklist.contains(userId))
-            silent.sendMd(getLocalizedMessage(ABILITY_BAN_FAIL, AbilityUtils.getUser(ctx.update()).getLanguageCode(), escape(bannedUser)), ctx.chatId());
+            sendMd(ABILITY_BAN_FAIL, ctx, escape(bannedUser));
           else {
             blacklist.add(userId);
-            silent.sendMd(getLocalizedMessage(ABILITY_BAN_SUCCESS, AbilityUtils.getUser(ctx.update()).getLanguageCode(), escape(bannedUser)), ctx.chatId());
+            sendMd(ABILITY_BAN_SUCCESS, ctx, escape(bannedUser));
           }
         })
         .post(commitTo(db))
@@ -441,9 +437,9 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
           Set<Integer> blacklist = blacklist();
 
           if (!blacklist.remove(userId))
-            silent.sendMd(getLocalizedMessage(ABILITY_UNBAN_FAIL, AbilityUtils.getUser(ctx.update()).getLanguageCode(), escape(username)), ctx.chatId());
+            silent.sendMd(getLocalizedMessage(ABILITY_UNBAN_FAIL, ctx.user().getLanguageCode(), escape(username)), ctx.chatId());
           else {
-            silent.sendMd(getLocalizedMessage(ABILITY_UNBAN_SUCCESS, AbilityUtils.getUser(ctx.update()).getLanguageCode(), escape(username)), ctx.chatId());
+            silent.sendMd(getLocalizedMessage(ABILITY_UNBAN_SUCCESS, ctx.user().getLanguageCode(), escape(username)), ctx.chatId());
           }
         })
         .post(commitTo(db))
@@ -465,10 +461,10 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
 
           Set<Integer> admins = admins();
           if (admins.contains(userId))
-            silent.sendMd(getLocalizedMessage(ABILITY_PROMOTE_FAIL, AbilityUtils.getUser(ctx.update()).getLanguageCode(), escape(username)), ctx.chatId());
+            sendMd(ABILITY_PROMOTE_FAIL, ctx, escape(username));
           else {
             admins.add(userId);
-            silent.sendMd(getLocalizedMessage(ABILITY_PROMOTE_SUCCESS, AbilityUtils.getUser(ctx.update()).getLanguageCode(), escape(username)), ctx.chatId());
+            sendMd(ABILITY_PROMOTE_SUCCESS, ctx, escape(username));
           }
         }).post(commitTo(db))
         .build();
@@ -489,9 +485,9 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
 
           Set<Integer> admins = admins();
           if (admins.remove(userId)) {
-            silent.sendMd(getLocalizedMessage(ABILITY_DEMOTE_SUCCESS, AbilityUtils.getUser(ctx.update()).getLanguageCode(), escape(username)), ctx.chatId());
+            sendMd(ABILITY_DEMOTE_SUCCESS, ctx, escape(username));
           } else {
-            silent.sendMd(getLocalizedMessage(ABILITY_DEMOTE_FAIL, AbilityUtils.getUser(ctx.update()).getLanguageCode(), escape(username)), ctx.chatId());
+            sendMd(ABILITY_DEMOTE_FAIL, ctx, escape(username));
           }
         })
         .post(commitTo(db))
@@ -510,24 +506,35 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
         .privacy(PUBLIC)
         .input(0)
         .action(ctx -> {
-          if (ctx.user().id() == creatorId()) {
+          if (ctx.user().getId() == creatorId()) {
             Set<Integer> admins = admins();
             int id = creatorId();
-            long chatId = ctx.chatId();
 
             if (admins.contains(id))
-              silent.send(getLocalizedMessage(ABILITY_CLAIM_FAIL, AbilityUtils.getUser(ctx.update()).getLanguageCode()), chatId);
+              send(ABILITY_CLAIM_FAIL, ctx);
             else {
               admins.add(id);
-              silent.send(getLocalizedMessage(ABILITY_CLAIM_SUCCESS, AbilityUtils.getUser(ctx.update()).getLanguageCode()), chatId);
+              send(ABILITY_CLAIM_SUCCESS, ctx);
             }
           } else {
             // This is not a joke
-            abilities.get(BAN).action().accept(newContext(ctx.update(), ctx.user(), ctx.chatId(), ctx.user().username()));
+            abilities.get(BAN).action().accept(newContext(ctx.update(), ctx.user(), ctx.chatId(), ctx.user().getUserName()));
           }
         })
         .post(commitTo(db))
         .build();
+  }
+
+  private Optional<Message> send(String message, MessageContext ctx, String... args) {
+    return silent.send(getLocalizedMessage(message, ctx.user().getLanguageCode(), args), ctx.chatId());
+  }
+
+  private Optional<Message> sendMd(String message, MessageContext ctx, String... args) {
+    return silent.sendMd(getLocalizedMessage(message, ctx.user().getLanguageCode(), args), ctx.chatId());
+  }
+
+  private Optional<Message> send(String message, Update upd, Long chatId) {
+    return silent.send(getLocalizedMessage(message, AbilityUtils.getUser(upd).getLanguageCode()), chatId);
   }
 
   /**
@@ -599,7 +606,7 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
 
   Pair<MessageContext, Ability> getContext(Trio<Update, Ability, String[]> trio) {
     Update update = trio.a();
-    EndUser user = fromUser(AbilityUtils.getUser(update));
+    User user = AbilityUtils.getUser(update);
 
     return Pair.of(newContext(update, user, getChatId(update), trio.c()), trio.b());
   }
@@ -618,11 +625,11 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
 
     if (!isOk)
       silent.send(
-              getLocalizedMessage(
-                      CHECK_INPUT_FAIL,
-                      AbilityUtils.getUser(trio.a()).getLanguageCode(),
-                      abilityTokens, abilityTokens == 1 ? "input" : "inputs"),
-              getChatId(trio.a()));
+          getLocalizedMessage(
+              CHECK_INPUT_FAIL,
+              AbilityUtils.getUser(trio.a()).getLanguageCode(),
+              abilityTokens, abilityTokens == 1 ? "input" : "inputs"),
+          getChatId(trio.a()));
     return isOk;
   }
 
@@ -635,30 +642,30 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
 
     if (!isOk)
       silent.send(
-              getLocalizedMessage(
-                      CHECK_LOCALITY_FAIL,
-                      AbilityUtils.getUser(trio.a()).getLanguageCode(),
-                      abilityLocality.toString().toLowerCase()),
-              getChatId(trio.a()));
+          getLocalizedMessage(
+              CHECK_LOCALITY_FAIL,
+              AbilityUtils.getUser(trio.a()).getLanguageCode(),
+              abilityLocality.toString().toLowerCase()),
+          getChatId(trio.a()));
     return isOk;
   }
 
   boolean checkPrivacy(Trio<Update, Ability, String[]> trio) {
     Update update = trio.a();
-    EndUser user = fromUser(AbilityUtils.getUser(update));
+    User user = AbilityUtils.getUser(update);
     Privacy privacy;
-    int id = user.id();
+    int id = user.getId();
 
-    privacy = isCreator(id) ? CREATOR : isAdmin(id) ? ADMIN : (isGroupUpdate(update) || isSuperGroupUpdate(update)) && isGroupAdmin(update, id)? GROUP_ADMIN : PUBLIC;
+    privacy = isCreator(id) ? CREATOR : isAdmin(id) ? ADMIN : (isGroupUpdate(update) || isSuperGroupUpdate(update)) && isGroupAdmin(update, id) ? GROUP_ADMIN : PUBLIC;
 
     boolean isOk = privacy.compareTo(trio.b().privacy()) >= 0;
 
     if (!isOk)
       silent.send(
-              getLocalizedMessage(
-                      CHECK_PRIVACY_FAIL,
-                      AbilityUtils.getUser(trio.a()).getLanguageCode()),
-              getChatId(trio.a()));
+          getLocalizedMessage(
+              CHECK_PRIVACY_FAIL,
+              AbilityUtils.getUser(trio.a()).getLanguageCode()),
+          getChatId(trio.a()));
     return isOk;
   }
 
@@ -709,9 +716,9 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
   }
 
   Update addUser(Update update) {
-    EndUser endUser = fromUser(AbilityUtils.getUser(update));
+    User endUser = AbilityUtils.getUser(update);
 
-    users().compute(endUser.id(), (id, user) -> {
+    users().compute(endUser.getId(), (id, user) -> {
       if (user == null) {
         updateUserId(user, endUser);
         return endUser;
@@ -729,15 +736,15 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
     return update;
   }
 
-  private void updateUserId(EndUser oldUser, EndUser newUser) {
-    if (oldUser != null && oldUser.username() != null) {
+  private void updateUserId(User oldUser, User newUser) {
+    if (oldUser != null && oldUser.getUserName() != null) {
       // Remove old username -> ID
-      userIds().remove(oldUser.username());
+      userIds().remove(oldUser.getUserName());
     }
 
-    if (newUser.username() != null) {
+    if (newUser.getUserName() != null) {
       // Add new mapping with the new username
-      userIds().put(newUser.username().toLowerCase(), newUser.id());
+      userIds().put(newUser.getUserName().toLowerCase(), newUser.getId());
     }
   }
 
@@ -764,6 +771,7 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
   private File downloadFileWithId(String fileId) throws TelegramApiException {
     return sender.downloadFile(sender.execute(new GetFile().setFileId(fileId)));
   }
+
 
   private String escape(String username) {
     return username.replace("_", "\\_");

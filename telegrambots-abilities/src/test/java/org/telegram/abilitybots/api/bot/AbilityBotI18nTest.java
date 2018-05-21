@@ -11,17 +11,15 @@ import org.telegram.telegrambots.api.objects.User;
 
 import java.io.IOException;
 
-import static java.lang.Long.valueOf;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.mockito.Mockito.*;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.telegram.abilitybots.api.bot.AbilityBotTest.mockContext;
-import static org.telegram.abilitybots.api.bot.AbilityBotTest.newUser;
 import static org.telegram.abilitybots.api.db.MapDBContext.offlineInstance;
 
 public class AbilityBotI18nTest {
-  private static final User NO_LANGUAGE_USER = newUser(1, "first", "last", "username", null);
-  private static final User ITALIAN_USER = newUser(2, "first", "last", "username", "it-IT");
+  private static final User NO_LANGUAGE_USER = new User(1, "first", false, "last", "username", null);
+  private static final User ITALIAN_USER = new User(2, "first", false, "last", "username", "it-IT");
 
   private DBContext db;
   private NoPublicCommandsBot bot;
@@ -53,9 +51,9 @@ public class AbilityBotI18nTest {
 
   @Test
   public void missingPublicCommandsLocalizedCorrectly2() {
-    MessageContext context1 = mockContext(ITALIAN_USER);
+    MessageContext context = mockContext(ITALIAN_USER);
 
-    bot.reportCommands().action().accept(context1);
+    bot.reportCommands().action().accept(context);
 
     verify(silent, times(1))
         .send("Non sono presenti comandi pubblici.", ITALIAN_USER.getId());
