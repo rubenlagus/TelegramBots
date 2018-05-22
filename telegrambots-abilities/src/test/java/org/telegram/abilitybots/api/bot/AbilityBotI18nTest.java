@@ -12,7 +12,8 @@ import org.telegram.telegrambots.api.objects.User;
 import java.io.IOException;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.telegram.abilitybots.api.bot.AbilityBotTest.mockContext;
 import static org.telegram.abilitybots.api.db.MapDBContext.offlineInstance;
@@ -37,6 +38,7 @@ public class AbilityBotI18nTest {
 
     bot.sender = sender;
     bot.silent = silent;
+
   }
 
   @Test
@@ -59,7 +61,6 @@ public class AbilityBotI18nTest {
         .send("Non sono presenti comandi pubblici.", ITALIAN_USER.getId());
   }
 
-
   @After
   public void tearDown() throws IOException {
     db.clear();
@@ -68,13 +69,13 @@ public class AbilityBotI18nTest {
 
   public static class NoPublicCommandsBot extends AbilityBot {
 
-      protected NoPublicCommandsBot(String botToken, String botUsername, DBContext db) {
-          super(botToken, botUsername, db);
-      }
+    protected NoPublicCommandsBot(String botToken, String botUsername, DBContext db) {
+      super(botToken, botUsername, db);
+    }
 
-      @Override
-      public int creatorId() {
-          return 0;
-      }
+    @Override
+    public int creatorId() {
+      return 1;
+    }
   }
 }
