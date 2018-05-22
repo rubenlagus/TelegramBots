@@ -54,7 +54,10 @@ public abstract class AbsSender {
     }
 
     // Send Requests
-
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see SendMessage
+     */
     @Deprecated
     public final Message sendMessage(SendMessage sendMessage) throws TelegramApiException {
         if (sendMessage == null) {
@@ -64,6 +67,10 @@ public abstract class AbsSender {
         return sendApiMethod(sendMessage);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see AnswerInlineQuery
+     */
     @Deprecated
     public final Boolean answerInlineQuery(AnswerInlineQuery answerInlineQuery) throws TelegramApiException {
         if (answerInlineQuery == null) {
@@ -73,6 +80,10 @@ public abstract class AbsSender {
         return sendApiMethod(answerInlineQuery);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see SendChatAction
+     */
     @Deprecated
     public final Boolean sendChatAction(SendChatAction sendChatAction) throws TelegramApiException {
         if (sendChatAction == null) {
@@ -82,6 +93,10 @@ public abstract class AbsSender {
         return sendApiMethod(sendChatAction);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see ForwardMessage
+     */
     @Deprecated
     public final Message forwardMessage(ForwardMessage forwardMessage) throws TelegramApiException {
         if (forwardMessage == null) {
@@ -91,6 +106,10 @@ public abstract class AbsSender {
         return sendApiMethod(forwardMessage);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see SendLocation
+     */
     @Deprecated
     public final Message sendLocation(SendLocation sendLocation) throws TelegramApiException {
         if (sendLocation == null) {
@@ -100,6 +119,10 @@ public abstract class AbsSender {
         return sendApiMethod(sendLocation);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see SendVenue
+     */
     @Deprecated
     public final Message sendVenue(SendVenue sendVenue) throws TelegramApiException {
         if (sendVenue == null) {
@@ -109,6 +132,10 @@ public abstract class AbsSender {
         return sendApiMethod(sendVenue);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see SendContact
+     */
     @Deprecated
     public final Message sendContact(SendContact sendContact) throws TelegramApiException {
         if (sendContact == null) {
@@ -118,6 +145,10 @@ public abstract class AbsSender {
         return sendApiMethod(sendContact);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see KickChatMember
+     */
     @Deprecated
     public final Boolean kickMember(KickChatMember kickChatMember) throws TelegramApiException {
         if (kickChatMember == null) {
@@ -126,6 +157,10 @@ public abstract class AbsSender {
         return sendApiMethod(kickChatMember);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see UnbanChatMember
+     */
     @Deprecated
     public final Boolean unbanMember(UnbanChatMember unbanChatMember) throws TelegramApiException {
         if (unbanChatMember == null) {
@@ -134,6 +169,10 @@ public abstract class AbsSender {
         return sendApiMethod(unbanChatMember);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see LeaveChat
+     */
     @Deprecated
     public final Boolean leaveChat(LeaveChat leaveChat) throws TelegramApiException {
         if (leaveChat == null) {
@@ -142,6 +181,10 @@ public abstract class AbsSender {
         return sendApiMethod(leaveChat);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see GetChat
+     */
     @Deprecated
     public final Chat getChat(GetChat getChat) throws TelegramApiException {
         if (getChat == null) {
@@ -150,6 +193,10 @@ public abstract class AbsSender {
         return sendApiMethod(getChat);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see ExportChatInviteLink
+     */
     @Deprecated
     public final String exportChatInviteLink(ExportChatInviteLink exportChatInviteLink) throws TelegramApiException {
         if (exportChatInviteLink == null) {
@@ -158,6 +205,10 @@ public abstract class AbsSender {
         return sendApiMethod(exportChatInviteLink);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see GetChatAdministrators
+     */
     @Deprecated
     public final List<ChatMember> getChatAdministrators(GetChatAdministrators getChatAdministrators) throws TelegramApiException {
         if (getChatAdministrators == null) {
@@ -166,6 +217,10 @@ public abstract class AbsSender {
         return sendApiMethod(getChatAdministrators);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see GetChatMember
+     */
     @Deprecated
     public final ChatMember getChatMember(GetChatMember getChatMember) throws TelegramApiException {
         if (getChatMember == null) {
@@ -174,6 +229,10 @@ public abstract class AbsSender {
         return sendApiMethod(getChatMember);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see GetChatMemberCount
+     */
     @Deprecated
     public final Integer getChatMemberCount(GetChatMemberCount getChatMemberCount) throws TelegramApiException {
         if (getChatMemberCount == null) {
@@ -182,6 +241,10 @@ public abstract class AbsSender {
         return sendApiMethod(getChatMemberCount);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see EditMessageText
+     */
     @Deprecated
     public final Serializable editMessageText(EditMessageText editMessageText) throws TelegramApiException {
         if (editMessageText == null) {
@@ -190,6 +253,10 @@ public abstract class AbsSender {
         return sendApiMethod(editMessageText);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see EditMessageCaption
+     */
     @Deprecated
     public final Serializable editMessageCaption(EditMessageCaption editMessageCaption) throws TelegramApiException {
         if (editMessageCaption == null) {
@@ -198,6 +265,10 @@ public abstract class AbsSender {
         return sendApiMethod(editMessageCaption);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see EditMessageReplyMarkup
+     */
     @Deprecated
     public final Serializable editMessageReplyMarkup(EditMessageReplyMarkup editMessageReplyMarkup) throws TelegramApiException {
         if (editMessageReplyMarkup == null) {
@@ -206,6 +277,10 @@ public abstract class AbsSender {
         return sendApiMethod(editMessageReplyMarkup);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see AnswerCallbackQuery
+     */
     @Deprecated
     public final Boolean answerCallbackQuery(AnswerCallbackQuery answerCallbackQuery) throws TelegramApiException {
         if (answerCallbackQuery == null) {
@@ -214,6 +289,10 @@ public abstract class AbsSender {
         return sendApiMethod(answerCallbackQuery);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see GetUserProfilePhotos
+     */
     @Deprecated
     public final UserProfilePhotos getUserProfilePhotos(GetUserProfilePhotos getUserProfilePhotos) throws TelegramApiException {
         if (getUserProfilePhotos == null) {
@@ -223,6 +302,10 @@ public abstract class AbsSender {
         return sendApiMethod(getUserProfilePhotos);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see GetFile
+     */
     @Deprecated
     public final File getFile(GetFile getFile) throws TelegramApiException {
         if(getFile == null){
@@ -243,6 +326,10 @@ public abstract class AbsSender {
         return sendApiMethod(getWebhookInfo);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see SetGameScore
+     */
     @Deprecated
     public final Serializable setGameScore(SetGameScore setGameScore) throws TelegramApiException {
         if(setGameScore == null){
@@ -251,6 +338,10 @@ public abstract class AbsSender {
         return sendApiMethod(setGameScore);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see GetGameHighScores
+     */
     @Deprecated
     public final Serializable getGameHighScores(GetGameHighScores getGameHighScores) throws TelegramApiException {
         if(getGameHighScores == null){
@@ -259,6 +350,10 @@ public abstract class AbsSender {
         return sendApiMethod(getGameHighScores);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see SendGame
+     */
     @Deprecated
     public final Message sendGame(SendGame sendGame) throws TelegramApiException {
         if(sendGame == null){
@@ -267,6 +362,10 @@ public abstract class AbsSender {
         return sendApiMethod(sendGame);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see DeleteWebhook
+     */
     @Deprecated
     public final Boolean deleteWebhook(DeleteWebhook deleteWebhook) throws TelegramApiException {
         if(deleteWebhook == null){
@@ -275,6 +374,10 @@ public abstract class AbsSender {
         return sendApiMethod(deleteWebhook);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see SendInvoice
+     */
     @Deprecated
     public final Message sendInvoice(SendInvoice sendInvoice) throws TelegramApiException {
         if(sendInvoice == null){
@@ -283,6 +386,10 @@ public abstract class AbsSender {
         return sendApiMethod(sendInvoice);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see AnswerShippingQuery
+     */
     @Deprecated
     public final Boolean answerShippingQuery(AnswerShippingQuery answerShippingQuery) throws TelegramApiException {
         if(answerShippingQuery == null){
@@ -291,6 +398,10 @@ public abstract class AbsSender {
         return sendApiMethod(answerShippingQuery);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see AnswerPreCheckoutQuery
+     */
     @Deprecated
     public final Boolean answerPreCheckoutQuery(AnswerPreCheckoutQuery answerPreCheckoutQuery) throws TelegramApiException {
         if(answerPreCheckoutQuery == null){
@@ -299,6 +410,10 @@ public abstract class AbsSender {
         return sendApiMethod(answerPreCheckoutQuery);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see DeleteMessage
+     */
     @Deprecated
     public final Boolean deleteMessage(DeleteMessage deleteMessage) throws TelegramApiException {
         if(deleteMessage == null){
@@ -307,6 +422,10 @@ public abstract class AbsSender {
         return sendApiMethod(deleteMessage);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see DeleteChatPhoto
+     */
     @Deprecated
     public final Boolean deleteChatPhoto(DeleteChatPhoto deleteChatPhoto) throws TelegramApiException {
         if(deleteChatPhoto == null){
@@ -315,6 +434,10 @@ public abstract class AbsSender {
         return sendApiMethod(deleteChatPhoto);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see PinChatMessage
+     */
     @Deprecated
     public final Boolean pinChatMessage(PinChatMessage pinChatMessage) throws TelegramApiException {
         if(pinChatMessage == null){
@@ -323,6 +446,10 @@ public abstract class AbsSender {
         return sendApiMethod(pinChatMessage);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see UnpinChatMessage
+     */
     @Deprecated
     public final Boolean unpinChatMessage(UnpinChatMessage unpinChatMessage) throws TelegramApiException {
         if(unpinChatMessage == null){
@@ -331,6 +458,10 @@ public abstract class AbsSender {
         return sendApiMethod(unpinChatMessage);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see PromoteChatMember
+     */
     @Deprecated
     public final Boolean promoteChatMember(PromoteChatMember promoteChatMember) throws TelegramApiException {
         if(promoteChatMember == null){
@@ -339,6 +470,10 @@ public abstract class AbsSender {
         return sendApiMethod(promoteChatMember);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see RestrictChatMember
+     */
     @Deprecated
     public final Boolean restrictChatMember(RestrictChatMember restrictChatMember) throws TelegramApiException {
         if(restrictChatMember == null){
@@ -347,6 +482,10 @@ public abstract class AbsSender {
         return sendApiMethod(restrictChatMember);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see SetChatDescription
+     */
     @Deprecated
     public final Boolean setChatDescription(SetChatDescription setChatDescription) throws TelegramApiException {
         if(setChatDescription == null){
@@ -355,6 +494,10 @@ public abstract class AbsSender {
         return sendApiMethod(setChatDescription);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) execute} Method instead
+     * @see SetChatTitle
+     */
     @Deprecated
     public final Boolean setChatTitle(SetChatTitle setChatTitle) throws TelegramApiException {
         if(setChatTitle == null){
@@ -365,6 +508,10 @@ public abstract class AbsSender {
 
     // Send Requests Async
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see SendMessage
+     */
     @Deprecated
     public final void sendMessageAsync(SendMessage sendMessage, SentCallback<Message> sentCallback) throws TelegramApiException {
         if (sendMessage == null) {
@@ -378,6 +525,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(sendMessage, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see AnswerInlineQuery
+     */
     @Deprecated
     public final void answerInlineQueryAsync(AnswerInlineQuery answerInlineQuery, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (answerInlineQuery == null) {
@@ -391,6 +542,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(answerInlineQuery, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see SendChatAction
+     */
     @Deprecated
     public final void sendChatActionAsync(SendChatAction sendChatAction, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (sendChatAction == null) {
@@ -404,6 +559,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(sendChatAction, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see ForwardMessage
+     */
     @Deprecated
     public final void forwardMessageAsync(ForwardMessage forwardMessage, SentCallback<Message> sentCallback) throws TelegramApiException {
         if (forwardMessage == null) {
@@ -417,6 +576,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(forwardMessage, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see SendLocation
+     */
     @Deprecated
     public final void sendLocationAsync(SendLocation sendLocation, SentCallback<Message> sentCallback) throws TelegramApiException {
         if (sendLocation == null) {
@@ -430,6 +593,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(sendLocation, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see SendVenue
+     */
     @Deprecated
     public final void sendVenueAsync(SendVenue sendVenue, SentCallback<Message> sentCallback) throws TelegramApiException {
         if (sendVenue == null) {
@@ -443,6 +610,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(sendVenue, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see SendContact
+     */
     @Deprecated
     public final void sendContactAsync(SendContact sendContact, SentCallback<Message> sentCallback) throws TelegramApiException {
         if (sendContact == null) {
@@ -455,6 +626,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(sendContact, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see KickChatMember
+     */
     @Deprecated
     public final void kickMemberAsync(KickChatMember kickChatMember, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (kickChatMember == null) {
@@ -467,6 +642,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(kickChatMember, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see UnbanChatMember
+     */
     @Deprecated
     public final void unbanMemberAsync(UnbanChatMember unbanChatMember, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (unbanChatMember == null) {
@@ -479,6 +658,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(unbanChatMember, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see LeaveChat
+     */
     @Deprecated
     public final void leaveChatAsync(LeaveChat leaveChat, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (leaveChat == null) {
@@ -490,6 +673,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(leaveChat, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see GetChat
+     */
     @Deprecated
     public final void getChatAsync(GetChat getChat, SentCallback<Chat> sentCallback) throws TelegramApiException {
         if (getChat == null) {
@@ -501,6 +688,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(getChat, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see ExportChatInviteLink
+     */
     @Deprecated
     public final void exportChatInviteLinkAsync(ExportChatInviteLink exportChatInviteLink, SentCallback<String> sentCallback) throws TelegramApiException {
         if (exportChatInviteLink == null) {
@@ -512,6 +703,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(exportChatInviteLink, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see GetChatAdministrators
+     */
     @Deprecated
     public final void getChatAdministratorsAsync(GetChatAdministrators getChatAdministrators, SentCallback<ArrayList<ChatMember>> sentCallback) throws TelegramApiException {
         if (getChatAdministrators == null) {
@@ -523,6 +718,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(getChatAdministrators, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see GetChatMember
+     */
     @Deprecated
     public final void getChatMemberAsync(GetChatMember getChatMember, SentCallback<ChatMember> sentCallback) throws TelegramApiException {
         if (getChatMember == null) {
@@ -534,6 +733,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(getChatMember, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see GetChatMemberCount
+     */
     @Deprecated
     public final void getChatMemberCountAsync(GetChatMemberCount getChatMemberCount, SentCallback<Integer> sentCallback) throws TelegramApiException {
         if (getChatMemberCount == null) {
@@ -546,6 +749,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(getChatMemberCount, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see EditMessageText
+     */
     @Deprecated
     public final void editMessageTextAsync(EditMessageText editMessageText, SentCallback<Serializable> sentCallback) throws TelegramApiException {
         if (editMessageText == null) {
@@ -558,6 +765,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(editMessageText, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see EditMessageCaption
+     */
     @Deprecated
     public final void editMessageCaptionAsync(EditMessageCaption editMessageCaption, SentCallback<Serializable> sentCallback) throws TelegramApiException {
         if (editMessageCaption == null) {
@@ -570,6 +781,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(editMessageCaption, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see EditMessageReplyMarkup
+     */
     @Deprecated
     public final void editMessageReplyMarkup(EditMessageReplyMarkup editMessageReplyMarkup, SentCallback<Serializable> sentCallback) throws TelegramApiException {
         if (editMessageReplyMarkup == null) {
@@ -582,6 +797,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(editMessageReplyMarkup, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see AnswerCallbackQuery
+     */
     @Deprecated
     public final void answerCallbackQueryAsync(AnswerCallbackQuery answerCallbackQuery, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (answerCallbackQuery == null) {
@@ -594,6 +813,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(answerCallbackQuery, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see GetUserProfilePhotos
+     */
     @Deprecated
     public final void getUserProfilePhotosAsync(GetUserProfilePhotos getUserProfilePhotos, SentCallback<UserProfilePhotos> sentCallback) throws TelegramApiException {
         if (getUserProfilePhotos == null) {
@@ -606,6 +829,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(getUserProfilePhotos, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see GetFile
+     */
     @Deprecated
     public final void getFileAsync(GetFile getFile, SentCallback<File> sentCallback) throws TelegramApiException {
         if (getFile == null) {
@@ -632,6 +859,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(new GetWebhookInfo(), sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see SetGameScore
+     */
     @Deprecated
     public final void setGameScoreAsync(SetGameScore setGameScore, SentCallback<Serializable> sentCallback) throws TelegramApiException {
         if (setGameScore == null) {
@@ -643,6 +874,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(setGameScore, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see GetGameHighScores
+     */
     @Deprecated
     public final void getGameHighScoresAsync(GetGameHighScores getGameHighScores, SentCallback<ArrayList<GameHighScore>> sentCallback) throws TelegramApiException {
         if (getGameHighScores == null) {
@@ -654,6 +889,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(getGameHighScores, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see SendGame
+     */
     @Deprecated
     public final void sendGameAsync(SendGame sendGame, SentCallback<Message> sentCallback) throws TelegramApiException {
         if (sendGame == null) {
@@ -665,6 +904,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(sendGame, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see DeleteWebhook
+     */
     @Deprecated
     public final void deleteWebhook(DeleteWebhook deleteWebhook, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (deleteWebhook == null) {
@@ -676,6 +919,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(deleteWebhook, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see SendInvoice
+     */
     @Deprecated
     public final void sendInvoice(SendInvoice sendInvoice, SentCallback<Message> sentCallback) throws TelegramApiException {
         if (sendInvoice == null) {
@@ -687,6 +934,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(sendInvoice, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see AnswerShippingQuery
+     */
     @Deprecated
     public final void answerShippingQuery(AnswerShippingQuery answerShippingQuery, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (answerShippingQuery == null) {
@@ -698,6 +949,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(answerShippingQuery, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see AnswerPreCheckoutQuery
+     */
     @Deprecated
     public final void answerPreCheckoutQuery(AnswerPreCheckoutQuery answerPreCheckoutQuery, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (answerPreCheckoutQuery == null) {
@@ -709,6 +964,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(answerPreCheckoutQuery, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see DeleteMessage
+     */
     @Deprecated
     public final void deleteMessage(DeleteMessage deleteMessage, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (deleteMessage == null) {
@@ -720,6 +979,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(deleteMessage, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see DeleteChatPhoto
+     */
     @Deprecated
     public final void deleteChatPhoto(DeleteChatPhoto deleteChatPhoto, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (deleteChatPhoto == null) {
@@ -731,6 +994,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(deleteChatPhoto, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see PinChatMessage
+     */
     @Deprecated
     public final void pinChatMessage(PinChatMessage pinChatMessage, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (pinChatMessage == null) {
@@ -742,6 +1009,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(pinChatMessage, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see UnpinChatMessage
+     */
     @Deprecated
     public final void unpinChatMessage(UnpinChatMessage unpinChatMessage, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (unpinChatMessage == null) {
@@ -753,6 +1024,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(unpinChatMessage, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see PromoteChatMember
+     */
     @Deprecated
     public final void promoteChatMember(PromoteChatMember promoteChatMember, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (promoteChatMember == null) {
@@ -764,6 +1039,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(promoteChatMember, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see RestrictChatMember
+     */
     @Deprecated
     public final void restrictChatMember(RestrictChatMember restrictChatMember, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (restrictChatMember == null) {
@@ -775,6 +1054,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(restrictChatMember, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see SetChatDescription
+     */
     @Deprecated
     public final void setChatDescription(SetChatDescription setChatDescription, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (setChatDescription == null) {
@@ -786,6 +1069,10 @@ public abstract class AbsSender {
         sendApiMethodAsync(setChatDescription, sentCallback);
     }
 
+    /**
+     * Deprecated. Use {@link #execute(BotApiMethod) executeAsync} Method instead
+     * @see SetChatTitle
+     */
     @Deprecated
     public final void setChatTitle(SetChatTitle setChatTitle, SentCallback<Boolean> sentCallback) throws TelegramApiException {
         if (setChatTitle == null) {
