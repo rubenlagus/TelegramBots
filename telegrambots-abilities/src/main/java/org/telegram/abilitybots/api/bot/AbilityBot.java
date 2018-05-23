@@ -72,10 +72,11 @@ import static org.telegram.abilitybots.api.util.AbilityUtils.*;
  * <li>Sets the user as the {@link Privacy#CREATOR} of the bot</li>
  * <li>Only the user with the ID returned by {@link AbilityBot#creatorId()} can genuinely claim the bot</li>
  * </ul>
- * <li>/commands - reports all user-defined commands (abilities)</li>
+ * <li>/report - reports all user-defined commands (abilities)</li>
  * <ul>
  * <li>The same format acceptable by BotFather</li>
  * </ul>
+ * <li>/commands - returns a list of all possible bot commands based on the privacy of the requesting user</li>
  * <li>/backup - returns a backup of the bot database</li>
  * <li>/recover - recovers the database</li>
  * <li>/promote <code>@username</code> - promotes user to bot admin</li>
