@@ -42,23 +42,23 @@ public class AbilityBotI18nTest {
   }
 
   @Test
-  public void missingPublicCommandsLocalizedCorrectly1() {
+  public void missingPublicCommandsLocalizedInEnglishByDefault() {
     MessageContext context = mockContext(NO_LANGUAGE_USER);
 
     bot.reportCommands().action().accept(context);
 
     verify(silent, times(1))
-        .send("No public commands found.", NO_LANGUAGE_USER.getId());
+        .send("No available commands found.", NO_LANGUAGE_USER.getId());
   }
 
   @Test
-  public void missingPublicCommandsLocalizedCorrectly2() {
+  public void missingPublicCommandsLocalizedInItalian() {
     MessageContext context = mockContext(ITALIAN_USER);
 
     bot.reportCommands().action().accept(context);
 
     verify(silent, times(1))
-        .send("Non sono presenti comandi pubblici.", ITALIAN_USER.getId());
+        .send("Non sono presenti comandi disponibile.", ITALIAN_USER.getId());
   }
 
   @After
