@@ -3,6 +3,7 @@ package org.telegram.abilitybots.api.db;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.mapdb.Atomic;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
 import org.mapdb.Serializer;
@@ -91,6 +92,11 @@ public class MapDBContext implements DBContext {
   @Override
   public <T> Set<T> getSet(String name) {
     return (Set<T>) db.<T>hashSet(name, JAVA).createOrOpen();
+  }
+
+  @Override
+  public <T> Var<T> getVar(String name) {
+    return new MapDBVar<>((Atomic.Var<T>) db.atomicVar(name).createOrOpen());
   }
 
   @Override

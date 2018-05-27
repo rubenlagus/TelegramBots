@@ -100,6 +100,23 @@ public class MapDBContextTest {
     db.info(TEST);
   }
 
+  @Test
+  public void canGetAndSetVariables() {
+    String varName = "somevar";
+    Var<User> var = db.getVar(varName);
+    var.set(CREATOR);
+    db.commit();
+
+    var = db.getVar(varName);
+    assertEquals(var.get(), CREATOR);
+
+    var.set(USER);
+    db.commit();
+
+    Var<User> changedVar = db.getVar(varName);
+    assertEquals(changedVar.get(), USER);
+  }
+
   @After
   public void tearDown() throws IOException {
     db.clear();
