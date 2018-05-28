@@ -1,6 +1,6 @@
 package org.telegram.abilitybots.api.db;
 
-import org.telegram.abilitybots.api.bot.AbilityBot;
+import org.telegram.abilitybots.api.bot.BaseAbilityBot;
 import org.telegram.telegrambots.api.objects.Update;
 
 import java.io.Closeable;
@@ -12,7 +12,7 @@ import java.util.Set;
  * This interface represents the high-level methods exposed to the user when handling an {@link Update}.
  * Example usage:
  * <p><code>Ability.builder().action(ctx -> {db.getSet(USERS); doSomething();})* </code></p>
- * {@link AbilityBot} contains a handle on the <code>db</code> that the user can use inside his declared abilities.
+ * {@link BaseAbilityBot} contains a handle on the <code>db</code> that the user can use inside his declared abilities.
  *
  * @author Abbas Abou Daya
  */
