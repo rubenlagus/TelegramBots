@@ -5,11 +5,12 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.TelegramBotsApi;
-import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.generics.LongPollingBot;
 import org.telegram.telegrambots.generics.WebhookBot;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
