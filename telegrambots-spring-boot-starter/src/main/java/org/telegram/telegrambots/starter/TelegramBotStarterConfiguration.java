@@ -5,11 +5,12 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.TelegramBotsApi;
-import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.generics.LongPollingBot;
 import org.telegram.telegrambots.generics.WebhookBot;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,33 +32,28 @@ public class TelegramBotStarterConfiguration {
         this.telegramBotsApi = telegramBotsApi;
     }
 
-    public TelegramBotStarterConfiguration(@Autowired(required = false) List<LongPollingBot> longPollingBots,
-                                           @Autowired(required = false) List<WebhookBot> webHookBots) {
-
-        this.longPollingBots = longPollingBots;
-        this.webHookBots = webHookBots;
+    public TelegramBotStarterConfiguration(@Autowired Optional<List<LongPollingBot>> longPollingBots,
+                                           @Autowired Optional<List<WebhookBot>> webHookBots) {
+        this.longPollingBots = longPollingBots.orElse(new ArrayList<LongPollingBot>());
+        this.webHookBots = webHookBots.orElse(new ArrayList<WebhookBot>());
     }
 
     @PostConstruct
     public void registerBots() {
-        Optional.ofNullable(longPollingBots).ifPresent(bots -> {
-            bots.forEach(bot -> {
-                try {
-                    telegramBotsApi.registerBot(bot);
-                } catch (TelegramApiRequestException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+        longPollingBots.forEach(bot -> {
+            try {
+                telegramBotsApi.registerBot(bot);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
         });
 
-        Optional.ofNullable(webHookBots).ifPresent(bots -> {
-            bots.forEach(bot -> {
-                try {
-                    telegramBotsApi.registerBot(bot);
-                } catch (TelegramApiRequestException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+        webHookBots.forEach(bot -> {
+            try {
+                telegramBotsApi.registerBot(bot);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
         });
     }
 
