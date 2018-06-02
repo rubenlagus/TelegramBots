@@ -31,33 +31,28 @@ public class TelegramBotStarterConfiguration {
         this.telegramBotsApi = telegramBotsApi;
     }
 
-    public TelegramBotStarterConfiguration(@Autowired(required = false) List<LongPollingBot> longPollingBots,
-                                           @Autowired(required = false) List<WebhookBot> webHookBots) {
-
-        this.longPollingBots = longPollingBots;
-        this.webHookBots = webHookBots;
+    public TelegramBotStarterConfiguration(@Autowired Optional<List<LongPollingBot>> longPollingBots,
+                                           @Autowired Optional<List<WebhookBot>> webHookBots) {
+        this.longPollingBots = longPollingBots.orElse(new ArrayList<>());
+        this.webHookBots = webHookBots.orElse(new ArrayList<>());
     }
 
     @PostConstruct
     public void registerBots() {
-        Optional.ofNullable(longPollingBots).ifPresent(bots -> {
-            bots.forEach(bot -> {
-                try {
-                    telegramBotsApi.registerBot(bot);
-                } catch (TelegramApiRequestException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+        longPollingBots.forEach(bot -> {
+            try {
+                telegramBotsApi.registerBot(bot);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
         });
 
-        Optional.ofNullable(webHookBots).ifPresent(bots -> {
-            bots.forEach(bot -> {
-                try {
-                    telegramBotsApi.registerBot(bot);
-                } catch (TelegramApiRequestException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+        webHookBots.forEach(bot -> {
+            try {
+                telegramBotsApi.registerBot(bot);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
         });
     }
 
