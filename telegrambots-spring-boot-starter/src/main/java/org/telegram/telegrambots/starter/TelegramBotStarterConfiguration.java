@@ -34,8 +34,8 @@ public class TelegramBotStarterConfiguration {
 
     public TelegramBotStarterConfiguration(@Autowired Optional<List<LongPollingBot>> longPollingBots,
                                            @Autowired Optional<List<WebhookBot>> webHookBots) {
-        this.longPollingBots = longPollingBots.orElse(new ArrayList<>());
-        this.webHookBots = webHookBots.orElse(new ArrayList<>());
+        this.longPollingBots = longPollingBots.orElse(new ArrayList<LongPollingBot>());
+        this.webHookBots = webHookBots.orElse(new ArrayList<WebhookBot>());
     }
 
     @PostConstruct
