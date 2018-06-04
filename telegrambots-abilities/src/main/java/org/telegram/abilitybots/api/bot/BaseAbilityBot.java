@@ -21,6 +21,7 @@ import org.telegram.telegrambots.api.methods.send.SendDocument;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.User;
+import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
@@ -92,7 +93,7 @@ import static org.telegram.abilitybots.api.util.AbilityUtils.*;
  *
  * @author Abbas Abou Daya
  */
-public abstract class BaseAbilityBot extends TelegramLongPollingBot {
+public abstract class BaseAbilityBot extends DefaultAbsSender {
   private static final String TAG = BaseAbilityBot.class.getSimpleName();
 
   // DB objects
@@ -191,7 +192,6 @@ public abstract class BaseAbilityBot extends TelegramLongPollingBot {
    *
    * @param update the update received by Telegram's API
    */
-  @Override
   public void onUpdateReceived(Update update) {
     BotLogger.info(format("New update [%s] received at %s", update.getUpdateId(), now()), format("%s - %s", TAG, botUsername));
     BotLogger.info(update.toString(), TAG);
@@ -216,12 +216,10 @@ public abstract class BaseAbilityBot extends TelegramLongPollingBot {
     BotLogger.info(format("Processing of update [%s] ended at %s%n---> Processing time: [%d ms] <---%n", update.getUpdateId(), now(), processingTime), format("%s - %s", TAG, botUsername));
   }
 
-  @Override
   public String getBotToken() {
     return botToken;
   }
 
-  @Override
   public String getBotUsername() {
     return botUsername;
   }

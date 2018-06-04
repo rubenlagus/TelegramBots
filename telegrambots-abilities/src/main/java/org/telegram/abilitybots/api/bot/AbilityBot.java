@@ -6,8 +6,7 @@ import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.generics.LongPollingBot;
-
-import java.util.List;
+import org.telegram.telegrambots.util.WebhookUtils;
 
 import static org.telegram.abilitybots.api.db.MapDBContext.onlineInstance;
 
@@ -17,27 +16,8 @@ import static org.telegram.abilitybots.api.db.MapDBContext.onlineInstance;
  * @author Abbas Abou Daya
  */
 public abstract class AbilityBot extends BaseAbilityBot implements LongPollingBot {
-  private final TelegramLongPollingBot bot;
-
   protected AbilityBot(String botToken, String botUsername, DBContext db, DefaultBotOptions botOptions) {
     super(botToken, botUsername, db, botOptions);
-
-    bot = new TelegramLongPollingBot() {
-      @Override
-      public void onUpdateReceived(Update update) {
-        AbilityBot.this.onUpdateReceived(update);
-      }
-
-      @Override
-      public String getBotUsername() {
-        return botUsername;
-      }
-
-      @Override
-      public String getBotToken() {
-        return botToken;
-      }
-    };
   }
 
   protected AbilityBot(String botToken, String botUsername, DBContext db) {
@@ -53,17 +33,12 @@ public abstract class AbilityBot extends BaseAbilityBot implements LongPollingBo
   }
 
   @Override
-  public void onUpdatesReceived(List<Update> updates) {
-    bot.onUpdatesReceived(updates);
+  public void onUpdateReceived(Update update) {
+    super.onUpdateReceived(update);
   }
 
   @Override
   public void clearWebhook() throws TelegramApiRequestException {
-    bot.clearWebhook();
-  }
-
-  @Override
-  public void onClosing() {
-    bot.onClosing();
+    WebhookUtils.clearWebhook(this);
   }
 }

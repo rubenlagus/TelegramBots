@@ -7,6 +7,7 @@ import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.generics.WebhookBot;
+import org.telegram.telegrambots.util.WebhookUtils;
 
 import static org.telegram.abilitybots.api.db.MapDBContext.onlineInstance;
 
@@ -16,34 +17,12 @@ import static org.telegram.abilitybots.api.db.MapDBContext.onlineInstance;
  * @author Abbas Abou Daya
  */
 public abstract class AbilityWebhookBot extends BaseAbilityBot implements WebhookBot {
-  private final TelegramWebhookBot bot;
+
+  private final String botPath;
 
   protected AbilityWebhookBot(String botToken, String botUsername, String botPath, DBContext db, DefaultBotOptions botOptions) {
     super(botToken, botUsername, db, botOptions);
-
-    bot = new TelegramWebhookBot() {
-
-      @Override
-      public BotApiMethod onWebhookUpdateReceived(Update update) {
-        AbilityWebhookBot.this.onUpdateReceived(update);
-        return null;
-      }
-
-      @Override
-      public String getBotUsername() {
-        return botUsername;
-      }
-
-      @Override
-      public String getBotToken() {
-        return botToken;
-      }
-
-      @Override
-      public String getBotPath() {
-        return botPath;
-      }
-    };
+    this.botPath = botPath;
   }
 
   protected AbilityWebhookBot(String botToken, String botUsername, String botPath, DBContext db) {
@@ -60,16 +39,17 @@ public abstract class AbilityWebhookBot extends BaseAbilityBot implements Webhoo
 
   @Override
   public BotApiMethod onWebhookUpdateReceived(Update update) {
-    return bot.onWebhookUpdateReceived(update);
+    super.onUpdateReceived(update);
+    return null;
   }
 
   @Override
   public void setWebhook(String url, String publicCertificatePath) throws TelegramApiRequestException {
-    bot.setWebhook(url, publicCertificatePath);
+    WebhookUtils.setWebhook(this, url, publicCertificatePath);
   }
 
   @Override
   public String getBotPath() {
-    return bot.getBotPath();
+    return botPath;
   }
 }
