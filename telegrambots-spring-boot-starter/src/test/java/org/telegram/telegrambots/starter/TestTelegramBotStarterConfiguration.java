@@ -1,66 +1,99 @@
 package org.telegram.telegrambots.starter;
 
-import com.google.common.collect.Lists;
-import org.junit.Rule;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.Test;
-import org.mockito.Answers;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import static org.mockito.Mockito.*;
+import org.springframework.boot.autoconfigure.AutoConfigurations;
+import org.springframework.boot.test.context.runner.ApplicationContextRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.TelegramBotsApi;
-import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.generics.LongPollingBot;
 import org.telegram.telegrambots.generics.WebhookBot;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
-
 public class TestTelegramBotStarterConfiguration {
 
-    @Mock
-    private TelegramBotsApi telegramBotsApi;
+	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
+			.withConfiguration(AutoConfigurations.of(MockTelegramBotsApi.class, TelegramBotStarterConfiguration.class));
 
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
+	@Test
+	public void createMockTelegramBotsApiWithDefaultSettings() {
+		this.contextRunner.run((context) -> {
+			assertThat(context).hasSingleBean(TelegramBotsApi.class);
+			assertThat(context).hasSingleBean(TelegramBotInitializer.class);
+			assertThat(context).doesNotHaveBean(LongPollingBot.class);
+			assertThat(context).doesNotHaveBean(WebhookBot.class);
+			verifyNoMoreInteractions(context.getBean(TelegramBotsApi.class));
+		});
+	}
+	
+	@Test
+	public void createOnlyLongPollingBot() {
+		this.contextRunner.withUserConfiguration(LongPollingBotConfig.class)
+				.run((context) -> {
+					assertThat(context).hasSingleBean(LongPollingBot.class);
+					assertThat(context).doesNotHaveBean(WebhookBot.class);
+					
+					TelegramBotsApi telegramBotsApi = context.getBean(TelegramBotsApi.class);
+			        
+					verify(telegramBotsApi, times(1)).registerBot( context.getBean(LongPollingBot.class) );
+			        verifyNoMoreInteractions(telegramBotsApi);
+		});
+	}
+	
+	@Test
+	public void createOnlyWebhookBot() {
+		this.contextRunner.withUserConfiguration(WebhookBotConfig.class)
+				.run((context) -> {
+					assertThat(context).hasSingleBean(WebhookBot.class);
+					assertThat(context).doesNotHaveBean(LongPollingBot.class);
+					
+					TelegramBotsApi telegramBotsApi = context.getBean(TelegramBotsApi.class);
+					
+			        verify(telegramBotsApi, times(1)).registerBot( context.getBean(WebhookBot.class) );
+			        verifyNoMoreInteractions(telegramBotsApi);
+		});
+	}
+	
+	@Test
+	public void createLongPoolingBotAndWebhookBot() {
+		this.contextRunner.withUserConfiguration(LongPollingBotConfig.class, WebhookBotConfig.class)
+				.run((context) -> {
+					assertThat(context).hasSingleBean(LongPollingBot.class);
+					assertThat(context).hasSingleBean(WebhookBot.class);
 
-    @Test
-    public void TestRegisterBotsWithLongPollingBots() throws TelegramApiRequestException {
-        when(telegramBotsApi.registerBot(any(LongPollingBot.class))).then(Answers.RETURNS_MOCKS.get());
-        LongPollingBot longPollingBot = mock(LongPollingBot.class);
-        TelegramBotStarterConfiguration configuration = new TelegramBotStarterConfiguration(Lists.newArrayList(longPollingBot), null);
-        configuration.setTelegramBotsApi(telegramBotsApi);
+					TelegramBotsApi telegramBotsApi = context.getBean(TelegramBotsApi.class);
+					
+			        verify(telegramBotsApi, times(1)).registerBot( context.getBean(LongPollingBot.class) );
+			        verify(telegramBotsApi, times(1)).registerBot( context.getBean(WebhookBot.class) );
+			        //verifyNoMoreInteractions(telegramBotsApi);
+		});
+	}
 
-        configuration.registerBots();
+	@Configuration
+	static class MockTelegramBotsApi{
 
-        verify(telegramBotsApi, times(1)).registerBot(longPollingBot);
-        verifyNoMoreInteractions(telegramBotsApi);
-    }
-
-    @Test
-    public void TestRegisterBotsWithWebhookBots() throws TelegramApiRequestException {
-        doNothing().when(telegramBotsApi).registerBot(any(WebhookBot.class));
-        WebhookBot webhookBot = mock(WebhookBot.class);
-        TelegramBotStarterConfiguration configuration = new TelegramBotStarterConfiguration(null, Lists.newArrayList(webhookBot));
-        configuration.setTelegramBotsApi(telegramBotsApi);
-
-        configuration.registerBots();
-
-        verify(telegramBotsApi, times(1)).registerBot(webhookBot);
-        verifyNoMoreInteractions(telegramBotsApi);
-    }
-
-    @Test
-    public void TestRegisterBotsWithLongPollingBotsAndWebhookBots() throws TelegramApiRequestException {
-        doNothing().when(telegramBotsApi).registerBot(any(WebhookBot.class));
-        LongPollingBot longPollingBot = mock(LongPollingBot.class);
-        WebhookBot webhookBot = mock(WebhookBot.class);
-        TelegramBotStarterConfiguration configuration = new TelegramBotStarterConfiguration(Lists.newArrayList(longPollingBot), Lists.newArrayList(webhookBot));
-        configuration.setTelegramBotsApi(telegramBotsApi);
-
-        configuration.registerBots();
-
-        verify(telegramBotsApi, times(1)).registerBot(longPollingBot);
-        verify(telegramBotsApi, times(1)).registerBot(webhookBot);
-        verifyNoMoreInteractions(telegramBotsApi);
-    }
+		@Bean
+		public TelegramBotsApi telegramBotsApi() {
+			return mock(TelegramBotsApi.class);
+		}
+	}
+	
+	@Configuration
+	static class LongPollingBotConfig{
+		@Bean
+		public LongPollingBot longPollingBot() {
+			return mock(LongPollingBot.class);
+		}
+	}
+	
+	@Configuration
+	static class WebhookBotConfig{
+		@Bean
+		public WebhookBot webhookBot() {
+			return mock(WebhookBot.class);
+		}
+	}
 }
