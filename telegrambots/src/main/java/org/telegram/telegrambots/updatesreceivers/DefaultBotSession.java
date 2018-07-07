@@ -6,23 +6,20 @@ import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.ProxyAuthenticationStrategy;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
-import org.telegram.telegrambots.ApiConstants;
-import org.telegram.telegrambots.api.methods.updates.GetUpdates;
-import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.meta.ApiConstants;
+import org.telegram.telegrambots.meta.api.methods.updates.GetUpdates;
+import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
-import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.facilities.TelegramHttpClientBuilder;
-import org.telegram.telegrambots.generics.*;
-import org.telegram.telegrambots.logging.BotLogger;
+import org.telegram.telegrambots.meta.generics.*;
+import org.telegram.telegrambots.meta.logging.BotLogger;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
@@ -32,7 +29,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.InvalidParameterException;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.TimeUnit;
 
 import static org.telegram.telegrambots.Constants.SOCKET_TIMEOUT;
 

@@ -1,7 +1,7 @@
 package org.telegram.abilitybots.api.objects;
 
 import org.telegram.abilitybots.api.objects.Ability.AbilityBuilder;
-import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;

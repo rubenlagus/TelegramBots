@@ -1,7 +1,7 @@
 package org.telegram.telegrambots.bots.commandbot.commands;
 
-import org.telegram.telegrambots.api.objects.Message;
-import org.telegram.telegrambots.bots.AbsSender;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import java.util.Arrays;
 import java.util.Collection;
