@@ -1,11 +1,7 @@
-package org.telegram.telegrambots.bots.commandbot.commands;
+package org.telegram.telegrambots.extensions.bots.commandbot.commands;
 
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
-
-import java.util.Collection;
-import java.util.Map;
-import java.util.function.BiConsumer;
 
 /**
  * This Interface represents the a Command that can be executed

@@ -1,4 +1,4 @@
-package org.telegram.telegrambots.bots.commandbot.commands;
+package org.telegram.telegrambots.extensions.bots.commandbot.commands;
 
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;

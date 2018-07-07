@@ -1,4 +1,4 @@
-package org.telegram.telegrambots.bots.timedbot;
+package org.telegram.telegrambots.extensions.bots.timedbot;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 

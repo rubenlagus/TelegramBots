@@ -1,4 +1,4 @@
-package org.telegram.telegrambots.bots.commandbot;
+package org.telegram.telegrambots.extensions.bots.commandbot;
 
 
 import org.telegram.telegrambots.meta.ApiContext;
@@ -7,10 +7,9 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.bots.commandbot.commands.BotCommand;
-import org.telegram.telegrambots.bots.commandbot.commands.CommandRegistry;
-import org.telegram.telegrambots.bots.commandbot.commands.IBotCommand;
-import org.telegram.telegrambots.bots.commandbot.commands.ICommandRegistry;
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.CommandRegistry;
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.ICommandRegistry;
 
 import java.util.Collection;
 import java.util.Map;
