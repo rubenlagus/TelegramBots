@@ -241,7 +241,7 @@ public class DefaultBotSession implements BotSession {
             httpPost.setConfig(requestConfig);
             httpPost.setEntity(new StringEntity(objectMapper.writeValueAsString(request), ContentType.APPLICATION_JSON));
 
-            try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
+            try (CloseableHttpResponse response = httpclient.execute(httpPost, options.getHttpContext())) {
                 HttpEntity ht = response.getEntity();
                 BufferedHttpEntity buf = new BufferedHttpEntity(ht);
                 String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);

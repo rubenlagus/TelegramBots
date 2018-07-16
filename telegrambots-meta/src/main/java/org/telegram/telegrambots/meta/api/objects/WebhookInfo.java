@@ -16,7 +16,7 @@ public class WebhookInfo implements BotApiObject {
 
     private static final String URL_FIELD = "url";
     private static final String HASCUSTOMCERTIFICATE_FIELD = "has_custom_certificate";
-    private static final String PENDINGUPDATESCOUNT_FIELD = "pending_updates_count";
+    private static final String PENDINGUPDATECOUNT_FIELD = "pending_update_count";
     private static final String MAXCONNECTIONS_FIELD = "max_connections";
     private static final String ALLOWEDUPDATES_FIELD = "allowed_updates";
     private static final String LASTERRORDATE_FIELD = "last_error_date";
@@ -26,7 +26,7 @@ public class WebhookInfo implements BotApiObject {
     private String url; ///< Webhook URL, may be empty if webhook is not set up
     @JsonProperty(HASCUSTOMCERTIFICATE_FIELD)
     private Boolean hasCustomCertificate; ///< True, if a custom certificate was provided for webhook certificate checks
-    @JsonProperty(PENDINGUPDATESCOUNT_FIELD)
+    @JsonProperty(PENDINGUPDATECOUNT_FIELD)
     private Integer pendingUpdatesCount; ///< Number updates awaiting delivery
     @JsonProperty(LASTERRORDATE_FIELD)
     private Integer lastErrorDate; ///< Optional. Unix time for the most recent error that happened when trying to deliver an update via webhook

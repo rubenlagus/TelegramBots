@@ -93,6 +93,12 @@ This library use [Telegram bot API](https://core.telegram.org/bots), you can fin
 ## Questions or Suggestions
 Feel free to create issues [here](https://github.com/rubenlagus/TelegramBots/issues) as you need or join the [chat](https://telegram.me/JavaBotsApi)
 
+## Powered by Intellij
+<p align="center">
+   <a href="https://www.jetbrains.com"><img src="jetbrains.png" width="75"></a>
+</p>
+
+
 ## License 
 MIT License
 

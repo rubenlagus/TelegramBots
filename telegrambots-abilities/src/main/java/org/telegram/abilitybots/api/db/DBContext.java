@@ -40,6 +40,13 @@ public interface DBContext extends Closeable {
   <T> Set<T> getSet(String name);
 
   /**
+   * @param name the unique name of the {@link Var}
+   * @param <T>  the type that the variable holds
+   * @return the variable with the specified name
+   */
+  <T> Var<T> getVar(String name);
+
+  /**
    * @return a high-level summary of the database structures (Sets, Lists, Maps, ...) present.
    */
   String summary();
