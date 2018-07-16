@@ -59,7 +59,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <bots.version>3.6.1</bots.version>
+        <bots.version>3.6.2</bots.version>
         <spring-boot.version>2.0.2.RELEASE</spring-boot.version>
     </properties>
 

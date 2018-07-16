@@ -27,6 +27,6 @@
 
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>
-        <bots.version>3.6.1</bots.version>
+        <bots.version>3.6.2</bots.version>
     </properties>
 </project>
