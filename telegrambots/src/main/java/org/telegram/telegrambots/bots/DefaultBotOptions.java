@@ -1,8 +1,8 @@
 package org.telegram.telegrambots.bots;
 
-import org.apache.http.HttpHost;
-import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.protocol.HttpContext;
 import org.telegram.telegrambots.ApiConstants;
 import org.telegram.telegrambots.generics.BotOptions;
 import org.telegram.telegrambots.updatesreceivers.ExponentialBackOff;
@@ -18,17 +18,27 @@ import java.util.List;
 public class DefaultBotOptions implements BotOptions {
     private int maxThreads; ///< Max number of threads used for async methods executions (default 1)
     private RequestConfig requestConfig;
+    private volatile HttpContext httpContext;
     private ExponentialBackOff exponentialBackOff;
     private Integer maxWebhookConnections;
     private String baseUrl;
     private List<String> allowedUpdates;
+    private ProxyType proxyType;
+    private String proxyHost;
+    private int proxyPort;
 
-    private CredentialsProvider credentialsProvider;
-    private HttpHost httpProxy;
+    public enum ProxyType {
+        NO_PROXY,
+        HTTP,
+        SOCKS4,
+        SOCKS5
+    }
 
     public DefaultBotOptions() {
         maxThreads = 1;
         baseUrl = ApiConstants.BASE_URL;
+        httpContext = HttpClientContext.create();
+        proxyType = ProxyType.NO_PROXY;
     }
 
     @Override
@@ -54,6 +64,14 @@ public class DefaultBotOptions implements BotOptions {
 
     public Integer getMaxWebhookConnections() {
         return maxWebhookConnections;
+    }
+
+    public HttpContext getHttpContext() {
+        return httpContext;
+    }
+
+    public void setHttpContext(HttpContext httpContext) {
+        this.httpContext = httpContext;
     }
 
     public void setMaxWebhookConnections(Integer maxWebhookConnections) {
@@ -88,19 +106,27 @@ public class DefaultBotOptions implements BotOptions {
         this.exponentialBackOff = exponentialBackOff;
     }
 
-    public CredentialsProvider getCredentialsProvider() {
-        return credentialsProvider;
+    public ProxyType getProxyType() {
+        return proxyType;
     }
 
-    public void setCredentialsProvider(CredentialsProvider credentialsProvider) {
-        this.credentialsProvider = credentialsProvider;
+    public void setProxyType(ProxyType proxyType) {
+        this.proxyType = proxyType;
     }
 
-    public HttpHost getHttpProxy() {
-        return httpProxy;
+    public String getProxyHost() {
+        return proxyHost;
     }
 
-    public void setHttpProxy(HttpHost httpProxy) {
-        this.httpProxy = httpProxy;
+    public void setProxyHost(String proxyHost) {
+        this.proxyHost = proxyHost;
+    }
+
+    public int getProxyPort() {
+        return proxyPort;
+    }
+
+    public void setProxyPort(int proxyPort) {
+        this.proxyPort = proxyPort;
     }
 }
