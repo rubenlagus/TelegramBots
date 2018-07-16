@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.telegram.telegrambots.TelegramBotsApi;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
-import org.telegram.telegrambots.generics.LongPollingBot;
-import org.telegram.telegrambots.generics.WebhookBot;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.generics.LongPollingBot;
+import org.telegram.telegrambots.meta.generics.WebhookBot;
 
 /**
  * Receives all beand which are #LongPollingBot and #WebhookBot and register them in #TelegramBotsApi.

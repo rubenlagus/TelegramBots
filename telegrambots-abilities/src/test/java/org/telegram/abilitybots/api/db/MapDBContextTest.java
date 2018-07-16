@@ -3,7 +3,7 @@ package org.telegram.abilitybots.api.db;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.telegram.telegrambots.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.User;
 
 import java.io.IOException;
 import java.util.Map;
