@@ -31,7 +31,7 @@ public class MyBot extends AbilityBot {
 
 Now you are able to set up your proxy
 
-#### without authentication
+#### Without authentication
 
 ```java
 public class Main {
@@ -51,13 +51,12 @@ public class Main {
             TelegramBotsApi botsApi = new TelegramBotsApi();
 
             // Set up Http proxy
-            DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
+            DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);            
 
-            HttpHost httpHost = new HttpHost(PROXY_HOST, PROXY_PORT);
-
-            RequestConfig requestConfig = RequestConfig.custom().setProxy(httpHost).setAuthenticationEnabled(false).build();
-            botOptions.setRequestConfig(requestConfig);
-            botOptions.setHttpProxy(httpHost);
+            botOptions.setProxyHost(PROXY_HOST);
+            botOptions.setProxyPort(PROXY_PORT);
+            // Select proxy type: [HTTP|SOCKS4|SOCKS5] (default: NO_PROXY)
+            botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
 
             // Register your newly created AbilityBot
             MyBot bot = new MyBot(BOT_TOKEN, BOT_NAME, botOptions);
@@ -89,25 +88,26 @@ public class Main {
     public static void main(String[] args) {
         try {
 
+            // Create the Authenticator that will return auth's parameters for proxy authentication
+            Authenticator.setDefault(new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(PROXY_USER, PROXY_PASSWORD.toCharArray());
+                }
+            });
+        
             ApiContextInitializer.init();
 
             // Create the TelegramBotsApi object to register your bots
             TelegramBotsApi botsApi = new TelegramBotsApi();
 
             // Set up Http proxy
-            DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
+            DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);          
 
-            CredentialsProvider credsProvider = new BasicCredentialsProvider();
-            credsProvider.setCredentials(
-                    new AuthScope(PROXY_HOST, PROXY_PORT),
-                    new UsernamePasswordCredentials(PROXY_USER, PROXY_PASSWORD));
-
-            HttpHost httpHost = new HttpHost(PROXY_HOST, PROXY_PORT);
-
-            RequestConfig requestConfig = RequestConfig.custom().setProxy(httpHost).setAuthenticationEnabled(true).build();
-            botOptions.setRequestConfig(requestConfig);
-            botOptions.setCredentialsProvider(credsProvider);
-            botOptions.setHttpProxy(httpHost);
+            botOptions.setProxyHost(PROXY_HOST);
+            botOptions.setProxyPort(PROXY_PORT);
+            // Select proxy type: [HTTP|SOCKS4|SOCKS5] (default: NO_PROXY)
+            botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
 
             // Register your newly created AbilityBot
             MyBot bot = new MyBot(BOT_TOKEN, BOT_NAME, botOptions);
@@ -120,3 +120,5 @@ public class Main {
     }
 }
 ```
+
+If you need something more complex than one proxy, then you can create more complex Authenticator that will check host and other parameters of proxy and return auth values based on them (for more information see code of java.net.Authenticator class)
