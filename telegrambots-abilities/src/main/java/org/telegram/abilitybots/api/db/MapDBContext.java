@@ -21,7 +21,7 @@ import static java.util.Objects.isNull;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.StreamSupport.stream;
 import static org.mapdb.Serializer.JAVA;
-import static org.telegram.abilitybots.api.bot.AbilityBot.USERS;
+import static org.telegram.abilitybots.api.bot.BaseAbilityBot.USERS;
 
 /**
  * An implementation of {@link DBContext} that relies on a {@link DB}.
@@ -29,7 +29,7 @@ import static org.telegram.abilitybots.api.bot.AbilityBot.USERS;
  * @author Abbas Abou Daya
  * @see <a href="https://github.com/jankotek/mapdb">MapDB project</a>
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "WeakerAccess"})
 public class MapDBContext implements DBContext {
   private static final String TAG = DBContext.class.getSimpleName();
 
@@ -169,7 +169,7 @@ public class MapDBContext implements DBContext {
   }
 
   @Override
-  public void close() throws IOException {
+  public void close() {
     db.close();
   }
 

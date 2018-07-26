@@ -777,7 +777,7 @@ public abstract class DefaultAbsSender extends AbsSender {
         }
     }
 
-    protected String getBaseUrl() {
+    public String getBaseUrl() {
         return options.getBaseUrl() + getBotToken() + "/";
     }
 
