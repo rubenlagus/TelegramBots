@@ -16,7 +16,7 @@ Just import add the library to your project with one of these options:
     <dependency>
         <groupId>org.telegram</groupId>
         <artifactId>telegrambotsextensions</artifactId>
-        <version>3.6.1</version>
+        <version>4.0.0</version>
     </dependency>
 ```
 

@@ -88,7 +88,7 @@ There are several method to send a photo to an user using `sendPhoto` method: Wi
         sendPhotoRequest.setPhoto(url);
         try {
             // Execute the method
-            sendPhoto(sendPhotoRequest);
+            execute(sendPhotoRequest);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
@@ -103,7 +103,7 @@ There are several method to send a photo to an user using `sendPhoto` method: Wi
         sendPhotoRequest.setPhoto(fileId);
         try {
             // Execute the method
-            sendPhoto(sendPhotoRequest);
+            execute(sendPhotoRequest);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
@@ -118,7 +118,7 @@ There are several method to send a photo to an user using `sendPhoto` method: Wi
         sendPhotoRequest.setNewPhoto(new File(filePath));
         try {
             // Execute the method
-            sendPhoto(sendPhotoRequest);
+            execute(sendPhotoRequest);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
@@ -144,7 +144,7 @@ if (update.hasMessage() && update.getMessage().hasPhoto()) {
                     .setPhoto(f_id)
                     .setCaption("Photo");
             try {
-                sendPhoto(msg); // Call method to send the photo
+                execute(msg); // Call method to send the photo
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }
