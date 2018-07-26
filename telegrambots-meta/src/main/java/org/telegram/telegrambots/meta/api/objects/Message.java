@@ -2,7 +2,9 @@ package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
+import org.telegram.telegrambots.meta.api.objects.games.Animation;
 import org.telegram.telegrambots.meta.api.objects.games.Game;
+import org.telegram.telegrambots.meta.api.objects.passport.PassportData;
 import org.telegram.telegrambots.meta.api.objects.payments.Invoice;
 import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
@@ -33,6 +35,7 @@ public class Message implements BotApiObject {
     private static final String CONTACT_FIELD = "contact";
     private static final String LOCATION_FIELD = "location";
     private static final String VENUE_FIELD = "venue";
+    private static final String ANIMATION_FIELD = "animation";
     private static final String PINNED_MESSAGE_FIELD = "pinned_message";
     private static final String NEWCHATMEMBERS_FIELD = "new_chat_members";
     private static final String LEFTCHATMEMBER_FIELD = "left_chat_member";
@@ -57,6 +60,7 @@ public class Message implements BotApiObject {
     private static final String FORWARDSIGNATURE_FIELD = "forward_signature";
     private static final String MEDIAGROUPID_FIELD = "media_group_id";
     private static final String CONNECTEDWEBSITE_FIELD = "connected_website";
+    private static final String PASSPORTDATA_FIELD = "passport_data";
 
     @JsonProperty(MESSAGEID_FIELD)
     private Integer messageId; ///< Integer	Unique message identifier
@@ -102,6 +106,12 @@ public class Message implements BotApiObject {
     private Location location; ///< Optional. Message is a shared location, information about the location
     @JsonProperty(VENUE_FIELD)
     private Venue venue; ///< Optional. Message is a venue, information about the venue
+    /**
+     * Optional. Message is an animation, information about the animation.
+     * For backward compatibility, when this field is set, the document field will be also set
+     */
+    @JsonProperty(ANIMATION_FIELD)
+    private Animation animation;
     @JsonProperty(PINNED_MESSAGE_FIELD)
     private Message pinnedMessage; ///< Optional. Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply.
     @JsonProperty(NEWCHATMEMBERS_FIELD)
@@ -178,6 +188,8 @@ public class Message implements BotApiObject {
     private String mediaGroupId; ///< Optional. The unique identifier of a media message group this message belongs to
     @JsonProperty(CONNECTEDWEBSITE_FIELD)
     private String connectedWebsite; ///< Optional. The domain name of the website on which the user has logged in
+    @JsonProperty(PASSPORTDATA_FIELD)
+    private PassportData passportData; ///< Optional. Telegram Passport data
 
     public Message() {
         super();
@@ -241,8 +253,16 @@ public class Message implements BotApiObject {
         return sticker;
     }
 
+    public boolean hasSticker() {
+        return sticker != null;
+    }
+
     public Video getVideo() {
         return video;
+    }
+
+    public Animation getAnimation() {
+        return animation;
     }
 
     public Contact getContact() {
@@ -417,6 +437,10 @@ public class Message implements BotApiObject {
         return videoNote;
     }
 
+    public boolean hasVideoNote() {
+        return videoNote != null;
+    }
+
     public String getAuthorSignature() {
         return authorSignature;
     }
@@ -431,6 +455,18 @@ public class Message implements BotApiObject {
 
     public String getConnectedWebsite() {
         return connectedWebsite;
+    }
+
+    public PassportData getPassportData() {
+        return passportData;
+    }
+
+    public boolean hasPassportData() {
+        return passportData != null;
+    }
+
+    public boolean hasAnimation() {
+        return animation != null;
     }
 
     @Override
@@ -478,6 +514,7 @@ public class Message implements BotApiObject {
                 ", forwardSignature='" + forwardSignature + '\'' +
                 ", mediaGroupId='" + mediaGroupId + '\'' +
                 ", connectedWebsite='" + connectedWebsite + '\'' +
+                ", passportData=" + passportData +
                 '}';
     }
 }

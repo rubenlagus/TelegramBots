@@ -2,6 +2,7 @@ package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -21,6 +22,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long.
  * Use this method to send video messages. On success, the sent Message is returned.
  */
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class SendVideoNote extends PartialBotApiMethod<Message> {
     public static final String PATH = "sendvideonote";
 
@@ -31,19 +33,23 @@ public class SendVideoNote extends PartialBotApiMethod<Message> {
     public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     public static final String REPLYMARKUP_FIELD = "reply_markup";
+    public static final String THUMB_FIELD = "thumb";
 
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
-    private String videoNote; ///< Videonote to send. file_id as String to resend a video that is already on the Telegram servers.
+    private InputFile videoNote; ///< Videonote to send. file_id as String to resend a video that is already on the Telegram servers.
     private Integer duration; ///< Optional. Duration of sent video in seconds
     private Integer length; ///< Optional. Video width and height
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
-
-    private boolean isNewVideoNote; ///< True to upload a new video note, false to use a fileId
-    private String videoNoteName; ///< Name of the video
-    private File newVideoNoteFile; ///< New video note file
-    private InputStream newVideoNoteStream; ///< New video note stream
+    /**
+     * Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size.
+     * A thumbnail‘s width and height should not exceed 90.
+     * Ignored if the file is not uploaded using multipart/form-data.
+     * Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>”
+     * if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
+     */
+    private InputFile thumb;
 
     public SendVideoNote() {
         super();
@@ -56,8 +62,7 @@ public class SendVideoNote extends PartialBotApiMethod<Message> {
      */
     public SendVideoNote(String chatId, String videoNote) {
         this.chatId = checkNotNull(chatId);
-        this.videoNote = checkNotNull(videoNote);
-        this.isNewVideoNote = false;
+        this.setVideoNote(checkNotNull(videoNote));
     }
 
     /**
@@ -66,59 +71,51 @@ public class SendVideoNote extends PartialBotApiMethod<Message> {
      * @param videoNote Video note file_id to send
      */
     public SendVideoNote(Long chatId, String videoNote) {
+
         this.chatId = checkNotNull(chatId).toString();
-        this.videoNote = checkNotNull(videoNote);
-        this.isNewVideoNote = false;
+        this.setVideoNote(checkNotNull(videoNote));
     }
 
     /**
      * Creates a new video note with a new video note
      * @param chatId Chat Id to send the video note
-     * @param newVideoNoteFile Video note file to upload
+     * @param videoNote Video note file to upload
      */
-    public SendVideoNote(String chatId, File newVideoNoteFile) {
+    public SendVideoNote(String chatId, File videoNote) {
         this.chatId = checkNotNull(chatId);
-        this.newVideoNoteFile = checkNotNull(newVideoNoteFile);
-        this.isNewVideoNote = true;
+        this.setVideoNote(videoNote);
     }
 
     /**
      * Creates a new video note with a video already present in telegram servers
      * @param chatId Chat Id to send the video note
-     * @param newVideoNoteFile Video note file to upload
+     * @param videoNote Video note file to upload
      */
-    public SendVideoNote(Integer chatId, File newVideoNoteFile) {
+    public SendVideoNote(Integer chatId, File videoNote) {
         this.chatId = checkNotNull(chatId).toString();
-        this.newVideoNoteFile = checkNotNull(newVideoNoteFile);
-        this.isNewVideoNote = true;
+        this.setVideoNote(videoNote);
     }
-
-
 
     /**
      * Creates a new video note with a new video note
      * @param chatId Chat Id to send the video note
      * @param videoNoteName Name of the video note file
-     * @param newVideoNoteStream Video note file to upload
+     * @param videoNote Video note file to upload
      */
-    public SendVideoNote(String chatId, String videoNoteName, InputStream newVideoNoteStream) {
+    public SendVideoNote(String chatId, String videoNoteName, InputStream videoNote) {
         this.chatId = checkNotNull(chatId);
-        this.videoNoteName = checkNotNull(videoNoteName);
-        this.newVideoNoteStream = checkNotNull(newVideoNoteStream);
-        this.isNewVideoNote = true;
+        this.setVideoNote(videoNoteName, videoNote);
     }
 
     /**
      * Creates a new video note with a video already present in telegram servers
      * @param chatId Chat Id to send the video note
      * @param videoNoteName Name of the video note file
-     * @param newVideoNoteStream Video note file to upload
+     * @param videoNote Video note file to upload
      */
-    public SendVideoNote(Integer chatId, String videoNoteName, InputStream newVideoNoteStream) {
+    public SendVideoNote(Integer chatId, String videoNoteName, InputStream videoNote) {
         this.chatId = checkNotNull(chatId).toString();
-        this.videoNoteName = checkNotNull(videoNoteName);
-        this.newVideoNoteStream = checkNotNull(newVideoNoteStream);
-        this.isNewVideoNote = true;
+        this.setVideoNote(videoNoteName, videoNote);
     }
 
     public String getChatId() {
@@ -130,13 +127,12 @@ public class SendVideoNote extends PartialBotApiMethod<Message> {
         return this;
     }
 
-    public String getVideoNote() {
+    public InputFile getVideoNote() {
         return videoNote;
     }
 
     public SendVideoNote setVideoNote(String videoNote) {
-        this.videoNote = videoNote;
-        this.isNewVideoNote = false;
+        this.videoNote = new InputFile(videoNote);
         return this;
     }
 
@@ -196,35 +192,32 @@ public class SendVideoNote extends PartialBotApiMethod<Message> {
         return this;
     }
 
-    public boolean isNewVideoNote() {
-        return isNewVideoNote;
-    }
-
-    public SendVideoNote setNewVideoNote(File file) {
-        this.isNewVideoNote = true;
-        this.newVideoNoteFile = file;
+    public SendVideoNote setVideoNote(InputFile videoNote) {
+        Objects.requireNonNull(videoNote, "videoNote cannot be null!");
+        this.videoNote = videoNote;
         return this;
     }
 
-    public SendVideoNote setNewVideo(String videoName, InputStream inputStream) {
+    public SendVideoNote setVideoNote(File file) {
+        Objects.requireNonNull(file, "file cannot be null!");
+        this.videoNote = new InputFile(file, file.getName());
+        return this;
+    }
+
+    public SendVideoNote setVideoNote(String videoName, InputStream inputStream) {
     	Objects.requireNonNull(videoName, "videoName cannot be null!");
     	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
-    	this.videoNoteName = videoName;
-        this.isNewVideoNote = true;
-        this.newVideoNoteStream = inputStream;
+    	this.videoNote = new InputFile(inputStream, videoName);
         return this;
     }
 
-    public String getVideoNoteName() {
-        return videoNoteName;
+    public InputFile getThumb() {
+        return thumb;
     }
 
-    public File getNewVideoNoteFile() {
-        return newVideoNoteFile;
-    }
-
-    public InputStream getNewVideoNoteStream() {
-        return newVideoNoteStream;
+    public SendVideoNote setThumb(InputFile thumb) {
+        this.thumb = thumb;
+        return this;
     }
 
     @Override
@@ -235,7 +228,7 @@ public class SendVideoNote extends PartialBotApiMethod<Message> {
             if (result.getOk()) {
                 return result.getResult();
             } else {
-                throw new TelegramApiRequestException("Error sending video", result);
+                throw new TelegramApiRequestException("Error sending video note", result);
             }
         } catch (IOException e) {
             throw new TelegramApiRequestException("Unable to deserialize response", e);
@@ -248,15 +241,14 @@ public class SendVideoNote extends PartialBotApiMethod<Message> {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
 
-        if (isNewVideoNote) {
-            if (newVideoNoteFile == null && newVideoNoteStream == null) {
-                throw new TelegramApiValidationException("Videonote  can't be empty", this);
-            }
-            if (newVideoNoteStream != null && (videoNoteName == null || videoNoteName.isEmpty())) {
-                throw new TelegramApiValidationException("Video note name can't be empty", this);
-            }
-        } else if (videoNote == null) {
-            throw new TelegramApiValidationException("Video note can't be empty", this);
+        if (videoNote == null) {
+            throw new TelegramApiValidationException("VideoNote parameter can't be empty", this);
+        }
+
+        videoNote.validate();
+
+        if (thumb != null) {
+            thumb.validate();
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
@@ -267,16 +259,13 @@ public class SendVideoNote extends PartialBotApiMethod<Message> {
     public String toString() {
         return "SendVideoNote{" +
                 "chatId='" + chatId + '\'' +
-                ", videoNote='" + videoNote + '\'' +
+                ", videoNote=" + videoNote +
                 ", duration=" + duration +
                 ", length=" + length +
                 ", disableNotification=" + disableNotification +
                 ", replyToMessageId=" + replyToMessageId +
                 ", replyMarkup=" + replyMarkup +
-                ", isNewVideoNote=" + isNewVideoNote +
-                ", videoNoteName='" + videoNoteName + '\'' +
-                ", newVideoNoteFile=" + newVideoNoteFile +
-                ", newVideoNoteStream=" + newVideoNoteStream +
+                ", thumb=" + thumb +
                 '}';
     }
 }

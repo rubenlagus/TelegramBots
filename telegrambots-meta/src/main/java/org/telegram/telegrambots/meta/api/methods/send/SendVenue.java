@@ -16,9 +16,8 @@ import java.util.Objects;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Use this method to send information about a venue. On success, the sent Message is
+ * Use this method to send information about a venue. On success, the sent Message is
  * returned.
- * @date 10 of April of 2016
  */
 public class SendVenue extends BotApiMethod<Message> {
     public static final String PATH = "sendVenue";
@@ -29,9 +28,10 @@ public class SendVenue extends BotApiMethod<Message> {
     private static final String TITLE_FIELD = "title";
     private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     private static final String ADDRESS_FIELD = "address";
-    private static final String FOURSQUARE_ID_FIELD = "foursquare_id";
+    private static final String FOURSQUAREID_FIELD = "foursquare_id";
     private static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
+    private static final String FOURSQUARETYPE_FIELD = "foursquare_type";
 
     @JsonProperty(CHATID_FIELD)
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
@@ -45,12 +45,14 @@ public class SendVenue extends BotApiMethod<Message> {
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     @JsonProperty(ADDRESS_FIELD)
     private String address; ///< Address of the venue
-    @JsonProperty(FOURSQUARE_ID_FIELD)
+    @JsonProperty(FOURSQUAREID_FIELD)
     private String foursquareId; ///< Optional. Foursquare identifier of the venue
     @JsonProperty(REPLYTOMESSAGEID_FIELD)
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     @JsonProperty(REPLYMARKUP_FIELD)
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    @JsonProperty(FOURSQUARETYPE_FIELD)
+    private String foursquareType; ///< Optional. Foursquare type of the venue, if known.
 
     public SendVenue() {
         super();
@@ -148,6 +150,15 @@ public class SendVenue extends BotApiMethod<Message> {
         return this;
     }
 
+    public String getFoursquareType() {
+        return foursquareType;
+    }
+
+    public SendVenue setFoursquareType(String foursquareType) {
+        this.foursquareType = foursquareType;
+        return this;
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -196,11 +207,13 @@ public class SendVenue extends BotApiMethod<Message> {
                 "chatId='" + chatId + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
-                ", title=" + title +
-                ", address=" + address +
-                ", foursquareId=" + foursquareId +
+                ", title='" + title + '\'' +
+                ", disableNotification=" + disableNotification +
+                ", address='" + address + '\'' +
+                ", foursquareId='" + foursquareId + '\'' +
                 ", replyToMessageId=" + replyToMessageId +
                 ", replyMarkup=" + replyMarkup +
+                ", foursquareType='" + foursquareType + '\'' +
                 '}';
     }
 }

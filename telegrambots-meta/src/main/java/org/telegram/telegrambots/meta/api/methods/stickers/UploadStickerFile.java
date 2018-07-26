@@ -3,6 +3,7 @@ package org.telegram.telegrambots.meta.api.methods.stickers;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.File;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -29,9 +30,7 @@ public class UploadStickerFile extends PartialBotApiMethod<File> {
      * Png image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px,
      * and either width or height must be exactly 512px. More info on Sending Files »
      */
-    private java.io.File newPngStickerFile; ///< New sticker file
-    private InputStream newPngStickerStream; ///< New sticker stream
-    private String newPngStickerName; ///< New sticker stream name
+    private InputFile pngSticker; ///< New sticker file
 
     public UploadStickerFile() {
         super();
@@ -62,12 +61,12 @@ public class UploadStickerFile extends PartialBotApiMethod<File> {
         if (userId == null || userId <= 0) {
             throw new TelegramApiValidationException("userId can't be empty", this);
         }
-        if (newPngStickerFile == null && newPngStickerStream == null) {
-            throw new TelegramApiValidationException("file or stream must be present", this);
+
+        if (pngSticker == null) {
+            throw new TelegramApiValidationException("PngSticker parameter can't be empty", this);
         }
-        if (newPngStickerStream != null && (newPngStickerName == null || newPngStickerName.isEmpty())) {
-            throw new TelegramApiValidationException("Stream name must be present", this);
-        }
+
+        pngSticker.validate();
     }
 
     public Integer getUserId() {
@@ -79,36 +78,25 @@ public class UploadStickerFile extends PartialBotApiMethod<File> {
         return this;
     }
 
-    public java.io.File getNewPngStickerFile() {
-        return newPngStickerFile;
+    public InputFile getPngSticker() {
+        return pngSticker;
     }
 
-    public UploadStickerFile setNewPngSticker(java.io.File newPngStickerFile) {
-        this.newPngStickerFile = newPngStickerFile;
+    public UploadStickerFile setPngSticker(java.io.File pngSticker) {
+        this.pngSticker = new InputFile(pngSticker, pngSticker.getName());
         return this;
     }
 
-    public InputStream getNewPngStickerStream() {
-        return newPngStickerStream;
-    }
-
-    public UploadStickerFile setNewPngSticker(String newPngStickerName, InputStream newPngStickerStream) {
-        this.newPngStickerName = newPngStickerName;
-        this.newPngStickerStream = newPngStickerStream;
+    public UploadStickerFile setPngSticker(String pngStickerName, InputStream pngStickerStream) {
+        this.pngSticker = new InputFile(pngStickerStream, pngStickerName);
         return this;
-    }
-
-    public String getNewPngStickerName() {
-        return newPngStickerName;
     }
 
     @Override
     public String toString() {
         return "UploadStickerFile{" +
                 "userId=" + userId +
-                ", newPngStickerFile=" + newPngStickerFile +
-                ", newPngStickerStream=" + newPngStickerStream +
-                ", newPngStickerName='" + newPngStickerName + '\'' +
+                ", pngSticker=" + pngSticker +
                 '}';
     }
 }

@@ -13,7 +13,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief This object represents one button of an inline keyboard. You must use exactly one of the
+ * This object represents one button of an inline keyboard. You must use exactly one of the
  * optional fields.
  * @note This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * display unsupported message.
@@ -31,7 +31,7 @@ public class InlineKeyboardButton implements InputBotApiObject, Validable {
     @JsonProperty(TEXT_FIELD)
     private String text; ///< Label text on the button
     @JsonProperty(URL_FIELD)
-    private String url; ///< Optional. HTTP url to be opened when button is pressed
+    private String url; ///< Optional. HTTP or tg:// url to be opened when button is pressed
     @JsonProperty(CALLBACK_DATA_FIELD)
     private String callbackData; ///< Optional. Data to be sent in a callback query to the bot when button is pressed
     /**

@@ -92,6 +92,7 @@ import static org.telegram.abilitybots.api.util.AbilityUtils.*;
  *
  * @author Abbas Abou Daya
  */
+@SuppressWarnings({"WeakerAccess", "UnusedReturnValue", "ConfusingArgumentToVarargsMethod", "ConstantConditions"})
 public abstract class AbilityBot extends TelegramLongPollingBot {
   private static final String TAG = AbilityBot.class.getSimpleName();
 
@@ -413,7 +414,7 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
           try (PrintStream printStream = new PrintStream(backup)) {
             printStream.print(db.backup());
             sender.sendDocument(new SendDocument()
-                .setNewDocument(backup)
+                .setDocument(backup)
                 .setChatId(ctx.chatId())
             );
           } catch (FileNotFoundException e) {

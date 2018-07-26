@@ -2,6 +2,7 @@ package org.telegram.telegrambots.meta.api.methods.stickers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.stickers.MaskPosition;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -38,11 +39,7 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
      * that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram
      * to get a file from the Internet, or upload a new one using multipart/form-data.
      */
-    private Boolean isNewPngSticker;
-    private String pngSticker;
-    private File pngStickerFile; ///< New sticker file
-    private InputStream pngStickerStream; ///< New sticker stream
-    private String pngStickerName; ///< New sticker stream name
+    private InputFile pngSticker;
 
     public AddStickerToSet() {
         super();
@@ -63,46 +60,26 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
         return this;
     }
 
-    public String getPngSticker() {
+    public InputFile getPngSticker() {
         return pngSticker;
     }
 
     public AddStickerToSet setPngSticker(String pngSticker) {
-        this.pngSticker = pngSticker;
-        this.isNewPngSticker = false;
+        this.pngSticker = new InputFile(pngSticker);
         return this;
     }
 
-    public File getPngStickerFile() {
-        return pngStickerFile;
-    }
-
-    public AddStickerToSet setPngStickerFile(File pngStickerFile) {
-        Objects.requireNonNull(pngStickerFile, "pngStickerFile cannot be null!");
-        this.pngStickerFile = pngStickerFile;
-        this.isNewPngSticker = true;
+    public AddStickerToSet setPngSticker(File pngSticker) {
+        Objects.requireNonNull(pngSticker, "pngSticker cannot be null!");
+        this.pngSticker = new InputFile(pngSticker, pngSticker.getName());
         return this;
     }
 
-    public InputStream getPngStickerStream() {
-        return pngStickerStream;
-    }
-
-    public AddStickerToSet setPngStickerStream(String pngStickerName, InputStream pngStickerStream) {
+    public AddStickerToSet setPngSticker(String pngStickerName, InputStream pngSticker) {
         Objects.requireNonNull(pngStickerName, "pngStickerName cannot be null!");
-        Objects.requireNonNull(pngStickerStream, "pngStickerStream cannot be null!");
-        this.pngStickerStream = pngStickerStream;
-        this.pngStickerName = pngStickerName;
-        this.isNewPngSticker = true;
+        Objects.requireNonNull(pngSticker, "pngSticker cannot be null!");
+        this.pngSticker = new InputFile(pngSticker, pngStickerName);
         return this;
-    }
-
-    public String getPngStickerName() {
-        return pngStickerName;
-    }
-
-    public Boolean isNewPngSticker() {
-        return isNewPngSticker;
     }
 
     public String getName() {
@@ -158,16 +135,13 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
         if (emojis == null || emojis.isEmpty()) {
             throw new TelegramApiValidationException("emojis can't be empty", this);
         }
-        if (isNewPngSticker) {
-            if (pngStickerFile == null && pngStickerStream == null) {
-                throw new TelegramApiValidationException("PngSticker can't be empty", this);
-            }
-            if (pngStickerStream != null && (pngStickerName == null || pngStickerName.isEmpty())) {
-                throw new TelegramApiValidationException("PngSticker name can't be empty", this);
-            }
-        } else if (pngSticker == null) {
+
+        if (pngSticker == null) {
             throw new TelegramApiValidationException("PngSticker can't be empty", this);
         }
+
+        pngSticker.validate();
+
         if (maskPosition != null) {
             maskPosition.validate();
         }
@@ -180,11 +154,7 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
                 ", name='" + name + '\'' +
                 ", emojis='" + emojis + '\'' +
                 ", maskPosition=" + maskPosition +
-                ", isNewPngSticker=" + isNewPngSticker +
-                ", pngSticker='" + pngSticker + '\'' +
-                ", pngStickerFile=" + pngStickerFile +
-                ", pngStickerStream=" + pngStickerStream +
-                ", pngStickerName='" + pngStickerName + '\'' +
+                ", pngSticker=" + pngSticker +
                 '}';
     }
 }

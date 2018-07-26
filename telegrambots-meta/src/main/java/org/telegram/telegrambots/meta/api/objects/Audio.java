@@ -7,8 +7,7 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief This object represents an audio file
- * @date 16 of July of 2015
+ * This object represents an audio file
  */
 public class Audio implements BotApiObject {
 
@@ -18,6 +17,7 @@ public class Audio implements BotApiObject {
     private static final String FILESIZE_FIELD = "file_size";
     private static final String TITLE_FIELD = "title";
     private static final String PERFORMER_FIELD = "performer";
+    private static final String THUMB_FIELD = "thumb";
 
     @JsonProperty(FILEID_FIELD)
     private String fileId; ///< Unique identifier for this file
@@ -31,6 +31,8 @@ public class Audio implements BotApiObject {
     private String title; ///< Optional. Title of the audio as defined by sender or by audio tags
     @JsonProperty(PERFORMER_FIELD)
     private String performer; ///< Optional. Performer of the audio as defined by sender or by audio tags
+    @JsonProperty(THUMB_FIELD)
+    private PhotoSize thumb; ///< Optional. Thumbnail of the album cover to which the music file belongs
 
     public Audio() {
         super();
@@ -60,6 +62,10 @@ public class Audio implements BotApiObject {
         return performer;
     }
 
+    public PhotoSize getThumb() {
+        return thumb;
+    }
+
     @Override
     public String toString() {
         return "Audio{" +
@@ -69,6 +75,7 @@ public class Audio implements BotApiObject {
                 ", fileSize=" + fileSize +
                 ", title='" + title + '\'' +
                 ", performer='" + performer + '\'' +
+                ", thumb=" + thumb +
                 '}';
     }
 }

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaVideo;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -34,7 +36,7 @@ public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
     @JsonProperty(CHATID_FIELD)
     private String chatId; ///<  	Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     @JsonProperty(MEDIA_FIELD)
-    private List<InputMedia> media; ///< A JSON-serialized array describing photos and videos to be sent
+    private List<InputMedia> media; ///< A JSON-serialized array describing photos and videos to be sent, must include 2–10 items
     @JsonProperty(REPLYTOMESSAGEID_FIELD)
     private Integer replyToMessageId; ///< Optional. If the messages are a reply, ID of the original message
     @JsonProperty(DISABLENOTIFICATION_FIELD)
@@ -128,7 +130,11 @@ public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
         }
 
         for (InputMedia inputMedia : media) {
-            inputMedia.validate();
+            if (inputMedia instanceof InputMediaPhoto || inputMedia instanceof InputMediaVideo) {
+                inputMedia.validate();
+            } else {
+                throw new TelegramApiValidationException("Media parameter can only be Photo or Video", this);
+            }
         }
     }
 

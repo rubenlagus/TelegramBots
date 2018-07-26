@@ -7,10 +7,9 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Represents the content of a venue message to be sent as the result of an inline query.
+ * Represents the content of a venue message to be sent as the result of an inline query.
  * @note This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * ignore them.
- * @date 10 of April of 2016
  */
 public class InputVenueMessageContent implements InputMessageContent {
 
@@ -18,7 +17,8 @@ public class InputVenueMessageContent implements InputMessageContent {
     private static final String LONGITUDE_FIELD = "longitude";
     private static final String TITLE_FIELD = "title";
     private static final String ADDRESS_FIELD = "address";
-    private static final String FOURSQUARE_ID_FIELD = "foursquare_id";
+    private static final String FOURSQUAREID_FIELD = "foursquare_id";
+    private static final String FOURSQUARETYPE_FIELD = "foursquare_type";
 
     @JsonProperty(LATITUDE_FIELD)
     private Float latitude; ///< Latitude of the venue in degrees
@@ -28,8 +28,11 @@ public class InputVenueMessageContent implements InputMessageContent {
     private String title; ///< Name of the venue
     @JsonProperty(ADDRESS_FIELD)
     private String address; ///< Address of the venue
-    @JsonProperty(FOURSQUARE_ID_FIELD)
+    @JsonProperty(FOURSQUAREID_FIELD)
     private String foursquareId; ///< Optional. Foursquare identifier of the venue, if known
+    @JsonProperty(FOURSQUARETYPE_FIELD)
+    private String foursquareType; ///< Optional. Foursquare type of the venue, if known.
+
 
     public InputVenueMessageContent() {
         super();
@@ -80,6 +83,15 @@ public class InputVenueMessageContent implements InputMessageContent {
         return this;
     }
 
+    public String getFoursquareType() {
+        return foursquareType;
+    }
+
+    public InputVenueMessageContent setFoursquareType(String foursquareType) {
+        this.foursquareType = foursquareType;
+        return this;
+    }
+
     @Override
     public void validate() throws TelegramApiValidationException {
         if (latitude == null) {
@@ -99,11 +111,12 @@ public class InputVenueMessageContent implements InputMessageContent {
     @Override
     public String toString() {
         return "InputVenueMessageContent{" +
-                "latitude='" + latitude + '\'' +
-                ", longitude='" + longitude + '\'' +
+                "latitude=" + latitude +
+                ", longitude=" + longitude +
                 ", title='" + title + '\'' +
                 ", address='" + address + '\'' +
                 ", foursquareId='" + foursquareId + '\'' +
+                ", foursquareType='" + foursquareType + '\'' +
                 '}';
     }
 }

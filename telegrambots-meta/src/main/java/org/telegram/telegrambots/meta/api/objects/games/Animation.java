@@ -24,11 +24,13 @@ import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 /**
  * @author Ruben Bermudez
  * @version 2.4
- * @brief This object represents an animation file.
- * @date 27 of September of 2016
+ * This object represents an animation file (GIF or H.264/MPEG-4 AVC video without sound).
  */
 public class Animation implements BotApiObject {
     private static final String FILEID_FIELD = "file_id";
+    private static final String WIDTH_FIELD = "width";
+    private static final String HEIGHT_FIELD = "height";
+    private static final String DURATION_FIELD = "duration";
     private static final String THUMB_FIELD = "thumb";
     private static final String FILENAME_FIELD = "file_name";
     private static final String MIMETYPE_FIELD = "mime_type";
@@ -36,6 +38,12 @@ public class Animation implements BotApiObject {
 
     @JsonProperty(FILEID_FIELD)
     private String fileId; ///< Unique file identifier
+    @JsonProperty(WIDTH_FIELD)
+    private Integer width; ///< Video width as defined by sender
+    @JsonProperty(HEIGHT_FIELD)
+    private Integer height; ///< Video height as defined by sender
+    @JsonProperty(DURATION_FIELD)
+    private Integer duration; ///< Duration of the video in seconds as defined by sender
     @JsonProperty(THUMB_FIELD)
     private PhotoSize thumb; ///< Optional. Animation thumbnail as defined by sender
     @JsonProperty(FILENAME_FIELD)
@@ -69,10 +77,25 @@ public class Animation implements BotApiObject {
         return fileSize;
     }
 
+    public Integer getWidth() {
+        return width;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
     @Override
     public String toString() {
         return "Animation{" +
                 "fileId='" + fileId + '\'' +
+                ", width=" + width +
+                ", height=" + height +
+                ", duration=" + duration +
                 ", thumb=" + thumb +
                 ", fileName='" + fileName + '\'' +
                 ", mimetype='" + mimetype + '\'' +

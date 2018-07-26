@@ -16,24 +16,39 @@ import java.util.Objects;
 
 /**
  * @author Ruben Bermudez
- * @version 1.0
- * Use this method to send general files. On success, the sent Message is returned.
+ * @version 4.0.0
+ * Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound).
+ * On success, the sent Message is returned.
+ *
+ * Bots can currently send animation files of up to 50 MB in size, this limit may be changed in the future.
  */
-public class SendDocument extends PartialBotApiMethod<Message> {
-    public static final String PATH = "senddocument";
+public class SendAnimation extends PartialBotApiMethod<Message> {
+    public static final String PATH = "sendAnimation";
 
     public static final String CHATID_FIELD = "chat_id";
-    public static final String DOCUMENT_FIELD = "document";
+    public static final String ANIMATION_FIELD = "animation";
+    public static final String DURATION_FIELD = "duration";
+    public static final String WIDTH_FIELD = "width";
+    public static final String HEIGHT_FIELD = "height";
     public static final String CAPTION_FIELD = "caption";
+    public static final String PARSEMODE_FIELD = "parse_mode";
     public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     public static final String REPLYMARKUP_FIELD = "reply_markup";
-    public static final String PARSEMODE_FIELD = "parse_mode";
     public static final String THUMB_FIELD = "thumb";
 
-    private String chatId; ///< Unique identifier for the chat to send the message to or Username for the channel to send the message to
-    private InputFile document; ///< File file to send. file_id as String to resend a file that is already on the Telegram servers or Url to upload it
-    private String caption; ///< Optional. Document caption (may also be used when resending documents by file_id), 0-200 characters
+
+    private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
+    /**
+     * Animation to send. Pass a file_id as String to send an animation that exists on the
+     * Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an animation
+     * from the Internet, or upload a new animation using multipart/form-data.
+     */
+    private InputFile animation;
+    private Integer duration; ///< Optional. Duration of sent animation in seconds
+    private String caption; ///< OptionaL. Animation caption (may also be used when resending videos by file_id).
+    private Integer width; ///< Optional. Animation width
+    private Integer height; ///< OptionaL. Animation height
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
@@ -47,7 +62,7 @@ public class SendDocument extends PartialBotApiMethod<Message> {
      */
     private InputFile thumb;
 
-    public SendDocument() {
+    public SendAnimation() {
         super();
     }
 
@@ -55,76 +70,32 @@ public class SendDocument extends PartialBotApiMethod<Message> {
         return chatId;
     }
 
-    public SendDocument setChatId(String chatId) {
+    public SendAnimation setChatId(String chatId) {
         this.chatId = chatId;
         return this;
     }
 
-    public SendDocument setChatId(Long chatId) {
+    public InputFile getAnimation() {
+        return animation;
+    }
+
+    public SendAnimation setAnimation(String animation) {
+        this.animation = new InputFile(animation);
+        return this;
+    }
+
+    public SendAnimation setChatId(Long chatId) {
         Objects.requireNonNull(chatId);
         this.chatId = chatId.toString();
         return this;
     }
 
-    public InputFile getDocument() {
-        return document;
+    public Integer getDuration() {
+        return duration;
     }
 
-    /**
-     * Use this method to set the document to an document existing in Telegram system
-     *
-     * @param document File_id of the document to send
-     * @note The file_id must have already been received or sent by your bot
-     */
-    public SendDocument setDocument(String document) {
-        this.document = new InputFile(document);
-        return this;
-    }
-
-    /**
-     * Use this method to set the document to a new file
-     *
-     * @param file New document file
-     */
-    public SendDocument setDocument(File file) {
-        Objects.requireNonNull(file, "documentName cannot be null!");
-        this.document = new InputFile(file, file.getName());
-        return this;
-    }
-
-    public SendDocument setDocument(InputFile document) {
-        Objects.requireNonNull(document, "document cannot be null!");
-        this.document = document;
-        return this;
-    }
-
-    public SendDocument setDocument(String documentName, InputStream inputStream) {
-    	Objects.requireNonNull(documentName, "documentName cannot be null!");
-    	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
-    	this.document = new InputFile(inputStream, documentName);
-        return this;
-    }
-
-    public Integer getReplyToMessageId() {
-        return replyToMessageId;
-    }
-
-    public SendDocument setReplyToMessageId(Integer replyToMessageId) {
-        this.replyToMessageId = replyToMessageId;
-        return this;
-    }
-
-    public Boolean getDisableNotification() {
-        return disableNotification;
-    }
-
-    public SendDocument enableNotification() {
-        this.disableNotification = false;
-        return this;
-    }
-
-    public SendDocument disableNotification() {
-        this.disableNotification = true;
+    public SendAnimation setDuration(Integer duration) {
+        this.duration = duration;
         return this;
     }
 
@@ -132,8 +103,17 @@ public class SendDocument extends PartialBotApiMethod<Message> {
         return caption;
     }
 
-    public SendDocument setCaption(String caption) {
+    public SendAnimation setCaption(String caption) {
         this.caption = caption;
+        return this;
+    }
+
+    public Integer getReplyToMessageId() {
+        return replyToMessageId;
+    }
+
+    public SendAnimation setReplyToMessageId(Integer replyToMessageId) {
+        this.replyToMessageId = replyToMessageId;
         return this;
     }
 
@@ -141,8 +121,58 @@ public class SendDocument extends PartialBotApiMethod<Message> {
         return replyMarkup;
     }
 
-    public SendDocument setReplyMarkup(ReplyKeyboard replyMarkup) {
+    public SendAnimation setReplyMarkup(ReplyKeyboard replyMarkup) {
         this.replyMarkup = replyMarkup;
+        return this;
+    }
+
+    public Boolean getDisableNotification() {
+        return disableNotification;
+    }
+
+    public SendAnimation enableNotification() {
+        this.disableNotification = false;
+        return this;
+    }
+
+    public SendAnimation disableNotification() {
+        this.disableNotification = true;
+        return this;
+    }
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public SendAnimation setWidth(Integer width) {
+        this.width = width;
+        return this;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public SendAnimation setHeight(Integer height) {
+        this.height = height;
+        return this;
+    }
+
+    public SendAnimation setAnimation(File file) {
+        this.animation = new InputFile(file, file.getName());
+        return this;
+    }
+
+    public SendAnimation setAnimation(String animationName, InputStream inputStream) {
+    	Objects.requireNonNull(animationName, "animationName cannot be null!");
+    	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
+        this.animation = new InputFile(inputStream, animationName);
+        return this;
+    }
+
+    public SendAnimation setAnimation(InputFile animation) {
+        Objects.requireNonNull(animation, "animation cannot be null!");
+        this.animation = animation;
         return this;
     }
 
@@ -150,7 +180,7 @@ public class SendDocument extends PartialBotApiMethod<Message> {
         return parseMode;
     }
 
-    public SendDocument setParseMode(String parseMode) {
+    public SendAnimation setParseMode(String parseMode) {
         this.parseMode = parseMode;
         return this;
     }
@@ -159,7 +189,7 @@ public class SendDocument extends PartialBotApiMethod<Message> {
         return thumb;
     }
 
-    public SendDocument setThumb(InputFile thumb) {
+    public SendAnimation setThumb(InputFile thumb) {
         this.thumb = thumb;
         return this;
     }
@@ -172,7 +202,7 @@ public class SendDocument extends PartialBotApiMethod<Message> {
             if (result.getOk()) {
                 return result.getResult();
             } else {
-                throw new TelegramApiRequestException("Error sending document", result);
+                throw new TelegramApiRequestException("Error sending animation", result);
             }
         } catch (IOException e) {
             throw new TelegramApiRequestException("Unable to deserialize response", e);
@@ -185,27 +215,28 @@ public class SendDocument extends PartialBotApiMethod<Message> {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
 
-        if (document == null) {
-            throw new TelegramApiValidationException("Document parameter can't be empty", this);
+        if (animation == null) {
+            throw new TelegramApiValidationException("Animation parameter can't be empty", this);
         }
 
-        document.validate();
-
-        if (thumb != null) {
-            thumb.validate();
-        }
+        animation.validate();
 
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+        if (thumb != null) {
+            thumb.validate();
         }
     }
 
     @Override
     public String toString() {
-        return "SendDocument{" +
-                "chatId='" + chatId + '\'' +
-                ", document=" + document +
+        return "SendAnimation{" + "chatId='" + chatId + '\'' +
+                ", animation=" + animation +
+                ", duration=" + duration +
                 ", caption='" + caption + '\'' +
+                ", width=" + width +
+                ", height=" + height +
                 ", disableNotification=" + disableNotification +
                 ", replyToMessageId=" + replyToMessageId +
                 ", replyMarkup=" + replyMarkup +

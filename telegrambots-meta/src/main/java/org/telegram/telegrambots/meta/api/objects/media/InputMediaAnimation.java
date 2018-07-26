@@ -6,28 +6,25 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
  * @author Ruben Bermudez
- * @version 3.5
+ * @version 4.0.0
  *
- * Represents a video.
+ * Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound) to be sent.
  */
-@SuppressWarnings({"unused", "WeakerAccess"})
-public class InputMediaVideo extends InputMedia<InputMediaVideo> {
-    private static final String TYPE = "video";
+@SuppressWarnings("unused")
+public class InputMediaAnimation extends InputMedia<InputMediaAnimation> {
+    private static final String TYPE = "animation";
 
     public static final String WIDTH_FIELD = "width";
     public static final String HEIGHT_FIELD = "height";
     public static final String DURATION_FIELD = "duration";
-    public static final String SUPPORTSSTREAMING_FIELD = "supports_streaming";
     public static final String THUMB_FIELD = "thumb";
 
     @JsonProperty(WIDTH_FIELD)
-    private Integer width; ///< Optional. Video width
+    private Integer width; ///< Optional. Animation width
     @JsonProperty(HEIGHT_FIELD)
-    private Integer height; ///< Optional. Video height
+    private Integer height; ///< Optional. Animation height
     @JsonProperty(DURATION_FIELD)
-    private Integer duration; ///< Optional. Video duration
-    @JsonProperty(SUPPORTSSTREAMING_FIELD)
-    private Boolean supportsStreaming; ///< Optional. Pass True, if the uploaded video is suitable for streaming
+    private Integer duration; ///< Optional. Animation duration
     /**
      * Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size.
      * A thumbnail‘s width and height should not exceed 90.
@@ -35,14 +32,13 @@ public class InputMediaVideo extends InputMedia<InputMediaVideo> {
      * Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>”
      * if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
      */
-    @JsonProperty(THUMB_FIELD)
     private InputFile thumb;
 
-    public InputMediaVideo() {
+    public InputMediaAnimation() {
         super();
     }
 
-    public InputMediaVideo(String media, String caption) {
+    public InputMediaAnimation(String media, String caption) {
         super(media, caption);
     }
 
@@ -50,7 +46,7 @@ public class InputMediaVideo extends InputMedia<InputMediaVideo> {
         return width;
     }
 
-    public InputMediaVideo setWidth(Integer width) {
+    public InputMediaAnimation setWidth(Integer width) {
         this.width = width;
         return this;
     }
@@ -59,7 +55,7 @@ public class InputMediaVideo extends InputMedia<InputMediaVideo> {
         return height;
     }
 
-    public InputMediaVideo setHeight(Integer height) {
+    public InputMediaAnimation setHeight(Integer height) {
         this.height = height;
         return this;
     }
@@ -68,17 +64,8 @@ public class InputMediaVideo extends InputMedia<InputMediaVideo> {
         return duration;
     }
 
-    public InputMediaVideo setDuration(Integer duration) {
+    public InputMediaAnimation setDuration(Integer duration) {
         this.duration = duration;
-        return this;
-    }
-
-    public Boolean getSupportsStreaming() {
-        return supportsStreaming;
-    }
-
-    public InputMediaVideo setSupportsStreaming(Boolean supportsStreaming) {
-        this.supportsStreaming = supportsStreaming;
         return this;
     }
 
@@ -86,7 +73,7 @@ public class InputMediaVideo extends InputMedia<InputMediaVideo> {
         return thumb;
     }
 
-    public InputMediaVideo setThumb(InputFile thumb) {
+    public InputMediaAnimation setThumb(InputFile thumb) {
         this.thumb = thumb;
         return this;
     }
@@ -103,11 +90,11 @@ public class InputMediaVideo extends InputMedia<InputMediaVideo> {
 
     @Override
     public String toString() {
-        return "InputMediaVideo{" +
+        return "InputMediaAnimation{" +
                 "width=" + width +
                 ", height=" + height +
                 ", duration=" + duration +
-                ", supportsStreaming=" + supportsStreaming +
+                ", thumb=" + thumb +
                 "} " + super.toString();
     }
 }

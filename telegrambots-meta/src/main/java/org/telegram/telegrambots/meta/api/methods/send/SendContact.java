@@ -16,9 +16,8 @@ import java.util.Objects;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Use this method to send information about user contact. On success, the sent Message is
+ * Use this method to send information about user contact. On success, the sent Message is
  * returned.
- * @date 10 of April of 2016
  */
 public class SendContact extends BotApiMethod<Message> {
     public static final String PATH = "sendContact";
@@ -30,6 +29,7 @@ public class SendContact extends BotApiMethod<Message> {
     private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     private static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
+    private static final String VCARD_FIELD = "vcard";
 
     @JsonProperty(CHATID_FIELD)
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
@@ -45,6 +45,8 @@ public class SendContact extends BotApiMethod<Message> {
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     @JsonProperty(REPLYMARKUP_FIELD)
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    @JsonProperty(VCARD_FIELD)
+    private String vCard; ///< Optional. Additional data about the contact in the form of a vCard
 
     public SendContact() {
         super();
@@ -124,6 +126,14 @@ public class SendContact extends BotApiMethod<Message> {
         return this;
     }
 
+    public String getvCard() {
+        return vCard;
+    }
+
+    public void setvCard(String vCard) {
+        this.vCard = vCard;
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -164,11 +174,13 @@ public class SendContact extends BotApiMethod<Message> {
     public String toString() {
         return "SendContact{" +
                 "chatId='" + chatId + '\'' +
-                ", phoneNumber=" + phoneNumber +
-                ", firstName=" + firstName +
-                ", lastName=" + lastName +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", disableNotification=" + disableNotification +
                 ", replyToMessageId=" + replyToMessageId +
                 ", replyMarkup=" + replyMarkup +
+                ", vCard='" + vCard + '\'' +
                 '}';
     }
 }

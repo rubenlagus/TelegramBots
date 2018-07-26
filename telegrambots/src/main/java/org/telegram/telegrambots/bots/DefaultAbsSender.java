@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.bots;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpEntity;
@@ -12,20 +13,25 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.telegram.telegrambots.facilities.TelegramHttpClientBuilder;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.*;
 import org.telegram.telegrambots.meta.api.methods.stickers.AddStickerToSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.CreateNewStickerSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.File;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaAudio;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaDocument;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaVideo;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-import org.telegram.telegrambots.facilities.TelegramHttpClientBuilder;
 import org.telegram.telegrambots.meta.updateshandlers.DownloadFileCallback;
 import org.telegram.telegrambots.meta.updateshandlers.SentCallback;
 
@@ -44,10 +50,9 @@ import static org.telegram.telegrambots.Constants.SOCKET_TIMEOUT;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Implementation of all the methods needed to interact with Telegram Servers
- * @date 14 of January of 2016
+ * Implementation of all the methods needed to interact with Telegram Servers
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 public abstract class DefaultAbsSender extends AbsSender {
     private static final ContentType TEXT_PLAIN_CONTENT_TYPE = ContentType.create("text/plain", StandardCharsets.UTF_8);
 
@@ -59,6 +64,7 @@ public abstract class DefaultAbsSender extends AbsSender {
 
     protected DefaultAbsSender(DefaultBotOptions options) {
         super();
+
         this.exe = Executors.newFixedThreadPool(options.getMaxThreads());
         this.options = options;
 
@@ -139,7 +145,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     // Specific Send Requests
 
     @Override
-    public final Message sendDocument(SendDocument sendDocument) throws TelegramApiException {
+    public final Message execute(SendDocument sendDocument) throws TelegramApiException {
         assertParamNotNull(sendDocument, "sendDocument");
 
         sendDocument.validate();
@@ -151,17 +157,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(SendDocument.CHATID_FIELD, sendDocument.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
-            if (sendDocument.isNewDocument()) {
-                if (sendDocument.getNewDocumentFile() != null) {
-                    builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, sendDocument.getNewDocumentFile());
-                } else if (sendDocument.getNewDocumentStream() != null) {
-                    builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, sendDocument.getNewDocumentStream(), ContentType.APPLICATION_OCTET_STREAM, sendDocument.getDocumentName());
-                } else {
-                    builder.addBinaryBody(SendDocument.DOCUMENT_FIELD, new java.io.File(sendDocument.getDocument()), ContentType.APPLICATION_OCTET_STREAM, sendDocument.getDocumentName());
-                }
-            } else {
-                builder.addTextBody(SendDocument.DOCUMENT_FIELD, sendDocument.getDocument(), TEXT_PLAIN_CONTENT_TYPE);
-            }
+
+            addInputFile(builder, sendDocument.getDocument(), SendDocument.DOCUMENT_FIELD, true);
+
             if (sendDocument.getReplyMarkup() != null) {
                 builder.addTextBody(SendDocument.REPLYMARKUP_FIELD, objectMapper.writeValueAsString(sendDocument.getReplyMarkup()), TEXT_PLAIN_CONTENT_TYPE);
             }
@@ -177,6 +175,12 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendDocument.getDisableNotification() != null) {
                 builder.addTextBody(SendDocument.DISABLENOTIFICATION_FIELD, sendDocument.getDisableNotification().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
+
+            if (sendDocument.getThumb() != null) {
+                addInputFile(builder, sendDocument.getThumb(), SendDocument.THUMB_FIELD, false);
+                builder.addTextBody(SendDocument.THUMB_FIELD, sendDocument.getThumb().getAttachName(), TEXT_PLAIN_CONTENT_TYPE);
+            }
+
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
@@ -187,7 +191,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     }
 
     @Override
-    public final Message sendPhoto(SendPhoto sendPhoto) throws TelegramApiException {
+    public final Message execute(SendPhoto sendPhoto) throws TelegramApiException {
         assertParamNotNull(sendPhoto, "sendPhoto");
 
         sendPhoto.validate();
@@ -199,17 +203,8 @@ public abstract class DefaultAbsSender extends AbsSender {
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(SendPhoto.CHATID_FIELD, sendPhoto.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
-            if (sendPhoto.isNewPhoto()) {
-                if (sendPhoto.getNewPhotoFile() != null) {
-                    builder.addBinaryBody(SendPhoto.PHOTO_FIELD, sendPhoto.getNewPhotoFile());
-                } else if (sendPhoto.getNewPhotoStream() != null) {
-                    builder.addBinaryBody(SendPhoto.PHOTO_FIELD, sendPhoto.getNewPhotoStream(), ContentType.APPLICATION_OCTET_STREAM, sendPhoto.getPhotoName());
-                } else {
-                    builder.addBinaryBody(SendPhoto.PHOTO_FIELD, new java.io.File(sendPhoto.getPhoto()), ContentType.APPLICATION_OCTET_STREAM, sendPhoto.getPhotoName());
-                }
-            } else {
-                builder.addTextBody(SendPhoto.PHOTO_FIELD, sendPhoto.getPhoto(), TEXT_PLAIN_CONTENT_TYPE);
-            }
+            addInputFile(builder, sendPhoto.getPhoto(), SendPhoto.PHOTO_FIELD, true);
+
             if (sendPhoto.getReplyMarkup() != null) {
                 builder.addTextBody(SendPhoto.REPLYMARKUP_FIELD, objectMapper.writeValueAsString(sendPhoto.getReplyMarkup()), TEXT_PLAIN_CONTENT_TYPE);
             }
@@ -235,7 +230,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     }
 
     @Override
-    public final Message sendVideo(SendVideo sendVideo) throws TelegramApiException {
+    public final Message execute(SendVideo sendVideo) throws TelegramApiException {
         assertParamNotNull(sendVideo, "sendVideo");
 
         sendVideo.validate();
@@ -247,17 +242,8 @@ public abstract class DefaultAbsSender extends AbsSender {
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(SendVideo.CHATID_FIELD, sendVideo.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
-            if (sendVideo.isNewVideo()) {
-                if (sendVideo.getNewVideoFile() != null) {
-                    builder.addBinaryBody(SendVideo.VIDEO_FIELD, sendVideo.getNewVideoFile());
-                } else if (sendVideo.getNewVideoStream() != null) {
-                    builder.addBinaryBody(SendVideo.VIDEO_FIELD, sendVideo.getNewVideoStream(), ContentType.APPLICATION_OCTET_STREAM, sendVideo.getVideoName());
-                } else {
-                    builder.addBinaryBody(SendVideo.VIDEO_FIELD, new java.io.File(sendVideo.getVideo()), ContentType.APPLICATION_OCTET_STREAM, sendVideo.getVideoName());
-                }
-            } else {
-                builder.addTextBody(SendVideo.VIDEO_FIELD, sendVideo.getVideo(), TEXT_PLAIN_CONTENT_TYPE);
-            }
+            addInputFile(builder, sendVideo.getVideo(), SendVideo.VIDEO_FIELD, true);
+
             if (sendVideo.getReplyMarkup() != null) {
                 builder.addTextBody(SendVideo.REPLYMARKUP_FIELD, objectMapper.writeValueAsString(sendVideo.getReplyMarkup()), TEXT_PLAIN_CONTENT_TYPE);
             }
@@ -285,6 +271,11 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendVideo.getDisableNotification() != null) {
                 builder.addTextBody(SendVideo.DISABLENOTIFICATION_FIELD, sendVideo.getDisableNotification().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
+            if (sendVideo.getThumb() != null) {
+                addInputFile(builder, sendVideo.getThumb(), SendVideo.THUMB_FIELD, false);
+                builder.addTextBody(SendVideo.THUMB_FIELD, sendVideo.getThumb().getAttachName(), TEXT_PLAIN_CONTENT_TYPE);
+            }
+
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
@@ -295,7 +286,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     }
 
     @Override
-    public final Message sendVideoNote(SendVideoNote sendVideoNote) throws TelegramApiException {
+    public final Message execute(SendVideoNote sendVideoNote) throws TelegramApiException {
         assertParamNotNull(sendVideoNote, "sendVideoNote");
 
         sendVideoNote.validate();
@@ -307,17 +298,8 @@ public abstract class DefaultAbsSender extends AbsSender {
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(SendVideoNote.CHATID_FIELD, sendVideoNote.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
-            if (sendVideoNote.isNewVideoNote()) {
-                if (sendVideoNote.getNewVideoNoteFile() != null) {
-                    builder.addBinaryBody(SendVideoNote.VIDEONOTE_FIELD, sendVideoNote.getNewVideoNoteFile());
-                } else if (sendVideoNote.getNewVideoNoteStream() != null) {
-                    builder.addBinaryBody(SendVideoNote.VIDEONOTE_FIELD, sendVideoNote.getNewVideoNoteStream(), ContentType.APPLICATION_OCTET_STREAM, sendVideoNote.getVideoNoteName());
-                } else {
-                    builder.addBinaryBody(SendVideoNote.VIDEONOTE_FIELD, new java.io.File(sendVideoNote.getVideoNote()), ContentType.APPLICATION_OCTET_STREAM, sendVideoNote.getVideoNoteName());
-                }
-            } else {
-                builder.addTextBody(SendVideoNote.VIDEONOTE_FIELD, sendVideoNote.getVideoNote(), TEXT_PLAIN_CONTENT_TYPE);
-            }
+            addInputFile(builder, sendVideoNote.getVideoNote(), SendVideoNote.VIDEONOTE_FIELD, true);
+
             if (sendVideoNote.getReplyMarkup() != null) {
                 builder.addTextBody(SendVideoNote.REPLYMARKUP_FIELD, objectMapper.writeValueAsString(sendVideoNote.getReplyMarkup()), TEXT_PLAIN_CONTENT_TYPE);
             }
@@ -333,6 +315,10 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendVideoNote.getDisableNotification() != null) {
                 builder.addTextBody(SendVideoNote.DISABLENOTIFICATION_FIELD, sendVideoNote.getDisableNotification().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
+            if (sendVideoNote.getThumb() != null) {
+                addInputFile(builder, sendVideoNote.getThumb(), SendVideoNote.THUMB_FIELD, false);
+                builder.addTextBody(SendVideoNote.THUMB_FIELD, sendVideoNote.getThumb().getAttachName(), TEXT_PLAIN_CONTENT_TYPE);
+            }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
@@ -344,7 +330,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     }
 
     @Override
-    public final Message sendSticker(SendSticker sendSticker) throws TelegramApiException {
+    public final Message execute(SendSticker sendSticker) throws TelegramApiException {
         assertParamNotNull(sendSticker, "sendSticker");
 
         sendSticker.validate();
@@ -356,17 +342,8 @@ public abstract class DefaultAbsSender extends AbsSender {
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(SendSticker.CHATID_FIELD, sendSticker.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
-            if (sendSticker.isNewSticker()) {
-                if (sendSticker.getNewStickerFile() != null) {
-                    builder.addBinaryBody(SendSticker.STICKER_FIELD, sendSticker.getNewStickerFile());
-                } else if (sendSticker.getNewStickerStream() != null) {
-                    builder.addBinaryBody(SendSticker.STICKER_FIELD, sendSticker.getNewStickerStream(), ContentType.APPLICATION_OCTET_STREAM, sendSticker.getStickerName());
-                } else {
-                    builder.addBinaryBody(SendSticker.STICKER_FIELD, new java.io.File(sendSticker.getSticker()), ContentType.APPLICATION_OCTET_STREAM, sendSticker.getStickerName());
-                }
-            } else {
-                builder.addTextBody(SendSticker.STICKER_FIELD, sendSticker.getSticker(), TEXT_PLAIN_CONTENT_TYPE);
-            }
+            addInputFile(builder, sendSticker.getSticker(), SendSticker.STICKER_FIELD, true);
+
             if (sendSticker.getReplyMarkup() != null) {
                 builder.addTextBody(SendSticker.REPLYMARKUP_FIELD, objectMapper.writeValueAsString(sendSticker.getReplyMarkup()), TEXT_PLAIN_CONTENT_TYPE);
             }
@@ -392,7 +369,7 @@ public abstract class DefaultAbsSender extends AbsSender {
      * @throws TelegramApiException If there is any error sending the audio
      */
     @Override
-    public final Message sendAudio(SendAudio sendAudio) throws TelegramApiException {
+    public final Message execute(SendAudio sendAudio) throws TelegramApiException {
         assertParamNotNull(sendAudio, "sendAudio");
         sendAudio.validate();
         try {
@@ -402,17 +379,8 @@ public abstract class DefaultAbsSender extends AbsSender {
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(SendAudio.CHATID_FIELD, sendAudio.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
-            if (sendAudio.isNewAudio()) {
-                if (sendAudio.getNewAudioFile() != null) {
-                    builder.addBinaryBody(SendAudio.AUDIO_FIELD, sendAudio.getNewAudioFile());
-                } else if (sendAudio.getNewAudioStream() != null) {
-                    builder.addBinaryBody(SendAudio.AUDIO_FIELD, sendAudio.getNewAudioStream(), ContentType.APPLICATION_OCTET_STREAM, sendAudio.getAudioName());
-                } else {
-                    builder.addBinaryBody(SendAudio.AUDIO_FIELD, new java.io.File(sendAudio.getAudio()), ContentType.create("audio/mpeg"), sendAudio.getAudioName());
-                }
-            } else {
-                builder.addTextBody(SendAudio.AUDIO_FIELD, sendAudio.getAudio());
-            }
+            addInputFile(builder, sendAudio.getAudio(), SendAudio.AUDIO_FIELD, true);
+
             if (sendAudio.getReplyMarkup() != null) {
                 builder.addTextBody(SendAudio.REPLYMARKUP_FIELD, objectMapper.writeValueAsString(sendAudio.getReplyMarkup()), TEXT_PLAIN_CONTENT_TYPE);
             }
@@ -437,6 +405,11 @@ public abstract class DefaultAbsSender extends AbsSender {
                     builder.addTextBody(SendAudio.PARSEMODE_FIELD, sendAudio.getParseMode(), TEXT_PLAIN_CONTENT_TYPE);
                 }
             }
+            if (sendAudio.getThumb() != null) {
+                addInputFile(builder, sendAudio.getThumb(), SendAudio.THUMB_FIELD, false);
+                builder.addTextBody(SendAudio.THUMB_FIELD, sendAudio.getThumb().getAttachName(), TEXT_PLAIN_CONTENT_TYPE);
+            }
+
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
@@ -455,7 +428,7 @@ public abstract class DefaultAbsSender extends AbsSender {
      * @throws TelegramApiException If there is any error sending the audio
      */
     @Override
-    public final Message sendVoice(SendVoice sendVoice) throws TelegramApiException {
+    public final Message execute(SendVoice sendVoice) throws TelegramApiException {
         assertParamNotNull(sendVoice, "sendVoice");
         sendVoice.validate();
         try {
@@ -465,17 +438,8 @@ public abstract class DefaultAbsSender extends AbsSender {
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(SendVoice.CHATID_FIELD, sendVoice.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
-            if (sendVoice.isNewVoice()) {
-                if (sendVoice.getNewVoiceFile() != null) {
-                    builder.addBinaryBody(SendVoice.VOICE_FIELD, sendVoice.getNewVoiceFile());
-                } else if (sendVoice.getNewVoiceStream() != null) {
-                    builder.addBinaryBody(SendVoice.VOICE_FIELD, sendVoice.getNewVoiceStream(), ContentType.APPLICATION_OCTET_STREAM, sendVoice.getVoiceName());
-                } else {
-                    builder.addBinaryBody(SendVoice.VOICE_FIELD, new java.io.File(sendVoice.getVoice()), ContentType.create("audio/ogg"), sendVoice.getVoiceName());
-                }
-            } else {
-                builder.addTextBody(SendVoice.VOICE_FIELD, sendVoice.getVoice(), TEXT_PLAIN_CONTENT_TYPE);
-            }
+            addInputFile(builder, sendVoice.getVoice(), SendVoice.VOICE_FIELD, true);
+
             if (sendVoice.getReplyMarkup() != null) {
                 builder.addTextBody(SendVoice.REPLYMARKUP_FIELD, objectMapper.writeValueAsString(sendVoice.getReplyMarkup()), TEXT_PLAIN_CONTENT_TYPE);
             }
@@ -504,7 +468,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     }
 
     @Override
-    public Boolean setChatPhoto(SetChatPhoto setChatPhoto) throws TelegramApiException {
+    public Boolean execute(SetChatPhoto setChatPhoto) throws TelegramApiException {
         assertParamNotNull(setChatPhoto, "setChatPhoto");
         setChatPhoto.validate();
 
@@ -531,7 +495,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     }
 
     @Override
-    public List<Message> sendMediaGroup(SendMediaGroup sendMediaGroup) throws TelegramApiException {
+    public List<Message> execute(SendMediaGroup sendMediaGroup) throws TelegramApiException {
         assertParamNotNull(sendMediaGroup, "sendMediaGroup");
         sendMediaGroup.validate();
 
@@ -543,17 +507,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(SendMediaGroup.CHATID_FIELD, sendMediaGroup.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
-            builder.addTextBody(SendMediaGroup.MEDIA_FIELD, objectMapper.writeValueAsString(sendMediaGroup.getMedia()), TEXT_PLAIN_CONTENT_TYPE);
-
-            for (InputMedia inputMedia : sendMediaGroup.getMedia()) {
-                if (inputMedia.isNewMedia()) {
-                    if (inputMedia.getMediaFile() != null) {
-                        builder.addBinaryBody(inputMedia.getMediaName(), inputMedia.getMediaFile(), ContentType.APPLICATION_OCTET_STREAM, inputMedia.getMediaName());
-                    } else if (inputMedia.getNewMediaStream() != null) {
-                        builder.addBinaryBody(inputMedia.getMediaName(), inputMedia.getNewMediaStream(), ContentType.APPLICATION_OCTET_STREAM, inputMedia.getMediaName());
-                    }
-                }
-            }
+            addInputData(builder, sendMediaGroup.getMedia(), SendMediaGroup.MEDIA_FIELD);
 
             if (sendMediaGroup.getDisableNotification() != null) {
                 builder.addTextBody(SendMediaGroup.DISABLENOTIFICATION_FIELD, sendMediaGroup.getDisableNotification().toString(), TEXT_PLAIN_CONTENT_TYPE);
@@ -573,9 +527,8 @@ public abstract class DefaultAbsSender extends AbsSender {
         }
     }
 
-
     @Override
-    public Boolean addStickerToSet(AddStickerToSet addStickerToSet) throws TelegramApiException {
+    public Boolean execute(AddStickerToSet addStickerToSet) throws TelegramApiException {
         assertParamNotNull(addStickerToSet, "addStickerToSet");
         addStickerToSet.validate();
         try {
@@ -587,17 +540,8 @@ public abstract class DefaultAbsSender extends AbsSender {
             builder.addTextBody(AddStickerToSet.USERID_FIELD, addStickerToSet.getUserId().toString(), TEXT_PLAIN_CONTENT_TYPE);
             builder.addTextBody(AddStickerToSet.NAME_FIELD, addStickerToSet.getName(), TEXT_PLAIN_CONTENT_TYPE);
             builder.addTextBody(AddStickerToSet.EMOJIS_FIELD, addStickerToSet.getEmojis(), TEXT_PLAIN_CONTENT_TYPE);
-            if (addStickerToSet.isNewPngSticker()) {
-                if (addStickerToSet.getPngStickerFile() != null) {
-                    builder.addBinaryBody(AddStickerToSet.PNGSTICKER_FIELD, addStickerToSet.getPngStickerFile());
-                } else if (addStickerToSet.getPngStickerStream() != null) {
-                    builder.addBinaryBody(AddStickerToSet.PNGSTICKER_FIELD, addStickerToSet.getPngStickerStream(), ContentType.APPLICATION_OCTET_STREAM, addStickerToSet.getPngStickerName());
-                } else {
-                    builder.addBinaryBody(AddStickerToSet.PNGSTICKER_FIELD, new java.io.File(addStickerToSet.getPngSticker()), ContentType.create("image/png"), addStickerToSet.getPngStickerName());
-                }
-            } else {
-                builder.addTextBody(AddStickerToSet.PNGSTICKER_FIELD, addStickerToSet.getPngSticker(), TEXT_PLAIN_CONTENT_TYPE);
-            }
+            addInputFile(builder, addStickerToSet.getPngSticker(), AddStickerToSet.PNGSTICKER_FIELD, true);
+
             if (addStickerToSet.getMaskPosition() != null) {
                 builder.addTextBody(AddStickerToSet.MASKPOSITION_FIELD, objectMapper.writeValueAsString(addStickerToSet.getMaskPosition()), TEXT_PLAIN_CONTENT_TYPE);
             }
@@ -611,7 +555,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     }
 
     @Override
-    public Boolean createNewStickerSet(CreateNewStickerSet createNewStickerSet) throws TelegramApiException {
+    public Boolean execute(CreateNewStickerSet createNewStickerSet) throws TelegramApiException {
         assertParamNotNull(createNewStickerSet, "createNewStickerSet");
         createNewStickerSet.validate();
         try {
@@ -625,17 +569,8 @@ public abstract class DefaultAbsSender extends AbsSender {
             builder.addTextBody(CreateNewStickerSet.TITLE_FIELD, createNewStickerSet.getTitle(), TEXT_PLAIN_CONTENT_TYPE);
             builder.addTextBody(CreateNewStickerSet.EMOJIS_FIELD, createNewStickerSet.getEmojis(), TEXT_PLAIN_CONTENT_TYPE);
             builder.addTextBody(CreateNewStickerSet.CONTAINSMASKS_FIELD, createNewStickerSet.getContainsMasks().toString(), TEXT_PLAIN_CONTENT_TYPE);
-            if (createNewStickerSet.isNewPngSticker()) {
-                if (createNewStickerSet.getPngStickerFile() != null) {
-                    builder.addBinaryBody(CreateNewStickerSet.PNGSTICKER_FIELD, createNewStickerSet.getPngStickerFile());
-                } else if (createNewStickerSet.getPngStickerStream() != null) {
-                    builder.addBinaryBody(CreateNewStickerSet.PNGSTICKER_FIELD, createNewStickerSet.getPngStickerStream(), ContentType.APPLICATION_OCTET_STREAM, createNewStickerSet.getPngStickerName());
-                } else {
-                    builder.addBinaryBody(CreateNewStickerSet.PNGSTICKER_FIELD, new java.io.File(createNewStickerSet.getPngSticker()), ContentType.create("image/png"), createNewStickerSet.getPngStickerName());
-                }
-            } else {
-                builder.addTextBody(CreateNewStickerSet.PNGSTICKER_FIELD, createNewStickerSet.getPngSticker(), TEXT_PLAIN_CONTENT_TYPE);
-            }
+            addInputFile(builder, createNewStickerSet.getPngSticker(), CreateNewStickerSet.PNGSTICKER_FIELD, true);
+
             if (createNewStickerSet.getMaskPosition() != null) {
                 builder.addTextBody(CreateNewStickerSet.MASKPOSITION_FIELD, objectMapper.writeValueAsString(createNewStickerSet.getMaskPosition()), TEXT_PLAIN_CONTENT_TYPE);
             }
@@ -649,7 +584,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     }
 
     @Override
-    public File uploadStickerFile(UploadStickerFile uploadStickerFile) throws TelegramApiException {
+    public File execute(UploadStickerFile uploadStickerFile) throws TelegramApiException {
         assertParamNotNull(uploadStickerFile, "uploadStickerFile");
         uploadStickerFile.validate();
         try {
@@ -659,17 +594,45 @@ public abstract class DefaultAbsSender extends AbsSender {
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(UploadStickerFile.USERID_FIELD, uploadStickerFile.getUserId().toString(), TEXT_PLAIN_CONTENT_TYPE);
-            if (uploadStickerFile.getNewPngStickerFile() != null) {
-                builder.addBinaryBody(UploadStickerFile.PNGSTICKER_FIELD, uploadStickerFile.getNewPngStickerFile());
-            } else if (uploadStickerFile.getNewPngStickerStream() != null) {
-                builder.addBinaryBody(UploadStickerFile.PNGSTICKER_FIELD, uploadStickerFile.getNewPngStickerStream(), ContentType.APPLICATION_OCTET_STREAM, uploadStickerFile.getNewPngStickerName());
-            }
+            addInputFile(builder, uploadStickerFile.getPngSticker(), UploadStickerFile.PNGSTICKER_FIELD, true);
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
             return uploadStickerFile.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
             throw new TelegramApiException("Unable to upload new sticker file", e);
+        }
+    }
+
+    @Override
+    public Serializable execute(EditMessageMedia editMessageMedia) throws TelegramApiException {
+        assertParamNotNull(editMessageMedia, "editMessageMedia");
+        editMessageMedia.validate();
+        try {
+            String url = getBaseUrl() + EditMessageMedia.PATH;
+            HttpPost httppost = configuredHttpPost(url);
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setLaxMode();
+            builder.setCharset(StandardCharsets.UTF_8);
+            if (editMessageMedia.getInlineMessageId() == null) {
+                builder.addTextBody(EditMessageMedia.CHATID_FIELD, editMessageMedia.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
+                builder.addTextBody(EditMessageMedia.MESSAGEID_FIELD, editMessageMedia.getMessageId().toString(), TEXT_PLAIN_CONTENT_TYPE);
+
+            } else {
+                builder.addTextBody(EditMessageMedia.INLINE_MESSAGE_ID_FIELD, editMessageMedia.getInlineMessageId(), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (editMessageMedia.getReplyMarkup() != null) {
+                builder.addTextBody(EditMessageMedia.REPLYMARKUP_FIELD, objectMapper.writeValueAsString(editMessageMedia.getReplyMarkup()), TEXT_PLAIN_CONTENT_TYPE);
+            }
+
+            addInputData(builder, editMessageMedia.getMedia(), EditMessageMedia.MEDIA_FIELD, true);
+
+            HttpEntity multipart = builder.build();
+            httppost.setEntity(multipart);
+
+            return editMessageMedia.deserializeResponse(sendHttpPostRequest(httppost));
+        } catch (IOException e) {
+            throw new TelegramApiException("Unable to edit message media", e);
         }
     }
 
@@ -759,6 +722,59 @@ public abstract class DefaultAbsSender extends AbsSender {
         HttpPost httppost = new HttpPost(url);
         httppost.setConfig(requestConfig);
         return httppost;
+    }
+
+    private void addInputData(MultipartEntityBuilder builder, InputMedia media, String mediaField, boolean addField) throws JsonProcessingException {
+        if (media.isNewMedia()) {
+            if (media.getMediaFile() != null) {
+                builder.addBinaryBody(media.getMediaName(), media.getMediaFile(), ContentType.APPLICATION_OCTET_STREAM, media.getMediaName());
+            } else if (media.getNewMediaStream() != null) {
+                builder.addBinaryBody(media.getMediaName(), media.getNewMediaStream(), ContentType.APPLICATION_OCTET_STREAM, media.getMediaName());
+            }
+        }
+
+        if (media instanceof InputMediaAudio) {
+            InputMediaAudio audio = (InputMediaAudio) media;
+            if (audio.getThumb() != null) {
+                addInputFile(builder, audio.getThumb(), InputMediaAudio.THUMB_FIELD, false);
+            }
+        } else if (media instanceof InputMediaDocument) {
+            InputMediaDocument document = (InputMediaDocument) media;
+            if (document.getThumb() != null) {
+                addInputFile(builder, document.getThumb(), InputMediaDocument.THUMB_FIELD, false);
+            }
+        } else if (media instanceof InputMediaVideo) {
+            InputMediaVideo video = (InputMediaVideo) media;
+            if (video.getThumb() != null) {
+                addInputFile(builder, video.getThumb(), InputMediaVideo.THUMB_FIELD, false);
+            }
+        }
+
+        if (addField) {
+            builder.addTextBody(mediaField, objectMapper.writeValueAsString(media), TEXT_PLAIN_CONTENT_TYPE);
+        }
+    }
+
+    private void addInputData(MultipartEntityBuilder builder, List<InputMedia> media, String mediaField) throws JsonProcessingException {
+        for (InputMedia inputMedia : media) {
+            addInputData(builder, inputMedia, null, false);
+        }
+
+        builder.addTextBody(mediaField, objectMapper.writeValueAsString(media), TEXT_PLAIN_CONTENT_TYPE);
+    }
+
+    private void addInputFile(MultipartEntityBuilder builder, InputFile file, String fileField, boolean addField) {
+        if (file.isNew()) {
+            if (file.getNewMediaFile() != null) {
+                builder.addBinaryBody(file.getMediaName(), file.getNewMediaFile(), ContentType.APPLICATION_OCTET_STREAM, file.getMediaName());
+            } else if (file.getNewMediaStream() != null) {
+                builder.addBinaryBody(file.getMediaName(), file.getNewMediaStream(), ContentType.APPLICATION_OCTET_STREAM, file.getMediaName());
+            }
+        }
+
+        if (addField) {
+            builder.addTextBody(fileField, file.getAttachName(), TEXT_PLAIN_CONTENT_TYPE);
+        }
     }
 
     protected String getBaseUrl() {

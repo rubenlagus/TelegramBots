@@ -2,6 +2,7 @@ package org.telegram.telegrambots.meta.api.objects.media;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.telegram.telegrambots.meta.api.interfaces.InputBotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -13,23 +14,25 @@ import java.io.InputStream;
  * @author Ruben Bermudez
  * @version 3.5
  */
+@SuppressWarnings({"WeakerAccess", "unchecked"})
+@JsonSerialize(using = InputMediaSerializer.class)
 public abstract class InputMedia<T> implements InputBotApiObject, Validable {
-    protected static final String TYPE_FIELD = "type";
-    private static final String MEDIA_FIELD = "media";
-    private static final String CAPTION_FIELD = "caption";
-    private static final String PARSEMODE_FIELD = "parse_mode";
+    public static final String TYPE_FIELD = "type";
+    public static final String MEDIA_FIELD = "media";
+    public static final String CAPTION_FIELD = "caption";
+    public static final String PARSEMODE_FIELD = "parse_mode";
 
-    @JsonProperty(MEDIA_FIELD)
     /**
      * File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended),
      * pass an HTTP URL for Telegram to get a file from the Internet, or pass "attach://<file_attach_name>"
      * to upload a new one using multipart/form-data under <file_attach_name> name.
      */
+    @JsonProperty(MEDIA_FIELD)
     private String media;
     @JsonProperty(CAPTION_FIELD)
     private String caption; ///< Optional. Caption of the media to be sent, 0-200 characters
     @JsonProperty(PARSEMODE_FIELD)
-    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+    private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
     @JsonIgnore
     private boolean isNewMedia; ///< True to upload a new media, false to use a fileId or URL
     @JsonIgnore
@@ -140,4 +143,17 @@ public abstract class InputMedia<T> implements InputBotApiObject, Validable {
 
     @JsonProperty(TYPE_FIELD)
     public abstract String getType();
+
+    @Override
+    public String toString() {
+        return "InputMedia{" +
+                "media='" + media + '\'' +
+                ", caption='" + caption + '\'' +
+                ", parseMode='" + parseMode + '\'' +
+                ", isNewMedia=" + isNewMedia +
+                ", mediaName='" + mediaName + '\'' +
+                ", newMediaFile=" + newMediaFile +
+                ", newMediaStream=" + newMediaStream +
+                '}';
+    }
 }

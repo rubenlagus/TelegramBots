@@ -8,12 +8,11 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief This object represents one special entity in a text message. For example, hashtags,
+ * This object represents one special entity in a text message. For example, hashtags,
  * usernames, URL.
- * @date 20 of June of 2015
  */
+@SuppressWarnings("WeakerAccess")
 public class MessageEntity implements BotApiObject {
-
     private static final String TYPE_FIELD = "type";
     private static final String OFFSET_FIELD = "offset";
     private static final String LENGTH_FIELD = "length";
@@ -23,9 +22,11 @@ public class MessageEntity implements BotApiObject {
      * Type of the entity. One of
      * mention (@username),
      * hashtag,
+     * cashtag
      * bot_command,
      * url,
      * email,
+     * phone_number,
      * bold (bold text),
      * italic (italic text),
      * code (monowidth string),

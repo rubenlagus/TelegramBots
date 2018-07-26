@@ -1,3 +1,9 @@
+### <a id="4.0.0"></a>To version 4.0.0 ###
+1. Replace removed method from AbsSender with `execute` requests.
+2. Everything under "Telegrambots-meta" has been moved to package `org.telegram.telegrambots.meta`.
+3. `close` method has been removed from `BotSession`, use `stop` instead.
+4. All methods that are intended to upload files are using now `InputMedia` and `InputFile`.
+
 ### <a id="2.4.3"></a>To version 2.4.3 ###
 1. Replace `BotOptions` by `DefaultBotOptions`.
 2. At the beginning of your program (before creating your `TelegramBotsApi` or `Bot` instance, add the following line:

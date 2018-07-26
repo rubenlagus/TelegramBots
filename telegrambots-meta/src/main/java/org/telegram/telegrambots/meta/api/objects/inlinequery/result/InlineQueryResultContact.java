@@ -9,12 +9,11 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Represents a contact with a phone number. By default, this contact will be sent by the
+ * Represents a contact with a phone number. By default, this contact will be sent by the
  * user. Alternatively, you can use input_message_content to send a message with the specified
  * content instead of the contact.
  * @note This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * ignore them.
- * @date 10 of April of 2016
  */
 public class InlineQueryResultContact implements InlineQueryResult {
 
@@ -28,6 +27,7 @@ public class InlineQueryResultContact implements InlineQueryResult {
     private static final String THUMBURL_FIELD = "thumb_url";
     private static final String THUMBWIDTH_FIELD = "thumb_width";
     private static final String THUMBHEIGHT_FIELD = "thumb_height";
+    private static final String VCARD_FIELD = "vcard";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "contact"; ///< Type of the result, must be "contact"
@@ -49,6 +49,8 @@ public class InlineQueryResultContact implements InlineQueryResult {
     private Integer thumbWidth; ///< Optional. Thumbnail width
     @JsonProperty(THUMBHEIGHT_FIELD)
     private Integer thumbHeight; ///< Optional. Thumbnail height
+    @JsonProperty(VCARD_FIELD)
+    private String vCard; ///< Optional. Additional data about the contact in the form of a vCard, 0-2048 bytes
 
     public InlineQueryResultContact() {
         super();
@@ -139,6 +141,15 @@ public class InlineQueryResultContact implements InlineQueryResult {
         return this;
     }
 
+    public String getvCard() {
+        return vCard;
+    }
+
+    public InlineQueryResultContact setvCard(String vCard) {
+        this.vCard = vCard;
+        return this;
+    }
+
     @Override
     public void validate() throws TelegramApiValidationException {
         if (id == null || id.isEmpty()) {
@@ -165,12 +176,13 @@ public class InlineQueryResultContact implements InlineQueryResult {
                 ", id='" + id + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", firstName='" + firstName + '\'' +
-                ", thumbHeight=" + thumbHeight +
-                ", thumbWidth=" + thumbWidth +
-                ", thumbUrl='" + thumbUrl + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
-                ", replyMarkup='" + replyMarkup + '\'' +
+                ", replyMarkup=" + replyMarkup +
+                ", inputMessageContent=" + inputMessageContent +
+                ", thumbUrl='" + thumbUrl + '\'' +
+                ", thumbWidth=" + thumbWidth +
+                ", thumbHeight=" + thumbHeight +
+                ", vCard='" + vCard + '\'' +
                 '}';
     }
 }

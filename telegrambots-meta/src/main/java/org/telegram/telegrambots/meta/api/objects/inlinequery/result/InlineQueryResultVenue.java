@@ -9,11 +9,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Represents a venue. By default, the venue will be sent by the user. Alternatively, you can
+ * Represents a venue. By default, the venue will be sent by the user. Alternatively, you can
  * use input_message_content to send a message with the specified content instead of the venue.
  * @note This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * ignore them.
- * @date 10 of April of 2016
  */
 public class InlineQueryResultVenue implements InlineQueryResult {
 
@@ -23,12 +22,14 @@ public class InlineQueryResultVenue implements InlineQueryResult {
     private static final String LATITUDE_FIELD = "latitude";
     private static final String LONGITUDE_FIELD = "longitude";
     private static final String ADDRESS_FIELD = "address";
-    private static final String FOURSQUARE_ID_FIELD = "foursquare_id";
+    private static final String FOURSQUAREID_FIELD = "foursquare_id";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String THUMBURL_FIELD = "thumb_url";
     private static final String THUMBWIDTH_FIELD = "thumb_width";
     private static final String THUMBHEIGHT_FIELD = "thumb_height";
+    private static final String FOURSQUARETYPE_FIELD = "foursquare_type";
+
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "venue"; ///< Type of the result, must be "venue"
@@ -42,7 +43,7 @@ public class InlineQueryResultVenue implements InlineQueryResult {
     private Float longitude; ///< Venue longitude in degrees
     @JsonProperty(ADDRESS_FIELD)
     private String address; ///< Address of the venue
-    @JsonProperty(FOURSQUARE_ID_FIELD)
+    @JsonProperty(FOURSQUAREID_FIELD)
     private String foursquareId; ///< Optional. Foursquare identifier of the venue if known
     @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
@@ -54,6 +55,8 @@ public class InlineQueryResultVenue implements InlineQueryResult {
     private Integer thumbWidth; ///< Optional. Thumbnail width
     @JsonProperty(THUMBHEIGHT_FIELD)
     private Integer thumbHeight; ///< Optional. Thumbnail height
+    @JsonProperty(FOURSQUARETYPE_FIELD)
+    private String foursquareType; ///< Optional. Foursquare type of the venue, if known.
 
     public InlineQueryResultVenue() {
         super();
@@ -162,6 +165,15 @@ public class InlineQueryResultVenue implements InlineQueryResult {
         return this;
     }
 
+    public String getFoursquareType() {
+        return foursquareType;
+    }
+
+    public InlineQueryResultVenue setFoursquareType(String foursquareType) {
+        this.foursquareType = foursquareType;
+        return this;
+    }
+
     @Override
     public void validate() throws TelegramApiValidationException {
         if (id == null || id.isEmpty()) {
@@ -193,16 +205,17 @@ public class InlineQueryResultVenue implements InlineQueryResult {
         return "InlineQueryResultVenue{" +
                 "type='" + type + '\'' +
                 ", id='" + id + '\'' +
-                ", mimeType='" + latitude + '\'' +
-                ", documentUrl='" + longitude + '\'' +
-                ", thumbHeight=" + thumbHeight +
-                ", thumbWidth=" + thumbWidth +
-                ", thumbUrl='" + thumbUrl + '\'' +
                 ", title='" + title + '\'' +
-                ", foursquareId='" + foursquareId + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
                 ", address='" + address + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
-                ", replyMarkup='" + replyMarkup + '\'' +
+                ", foursquareId='" + foursquareId + '\'' +
+                ", replyMarkup=" + replyMarkup +
+                ", inputMessageContent=" + inputMessageContent +
+                ", thumbUrl='" + thumbUrl + '\'' +
+                ", thumbWidth=" + thumbWidth +
+                ", thumbHeight=" + thumbHeight +
+                ", foursquareType='" + foursquareType + '\'' +
                 '}';
     }
 }

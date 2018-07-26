@@ -1,8 +1,8 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -34,18 +34,13 @@ public class SendVoice extends PartialBotApiMethod<Message> {
     public static final String PARSEMODE_FIELD = "parse_mode";
 
     private String chatId; ///< Unique identifier for the chat sent message to (Or username for channels)
-    private String voice; ///< Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.
+    private InputFile voice; ///< Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
     private Integer duration; ///< Optional. Duration of sent audio in seconds
     private String caption; ///< Optional. Voice caption (may also be used when resending videos by file_id).
     private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
-
-    private boolean isNewVoice; ///< True to upload a new voice note, false to use a fileId
-    private String voiceName; ///< Name of the voice note
-    private File newVoiceFile; ///< New voice note file
-    private InputStream newVoiceStream; ///< New voice note stream
 
     public SendVoice() {
         super();
@@ -80,28 +75,32 @@ public class SendVoice extends PartialBotApiMethod<Message> {
         return this;
     }
 
-    public String getVoice() {
+    public InputFile getVoice() {
         return voice;
     }
 
     public SendVoice setVoice(String voice) {
+        Objects.requireNonNull(voice, "voice cannot be null!");
+        this.voice = new InputFile(voice);
+        return this;
+    }
+
+    public SendVoice setVoice(File voice) {
+        Objects.requireNonNull(voice, "voice cannot be null!");
+        this.voice = new InputFile(voice, voice.getName());
+        return this;
+    }
+
+    public SendVoice setVoice(InputFile voice) {
+        Objects.requireNonNull(voice, "voice cannot be null!");
         this.voice = voice;
-        this.isNewVoice = false;
         return this;
     }
 
-    public SendVoice setNewVoice(File file) {
-        this.isNewVoice = true;
-        this.newVoiceFile = file;
-        return this;
-    }
-
-    public SendVoice setNewVoice(String voiceName, InputStream inputStream) {
+    public SendVoice setVoice(String voiceName, InputStream inputStream) {
     	Objects.requireNonNull(voiceName, "voiceName cannot be null!");
     	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
-    	this.voiceName = voiceName;
-        this.isNewVoice = true;
-        this.newVoiceStream = inputStream;
+    	this.voice = new InputFile(inputStream, voiceName);
         return this;
     }
 
@@ -130,22 +129,6 @@ public class SendVoice extends PartialBotApiMethod<Message> {
     public SendVoice setDuration(Integer duration) {
         this.duration = duration;
         return this;
-    }
-
-    public boolean isNewVoice() {
-        return isNewVoice;
-    }
-
-    public String getVoiceName() {
-        return voiceName;
-    }
-
-    public File getNewVoiceFile() {
-        return newVoiceFile;
-    }
-
-    public InputStream getNewVoiceStream() {
-        return newVoiceStream;
     }
 
     public String getCaption() {
@@ -187,16 +170,11 @@ public class SendVoice extends PartialBotApiMethod<Message> {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
 
-        if (isNewVoice) {
-            if (newVoiceFile == null && newVoiceStream == null) {
-                throw new TelegramApiValidationException("Voice can't be empty", this);
-            }
-            if (newVoiceStream != null && (voiceName == null || voiceName.isEmpty())) {
-                throw new TelegramApiValidationException("Voice name can't be empty", this);
-            }
-        } else if (voice == null) {
-            throw new TelegramApiValidationException("Voice can't be empty", this);
+        if (voice == null) {
+            throw new TelegramApiValidationException("Voice parameter can't be empty", this);
         }
+
+        voice.validate();
 
         if (replyMarkup != null) {
             replyMarkup.validate();
@@ -207,17 +185,13 @@ public class SendVoice extends PartialBotApiMethod<Message> {
     public String toString() {
         return "SendVoice{" +
                 "chatId='" + chatId + '\'' +
-                ", voice='" + voice + '\'' +
+                ", voice=" + voice +
                 ", disableNotification=" + disableNotification +
                 ", replyToMessageId=" + replyToMessageId +
                 ", replyMarkup=" + replyMarkup +
                 ", duration=" + duration +
                 ", caption='" + caption + '\'' +
                 ", parseMode='" + parseMode + '\'' +
-                ", isNewVoice=" + isNewVoice +
-                ", voiceName='" + voiceName + '\'' +
-                ", newVoiceFile=" + newVoiceFile +
-                ", newVoiceStream=" + newVoiceStream +
                 '}';
     }
 }

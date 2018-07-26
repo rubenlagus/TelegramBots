@@ -29,4 +29,9 @@ public class InputMediaPhoto extends InputMedia<InputMediaPhoto> {
     public void validate() throws TelegramApiValidationException {
         super.validate();
     }
+
+    @Override
+    public String toString() {
+        return "InputMediaPhoto{} " + super.toString();
+    }
 }

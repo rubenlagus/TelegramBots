@@ -7,8 +7,7 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief This object represents a phone contact.
- * @date 20 of June of 2015
+ * This object represents a phone contact.
  */
 public class Contact implements BotApiObject {
 
@@ -16,6 +15,7 @@ public class Contact implements BotApiObject {
     private static final String FIRSTNAME_FIELD = "first_name";
     private static final String LASTNAME_FIELD = "last_name";
     private static final String USERID_FIELD = "user_id";
+    private static final String VCARD_FIELD = "vcard";
 
     @JsonProperty(PHONENUMBER_FIELD)
     private String phoneNumber; ///< Contact's phone number
@@ -25,6 +25,8 @@ public class Contact implements BotApiObject {
     private String lastName; ///< Optional. Contact's last name
     @JsonProperty(USERID_FIELD)
     private Integer userID; ///< Optional. Contact's user identifier in Telegram
+    @JsonProperty(VCARD_FIELD)
+    private String vCard; ///< Optional. Additional data about the contact in the form of a vCard
 
     public Contact() {
         super();
@@ -46,6 +48,10 @@ public class Contact implements BotApiObject {
         return userID;
     }
 
+    public String getVCard() {
+        return vCard;
+    }
+
     @Override
     public String toString() {
         return "Contact{" +
@@ -53,6 +59,7 @@ public class Contact implements BotApiObject {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", userID=" + userID +
+                ", vCard=" + vCard +
                 '}';
     }
 }

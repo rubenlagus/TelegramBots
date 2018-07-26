@@ -1,3 +1,13 @@
+### <a id="4.0.0"></a>4.0.0 ###
+1. Support for Api Version [4.0](https://core.telegram.org/bots/api-changelog#july-26-2018)
+2. Abilities: Internationalization
+3. Socks 5 support
+4. Improved spring boot start configuration
+5. Removed previously deprecated methods
+6. Support usage in Java 9 (library is still using java 8)
+
+**[[How to update to version 4.0.0|How-To-Update#4.0.0]]**
+
 ### <a id="3.6.1"></a>3.6.1 ###
 1. Support for proxy connections
 2. New module for Spring

@@ -1,8 +1,8 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -31,17 +31,12 @@ public class SendPhoto extends PartialBotApiMethod<Message> {
     public static final String PARSEMODE_FIELD = "parse_mode";
 
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
-    private String photo; ///< Photo to send. file_id as String to resend a photo that is already on the Telegram servers or URL to upload it
+    private InputFile photo; ///< Photo to send. file_id as String to resend a photo that is already on the Telegram servers or URL to upload it
     private String caption; ///< Optional Photo caption (may also be used when resending photos by file_id).
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
     private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
-
-    private boolean isNewPhoto; ///< True if the photo must be uploaded from a file, file if it is a fileId
-    private String photoName; ///< Name of the photo
-    private File newPhotoFile; // New photo file
-    private InputStream newPhotoStream; // New photo stream
 
     public SendPhoto() {
         super();
@@ -62,13 +57,12 @@ public class SendPhoto extends PartialBotApiMethod<Message> {
         return this;
     }
 
-    public String getPhoto() {
+    public InputFile getPhoto() {
         return photo;
     }
 
     public SendPhoto setPhoto(String photo) {
-        this.photo = photo;
-        this.isNewPhoto = false;
+        this.photo = new InputFile(photo);
         return this;
     }
 
@@ -99,22 +93,6 @@ public class SendPhoto extends PartialBotApiMethod<Message> {
         return this;
     }
 
-    public boolean isNewPhoto() {
-        return isNewPhoto;
-    }
-
-    public String getPhotoName() {
-        return photoName;
-    }
-
-    public File getNewPhotoFile() {
-        return newPhotoFile;
-    }
-
-    public InputStream getNewPhotoStream() {
-        return newPhotoStream;
-    }
-
     public Boolean getDisableNotification() {
         return disableNotification;
     }
@@ -129,18 +107,22 @@ public class SendPhoto extends PartialBotApiMethod<Message> {
         return this;
     }
 
-    public SendPhoto setNewPhoto(File file) {
-        this.newPhotoFile = file;
-        this.isNewPhoto = true;
+    public SendPhoto setPhoto(File file) {
+        Objects.requireNonNull(file, "file cannot be null!");
+        this.photo = new InputFile(file, file.getName());
         return this;
     }
 
-    public SendPhoto setNewPhoto(String photoName, InputStream inputStream) {
+    public SendPhoto setPhoto(InputFile photo) {
+        Objects.requireNonNull(photo, "photo cannot be null!");
+        this.photo = photo;
+        return this;
+    }
+
+    public SendPhoto setPhoto(String photoName, InputStream inputStream) {
     	Objects.requireNonNull(photoName, "photoName cannot be null!");
     	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
-    	this.photoName = photoName;
-        this.newPhotoStream = inputStream;
-        this.isNewPhoto = true;
+    	this.photo = new InputFile(inputStream, photoName);
         return this;
     }
 
@@ -174,16 +156,12 @@ public class SendPhoto extends PartialBotApiMethod<Message> {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
 
-        if (isNewPhoto) {
-            if (newPhotoFile == null && newPhotoStream == null) {
-                throw new TelegramApiValidationException("Photo can't be empty", this);
-            }
-            if (newPhotoStream != null && (photoName == null || photoName.isEmpty())) {
-                throw new TelegramApiValidationException("Photo name can't be empty", this);
-            }
-        } else if (photo == null) {
-            throw new TelegramApiValidationException("Photo can't be empty", this);
+        if (photo == null) {
+            throw new TelegramApiValidationException("Photo parameter can't be empty", this);
         }
+
+        photo.validate();
+
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
@@ -193,16 +171,12 @@ public class SendPhoto extends PartialBotApiMethod<Message> {
     public String toString() {
         return "SendPhoto{" +
                 "chatId='" + chatId + '\'' +
-                ", photo='" + photo + '\'' +
+                ", photo=" + photo +
                 ", caption='" + caption + '\'' +
                 ", disableNotification=" + disableNotification +
                 ", replyToMessageId=" + replyToMessageId +
                 ", replyMarkup=" + replyMarkup +
                 ", parseMode='" + parseMode + '\'' +
-                ", isNewPhoto=" + isNewPhoto +
-                ", photoName='" + photoName + '\'' +
-                ", newPhotoFile=" + newPhotoFile +
-                ", newPhotoStream=" + newPhotoStream +
                 '}';
     }
 }

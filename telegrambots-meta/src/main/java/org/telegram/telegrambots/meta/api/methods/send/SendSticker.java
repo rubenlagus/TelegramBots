@@ -1,8 +1,8 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -17,8 +17,7 @@ import java.util.Objects;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Use this method to send .webp stickers. On success, the sent Message is returned.
- * @date 20 of June of 2015
+ * Use this method to send .webp stickers. On success, the sent Message is returned.
  */
 public class SendSticker extends PartialBotApiMethod<Message> {
     public static final String PATH = "sendsticker";
@@ -29,15 +28,10 @@ public class SendSticker extends PartialBotApiMethod<Message> {
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     public static final String REPLYMARKUP_FIELD = "reply_markup";
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
-    private String sticker; ///< Sticker file to send. file_id as String to resend a sticker that is already on the Telegram servers or URL to upload it
+    private InputFile sticker; ///< Sticker file to send. file_id as String to resend a sticker that is already on the Telegram servers or URL to upload it
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
-
-    private boolean isNewSticker; ///< True to upload a new sticker, false to use a fileId
-    private String stickerName;
-    private File newStickerFile; ///< New sticker file
-    private InputStream newStickerStream; ///< New sticker stream
 
     public SendSticker() {
         super();
@@ -58,13 +52,12 @@ public class SendSticker extends PartialBotApiMethod<Message> {
         return this;
     }
 
-    public String getSticker() {
+    public InputFile getSticker() {
         return sticker;
     }
 
     public SendSticker setSticker(String sticker) {
-        this.sticker = sticker;
-        this.isNewSticker = false;
+        this.sticker = new InputFile(sticker);
         return this;
     }
 
@@ -86,18 +79,22 @@ public class SendSticker extends PartialBotApiMethod<Message> {
         return this;
     }
 
-    public SendSticker setNewSticker(File file) {
-        this.isNewSticker = true;
-        this.newStickerFile = file;
+    public SendSticker setSticker(InputFile sticker) {
+        Objects.requireNonNull(sticker, "sticker cannot be null!");
+        this.sticker = sticker;
         return this;
     }
 
-    public SendSticker setNewSticker(String stickerName, InputStream inputStream) {
+    public SendSticker setSticker(File file) {
+        Objects.requireNonNull(file, "file cannot be null!");
+        this.sticker = new InputFile(file, file.getName());
+        return this;
+    }
+
+    public SendSticker setSticker(String stickerName, InputStream inputStream) {
     	Objects.requireNonNull(stickerName, "stickerName cannot be null!");
     	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
-    	this.stickerName = stickerName;
-        this.isNewSticker = true;
-        this.newStickerStream = inputStream;
+    	this.sticker = new InputFile(inputStream, stickerName);
         return this;
     }
 
@@ -113,22 +110,6 @@ public class SendSticker extends PartialBotApiMethod<Message> {
     public SendSticker disableNotification() {
         this.disableNotification = true;
         return this;
-    }
-
-    public boolean isNewSticker() {
-        return isNewSticker;
-    }
-
-    public String getStickerName() {
-        return stickerName;
-    }
-
-    public File getNewStickerFile() {
-        return newStickerFile;
-    }
-
-    public InputStream getNewStickerStream() {
-        return newStickerStream;
     }
 
     @Override
@@ -152,16 +133,12 @@ public class SendSticker extends PartialBotApiMethod<Message> {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
 
-        if (isNewSticker) {
-            if (newStickerFile == null && newStickerStream == null) {
-                throw new TelegramApiValidationException("Sticker can't be empty", this);
-            }
-            if (newStickerStream != null && (stickerName == null || stickerName.isEmpty())) {
-                throw new TelegramApiValidationException("Sticker name can't be empty", this);
-            }
-        } else if (sticker == null) {
-            throw new TelegramApiValidationException("Sticker can't be empty", this);
+        if (sticker == null) {
+            throw new TelegramApiValidationException("Sticker parameter can't be empty", this);
         }
+
+        sticker.validate();
+
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
@@ -171,10 +148,10 @@ public class SendSticker extends PartialBotApiMethod<Message> {
     public String toString() {
         return "SendSticker{" +
                 "chatId='" + chatId + '\'' +
-                ", sticker='" + sticker + '\'' +
+                ", sticker=" + sticker +
+                ", disableNotification=" + disableNotification +
                 ", replyToMessageId=" + replyToMessageId +
                 ", replyMarkup=" + replyMarkup +
-                ", isNewSticker=" + isNewSticker +
                 '}';
     }
 }

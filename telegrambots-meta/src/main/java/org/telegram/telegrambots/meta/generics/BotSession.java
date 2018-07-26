@@ -25,11 +25,4 @@ public interface BotSession {
      * @return True if the bot is running, false otherwise
      */
     boolean isRunning();
-
-    /**
-     * @deprecated Use @link{{@link #stop()}} instead
-     */
-    default void close() {
-        this.stop();
-    }
 }

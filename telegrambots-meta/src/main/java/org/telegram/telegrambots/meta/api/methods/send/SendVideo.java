@@ -1,8 +1,8 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -17,9 +17,8 @@ import java.util.Objects;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Use this method to send video files, Telegram clients support mp4 videos (other formats
+ * Use this method to send video files, Telegram clients support mp4 videos (other formats
  * may be sent as Document). On success, the sent Message is returned.
- * @date 20 of June of 2015
  */
 public class SendVideo extends PartialBotApiMethod<Message> {
     public static final String PATH = "sendvideo";
@@ -35,9 +34,10 @@ public class SendVideo extends PartialBotApiMethod<Message> {
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     public static final String REPLYMARKUP_FIELD = "reply_markup";
     public static final String PARSEMODE_FIELD = "parse_mode";
+    public static final String THUMB_FIELD = "thumb";
 
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
-    private String video; ///< Video to send. file_id as String to resend a video that is already on the Telegram servers or URL to upload it
+    private InputFile video; ///< Video to send. file_id as String to resend a video that is already on the Telegram servers or URL to upload it
     private Integer duration; ///< Optional. Duration of sent video in seconds
     private String caption; ///< OptionaL. Video caption (may also be used when resending videos by file_id).
     private Integer width; ///< Optional. Video width
@@ -47,11 +47,14 @@ public class SendVideo extends PartialBotApiMethod<Message> {
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
     private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
-
-    private boolean isNewVideo; ///< True to upload a new video, false to use a fileId
-    private String videoName; ///< Name of the video
-    private File newVideoFile; ///< New video file
-    private InputStream newVideoStream; ///< New video stream
+    /**
+     * Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size.
+     * A thumbnail‘s width and height should not exceed 90.
+     * Ignored if the file is not uploaded using multipart/form-data.
+     * Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>”
+     * if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
+     */
+    private InputFile thumb;
 
     public SendVideo() {
         super();
@@ -66,13 +69,12 @@ public class SendVideo extends PartialBotApiMethod<Message> {
         return this;
     }
 
-    public String getVideo() {
+    public InputFile getVideo() {
         return video;
     }
 
     public SendVideo setVideo(String video) {
-        this.video = video;
-        this.isNewVideo = false;
+        this.video = new InputFile(video);
         return this;
     }
 
@@ -118,22 +120,6 @@ public class SendVideo extends PartialBotApiMethod<Message> {
         return this;
     }
 
-    public boolean isNewVideo() {
-        return isNewVideo;
-    }
-
-    public String getVideoName() {
-        return videoName;
-    }
-
-    public File getNewVideoFile() {
-        return newVideoFile;
-    }
-
-    public InputStream getNewVideoStream() {
-        return newVideoStream;
-    }
-
     public Boolean getDisableNotification() {
         return disableNotification;
     }
@@ -166,18 +152,22 @@ public class SendVideo extends PartialBotApiMethod<Message> {
         return this;
     }
 
-    public SendVideo setNewVideo(File file) {
-        this.isNewVideo = true;
-        this.newVideoFile = file;
+    public SendVideo setVideo(InputFile video) {
+        Objects.requireNonNull(video, "video cannot be null!");
+        this.video = video;
         return this;
     }
 
-    public SendVideo setNewVideo(String videoName, InputStream inputStream) {
+    public SendVideo setVideo(File file) {
+        Objects.requireNonNull(file, "file cannot be null!");
+        this.video = new InputFile(file, file.getName());
+        return this;
+    }
+
+    public SendVideo setVideo(String videoName, InputStream inputStream) {
     	Objects.requireNonNull(videoName, "videoName cannot be null!");
     	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
-    	this.videoName = videoName;
-        this.isNewVideo = true;
-        this.newVideoStream = inputStream;
+    	this.video = new InputFile(inputStream, videoName);
         return this;
     }
 
@@ -196,6 +186,15 @@ public class SendVideo extends PartialBotApiMethod<Message> {
 
     public SendVideo setParseMode(String parseMode) {
         this.parseMode = parseMode;
+        return this;
+    }
+
+    public InputFile getThumb() {
+        return thumb;
+    }
+
+    public SendVideo setThumb(InputFile thumb) {
+        this.thumb = thumb;
         return this;
     }
 
@@ -220,15 +219,14 @@ public class SendVideo extends PartialBotApiMethod<Message> {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
 
-        if (isNewVideo) {
-            if (newVideoFile == null && newVideoStream == null) {
-                throw new TelegramApiValidationException("Video can't be empty", this);
-            }
-            if (newVideoStream != null && (videoName == null || videoName.isEmpty())) {
-                throw new TelegramApiValidationException("Video name can't be empty", this);
-            }
-        } else if (video == null) {
-            throw new TelegramApiValidationException("Video can't be empty", this);
+        if (video == null) {
+            throw new TelegramApiValidationException("Video parameter can't be empty", this);
+        }
+
+        video.validate();
+
+        if (thumb != null) {
+            thumb.validate();
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
@@ -239,12 +237,17 @@ public class SendVideo extends PartialBotApiMethod<Message> {
     public String toString() {
         return "SendVideo{" +
                 "chatId='" + chatId + '\'' +
-                ", video='" + video + '\'' +
+                ", video=" + video +
                 ", duration=" + duration +
                 ", caption='" + caption + '\'' +
+                ", width=" + width +
+                ", height=" + height +
+                ", supportsStreaming=" + supportsStreaming +
+                ", disableNotification=" + disableNotification +
                 ", replyToMessageId=" + replyToMessageId +
                 ", replyMarkup=" + replyMarkup +
-                ", isNewVideo=" + isNewVideo +
+                ", parseMode='" + parseMode + '\'' +
+                ", thumb=" + thumb +
                 '}';
     }
 }

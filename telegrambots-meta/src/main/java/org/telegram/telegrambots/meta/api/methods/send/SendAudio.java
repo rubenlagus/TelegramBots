@@ -1,8 +1,8 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -36,11 +36,11 @@ public class SendAudio extends PartialBotApiMethod<Message> {
     public static final String TITLE_FIELD = "title";
     public static final String CAPTION_FIELD = "caption";
     public static final String PARSEMODE_FIELD = "parse_mode";
-
+    public static final String THUMB_FIELD = "thumb";
 
     private Integer duration; ///< Integer	Duration of the audio in seconds as defined by sender
     private String chatId; ///< Unique identifier for the chat to send the message to (or Username fro channels)
-    private String audio; ///< Audio file to send. file_id as String to resend an audio that is already on the Telegram servers or Url to upload it
+    private InputFile audio; ///< Audio file to send. file_id as String to resend an audio that is already on the Telegram servers or Url to upload it
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
@@ -48,11 +48,14 @@ public class SendAudio extends PartialBotApiMethod<Message> {
     private String title; ///< Optional. Title of sent audio
     private String caption; ///< Optional. Audio caption (may also be used when resending documents by file_id), 0-200 characters
     private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
-
-    private boolean isNewAudio; ///< True to upload a new audio, false to use a fileId
-    private String audioName;
-    private File newAudioFile; ///< New audio file
-    private InputStream newAudioStream; ///< New audio stream
+    /**
+     * Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size.
+     * A thumbnail‘s width and height should not exceed 90.
+     * Ignored if the file is not uploaded using multipart/form-data.
+     * Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass
+     * “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
+     */
+    private InputFile thumb;
 
     public SendAudio() {
         super();
@@ -82,7 +85,7 @@ public class SendAudio extends PartialBotApiMethod<Message> {
         return this;
     }
 
-    public String getAudio() {
+    public InputFile getAudio() {
         return audio;
     }
 
@@ -93,8 +96,7 @@ public class SendAudio extends PartialBotApiMethod<Message> {
      * @note The file_id must have already been received or sent by your bot
      */
     public SendAudio setAudio(String audio) {
-        this.audio = audio;
-        this.isNewAudio = false;
+        this.audio = new InputFile(audio);
         return this;
     }
 
@@ -103,18 +105,22 @@ public class SendAudio extends PartialBotApiMethod<Message> {
      *
      * @param file New audio file
      */
-    public SendAudio setNewAudio(File file) {
-        this.isNewAudio = true;
-        this.newAudioFile = file;
+    public SendAudio setAudio(File file) {
+        Objects.requireNonNull(file, "file cannot be null!");
+        this.audio = new InputFile(file, file.getName());
         return this;
     }
 
-    public SendAudio setNewAudio(String audioName, InputStream inputStream) {
+    public SendAudio setAudio(String audioName, InputStream inputStream) {
     	Objects.requireNonNull(audioName, "audioName cannot be null!");
     	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
-    	this.audioName = audioName;
-        this.isNewAudio = true;
-        this.newAudioStream = inputStream;
+    	this.audio = new InputFile(inputStream, audioName);
+        return this;
+    }
+
+    public SendAudio setAudio(InputFile audio) {
+        Objects.requireNonNull(audio, "audio cannot be null!");
+        this.audio = audio;
         return this;
     }
 
@@ -168,22 +174,6 @@ public class SendAudio extends PartialBotApiMethod<Message> {
         return this;
     }
 
-    public boolean isNewAudio() {
-        return isNewAudio;
-    }
-
-    public String getAudioName() {
-        return audioName;
-    }
-
-    public File getNewAudioFile() {
-        return newAudioFile;
-    }
-
-    public InputStream getNewAudioStream() {
-        return newAudioStream;
-    }
-
     public String getCaption() {
         return caption;
     }
@@ -199,6 +189,15 @@ public class SendAudio extends PartialBotApiMethod<Message> {
 
     public SendAudio setParseMode(String parseMode) {
         this.parseMode = parseMode;
+        return this;
+    }
+
+    public InputFile getThumb() {
+        return thumb;
+    }
+
+    public SendAudio setThumb(InputFile thumb) {
+        this.thumb = thumb;
         return this;
     }
 
@@ -223,15 +222,14 @@ public class SendAudio extends PartialBotApiMethod<Message> {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
 
-        if (isNewAudio) {
-            if (newAudioFile == null && newAudioStream == null) {
-                throw new TelegramApiValidationException("Audio can't be empty", this);
-            }
-            if (newAudioStream != null && (audioName == null || audioName.isEmpty())) {
-                throw new TelegramApiValidationException("Audio name can't be empty", this);
-            }
-        } else if (audio == null) {
-            throw new TelegramApiValidationException("Audio can't be empty", this);
+        if (audio == null) {
+            throw new TelegramApiValidationException("Audio parameter can't be empty", this);
+        }
+
+        audio.validate();
+
+        if (thumb != null) {
+            thumb.validate();
         }
 
         if (replyMarkup != null) {
@@ -244,7 +242,7 @@ public class SendAudio extends PartialBotApiMethod<Message> {
         return "SendAudio{" +
                 "duration=" + duration +
                 ", chatId='" + chatId + '\'' +
-                ", audio='" + audio + '\'' +
+                ", audio=" + audio +
                 ", replyToMessageId=" + replyToMessageId +
                 ", disableNotification=" + disableNotification +
                 ", replyMarkup=" + replyMarkup +
@@ -252,10 +250,7 @@ public class SendAudio extends PartialBotApiMethod<Message> {
                 ", title='" + title + '\'' +
                 ", caption='" + caption + '\'' +
                 ", parseMode='" + parseMode + '\'' +
-                ", isNewAudio=" + isNewAudio +
-                ", audioName='" + audioName + '\'' +
-                ", newAudioFile=" + newAudioFile +
-                ", newAudioStream=" + newAudioStream +
+                ", thumb=" + thumb +
                 '}';
     }
 }
