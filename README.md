@@ -27,7 +27,7 @@ Just import add the library to your project with one of these options:
     <dependency>
         <groupId>org.telegram</groupId>
         <artifactId>telegrambots</artifactId>
-        <version>3.6.1</version>
+        <version>4.0.0</version>
     </dependency>
 ```
 
@@ -43,7 +43,7 @@ In order to use Long Polling mode, just create your own bot extending `org.teleg
 If you like to use Webhook, extend `org.telegram.telegrambots.bots.TelegramWebhookBot`
 
 
-Once done, you just need to create a `org.telegram.telegrambots.TelegramBotsApi`and register your bots:
+Once done, you just need to create a `org.telegram.telegrambots.meta.TelegramBotsApi`and register your bots:
 
 ```java
 
@@ -92,6 +92,12 @@ This library use [Telegram bot API](https://core.telegram.org/bots), you can fin
 
 ## Questions or Suggestions
 Feel free to create issues [here](https://github.com/rubenlagus/TelegramBots/issues) as you need or join the [chat](https://telegram.me/JavaBotsApi)
+
+## Powered by Intellij
+<p align="center">
+   <a href="https://www.jetbrains.com"><img src="jetbrains.png" width="75"></a>
+</p>
+
 
 ## License 
 MIT License

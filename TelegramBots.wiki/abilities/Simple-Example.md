@@ -9,7 +9,7 @@ As with any Java project, you will need to set your dependencies.
    <dependency>
       <groupId>org.telegram</groupId>
       <artifactId>telegrambots-abilities</artifactId>
-      <version>3.6.1</version>
+      <version>4.0.0</version>
    </dependency>
 ```
 * **Gradle**
@@ -102,8 +102,9 @@ If you're in doubt that you're missing some code, the full code example can be i
 Go ahead and "/hello" to your bot. It should respond back with "Hello World!".
 
 Since you've implemented an AbilityBot, you get **factory abilities** as well. Try:
-* /commands - Prints all commands supported by the bot
-    * This will essentially print "hello - says hello world!". Yes! This is the information we supplied to the ability. The bot prints the commands in the format accepted by BotFather. So, whenever you change, add or remove commands, you can simply /commands and forward that message to BotFather.
+* /report - Prints all user-defined commands supported by the bot
+    * This will essentially print "hello - says hello world!". Yes! This is the information we supplied to the ability. The bot prints the commands in the format accepted by BotFather. So, whenever you change, add or remove commands, you can simply /report and forward that message to BotFather.
+* /commands - Prints all commands exposed by the bot (factory and user-defined, with and without info)
 * /claim - Claims this bot
 * /backup - returns a backup of the bot database
 * /recover - recovers the database

@@ -1,7 +1,7 @@
 package org.telegram.abilitybots.api.objects;
 
 import com.google.common.base.MoreObjects;
-import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +14,7 @@ import static java.util.Arrays.asList;
 /**
  * A reply consists of update conditionals and an action to be applied on the update.
  * <p>
- * If an update satisfies the {@link Reply#conditions}set by the reply, then it's safe to {@link Reply#actOn(Update)}.
+ * If an update satisfies the {@link Reply#conditions} set by the reply, then it's safe to {@link Reply#actOn(Update)}.
  *
  * @author Abbas Abou Daya
  */

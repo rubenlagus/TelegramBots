@@ -2,7 +2,8 @@ package org.telegram.abilitybots.api.objects;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
 
 import java.util.Arrays;
 
@@ -14,26 +15,26 @@ import java.util.Arrays;
  * @author Abbas Abou Daya
  */
 public class MessageContext {
-  private final EndUser user;
+  private final User user;
   private final Long chatId;
   private final String[] arguments;
   private final Update update;
 
-  private MessageContext(Update update, EndUser user, Long chatId, String[] arguments) {
+  private MessageContext(Update update, User user, Long chatId, String[] arguments) {
     this.user = user;
     this.chatId = chatId;
     this.update = update;
     this.arguments = arguments;
   }
 
-  public static MessageContext newContext(Update update, EndUser user, Long chatId, String... arguments) {
+  public static MessageContext newContext(Update update, User user, Long chatId, String... arguments) {
     return new MessageContext(update, user, chatId, arguments);
   }
 
   /**
    * @return the originating Telegram user of this update
    */
-  public EndUser user() {
+  public User user() {
     return user;
   }
 

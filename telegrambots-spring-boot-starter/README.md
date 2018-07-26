@@ -18,14 +18,14 @@ Usage
     <dependency>
         <groupId>org.telegram</groupId>
         <artifactId>telegrambots-spring-boot-starter</artifactId>
-        <version>3.6.1</version>
+        <version>4.0.0</version>
     </dependency>
 ```
 
 **Gradle**
 
 ```gradle
-    compile "org.telegram:telegrambots-spring-boot-starter:3.6"
+    compile "org.telegram:telegrambots-spring-boot-starter:4.0.0"
 ```
 
 Motivation
@@ -39,8 +39,6 @@ Your main spring boot class should look like this:
 
 ```java
 @SpringBootApplication
-//Add this annotation to enable automatic bots initializing
-@EnableTelegramBots
 public class YourApplicationMainClass {
 
 	public static void main(String[] args) {

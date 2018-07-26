@@ -7,7 +7,7 @@
     <groupId>org.telegram</groupId>
     <artifactId>Bots</artifactId>
     <packaging>pom</packaging>
-    <version>3.6.1</version>
+    <version>4.0.0</version>
 
     <modules>
         <module>telegrambots</module>
@@ -15,6 +15,7 @@
         <module>telegrambots-extensions</module>
         <module>telegrambots-abilities</module>
         <module>telegrambots-spring-boot-starter</module>
+        <module>telegrambots-chat-session-bot</module>
     </modules>
 
     <licenses>
@@ -27,6 +28,6 @@
 
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>
-        <bots.version>3.6.1</bots.version>
+        <bots.version>4.0.0</bots.version>
     </properties>
 </project>

@@ -18,6 +18,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="telegrambots" />
         <module name="telegrambots-abilities" />
+        <module name="telegrambots-chat-session-bot" />
         <module name="telegrambots-extensions" />
         <module name="telegrambots-meta" />
         <module name="telegrambots-spring-boot-starter" />
@@ -33,6 +34,7 @@
       <module name="Bots" target="1.5" />
       <module name="telegrambots" target="1.8" />
       <module name="telegrambots-abilities" target="1.8" />
+      <module name="telegrambots-chat-session-bot" target="1.8" />
       <module name="telegrambots-extensions" target="1.8" />
       <module name="telegrambots-meta" target="1.8" />
       <module name="telegrambots-spring-boot-starter" target="1.8" />
@@ -242,6 +244,8 @@
       <general>
         <show-object-navigation-gutter value="false" />
         <show-spec-declaration-navigation-gutter value="true" />
+        <enable-spellchecking value="true" />
+        <enable-reference-spellchecking value="false" />
       </general>
       <confirmations>
         <save-changes value="false" />
@@ -500,6 +504,7 @@
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/telegrambots" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/telegrambots-abilities" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/telegrambots-chat-session-bot" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/telegrambots-extensions" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/telegrambots-meta" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/telegrambots-spring-boot-starter" charset="UTF-8" />
@@ -838,6 +843,7 @@
       <module fileurl="file://$PROJECT_DIR$/Bots.iml" filepath="$PROJECT_DIR$/Bots.iml" />
       <module fileurl="file://$PROJECT_DIR$/telegrambots/telegrambots.iml" filepath="$PROJECT_DIR$/telegrambots/telegrambots.iml" />
       <module fileurl="file://$PROJECT_DIR$/telegrambots-abilities/telegrambots-abilities.iml" filepath="$PROJECT_DIR$/telegrambots-abilities/telegrambots-abilities.iml" />
+      <module fileurl="file://$PROJECT_DIR$/telegrambots-chat-session-bot/telegrambots-chat-session-bot.iml" filepath="$PROJECT_DIR$/telegrambots-chat-session-bot/telegrambots-chat-session-bot.iml" />
       <module fileurl="file://$PROJECT_DIR$/telegrambots-extensions/telegrambots-extensions.iml" filepath="$PROJECT_DIR$/telegrambots-extensions/telegrambots-extensions.iml" />
       <module fileurl="file://$PROJECT_DIR$/telegrambots-meta/telegrambots-meta.iml" filepath="$PROJECT_DIR$/telegrambots-meta/telegrambots-meta.iml" />
       <module fileurl="file://$PROJECT_DIR$/telegrambots-spring-boot-starter/telegrambots-spring-boot-starter.iml" filepath="$PROJECT_DIR$/telegrambots-spring-boot-starter/telegrambots-spring-boot-starter.iml" />
@@ -978,6 +984,17 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/google/inject/guice/4.1.0/guice-4.1.0-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Maven: commons-beanutils:commons-beanutils:1.9.3">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/commons-beanutils/commons-beanutils/1.9.3/commons-beanutils-1.9.3.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/commons-beanutils/commons-beanutils/1.9.3/commons-beanutils-1.9.3-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/commons-beanutils/commons-beanutils/1.9.3/commons-beanutils-1.9.3-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Maven: commons-codec:commons-codec:1.9">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/commons-codec/commons-codec/1.9/commons-codec-1.9.jar!/" />
@@ -987,6 +1004,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/commons-codec/commons-codec/1.9/commons-codec-1.9-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: commons-collections:commons-collections:3.2.2">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: commons-io:commons-io:2.5">
@@ -1154,37 +1182,147 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpmime/4.5.3/httpmime-4.5.3-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.eclipse.collections:eclipse-collections-api:7.1.1">
+    <library name="Maven: org.apache.shiro:shiro-cache:1.4.0">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-api/7.1.1/eclipse-collections-api-7.1.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-cache/1.4.0/shiro-cache-1.4.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-api/7.1.1/eclipse-collections-api-7.1.1-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-cache/1.4.0/shiro-cache-1.4.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-api/7.1.1/eclipse-collections-api-7.1.1-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-cache/1.4.0/shiro-cache-1.4.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.eclipse.collections:eclipse-collections-forkjoin:7.1.1">
+    <library name="Maven: org.apache.shiro:shiro-config-core:1.4.0">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-forkjoin/7.1.1/eclipse-collections-forkjoin-7.1.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-config-core/1.4.0/shiro-config-core-1.4.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-forkjoin/7.1.1/eclipse-collections-forkjoin-7.1.1-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-config-core/1.4.0/shiro-config-core-1.4.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-forkjoin/7.1.1/eclipse-collections-forkjoin-7.1.1-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-config-core/1.4.0/shiro-config-core-1.4.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.eclipse.collections:eclipse-collections:7.1.1">
+    <library name="Maven: org.apache.shiro:shiro-config-ogdl:1.4.0">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections/7.1.1/eclipse-collections-7.1.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-config-ogdl/1.4.0/shiro-config-ogdl-1.4.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections/7.1.1/eclipse-collections-7.1.1-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-config-ogdl/1.4.0/shiro-config-ogdl-1.4.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections/7.1.1/eclipse-collections-7.1.1-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-config-ogdl/1.4.0/shiro-config-ogdl-1.4.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.apache.shiro:shiro-core:1.4.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-core/1.4.0/shiro-core-1.4.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-core/1.4.0/shiro-core-1.4.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-core/1.4.0/shiro-core-1.4.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.apache.shiro:shiro-crypto-cipher:1.4.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-cipher/1.4.0/shiro-crypto-cipher-1.4.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-cipher/1.4.0/shiro-crypto-cipher-1.4.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-cipher/1.4.0/shiro-crypto-cipher-1.4.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.apache.shiro:shiro-crypto-core:1.4.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-core/1.4.0/shiro-crypto-core-1.4.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-core/1.4.0/shiro-crypto-core-1.4.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-core/1.4.0/shiro-crypto-core-1.4.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.apache.shiro:shiro-crypto-hash:1.4.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-hash/1.4.0/shiro-crypto-hash-1.4.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-hash/1.4.0/shiro-crypto-hash-1.4.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-hash/1.4.0/shiro-crypto-hash-1.4.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.apache.shiro:shiro-event:1.4.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-event/1.4.0/shiro-event-1.4.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-event/1.4.0/shiro-event-1.4.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-event/1.4.0/shiro-event-1.4.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.apache.shiro:shiro-lang:1.4.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-lang/1.4.0/shiro-lang-1.4.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-lang/1.4.0/shiro-lang-1.4.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-lang/1.4.0/shiro-lang-1.4.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.assertj:assertj-core:3.9.1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/assertj/assertj-core/3.9.1/assertj-core-3.9.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/assertj/assertj-core/3.9.1/assertj-core-3.9.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/assertj/assertj-core/3.9.1/assertj-core-3.9.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.eclipse.collections:eclipse-collections-api:7.1.2">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-api/7.1.2/eclipse-collections-api-7.1.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-api/7.1.2/eclipse-collections-api-7.1.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-api/7.1.2/eclipse-collections-api-7.1.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.eclipse.collections:eclipse-collections-forkjoin:7.1.2">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-forkjoin/7.1.2/eclipse-collections-forkjoin-7.1.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-forkjoin/7.1.2/eclipse-collections-forkjoin-7.1.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-forkjoin/7.1.2/eclipse-collections-forkjoin-7.1.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.eclipse.collections:eclipse-collections:7.1.2">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections/7.1.2/eclipse-collections-7.1.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections/7.1.2/eclipse-collections-7.1.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections/7.1.2/eclipse-collections-7.1.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.glassfish.grizzly:grizzly-framework:2.3.28">
@@ -1528,81 +1666,114 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/2.0.2-beta/mockito-all-2.0.2-beta-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.springframework.boot:spring-boot-autoconfigure:1.5.10.RELEASE">
+    <library name="Maven: org.slf4j:slf4j-api:1.7.21">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-autoconfigure/1.5.10.RELEASE/spring-boot-autoconfigure-1.5.10.RELEASE.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.21/slf4j-api-1.7.21.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-autoconfigure/1.5.10.RELEASE/spring-boot-autoconfigure-1.5.10.RELEASE-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.21/slf4j-api-1.7.21-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-autoconfigure/1.5.10.RELEASE/spring-boot-autoconfigure-1.5.10.RELEASE-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.21/slf4j-api-1.7.21-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.springframework.boot:spring-boot:1.5.10.RELEASE">
+    <library name="Maven: org.springframework.boot:spring-boot-autoconfigure:2.0.2.RELEASE">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/1.5.10.RELEASE/spring-boot-1.5.10.RELEASE.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-autoconfigure/2.0.2.RELEASE/spring-boot-autoconfigure-2.0.2.RELEASE.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/1.5.10.RELEASE/spring-boot-1.5.10.RELEASE-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-autoconfigure/2.0.2.RELEASE/spring-boot-autoconfigure-2.0.2.RELEASE-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/1.5.10.RELEASE/spring-boot-1.5.10.RELEASE-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-autoconfigure/2.0.2.RELEASE/spring-boot-autoconfigure-2.0.2.RELEASE-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.springframework:spring-aop:4.3.14.RELEASE">
+    <library name="Maven: org.springframework.boot:spring-boot-test:2.0.2.RELEASE">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/4.3.14.RELEASE/spring-aop-4.3.14.RELEASE.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-test/2.0.2.RELEASE/spring-boot-test-2.0.2.RELEASE.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/4.3.14.RELEASE/spring-aop-4.3.14.RELEASE-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-test/2.0.2.RELEASE/spring-boot-test-2.0.2.RELEASE-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/4.3.14.RELEASE/spring-aop-4.3.14.RELEASE-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-test/2.0.2.RELEASE/spring-boot-test-2.0.2.RELEASE-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.springframework:spring-beans:4.3.14.RELEASE">
+    <library name="Maven: org.springframework.boot:spring-boot:2.0.2.RELEASE">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/4.3.14.RELEASE/spring-beans-4.3.14.RELEASE.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/2.0.2.RELEASE/spring-boot-2.0.2.RELEASE.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/4.3.14.RELEASE/spring-beans-4.3.14.RELEASE-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/2.0.2.RELEASE/spring-boot-2.0.2.RELEASE-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/4.3.14.RELEASE/spring-beans-4.3.14.RELEASE-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/2.0.2.RELEASE/spring-boot-2.0.2.RELEASE-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.springframework:spring-context:4.3.14.RELEASE">
+    <library name="Maven: org.springframework:spring-aop:5.0.6.RELEASE">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/4.3.14.RELEASE/spring-context-4.3.14.RELEASE.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/5.0.6.RELEASE/spring-aop-5.0.6.RELEASE.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/4.3.14.RELEASE/spring-context-4.3.14.RELEASE-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/5.0.6.RELEASE/spring-aop-5.0.6.RELEASE-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/4.3.14.RELEASE/spring-context-4.3.14.RELEASE-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/5.0.6.RELEASE/spring-aop-5.0.6.RELEASE-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.springframework:spring-core:4.3.14.RELEASE">
+    <library name="Maven: org.springframework:spring-beans:5.0.6.RELEASE">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/4.3.14.RELEASE/spring-core-4.3.14.RELEASE.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/5.0.6.RELEASE/spring-beans-5.0.6.RELEASE.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/4.3.14.RELEASE/spring-core-4.3.14.RELEASE-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/5.0.6.RELEASE/spring-beans-5.0.6.RELEASE-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/4.3.14.RELEASE/spring-core-4.3.14.RELEASE-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/5.0.6.RELEASE/spring-beans-5.0.6.RELEASE-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.springframework:spring-expression:4.3.14.RELEASE">
+    <library name="Maven: org.springframework:spring-context:5.0.6.RELEASE">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-expression/4.3.14.RELEASE/spring-expression-4.3.14.RELEASE.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/5.0.6.RELEASE/spring-context-5.0.6.RELEASE.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-expression/4.3.14.RELEASE/spring-expression-4.3.14.RELEASE-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/5.0.6.RELEASE/spring-context-5.0.6.RELEASE-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-expression/4.3.14.RELEASE/spring-expression-4.3.14.RELEASE-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/5.0.6.RELEASE/spring-context-5.0.6.RELEASE-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.springframework:spring-core:5.0.6.RELEASE">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/5.0.6.RELEASE/spring-core-5.0.6.RELEASE.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/5.0.6.RELEASE/spring-core-5.0.6.RELEASE-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/5.0.6.RELEASE/spring-core-5.0.6.RELEASE-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.springframework:spring-expression:5.0.6.RELEASE">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-expression/5.0.6.RELEASE/spring-expression-5.0.6.RELEASE.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-expression/5.0.6.RELEASE/spring-expression-5.0.6.RELEASE-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-expression/5.0.6.RELEASE/spring-expression-5.0.6.RELEASE-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.springframework:spring-jcl:5.0.6.RELEASE">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-jcl/5.0.6.RELEASE/spring-jcl-5.0.6.RELEASE.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-jcl/5.0.6.RELEASE/spring-jcl-5.0.6.RELEASE-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-jcl/5.0.6.RELEASE/spring-jcl-5.0.6.RELEASE-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.telegram:telegrambots-meta:3.5">

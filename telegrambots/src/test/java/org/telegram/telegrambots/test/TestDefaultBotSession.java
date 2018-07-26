@@ -13,9 +13,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
-import org.telegram.telegrambots.generics.LongPollingBot;
+import org.telegram.telegrambots.meta.generics.LongPollingBot;
 import org.telegram.telegrambots.test.Fakes.FakeLongPollingBot;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 

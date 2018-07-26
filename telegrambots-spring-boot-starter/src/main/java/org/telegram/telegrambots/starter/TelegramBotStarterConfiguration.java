@@ -1,55 +1,37 @@
 package org.telegram.telegrambots.starter;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.telegram.telegrambots.TelegramBotsApi;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
-import org.telegram.telegrambots.generics.LongPollingBot;
-import org.telegram.telegrambots.generics.WebhookBot;
-
-import java.util.List;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.generics.LongPollingBot;
+import org.telegram.telegrambots.meta.generics.WebhookBot;
 
 /**
- * Receives all beand which are #LongPollingBot and #WebhookBot and register them in #TelegramBotsApi.
  * #TelegramBotsApi added to spring context as well
  */
 @Configuration
-public class TelegramBotStarterConfiguration implements CommandLineRunner {
-
-
-    private final List<LongPollingBot> longPollingBots;
-    private final List<WebhookBot> webHookBots;
-
-    @Autowired
-    private TelegramBotsApi telegramBotsApi;
-
-    public TelegramBotStarterConfiguration(List<LongPollingBot> longPollingBots,
-                                           List<WebhookBot> webHookBots) {
-        this.longPollingBots = longPollingBots;
-        this.webHookBots = webHookBots;
-    }
-
-    @Override
-    public void run(String... args) {
-        try {
-            for (LongPollingBot bot : longPollingBots) {
-                telegramBotsApi.registerBot(bot);
-            }
-            for (WebhookBot bot : webHookBots) {
-                telegramBotsApi.registerBot(bot);
-            }
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-    }
-
+@ConditionalOnProperty(prefix="telegrambots",name = "enabled", havingValue = "true", matchIfMissing = true)
+public class TelegramBotStarterConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(TelegramBotsApi.class)
     public TelegramBotsApi telegramBotsApi() {
         return new TelegramBotsApi();
+    }
+
+    @Bean
+	@ConditionalOnMissingBean
+	public TelegramBotInitializer telegramBotInitializer(TelegramBotsApi telegramBotsApi,
+										Optional<List<LongPollingBot>> longPollingBots,
+							            Optional<List<WebhookBot>> webHookBots) {
+		return new TelegramBotInitializer(telegramBotsApi,
+						longPollingBots.orElseGet(Collections::emptyList),
+						webHookBots.orElseGet(Collections::emptyList));
     }
 }

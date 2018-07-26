@@ -1,19 +1,19 @@
 package org.telegram.abilitybots.api.sender;
 
-import org.telegram.telegrambots.api.methods.BotApiMethod;
-import org.telegram.telegrambots.api.methods.groupadministration.SetChatPhoto;
-import org.telegram.telegrambots.api.methods.send.*;
-import org.telegram.telegrambots.api.methods.stickers.AddStickerToSet;
-import org.telegram.telegrambots.api.methods.stickers.CreateNewStickerSet;
-import org.telegram.telegrambots.api.methods.stickers.UploadStickerFile;
-import org.telegram.telegrambots.api.objects.File;
-import org.telegram.telegrambots.api.objects.Message;
-import org.telegram.telegrambots.api.objects.User;
-import org.telegram.telegrambots.api.objects.WebhookInfo;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
+import org.telegram.telegrambots.meta.api.methods.send.*;
+import org.telegram.telegrambots.meta.api.methods.stickers.AddStickerToSet;
+import org.telegram.telegrambots.meta.api.methods.stickers.CreateNewStickerSet;
+import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
+import org.telegram.telegrambots.meta.api.objects.File;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.WebhookInfo;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
-import org.telegram.telegrambots.updateshandlers.DownloadFileCallback;
-import org.telegram.telegrambots.updateshandlers.SentCallback;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.updateshandlers.DownloadFileCallback;
+import org.telegram.telegrambots.meta.updateshandlers.SentCallback;
 
 import java.io.Serializable;
 
@@ -43,22 +43,22 @@ public class DefaultSender implements MessageSender {
 
   @Override
   public Boolean addStickerToSet(AddStickerToSet addStickerToSet) throws TelegramApiException {
-    return bot.addStickerToSet(addStickerToSet);
+    return bot.execute(addStickerToSet);
   }
 
   @Override
   public Boolean createNewStickerSet(CreateNewStickerSet createNewStickerSet) throws TelegramApiException {
-    return bot.createNewStickerSet(createNewStickerSet);
+    return bot.execute(createNewStickerSet);
   }
 
   @Override
   public File uploadStickerFile(UploadStickerFile uploadStickerFile) throws TelegramApiException {
-    return bot.uploadStickerFile(uploadStickerFile);
+    return bot.execute(uploadStickerFile);
   }
 
   @Override
   public Boolean setChatPhoto(SetChatPhoto setChatPhoto) throws TelegramApiException {
-    return bot.setChatPhoto(setChatPhoto);
+    return bot.execute(setChatPhoto);
   }
 
   @Override
@@ -104,36 +104,36 @@ public class DefaultSender implements MessageSender {
 
   @Override
   public Message sendDocument(SendDocument sendDocument) throws TelegramApiException {
-    return bot.sendDocument(sendDocument);
+    return bot.execute(sendDocument);
   }
 
   @Override
   public Message sendPhoto(SendPhoto sendPhoto) throws TelegramApiException {
-    return bot.sendPhoto(sendPhoto);
+    return bot.execute(sendPhoto);
   }
 
   @Override
   public Message sendVideo(SendVideo sendVideo) throws TelegramApiException {
-    return bot.sendVideo(sendVideo);
+    return bot.execute(sendVideo);
   }
 
   @Override
   public Message sendSticker(SendSticker sendSticker) throws TelegramApiException {
-    return bot.sendSticker(sendSticker);
+    return bot.execute(sendSticker);
   }
 
   @Override
   public Message sendAudio(SendAudio sendAudio) throws TelegramApiException {
-    return bot.sendAudio(sendAudio);
+    return bot.execute(sendAudio);
   }
 
   @Override
   public Message sendVoice(SendVoice sendVoice) throws TelegramApiException {
-    return bot.sendVoice(sendVoice);
+    return bot.execute(sendVoice);
   }
 
   @Override
-  public Message sendVideoNote(SendVideoNote sendVideoNote) throws TelegramApiException {
+  public Message sendVideoNote(SendVideoNote sendVideoNote) {
     return null;
   }
 }
