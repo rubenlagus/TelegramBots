@@ -1,22 +1,20 @@
 package org.telegram.telegrambots.session;
 
-import lombok.Setter;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.DefaultSessionManager;
 import org.apache.shiro.session.mgt.SessionContext;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
-import org.telegram.telegrambots.api.objects.Message;
-import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
 import java.util.Optional;
 
+@SuppressWarnings({"WeakerAccess", "OptionalUsedAsFieldOrParameterType", "unused"})
 public abstract class TelegramLongPollingSessionBot extends TelegramLongPollingBot {
-    @Setter
     DefaultSessionManager sessionManager;
 
-    @Setter
     ChatIdConverter chatIdConverter;
 
     public TelegramLongPollingSessionBot(){
@@ -28,6 +26,14 @@ public abstract class TelegramLongPollingSessionBot extends TelegramLongPollingB
         this.setChatIdConverter(chatIdConverter);
         AbstractSessionDAO sessionDAO = (AbstractSessionDAO) sessionManager.getSessionDAO();
         sessionDAO.setSessionIdGenerator(chatIdConverter);
+    }
+
+    public void setSessionManager(DefaultSessionManager sessionManager) {
+        this.sessionManager = sessionManager;
+    }
+
+    public void setChatIdConverter(ChatIdConverter chatIdConverter) {
+        this.chatIdConverter = chatIdConverter;
     }
 
     @Override

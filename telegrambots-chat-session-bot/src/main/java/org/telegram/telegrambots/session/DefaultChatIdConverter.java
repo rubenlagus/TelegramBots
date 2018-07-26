@@ -1,15 +1,21 @@
 package org.telegram.telegrambots.session;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.apache.shiro.session.Session;
 
 import java.io.Serializable;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class DefaultChatIdConverter implements ChatIdConverter {
     private long sessionId;
+
+    public DefaultChatIdConverter() {
+        super();
+    }
+
+    public DefaultChatIdConverter(long sessionId) {
+        this();
+        this.sessionId = sessionId;
+    }
 
     @Override
     public void setSessionId(Serializable sessionId){

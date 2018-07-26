@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.telegram</groupId>
     <artifactId>telegrambots-chat-session-bot</artifactId>
-    <version>3.6.1</version>
+    <version>4.0.0</version>
     <packaging>jar</packaging>
 
     <name>Telegram Bots Chat Session Bot</name>
@@ -29,6 +29,12 @@
     </ciManagement>
 
     <developers>
+        <developer>
+            <email>rberlopez@gmail.com</email>
+            <name>Ruben Bermudez</name>
+            <url>https://github.com/rubenlagus</url>
+            <id>rubenlagus</id>
+        </developer>
         <developer>
             <email>bochkarevei@gmail.com</email>
             <name>Egor Bochkarev</name>
@@ -59,8 +65,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <bots.version>3.6.1</bots.version>
-        <lombok.version>1.16.20</lombok.version>
+        <bots.version>4.0.0</bots.version>
         <shiro.version>1.4.0</shiro.version>
     </properties>
 
@@ -77,14 +82,6 @@
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-core</artifactId>
             <version>${shiro.version}</version>
-        </dependency>
-
-        <!--Adding additional functionality to classes (getter/setter)-->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>

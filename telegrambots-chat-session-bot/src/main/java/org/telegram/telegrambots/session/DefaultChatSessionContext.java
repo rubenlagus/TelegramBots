@@ -1,19 +1,29 @@
 package org.telegram.telegrambots.session;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 import org.apache.shiro.session.mgt.SessionContext;
 
 import java.io.Serializable;
 import java.util.HashMap;
 
-@AllArgsConstructor
+@SuppressWarnings("WeakerAccess")
 public class DefaultChatSessionContext extends HashMap<String, Object> implements SessionContext {
     private long sessionId;
-    @Setter
-    @Getter
     private String host;
+
+    public DefaultChatSessionContext(long sessionId, String host) {
+        this.sessionId = sessionId;
+        this.host = host;
+    }
+
+    @Override
+    public String getHost() {
+        return host;
+    }
+
+    @Override
+    public void setHost(String host) {
+        this.host = host;
+    }
 
     @Override
     public Serializable getSessionId() {
