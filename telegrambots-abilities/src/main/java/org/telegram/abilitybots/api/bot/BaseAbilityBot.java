@@ -15,17 +15,17 @@ import org.telegram.abilitybots.api.sender.SilentSender;
 import org.telegram.abilitybots.api.util.AbilityUtils;
 import org.telegram.abilitybots.api.util.Pair;
 import org.telegram.abilitybots.api.util.Trio;
-import org.telegram.telegrambots.api.methods.GetFile;
-import org.telegram.telegrambots.api.methods.groupadministration.GetChatAdministrators;
-import org.telegram.telegrambots.api.methods.send.SendDocument;
-import org.telegram.telegrambots.api.objects.Message;
-import org.telegram.telegrambots.api.objects.Update;
-import org.telegram.telegrambots.api.objects.User;
+import org.telegram.telegrambots.meta.api.methods.GetFile;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdministrators;
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
-import org.telegram.telegrambots.logging.BotLogger;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.logging.BotLogger;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -52,7 +52,6 @@ import static java.util.regex.Pattern.compile;
 import static java.util.stream.Collectors.joining;
 import static jersey.repackaged.com.google.common.base.Throwables.propagate;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
-import static org.telegram.abilitybots.api.db.MapDBContext.onlineInstance;
 import static org.telegram.abilitybots.api.objects.Ability.builder;
 import static org.telegram.abilitybots.api.objects.Flag.*;
 import static org.telegram.abilitybots.api.objects.Locality.*;
@@ -93,6 +92,7 @@ import static org.telegram.abilitybots.api.util.AbilityUtils.*;
  *
  * @author Abbas Abou Daya
  */
+@SuppressWarnings({"ConfusingArgumentToVarargsMethod", "UnusedReturnValue", "WeakerAccess", "unused", "ConstantConditions"})
 public abstract class BaseAbilityBot extends DefaultAbsSender {
   private static final String TAG = BaseAbilityBot.class.getSimpleName();
 
@@ -399,7 +399,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender {
           try (PrintStream printStream = new PrintStream(backup)) {
             printStream.print(db.backup());
             sender.sendDocument(new SendDocument()
-                .setNewDocument(backup)
+                .setDocument(backup)
                 .setChatId(ctx.chatId())
             );
           } catch (FileNotFoundException e) {

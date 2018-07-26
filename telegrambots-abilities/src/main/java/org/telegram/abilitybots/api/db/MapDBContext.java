@@ -29,7 +29,7 @@ import static org.telegram.abilitybots.api.bot.BaseAbilityBot.USERS;
  * @author Abbas Abou Daya
  * @see <a href="https://github.com/jankotek/mapdb">MapDB project</a>
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "WeakerAccess"})
 public class MapDBContext implements DBContext {
   private static final String TAG = DBContext.class.getSimpleName();
 
@@ -169,7 +169,7 @@ public class MapDBContext implements DBContext {
   }
 
   @Override
-  public void close() throws IOException {
+  public void close() {
     db.close();
   }
 
