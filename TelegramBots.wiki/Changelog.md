@@ -5,6 +5,7 @@
 4. Improved spring boot start configuration
 5. Removed previously deprecated methods
 6. Support usage in Java 9 (library is still using java 8)
+7. Added chat-session bot module
 
 **[[How to update to version 4.0.0|How-To-Update#4.0.0]]**
 
