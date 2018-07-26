@@ -1,10 +1,10 @@
 package org.telegram.telegrambots.bots;
 
-import org.telegram.telegrambots.ApiContext;
-import org.telegram.telegrambots.api.methods.updates.DeleteWebhook;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
-import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
-import org.telegram.telegrambots.generics.LongPollingBot;
+import org.telegram.telegrambots.meta.ApiContext;
+import org.telegram.telegrambots.meta.api.methods.updates.DeleteWebhook;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.meta.generics.LongPollingBot;
 
 /**
  * @author Ruben Bermudez

@@ -2,7 +2,7 @@ package org.telegram.abilitybots.api.sender;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.Optional;
 

@@ -11,12 +11,12 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.telegram.telegrambots.ApiConstants;
-import org.telegram.telegrambots.ApiContext;
-import org.telegram.telegrambots.api.methods.updates.SetWebhook;
-import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.meta.ApiConstants;
+import org.telegram.telegrambots.meta.ApiContext;
+import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.facilities.TelegramHttpClientBuilder;
-import org.telegram.telegrambots.generics.WebhookBot;
+import org.telegram.telegrambots.meta.generics.WebhookBot;
 
 import java.io.File;
 import java.io.IOException;

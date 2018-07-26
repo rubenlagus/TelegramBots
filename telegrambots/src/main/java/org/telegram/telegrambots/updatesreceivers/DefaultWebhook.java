@@ -8,9 +8,9 @@ import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
-import org.telegram.telegrambots.generics.Webhook;
-import org.telegram.telegrambots.generics.WebhookBot;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.meta.generics.Webhook;
+import org.telegram.telegrambots.meta.generics.WebhookBot;
 
 import java.io.File;
 import java.io.IOException;

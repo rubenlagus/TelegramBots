@@ -12,9 +12,9 @@ import org.telegram.abilitybots.api.sender.MessageSender;
 import org.telegram.abilitybots.api.sender.SilentSender;
 import org.telegram.abilitybots.api.util.Pair;
 import org.telegram.abilitybots.api.util.Trio;
-import org.telegram.telegrambots.api.methods.groupadministration.GetChatAdministrators;
-import org.telegram.telegrambots.api.objects.*;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdministrators;
+import org.telegram.telegrambots.meta.api.objects.*;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -318,7 +318,7 @@ public class AbilityBotTest {
   public void canCheckPrivacy() {
     Update update = mock(Update.class);
     Message message = mock(Message.class);
-    org.telegram.telegrambots.api.objects.User user = mock(User.class);
+    User user = mock(User.class);
     Ability publicAbility = getDefaultBuilder().privacy(PUBLIC).build();
     Ability groupAdminAbility = getDefaultBuilder().privacy(GROUP_ADMIN).build();
     Ability adminAbility = getDefaultBuilder().privacy(ADMIN).build();
@@ -341,7 +341,7 @@ public class AbilityBotTest {
   public void canValidateGroupAdminPrivacy() {
     Update update = mock(Update.class);
     Message message = mock(Message.class);
-    org.telegram.telegrambots.api.objects.User user = mock(User.class);
+    User user = mock(User.class);
     Ability groupAdminAbility = getDefaultBuilder().privacy(GROUP_ADMIN).build();
 
     Trio<Update, Ability, String[]> groupAdminTrio = Trio.of(update, groupAdminAbility, TEXT);
@@ -362,7 +362,7 @@ public class AbilityBotTest {
   public void canRestrictNormalUsersFromGroupAdminAbilities() {
     Update update = mock(Update.class);
     Message message = mock(Message.class);
-    org.telegram.telegrambots.api.objects.User user = mock(User.class);
+    User user = mock(User.class);
     Ability groupAdminAbility = getDefaultBuilder().privacy(GROUP_ADMIN).build();
 
     Trio<Update, Ability, String[]> groupAdminTrio = Trio.of(update, groupAdminAbility, TEXT);
@@ -379,7 +379,7 @@ public class AbilityBotTest {
   public void canBlockAdminsFromCreatorAbilities() {
     Update update = mock(Update.class);
     Message message = mock(Message.class);
-    org.telegram.telegrambots.api.objects.User user = mock(User.class);
+    User user = mock(User.class);
     Ability creatorAbility = getDefaultBuilder().privacy(Privacy.CREATOR).build();
 
     Trio<Update, Ability, String[]> creatorTrio = Trio.of(update, creatorAbility, TEXT);

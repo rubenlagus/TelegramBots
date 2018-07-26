@@ -1,7 +1,7 @@
 package org.telegram.abilitybots.api.objects;
 
 import com.google.common.base.MoreObjects;
-import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.List;
 import java.util.Objects;

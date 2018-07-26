@@ -1,7 +1,7 @@
 package org.telegram.abilitybots.api.db;
 
 import org.telegram.abilitybots.api.bot.AbilityBot;
-import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.Closeable;
 import java.util.List;

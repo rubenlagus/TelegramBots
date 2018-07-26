@@ -1,10 +1,10 @@
 package org.telegram.telegrambots.updatesreceivers;
 
-import org.telegram.telegrambots.api.methods.BotApiMethod;
-import org.telegram.telegrambots.api.objects.Update;
-import org.telegram.telegrambots.exceptions.TelegramApiValidationException;
-import org.telegram.telegrambots.generics.WebhookBot;
-import org.telegram.telegrambots.logging.BotLogger;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.generics.WebhookBot;
+import org.telegram.telegrambots.meta.logging.BotLogger;
 
 import java.util.concurrent.ConcurrentHashMap;
 
