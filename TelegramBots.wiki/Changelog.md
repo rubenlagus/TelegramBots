@@ -1,4 +1,7 @@
 ### <a id="4.0.0"></a>4.0.0 ###
+1. Fix bug #499
+
+### <a id="4.0.0"></a>4.0.0 ###
 1. Support for Api Version [4.0](https://core.telegram.org/bots/api-changelog#july-26-2018)
 2. Abilities: Internationalization
 3. Socks 5 support
