@@ -3,6 +3,7 @@ package org.telegram.telegrambots.meta.api.objects.media;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 
 import java.io.IOException;
 
@@ -78,5 +79,10 @@ public class InputMediaSerializer extends JsonSerializer<InputMedia> {
         }
 
         gen.writeEndObject();
+    }
+
+    @Override
+    public void serializeWithType(InputMedia value, JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
+        serialize(value, gen, serializers);
     }
 }
