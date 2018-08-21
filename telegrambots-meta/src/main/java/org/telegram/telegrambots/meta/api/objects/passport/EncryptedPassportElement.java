@@ -3,6 +3,7 @@ package org.telegram.telegrambots.meta.api.objects.passport;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +21,8 @@ public class EncryptedPassportElement implements BotApiObject {
     private static final String FRONTSIDE_FIELD = "front_side";
     private static final String REVERSESIDE_FIELD = "reverse_side";
     private static final String SELFIE_FIELD = "selfie";
+    private static final String TRANSLATION_FIELD = "translation";
+    private static final String HASH_FIELD = "hash";
 
     /**
      * Data type. One of “personal_details”, “passport”, “driver_license”, “identity_card”, “internal_passport”,
@@ -68,6 +71,19 @@ public class EncryptedPassportElement implements BotApiObject {
      */
     @JsonProperty(SELFIE_FIELD)
     private PassportFile selfie;
+    /**
+     * Optional. Array of encrypted files with translated versions of documents provided by the user.
+     * Available if requested for “passport”, “driver_license”, “identity_card”, “internal_passport”,
+     * “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration” and “temporary_registration” types.
+     * Files can be decrypted and verified using the accompanying EncryptedCredentials.
+     */
+    @JsonProperty(TRANSLATION_FIELD)
+    private ArrayList<PassportFile> translations;
+    /**
+     * Base64-encoded element hash for using in PassportElementErrorUnspecified
+     */
+    @JsonProperty(HASH_FIELD)
+    private String hash;
 
     public EncryptedPassportElement(String type, String data, String phoneNumber, String email, List<PassportFile> files,
                                     PassportFile frontSide, PassportFile reverseSide, PassportFile selfie) {
@@ -116,6 +132,18 @@ public class EncryptedPassportElement implements BotApiObject {
         return selfie;
     }
 
+    public String getHash() {
+        return hash;
+    }
+
+    public boolean hasTranslations() {
+        return translations != null && !translations.isEmpty();
+    }
+
+    public ArrayList<PassportFile> getTranslations() {
+        return translations;
+    }
+
     @Override
     public String toString() {
         return "EncryptedPassportElement{" +
@@ -127,6 +155,8 @@ public class EncryptedPassportElement implements BotApiObject {
                 ", frontSide=" + frontSide +
                 ", reverseSide=" + reverseSide +
                 ", selfie=" + selfie +
+                ", translations=" + translations +
+                ", hash='" + hash + '\'' +
                 '}';
     }
 }
