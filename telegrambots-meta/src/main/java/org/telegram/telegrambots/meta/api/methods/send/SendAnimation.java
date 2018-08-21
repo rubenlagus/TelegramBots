@@ -52,7 +52,7 @@ public class SendAnimation extends PartialBotApiMethod<Message> {
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
-    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+    private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
     /**
      * Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size.
      * A thumbnail‘s width and height should not exceed 90.

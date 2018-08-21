@@ -636,6 +636,57 @@ public abstract class DefaultAbsSender extends AbsSender {
         }
     }
 
+    @Override
+    public Message execute(SendAnimation sendAnimation) throws TelegramApiException {
+        assertParamNotNull(sendAnimation, "sendAnimation");
+        sendAnimation.validate();
+        try {
+            String url = getBaseUrl() + SendVoice.PATH;
+            HttpPost httppost = configuredHttpPost(url);
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setLaxMode();
+            builder.setCharset(StandardCharsets.UTF_8);
+            builder.addTextBody(SendAnimation.CHATID_FIELD, sendAnimation.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
+            addInputFile(builder, sendAnimation.getAnimation(), SendAnimation.ANIMATION_FIELD, true);
+
+            if (sendAnimation.getReplyMarkup() != null) {
+                builder.addTextBody(SendAnimation.REPLYMARKUP_FIELD, objectMapper.writeValueAsString(sendAnimation.getReplyMarkup()), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendAnimation.getReplyToMessageId() != null) {
+                builder.addTextBody(SendAnimation.REPLYTOMESSAGEID_FIELD, sendAnimation.getReplyToMessageId().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendAnimation.getDisableNotification() != null) {
+                builder.addTextBody(SendAnimation.DISABLENOTIFICATION_FIELD, sendAnimation.getDisableNotification().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendAnimation.getDuration() != null) {
+                builder.addTextBody(SendAnimation.DURATION_FIELD, sendAnimation.getDuration().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendAnimation.getWidth() != null) {
+                builder.addTextBody(SendAnimation.WIDTH_FIELD, sendAnimation.getWidth().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendAnimation.getHeight() != null) {
+                builder.addTextBody(SendAnimation.HEIGHT_FIELD, sendAnimation.getHeight().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendAnimation.getThumb() != null) {
+                addInputFile(builder, sendAnimation.getThumb(), SendAnimation.THUMB_FIELD, false);
+                builder.addTextBody(SendAnimation.THUMB_FIELD, sendAnimation.getThumb().getAttachName(), TEXT_PLAIN_CONTENT_TYPE);
+            }
+
+            if (sendAnimation.getCaption() != null) {
+                builder.addTextBody(SendAnimation.CAPTION_FIELD, sendAnimation.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
+                if (sendAnimation.getParseMode() != null) {
+                    builder.addTextBody(SendAnimation.PARSEMODE_FIELD, sendAnimation.getParseMode(), TEXT_PLAIN_CONTENT_TYPE);
+                }
+            }
+            HttpEntity multipart = builder.build();
+            httppost.setEntity(multipart);
+
+            return sendAnimation.deserializeResponse(sendHttpPostRequest(httppost));
+        } catch (IOException e) {
+            throw new TelegramApiException("Unable to edit message media", e);
+        }
+    }
+
     // Simplified methods
 
     @Override

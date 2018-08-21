@@ -150,6 +150,14 @@ public abstract class AbsSender {
      */
     public abstract Serializable execute(EditMessageMedia editMessageMedia) throws TelegramApiException;
 
+    /**
+     * Send animation
+     * @param sendAnimation Information of the animation
+     * @return Sent message
+     * @throws TelegramApiException If there is any error sending animation
+     */
+    public abstract Message execute(SendAnimation sendAnimation) throws TelegramApiException;
+
     // Simplified methods
 
     protected abstract <T extends Serializable, Method extends BotApiMethod<T>, Callback extends SentCallback<T>> void sendApiMethodAsync(Method method, Callback callback);
