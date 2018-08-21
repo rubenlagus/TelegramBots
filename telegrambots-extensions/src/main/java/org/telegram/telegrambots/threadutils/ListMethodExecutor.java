@@ -1,7 +1,7 @@
 package org.telegram.telegrambots.threadutils;
 
-import org.telegram.telegrambots.api.methods.BotApiMethod;
-import org.telegram.telegrambots.bots.AbsSender;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import java.io.Serializable;
 import java.util.List;
