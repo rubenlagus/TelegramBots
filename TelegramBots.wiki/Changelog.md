@@ -1,5 +1,5 @@
 ### <a id="4.1"></a>4.1 ###
-1. Support for Api Version [4.1](https://core.telegram.org/bots/api-changelog#august-22-2018)
+1. Support for Api Version [4.1](https://core.telegram.org/bots/api-changelog#august-27-2018)
 2. Fix #507 and #512
 
 ### <a id="4.0.1"></a>4.0.1 ###
