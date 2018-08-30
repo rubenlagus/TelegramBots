@@ -52,7 +52,7 @@ public class YourApplicationMainClass {
 
 After that your bot will look like:
 ```java
-  //Standart Spring component annotation
+  //Standard Spring component annotation
   @Component
   public class YourBotName extends TelegramLongPollingBot {
     //Bot body.
