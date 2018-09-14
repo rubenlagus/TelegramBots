@@ -641,7 +641,7 @@ public abstract class DefaultAbsSender extends AbsSender {
         assertParamNotNull(sendAnimation, "sendAnimation");
         sendAnimation.validate();
         try {
-            String url = getBaseUrl() + SendVoice.PATH;
+            String url = getBaseUrl() + SendAnimation.PATH;
             HttpPost httppost = configuredHttpPost(url);
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.setLaxMode();
