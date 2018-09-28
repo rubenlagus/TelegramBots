@@ -4,19 +4,19 @@
   * [Accessing Enviroment Variables](#accessing-enviroment-variables)
 * [Using Command Line Arguments](#using-command-line-arguments)
 
-## <a id="bot-token-donts"></a> Bot Token Dont's ##
+# <a id="bot-token-donts"></a> Bot Token Dont's ##
 * Tokens should not be hardcoded into the bot code
 * Tokens should never be published
 * Tokens should not be pushed into Repositorys
 
-## <a id="using-environment-variables"></a> Using Environment Variables ###
+# <a id="using-environment-variables"></a> Using Environment Variables ###
 One convenient way to inject your bot token into the application is by using Environment Variables. Environment Variables are Values that are set in the Environment the Bot is running.
 
 Those Values are not defined in the Application and therefore are not visible in the code.
 
-### <a id="setting-environment-variables"></a> Setting Environment Variables ###
+## <a id="setting-environment-variables"></a> Setting Environment Variables ###
 
-####Windows
+###Windows
 Enviroment Variables in Windows can be set using the Console (CMD) using
 ```batchfile
 SETX [VARIABLE_NAME] [YOUR_BOT_TOKEN]
@@ -29,7 +29,7 @@ It can also be set using the Windows GUI
 * Click Environment Variables...
 * In the 'User Variables for X' click New and enter a Name and your Token as the Value
 
-####Linux & Mac
+###Linux & Mac
 * Open the '~/.bash_profile' File
 * Append the following to it:
 ```bash
@@ -38,29 +38,29 @@ export VARIABLE_NAME = {YOUR_BOT_TOKEN}
 * Save the file
 * Either reboot your system or run the command above in your terminal
 
-####IntelliJ
+###IntelliJ
 * Go to Run->Edit Configuratuions...
 * Navigate to your Java Run Configuration
 * Under Enviroment->Enviroment Variables click the Folder Icon
 * Click the Plus Icon to add a new Variable
 * Enter a Name and your Token as the Value
 
-####Heroku Cloud
+###Heroku Cloud
 * Naviage to your App
 * In the Settings Tab under Config Vars, click "Reveal Config Vars"
 * Enter a Name and your Token as the Value
 * Click the "Add" button
 
-### <a id="accessing-enviroment-variables"></a> Accessing Enviroment Variables ###
+## <a id="accessing-enviroment-variables"></a> Accessing Enviroment Variables ###
 
-####Java
+###Java
 You can access the Enviroment Variables by using System.getEnv()
 
 ```java
 String BOT_TOKEN = System.getenv("VARIABLE_NAME");
 ```
 
-####Spring
+###Spring
 
 In Spring the @Value annotation allows you to inject the Value into your class
 ```java
@@ -71,7 +71,7 @@ public class Bot extends TelegramLongPollingBot {
 }
 ```
 
-## <a id="sing-command-line-arguments"></a> Using Command Line Arguments
+# <a id="sing-command-line-arguments"></a> Using Command Line Arguments
 An easier but not Recommended way of injecting the Bottoken is by utilizing Command Line Arguments when starting the Application
 
 In this case your main Method is responsible for taking in the Token
