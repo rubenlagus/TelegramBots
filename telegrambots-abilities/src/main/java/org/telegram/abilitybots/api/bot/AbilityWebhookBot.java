@@ -1,5 +1,6 @@
 package org.telegram.abilitybots.api.bot;
 
+import org.apache.http.impl.client.SystemDefaultCredentialsProvider;
 import org.telegram.abilitybots.api.db.DBContext;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -28,6 +29,8 @@ public abstract class AbilityWebhookBot extends BaseAbilityBot implements Webhoo
 
   protected AbilityWebhookBot(String botToken, String botUsername, String botPath, DBContext db) {
     this(botToken, botUsername, botPath, db, new DefaultBotOptions());
+
+
   }
 
   protected AbilityWebhookBot(String botToken, String botUsername, String botPath, DefaultBotOptions botOptions) {
