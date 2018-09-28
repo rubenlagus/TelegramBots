@@ -16,7 +16,7 @@ Those Values are not defined in the Application and therefore are not visible in
 
 ## <a id="setting-environment-variables"></a> Setting Environment Variables ###
 
-###Windows
+### Windows
 Enviroment Variables in Windows can be set using the Console (CMD) using
 ```batchfile
 SETX [VARIABLE_NAME] [YOUR_BOT_TOKEN]
@@ -29,7 +29,7 @@ It can also be set using the Windows GUI
 * Click Environment Variables...
 * In the 'User Variables for X' click New and enter a Name and your Token as the Value
 
-###Linux & Mac
+### Linux & Mac
 * Open the '~/.bash_profile' File
 * Append the following to it:
 ```bash
@@ -38,7 +38,7 @@ export VARIABLE_NAME = {YOUR_BOT_TOKEN}
 * Save the file
 * Either reboot your system or run the command above in your terminal
 
-###IntelliJ
+### IntelliJ
 * Go to Run->Edit Configuratuions...
 * Navigate to your Java Run Configuration
 * Under Enviroment->Enviroment Variables click the Folder Icon
@@ -51,16 +51,16 @@ export VARIABLE_NAME = {YOUR_BOT_TOKEN}
 * Enter a Name and your Token as the Value
 * Click the "Add" button
 
-## <a id="accessing-enviroment-variables"></a> Accessing Enviroment Variables ###
+## <a id="accessing-enviroment-variables"></a> Accessing Enviroment Variables ##
 
-###Java
+### Java
 You can access the Enviroment Variables by using System.getEnv()
 
 ```java
 String BOT_TOKEN = System.getenv("VARIABLE_NAME");
 ```
 
-###Spring
+### Spring
 
 In Spring the @Value annotation allows you to inject the Value into your class
 ```java
