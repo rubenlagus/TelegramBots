@@ -22,7 +22,7 @@ public class KeyboardRow extends ArrayList<KeyboardButton> implements Validable 
     }
 
     public void addAll(List<String> buttonNames) {
-        buttonNames.forEach(KeyboardButton::new);
+        buttonNames.forEach(name -> super.add(new KeyboardButton(name)));
     }
 
     public boolean contains(String text) {
