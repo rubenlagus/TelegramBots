@@ -69,6 +69,7 @@
         <commonslang.version>3.5</commonslang.version>
         <mapdb.version>3.0.4</mapdb.version>
         <guava.version>19.0</guava.version>
+        <evosuiteVersion>1.0.6</evosuiteVersion>
     </properties>
 
     <dependencies>
@@ -102,7 +103,13 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.evosuite</groupId>
+            <artifactId>evosuite-standalone-runtime</artifactId>
+            <version>${evosuiteVersion}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -245,6 +252,19 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.17</version>
+                <configuration>
+                    <properties>
+                        <property>
+                            <name>listener</name>
+                            <value>org.evosuite.runtime.InitializingListener</value>
+                        </property>
+                    </properties>
+                </configuration>
+            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
@@ -256,6 +276,15 @@
                         <target>1.8</target>
                         <encoding>UTF-8</encoding>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.evosuite.plugins</groupId>
+                    <artifactId>evosuite-maven-plugin</artifactId>
+                    <version>${evosuiteVersion}</version>
+                    <executions><execution>
+                        <goals> <goal> prepare </goal> </goals>
+                        <phase> process-test-classes </phase>
+                    </execution></executions>
                 </plugin>
             </plugins>
         </pluginManagement>
