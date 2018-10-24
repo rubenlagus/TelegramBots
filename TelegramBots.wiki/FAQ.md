@@ -264,8 +264,6 @@ Your main spring boot class should look like this:
 
 ```java
 @SpringBootApplication
-//Add this annotation to enable automatic bots initializing
-@EnableTelegramBots
 public class YourApplicationMainClass {
 
 	public static void main(String[] args) {
@@ -279,7 +277,7 @@ public class YourApplicationMainClass {
 
 After that your bot will look like:
 ```java
-  //Standart Spring component annotation
+  //Standard Spring component annotation
   @Component
   public class YourBotClassName extends TelegramLongPollingBot {
     //Bot body.
