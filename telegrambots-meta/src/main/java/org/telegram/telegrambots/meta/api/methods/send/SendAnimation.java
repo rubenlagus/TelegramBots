@@ -46,9 +46,9 @@ public class SendAnimation extends PartialBotApiMethod<Message> {
      */
     private InputFile animation;
     private Integer duration; ///< Optional. Duration of sent animation in seconds
-    private String caption; ///< OptionaL. Animation caption (may also be used when resending videos by file_id).
+    private String caption; ///< Optional. Animation caption (may also be used when resending videos by file_id).
     private Integer width; ///< Optional. Animation width
-    private Integer height; ///< OptionaL. Animation height
+    private Integer height; ///< Optional. Animation height
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
