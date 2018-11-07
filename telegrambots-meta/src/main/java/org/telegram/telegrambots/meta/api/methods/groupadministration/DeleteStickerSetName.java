@@ -19,7 +19,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
  * Use the field can_set_sticker_set optionally returned in getChat requests to check if the bot can use this method.
  * Returns True on success.
+ * @deprecated  Replaced by {@link DeleteChatStickerSet}
  */
+@Deprecated
 public class DeleteStickerSetName extends BotApiMethod<Boolean> {
     public static final String PATH = "deleteChatStickerSet";
 
