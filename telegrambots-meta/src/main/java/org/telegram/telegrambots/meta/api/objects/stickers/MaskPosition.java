@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.meta.api.objects.stickers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.telegram.telegrambots.meta.api.interfaces.InputBotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -10,6 +11,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * @version 3.2
  * This object describes the position on faces where a mask should be placed by default.
  */
+@JsonTypeInfo(use=JsonTypeInfo.Id.NONE)
 public class MaskPosition implements InputBotApiObject, Validable {
     private static final String POINT_FIELD = "point";
     private static final String XSHIFT_FIELD = "x_shift";

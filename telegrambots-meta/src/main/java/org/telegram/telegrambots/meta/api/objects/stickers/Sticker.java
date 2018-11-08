@@ -36,7 +36,7 @@ public class Sticker implements BotApiObject {
     @JsonProperty(SETNAME_FIELD)
     private String setName; ///< Optional. Name of the sticker set to which the sticker belongs
     @JsonProperty(MASKPOSITON_FIELD)
-    private String maskPosition; ///< Optional. For mask stickers, the position where the mask should be placed
+    private MaskPosition maskPosition; ///< Optional. For mask stickers, the position where the mask should be placed
 
     public Sticker() {
         super();
@@ -70,7 +70,7 @@ public class Sticker implements BotApiObject {
         return setName;
     }
 
-    public String getMaskPosition() {
+    public MaskPosition getMaskPosition() {
         return maskPosition;
     }
 
@@ -84,7 +84,7 @@ public class Sticker implements BotApiObject {
                 ", fileSize=" + fileSize +
                 ", emoji='" + emoji + '\'' +
                 ", setName='" + setName + '\'' +
-                ", maskPosition='" + maskPosition + '\'' +
+                ", maskPosition=" + maskPosition +
                 '}';
     }
 }
