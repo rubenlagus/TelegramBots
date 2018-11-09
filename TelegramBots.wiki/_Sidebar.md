@@ -3,6 +3,7 @@
     * [[Errors Handling]]
     * [[Using HTTP Proxy]]
     * [[FAQ]]
+    * [[Handling Bot Tokens]]
 * AbilityBot
     * [[Simple Example]]
     * [[Hello Ability]]
