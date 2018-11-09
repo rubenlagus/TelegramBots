@@ -12,6 +12,7 @@ import org.telegram.abilitybots.api.objects.*;
 import org.telegram.abilitybots.api.sender.DefaultSender;
 import org.telegram.abilitybots.api.sender.MessageSender;
 import org.telegram.abilitybots.api.sender.SilentSender;
+import org.telegram.abilitybots.api.util.AbilityExtension;
 import org.telegram.abilitybots.api.util.AbilityUtils;
 import org.telegram.abilitybots.api.util.Pair;
 import org.telegram.abilitybots.api.util.Trio;
@@ -36,7 +37,9 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
@@ -93,7 +96,7 @@ import static org.telegram.abilitybots.api.util.AbilityUtils.*;
  * @author Abbas Abou Daya
  */
 @SuppressWarnings({"ConfusingArgumentToVarargsMethod", "UnusedReturnValue", "WeakerAccess", "unused", "ConstantConditions"})
-public abstract class BaseAbilityBot extends DefaultAbsSender {
+public abstract class BaseAbilityBot extends DefaultAbsSender implements AbilityExtension {
   private static final String TAG = BaseAbilityBot.class.getSimpleName();
 
   // DB objects
@@ -611,22 +614,31 @@ public abstract class BaseAbilityBot extends DefaultAbsSender {
    */
   private void registerAbilities() {
     try {
-      abilities = stream(this.getClass().getMethods())
-          .filter(method -> method.getReturnType().equals(Ability.class))
-          .map(this::returnAbility)
+      List<AbilityExtension>extensions = stream(this.getClass().getMethods())
+              .filter(checkReturnType(AbilityExtension.class))
+              .map(this.returnExtension(this))
+              .collect(Collectors.toList());
+
+      extensions.add(this);
+
+      abilities = extensions.stream()
+          .flatMap(ext -> stream(ext.getClass().getMethods())
+              .filter(checkReturnType(Ability.class))
+              .map(this.returnAbility(ext)))
           .collect(ImmutableMap::<String, Ability>builder,
               (b, a) -> b.put(a.name(), a),
               (b1, b2) -> b1.putAll(b2.build()))
           .build();
 
-      Stream<Reply> methodReplies = stream(this.getClass().getMethods())
-          .filter(method -> method.getReturnType().equals(Reply.class))
-          .map(this::returnReply);
+      Stream<Reply> extensionReplies = extensions.stream()
+              .flatMap(ext -> stream(ext.getClass().getMethods())
+                  .filter(checkReturnType(Reply.class))
+                  .map(this.returnReply(ext)));
 
       Stream<Reply> abilityReplies = abilities.values().stream()
           .flatMap(ability -> ability.replies().stream());
 
-      replies = Stream.concat(methodReplies, abilityReplies).collect(
+      replies = Stream.concat(abilityReplies, extensionReplies).collect(
           ImmutableList::<Reply>builder,
           Builder::add,
           (b1, b2) -> b1.addAll(b2.build()))
@@ -638,34 +650,59 @@ public abstract class BaseAbilityBot extends DefaultAbsSender {
 
   }
 
+  private Predicate<Method> checkReturnType(Class<?> clazz) {
+    return method -> clazz.isAssignableFrom(method.getReturnType());
+  }
+
+
   /**
-   * Invokes the method and retrieves its return {@link Ability}.
+   * Invokes the method curried and retrieves its return {@link Reply}.
    *
-   * @param method a method that returns an ability
-   * @return the ability returned by the method
+   * @param obj an bot or extension that this method is invoked with
+   * @return a {@link Function} which returns the {@link Reply} returned by the given method
    */
-  private Ability returnAbility(Method method) {
-    try {
-      return (Ability) method.invoke(this);
-    } catch (IllegalAccessException | InvocationTargetException e) {
-      BotLogger.error("Could not add ability", TAG, e);
-      throw propagate(e);
-    }
+  private Function<? super Method, AbilityExtension> returnExtension(Object obj) {
+    return method -> {
+      try {
+        return (AbilityExtension) method.invoke(obj);
+      } catch (IllegalAccessException | InvocationTargetException e) {
+        BotLogger.error("Could not add ability", TAG, e);
+        throw propagate(e);
+      }
+    };
+  }
+  /**
+   * Invokes the method curried and retrieves its return {@link Ability}.
+   *
+   * @param obj an bot or extension that this method is invoked with
+   * @return a {@link Function} which returns the {@link Ability} returned by the given method
+   */
+  private Function<? super Method, Ability> returnAbility(Object obj) {
+    return method -> {
+      try {
+        return (Ability) method.invoke(obj);
+      } catch (IllegalAccessException | InvocationTargetException e) {
+        BotLogger.error("Could not add ability", TAG, e);
+        throw propagate(e);
+      }
+    };
   }
 
   /**
-   * Invokes the method and retrieves its returned Reply.
+   * Invokes the method curried and retrieves its return {@link Reply}.
    *
-   * @param method a method that returns a reply
-   * @return the reply returned by the method
+   * @param obj an bot or extension that this method is invoked with
+   * @return a {@link Function} which returns the {@link Reply} returned by the given method
    */
-  private Reply returnReply(Method method) {
-    try {
-      return (Reply) method.invoke(this);
-    } catch (IllegalAccessException | InvocationTargetException e) {
-      BotLogger.error("Could not add reply", TAG, e);
-      throw propagate(e);
-    }
+  private Function<? super Method, Reply> returnReply(Object obj) {
+    return method -> {
+      try {
+        return (Reply) method.invoke(obj);
+      } catch (IllegalAccessException | InvocationTargetException e) {
+        BotLogger.error("Could not add ability", TAG, e);
+        throw propagate(e);
+      }
+    };
   }
 
   private void postConsumption(Pair<MessageContext, Ability> pair) {
