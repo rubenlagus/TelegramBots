@@ -68,7 +68,7 @@
         <bots.version>4.1</bots.version>
         <commonslang.version>3.5</commonslang.version>
         <mapdb.version>3.0.4</mapdb.version>
-        <guava.version>19.0</guava.version>
+        <guava.version>25.1-android</guava.version>
     </properties>
 
     <dependencies>
@@ -91,6 +91,28 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.code.findbugs</groupId>
+                    <artifactId>jsr305</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.errorprone</groupId>
+                    <artifactId>error_prone_annotations</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.j2objc</groupId>
+                    <artifactId>j2objc-annotations</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>animal-sniffer-annotations</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.checkerframework</groupId>
+                    <artifactId>checker-compat-qual</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
