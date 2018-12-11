@@ -9,9 +9,11 @@ package org.telegram.telegrambots.meta.api.methods;
 public enum ActionType {
     TYPING("typing"),
     RECORDVIDEO("record_video"),
+    RECORDVIDEONOTE("record_video_note"),
     RECORDAUDIO("record_audio"),
     UPLOADPHOTO("upload_photo"),
     UPLOADVIDEO("upload_video"),
+    UPLOADVIDEONOTE("upload_video_note"),
     UPLOADAUDIO("upload_audio"),
     UPLOADDOCUMENT("upload_document"),
     FINDLOCATION("find_location");
@@ -36,12 +38,16 @@ public enum ActionType {
                 return TYPING;
             case "record_video":
                 return RECORDVIDEO;
+            case "record_video_note":
+                return RECORDVIDEONOTE;
             case "record_audio":
                 return RECORDAUDIO;
             case "upload_photo":
                 return UPLOADPHOTO;
             case "upload_video":
                 return UPLOADVIDEO;
+            case "upload_video_note":
+                return UPLOADVIDEONOTE;
             case "upload_audio":
                 return UPLOADAUDIO;
             case "upload_document":
