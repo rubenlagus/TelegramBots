@@ -16,7 +16,9 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * @note Currently, only pdf-files and zip archives can be sent using this method.
  * @note This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * ignore them.
+ * @deprecated  Replaced by {@link org.telegram.telegrambots.meta.api.objects.inlinequery.result.cached.InlineQueryResultCachedDocument}
  */
+@Deprecated
 public class InlineQueryResultCachedDocument implements InlineQueryResult {
 
     private static final String TYPE_FIELD = "type";

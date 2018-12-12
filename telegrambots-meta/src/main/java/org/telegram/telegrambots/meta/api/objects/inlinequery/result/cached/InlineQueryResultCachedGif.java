@@ -1,4 +1,4 @@
-package org.telegram.telegrambots.meta.api.objects.inlinequery.result.chached;
+package org.telegram.telegrambots.meta.api.objects.inlinequery.result.cached;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -10,18 +10,14 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Represents a link to a video animation (H.264/MPEG-4 AVC video without sound). By default,
- * this animated MPEG-4 file will be sent by the user with optional caption. Alternatively, you can
- * use input_message_content to send a message with the specified content instead of the animation.
- * @date 01 of January of 2016
- * @deprecated  Replaced by {@link org.telegram.telegrambots.meta.api.objects.inlinequery.result.cached.InlineQueryResultCachedMpeg4Gif}
+ * Represents a link to an animated GIF file stored on the Telegram servers. By default, this
+ * animated GIF file will be sent by the user with an optional caption. Alternatively, you can use
+ * input_message_content to send a message with specified content instead of the animation.
  */
-@Deprecated
-public class InlineQueryResultCachedMpeg4Gif implements InlineQueryResult {
-
+public class InlineQueryResultCachedGif implements InlineQueryResult {
     private static final String TYPE_FIELD = "type";
     private static final String ID_FIELD = "id";
-    private static final String MPEG4_FILE_ID_FIELD = "mpeg4_file_id";
+    private static final String GIF_FILE_ID_FIELD = "gif_file_id";
     private static final String TITLE_FIELD = "title";
     private static final String CAPTION_FIELD = "caption";
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
@@ -29,23 +25,23 @@ public class InlineQueryResultCachedMpeg4Gif implements InlineQueryResult {
     private static final String PARSEMODE_FIELD = "parse_mode";
 
     @JsonProperty(TYPE_FIELD)
-    private final String type = "mpeg4_gif"; ///< Type of the result, must be "mpeg4_gif"
+    private final String type = "gif"; ///< Type of the result, must be "gif"
     @JsonProperty(ID_FIELD)
     private String id; ///< Unique identifier of this result, 1-64 bytes
-    @JsonProperty(MPEG4_FILE_ID_FIELD)
-    private String mpeg4FileId; ///< A valid file identifier for the MP4 file
+    @JsonProperty(GIF_FILE_ID_FIELD)
+    private String gifFileId; ///< A valid file identifier for the GIF file
     @JsonProperty(TITLE_FIELD)
     private String title; ///< Optional. Title for the result
     @JsonProperty(CAPTION_FIELD)
-    private String caption; ///< Optional. Caption of the MPEG-4 file to be sent
+    private String caption; ///< Optional. Caption of the GIF file to be sent
     @JsonProperty(INPUTMESSAGECONTENT_FIELD)
-    private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent instead of the photo
+    private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent instead of the GIF animation
     @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
     @JsonProperty(PARSEMODE_FIELD)
     private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
 
-    public InlineQueryResultCachedMpeg4Gif() {
+    public InlineQueryResultCachedGif() {
         super();
     }
 
@@ -57,17 +53,17 @@ public class InlineQueryResultCachedMpeg4Gif implements InlineQueryResult {
         return id;
     }
 
-    public InlineQueryResultCachedMpeg4Gif setId(String id) {
+    public InlineQueryResultCachedGif setId(String id) {
         this.id = id;
         return this;
     }
 
-    public String getMpeg4FileId() {
-        return mpeg4FileId;
+    public String getGifFileId() {
+        return gifFileId;
     }
 
-    public InlineQueryResultCachedMpeg4Gif setMpeg4FileId(String mpeg4FileId) {
-        this.mpeg4FileId = mpeg4FileId;
+    public InlineQueryResultCachedGif setGifFileId(String gifFileId) {
+        this.gifFileId = gifFileId;
         return this;
     }
 
@@ -75,7 +71,7 @@ public class InlineQueryResultCachedMpeg4Gif implements InlineQueryResult {
         return title;
     }
 
-    public InlineQueryResultCachedMpeg4Gif setTitle(String title) {
+    public InlineQueryResultCachedGif setTitle(String title) {
         this.title = title;
         return this;
     }
@@ -84,7 +80,7 @@ public class InlineQueryResultCachedMpeg4Gif implements InlineQueryResult {
         return caption;
     }
 
-    public InlineQueryResultCachedMpeg4Gif setCaption(String caption) {
+    public InlineQueryResultCachedGif setCaption(String caption) {
         this.caption = caption;
         return this;
     }
@@ -93,7 +89,7 @@ public class InlineQueryResultCachedMpeg4Gif implements InlineQueryResult {
         return inputMessageContent;
     }
 
-    public InlineQueryResultCachedMpeg4Gif setInputMessageContent(InputMessageContent inputMessageContent) {
+    public InlineQueryResultCachedGif setInputMessageContent(InputMessageContent inputMessageContent) {
         this.inputMessageContent = inputMessageContent;
         return this;
     }
@@ -102,7 +98,7 @@ public class InlineQueryResultCachedMpeg4Gif implements InlineQueryResult {
         return replyMarkup;
     }
 
-    public InlineQueryResultCachedMpeg4Gif setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
+    public InlineQueryResultCachedGif setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
         this.replyMarkup = replyMarkup;
         return this;
     }
@@ -111,7 +107,7 @@ public class InlineQueryResultCachedMpeg4Gif implements InlineQueryResult {
         return parseMode;
     }
 
-    public InlineQueryResultCachedMpeg4Gif setParseMode(String parseMode) {
+    public InlineQueryResultCachedGif setParseMode(String parseMode) {
         this.parseMode = parseMode;
         return this;
     }
@@ -121,8 +117,8 @@ public class InlineQueryResultCachedMpeg4Gif implements InlineQueryResult {
         if (id == null || id.isEmpty()) {
             throw new TelegramApiValidationException("ID parameter can't be empty", this);
         }
-        if (mpeg4FileId == null || mpeg4FileId.isEmpty()) {
-            throw new TelegramApiValidationException("Mpeg4FileId parameter can't be empty", this);
+        if (gifFileId == null || gifFileId.isEmpty()) {
+            throw new TelegramApiValidationException("GifFileId parameter can't be empty", this);
         }
         if (inputMessageContent != null) {
             inputMessageContent.validate();
@@ -134,10 +130,10 @@ public class InlineQueryResultCachedMpeg4Gif implements InlineQueryResult {
 
     @Override
     public String toString() {
-        return "InlineQueryResultCachedMpeg4Gif{" +
+        return "InlineQueryResultCachedGif{" +
                 "type='" + type + '\'' +
                 ", id='" + id + '\'' +
-                ", mpeg4FileId='" + mpeg4FileId + '\'' +
+                ", gifFileId='" + gifFileId + '\'' +
                 ", title='" + title + '\'' +
                 ", caption='" + caption + '\'' +
                 ", inputMessageContent=" + inputMessageContent +

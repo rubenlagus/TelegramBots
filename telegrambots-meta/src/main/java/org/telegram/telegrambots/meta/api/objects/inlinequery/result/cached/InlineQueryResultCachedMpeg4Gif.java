@@ -1,4 +1,4 @@
-package org.telegram.telegrambots.meta.api.objects.inlinequery.result.chached;
+package org.telegram.telegrambots.meta.api.objects.inlinequery.result.cached;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -14,9 +14,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * this animated MPEG-4 file will be sent by the user with optional caption. Alternatively, you can
  * use input_message_content to send a message with the specified content instead of the animation.
  * @date 01 of January of 2016
- * @deprecated  Replaced by {@link org.telegram.telegrambots.meta.api.objects.inlinequery.result.cached.InlineQueryResultCachedMpeg4Gif}
  */
-@Deprecated
 public class InlineQueryResultCachedMpeg4Gif implements InlineQueryResult {
 
     private static final String TYPE_FIELD = "type";
