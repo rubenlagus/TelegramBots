@@ -136,8 +136,8 @@ public class AnswerInlineQuery extends BotApiMethod<Boolean> {
             if (switchPmParameter.length() > 64) {
                 throw new TelegramApiValidationException("SwitchPmParameter can't be longer than 64 chars", this);
             }
-            if (!Pattern.matches("[A-Za-z0-9_]+", switchPmParameter.trim() )) {
-                throw new TelegramApiValidationException("SwitchPmParameter only allows A-Z, a-z, 0-9 and _ characters", this);
+            if (!Pattern.matches("[A-Za-z0-9_\\-]+", switchPmParameter.trim() )) {
+                throw new TelegramApiValidationException("SwitchPmParameter only allows A-Z, a-z, 0-9, _ and - characters", this);
             }
         }
         for (InlineQueryResult result : results) {

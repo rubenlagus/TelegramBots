@@ -113,7 +113,7 @@ public class TestAnswerInlineQuery {
         try {
             answerInlineQuery.validate();
         } catch (TelegramApiValidationException e) {
-            Assert.assertEquals("SwitchPmParameter only allows A-Z, a-z, 0-9 and _ characters", e.getMessage());
+            Assert.assertEquals("SwitchPmParameter only allows A-Z, a-z, 0-9, _ and - characters", e.getMessage());
         }
     }
 }
