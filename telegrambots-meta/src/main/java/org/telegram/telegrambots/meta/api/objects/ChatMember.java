@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
+import java.time.Instant;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -75,6 +77,13 @@ public class ChatMember implements BotApiObject {
 
     public Integer getUntilDate() {
         return untilDate;
+    }
+
+    public Instant getUntilDateAsInstant() {
+        if (untilDate == null) {
+            return null;
+        }
+        return Instant.ofEpochSecond(untilDate);
     }
 
     public Boolean getCanBeEdited() {
