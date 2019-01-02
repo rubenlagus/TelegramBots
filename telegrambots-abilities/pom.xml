@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.telegram</groupId>
     <artifactId>telegrambots-abilities</artifactId>
-    <version>${parent.version}</version>
+    <version>4.1.1</version>
     <packaging>jar</packaging>
 
     <name>Telegram Ability Bot</name>
@@ -74,7 +74,7 @@
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots</artifactId>
-            <version>${parent.version}</version>
+            <version>4.1.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
