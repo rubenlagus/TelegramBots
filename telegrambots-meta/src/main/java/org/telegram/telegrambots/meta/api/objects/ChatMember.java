@@ -35,7 +35,7 @@ public class ChatMember implements BotApiObject {
     @JsonProperty(STATUS_FIELD)
     private String status; ///< The member's status in the chat. Can be “creator”, “administrator”, “member”,  “restricted”, “left” or “kicked”
     @JsonProperty(UNTILDATE_FIELD)
-    private Integer untilDate; ///< Optional. Resticted and kicked only. Date when restrictions will be lifted for this user, unix time
+    private Integer untilDate; ///< Optional. Restricted and kicked only. Date when restrictions will be lifted for this user, unix time
     @JsonProperty(CANBEEDITED_FIELD)
     private Boolean canBeEdited; ///< Optional. Administrators only. True, if the bot is allowed to edit administrator privileges of that user
     @JsonProperty(CANCHANGEINFORMATION_FIELD)
@@ -53,7 +53,7 @@ public class ChatMember implements BotApiObject {
     @JsonProperty(CANPINMESSAGES_FIELD)
     private Boolean canPinMessages; ///< Optional. Administrators only. True, if the administrator can pin messages
     @JsonProperty(CANPROMOTEMEMBERS_FIELD)
-    private Boolean canPromoteMembers; ///< Optional. Administrators only. True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that it has promoted, directly or indirectly (promoted by administators that were appointed by the bot)
+    private Boolean canPromoteMembers; ///< Optional. Administrators only. True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that it has promoted, directly or indirectly (promoted by administrators that were appointed by the bot)
     @JsonProperty(CANSENDMESSAGES_FIELD)
     private Boolean canSendMessages; ///< Optional. Restricted only. True, if the user can send text messages, contacts, locations and venues
     @JsonProperty(CANSENDMEDIAMESSAGES_FIELD)

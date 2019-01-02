@@ -164,7 +164,7 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
             throw new TelegramApiValidationException("name can't be empty", this);
         }
         if (title == null || title.isEmpty()) {
-            throw new TelegramApiValidationException("userId can't be empty", this);
+            throw new TelegramApiValidationException("title can't be empty", this);
         }
         if (emojis == null || emojis.isEmpty()) {
             throw new TelegramApiValidationException("emojis can't be empty", this);

@@ -18,7 +18,7 @@ public class TelegramBotsApi {
     private static final String webhookUrlFormat = "{0}callback/";
     private boolean useWebhook; ///< True to enable webhook usage
     private Webhook webhook; ///< Webhook instance
-    private String extrenalUrl; ///< External url of the bots
+    private String externalUrl; ///< External url of the bots
     private String pathToCertificate; ///< Path to public key certificate
 
     /**
@@ -43,7 +43,7 @@ public class TelegramBotsApi {
         }
 
         this.useWebhook = true;
-        this.extrenalUrl = fixExternalUrl(externalUrl);
+        this.externalUrl = fixExternalUrl(externalUrl);
         webhook = ApiContext.getInstance(Webhook.class);
         webhook.setInternalUrl(internalUrl);
         webhook.startServer();
@@ -71,7 +71,7 @@ public class TelegramBotsApi {
         }
 
         this.useWebhook = true;
-        this.extrenalUrl = fixExternalUrl(externalUrl);
+        this.externalUrl = fixExternalUrl(externalUrl);
         webhook = ApiContext.getInstance(Webhook.class);
         webhook.setInternalUrl(internalUrl);
         webhook.setKeyStore(keyStore, keyStorePassword);
@@ -104,7 +104,7 @@ public class TelegramBotsApi {
         }
 
         this.useWebhook = true;
-        this.extrenalUrl = fixExternalUrl(externalUrl);
+        this.externalUrl = fixExternalUrl(externalUrl);
         this.pathToCertificate = pathToCertificate;
         webhook = ApiContext.getInstance(Webhook.class);
         webhook.setInternalUrl(internalUrl);
@@ -133,7 +133,7 @@ public class TelegramBotsApi {
     public void registerBot(WebhookBot bot) throws TelegramApiRequestException {
         if (useWebhook) {
             webhook.registerWebhook(bot);
-            bot.setWebhook(extrenalUrl + bot.getBotPath(), pathToCertificate);
+            bot.setWebhook(externalUrl + bot.getBotPath(), pathToCertificate);
         }
     }
 

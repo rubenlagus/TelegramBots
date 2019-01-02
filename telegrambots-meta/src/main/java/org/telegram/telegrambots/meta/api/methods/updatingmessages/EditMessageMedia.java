@@ -153,7 +153,7 @@ public class EditMessageMedia extends PartialBotApiMethod<Serializable> {
             }
         }
         if (media == null) {
-            throw new TelegramApiValidationException("Text parameter can't be empty", this);
+            throw new TelegramApiValidationException("Media parameter can't be empty", this);
         }
 
         media.validate();

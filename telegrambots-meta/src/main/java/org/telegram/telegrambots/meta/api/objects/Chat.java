@@ -38,7 +38,7 @@ public class Chat implements BotApiObject {
      * so a signed 64 bit integer or double-precision float type are safe for storing this identifier.
      */
     @JsonProperty(ID_FIELD)
-    private Long id; ///< Unique identifier for this chat, not exciding 1e13 by absolute value
+    private Long id; ///< Unique identifier for this chat, not exceeding 1e13 by absolute value
     @JsonProperty(TYPE_FIELD)
     private String type; ///< Type of the chat, one of “private”, “group” or “channel”
     @JsonProperty(TITLE_FIELD)
