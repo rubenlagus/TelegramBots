@@ -68,7 +68,7 @@
         <bots.version>4.1</bots.version>
         <commonslang.version>3.5</commonslang.version>
         <mapdb.version>3.0.4</mapdb.version>
-        <guava.version>25.1-android</guava.version>
+        <guava.version>27.0.1-jre</guava.version>
     </properties>
 
     <dependencies>
