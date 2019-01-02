@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.telegram</groupId>
     <artifactId>telegrambots-spring-boot-starter</artifactId>
-    <version>4.1</version>
+    <version>${parent.version}</version>
     <packaging>jar</packaging>
 
     <name>Telegram Bots Spring Boot Starter</name>
@@ -59,7 +59,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <bots.version>4.1</bots.version>
         <spring-boot.version>2.0.2.RELEASE</spring-boot.version>
     </properties>
 
@@ -68,7 +67,7 @@
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots</artifactId>
-            <version>${bots.version}</version>
+            <version>${parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

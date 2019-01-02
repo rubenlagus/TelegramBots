@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.telegram</groupId>
     <artifactId>telegrambots</artifactId>
-    <version>4.1</version>
+    <version>${parent.version}</version>
     <packaging>jar</packaging>
 
     <name>Telegram Bots</name>
@@ -66,7 +66,6 @@
         <jackson.version>2.9.7</jackson.version>
         <jacksonanotation.version>2.9.0</jacksonanotation.version>
         <commonio.version>2.5</commonio.version>
-        <bots.version>4.1</bots.version>
     </properties>
 
     <dependencyManagement>
@@ -85,7 +84,7 @@
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots-meta</artifactId>
-            <version>${bots.version}</version>
+            <version>${parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
