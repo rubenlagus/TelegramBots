@@ -2,45 +2,54 @@ package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-
+import java.io.IOException;
+import java.util.Objects;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-
-import java.io.IOException;
-import java.util.Objects;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
- * @version 1.0
- * @brief Use this method to get the number of members in a chat. Returns Int on success.
- * @date 20 of May of 2016
- * @deprecated  Replaced by {@link GetChatMembersCount}
+ * @version 3.4
+ * Use this method to delete a group sticker set from a supergroup.
+ * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+ * Use the field can_set_sticker_set optionally returned in getChat requests to check if the bot can use this method.
+ * Returns True on success.
  */
-@Deprecated
-public class GetChatMemberCount extends BotApiMethod<Integer> {
-    public static final String PATH = "getChatMembersCount";
+public class DeleteChatStickerSet extends BotApiMethod<Boolean> {
+    public static final String PATH = "deleteChatStickerSet";
 
     private static final String CHATID_FIELD = "chat_id";
 
     @JsonProperty(CHATID_FIELD)
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
 
-    public GetChatMemberCount() {
+    public DeleteChatStickerSet() {
         super();
+    }
+
+    public DeleteChatStickerSet(String chatId) {
+        super();
+        this.chatId = checkNotNull(chatId);
+    }
+
+    public DeleteChatStickerSet(Long chatId) {
+        super();
+        this.chatId = checkNotNull(chatId).toString();
     }
 
     public String getChatId() {
         return chatId;
     }
 
-    public GetChatMemberCount setChatId(String chatId) {
+    public DeleteChatStickerSet setChatId(String chatId) {
         this.chatId = chatId;
         return this;
     }
 
-    public GetChatMemberCount setChatId(Long chatId) {
+    public DeleteChatStickerSet setChatId(Long chatId) {
         Objects.requireNonNull(chatId);
         this.chatId = chatId.toString();
         return this;
@@ -52,14 +61,14 @@ public class GetChatMemberCount extends BotApiMethod<Integer> {
     }
 
     @Override
-    public Integer deserializeResponse(String answer) throws TelegramApiRequestException {
+    public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
         try {
-            ApiResponse<Integer> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Integer>>(){});
+            ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
+                    new TypeReference<ApiResponse<Boolean>>(){});
             if (result.getOk()) {
                 return result.getResult();
             } else {
-                throw new TelegramApiRequestException("Error getting chat member count", result);
+                throw new TelegramApiRequestException("Error deleting chat sticker set", result);
             }
         } catch (IOException e) {
             throw new TelegramApiRequestException("Unable to deserialize response", e);
@@ -75,7 +84,7 @@ public class GetChatMemberCount extends BotApiMethod<Integer> {
 
     @Override
     public String toString() {
-        return "GetChatMemberCount{" +
+        return "DeleteChatStickerSet{" +
                 "chatId='" + chatId + '\'' +
                 '}';
     }

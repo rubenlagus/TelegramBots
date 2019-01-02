@@ -2,24 +2,20 @@ package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-
+import java.io.IOException;
+import java.util.Objects;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-
-import java.io.IOException;
-import java.util.Objects;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
  * @brief Use this method to get the number of members in a chat. Returns Int on success.
  * @date 20 of May of 2016
- * @deprecated  Replaced by {@link GetChatMembersCount}
  */
-@Deprecated
-public class GetChatMemberCount extends BotApiMethod<Integer> {
+public class GetChatMembersCount extends BotApiMethod<Integer> {
     public static final String PATH = "getChatMembersCount";
 
     private static final String CHATID_FIELD = "chat_id";
@@ -27,7 +23,7 @@ public class GetChatMemberCount extends BotApiMethod<Integer> {
     @JsonProperty(CHATID_FIELD)
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
 
-    public GetChatMemberCount() {
+    public GetChatMembersCount() {
         super();
     }
 
@@ -35,12 +31,12 @@ public class GetChatMemberCount extends BotApiMethod<Integer> {
         return chatId;
     }
 
-    public GetChatMemberCount setChatId(String chatId) {
+    public GetChatMembersCount setChatId(String chatId) {
         this.chatId = chatId;
         return this;
     }
 
-    public GetChatMemberCount setChatId(Long chatId) {
+    public GetChatMembersCount setChatId(Long chatId) {
         Objects.requireNonNull(chatId);
         this.chatId = chatId.toString();
         return this;
@@ -59,7 +55,7 @@ public class GetChatMemberCount extends BotApiMethod<Integer> {
             if (result.getOk()) {
                 return result.getResult();
             } else {
-                throw new TelegramApiRequestException("Error getting chat member count", result);
+                throw new TelegramApiRequestException("Error getting chat members count", result);
             }
         } catch (IOException e) {
             throw new TelegramApiRequestException("Unable to deserialize response", e);
@@ -75,7 +71,7 @@ public class GetChatMemberCount extends BotApiMethod<Integer> {
 
     @Override
     public String toString() {
-        return "GetChatMemberCount{" +
+        return "GetChatMembersCount{" +
                 "chatId='" + chatId + '\'' +
                 '}';
     }

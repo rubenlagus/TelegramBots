@@ -14,7 +14,7 @@ import org.telegram.telegrambots.meta.api.methods.games.SetGameScore;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChat;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdministrators;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMember;
-import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMemberCount;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMembersCount;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.KickChatMember;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.LeaveChat;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.UnbanChatMember;
@@ -123,8 +123,8 @@ public final class BotApiMethodHelperFactory {
                 .setUserId(98765);
     }
 
-    public static BotApiMethod getChatMemberCount() {
-        return new GetChatMemberCount()
+    public static BotApiMethod getChatMembersCount() {
+        return new GetChatMembersCount()
                 .setChatId("12345");
     }
 

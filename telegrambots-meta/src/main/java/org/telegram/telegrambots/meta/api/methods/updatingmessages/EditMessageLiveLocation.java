@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.updatingmessages;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -50,7 +51,7 @@ public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
     @JsonProperty(LATITUDE_FIELD)
     private Float latitude; ///< Latitude of new location
     @JsonProperty(LONGITUDE_FIELD)
-    private Float longitud; ///< Longitude of new location
+    private Float longitude; ///< Longitude of new location
     @JsonProperty(REPLYMARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. A JSON-serialized object for an inline keyboard.
 
@@ -109,13 +110,31 @@ public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
         return this;
     }
 
+    /**
+     * @deprecated  Replaced by {@link #getLongitude()}
+     */
+    @Deprecated
+    @JsonIgnore
     public Float getLongitud() {
-        return longitud;
+        return longitude;
     }
 
-    public EditMessageLiveLocation setLongitud(Float longitud) {
-        Objects.requireNonNull(longitud);
-        this.longitud = longitud;
+    public Float getLongitude() {
+        return longitude;
+    }
+
+    /**
+     * @deprecated  Replaced by {@link #setLongitude(Float)}
+     */
+    @Deprecated
+    @JsonIgnore
+    public EditMessageLiveLocation setLongitud(Float longitude) {
+        return setLongitude(longitude);
+    }
+
+    public EditMessageLiveLocation setLongitude(Float longitude) {
+        Objects.requireNonNull(longitude);
+        this.longitude = longitude;
         return this;
     }
 
@@ -170,8 +189,8 @@ public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
         if (latitude == null) {
             throw new TelegramApiValidationException("Latitude parameter can't be empty", this);
         }
-        if (longitud == null) {
-            throw new TelegramApiValidationException("Longitud parameter can't be empty", this);
+        if (longitude == null) {
+            throw new TelegramApiValidationException("Longitude parameter can't be empty", this);
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
@@ -185,7 +204,7 @@ public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
                 ", messageId=" + messageId +
                 ", inlineMessageId='" + inlineMessageId + '\'' +
                 ", latitude=" + latitude +
-                ", longitud=" + longitud +
+                ", longitude=" + longitude +
                 ", replyMarkup=" + replyMarkup +
                 '}';
     }
