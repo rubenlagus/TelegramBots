@@ -53,7 +53,7 @@ public final class WebhookUtils {
       }
       HttpEntity multipart = builder.build();
       httppost.setEntity(multipart);
-      try (CloseableHttpResponse response = httpclient.execute(httppost)) {
+      try (CloseableHttpResponse response = httpclient.execute(httppost, botOptions.getHttpContext())) {
         HttpEntity ht = response.getEntity();
         BufferedHttpEntity buf = new BufferedHttpEntity(ht);
         String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
