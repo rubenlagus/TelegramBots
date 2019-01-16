@@ -16,17 +16,17 @@ import org.telegram.abilitybots.api.util.AbilityExtension;
 import org.telegram.abilitybots.api.util.AbilityUtils;
 import org.telegram.abilitybots.api.util.Pair;
 import org.telegram.abilitybots.api.util.Trio;
+import org.telegram.telegrambots.bots.DefaultAbsSender;
+import org.telegram.telegrambots.bots.DefaultBotOptions;
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdministrators;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
-import org.telegram.telegrambots.bots.DefaultAbsSender;
-import org.telegram.telegrambots.bots.DefaultBotOptions;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.logging.BotLogger;
-import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -614,30 +614,37 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
    */
   private void registerAbilities() {
     try {
-      List<AbilityExtension>extensions = stream(this.getClass().getMethods())
-              .filter(checkReturnType(AbilityExtension.class))
-              .map(this.returnExtension(this))
-              .collect(Collectors.toList());
+      // Collect all classes that implement AbilityExtension declared in the bot
+      List<AbilityExtension> extensions = stream(getClass().getMethods())
+          .filter(checkReturnType(AbilityExtension.class))
+          .map(returnExtension(this))
+          .collect(Collectors.toList());
 
+      // Add the bot itself as it is an AbilityExtension
       extensions.add(this);
 
+      // Extract all abilities from every single extension instance
       abilities = extensions.stream()
           .flatMap(ext -> stream(ext.getClass().getMethods())
               .filter(checkReturnType(Ability.class))
-              .map(this.returnAbility(ext)))
+              .map(returnAbility(ext)))
+          // Abilities are immutable, build it respectively
           .collect(ImmutableMap::<String, Ability>builder,
               (b, a) -> b.put(a.name(), a),
               (b1, b2) -> b1.putAll(b2.build()))
           .build();
 
+      // Extract all replies from every single extension instance
       Stream<Reply> extensionReplies = extensions.stream()
-              .flatMap(ext -> stream(ext.getClass().getMethods())
-                  .filter(checkReturnType(Reply.class))
-                  .map(this.returnReply(ext)));
+          .flatMap(ext -> stream(ext.getClass().getMethods())
+              .filter(checkReturnType(Reply.class))
+              .map(returnReply(ext)));
 
+      // Replies can be standalone or attached to abilities, fetch those too
       Stream<Reply> abilityReplies = abilities.values().stream()
           .flatMap(ability -> ability.replies().stream());
 
+      // Now create the replies registry (list)
       replies = Stream.concat(abilityReplies, extensionReplies).collect(
           ImmutableList::<Reply>builder,
           Builder::add,
@@ -647,16 +654,18 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
       BotLogger.error(TAG, "Duplicate names found while registering abilities. Make sure that the abilities declared don't clash with the reserved ones.", e);
       throw propagate(e);
     }
-
   }
 
+  /**
+   * @param clazz the type to be tested
+   * @return a predicate testing the return type of the method corresponding to the class parameter
+   */
   private Predicate<Method> checkReturnType(Class<?> clazz) {
     return method -> clazz.isAssignableFrom(method.getReturnType());
   }
 
-
   /**
-   * Invokes the method curried and retrieves its return {@link Reply}.
+   * Invokes the method and retrieves its return {@link Reply}.
    *
    * @param obj an bot or extension that this method is invoked with
    * @return a {@link Function} which returns the {@link Reply} returned by the given method
@@ -666,13 +675,14 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
       try {
         return (AbilityExtension) method.invoke(obj);
       } catch (IllegalAccessException | InvocationTargetException e) {
-        BotLogger.error("Could not add ability", TAG, e);
+        BotLogger.error("Could not add ability extension", TAG, e);
         throw propagate(e);
       }
     };
   }
+
   /**
-   * Invokes the method curried and retrieves its return {@link Ability}.
+   * Invokes the method and retrieves its return {@link Ability}.
    *
    * @param obj an bot or extension that this method is invoked with
    * @return a {@link Function} which returns the {@link Ability} returned by the given method
@@ -689,7 +699,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
   }
 
   /**
-   * Invokes the method curried and retrieves its return {@link Reply}.
+   * Invokes the method and retrieves its return {@link Reply}.
    *
    * @param obj an bot or extension that this method is invoked with
    * @return a {@link Function} which returns the {@link Reply} returned by the given method
@@ -699,7 +709,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
       try {
         return (Reply) method.invoke(obj);
       } catch (IllegalAccessException | InvocationTargetException e) {
-        BotLogger.error("Could not add ability", TAG, e);
+        BotLogger.error("Could not add reply", TAG, e);
         throw propagate(e);
       }
     };
