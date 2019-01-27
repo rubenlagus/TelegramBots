@@ -15,7 +15,7 @@ Usage
     <dependency>
         <groupId>org.telegram</groupId>
         <artifactId>telegrambots-chat-session-bot</artifactId>
-        <version>4.1.1</version>
+        <version>4.1.2</version>
     </dependency>
 ```
 
