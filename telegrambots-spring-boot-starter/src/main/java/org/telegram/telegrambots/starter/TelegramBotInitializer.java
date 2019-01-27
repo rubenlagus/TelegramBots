@@ -51,46 +51,44 @@ public class TelegramBotInitializer implements InitializingBean {
         }		
 	}
 
-	private void handleAnnotatedMethod(Object bot, Method method, BotSession session) throws InvocationTargetException, IllegalAccessException {
-        if (method.getParameterCount() > 1) {
+	private void handleAnnotatedMethod(Object bot, Method method, BotSession session) {
+        try {
+            if (method.getParameterCount() > 1) {
+                BotLogger.warn(this.getClass().getSimpleName(),
+                        format("Method %s of Type %s has too many parameters",
+                                method.getName(),
+                                method.getDeclaringClass().getCanonicalName()
+                        )
+                );
+                return;
+            }
+            if (method.getParameterCount() == 0) {
+                method.invoke(bot);
+                return;
+            }
+            if (method.getParameterTypes()[0].equals(BotSession.class)) {
+                method.invoke(bot, session);
+                return;
+            }
             BotLogger.warn(this.getClass().getSimpleName(),
-                    format("Method %s of Type %s has too many parameters",
+                    format("Method %s of Type %s has invalid parameter type",
                             method.getName(),
                             method.getDeclaringClass().getCanonicalName()
                     )
             );
-            return;
+        } catch (InvocationTargetException | IllegalAccessException e) {
+            BotLogger.error(this.getClass().getSimpleName(),
+                    format("Couldn't invoke Method %s of Type %s",
+                            method.getName(), method.getDeclaringClass().getCanonicalName()
+                    )
+            );
         }
-        if (method.getParameterCount() == 0) {
-            method.invoke(bot);
-            return;
-        }
-        if (method.getParameterTypes()[0].equals(BotSession.class)) {
-            method.invoke(bot, session);
-            return;
-        }
-        BotLogger.warn(this.getClass().getSimpleName(),
-                format("Method %s of Type %s has invalid parameter type",
-                        method.getName(),
-                        method.getDeclaringClass().getCanonicalName()
-                )
-        );
     }
 
     private void handleAfterRegistrationHook(Object bot, BotSession botSession) {
-        for (Method m : bot.getClass().getMethods()) {
-            Stream.of(m.getAnnotations()).forEach(annotation -> System.out.println(annotation.annotationType().getName()));
-            if (m.getAnnotation(AfterBotRegistration.class) != null) {
-                try {
-                    handleAnnotatedMethod(bot, m, botSession);
-                } catch (InvocationTargetException | IllegalAccessException e) {
-                    BotLogger.error(this.getClass().getSimpleName(),
-                            format("Couldn't invoke Method %s of Type %s",
-                                    m.getName(), m.getDeclaringClass().getCanonicalName()
-                            )
-                    );
-                }
-            }
-        }
+        Stream.of(bot.getClass().getMethods())
+                .filter(method -> method.getAnnotation(AfterBotRegistration.class) != null)
+                .forEach(method -> handleAnnotatedMethod(bot, method, botSession));
+
     }
 }
