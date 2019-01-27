@@ -2,7 +2,6 @@ package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -222,6 +221,7 @@ public class SendMessage extends BotApiMethod<Message> {
                 "chatId='" + chatId + '\'' +
                 ", text='" + text + '\'' +
                 ", parseMode='" + parseMode + '\'' +
+                ", disableNotification='" + disableNotification + '\'' +
                 ", disableWebPagePreview=" + disableWebPagePreview +
                 ", replyToMessageId=" + replyToMessageId +
                 ", replyMarkup=" + replyMarkup +

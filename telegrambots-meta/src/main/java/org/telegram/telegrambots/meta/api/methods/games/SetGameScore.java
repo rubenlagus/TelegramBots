@@ -63,7 +63,7 @@ public class SetGameScore extends BotApiMethod<Serializable> {
     @JsonProperty(SCORE_FIELD)
     private Integer score; ///< New score, must be positive
     @JsonProperty(FORCE_FIELD)
-    private Boolean force; ///< Opfional. Pass True, if the high score is allowed to decrease. This can be useful when fixing mistakes or banning cheaters
+    private Boolean force; ///< Optional. Pass True, if the high score is allowed to decrease. This can be useful when fixing mistakes or banning cheaters
 
     public SetGameScore() {
         super();

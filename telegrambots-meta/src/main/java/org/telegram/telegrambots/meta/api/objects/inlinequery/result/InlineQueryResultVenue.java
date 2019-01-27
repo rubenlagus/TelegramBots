@@ -189,7 +189,7 @@ public class InlineQueryResultVenue implements InlineQueryResult {
             throw new TelegramApiValidationException("Longitude parameter can't be empty", this);
         }
         if (address == null || address.isEmpty()) {
-            throw new TelegramApiValidationException("Longitude parameter can't be empty", this);
+            throw new TelegramApiValidationException("Address parameter can't be empty", this);
         }
         if (inputMessageContent != null) {
             inputMessageContent.validate();

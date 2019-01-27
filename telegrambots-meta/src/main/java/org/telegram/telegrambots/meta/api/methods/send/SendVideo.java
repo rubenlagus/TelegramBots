@@ -39,9 +39,9 @@ public class SendVideo extends PartialBotApiMethod<Message> {
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     private InputFile video; ///< Video to send. file_id as String to resend a video that is already on the Telegram servers or URL to upload it
     private Integer duration; ///< Optional. Duration of sent video in seconds
-    private String caption; ///< OptionaL. Video caption (may also be used when resending videos by file_id).
+    private String caption; ///< Optional. Video caption (may also be used when resending videos by file_id).
     private Integer width; ///< Optional. Video width
-    private Integer height; ///< OptionaL. Video height
+    private Integer height; ///< Optional. Video height
     private Boolean supportsStreaming; ///< Optional. Pass True, if the uploaded video is suitable for streaming
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message

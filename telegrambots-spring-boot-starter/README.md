@@ -18,14 +18,14 @@ Usage
     <dependency>
         <groupId>org.telegram</groupId>
         <artifactId>telegrambots-spring-boot-starter</artifactId>
-        <version>4.1</version>
+        <version>4.1.1</version>
     </dependency>
 ```
 
 **Gradle**
 
 ```gradle
-    compile "org.telegram:telegrambots-spring-boot-starter:4.1"
+    compile "org.telegram:telegrambots-spring-boot-starter:4.1.1"
 ```
 
 Motivation
@@ -52,7 +52,7 @@ public class YourApplicationMainClass {
 
 After that your bot will look like:
 ```java
-  //Standart Spring component annotation
+  //Standard Spring component annotation
   @Component
   public class YourBotName extends TelegramLongPollingBot {
     //Bot body.

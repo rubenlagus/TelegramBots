@@ -1,4 +1,5 @@
-* [How to get picture?](#how_to_get_picture)  
+* [How to get picture?](#how_to_get_picture)
+* [How to display ChatActions like "typing" or "recording a voice message"?](#how_to_sendchataction)
 * [How to send photos?](#how_to_send_photos)
 * [How do I send photos by file_id?](#how_to_send_photos_file_id)
 * [How to use custom keyboards?](#how_to_use_custom_keyboards)
@@ -73,6 +74,38 @@ public java.io.File downloadPhotoByFilePath(String filePath) {
 ```
 
 The returned `java.io.File` object will be your photo
+
+## <a id="how_to_sendchataction"></a>How to display ChatActions like "typing" or "recording a voice message"? ##
+Quick example here that is showing ChactActions for commands like "/type" or "/record_audio"
+
+```java
+if (update.hasMessage() && update.getMessage().hasText()) {
+
+	String text = update.getMessage().getText();
+
+	SendChatAction sendChatAction = new SendChatAction();
+	sendChatAction.setChatId(update.getMessage().getChatId());
+
+	if (text.equals("/type")) {
+		// -> "typing"
+		sendChatAction.setAction(ActionType.TYPING);
+		// -> "recording a voice message"
+	} else if (text.equals("/record_audio")) {
+		sendChatAction.setAction(ActionType.RECORDAUDIO);
+	} else {
+		// -> more actions in the Enum ActionType
+		// For information: https://core.telegram.org/bots/api#sendchataction
+		sendChatAction.setAction(ActionType.UPLOADDOCUMENT);
+	}
+
+	try {
+		Boolean wasSuccessfull = execute(sendChatAction);
+	} catch (TelegramApiException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+```
 
 ## <a id="how_to_send_photos"></a>How to send photos? ##
 
@@ -231,8 +264,6 @@ Your main spring boot class should look like this:
 
 ```java
 @SpringBootApplication
-//Add this annotation to enable automatic bots initializing
-@EnableTelegramBots
 public class YourApplicationMainClass {
 
 	public static void main(String[] args) {
@@ -246,7 +277,7 @@ public class YourApplicationMainClass {
 
 After that your bot will look like:
 ```java
-  //Standart Spring component annotation
+  //Standard Spring component annotation
   @Component
   public class YourBotClassName extends TelegramLongPollingBot {
     //Bot body.

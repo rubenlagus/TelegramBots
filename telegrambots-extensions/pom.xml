@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.telegram</groupId>
     <artifactId>telegrambotsextensions</artifactId>
-    <version>4.1</version>
+    <version>4.1.1</version>
     <packaging>jar</packaging>
 
     <name>Telegram Bots Extensions</name>
@@ -59,14 +59,13 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <bots.version>4.1</bots.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots</artifactId>
-            <version>${bots.version}</version>
+            <version>4.1.1</version>
         </dependency>
     </dependencies>
 

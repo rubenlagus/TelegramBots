@@ -3,6 +3,7 @@
     * [[Errors Handling]]
     * [[Using HTTP Proxy]]
     * [[FAQ]]
+    * [[Handling Bot Tokens]]
 * AbilityBot
     * [[Simple Example]]
     * [[Hello Ability]]
@@ -11,5 +12,6 @@
     * [[Bot Testing]]
     * [[Bot Recovery]]
     * [[Advanced]]
+    * [[Additional Examples]]
 * [[Changelog]]
     * [[How To Update]]
