@@ -63,7 +63,7 @@
         <jerseybundle.version>1.19.3</jerseybundle.version>
         <httpcompontents.version>4.5.3</httpcompontents.version>
         <json.version>20180813</json.version>
-        <jackson.version>2.9.7</jackson.version>
+        <jackson.version>2.9.8</jackson.version>
         <jacksonanotation.version>2.9.0</jacksonanotation.version>
         <commonio.version>2.5</commonio.version>
     </properties>
