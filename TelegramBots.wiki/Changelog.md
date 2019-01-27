@@ -1,4 +1,4 @@
-### <a id="4.1.1"></a>4.1.1 ###
+### <a id="4.1.2"></a>4.1.2 ###
 1. Removed unsafe dependencies
 2. Fix bugs: #535, #524, #563, #562 and #557
 
