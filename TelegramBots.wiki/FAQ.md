@@ -22,7 +22,7 @@ public PhotoSize getPhoto(Update update) {
 
         // We fetch the bigger photo
         return photos.stream()
-                .max(Comparator.comparing(PhotoSize::getFileSize)).get();
+                .max(Comparator.comparing(PhotoSize::getFileSize)).orElse(null);
     }
 
     // Return null if not found
