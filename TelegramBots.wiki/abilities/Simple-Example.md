@@ -14,7 +14,7 @@ As with any Java project, you will need to set your dependencies.
 ```
 * **Gradle**
 ```groovy
-  compile group: 'org.telegram', name: 'telegrambots-abilties', version: '4.1.2'
+  compile group: 'org.telegram', name: 'telegrambots-abilities', version: '4.1.2'
 ```
 * [JitPack](https://jitpack.io/#rubenlagus/TelegramBots)
     
