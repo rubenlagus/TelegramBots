@@ -198,7 +198,7 @@ public class MapDBContext implements DBContext {
         Set entrySet = (Set) value;
         getSet(name).addAll(entrySet);
       } else if (value instanceof BackupMap) {
-        Map<Object, Object> entryMap = ((BackupMap)value).toMap();
+        Map<Object, Object> entryMap = ((BackupMap) value).toMap();
         getMap(name).putAll(entryMap);
       } else if (value instanceof List) {
         List entryList = (List) value;

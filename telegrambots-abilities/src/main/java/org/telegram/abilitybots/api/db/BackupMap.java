@@ -4,7 +4,7 @@ import org.telegram.abilitybots.api.util.Pair;
 
 import java.util.*;
 
-public class BackupMap<K, V> extends AbstractCollection<Pair<K, V>> implements Collection<Pair<K, V>> {
+final class BackupMap<K, V> extends AbstractCollection<Pair<K, V>> implements Collection<Pair<K, V>> {
     private Collection<Pair<K, V>> entries = new HashSet<>();
 
     public BackupMap(){}
