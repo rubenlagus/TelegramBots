@@ -16,8 +16,8 @@ import java.io.Serializable;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Use this method to edit only the reply markup of messages sent by the bot or via the bot
- * (for inline bots). On success, if edited message is sent by the bot, the edited Message is returned,
+ * @brief Use this method to edit only the reply markup of messages.
+ * On success, if edited message is sent by the bot, the edited Message is returned,
  * therwise True is returned.
  * @date 10 of April of 2016
  */

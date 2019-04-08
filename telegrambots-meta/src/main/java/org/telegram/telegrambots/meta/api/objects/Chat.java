@@ -61,7 +61,7 @@ public class Chat implements BotApiObject {
     @JsonProperty(INVITELINK_FIELD)
     private String inviteLink; ///< Optional. Chat invite link, for supergroups and channel chats. Returned only in getChat.
     @JsonProperty(PINNEDMESSAGE_FIELD)
-    private Message pinnedMessage; ///< Optional. Pinned message, for supergroups. Returned only in getChat.
+    private Message pinnedMessage; ///< Optional. Pinned message, for groups, supergroups and channels. Returned only in getChat.
     @JsonProperty(STICKERSETNAME_FIELD)
     private String stickerSetName; ///< Optional. For supergroups, name of Group sticker set. Returned only in getChat.
     @JsonProperty(CANSETSTICKERSET_FIELD)

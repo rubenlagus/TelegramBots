@@ -17,7 +17,7 @@ import java.io.Serializable;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Use this method to edit text messages sent by the bot or via the bot (for inline bots). On
+ * @brief Use this method to edit text messages. On
  * success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
  * @date 10 of April of 2016
  */

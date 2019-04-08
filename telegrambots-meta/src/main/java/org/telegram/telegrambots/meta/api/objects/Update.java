@@ -1,12 +1,12 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.ChosenInlineQuery;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
 import org.telegram.telegrambots.meta.api.objects.payments.PreCheckoutQuery;
 import org.telegram.telegrambots.meta.api.objects.payments.ShippingQuery;
+import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 
 /**
  * @author Ruben Bermudez
@@ -27,6 +27,7 @@ public class Update implements BotApiObject {
     private static final String EDITEDCHANNELPOST_FIELD = "edited_channel_post";
     private static final String SHIPPING_QUERY_FIELD = "shipping_query";
     private static final String PRE_CHECKOUT_QUERY_FIELD = "pre_checkout_query";
+    private static final String POLL_FIELD = "poll";
 
     @JsonProperty(UPDATEID_FIELD)
     private Integer updateId;
@@ -48,6 +49,8 @@ public class Update implements BotApiObject {
     private ShippingQuery shippingQuery; ///< Optional. New incoming shipping query. Only for invoices with flexible price
     @JsonProperty(PRE_CHECKOUT_QUERY_FIELD)
     private PreCheckoutQuery preCheckoutQuery; ///< Optional. New incoming pre-checkout query. Contains full information about checkout
+    @JsonProperty(POLL_FIELD)
+    private Poll poll; ///< Optional. New poll state. Bots receive only updates about polls, which are sent by the bot.
 
     public Update() {
         super();
@@ -93,6 +96,10 @@ public class Update implements BotApiObject {
         return preCheckoutQuery;
     }
 
+    public Poll getPoll() {
+        return poll;
+    }
+
     public boolean hasMessage() {
         return message != null;
     }
@@ -127,6 +134,10 @@ public class Update implements BotApiObject {
 
     public boolean hasPreCheckoutQuery() {
         return preCheckoutQuery != null;
+    }
+
+    public boolean hasPoll() {
+        return poll != null;
     }
 
     @Override
