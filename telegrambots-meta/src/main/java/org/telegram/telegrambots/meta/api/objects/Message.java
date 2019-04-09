@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.games.Animation;
@@ -223,6 +224,7 @@ public class Message implements BotApiObject {
         return text;
     }
 
+    @JsonIgnore
     public List<MessageEntity> getEntities() {
         if (entities != null) {
             entities.forEach(x -> x.computeText(text));
@@ -230,6 +232,7 @@ public class Message implements BotApiObject {
         return entities;
     }
 
+    @JsonIgnore
     public List<MessageEntity> getCaptionEntities() {
         if (captionEntities != null) {
             captionEntities.forEach(x -> x.computeText(caption));
@@ -253,6 +256,7 @@ public class Message implements BotApiObject {
         return sticker;
     }
 
+    @JsonIgnore
     public boolean hasSticker() {
         return sticker != null;
     }
@@ -337,30 +341,37 @@ public class Message implements BotApiObject {
         return forwardFromMessageId;
     }
 
+    @JsonIgnore
     public boolean isGroupMessage() {
         return chat.isGroupChat();
     }
 
+    @JsonIgnore
     public boolean isUserMessage() {
         return chat.isUserChat();
     }
 
+    @JsonIgnore
     public boolean isChannelMessage() {
         return chat.isChannelChat();
     }
 
+    @JsonIgnore
     public boolean isSuperGroupMessage() {
         return chat.isSuperGroupChat();
     }
 
+    @JsonIgnore
     public Long getChatId() {
         return chat.getId();
     }
 
+    @JsonIgnore
     public boolean hasText() {
         return text != null && !text.isEmpty();
     }
 
+    @JsonIgnore
     public boolean isCommand() {
         if (hasText() && entities != null) {
             for (MessageEntity entity : entities) {
@@ -373,18 +384,22 @@ public class Message implements BotApiObject {
         return false;
     }
 
+    @JsonIgnore
     public boolean hasDocument() {
         return this.document != null;
     }
 
+    @JsonIgnore
     public boolean hasVideo() {
         return this.video != null;
     }
 
+    @JsonIgnore
     public boolean isReply() {
         return this.replyToMessage != null;
     }
 
+    @JsonIgnore
     public boolean hasLocation() {
         return location != null;
     }
@@ -401,26 +416,32 @@ public class Message implements BotApiObject {
         return game;
     }
 
+    @JsonIgnore
     private boolean hasGame() {
         return game != null;
     }
 
+    @JsonIgnore
     public boolean hasEntities() {
         return entities != null && !entities.isEmpty();
     }
 
+    @JsonIgnore
     public boolean hasPhoto() {
         return photo != null && !photo.isEmpty();
     }
 
+    @JsonIgnore
     public boolean hasInvoice() {
         return invoice != null;
     }
 
+    @JsonIgnore
     public boolean hasSuccessfulPayment() {
         return successfulPayment != null;
     }
 
+    @JsonIgnore
     public boolean hasContact() {
         return contact != null;
     }
@@ -437,6 +458,7 @@ public class Message implements BotApiObject {
         return videoNote;
     }
 
+    @JsonIgnore
     public boolean hasVideoNote() {
         return videoNote != null;
     }
@@ -461,10 +483,12 @@ public class Message implements BotApiObject {
         return passportData;
     }
 
+    @JsonIgnore
     public boolean hasPassportData() {
         return passportData != null;
     }
 
+    @JsonIgnore
     public boolean hasAnimation() {
         return animation != null;
     }

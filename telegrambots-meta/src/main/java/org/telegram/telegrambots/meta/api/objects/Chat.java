@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
@@ -75,18 +76,22 @@ public class Chat implements BotApiObject {
         return id;
     }
 
+    @JsonIgnore
     public Boolean isGroupChat() {
         return GROUPCHATTYPE.equals(type);
     }
 
+    @JsonIgnore
     public Boolean isChannelChat() {
         return CHANNELCHATTYPE.equals(type);
     }
 
+    @JsonIgnore
     public Boolean isUserChat() {
         return USERCHATTYPE.equals(type);
     }
 
+    @JsonIgnore
     public Boolean isSuperGroupChat() {
         return SUPERGROUPCHATTYPE.equals(type);
     }

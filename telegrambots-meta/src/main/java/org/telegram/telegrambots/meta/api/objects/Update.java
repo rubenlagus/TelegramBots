@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
@@ -93,38 +94,47 @@ public class Update implements BotApiObject {
         return preCheckoutQuery;
     }
 
+    @JsonIgnore
     public boolean hasMessage() {
         return message != null;
     }
 
+    @JsonIgnore
     public boolean hasInlineQuery() {
         return inlineQuery != null;
     }
 
+    @JsonIgnore
     public boolean hasChosenInlineQuery() {
         return chosenInlineQuery != null;
     }
 
+    @JsonIgnore
     public boolean hasCallbackQuery() {
         return callbackQuery != null;
     }
 
+    @JsonIgnore
     public boolean hasEditedMessage() {
         return editedMessage != null;
     }
 
+    @JsonIgnore
     public boolean hasChannelPost() {
         return channelPost != null;
     }
 
+    @JsonIgnore
     public boolean hasEditedChannelPost() {
         return editedChannelPost != null;
     }
 
+    @JsonIgnore
     public boolean hasShippingQuery() {
         return shippingQuery != null;
     }
 
+    @JsonIgnore
     public boolean hasPreCheckoutQuery() {
         return preCheckoutQuery != null;
     }

@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
@@ -79,6 +80,7 @@ public class ChatMember implements BotApiObject {
         return untilDate;
     }
 
+    @JsonIgnore
     public Instant getUntilDateAsInstant() {
         if (untilDate == null) {
             return null;
