@@ -66,6 +66,7 @@ public class User implements BotApiObject {
         return languageCode;
     }
 
+    @JsonProperty(ISBOT_FIELD)
     public Boolean getBot() {
         return isBot;
     }
