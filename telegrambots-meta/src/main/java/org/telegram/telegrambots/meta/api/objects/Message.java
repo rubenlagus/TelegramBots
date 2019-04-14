@@ -24,6 +24,7 @@ public class Message implements BotApiObject {
     private static final String FORWARDFROM_FIELD = "forward_from";
     private static final String FORWARDFROMCHAT_FIELD = "forward_from_chat";
     private static final String FORWARDDATE_FIELD = "forward_date";
+    private static final String FORWARDSENDERNAME_FIELD = "forward_sender_name";
     private static final String TEXT_FIELD = "text";
     private static final String ENTITIES_FIELD = "entities";
     private static final String CAPTIONENTITIES_FIELD = "caption_entities";
@@ -76,6 +77,8 @@ public class Message implements BotApiObject {
     private Chat forwardFromChat; ///< Optional. For messages forwarded from a channel, information about the original channel
     @JsonProperty(FORWARDDATE_FIELD)
     private Integer forwardDate; ///< Optional. For forwarded messages, date the original message was sent
+    @JsonProperty(FORWARDSENDERNAME_FIELD)
+    private String forwardSenderName; ///< Optional. Sender's name for messages forwarded from users who disallow adding a link to their account in forwarded messages
     @JsonProperty(TEXT_FIELD)
     private String text; ///< Optional. For text messages, the actual UTF-8 text of the message
     /**
@@ -217,6 +220,10 @@ public class Message implements BotApiObject {
 
     public Integer getForwardDate() {
         return forwardDate;
+    }
+
+    public String getForwardSenderName() {
+        return forwardSenderName;
     }
 
     public String getText() {
@@ -381,14 +388,6 @@ public class Message implements BotApiObject {
         return this.video != null;
     }
 
-    public boolean hasAudio(){
-        return this.audio != null;
-    }
-
-    public boolean hasVoice(){
-        return this.voice != null;
-    }
-
     public boolean isReply() {
         return this.replyToMessage != null;
     }
@@ -487,6 +486,7 @@ public class Message implements BotApiObject {
                 ", forwardFrom=" + forwardFrom +
                 ", forwardFromChat=" + forwardFromChat +
                 ", forwardDate=" + forwardDate +
+                ", forwardSenderName=" + forwardSenderName +
                 ", text='" + text + '\'' +
                 ", entities=" + entities +
                 ", captionEntities=" + captionEntities +
