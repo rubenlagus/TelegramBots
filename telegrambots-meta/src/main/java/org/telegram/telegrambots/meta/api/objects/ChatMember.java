@@ -25,6 +25,7 @@ public class ChatMember implements BotApiObject {
     private static final String CANRESTRICTUSERS_FIELD = "can_restrict_users";
     private static final String CANPINMESSAGES_FIELD = "can_pin_messages";
     private static final String CANPROMOTEMEMBERS_FIELD = "can_promote_members";
+    private static final String ISMEMBER_FIELD = "is_member";
     private static final String CANSENDMESSAGES_FIELD = "can_send_messages";
     private static final String CANSENDMEDIAMESSAGES_FIELD = "can_send_media_messages";
     private static final String CANSENDOTHERMESSAGES_FIELD = "can_send_other_messages";
@@ -54,6 +55,8 @@ public class ChatMember implements BotApiObject {
     private Boolean canPinMessages; ///< Optional. Administrators only. True, if the administrator can pin messages
     @JsonProperty(CANPROMOTEMEMBERS_FIELD)
     private Boolean canPromoteMembers; ///< Optional. Administrators only. True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that it has promoted, directly or indirectly (promoted by administrators that were appointed by the bot)
+    @JsonProperty(ISMEMBER_FIELD)
+    private Boolean isMember; ///< Optional. Restricted only. True, if the user is a member of the chat at the moment of the request
     @JsonProperty(CANSENDMESSAGES_FIELD)
     private Boolean canSendMessages; ///< Optional. Restricted only. True, if the user can send text messages, contacts, locations and venues
     @JsonProperty(CANSENDMEDIAMESSAGES_FIELD)
@@ -122,6 +125,10 @@ public class ChatMember implements BotApiObject {
         return canPromoteMembers;
     }
 
+    public Boolean getIsMember() {
+        return isMember;
+    }
+
     public Boolean getCanSendMessages() {
         return canSendMessages;
     }
@@ -153,6 +160,7 @@ public class ChatMember implements BotApiObject {
                 ", canRestrictUsers=" + canRestrictUsers +
                 ", canPinMessages=" + canPinMessages +
                 ", canPromoteMembers=" + canPromoteMembers +
+                ", isMember=" + isMember +
                 ", canSendMessages=" + canSendMessages +
                 ", canSendMediaMessages=" + canSendMediaMessages +
                 ", canSendOtherMessages=" + canSendOtherMessages +
