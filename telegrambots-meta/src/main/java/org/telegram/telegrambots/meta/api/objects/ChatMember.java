@@ -29,6 +29,7 @@ public class ChatMember implements BotApiObject {
     private static final String CANSENDMEDIAMESSAGES_FIELD = "can_send_media_messages";
     private static final String CANSENDOTHERMESSAGES_FIELD = "can_send_other_messages";
     private static final String CANADDWEBPAGEPREVIEWS_FIELD = "can_add_web_page_previews";
+    private static final String ISMEMBER_FIELD = "is_member";
 
     @JsonProperty(USER_FIELD)
     private User user; ///< Information about the user
@@ -51,7 +52,7 @@ public class ChatMember implements BotApiObject {
     @JsonProperty(CANRESTRICTUSERS_FIELD)
     private Boolean canRestrictUsers; ///< Optional. Administrators only. True, if the administrator can restrict, ban or unban chat members
     @JsonProperty(CANPINMESSAGES_FIELD)
-    private Boolean canPinMessages; ///< Optional. Administrators only. True, if the administrator can pin messages
+    private Boolean canPinMessages; ///< Optional. Administrators only. True, if the administrator can pin messages, groups and supergroups only
     @JsonProperty(CANPROMOTEMEMBERS_FIELD)
     private Boolean canPromoteMembers; ///< Optional. Administrators only. True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that it has promoted, directly or indirectly (promoted by administrators that were appointed by the bot)
     @JsonProperty(CANSENDMESSAGES_FIELD)
@@ -62,6 +63,8 @@ public class ChatMember implements BotApiObject {
     private Boolean canSendOtherMessages; ///< Optional. Restricted only. True, if the user can send animations, games, stickers and use inline bots, implies can_send_media_messages
     @JsonProperty(CANADDWEBPAGEPREVIEWS_FIELD)
     private Boolean canAddWebPagePreviews; ///< Optional. Restricted only. True, if user may add web page previews Э to his messages, implies can_send_messages
+    @JsonProperty(ISMEMBER_FIELD)
+    private Boolean isMemberField; ///< True, if the user is a member of the chat at the moment of the request. For example, it can be false for the chat creator or for a restricted user.
 
     public ChatMember() {
         super();

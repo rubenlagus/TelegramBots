@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.payments.Invoice;
 import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,6 +62,7 @@ public class Message implements BotApiObject {
     private static final String MEDIAGROUPID_FIELD = "media_group_id";
     private static final String CONNECTEDWEBSITE_FIELD = "connected_website";
     private static final String PASSPORTDATA_FIELD = "passport_data";
+    private static final String FORWARDSENDERNAME_FIELD = "forward_sender_name";
 
     @JsonProperty(MESSAGEID_FIELD)
     private Integer messageId; ///< Integer	Unique message identifier
@@ -190,6 +192,8 @@ public class Message implements BotApiObject {
     private String connectedWebsite; ///< Optional. The domain name of the website on which the user has logged in
     @JsonProperty(PASSPORTDATA_FIELD)
     private PassportData passportData; ///< Optional. Telegram Passport data
+    @JsonProperty(FORWARDSENDERNAME_FIELD)
+    private String forwardSenderName; ///< Optional. Sender's name for messages forwarded from users who disallow adding a link to their account in forwarded messages.
 
     public Message() {
         super();
@@ -282,7 +286,7 @@ public class Message implements BotApiObject {
     }
 
     public List<User> getNewChatMembers() {
-        return newChatMembers;
+        return newChatMembers == null ? new ArrayList<>() : newChatMembers;
     }
 
     public User getLeftChatMember() {
@@ -381,6 +385,14 @@ public class Message implements BotApiObject {
         return this.video != null;
     }
 
+    public boolean hasAudio(){
+        return this.audio != null;
+    }
+
+    public boolean hasVoice(){
+        return this.voice != null;
+    }
+
     public boolean isReply() {
         return this.replyToMessage != null;
     }
@@ -467,6 +479,14 @@ public class Message implements BotApiObject {
 
     public boolean hasAnimation() {
         return animation != null;
+    }
+
+    public String getForwardSenderName() {
+        return forwardSenderName;
+    }
+
+    public void setForwardSenderName(String forwardSenderName) {
+        this.forwardSenderName = forwardSenderName;
     }
 
     @Override

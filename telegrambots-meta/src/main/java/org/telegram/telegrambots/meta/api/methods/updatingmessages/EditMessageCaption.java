@@ -16,8 +16,8 @@ import java.io.Serializable;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * Use this method to edit captions of messages sent by the bot or via the bot (for inline
- * bots). On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
+ * Use this method to edit captions of messages.
+ * On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
  */
 public class EditMessageCaption extends BotApiMethod<Serializable> {
     public static final String PATH = "editmessagecaption";
