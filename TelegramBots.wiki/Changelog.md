@@ -1,3 +1,7 @@
+### <a id="4.2"></a>4.2 ###
+1. Update to Api version [4.2](https://core.telegram.org/bots/api-changelog#april-14-2019)
+2. Fixed: #498, #578
+
 ### <a id="4.1.2"></a>4.1.2 ###
 1. Removed unsafe dependencies
 2. Fix bugs: #535, #524, #563, #562 and #557
