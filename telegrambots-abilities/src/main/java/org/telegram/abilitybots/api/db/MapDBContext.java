@@ -184,7 +184,7 @@ public class MapDBContext implements DBContext {
       else if (struct instanceof List)
         return Pair.of(entry.getKey(), newArrayList((List) struct));
       else if (struct instanceof Map)
-        return Pair.of(entry.getKey(), newHashMap((Map) struct));
+        return Pair.of(entry.getKey(), new BackupMap((Map) struct));
       else
         return Pair.of(entry.getKey(), struct);
     }).collect(toMap(pair -> (String) pair.a(), Pair::b));
@@ -197,17 +197,8 @@ public class MapDBContext implements DBContext {
       if (value instanceof Set) {
         Set entrySet = (Set) value;
         getSet(name).addAll(entrySet);
-      } else if (value instanceof Map) {
-        Map<Object, Object> entryMap = (Map) value;
-
-        // TODO: This is ugly
-        // Special handling of USERS since the key is an integer. JSON by default considers a map a JSONObject.
-        // Keys are serialized and deserialized as String
-        if (name.equals(USERS))
-          entryMap = entryMap.entrySet().stream()
-              .map(entry -> Pair.of(Integer.parseInt(entry.getKey().toString()), entry.getValue()))
-              .collect(toMap(Pair::a, Pair::b));
-
+      } else if (value instanceof BackupMap) {
+        Map<Object, Object> entryMap = ((BackupMap) value).toMap();
         getMap(name).putAll(entryMap);
       } else if (value instanceof List) {
         List entryList = (List) value;
