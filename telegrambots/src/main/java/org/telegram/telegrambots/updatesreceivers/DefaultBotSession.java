@@ -204,7 +204,7 @@ public class DefaultBotSession implements BotSession {
                             }
                             BotLogger.debug(LOGTAG, e);
                             interrupt();
-                        } catch (Exception global) {
+                        } catch (Exception | Error global) {
                             BotLogger.severe(LOGTAG, global);
                             try {
                                 synchronized (lock) {
