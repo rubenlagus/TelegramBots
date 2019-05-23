@@ -49,11 +49,11 @@ public abstract class AbsSender {
 
     // Send Requests
 
-    public final User getMe() throws TelegramApiException {
+    public User getMe() throws TelegramApiException {
         return sendApiMethod(new GetMe());
     }
 
-    public final WebhookInfo getWebhookInfo() throws TelegramApiException {
+    public WebhookInfo getWebhookInfo() throws TelegramApiException {
         GetWebhookInfo getWebhookInfo = new GetWebhookInfo();
         return sendApiMethod(getWebhookInfo);
     }
@@ -61,14 +61,14 @@ public abstract class AbsSender {
 
     // Send Requests Async
 
-    public final void getMeAsync(SentCallback<User> sentCallback) throws TelegramApiException {
+    public void getMeAsync(SentCallback<User> sentCallback) throws TelegramApiException {
         if (sentCallback == null) {
             throw new TelegramApiException("Parameter sentCallback can not be null");
         }
         sendApiMethodAsync(new GetMe(), sentCallback);
     }
 
-    public final void getWebhookInfoAsync(SentCallback<WebhookInfo> sentCallback) throws TelegramApiException {
+    public void getWebhookInfoAsync(SentCallback<WebhookInfo> sentCallback) throws TelegramApiException {
         if (sentCallback == null) {
             throw new TelegramApiException("Parameter sentCallback can not be null");
         }

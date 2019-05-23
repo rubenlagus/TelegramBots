@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.telegram</groupId>
     <artifactId>telegrambots-chat-session-bot</artifactId>
-    <version>4.1.5</version>
+    <version>4.1.6</version>
     <packaging>jar</packaging>
 
     <name>Telegram Bots Chat Session Bot</name>
