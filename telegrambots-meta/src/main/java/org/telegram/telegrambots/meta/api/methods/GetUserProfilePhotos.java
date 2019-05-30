@@ -92,9 +92,6 @@ public class GetUserProfilePhotos extends BotApiMethod<UserProfilePhotos> {
         if (userId == null) {
             throw new TelegramApiValidationException("UserId parameter can't be empty", this);
         }
-        if (offset == null) {
-            throw new TelegramApiValidationException("Offset parameter can't be empty", this);
-        }
     }
 
     @Override
