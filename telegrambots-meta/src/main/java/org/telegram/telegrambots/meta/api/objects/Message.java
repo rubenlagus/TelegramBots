@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.games.Game;
 import org.telegram.telegrambots.meta.api.objects.passport.PassportData;
 import org.telegram.telegrambots.meta.api.objects.payments.Invoice;
 import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
+import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 
 import java.util.ArrayList;
@@ -63,6 +64,7 @@ public class Message implements BotApiObject {
     private static final String CONNECTEDWEBSITE_FIELD = "connected_website";
     private static final String PASSPORTDATA_FIELD = "passport_data";
     private static final String FORWARDSENDERNAME_FIELD = "forward_sender_name";
+    private static final String POLL_FIELD = "poll";
 
     @JsonProperty(MESSAGEID_FIELD)
     private Integer messageId; ///< Integer	Unique message identifier
@@ -194,6 +196,8 @@ public class Message implements BotApiObject {
     private PassportData passportData; ///< Optional. Telegram Passport data
     @JsonProperty(FORWARDSENDERNAME_FIELD)
     private String forwardSenderName; ///< Optional. Sender's name for messages forwarded from users who disallow adding a link to their account in forwarded messages.
+    @JsonProperty(POLL_FIELD)
+    private Poll poll; ///< Optional. Message is a native poll, information about the poll
 
     public Message() {
         super();
@@ -489,6 +493,14 @@ public class Message implements BotApiObject {
         this.forwardSenderName = forwardSenderName;
     }
 
+    public boolean hasPoll() {
+        return poll != null;
+    }
+
+    public Poll getPoll() {
+        return poll;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
@@ -535,6 +547,7 @@ public class Message implements BotApiObject {
                 ", mediaGroupId='" + mediaGroupId + '\'' +
                 ", connectedWebsite='" + connectedWebsite + '\'' +
                 ", passportData=" + passportData +
+                ", poll=" + poll +
                 '}';
     }
 }
