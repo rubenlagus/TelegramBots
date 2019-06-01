@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.passport.PassportData;
 import org.telegram.telegrambots.meta.api.objects.payments.Invoice;
 import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 
 import java.util.ArrayList;
@@ -65,6 +66,7 @@ public class Message implements BotApiObject {
     private static final String PASSPORTDATA_FIELD = "passport_data";
     private static final String FORWARDSENDERNAME_FIELD = "forward_sender_name";
     private static final String POLL_FIELD = "poll";
+    private static final String REPLY_MARKUP_FIELD = "reply_markup";
 
     @JsonProperty(MESSAGEID_FIELD)
     private Integer messageId; ///< Integer	Unique message identifier
@@ -198,6 +200,13 @@ public class Message implements BotApiObject {
     private String forwardSenderName; ///< Optional. Sender's name for messages forwarded from users who disallow adding a link to their account in forwarded messages.
     @JsonProperty(POLL_FIELD)
     private Poll poll; ///< Optional. Message is a native poll, information about the poll
+    /**
+     * Inline keyboard attached to the message.
+     *
+     * @apiNote login_url buttons are represented as ordinary url buttons.
+     */
+    @JsonProperty(REPLY_MARKUP_FIELD)
+    private InlineKeyboardMarkup replyMarkup;
 
     public Message() {
         super();
@@ -501,6 +510,14 @@ public class Message implements BotApiObject {
         return poll;
     }
 
+    public boolean hasReplyMarkup() {
+        return replyMarkup != null;
+    }
+
+    public InlineKeyboardMarkup getReplyMarkup() {
+        return replyMarkup;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
@@ -522,6 +539,7 @@ public class Message implements BotApiObject {
                 ", contact=" + contact +
                 ", location=" + location +
                 ", venue=" + venue +
+                ", animation=" + animation +
                 ", pinnedMessage=" + pinnedMessage +
                 ", newChatMembers=" + newChatMembers +
                 ", leftChatMember=" + leftChatMember +
@@ -547,7 +565,9 @@ public class Message implements BotApiObject {
                 ", mediaGroupId='" + mediaGroupId + '\'' +
                 ", connectedWebsite='" + connectedWebsite + '\'' +
                 ", passportData=" + passportData +
+                ", forwardSenderName='" + forwardSenderName + '\'' +
                 ", poll=" + poll +
+                ", replyMarkup=" + replyMarkup +
                 '}';
     }
 }

@@ -16,12 +16,12 @@ Just import add the library to your project with one of these options:
     <dependency>
         <groupId>org.telegram</groupId>
         <artifactId>telegrambotsextensions</artifactId>
-        <version>4.2</version>
+        <version>4.3</version>
     </dependency>
 ```
 
    2. Using Gradle:
 
 ```gradle
-    compile "org.telegram:telegrambotsextensions:4.2"
+    compile "org.telegram:telegrambotsextensions:4.3"
 ```

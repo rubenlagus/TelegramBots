@@ -1,3 +1,7 @@
+### <a id="4.3"></a>4.3 ###
+1. Update to Api version [4.3](https://core.telegram.org/bots/api-changelog#may-31-2019)
+2. Fixed: #615, #621
+
 ### <a id="4.2"></a>4.2 ###
 1. Update to Api version [4.2](https://core.telegram.org/bots/api-changelog#april-14-2019)
 2. Fixed: #498, #578
