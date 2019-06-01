@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.passport.PassportData;
 import org.telegram.telegrambots.meta.api.objects.payments.Invoice;
 import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 
 import java.util.ArrayList;
@@ -65,6 +66,7 @@ public class Message implements BotApiObject {
     private static final String PASSPORTDATA_FIELD = "passport_data";
     private static final String FORWARDSENDERNAME_FIELD = "forward_sender_name";
     private static final String POLL_FIELD = "poll";
+    private static final String REPLY_MARKUP_FIELD = "reply_markup";
 
     @JsonProperty(MESSAGEID_FIELD)
     private Integer messageId; ///< Integer	Unique message identifier
@@ -136,6 +138,8 @@ public class Message implements BotApiObject {
     private Voice voice; ///< Optional. Message is a voice message, information about the file
     @JsonProperty(CAPTION_FIELD)
     private String caption; ///< Optional. Caption for the document, photo or video, 0-200 characters
+    @JsonProperty(REPLY_MARKUP_FIELD)
+    private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons.
     /**
      * Optional. Service message: the supergroup has been created.
      * This field can‘t be received in a message coming through updates,
@@ -501,6 +505,14 @@ public class Message implements BotApiObject {
         return poll;
     }
 
+    public boolean hasReplyMarkup() {
+        return replyMarkup != null;
+    }
+
+    public InlineKeyboardMarkup getReplyMarkup() {
+        return replyMarkup;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
@@ -548,6 +560,7 @@ public class Message implements BotApiObject {
                 ", connectedWebsite='" + connectedWebsite + '\'' +
                 ", passportData=" + passportData +
                 ", poll=" + poll +
+                ", replyMarkup=" + replyMarkup +
                 '}';
     }
 }
