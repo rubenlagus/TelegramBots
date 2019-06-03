@@ -3,6 +3,7 @@ package org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.telegram.telegrambots.meta.api.interfaces.InputBotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
+import org.telegram.telegrambots.meta.api.objects.LoginUrl;
 import org.telegram.telegrambots.meta.api.objects.games.CallbackGame;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -27,6 +28,7 @@ public class InlineKeyboardButton implements InputBotApiObject, Validable {
     private static final String SWITCH_INLINE_QUERY_FIELD = "switch_inline_query";
     private static final String SWITCH_INLINE_QUERY_CURRENT_CHAT_FIELD = "switch_inline_query_current_chat";
     private static final String PAY_FIELD = "pay";
+    private static final String LOGIN_URL_FIELD = "login_url";
 
     @JsonProperty(TEXT_FIELD)
     private String text; ///< Label text on the button
@@ -69,6 +71,12 @@ public class InlineKeyboardButton implements InputBotApiObject, Validable {
      */
     @JsonProperty(PAY_FIELD)
     private Boolean pay;
+    /**
+     * Optional. An HTTP URL used to automatically authorize the user.
+     * Can be used as a replacement for the Telegram Login Widget.
+     */
+    @JsonProperty(LOGIN_URL_FIELD)
+    private LoginUrl loginUrl;
 
     public InlineKeyboardButton() {
         super();
@@ -141,10 +149,22 @@ public class InlineKeyboardButton implements InputBotApiObject, Validable {
         return this;
     }
 
+    public LoginUrl getLoginUrl() {
+        return loginUrl;
+    }
+
+    public InlineKeyboardButton setLoginUrl(LoginUrl loginUrl) {
+        this.loginUrl = loginUrl;
+        return this;
+    }
+
     @Override
     public void validate() throws TelegramApiValidationException {
         if (text == null || text.isEmpty()) {
             throw new TelegramApiValidationException("Text parameter can't be empty", this);
+        }
+        if (loginUrl != null) {
+            loginUrl.validate();
         }
     }
 
@@ -162,6 +182,7 @@ public class InlineKeyboardButton implements InputBotApiObject, Validable {
                 && Objects.equals(switchInlineQueryCurrentChat, inlineKeyboardButton.switchInlineQueryCurrentChat)
                 && Objects.equals(text, inlineKeyboardButton.text)
                 && Objects.equals(url, inlineKeyboardButton.url)
+                && Objects.equals(loginUrl, inlineKeyboardButton.loginUrl)
                 ;
     }
 
@@ -174,7 +195,8 @@ public class InlineKeyboardButton implements InputBotApiObject, Validable {
                 switchInlineQuery,
                 switchInlineQueryCurrentChat,
                 text,
-                url);
+                url,
+                loginUrl);
     }
 
     @Override
@@ -187,6 +209,7 @@ public class InlineKeyboardButton implements InputBotApiObject, Validable {
                 ", switchInlineQuery='" + switchInlineQuery + '\'' +
                 ", switchInlineQueryCurrentChat='" + switchInlineQueryCurrentChat + '\'' +
                 ", pay=" + pay +
+                ", loginUrl=" + loginUrl +
                 '}';
     }
 }

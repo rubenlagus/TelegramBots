@@ -1846,6 +1846,19 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots-meta/3.5/telegrambots-meta-3.5-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Maven: org.telegram:telegrambots-meta:4.2">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots-meta/4.2/telegrambots-meta-4.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$PROJECT_DIR$/telegrambots-meta/telegrambots-meta-4.2-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots-meta/4.2/telegrambots-meta-4.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/telegrambots-meta/telegrambots-meta-4.2-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots-meta/4.2/telegrambots-meta-4.2-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Maven: org.telegram:telegrambots:3.5">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots/3.5/telegrambots-3.5.jar!/" />
@@ -1857,6 +1870,19 @@
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/telegrambots/telegrambots-3.5-sources.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots/3.5/telegrambots-3.5-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.telegram:telegrambots:4.2">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots/4.2/telegrambots-4.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$PROJECT_DIR$/telegrambots/telegrambots-4.2-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots/4.2/telegrambots-4.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/telegrambots/telegrambots-4.2-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots/4.2/telegrambots-4.2-sources.jar!/" />
       </SOURCES>
     </library>
   </component>
