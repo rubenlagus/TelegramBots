@@ -7,7 +7,7 @@
     <groupId>org.telegram</groupId>
     <artifactId>Bots</artifactId>
     <packaging>pom</packaging>
-    <version>4.3</version>
+    <version>4.3.1</version>
 
     <modules>
         <module>telegrambots</module>
