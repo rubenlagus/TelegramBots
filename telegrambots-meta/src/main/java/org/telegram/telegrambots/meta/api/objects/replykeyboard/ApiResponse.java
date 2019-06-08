@@ -12,9 +12,13 @@ import java.io.Serializable;
  * @author Ruben Bermudez
  * @version 1.0
  * Response from Telegram Server
+ *
+ * @deprecated Please, use {@link org.telegram.telegrambots.meta.api.objects.ApiResponse} instead.
+ * This class will be removed
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Deprecated
 public class ApiResponse<T> implements Serializable {
     private static final String OK_FIELD = "ok";
     private static final String ERROR_CODE_FIELD = "error_code";

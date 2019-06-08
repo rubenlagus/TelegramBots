@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.meta.api.objects.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -10,7 +11,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  *
  * Represents a video.
  */
-@SuppressWarnings({"unused", "WeakerAccess"})
+@SuppressWarnings({"unused"})
+@JsonDeserialize
 public class InputMediaVideo extends InputMedia<InputMediaVideo> {
     private static final String TYPE = "video";
 

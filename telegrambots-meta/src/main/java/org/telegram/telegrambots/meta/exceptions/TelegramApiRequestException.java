@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.JSONObject;
 import org.telegram.telegrambots.meta.api.objects.ResponseParameters;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.logging.BotLogger;
 
 import java.io.IOException;
@@ -30,8 +30,7 @@ import java.io.IOException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Exception thrown when something goes wrong in the api
- * @date 14 of January of 2016
+ * Exception thrown when something goes wrong in the api
  */
 public class TelegramApiRequestException extends TelegramApiException {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();

@@ -21,7 +21,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.games.GameHighScore;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 /**
  * @author Ruben Bermudez
  * @version 2.4
- * @brief Use this method to get data for high score tables.
+ * Use this method to get data for high score tables.
  * Will return the score of the specified user and several of his neighbors in a game.
  * On success, returns an Array of GameHighScore objects.
  *
@@ -40,7 +40,6 @@ import java.util.ArrayList;
  * if the user and his neighbors are not among them.
  * Please note that this behavior is subject to change.
  *
- * @date 16 of September of 2016
  */
 public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
     public static final String PATH = "getGameHighScores";

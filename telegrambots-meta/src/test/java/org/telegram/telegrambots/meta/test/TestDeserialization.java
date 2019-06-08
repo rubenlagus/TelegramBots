@@ -18,7 +18,7 @@ import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.Voice;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.ChosenInlineQuery;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class TestDeserialization {
     private ObjectMapper mapper;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         mapper = new ObjectMapper();
     }
 
@@ -40,6 +40,15 @@ public class TestDeserialization {
     public void TestUpdateDeserialization() throws Exception {
         Update update = mapper.readValue(TelegramBotsHelper.GetUpdate(), Update.class);
         assertUpdate(update);
+    }
+
+    @Test
+    public void TestUpdateDeserializationWithInlineKeyboard() throws Exception {
+        Update update = mapper.readValue(TelegramBotsHelper.GetUpdateWithMessageInCallbackQuery(), Update.class);
+        Assert.assertNotNull(update);
+        Assert.assertNotNull(update.getCallbackQuery());
+        Assert.assertNotNull(update.getCallbackQuery().getMessage());
+        Assert.assertNotNull(update.getCallbackQuery().getMessage().getReplyMarkup());
     }
 
     @Test

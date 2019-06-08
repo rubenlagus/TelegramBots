@@ -2,6 +2,7 @@ package org.telegram.telegrambots.meta.api.objects.replykeyboard;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -12,9 +13,9 @@ import java.util.Objects;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief This object represents a custom keyboard with reply options.
- * @date 20 of June of 2015
+ * This object represents a custom keyboard with reply options.
  */
+@JsonDeserialize
 public class ReplyKeyboardMarkup implements ReplyKeyboard {
 
     private static final String KEYBOARD_FIELD = "keyboard";

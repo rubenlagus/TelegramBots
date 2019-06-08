@@ -2,6 +2,7 @@ package org.telegram.telegrambots.meta.api.objects.replykeyboard;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.util.Objects;
@@ -9,12 +10,12 @@ import java.util.Objects;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Upon receiving a message with this object, Telegram clients will display a reply interface
+ * Upon receiving a message with this object, Telegram clients will display a reply interface
  * to the user (act as if the user has selected the bot‘s message and tapped ’Reply'). This can be
  * extremely useful if you want to create user-friendly step-by-step interfaces without having to
  * sacrifice privacy mode.
- * @date 22 of June of 2015
  */
+@JsonDeserialize
 public class ForceReplyKeyboard implements ReplyKeyboard {
     private static final String FORCEREPLY_FIELD = "force_reply";
     private static final String SELECTIVE_FIELD = "selective";

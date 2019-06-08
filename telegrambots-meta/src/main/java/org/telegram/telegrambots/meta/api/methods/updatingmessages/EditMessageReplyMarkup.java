@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -16,10 +16,9 @@ import java.io.Serializable;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Use this method to edit only the reply markup of messages.
+ * Use this method to edit only the reply markup of messages.
  * On success, if edited message is sent by the bot, the edited Message is returned,
- * therwise True is returned.
- * @date 10 of April of 2016
+ * otherwise True is returned.
  */
 public class EditMessageReplyMarkup extends BotApiMethod<Serializable> {
     public static final String PATH = "editmessagereplymarkup";

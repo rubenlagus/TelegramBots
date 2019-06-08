@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.telegram.telegrambots.meta.api.objects.UserProfilePhotos;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -13,8 +13,7 @@ import java.io.IOException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object.
- * @date 20 of June of 2015
+ * Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object.
  */
 public class GetUserProfilePhotos extends BotApiMethod<UserProfilePhotos> {
     public static final String PATH = "getuserprofilephotos";

@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.media;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
@@ -9,6 +10,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * Represents a photo.
  */
 @SuppressWarnings("unused")
+@JsonDeserialize
 public class InputMediaPhoto extends InputMedia<InputMediaPhoto> {
     private static final String TYPE = "photo";
 

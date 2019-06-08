@@ -3,7 +3,7 @@ package org.telegram.telegrambots.meta.api.methods.updates;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -12,9 +12,8 @@ import java.io.IOException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Use this method to receive incoming updates using long polling (wiki). An Array of Update
+ * Use this method to receive incoming updates using long polling (wiki). An Array of Update
  * objects is returned.
- * @date 20 of June of 2015
  */
 public class DeleteWebhook extends BotApiMethod<Boolean>{
     public static final String PATH = "deleteWebhook";

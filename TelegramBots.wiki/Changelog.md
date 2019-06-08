@@ -1,3 +1,9 @@
+### <a id="4.3.1"></a>4.3.1 ###
+1. Fix bug #625
+2. Moved ApiResponse to different package, deprecated old one (will be removed in next mayor version)
+3. Deprecated InputBotApiObject (It will be removed in next mayor update). And all usages moved to basic BotApiObject type.
+4. Updated jackson dependency to avoid security bug
+
 ### <a id="4.3"></a>4.3 ###
 1. Update to Api version [4.3](https://core.telegram.org/bots/api-changelog#may-31-2019)
 2. Fixed: #615, #621

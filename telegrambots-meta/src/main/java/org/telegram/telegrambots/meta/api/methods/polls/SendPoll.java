@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -33,11 +33,11 @@ public class SendPoll extends BotApiMethod<Message> {
     private static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
 
-    @JsonProperty(CHATID_FIELD)
     /**
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername).
      * A native poll can't be sent to a private chat.
      */
+    @JsonProperty(CHATID_FIELD)
     private String chatId;
     @JsonProperty(QUESTION_FIELD)
     private String question; ///< Poll question, 1-255 characters

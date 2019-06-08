@@ -1,9 +1,10 @@
-package org.telegram.telegrambots.meta.api.objects.media;
+package org.telegram.telegrambots.meta.api.objects.media.serialization;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+import org.telegram.telegrambots.meta.api.objects.media.*;
 
 import java.io.IOException;
 

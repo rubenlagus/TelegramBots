@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -17,9 +17,8 @@ import java.io.Serializable;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Use this method to edit text messages. On
+ * Use this method to edit text messages. On
  * success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
- * @date 10 of April of 2016
  */
 public class EditMessageText extends BotApiMethod<Serializable> {
     public static final String PATH = "editmessagetext";

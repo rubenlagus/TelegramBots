@@ -59,7 +59,7 @@ public class TestRestApi extends JerseyTest {
                 target("callback/testbot")
                 .request(MediaType.APPLICATION_JSON)
                 .post(entity, SendMessage.class);
-        assertEquals("{\"chat_id\":\"@test\",\"text\":\"Hithere\",\"parse_mode\":\"html\",\"reply_to_message_id\":12,\"reply_markup\":{\"@class\":\"org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard\",\"force_reply\":true},\"method\":\"sendmessage\"}", map(result));
+        assertEquals("{\"chat_id\":\"@test\",\"text\":\"Hithere\",\"parse_mode\":\"html\",\"reply_to_message_id\":12,\"reply_markup\":{\"force_reply\":true},\"method\":\"sendmessage\"}", map(result));
     }
 
     @Test
@@ -85,7 +85,7 @@ public class TestRestApi extends JerseyTest {
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, AnswerInlineQuery.class);
 
-        assertEquals("{\"personal\":true,\"inline_query_id\":\"id\",\"results\":[{\"@class\":\"org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultArticle\",\"type\":\"article\",\"id\":\"0\",\"title\":\"Title\",\"input_message_content\":{\"@class\":\"org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputTextMessageContent\",\"message_text\":\"Text\",\"parse_mode\":\"Markdown\"},\"reply_markup\":{\"@class\":\"org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup\",\"inline_keyboard\":[[{\"@class\":\"org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton\",\"text\":\"Button1\",\"callback_data\":\"Callback\"}]]},\"url\":\"Url\",\"hide_url\":false,\"description\":\"Description\",\"thumb_url\":\"ThumbUrl\",\"thumb_width\":10,\"thumb_height\":20},{\"@class\":\"org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultPhoto\",\"type\":\"photo\",\"id\":\"1\",\"photo_url\":\"PhotoUrl\",\"mime_type\":\"image/jpg\",\"photo_width\":10,\"photo_height\":20,\"thumb_url\":\"ThumbUrl\",\"title\":\"Title\",\"description\":\"Description\",\"caption\":\"Caption\",\"input_message_content\":{\"@class\":\"org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputTextMessageContent\",\"message_text\":\"Text\",\"parse_mode\":\"Markdown\"},\"reply_markup\":{\"@class\":\"org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup\",\"inline_keyboard\":[[{\"@class\":\"org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton\",\"text\":\"Button1\",\"callback_data\":\"Callback\"}]]}}],\"cache_time\":100,\"is_personal\":true,\"next_offset\":\"3\",\"switch_pm_text\":\"pmText\",\"switch_pm_parameter\":\"PmParameter\",\"method\":\"answerInlineQuery\"}", map(result));
+        assertEquals("{\"personal\":true,\"inline_query_id\":\"id\",\"results\":[{\"type\":\"article\",\"id\":\"0\",\"title\":\"Title\",\"input_message_content\":{\"message_text\":\"Text\",\"parse_mode\":\"Markdown\"},\"reply_markup\":{\"inline_keyboard\":[[{\"text\":\"Button1\",\"callback_data\":\"Callback\"}]]},\"url\":\"Url\",\"hide_url\":false,\"description\":\"Description\",\"thumb_url\":\"ThumbUrl\",\"thumb_width\":10,\"thumb_height\":20},{\"type\":\"photo\",\"id\":\"1\",\"photo_url\":\"PhotoUrl\",\"mime_type\":\"image/jpg\",\"photo_width\":10,\"photo_height\":20,\"thumb_url\":\"ThumbUrl\",\"title\":\"Title\",\"description\":\"Description\",\"caption\":\"Caption\",\"input_message_content\":{\"message_text\":\"Text\",\"parse_mode\":\"Markdown\"},\"reply_markup\":{\"inline_keyboard\":[[{\"text\":\"Button1\",\"callback_data\":\"Callback\"}]]}}],\"cache_time\":100,\"is_personal\":true,\"next_offset\":\"3\",\"switch_pm_text\":\"pmText\",\"switch_pm_parameter\":\"PmParameter\",\"method\":\"answerInlineQuery\"}", map(result));
     }
 
     @Test
@@ -99,9 +99,7 @@ public class TestRestApi extends JerseyTest {
                         .post(entity, EditMessageCaption.class);
 
         assertEquals("{\"chat_id\":\"ChatId\",\"message_id\":1,\"caption\":\"Caption\"," +
-                "\"reply_markup\":{\"@class\":\"org.telegram.telegrambots.meta.api.objects.replykeyboard" +
-                ".InlineKeyboardMarkup\",\"inline_keyboard\":[[{\"@class\":\"org.telegram." +
-                "telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton\"," +
+                "\"reply_markup\":{\"inline_keyboard\":[[{" +
                 "\"text\":\"Button1\",\"callback_data\":\"Callback\"}]]},\"method\":" +
                 "\"editmessagecaption\"}", map(result));
     }
@@ -116,10 +114,8 @@ public class TestRestApi extends JerseyTest {
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, EditMessageReplyMarkup.class);
 
-        assertEquals("{\"inline_message_id\":\"12345\",\"reply_markup\":{\"@class\":\"org" +
-                ".telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup\"," +
-                "\"inline_keyboard\":[[{\"@class\":\"org.telegram.telegrambots.meta.api.objects." +
-                "replykeyboard.buttons.InlineKeyboardButton\",\"text\":\"Button1\"," +
+        assertEquals("{\"inline_message_id\":\"12345\",\"reply_markup\":{" +
+                "\"inline_keyboard\":[[{\"text\":\"Button1\"," +
                 "\"callback_data\":\"Callback\"}]]},\"method\":\"editmessagereplymarkup\"}",
                 map(result));
     }
@@ -135,10 +131,8 @@ public class TestRestApi extends JerseyTest {
                         .post(entity, EditMessageText.class);
 
         assertEquals("{\"chat_id\":\"ChatId\",\"message_id\":1,\"text\":\"Text\"," +
-                "\"parse_mode\":\"Markdown\",\"reply_markup\":{\"@class\":\"org.telegram." +
-                "telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup\",\"" +
-                "inline_keyboard\":[[{\"@class\":\"org.telegram.telegrambots.meta.api.objects." +
-                "replykeyboard.buttons.InlineKeyboardButton\",\"text\":\"Button1\",\"callback_data\"" +
+                "\"parse_mode\":\"Markdown\",\"reply_markup\":{\"" +
+                "inline_keyboard\":[[{\"text\":\"Button1\",\"callback_data\"" +
                 ":\"Callback\"}]]},\"method\":\"editmessagetext\"}", map(result));
     }
 
@@ -322,7 +316,7 @@ public class TestRestApi extends JerseyTest {
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, SendContact.class);
 
-        assertEquals("{\"chat_id\":\"12345\",\"phone_number\":\"123456789\",\"first_name\":\"First Name\",\"last_name\":\"Last Name\",\"reply_to_message_id\":54,\"reply_markup\":{\"@class\":\"org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup\",\"keyboard\":[[{\"@class\":\"org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton\",\"text\":\"Button1\",\"request_contact\":true}]],\"resize_keyboard\":true,\"one_time_keyboard\":true,\"selective\":true},\"method\":\"sendContact\"}", map(result));
+        assertEquals("{\"chat_id\":\"12345\",\"phone_number\":\"123456789\",\"first_name\":\"First Name\",\"last_name\":\"Last Name\",\"reply_to_message_id\":54,\"reply_markup\":{\"keyboard\":[[{\"text\":\"Button1\",\"request_contact\":true}]],\"resize_keyboard\":true,\"one_time_keyboard\":true,\"selective\":true},\"method\":\"sendContact\"}", map(result));
     }
 
     @Test
@@ -402,8 +396,7 @@ public class TestRestApi extends JerseyTest {
 
         assertEquals("{\"chat_id\":12345,\"title\":\"Random title\",\"description\":\"Random description\"" +
                 ",\"payload\":\"Random Payload\",\"provider_token\":\"Random provider token\",\"start_parameter\":" +
-                "\"STARTPARAM\",\"currency\":\"EUR\",\"prices\":[{\"@class\":" +
-                "\"org.telegram.telegrambots.meta.api.objects.payments.LabeledPrice\",\"label\":\"LABEL\"," +
+                "\"STARTPARAM\",\"currency\":\"EUR\",\"prices\":[{\"label\":\"LABEL\"," +
                 "\"amount\":1000}],\"method\":\"sendinvoice\"}", map(result));
     }
 

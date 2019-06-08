@@ -2,6 +2,7 @@ package org.telegram.telegrambots.meta.api.objects.replykeyboard;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.util.Objects;
@@ -9,12 +10,12 @@ import java.util.Objects;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Upon receiving a message with this object, Telegram clients will hide the current custom
+ * Upon receiving a message with this object, Telegram clients will hide the current custom
  * keyboard and display the default letter-keyboard. By default, custom keyboards are displayed
  * until a new keyboard is sent by a bot. An exception is made for one-time keyboards that are
  * hidden immediately after the user presses a button (@see ReplyKeyboardMarkup).
- * @date 20 of June of 2015
  */
+@JsonDeserialize
 public class ReplyKeyboardRemove implements ReplyKeyboard {
     private static final String REMOVEKEYBOARD_FIELD = "remove_keyboard";
     private static final String SELECTIVE_FIELD = "selective";

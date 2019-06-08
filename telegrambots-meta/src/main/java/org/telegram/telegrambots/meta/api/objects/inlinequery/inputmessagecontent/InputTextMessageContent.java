@@ -2,15 +2,16 @@ package org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessageconte
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Represents the content of a text message to be sent as the result of an inline query.
- * @date 10 of April of 2016
+ * Represents the content of a text message to be sent as the result of an inline query.
  */
+@JsonDeserialize
 public class InputTextMessageContent implements InputMessageContent {
 
     private static final String MESSAGETEXT_FIELD = "message_text";
