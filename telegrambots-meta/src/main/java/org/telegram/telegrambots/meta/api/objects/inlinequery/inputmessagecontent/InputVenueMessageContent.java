@@ -2,6 +2,7 @@ package org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessageconte
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
@@ -11,6 +12,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * @note This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * ignore them.
  */
+@JsonDeserialize
 public class InputVenueMessageContent implements InputMessageContent {
 
     private static final String LATITUDE_FIELD = "latitude";

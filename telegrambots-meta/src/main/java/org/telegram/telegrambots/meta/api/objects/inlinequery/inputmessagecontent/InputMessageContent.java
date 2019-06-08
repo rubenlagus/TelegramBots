@@ -1,14 +1,16 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.telegram.telegrambots.meta.api.interfaces.InputBotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
+import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.serialization.InputMessageContentDeserializer;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief This object represents the content of a message to be sent as a result of an inline
+ * This object represents the content of a message to be sent as a result of an inline
  * query.
- * @date 10 of April of 2016
  */
+@JsonDeserialize(using = InputMessageContentDeserializer.class)
 public interface InputMessageContent extends InputBotApiObject, Validable {
 }

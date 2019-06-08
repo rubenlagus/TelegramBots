@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.media;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -10,6 +11,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * Represents a general file to be sent.
  */
 @SuppressWarnings("unused")
+@JsonDeserialize
 public class InputMediaDocument extends InputMedia<InputMediaDocument> {
     private static final String TYPE = "document";
     public static final String THUMB_FIELD = "thumb";

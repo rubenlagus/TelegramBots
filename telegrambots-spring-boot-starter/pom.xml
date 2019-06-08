@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.telegram</groupId>
     <artifactId>telegrambots-spring-boot-starter</artifactId>
-    <version>4.3</version>
+    <version>4.3.1</version>
     <packaging>jar</packaging>
 
     <name>Telegram Bots Spring Boot Starter</name>
@@ -67,7 +67,7 @@
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots</artifactId>
-            <version>4.3</version>
+            <version>4.3.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

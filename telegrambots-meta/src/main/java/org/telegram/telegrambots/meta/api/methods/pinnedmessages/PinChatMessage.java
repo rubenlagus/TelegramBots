@@ -3,7 +3,7 @@ package org.telegram.telegrambots.meta.api.methods.pinnedmessages;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -31,11 +31,11 @@ public class PinChatMessage extends BotApiMethod<Boolean> {
     private String chatId; ///< Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     @JsonProperty(MESSAGEID_FIELD)
     private Integer messageId; ///< Required. Identifier of a message to pin
-    @JsonProperty(DISABLENOTIFICATION_FIELD)
     /**
      * Pass True, if it is not necessary to send a notification to all chat members about the new pinned message.
      * Notifications are always disabled in channels.
      */
+    @JsonProperty(DISABLENOTIFICATION_FIELD)
     private Boolean disableNotification;
 
     public PinChatMessage() {

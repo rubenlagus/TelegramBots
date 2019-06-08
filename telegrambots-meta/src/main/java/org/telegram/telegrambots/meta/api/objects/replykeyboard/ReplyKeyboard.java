@@ -1,13 +1,16 @@
 package org.telegram.telegrambots.meta.api.objects.replykeyboard;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.InputBotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.serialization.KeyboardDeserializer;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Reply keyboard abstract type
- * @date 20 of June of 2015
+ * Reply keyboard abstract type
  */
-public interface ReplyKeyboard extends InputBotApiObject, Validable {
+@JsonDeserialize(using = KeyboardDeserializer.class)
+public interface ReplyKeyboard extends InputBotApiObject, BotApiObject, Validable {
 }

@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.meta.api.objects.passport.dataerror;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -12,6 +13,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Represents an error in a file with a document‘s reverse side.
  * The error is considered resolved when the file with the document’s reverse side changes.
  */
+@JsonDeserialize
 public class PassportElementErrorReverseSide implements PassportElementError {
     private static final String SOURCE_FIELD = "source";
     private static final String TYPE_FIELD = "type";

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -14,8 +14,7 @@ import java.util.Objects;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Use this method for your bot to leave a group, supergroup or channel. Returns True on success.
- * @date 20 of May of 2016
+ * Use this method for your bot to leave a group, supergroup or channel. Returns True on success.
  */
 public class LeaveChat extends BotApiMethod<Boolean> {
     public static final String PATH = "leaveChat";

@@ -22,7 +22,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -33,8 +33,7 @@ import java.util.Objects;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Use this method to send a game. On success, the sent Message is returned.
- * @date 27 of September of 2016
+ * Use this method to send a game. On success, the sent Message is returned.
  */
 public class SendGame extends BotApiMethod<Message> {
     public static final String PATH = "sendGame";

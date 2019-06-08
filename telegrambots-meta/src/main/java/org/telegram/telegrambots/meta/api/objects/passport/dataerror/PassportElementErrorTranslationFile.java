@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.meta.api.objects.passport.dataerror;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -12,6 +13,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Represents an issue with one of the files that constitute the translation of a document.
  * The error is considered resolved when the file changes.
  */
+@JsonDeserialize
 public class PassportElementErrorTranslationFile implements PassportElementError {
     private static final String SOURCE_FIELD = "source";
     private static final String TYPE_FIELD = "type";

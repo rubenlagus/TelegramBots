@@ -2,9 +2,12 @@ package org.telegram.telegrambots.meta.api.objects.media;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.telegram.telegrambots.meta.api.interfaces.InputBotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
+import org.telegram.telegrambots.meta.api.objects.media.serialization.InputMediaDeserializer;
+import org.telegram.telegrambots.meta.api.objects.media.serialization.InputMediaSerializer;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.File;
@@ -14,8 +17,9 @@ import java.io.InputStream;
  * @author Ruben Bermudez
  * @version 3.5
  */
-@SuppressWarnings({"WeakerAccess", "unchecked"})
+@SuppressWarnings({"unchecked"})
 @JsonSerialize(using = InputMediaSerializer.class)
+@JsonDeserialize(using = InputMediaDeserializer.class)
 public abstract class InputMedia<T> implements InputBotApiObject, Validable {
     public static final String TYPE_FIELD = "type";
     public static final String MEDIA_FIELD = "media";

@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.meta.api.objects.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -11,6 +12,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound) to be sent.
  */
 @SuppressWarnings("unused")
+@JsonDeserialize
 public class InputMediaAnimation extends InputMedia<InputMediaAnimation> {
     private static final String TYPE = "animation";
 

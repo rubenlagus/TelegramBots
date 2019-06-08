@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ChatMember;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -16,12 +16,11 @@ import java.util.Objects;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Use this method to get a list of administrators in a chat.
+ * Use this method to get a list of administrators in a chat.
  * An Array of ChatMember objects is returned on success,
  * containing information about all chat administrators except other bots.
  * If the chat is a group or a supergroup and no administrators were appointed,
  * only the creator will be returned.
- * @date 20 of May of 2016
  */
 public class GetChatAdministrators extends BotApiMethod<ArrayList<ChatMember>> {
     public static final String PATH = "getChatAdministrators";

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.telegram.telegrambots.meta.api.methods.ActionType;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -27,7 +27,7 @@ public class SendChatAction extends BotApiMethod<Boolean> {
     public static final String PATH = "sendChatAction";
 
     public static final String CHATID_FIELD = "chat_id";
-    public static final String ACTION_FIELD = "action";
+    private static final String ACTION_FIELD = "action";
 
     @JsonProperty(CHATID_FIELD)
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)

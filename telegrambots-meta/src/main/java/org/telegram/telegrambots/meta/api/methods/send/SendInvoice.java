@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.payments.LabeledPrice;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -61,11 +61,11 @@ public class SendInvoice extends BotApiMethod<Message> {
     private String currency; ///< 3-letter ISO 4217 currency code
     @JsonProperty(PRICES_FIELD)
     private List<LabeledPrice> prices; ///< Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
-    @JsonProperty(PHOTO_URL_FIELD)
     /**
      * Optional. URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service.
      * People like it better when they see what they are paying for
      */
+    @JsonProperty(PHOTO_URL_FIELD)
     private String photoUrl;
     @JsonProperty(PHOTO_SIZE_FIELD)
     private Integer photoSize; ///< Optional. Photo size
@@ -87,19 +87,19 @@ public class SendInvoice extends BotApiMethod<Message> {
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     @JsonProperty(REPLY_TO_MESSAGE_ID_FIELD)
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
-    @JsonProperty(REPLY_MARKUP_FIELD)
     /**
      * Optional. A JSON-serialized object for an inline keyboard.
      *
      * @note If empty, one 'Buy title' button will be shown. If not empty, the first button must be a Pay button.
      */
+    @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup;
-    @JsonProperty(PRIVIDER_DATA_FIELD)
     /**
      * Optional JSON-encoded data about the invoice, which will be shared with the payment provider.
      *
      * @note A detailed description of required fields should be provided by the payment provider.
      */
+    @JsonProperty(PRIVIDER_DATA_FIELD)
     private String providerData;
 
 

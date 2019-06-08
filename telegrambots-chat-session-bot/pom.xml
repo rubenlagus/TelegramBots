@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.telegram</groupId>
     <artifactId>telegrambots-chat-session-bot</artifactId>
-    <version>4.3</version>
+    <version>4.3.1</version>
     <packaging>jar</packaging>
 
     <name>Telegram Bots Chat Session Bot</name>
@@ -73,7 +73,7 @@
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots</artifactId>
-            <version>4.3</version>
+            <version>4.3.1</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-core -->

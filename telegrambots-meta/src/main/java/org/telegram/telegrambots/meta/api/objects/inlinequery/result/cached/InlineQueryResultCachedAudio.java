@@ -1,7 +1,7 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.result.cached;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResult;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -10,13 +10,13 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Represents a link to an mp3 audio file stored on the Telegram servers. By default, this
+ * Represents a link to an mp3 audio file stored on the Telegram servers. By default, this
  * audio file will be sent by the user. Alternatively, you can use input_message_content to send a
  * message with the specified content instead of the audio.
  * @note This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * ignore them.
- * @date 10 of April of 2016
  */
+@JsonDeserialize
 public class InlineQueryResultCachedAudio implements InlineQueryResult {
 
     private static final String TYPE_FIELD = "type";

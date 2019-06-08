@@ -3,7 +3,7 @@ package org.telegram.telegrambots.meta.api.methods;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.telegram.telegrambots.meta.api.objects.User;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -12,9 +12,8 @@ import java.io.IOException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief A simple method for testing your bot's auth token. Requires no parameters.
+ * A simple method for testing your bot's auth token. Requires no parameters.
  * Returns basic information about the bot in form of a User object
- * @date 20 of June of 2015
  */
 public class GetMe extends BotApiMethod<User> {
     public static final String PATH = "getme";

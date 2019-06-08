@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.meta.api.objects.passport.dataerror;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Represents an error in a list of attached files.
  * The error is considered resolved when the file list changes.
  */
+@JsonDeserialize
 public class PassportElementErrorFiles implements PassportElementError {
     private static final String SOURCE_FIELD = "source";
     private static final String TYPE_FIELD = "type";

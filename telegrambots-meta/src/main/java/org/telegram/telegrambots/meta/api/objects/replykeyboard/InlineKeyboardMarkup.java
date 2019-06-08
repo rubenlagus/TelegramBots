@@ -2,6 +2,7 @@ package org.telegram.telegrambots.meta.api.objects.replykeyboard;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -12,12 +13,10 @@ import java.util.Objects;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief This object represents an inline keyboard that appears right next to the message it
- * belongs to
- * @note Inline keyboards are currently being tested and are only available in one-on-one chats
- * (i.e., user-bot or user-user in the case of inline bots).
- * @date 10 of April of 2016
+ * This object represents an inline keyboard that appears right next to the message it
+ * belongs to.
  */
+@JsonDeserialize
 public class InlineKeyboardMarkup implements ReplyKeyboard {
 
     private static final String KEYBOARD_FIELD = "inline_keyboard";
