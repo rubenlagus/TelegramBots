@@ -6,6 +6,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.entity.ContentType;
@@ -35,6 +36,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 import org.telegram.telegrambots.meta.updateshandlers.DownloadFileCallback;
 import org.telegram.telegrambots.meta.updateshandlers.SentCallback;
 
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.InetSocketAddress;
@@ -748,7 +751,17 @@ public abstract class DefaultAbsSender extends AbsSender {
 
     private java.io.File downloadToTemporaryFile(String url, String tempFileName) throws IOException {
         java.io.File output = java.io.File.createTempFile(tempFileName, ".tmp");
-        FileUtils.copyURLToFile(new URL(url), output);
+
+        HttpGet httpGet = configuredHttpGet(url);
+        httpGet.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM);
+
+        try (CloseableHttpResponse response = httpClient.execute(httpGet, options.getHttpContext())) {
+            HttpEntity ht = response.getEntity();
+            BufferedHttpEntity buf = new BufferedHttpEntity(ht);
+
+            FileUtils.copyToFile(ht.getContent(), output);
+        }
+
         return output;
     }
 
@@ -773,6 +786,12 @@ public abstract class DefaultAbsSender extends AbsSender {
         HttpPost httppost = new HttpPost(url);
         httppost.setConfig(requestConfig);
         return httppost;
+    }
+
+    private HttpGet configuredHttpGet(String url) {
+        HttpGet httpGet = new HttpGet(url);
+        httpGet.setConfig(requestConfig);
+        return httpGet;
     }
 
     private void addInputData(MultipartEntityBuilder builder, InputMedia media, String mediaField, boolean addField) throws JsonProcessingException {
