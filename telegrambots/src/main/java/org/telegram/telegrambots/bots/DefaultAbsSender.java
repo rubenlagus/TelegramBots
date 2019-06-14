@@ -759,7 +759,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             HttpEntity ht = response.getEntity();
             BufferedHttpEntity buf = new BufferedHttpEntity(ht);
 
-            FileUtils.copyToFile(ht.getContent(), output);
+            FileUtils.copyToFile(buf.getContent(), output);
         }
 
         return output;
