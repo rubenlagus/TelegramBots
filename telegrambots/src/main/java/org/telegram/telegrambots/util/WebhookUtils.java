@@ -43,7 +43,7 @@ public final class WebhookUtils {
         builder.addTextBody(SetWebhook.MAXCONNECTIONS_FIELD, botOptions.getMaxWebhookConnections().toString());
       }
       if (botOptions.getAllowedUpdates() != null) {
-        builder.addTextBody(SetWebhook.ALLOWEDUPDATES_FIELD, new JSONArray(botOptions.getMaxWebhookConnections()).toString());
+        builder.addTextBody(SetWebhook.ALLOWEDUPDATES_FIELD, new JSONArray(botOptions.getAllowedUpdates()).toString());
       }
       if (publicCertificatePath != null) {
         File certificate = new File(publicCertificatePath);
