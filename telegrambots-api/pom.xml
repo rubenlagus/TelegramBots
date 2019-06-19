@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.telegram</groupId>
-    <artifactId>telegrambots</artifactId>
-    <version>4.1.9</version>
+    <artifactId>telegrambots-api</artifactId>
+    <version>4.1.10</version>
     <packaging>jar</packaging>
 
     <name>Telegram Bots</name>
@@ -84,7 +84,7 @@
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots-meta</artifactId>
-            <version>4.1.9</version>
+            <version>4.1.10</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
