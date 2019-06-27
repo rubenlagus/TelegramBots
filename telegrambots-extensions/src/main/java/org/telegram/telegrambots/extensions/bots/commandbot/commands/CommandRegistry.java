@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
+import java.util.regex.Pattern;
 
 /**
  * This class manages all the commands for a bot. You can register and deregister commands on demand
@@ -122,7 +123,7 @@ public final class CommandRegistry implements ICommandRegistry {
      */
     private String removeUsernameFromCommandIfNeeded(String command) {
         if (allowCommandsWithUsername) {
-            return command.replace("@" + botUsername, "").trim();
+            return command.replaceAll("(?i)@" + Pattern.quote(botUsername), "").trim();
         }
         return command;
     }
