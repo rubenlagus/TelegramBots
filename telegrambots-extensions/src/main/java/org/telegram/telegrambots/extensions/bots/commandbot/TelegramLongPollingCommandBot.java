@@ -22,16 +22,14 @@ import java.util.function.BiConsumer;
  */
 public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingBot implements ICommandRegistry {
     private final CommandRegistry commandRegistry;
-    private String botUsername;
 
     /**
      * Creates a TelegramLongPollingCommandBot using default options
      * Use ICommandRegistry's methods on this bot to register commands
      *
-     * @param botUsername Username of the bot
      */
-    public TelegramLongPollingCommandBot(String botUsername) {
-        this(ApiContext.getInstance(DefaultBotOptions.class), botUsername);
+    public TelegramLongPollingCommandBot() {
+        this(ApiContext.getInstance(DefaultBotOptions.class));
     }
 
     /**
@@ -40,10 +38,9 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      * Use ICommandRegistry's methods on this bot to register commands
      *
      * @param options     Bot options
-     * @param botUsername Username of the bot
      */
-    public TelegramLongPollingCommandBot(DefaultBotOptions options, String botUsername) {
-        this(options, true, botUsername);
+    public TelegramLongPollingCommandBot(DefaultBotOptions options) {
+        this(options, true);
     }
 
     /**
@@ -53,11 +50,9 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      * @param options                   Bot options
      * @param allowCommandsWithUsername true to allow commands with parameters (default),
      *                                  false otherwise
-     * @param botUsername               bot username of this bot
      */
-    public TelegramLongPollingCommandBot(DefaultBotOptions options, boolean allowCommandsWithUsername, String botUsername) {
+    public TelegramLongPollingCommandBot(DefaultBotOptions options, boolean allowCommandsWithUsername) {
         super(options);
-        this.botUsername = botUsername;
         this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, this.getBotUsername());
     }
 
