@@ -2,7 +2,6 @@ language: java
 jdk:
   - oraclejdk11
   - oraclejdk-ea
-  - openjdk8
   - openjdk11
   - openjdk-ea
 install: mvn install -Dgpg.skip
