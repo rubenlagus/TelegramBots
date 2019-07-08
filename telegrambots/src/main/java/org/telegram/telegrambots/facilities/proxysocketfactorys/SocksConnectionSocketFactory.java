@@ -4,7 +4,6 @@ package org.telegram.telegrambots.facilities.proxysocketfactorys;
 import org.apache.http.HttpHost;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.protocol.HttpContext;
-import sun.net.SocksProxy;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -14,10 +13,9 @@ import java.net.Socket;
 public class SocksConnectionSocketFactory extends PlainConnectionSocketFactory {
 
     @Override
-    public Socket createSocket(final HttpContext context) throws IOException {
+    public Socket createSocket(final HttpContext context) {
         InetSocketAddress socksaddr = (InetSocketAddress) context.getAttribute("socketAddress");
-        int socksVersion = (Integer) context.getAttribute("socksVersion");
-        Proxy proxy = SocksProxy.create(socksaddr, socksVersion);
+        Proxy proxy = new Proxy(Proxy.Type.SOCKS, socksaddr);
         return new Socket(proxy);
     }
 

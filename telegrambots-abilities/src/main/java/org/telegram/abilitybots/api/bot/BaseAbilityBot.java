@@ -53,7 +53,6 @@ import static java.util.Optional.ofNullable;
 import static java.util.regex.Pattern.CASE_INSENSITIVE;
 import static java.util.regex.Pattern.compile;
 import static java.util.stream.Collectors.joining;
-import static jersey.repackaged.com.google.common.base.Throwables.propagate;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.telegram.abilitybots.api.objects.Ability.builder;
 import static org.telegram.abilitybots.api.objects.Flag.*;
@@ -281,7 +280,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
       return getUser(username).getId();
     } catch (IllegalStateException ex) {
       silent.send(getLocalizedMessage(USER_NOT_FOUND, ctx.user().getLanguageCode(), username), ctx.chatId());
-      throw propagate(ex);
+      throw ex;
     }
   }
 
@@ -308,12 +307,12 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         .privacy(CREATOR)
         .input(0)
         .action(ctx -> {
-          String commands = abilities.entrySet().stream()
-              .filter(entry -> nonNull(entry.getValue().info()))
-              .map(entry -> {
-                String name = entry.getValue().name();
-                String info = entry.getValue().info();
-                return format("%s - %s", name, info);
+          String commands = abilities.values().stream()
+              .filter(ability -> nonNull(ability.info()))
+              .map(ability -> {
+                  String name = ability.name();
+                  String info = ability.info();
+                  return format("%s - %s", name, info);
               })
               .sorted()
               .reduce((a, b) -> format("%s%n%s", a, b))
@@ -350,14 +349,14 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         .action(ctx -> {
           Privacy privacy = getPrivacy(ctx.update(), ctx.user().getId());
 
-          ListMultimap<Privacy, String> abilitiesPerPrivacy = abilities.entrySet().stream()
-              .map(entry -> {
-                String name = entry.getValue().name();
-                String info = entry.getValue().info();
+          ListMultimap<Privacy, String> abilitiesPerPrivacy = abilities.values().stream()
+              .map(ability -> {
+                  String name = ability.name();
+                  String info = ability.info();
 
-                if (!isEmpty(info))
-                  return Pair.of(entry.getValue().privacy(), format("/%s - %s", name, info));
-                return Pair.of(entry.getValue().privacy(), format("/%s", name));
+                  if (!isEmpty(info))
+                      return Pair.of(ability.privacy(), format("/%s - %s", name, info));
+                  return Pair.of(ability.privacy(), format("/%s", name));
               })
               .sorted(comparing(Pair::b))
               .collect(() -> hashKeys().arrayListValues().build(),
@@ -652,7 +651,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
           .build();
     } catch (IllegalStateException e) {
       BotLogger.error(TAG, "Duplicate names found while registering abilities. Make sure that the abilities declared don't clash with the reserved ones.", e);
-      throw propagate(e);
+      throw new RuntimeException(e);
     }
   }
 
@@ -676,7 +675,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         return (AbilityExtension) method.invoke(obj);
       } catch (IllegalAccessException | InvocationTargetException e) {
         BotLogger.error("Could not add ability extension", TAG, e);
-        throw propagate(e);
+        throw new RuntimeException(e);
       }
     };
   }
@@ -693,7 +692,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         return (Ability) method.invoke(obj);
       } catch (IllegalAccessException | InvocationTargetException e) {
         BotLogger.error("Could not add ability", TAG, e);
-        throw propagate(e);
+          throw new RuntimeException(e);
       }
     };
   }
@@ -710,7 +709,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         return (Reply) method.invoke(obj);
       } catch (IllegalAccessException | InvocationTargetException e) {
         BotLogger.error("Could not add reply", TAG, e);
-        throw propagate(e);
+          throw new RuntimeException(e);
       }
     };
   }

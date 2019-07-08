@@ -1,8 +1,9 @@
 package org.telegram.abilitybots.api.db;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 import java.io.IOException;
@@ -12,25 +13,33 @@ import java.util.Set;
 import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Sets.newHashSet;
 import static java.lang.String.format;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.telegram.abilitybots.api.bot.AbilityBotTest.CREATOR;
 import static org.telegram.abilitybots.api.bot.AbilityBotTest.USER;
 import static org.telegram.abilitybots.api.db.MapDBContext.offlineInstance;
 
-public class MapDBContextTest {
+class MapDBContextTest {
   private static final String USERS = "USERS";
   private static final String USER_ID = "USER_ID";
   private static final String TEST = "TEST";
 
   private DBContext db;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     db = offlineInstance("db");
   }
 
+  @AfterEach
+  void tearDown() throws IOException {
+    db.clear();
+    db.close();
+  }
+
   @Test
-  public void canRecoverDB() {
+  void canRecoverDB() {
     Map<Integer, User> users = db.getMap(USERS);
     Map<String, Integer> userIds = db.getMap(USER_ID);
     users.put(CREATOR.getId(), CREATOR);
@@ -49,30 +58,30 @@ public class MapDBContextTest {
     Map<Integer, User> recoveredUsers = db.getMap(USERS);
     String afterRecoveryInfo = db.info(USERS);
 
-    assertTrue("Could not recover database successfully", recovered);
-    assertEquals("Map info before and after recovery is different", beforeBackupInfo, afterRecoveryInfo);
-    assertEquals("Map before and after recovery are not equal", originalUsers, recoveredUsers);
+    assertTrue(recovered, "Could not recover database successfully");
+    assertEquals(beforeBackupInfo, afterRecoveryInfo, "Map info before and after recovery is different");
+    assertEquals(originalUsers, recoveredUsers, "Map before and after recovery are not equal");
   }
 
   @Test
-  public void canFallbackDBIfRecoveryFails() {
+  void canFallbackDBIfRecoveryFails() {
     Set<User> users = db.getSet(USERS);
     users.add(CREATOR);
     users.add(USER);
 
     Set<User> originalSet = newHashSet(users);
     Object jsonBackup = db.backup();
-    String corruptBackup = "!@#$" + String.valueOf(jsonBackup);
+    String corruptBackup = "!@#$" + jsonBackup;
     boolean recovered = db.recover(corruptBackup);
 
     Set<User> recoveredSet = db.getSet(USERS);
 
-    assertFalse("Recovery was successful from a CORRUPT backup", recovered);
-    assertEquals("Set before and after corrupt recovery are not equal", originalSet, recoveredSet);
+    assertFalse(recovered, "Recovery was successful from a CORRUPT backup");
+    assertEquals(originalSet, recoveredSet, "Set before and after corrupt recovery are not equal");
   }
 
   @Test
-  public void canGetSummary() {
+  void canGetSummary() {
     String anotherTest = TEST + 1;
     db.getSet(TEST).add(TEST);
     db.getSet(anotherTest).add(anotherTest);
@@ -85,7 +94,7 @@ public class MapDBContextTest {
   }
 
   @Test
-  public void canGetInfo() {
+  void canGetInfo() {
     db.getSet(TEST).add(TEST);
 
     String actualInfo = db.info(TEST);
@@ -95,13 +104,13 @@ public class MapDBContextTest {
     assertEquals("Actual DB structure info does not match that of the expected", expectedInfo, actualInfo);
   }
 
-  @Test(expected = IllegalStateException.class)
-  public void cantGetInfoFromNonexistentDBStructureName() {
-    db.info(TEST);
+  @Test
+  void cantGetInfoFromNonexistentDBStructureName() {
+    Assertions.assertThrows(IllegalStateException.class, () -> db.info(TEST));
   }
 
   @Test
-  public void canGetAndSetVariables() {
+  void canGetAndSetVariables() {
     String varName = "somevar";
     Var<User> var = db.getVar(varName);
     var.set(CREATOR);
@@ -115,11 +124,5 @@ public class MapDBContextTest {
 
     Var<User> changedVar = db.getVar(varName);
     assertEquals(changedVar.get(), USER);
-  }
-
-  @After
-  public void tearDown() throws IOException {
-    db.clear();
-    db.close();
   }
 }

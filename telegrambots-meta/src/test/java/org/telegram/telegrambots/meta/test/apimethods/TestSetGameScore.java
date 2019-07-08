@@ -2,26 +2,29 @@ package org.telegram.telegrambots.meta.test.apimethods;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.telegram.telegrambots.meta.test.TelegramBotsHelper;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.games.SetGameScore;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.test.TelegramBotsHelper;
 
 import java.io.Serializable;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
  */
-public class TestSetGameScore {
+class TestSetGameScore {
 
     private SetGameScore setGameScore;
     private ObjectMapper mapper = new ObjectMapper();
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() {
         setGameScore = new SetGameScore();
         setGameScore.setChatId("12345");
         setGameScore.setDisableEditMessage(true);
@@ -31,25 +34,25 @@ public class TestSetGameScore {
     }
 
     @Test
-    public void TestGetUpdatesMustBeSerializable() throws Exception {
+    void TestGetUpdatesMustBeSerializable() throws Exception {
         String json = mapper.writeValueAsString(setGameScore);
-        Assert.assertNotNull(json);
-        Assert.assertEquals("{\"chat_id\":\"12345\",\"message_id\":54321,\"disable_edit_message\":true,\"user_id\":98765,\"score\":12,\"method\":\"setGameScore\"}", json);
+        assertNotNull(json);
+        assertEquals("{\"chat_id\":\"12345\",\"message_id\":54321,\"disable_edit_message\":true,\"user_id\":98765,\"score\":12,\"method\":\"setGameScore\"}", json);
     }
 
     @Test
-    public void TestGetUpdatesMustDeserializeCorrectResponse() throws Exception {
+    void TestGetUpdatesMustDeserializeCorrectResponse() throws Exception {
         Serializable result =
                 setGameScore.deserializeResponse(TelegramBotsHelper.GetSetGameScoreBooleanResponse());
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof Boolean);
-        Assert.assertTrue((Boolean) result);
+        assertNotNull(result);
+        assertTrue(result instanceof Boolean);
+        assertTrue((Boolean) result);
     }
 
     @Test
-    public void TestGetUpdatesMustThrowAnExceptionForInCorrectResponse() throws Exception {
+    void TestGetUpdatesMustThrowAnExceptionForInCorrectResponse() throws Exception {
         Serializable result = setGameScore.deserializeResponse(TelegramBotsHelper.GetSetGameScoreMessageResponse());
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof Message);
+        assertNotNull(result);
+        assertTrue(result instanceof Message);
     }
 }
