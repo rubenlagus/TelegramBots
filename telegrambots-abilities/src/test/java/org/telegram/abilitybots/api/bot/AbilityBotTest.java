@@ -459,9 +459,7 @@ public class AbilityBotTest {
 
     Pair<MessageContext, Ability> pair = Pair.of(context, ability);
 
-    Assertions.assertThrows(ArithmeticException.class, () -> {
-      bot.consumeUpdate(pair);
-    });
+    Assertions.assertThrows(ArithmeticException.class, () -> bot.consumeUpdate(pair));
   }
 
   @Test

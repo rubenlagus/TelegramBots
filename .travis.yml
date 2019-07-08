@@ -1,7 +1,8 @@
 language: java
 jdk:
-  - oraclejdk8
+  - oraclejdk10
   - oraclejdk11
+  - oraclejdk-ea
   - openjdk8
   - openjdk11
   - openjdk-ea
@@ -16,3 +17,4 @@ notifications:
 matrix:
   allow_failures:
     - jdk: openjdk-ea
+    - jdk: oraclejdk-ea

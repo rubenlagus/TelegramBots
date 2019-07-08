@@ -10,51 +10,37 @@ import static org.telegram.abilitybots.api.bot.DefaultBot.getDefaultBuilder;
 class AbilityTest {
   @Test
   void argumentsCannotBeNegative() {
-    Assertions.assertThrows(IllegalArgumentException.class, () -> {
-      getDefaultBuilder().input(-4).build();
-    });
+    Assertions.assertThrows(IllegalArgumentException.class, () -> getDefaultBuilder().input(-4).build());
   }
 
   @Test
   void nameCannotBeEmpty() {
-    Assertions.assertThrows(IllegalArgumentException.class, () -> {
-      getDefaultBuilder().name("").build();
-    });
+    Assertions.assertThrows(IllegalArgumentException.class, () -> getDefaultBuilder().name("").build());
   }
 
   @Test
   void nameCannotBeNull() {
-    Assertions.assertThrows(IllegalArgumentException.class, () -> {
-      getDefaultBuilder().name(null).build();
-    });
+    Assertions.assertThrows(IllegalArgumentException.class, () -> getDefaultBuilder().name(null).build());
   }
 
   @Test
   void consumerCannotBeNull() {
-    Assertions.assertThrows(NullPointerException.class, () -> {
-      getDefaultBuilder().action(null).build();
-    });
+    Assertions.assertThrows(NullPointerException.class, () -> getDefaultBuilder().action(null).build());
   }
 
   @Test
   void localityCannotBeNull() {
-    Assertions.assertThrows(NullPointerException.class, () -> {
-      getDefaultBuilder().locality(null).build();
-    });
+    Assertions.assertThrows(NullPointerException.class, () -> getDefaultBuilder().locality(null).build());
   }
 
   @Test
   void privacyCannotBeNull() {
-    Assertions.assertThrows(NullPointerException.class, () -> {
-      getDefaultBuilder().privacy(null).build();
-    });
+    Assertions.assertThrows(NullPointerException.class, () -> getDefaultBuilder().privacy(null).build());
   }
 
   @Test
   void nameCannotContainSpaces() {
-    Assertions.assertThrows(IllegalArgumentException.class, () -> {
-      getDefaultBuilder().name("test test").build();
-    });
+    Assertions.assertThrows(IllegalArgumentException.class, () -> getDefaultBuilder().name("test test").build());
   }
 
   @Test
