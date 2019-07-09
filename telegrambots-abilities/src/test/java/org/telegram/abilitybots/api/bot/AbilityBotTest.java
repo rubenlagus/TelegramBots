@@ -7,6 +7,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import org.telegram.abilitybots.api.db.DBContext;
 import org.telegram.abilitybots.api.objects.*;
 import org.telegram.abilitybots.api.sender.MessageSender;
@@ -143,7 +144,9 @@ public class AbilityBotTest {
     Object backup = getDbBackup();
     java.io.File backupFile = createBackupFile(backup);
 
-    when(sender.downloadFile(any(File.class))).thenReturn(backupFile);
+    // Support for null parameter matching since due to mocking API changes
+    when(sender.downloadFile(ArgumentMatchers.<File>isNull())).thenReturn(backupFile);
+
     bot.recoverDB().replies().get(0).actOn(update);
 
     verify(silent, times(1)).send(RECOVER_SUCCESS, GROUP_ID);

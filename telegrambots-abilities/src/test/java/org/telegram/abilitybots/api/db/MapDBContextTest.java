@@ -90,7 +90,7 @@ class MapDBContextTest {
     // Name - Type - Number of "rows"
     String expectedSummary = format("%s - Set - 1\n%s - Set - 1", TEST, anotherTest);
 
-    assertEquals("Actual DB summary does not match that of the expected", expectedSummary, actualSummary);
+    assertEquals(expectedSummary, actualSummary, "Actual DB summary does not match that of the expected");
   }
 
   @Test
@@ -101,7 +101,7 @@ class MapDBContextTest {
     // JSON
     String expectedInfo = "TEST - Set - 1";
 
-    assertEquals("Actual DB structure info does not match that of the expected", expectedInfo, actualInfo);
+    assertEquals(expectedInfo, actualInfo, "Actual DB structure info does not match that of the expected");
   }
 
   @Test
