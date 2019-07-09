@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.starter;
 
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Bean;
@@ -15,9 +14,14 @@ import org.telegram.telegrambots.meta.generics.LongPollingBot;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
-public class TestTelegramBotStarterRegistrationHooks {
+class TestTelegramBotStarterRegistrationHooks {
 
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
 			.withConfiguration(AutoConfigurations.of(MockTelegramBotsApi.class, TelegramBotStarterConfiguration.class));
@@ -30,7 +34,7 @@ public class TestTelegramBotStarterRegistrationHooks {
 	private static final TelegramBotsApi mockTelegramBotsApi = mock(TelegramBotsApi.class);
 
     @Test
-    public void longPollingBotWithAnnotatedMethodshouldBeCalled() throws TelegramApiRequestException {
+	void longPollingBotWithAnnotatedMethodshouldBeCalled() throws TelegramApiRequestException {
 
         when(mockTelegramBotsApi.registerBot(any(LongPollingBot.class))).thenReturn(someBotSession);
 
