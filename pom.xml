@@ -38,6 +38,7 @@
         <mockito.version>3.0.0</mockito.version>
         <mockitojupiter.version>2.23.4</mockitojupiter.version>
         <jackson.version>2.9.9</jackson.version>
+        <log4j.version>2.11.1</log4j.version>
     </properties>
 
     <dependencyManagement>
@@ -69,6 +70,11 @@
                 <artifactId>jackson-databind</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -92,6 +98,12 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
     </dependencies>
 </project>

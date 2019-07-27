@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * This interface represents the high-level methods exposed to the user when handling an {@link Update}.
  * Example usage:
- * <p><code>Ability.builder().action(ctx -> {db.getSet(USERS); doSomething();})* </code></p>
+ * <p><code>Ability.builder().action(ctx -> {db.getSet(USERS); doSomething();})</code></p>
  * {@link BaseAbilityBot} contains a handle on the <code>db</code> that the user can use inside his declared abilities.
  *
  * @author Abbas Abou Daya
