@@ -5,12 +5,15 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.message.BasicStatusLine;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.telegram.telegrambots.facilities.filedownloader.TelegramFileDownloader;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.updateshandlers.DownloadFileCallback;
@@ -26,11 +29,14 @@ import static org.apache.http.HttpVersion.HTTP_1_1;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.timeout;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class TelegramFileDownloaderTest {
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+class TelegramFileDownloaderTest {
 
     private TelegramFileDownloader telegramFileDownloader;
 
@@ -48,38 +54,35 @@ public class TelegramFileDownloaderTest {
 
     private Supplier<String> tokenSupplierMock = () -> "someToken";
 
-
-    @Before
-    public void setup() throws IOException {
-
-
+    @BeforeEach
+    void setup() throws IOException {
         when(httpResponseMock.getStatusLine()).thenReturn(new BasicStatusLine(HTTP_1_1, 200, "emptyString"));
         when(httpResponseMock.getEntity()).thenReturn(httpEntityMock);
 
         when(httpEntityMock.getContent()).thenReturn(toInputStream("Some File Content", defaultCharset()));
-
         when(httpClientMock.execute(any(HttpUriRequest.class))).thenReturn(httpResponseMock);
 
         telegramFileDownloader = new TelegramFileDownloader(httpClientMock, tokenSupplierMock);
     }
 
     @Test
-    public void testFileDownload() throws TelegramApiException, IOException {
+    void testFileDownload() throws TelegramApiException, IOException {
         File returnFile = telegramFileDownloader.downloadFile("someFilePath");
         String content = readFileToString(returnFile, defaultCharset());
 
         assertEquals("Some File Content", content);
     }
 
-    @Test(expected = TelegramApiException.class)
-    public void testDownloadException() throws TelegramApiException {
+    @Test
+    void testDownloadException() {
         when(httpResponseMock.getStatusLine()).thenReturn(new BasicStatusLine(HTTP_1_1, 500, "emptyString"));
 
-        telegramFileDownloader.downloadFile("someFilePath");
+        Assertions.assertThrows(TelegramApiException.class,
+                () -> telegramFileDownloader.downloadFile("someFilePath"));
     }
 
     @Test
-    public void testAsyncDownload() throws TelegramApiException, IOException {
+    void testAsyncDownload() throws TelegramApiException, IOException {
         final ArgumentCaptor<File> fileArgumentCaptor = ArgumentCaptor.forClass(File.class);
 
         telegramFileDownloader.downloadFileAsync("someFilePath", downloadFileCallbackMock);
@@ -93,7 +96,7 @@ public class TelegramFileDownloaderTest {
     }
 
     @Test
-    public void testAsyncException() throws TelegramApiException {
+    void testAsyncException() throws TelegramApiException {
         final ArgumentCaptor<Exception> exceptionArgumentCaptor = ArgumentCaptor.forClass(Exception.class);
 
         when(httpResponseMock.getStatusLine()).thenReturn(new BasicStatusLine(HTTP_1_1, 500, "emptyString"));

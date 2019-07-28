@@ -25,7 +25,7 @@ public class Chat implements BotApiObject {
     private static final String PINNEDMESSAGE_FIELD = "pinned_message";
     private static final String STICKERSETNAME_FIELD = "sticker_set_name";
     private static final String CANSETSTICKERSET_FIELD = "can_set_sticker_set";
-    private static final String PERMISSIONS_FIELD = "can_set_sticker_set";
+    private static final String PERMISSIONS_FIELD = "permissions";
 
     private static final String USERCHATTYPE = "private";
     private static final String GROUPCHATTYPE = "group";

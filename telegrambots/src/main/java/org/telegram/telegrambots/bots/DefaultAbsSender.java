@@ -51,7 +51,7 @@ import static org.telegram.telegrambots.Constants.SOCKET_TIMEOUT;
  * @version 1.0
  * Implementation of all the methods needed to interact with Telegram Servers
  */
-@SuppressWarnings({"unused", "WeakerAccess"})
+@SuppressWarnings({"unused"})
 public abstract class DefaultAbsSender extends AbsSender {
     private static final ContentType TEXT_PLAIN_CONTENT_TYPE = ContentType.create("text/plain", StandardCharsets.UTF_8);
 
