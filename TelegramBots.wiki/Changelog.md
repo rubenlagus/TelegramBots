@@ -1,3 +1,9 @@
+### <a id="4.4.0"></a>4.4.0 ###
+1. Update Api version [4.4]()
+2. Removed BotLogger, replaced with [log4j2](https://logging.apache.org/log4j/2.x/)
+3. Library is now built using [Java11](https://www.oracle.com/technetwork/java/javase/overview/index.html)
+4. Updated dependencies to use last versions 
+
 ### <a id="4.3.1"></a>4.3.1 ###
 1. Fix bug #625
 2. Moved ApiResponse to different package, deprecated old one (will be removed in next mayor version)
