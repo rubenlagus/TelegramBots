@@ -3,6 +3,8 @@
 2. Removed BotLogger, replaced with [log4j2](https://logging.apache.org/log4j/2.x/)
 3. Library is now built using [Java11](https://www.oracle.com/technetwork/java/javase/overview/index.html)
 4. Updated dependencies to use last versions 
+5. Files can be downloaded into a stream. Allowing it to be processed immediately. 
+6. A java.io.File can be passed into the methods. The downloaded file is copied into that file instead of a temp file then (does not work with the async methods)
 
 ### <a id="4.3.1"></a>4.3.1 ###
 1. Fix bug #625
