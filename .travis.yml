@@ -4,7 +4,7 @@ jdk:
   - oraclejdk-ea
   - openjdk11
   - openjdk-ea
-install: mvn install -Dgpg.skip
+install: mvn -q install -Dgpg.skip
 script: mvn -q clean compile test
 after_success:
   - bash <(curl -s https://codecov.io/bash)
