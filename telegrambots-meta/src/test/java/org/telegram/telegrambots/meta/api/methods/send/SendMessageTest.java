@@ -1,25 +1,26 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class SendMessageTest {
+class SendMessageTest {
 
     @Test
-    public void comparison() throws Exception {
+    void comparison() {
         SendMessage sm1 = new SendMessage().setChatId(1L).setText("Hello World");
         SendMessage sm2 = new SendMessage().setChatId(1L).setText("Hello World");
         SendMessage noMessage = new SendMessage().setChatId(1L);
         SendMessage disabledNotification = new SendMessage().setChatId(1L).setText("Hello World").disableNotification();
 
-        assertTrue(sm1.equals(sm2));
-        assertFalse(sm1.equals(noMessage));
-        assertFalse(sm1.equals(disabledNotification));
+        assertEquals(sm1, sm2);
+        assertNotEquals(sm1, noMessage);
+        assertNotEquals(sm1, disabledNotification);
 
-        assertTrue(sm1.hashCode() == sm2.hashCode());
-        assertFalse(sm1.hashCode() == noMessage.hashCode());
-        assertFalse(sm1.hashCode() == disabledNotification.hashCode());
+        assertEquals(sm1.hashCode(), sm2.hashCode());
+        assertNotEquals(sm1.hashCode(), noMessage.hashCode());
+        assertNotEquals(sm1.hashCode(), disabledNotification.hashCode());
     }
 
 }

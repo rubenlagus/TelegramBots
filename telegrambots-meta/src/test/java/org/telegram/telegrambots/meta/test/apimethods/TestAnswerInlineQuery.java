@@ -1,56 +1,57 @@
 package org.telegram.telegrambots.meta.test.apimethods;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
  */
-public class TestAnswerInlineQuery {
+class TestAnswerInlineQuery {
     private AnswerInlineQuery answerInlineQuery;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() {
         answerInlineQuery = new AnswerInlineQuery();
     }
 
     @Test
-    public void TestInlineQueryIdMustBePresent() throws Exception {
+    void TestInlineQueryIdMustBePresent() {
         try {
             answerInlineQuery.validate();
         } catch (TelegramApiValidationException e) {
-            Assert.assertEquals("InlineQueryId can't be empty", e.getMessage());
+            assertEquals("InlineQueryId can't be empty", e.getMessage());
         }
     }
 
     @Test
-    public void TestInlineQueryIdCanNotBeEmpty() throws Exception {
+    void TestInlineQueryIdCanNotBeEmpty() {
         answerInlineQuery.setInlineQueryId("");
         try {
             answerInlineQuery.validate();
         } catch (TelegramApiValidationException e) {
-            Assert.assertEquals("InlineQueryId can't be empty", e.getMessage());
+            assertEquals("InlineQueryId can't be empty", e.getMessage());
         }
     }
 
     @Test
-    public void TestResultsMustBePresent() throws Exception {
+    void TestResultsMustBePresent() {
         answerInlineQuery.setInlineQueryId("RANDOMEID");
         try {
             answerInlineQuery.validate();
         } catch (TelegramApiValidationException e) {
-            Assert.assertEquals("Results array can't be null", e.getMessage());
+            assertEquals("Results array can't be null", e.getMessage());
         }
     }
 
     @Test
-    public void TestSwitchPmTextCanNotBeEmpty() throws Exception {
+    void TestSwitchPmTextCanNotBeEmpty() {
         answerInlineQuery.setInlineQueryId("RANDOMEID");
         answerInlineQuery.setResults(new ArrayList<>());
         answerInlineQuery.setSwitchPmText("");
@@ -58,12 +59,12 @@ public class TestAnswerInlineQuery {
         try {
             answerInlineQuery.validate();
         } catch (TelegramApiValidationException e) {
-            Assert.assertEquals("SwitchPmText can't be empty", e.getMessage());
+            assertEquals("SwitchPmText can't be empty", e.getMessage());
         }
     }
 
     @Test
-    public void TestSwitchPmParameterIsMandatoryIfSwitchPmTextIsPresent() throws Exception {
+    void TestSwitchPmParameterIsMandatoryIfSwitchPmTextIsPresent() {
         answerInlineQuery.setInlineQueryId("RANDOMEID");
         answerInlineQuery.setResults(new ArrayList<>());
         answerInlineQuery.setSwitchPmText("Test Text");
@@ -71,12 +72,12 @@ public class TestAnswerInlineQuery {
         try {
             answerInlineQuery.validate();
         } catch (TelegramApiValidationException e) {
-            Assert.assertEquals("SwitchPmParameter can't be empty if switchPmText is present", e.getMessage());
+            assertEquals("SwitchPmParameter can't be empty if switchPmText is present", e.getMessage());
         }
     }
 
     @Test
-    public void TestSwitchPmParameterCanNotBeEmptyIfSwitchPmTextIsPresent() throws Exception {
+    void TestSwitchPmParameterCanNotBeEmptyIfSwitchPmTextIsPresent() {
         answerInlineQuery.setInlineQueryId("RANDOMEID");
         answerInlineQuery.setResults(new ArrayList<>());
         answerInlineQuery.setSwitchPmText("Test Text");
@@ -85,12 +86,12 @@ public class TestAnswerInlineQuery {
         try {
             answerInlineQuery.validate();
         } catch (TelegramApiValidationException e) {
-            Assert.assertEquals("SwitchPmParameter can't be empty if switchPmText is present", e.getMessage());
+            assertEquals("SwitchPmParameter can't be empty if switchPmText is present", e.getMessage());
         }
     }
 
     @Test
-    public void TestSwitchPmParameterContainsUpTo64Chars() throws Exception {
+    void TestSwitchPmParameterContainsUpTo64Chars() {
         answerInlineQuery.setInlineQueryId("RANDOMEID");
         answerInlineQuery.setResults(new ArrayList<>());
         answerInlineQuery.setSwitchPmText("Test Text");
@@ -99,12 +100,12 @@ public class TestAnswerInlineQuery {
         try {
             answerInlineQuery.validate();
         } catch (TelegramApiValidationException e) {
-            Assert.assertEquals("SwitchPmParameter can't be longer than 64 chars", e.getMessage());
+            assertEquals("SwitchPmParameter can't be longer than 64 chars", e.getMessage());
         }
     }
 
     @Test
-    public void TestSwitchPmParameterOnlyContainsAcceptedCharacters() throws Exception {
+    void TestSwitchPmParameterOnlyContainsAcceptedCharacters() {
         answerInlineQuery.setInlineQueryId("RANDOMEID");
         answerInlineQuery.setResults(new ArrayList<>());
         answerInlineQuery.setSwitchPmText("Test Text");
@@ -113,7 +114,7 @@ public class TestAnswerInlineQuery {
         try {
             answerInlineQuery.validate();
         } catch (TelegramApiValidationException e) {
-            Assert.assertEquals("SwitchPmParameter only allows A-Z, a-z, 0-9, _ and - characters", e.getMessage());
+            assertEquals("SwitchPmParameter only allows A-Z, a-z, 0-9, _ and - characters", e.getMessage());
         }
     }
 }

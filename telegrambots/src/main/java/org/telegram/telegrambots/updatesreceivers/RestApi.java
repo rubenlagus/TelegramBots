@@ -1,12 +1,11 @@
 package org.telegram.telegrambots.updatesreceivers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 import org.telegram.telegrambots.meta.generics.WebhookBot;
-import org.telegram.telegrambots.meta.logging.BotLogger;
-
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -16,15 +15,16 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Rest api to for webhook callback function
- * @date 20 of June of 2015
+ * Rest api to for webhook callback function
  */
 @Path("callback")
 public class RestApi {
+    private static final Logger log = LogManager.getLogger(RestApi.class);
 
     private final ConcurrentHashMap<String, WebhookBot> callbacks = new ConcurrentHashMap<>();
 
@@ -50,7 +50,7 @@ public class RestApi {
                 }
                 return Response.ok(response).build();
             } catch (TelegramApiValidationException e) {
-                BotLogger.severe("RESTAPI", e);
+                log.error(e.getLocalizedMessage(), e);
                 return Response.serverError().build();
             }
         }

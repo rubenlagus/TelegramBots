@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.ChatPermissions;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -24,6 +25,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Pass True for all boolean parameters to lift restrictions from a user. Returns True on success.
  *
  */
+@SuppressWarnings("WeakerAccess")
 public class RestrictChatMember extends BotApiMethod<Boolean> {
     public static final String PATH = "restrictchatmember";
 
@@ -34,6 +36,7 @@ public class RestrictChatMember extends BotApiMethod<Boolean> {
     private static final String CANSENDMEDIAMESSAGES_FIELD = "can_send_media_messages";
     private static final String CANSENDOTHERMESSAGES_FIELD = "can_send_other_messages";
     private static final String CANADDWEBPAGEPREVIEWS_FIELD = "can_add_web_page_previews";
+    private static final String PERMISSIONS_FIELD = "permissions";
 
     @JsonProperty(CHATID_FIELD)
     private String chatId; ///< Required. Unique identifier for the chat to send the message to (Or username for channels)
@@ -49,7 +52,14 @@ public class RestrictChatMember extends BotApiMethod<Boolean> {
     private Boolean canSendOtherMessages; ///< Pass True, if the user can send animations, games, stickers and use inline bots, implies can_send_media_messages
     @JsonProperty(CANADDWEBPAGEPREVIEWS_FIELD)
     private Boolean canAddWebPagePreviews; ///< Pass True, if the user may add web page previews to their messages, implies can_send_messages
-
+    /**
+     * Optional
+     * Date when restrictions will be lifted for the user, unix time.
+     * If user is restricted for more than 366 days or less than 30 seconds
+     * from the current time, they are considered to be restricted forever
+     */
+    @JsonProperty(PERMISSIONS_FIELD)
+    private ChatPermissions permissions;
 
     public RestrictChatMember() {
         super();
@@ -108,44 +118,85 @@ public class RestrictChatMember extends BotApiMethod<Boolean> {
         return setUntilDate(date.toInstant());
     }
 
+    @JsonIgnore
     public RestrictChatMember forTimePeriod(Duration duration) {
         return setUntilDate(Instant.now().plusMillis(duration.toMillis()));
     }
 
+    /**
+     * @deprecated Use {@link #getPermissions()} instead
+     */
+    @Deprecated
     public Boolean getCanSendMessages() {
         return canSendMessages;
     }
 
+    /**
+     * @deprecated Use {@link #setPermissions(ChatPermissions)} instead
+     */
+    @Deprecated
     public RestrictChatMember setCanSendMessages(Boolean canSendMessages) {
         this.canSendMessages = canSendMessages;
         return this;
     }
 
+    /**
+     * @deprecated Use {@link #getPermissions()} instead
+     */
+    @Deprecated
     public Boolean getCanSendMediaMessages() {
         return canSendMediaMessages;
     }
 
+    /**
+     * @deprecated Use {@link #setPermissions(ChatPermissions)} instead
+     */
+    @Deprecated
     public RestrictChatMember setCanSendMediaMessages(Boolean canSendMediaMessages) {
         this.canSendMediaMessages = canSendMediaMessages;
         return this;
     }
 
+    /**
+     * @deprecated Use {@link #getPermissions()} instead
+     */
+    @Deprecated
     public Boolean getCanSendOtherMessages() {
         return canSendOtherMessages;
     }
 
+    /**
+     * @deprecated Use {@link #setPermissions(ChatPermissions)} instead
+     */
+    @Deprecated
     public RestrictChatMember setCanSendOtherMessages(Boolean canSendOtherMessages) {
         this.canSendOtherMessages = canSendOtherMessages;
         return this;
     }
 
+    /**
+     * @deprecated Use {@link #getPermissions()} instead
+     */
+    @Deprecated
     public Boolean getCanAddWebPagePreviews() {
         return canAddWebPagePreviews;
     }
 
+    /**
+     * @deprecated Use {@link #setPermissions(ChatPermissions)} instead
+     */
+    @Deprecated
     public RestrictChatMember setCanAddWebPagePreviews(Boolean canAddWebPagePreviews) {
         this.canAddWebPagePreviews = canAddWebPagePreviews;
         return this;
+    }
+
+    public ChatPermissions getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(ChatPermissions permissions) {
+        this.permissions = permissions;
     }
 
     @Override
@@ -176,6 +227,9 @@ public class RestrictChatMember extends BotApiMethod<Boolean> {
         if (userId == null) {
             throw new TelegramApiValidationException("UserId can't be empty", this);
         }
+        if (permissions == null) {
+            throw new TelegramApiValidationException("Permissions can't be empty", this);
+        }
     }
 
     @Override
@@ -188,6 +242,7 @@ public class RestrictChatMember extends BotApiMethod<Boolean> {
                 ", canSendMediaMessages=" + canSendMediaMessages +
                 ", canSendOtherMessages=" + canSendOtherMessages +
                 ", canAddWebPagePreviews=" + canAddWebPagePreviews +
+                ", permissions=" + permissions +
                 '}';
     }
 }

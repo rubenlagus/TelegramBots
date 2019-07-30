@@ -2,7 +2,6 @@ package org.telegram.telegrambots.bots;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -14,6 +13,7 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.telegram.telegrambots.facilities.TelegramHttpClientBuilder;
+import org.telegram.telegrambots.facilities.filedownloader.TelegramFileDownloader;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.*;
@@ -36,10 +36,9 @@ import org.telegram.telegrambots.meta.updateshandlers.DownloadFileCallback;
 import org.telegram.telegrambots.meta.updateshandlers.SentCallback;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.net.InetSocketAddress;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -52,7 +51,7 @@ import static org.telegram.telegrambots.Constants.SOCKET_TIMEOUT;
  * @version 1.0
  * Implementation of all the methods needed to interact with Telegram Servers
  */
-@SuppressWarnings({"unused", "WeakerAccess"})
+@SuppressWarnings({"unused"})
 public abstract class DefaultAbsSender extends AbsSender {
     private static final ContentType TEXT_PLAIN_CONTENT_TYPE = ContentType.create("text/plain", StandardCharsets.UTF_8);
 
@@ -61,6 +60,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     private final DefaultBotOptions options;
     private volatile CloseableHttpClient httpClient;
     private volatile RequestConfig requestConfig;
+    private final TelegramFileDownloader telegramFileDownloader = new TelegramFileDownloader(this::getBotToken);
 
     protected DefaultAbsSender(DefaultBotOptions options) {
         super();
@@ -109,37 +109,35 @@ public abstract class DefaultAbsSender extends AbsSender {
     // Send Requests
 
     public final java.io.File downloadFile(String filePath) throws TelegramApiException {
-        if(filePath == null || filePath.isEmpty()){
-            throw new TelegramApiException("Parameter file can not be null");
-        }
-        String url = File.getFileUrl(getBotToken(), filePath);
-        String tempFileName = Long.toString(System.currentTimeMillis());
-        return downloadToTemporaryFileWrappingExceptions(url, tempFileName);
+        return telegramFileDownloader.downloadFile(filePath);
     }
 
     public final java.io.File downloadFile(File file) throws TelegramApiException {
-        assertParamNotNull(file, "file");
-        String url = file.getFileUrl(getBotToken());
-        String tempFileName = file.getFileId();
-        return downloadToTemporaryFileWrappingExceptions(url, tempFileName);
+        return telegramFileDownloader.downloadFile(file);
+    }
+
+    public final java.io.File downloadFile(File file, java.io.File outputFile) throws TelegramApiException {
+        return telegramFileDownloader.downloadFile(file, outputFile);
+    }
+
+    public final java.io.File downloadFile(String filePath, java.io.File outputFile) throws TelegramApiException {
+        return telegramFileDownloader.downloadFile(filePath, outputFile);
     }
 
     public final void downloadFileAsync(String filePath, DownloadFileCallback<String> callback) throws TelegramApiException {
-        if(filePath == null || filePath.isEmpty()){
-            throw new TelegramApiException("Parameter filePath can not be null");
-        }
-        assertParamNotNull(callback, "callback");
-        String url = File.getFileUrl(getBotToken(), filePath);
-        String tempFileName = Long.toString(System.currentTimeMillis());
-        exe.submit(getDownloadFileAsyncJob(filePath, callback, url, tempFileName));
+        telegramFileDownloader.downloadFileAsync(filePath, callback);
     }
 
     public final void downloadFileAsync(File file, DownloadFileCallback<File> callback) throws TelegramApiException {
-        assertParamNotNull(file, "file");
-        assertParamNotNull(callback, "callback");
-        String url = file.getFileUrl(getBotToken());
-        String tempFileName = file.getFileId();
-        exe.submit(getDownloadFileAsyncJob(file, callback, url, tempFileName));
+        telegramFileDownloader.downloadFileAsync(file, callback);
+    }
+
+    public final InputStream downloadFileAsStream(String filePath) throws TelegramApiException {
+        return telegramFileDownloader.downloadFileAsStream(filePath);
+    }
+
+    public final InputStream downloadFileAsStream(File file) throws TelegramApiException {
+        return telegramFileDownloader.downloadFileAsStream(file);
     }
 
     // Specific Send Requests
@@ -718,38 +716,6 @@ public abstract class DefaultAbsSender extends AbsSender {
         } catch (IOException e) {
             throw new TelegramApiException("Unable to execute " + method.getMethod() + " method", e);
         }
-    }
-
-    private <T> Runnable getDownloadFileAsyncJob(T fileIdentifier, DownloadFileCallback<T> callback, String url, String tempFileName) {
-        //noinspection Convert2Lambda
-        return new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    callback.onResult(fileIdentifier, downloadToTemporaryFile(url, tempFileName));
-                } catch (MalformedURLException e) {
-                    callback.onException(fileIdentifier, new TelegramApiException("Wrong url for file: " + url));
-                } catch (IOException e) {
-                    callback.onException(fileIdentifier, new TelegramApiRequestException("Error downloading the file", e));
-                }
-            }
-        };
-    }
-
-    private java.io.File downloadToTemporaryFileWrappingExceptions(String url, String tempFileName) throws TelegramApiException {
-        try {
-            return downloadToTemporaryFile(url, tempFileName);
-        } catch (MalformedURLException e) {
-            throw new TelegramApiException("Wrong url for file: " + url);
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Error downloading the file", e);
-        }
-    }
-
-    private java.io.File downloadToTemporaryFile(String url, String tempFileName) throws IOException {
-        java.io.File output = java.io.File.createTempFile(tempFileName, ".tmp");
-        FileUtils.copyURLToFile(new URL(url), output);
-        return output;
     }
 
     private <T extends Serializable, Method extends BotApiMethod<T>> String sendMethodRequest(Method method) throws TelegramApiValidationException, IOException {

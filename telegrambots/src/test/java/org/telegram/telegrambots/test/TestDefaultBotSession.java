@@ -11,10 +11,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
+import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 import org.telegram.telegrambots.test.Fakes.FakeLongPollingBot;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
@@ -22,17 +21,18 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
+
+import static org.mockito.ArgumentMatchers.any;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Test for DefaultBotSession
+ * Test for DefaultBotSession
  */
 public class TestDefaultBotSession {
-    DefaultBotSession session;
+    private DefaultBotSession session;
 
     @Before
     public void setUp() throws Exception {
@@ -40,14 +40,14 @@ public class TestDefaultBotSession {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         if (session != null && session.isRunning()) {
             session.stop();
         }
     }
 
     @Test
-    public void TestDefaultBotSessionIsNotRunningWhenCreated() throws Exception {
+    public void TestDefaultBotSessionIsNotRunningWhenCreated() {
         Assert.assertFalse(session.isRunning());
     }
 
@@ -96,7 +96,7 @@ public class TestDefaultBotSession {
         session.setUpdatesSupplier(createFakeUpdatesSupplier(flag, updates));
         session.start();
         Thread.sleep(1000);
-        Mockito.verify(bot, Mockito.never()).onUpdateReceived(Matchers.any());
+        Mockito.verify(bot, Mockito.never()).onUpdateReceived(any());
         flag.compareAndSet(0, 1);
         Thread.sleep(1000);
         Mockito.verify(bot).onUpdateReceived(updates[0]);
@@ -124,7 +124,7 @@ public class TestDefaultBotSession {
         session.setUpdatesSupplier(createFakeUpdatesSupplier(flag, updates));
         session.start();
         Thread.sleep(1000);
-        Mockito.verify(bot, Mockito.never()).onUpdateReceived(Matchers.any());
+        Mockito.verify(bot, Mockito.never()).onUpdateReceived(any());
         flag.compareAndSet(0, 1);
         Thread.sleep(1000);
         Mockito.verify(bot).onUpdatesReceived(Arrays.asList(updates[0], updates[1]));
@@ -146,18 +146,15 @@ public class TestDefaultBotSession {
     }
 
     private DefaultBotSession.UpdatesSupplier createFakeUpdatesSupplier(AtomicInteger flag, Update[] updates) {
-        return new DefaultBotSession.UpdatesSupplier() {
-            @Override
-            public List<Update> getUpdates() throws InterruptedException, Exception {
-                if (flag.compareAndSet(1, 2)) {
-                    return Arrays.asList(updates[0], updates[1]);
-                } else if (flag.compareAndSet(3, 4)) {
-                    return Arrays.asList(updates[2], updates[3], updates[4]);
-                } else if (flag.compareAndSet(5, 6)) {
-                    return Arrays.asList(updates[5], updates[6], updates[7], updates[8]);
-                }
-                return Collections.emptyList();
+        return () -> {
+            if (flag.compareAndSet(1, 2)) {
+                return Arrays.asList(updates[0], updates[1]);
+            } else if (flag.compareAndSet(3, 4)) {
+                return Arrays.asList(updates[2], updates[3], updates[4]);
+            } else if (flag.compareAndSet(5, 6)) {
+                return Arrays.asList(updates[5], updates[6], updates[7], updates[8]);
             }
+            return Collections.emptyList();
         };
     }
 
@@ -172,7 +169,7 @@ public class TestDefaultBotSession {
         response.setEntity(new StringEntity("{}"));
 
         HttpClient mockHttpClient = Mockito.mock(HttpClient.class);
-        Mockito.when(mockHttpClient.execute(Mockito.any(HttpPost.class)))
+        Mockito.when(mockHttpClient.execute(any(HttpPost.class)))
                 .thenReturn(response);
         DefaultBotSession session = new DefaultBotSession();
         session.setCallback(bot);

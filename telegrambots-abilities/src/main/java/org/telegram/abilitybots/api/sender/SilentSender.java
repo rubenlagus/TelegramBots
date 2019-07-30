@@ -1,11 +1,12 @@
 package org.telegram.abilitybots.api.sender;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.logging.BotLogger;
 
 import java.io.Serializable;
 import java.util.Optional;
@@ -17,7 +18,7 @@ import java.util.Optional;
  * @author Abbas Abou Daya
  */
 public class SilentSender {
-  private static final String TAG = SilentSender.class.getSimpleName();
+  private static final Logger log = LogManager.getLogger(SilentSender.class);
 
   private final MessageSender sender;
 
@@ -46,7 +47,7 @@ public class SilentSender {
     try {
       return Optional.ofNullable(sender.execute(method));
     } catch (TelegramApiException e) {
-      BotLogger.error("Could not execute bot API method", TAG, e);
+      log.error("Could not execute bot API method", e);
       return Optional.empty();
     }
   }
@@ -55,7 +56,7 @@ public class SilentSender {
     try {
       return Optional.ofNullable(sender.execute(method));
     } catch (TelegramApiException e) {
-      BotLogger.error("Could not execute bot API method", TAG, e);
+      log.error("Could not execute bot API method", e);
       return Optional.empty();
     }
   }

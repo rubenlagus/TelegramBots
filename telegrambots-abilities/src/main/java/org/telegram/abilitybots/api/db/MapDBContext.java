@@ -3,25 +3,29 @@ package org.telegram.abilitybots.api.db;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mapdb.Atomic;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
 import org.mapdb.Serializer;
 import org.telegram.abilitybots.api.util.Pair;
-import org.telegram.telegrambots.meta.logging.BotLogger;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.StringJoiner;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Sets.newHashSet;
 import static java.lang.String.format;
 import static java.util.Objects.isNull;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.StreamSupport.stream;
 import static org.mapdb.Serializer.JAVA;
-import static org.telegram.abilitybots.api.bot.BaseAbilityBot.USERS;
 
 /**
  * An implementation of {@link DBContext} that relies on a {@link DB}.
@@ -31,7 +35,7 @@ import static org.telegram.abilitybots.api.bot.BaseAbilityBot.USERS;
  */
 @SuppressWarnings({"unchecked", "WeakerAccess"})
 public class MapDBContext implements DBContext {
-  private static final String TAG = DBContext.class.getSimpleName();
+  private static final Logger log = LogManager.getLogger(MapDBContext.class);
 
   private final DB db;
   private final ObjectMapper objectMapper;
@@ -71,7 +75,6 @@ public class MapDBContext implements DBContext {
         .fileDB(name)
         .fileMmapEnableIfSupported()
         .closeOnJvmShutdown()
-        .cleanerHackEnable()
         .transactionEnable()
         .fileDeleteAfterClose()
         .make();
@@ -123,7 +126,7 @@ public class MapDBContext implements DBContext {
       doRecover(backupData);
       return true;
     } catch (IOException e) {
-      BotLogger.error(format("Could not recover DB data from file with String representation %s", backup), TAG, e);
+      log.error(format("Could not recover DB data from file with String representation %s", backup), e);
       // Attempt to fallback to data snapshot before recovery
       doRecover(snapshot);
       return false;
@@ -204,7 +207,7 @@ public class MapDBContext implements DBContext {
         List entryList = (List) value;
         getList(name).addAll(entryList);
       } else {
-        BotLogger.error(TAG, format("Unable to identify object type during DB recovery, entry name: %s", name));
+        log.error(format("Unable to identify object type during DB recovery, entry name: %s", name));
       }
     });
     commit();
@@ -214,7 +217,7 @@ public class MapDBContext implements DBContext {
     try {
       return objectMapper.writeValueAsString(obj);
     } catch (JsonProcessingException e) {
-      BotLogger.info(format("Failed to read the JSON representation of object: %s", obj), TAG, e);
+      log.info(format("Failed to read the JSON representation of object: %s", obj), e);
       return "Error reading required data...";
     }
   }

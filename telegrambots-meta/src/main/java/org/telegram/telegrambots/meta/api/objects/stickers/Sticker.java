@@ -8,7 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief This object represents a sticker.
+ * This object represents a sticker.
  */
 public class Sticker implements BotApiObject {
 
@@ -20,6 +20,7 @@ public class Sticker implements BotApiObject {
     private static final String EMOJI_FIELD = "emoji";
     private static final String SETNAME_FIELD = "set_name";
     private static final String MASKPOSITON_FIELD = "mask_position";
+    private static final String ISANIMATED_FIELD = "is_animated";
 
     @JsonProperty(FILEID_FIELD)
     private String fileId; ///< Unique identifier for this file
@@ -37,6 +38,8 @@ public class Sticker implements BotApiObject {
     private String setName; ///< Optional. Name of the sticker set to which the sticker belongs
     @JsonProperty(MASKPOSITON_FIELD)
     private MaskPosition maskPosition; ///< Optional. For mask stickers, the position where the mask should be placed
+    @JsonProperty(ISANIMATED_FIELD)
+    private Boolean isAnimated; ///< True, if the sticker is animated
 
     public Sticker() {
         super();
@@ -74,6 +77,10 @@ public class Sticker implements BotApiObject {
         return maskPosition;
     }
 
+    public Boolean getAnimated() {
+        return isAnimated;
+    }
+
     @Override
     public String toString() {
         return "Sticker{" +
@@ -85,6 +92,7 @@ public class Sticker implements BotApiObject {
                 ", emoji='" + emoji + '\'' +
                 ", setName='" + setName + '\'' +
                 ", maskPosition=" + maskPosition +
+                ", isAnimated=" + isAnimated +
                 '}';
     }
 }
