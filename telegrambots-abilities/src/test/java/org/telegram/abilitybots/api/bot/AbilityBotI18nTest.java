@@ -1,8 +1,8 @@
 package org.telegram.abilitybots.api.bot;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.telegram.abilitybots.api.db.DBContext;
 import org.telegram.abilitybots.api.objects.MessageContext;
 import org.telegram.abilitybots.api.sender.MessageSender;
@@ -18,7 +18,7 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.telegram.abilitybots.api.bot.AbilityBotTest.mockContext;
 import static org.telegram.abilitybots.api.db.MapDBContext.offlineInstance;
 
-public class AbilityBotI18nTest {
+class AbilityBotI18nTest {
   private static final User NO_LANGUAGE_USER = new User(1, "first", false, "last", "username", null);
   private static final User ITALIAN_USER = new User(2, "first", false, "last", "username", "it-IT");
 
@@ -28,8 +28,8 @@ public class AbilityBotI18nTest {
   private MessageSender sender;
   private SilentSender silent;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     db = offlineInstance("db");
     bot = new NoPublicCommandsBot(EMPTY, EMPTY, db);
 
@@ -38,11 +38,16 @@ public class AbilityBotI18nTest {
 
     bot.sender = sender;
     bot.silent = silent;
+  }
 
+  @AfterEach
+  void tearDown() throws IOException {
+    db.clear();
+    db.close();
   }
 
   @Test
-  public void missingPublicCommandsLocalizedInEnglishByDefault() {
+  void missingPublicCommandsLocalizedInEnglishByDefault() {
     MessageContext context = mockContext(NO_LANGUAGE_USER);
 
     bot.reportCommands().action().accept(context);
@@ -52,7 +57,7 @@ public class AbilityBotI18nTest {
   }
 
   @Test
-  public void missingPublicCommandsLocalizedInItalian() {
+  void missingPublicCommandsLocalizedInItalian() {
     MessageContext context = mockContext(ITALIAN_USER);
 
     bot.reportCommands().action().accept(context);
@@ -61,15 +66,9 @@ public class AbilityBotI18nTest {
         .send("Non sono presenti comandi disponibile.", ITALIAN_USER.getId());
   }
 
-  @After
-  public void tearDown() throws IOException {
-    db.clear();
-    db.close();
-  }
-
   public static class NoPublicCommandsBot extends AbilityBot {
 
-    protected NoPublicCommandsBot(String botToken, String botUsername, DBContext db) {
+    NoPublicCommandsBot(String botToken, String botUsername, DBContext db) {
       super(botToken, botUsername, db);
     }
 

@@ -2,23 +2,23 @@ package org.telegram.telegrambots.test;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
-
-import static java.util.Arrays.asList;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static java.util.Arrays.asList;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+
 public class TelegramLongPollingBotTest {
 
     @Test
-    public void testOnUpdateReceived() throws Exception {
+    public void testOnUpdateReceived() {
         TelegramLongPollingBot bot = Mockito.mock(TelegramLongPollingBot.class);
         Mockito.doCallRealMethod().when(bot).onUpdatesReceived(any());
         Update update1 = new Update();

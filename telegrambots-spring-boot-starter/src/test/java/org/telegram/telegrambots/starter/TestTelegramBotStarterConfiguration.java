@@ -1,10 +1,6 @@
 package org.telegram.telegrambots.starter;
 
-
-import static org.assertj.core.api.Assertions.assertThat;
-
-import org.junit.Test;
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Bean;
@@ -13,13 +9,19 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 import org.telegram.telegrambots.meta.generics.WebhookBot;
 
-public class TestTelegramBotStarterConfiguration {
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+
+class TestTelegramBotStarterConfiguration {
 
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
 			.withConfiguration(AutoConfigurations.of(MockTelegramBotsApi.class, TelegramBotStarterConfiguration.class));
 
 	@Test
-	public void createMockTelegramBotsApiWithDefaultSettings() {
+	void createMockTelegramBotsApiWithDefaultSettings() {
 		this.contextRunner.run((context) -> {
 			assertThat(context).hasSingleBean(TelegramBotsApi.class);
 			assertThat(context).hasSingleBean(TelegramBotInitializer.class);
@@ -30,7 +32,7 @@ public class TestTelegramBotStarterConfiguration {
 	}
 	
 	@Test
-	public void createOnlyLongPollingBot() {
+	void createOnlyLongPollingBot() {
 		this.contextRunner.withUserConfiguration(LongPollingBotConfig.class)
 				.run((context) -> {
 					assertThat(context).hasSingleBean(LongPollingBot.class);
@@ -44,7 +46,7 @@ public class TestTelegramBotStarterConfiguration {
 	}
 	
 	@Test
-	public void createOnlyWebhookBot() {
+	void createOnlyWebhookBot() {
 		this.contextRunner.withUserConfiguration(WebhookBotConfig.class)
 				.run((context) -> {
 					assertThat(context).hasSingleBean(WebhookBot.class);
@@ -58,7 +60,7 @@ public class TestTelegramBotStarterConfiguration {
 	}
 	
 	@Test
-	public void createLongPoolingBotAndWebhookBot() {
+	void createLongPoolingBotAndWebhookBot() {
 		this.contextRunner.withUserConfiguration(LongPollingBotConfig.class, WebhookBotConfig.class)
 				.run((context) -> {
 					assertThat(context).hasSingleBean(LongPollingBot.class);

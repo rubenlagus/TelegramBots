@@ -2,8 +2,9 @@ package org.telegram.abilitybots.api.objects;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.logging.BotLogger;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,7 +35,7 @@ import static org.apache.commons.lang3.StringUtils.*;
  * @author Abbas Abou Daya
  */
 public final class Ability {
-  private static final String TAG = Ability.class.getSimpleName();
+  private static final Logger log = LogManager.getLogger(Ability.class);
 
   private final String name;
   private final String info;
@@ -63,7 +64,7 @@ public final class Ability {
 
     this.action = checkNotNull(action, "Method action can't be empty. Please assign a function by using .action() method");
     if (postAction == null)
-      BotLogger.info(TAG, format("No post action was detected for method with name [%s]", name));
+      log.info(format("No post action was detected for method with name [%s]", name));
 
     this.flags = ofNullable(flags).map(Arrays::asList).orElse(newArrayList());
 
