@@ -39,7 +39,7 @@
         <mockitojupiter.version>3.0.0</mockitojupiter.version>
         <jacksonbase.version>2.9.9</jacksonbase.version>
         <jackson.version>2.9.9.1</jackson.version>
-        <log4j.version>2.12.0</log4j.version>
+        <slf4j.version>1.7.28</slf4j.version>
     </properties>
 
     <dependencyManagement>
@@ -78,9 +78,9 @@
                 <version>${jackson.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-core</artifactId>
-                <version>${log4j.version}</version>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -108,9 +108,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>${log4j.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
     </dependencies>
 </project>

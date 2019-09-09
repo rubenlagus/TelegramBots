@@ -1,7 +1,7 @@
 package org.telegram.abilitybots.api.sender;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -18,7 +18,7 @@ import java.util.Optional;
  * @author Abbas Abou Daya
  */
 public class SilentSender {
-  private static final Logger log = LogManager.getLogger(SilentSender.class);
+  private static final Logger log = LoggerFactory.getLogger(SilentSender.class);
 
   private final MessageSender sender;
 

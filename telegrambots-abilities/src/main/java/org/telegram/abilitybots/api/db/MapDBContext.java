@@ -3,12 +3,12 @@ package org.telegram.abilitybots.api.db;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.mapdb.Atomic;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
 import org.mapdb.Serializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.telegram.abilitybots.api.util.Pair;
 
 import java.io.IOException;
@@ -35,7 +35,7 @@ import static org.mapdb.Serializer.JAVA;
  */
 @SuppressWarnings({"unchecked", "WeakerAccess"})
 public class MapDBContext implements DBContext {
-  private static final Logger log = LogManager.getLogger(MapDBContext.class);
+  private static final Logger log = LoggerFactory.getLogger(MapDBContext.class);
 
   private final DB db;
   private final ObjectMapper objectMapper;

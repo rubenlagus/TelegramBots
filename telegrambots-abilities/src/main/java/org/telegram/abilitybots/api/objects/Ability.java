@@ -2,8 +2,8 @@ package org.telegram.abilitybots.api.objects;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Arrays;
@@ -35,7 +35,7 @@ import static org.apache.commons.lang3.StringUtils.*;
  * @author Abbas Abou Daya
  */
 public final class Ability {
-  private static final Logger log = LogManager.getLogger(Ability.class);
+  private static final Logger log = LoggerFactory.getLogger(Ability.class);
 
   private final String name;
   private final String info;

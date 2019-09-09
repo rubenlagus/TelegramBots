@@ -78,6 +78,7 @@
 
         <commonslang.version>3.9</commonslang.version>
         <mapdb.version>3.0.7</mapdb.version>
+        <log4j.version>2.12.1</log4j.version>
     </properties>
 
     <dependencies>
@@ -101,6 +102,16 @@
                     <artifactId>guava</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
     </dependencies>
 

@@ -6,9 +6,9 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.telegram.abilitybots.api.db.DBContext;
 import org.telegram.abilitybots.api.objects.Ability;
 import org.telegram.abilitybots.api.objects.Locality;
@@ -139,7 +139,7 @@ import static org.telegram.abilitybots.api.util.AbilityUtils.stripTag;
  */
 @SuppressWarnings({"ConfusingArgumentToVarargsMethod", "UnusedReturnValue", "WeakerAccess", "unused", "ConstantConditions"})
 public abstract class BaseAbilityBot extends DefaultAbsSender implements AbilityExtension {
-    private static final Logger log = LogManager.getLogger(BaseAbilityBot.class);
+    private static final Logger log = LoggerFactory.getLogger(BaseAbilityBot.class);
 
     // DB objects
     public static final String ADMINS = "ADMINS";
