@@ -18,19 +18,19 @@ Usage
     <dependency>
         <groupId>org.telegram</groupId>
         <artifactId>telegrambots-abilities</artifactId>
-        <version>4.4.0</version>
+        <version>4.4.0.1</version>
     </dependency>
 ```
 
 **Gradle**
 
 ```gradle
-    compile "org.telegram:telegrambots-abilities:4.4.0"
+    compile "org.telegram:telegrambots-abilities:4.4.0.1"
 ```
 
-**JitPack** - [JitPack](https://jitpack.io/#rubenlagus/TelegramBots/v4.4.0)
+**JitPack** - [JitPack](https://jitpack.io/#rubenlagus/TelegramBots/v4.4.0.1)
 
-**Plain imports** - [Here](https://github.com/rubenlagus/TelegramBots/releases/tag/v4.4.0)
+**Plain imports** - [Here](https://github.com/rubenlagus/TelegramBots/releases/tag/v4.4.0.1)
 
 Motivation
 ----------

@@ -41,3 +41,6 @@ copyright/
 
 #File System specific files
 .DS_STORE
+
+# Default ignored files
+/Bots.iws

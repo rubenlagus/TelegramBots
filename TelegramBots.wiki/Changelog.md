@@ -1,3 +1,6 @@
+### <a id="4.4.0.1"></a>4.4.0.1 ###
+1. Bug fix when importing the project
+
 ### <a id="4.4.0"></a>4.4.0 ###
 1. Update Api version [4.4](https://core.telegram.org/bots/api-changelog#july-29-2019)
 2. Removed BotLogger, replaced with [log4j2](https://logging.apache.org/log4j/2.x/)
