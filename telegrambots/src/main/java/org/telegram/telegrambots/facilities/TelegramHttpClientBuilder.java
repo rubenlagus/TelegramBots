@@ -45,7 +45,8 @@ public class TelegramHttpClientBuilder {
             case SOCKS5:
                 registry = RegistryBuilder.<ConnectionSocketFactory> create()
                         .register("http", new SocksConnectionSocketFactory())
-                        .register("https", new SocksSSLConnectionSocketFactory(SSLContexts.createSystemDefault())).build();
+                        .register("https", new SocksSSLConnectionSocketFactory(SSLContexts.createSystemDefault()))
+                        .build();
                 return new PoolingHttpClientConnectionManager(registry);
         }
         return null;

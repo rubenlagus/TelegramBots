@@ -70,11 +70,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <glassfish.version>2.29</glassfish.version>
+        <glassfish.version>2.29.1</glassfish.version>
         <jerseybundle.version>1.19.3</jerseybundle.version>
-        <httpcompontents.version>4.5.9</httpcompontents.version>
+        <httpcompontents.version>4.5.10</httpcompontents.version>
         <json.version>20180813</json.version>
-        <jackson.version>2.9.9</jackson.version>
+        <jackson.version>2.9.9.2</jackson.version>
         <jacksonanotation.version>2.9.9</jacksonanotation.version>
         <commonio.version>2.6</commonio.version>
     </properties>
@@ -105,7 +105,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
             <artifactId>jackson-jaxrs-json-provider</artifactId>
-            <version>${jackson.version}</version>
+            <version>${jacksonbase.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
