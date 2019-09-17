@@ -27,12 +27,12 @@ public enum Flag implements Predicate<Update> {
   CHOSEN_INLINE_QUERY(Update::hasChosenInlineQuery),
 
   // Message Flags
-  REPLY(upd -> upd.hasMessage() && upd.getMessage().isReply()),
-  DOCUMENT(upd -> upd.hasMessage() && upd.getMessage().hasDocument()),
-  TEXT(upd -> upd.hasMessage() && upd.getMessage().hasText()),
-  PHOTO(upd -> upd.hasMessage() && upd.getMessage().hasPhoto()),
-  LOCATION(upd -> upd.hasMessage() && upd.getMessage().hasLocation()),
-  CAPTION(upd -> upd.hasMessage() && nonNull(upd.getMessage().getCaption()));
+  REPLY(upd -> MESSAGE.test(upd) && upd.getMessage().isReply()),
+  DOCUMENT(upd -> MESSAGE.test(upd) && upd.getMessage().hasDocument()),
+  TEXT(upd -> MESSAGE.test(upd) && upd.getMessage().hasText()),
+  PHOTO(upd -> MESSAGE.test(upd) && upd.getMessage().hasPhoto()),
+  LOCATION(upd -> MESSAGE.test(upd) && upd.getMessage().hasLocation()),
+  CAPTION(upd -> MESSAGE.test(upd) && nonNull(upd.getMessage().getCaption()));
 
   private final Predicate<Update> predicate;
 
