@@ -32,7 +32,7 @@ public Ability playWithMe() {
         .privacy(PUBLIC)
         .locality(ALL)
         .input(0)
-        .action(ctx -> sender.forceReply(playMessage, ctx.chatId()))
+        .action(ctx -> silent.forceReply(playMessage, ctx.chatId()))
         // The signature of a reply is -> (Consumer<Update> action, Predicate<Update>... conditions)
         // So, we  first declare the action that takes an update (NOT A MESSAGECONTEXT) like the action above
         // The reason of that is that a reply can be so versatile depending on the message, context becomes an inefficient wrapping
