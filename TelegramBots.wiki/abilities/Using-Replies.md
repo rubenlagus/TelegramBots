@@ -40,7 +40,7 @@ public Ability playWithMe() {
               // Prints to console
               System.out.println("I'm in a reply!");
               // Sends message
-              sender.send("It's been nice playing with you!", upd.getMessage().getChatId());
+              silent.send("It's been nice playing with you!", upd.getMessage().getChatId());
             },
             // Now we start declaring conditions, MESSAGE is a member of the enum Flag class
             // That class contains out-of-the-box predicates for your replies!
