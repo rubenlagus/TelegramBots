@@ -15,7 +15,7 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
-import static org.telegram.abilitybots.api.bot.AbilityBotTest.mockContext;
+import static org.telegram.abilitybots.api.bot.TestUtils.mockContext;
 import static org.telegram.abilitybots.api.db.MapDBContext.offlineInstance;
 
 class AbilityBotI18nTest {
