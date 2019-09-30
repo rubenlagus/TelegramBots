@@ -24,6 +24,7 @@ class AbilityBotI18nTest {
 
   private DBContext db;
   private NoPublicCommandsBot bot;
+  private DefaultAbilities defaultAbs;
 
   private MessageSender sender;
   private SilentSender silent;
@@ -32,6 +33,7 @@ class AbilityBotI18nTest {
   void setUp() {
     db = offlineInstance("db");
     bot = new NoPublicCommandsBot(EMPTY, EMPTY, db);
+    defaultAbs = new DefaultAbilities(bot);
 
     sender = mock(MessageSender.class);
     silent = mock(SilentSender.class);
@@ -50,7 +52,7 @@ class AbilityBotI18nTest {
   void missingPublicCommandsLocalizedInEnglishByDefault() {
     MessageContext context = mockContext(NO_LANGUAGE_USER);
 
-    bot.reportCommands().action().accept(context);
+    defaultAbs.reportCommands().action().accept(context);
 
     verify(silent, times(1))
         .send("No available commands found.", NO_LANGUAGE_USER.getId());
@@ -60,7 +62,7 @@ class AbilityBotI18nTest {
   void missingPublicCommandsLocalizedInItalian() {
     MessageContext context = mockContext(ITALIAN_USER);
 
-    bot.reportCommands().action().accept(context);
+    defaultAbs.reportCommands().action().accept(context);
 
     verify(silent, times(1))
         .send("Non sono presenti comandi disponibile.", ITALIAN_USER.getId());

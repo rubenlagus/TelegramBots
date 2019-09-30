@@ -69,6 +69,7 @@ public class AbilityBotTest {
   public static final User CREATOR = new User(1337, "creatorFirst", false, "creatorLast", "creatorUsername", null);
 
   private DefaultBot bot;
+  private DefaultAbilities defaultAbs;
   private DBContext db;
   private MessageSender sender;
   private SilentSender silent;
@@ -77,6 +78,7 @@ public class AbilityBotTest {
   void setUp() {
     db = offlineInstance("db");
     bot = new DefaultBot(EMPTY, EMPTY, db);
+    defaultAbs = new DefaultAbilities(bot);
 
     sender = mock(MessageSender.class);
     silent = mock(SilentSender.class);
@@ -132,7 +134,7 @@ public class AbilityBotTest {
   void canBackupDB() throws TelegramApiException {
     MessageContext context = defaultContext();
 
-    bot.backupDB().action().accept(context);
+    defaultAbs.backupDB().action().accept(context);
     deleteQuietly(new java.io.File("backup.json"));
 
     verify(sender, times(1)).sendDocument(any());
@@ -147,7 +149,7 @@ public class AbilityBotTest {
     // Support for null parameter matching since due to mocking API changes
     when(sender.downloadFile(ArgumentMatchers.<File>isNull())).thenReturn(backupFile);
 
-    bot.recoverDB().replies().get(0).actOn(update);
+    defaultAbs.recoverDB().replies().get(0).actOn(update);
 
     verify(silent, times(1)).send(RECOVER_SUCCESS, GROUP_ID);
     assertEquals(db.getSet(TEST), newHashSet(TEST), "Bot recovered but the DB is still not in sync");
@@ -169,7 +171,7 @@ public class AbilityBotTest {
 
     MessageContext context = defaultContext();
 
-    bot.demoteAdmin().action().accept(context);
+    defaultAbs.demoteAdmin().action().accept(context);
 
     Set<Integer> actual = bot.admins();
     Set<Integer> expected = emptySet();
@@ -182,7 +184,7 @@ public class AbilityBotTest {
 
     MessageContext context = defaultContext();
 
-    bot.promoteAdmin().action().accept(context);
+    defaultAbs.promoteAdmin().action().accept(context);
 
     Set<Integer> actual = bot.admins();
     Set<Integer> expected = newHashSet(USER.getId());
@@ -194,7 +196,7 @@ public class AbilityBotTest {
     addUsers(USER);
     MessageContext context = defaultContext();
 
-    bot.banUser().action().accept(context);
+    defaultAbs.banUser().action().accept(context);
 
     Set<Integer> actual = bot.blacklist();
     Set<Integer> expected = newHashSet(USER.getId());
@@ -208,7 +210,7 @@ public class AbilityBotTest {
 
     MessageContext context = defaultContext();
 
-    bot.unbanUser().action().accept(context);
+    defaultAbs.unbanUser().action().accept(context);
 
     Set<Integer> actual = bot.blacklist();
     Set<Integer> expected = newHashSet();
@@ -225,7 +227,7 @@ public class AbilityBotTest {
     addUsers(USER, CREATOR);
     MessageContext context = mockContext(USER, GROUP_ID, CREATOR.getUserName());
 
-    bot.banUser().action().accept(context);
+    defaultAbs.banUser().action().accept(context);
 
     Set<Integer> actual = bot.blacklist();
     Set<Integer> expected = newHashSet(USER.getId());
@@ -243,7 +245,7 @@ public class AbilityBotTest {
   void creatorCanClaimBot() {
     MessageContext context = mockContext(CREATOR, GROUP_ID);
 
-    bot.claimCreator().action().accept(context);
+    defaultAbs.claimCreator().action().accept(context);
 
     Set<Integer> actual = bot.admins();
     Set<Integer> expected = newHashSet(CREATOR.getId());
@@ -544,7 +546,7 @@ public class AbilityBotTest {
   void canReportCommands() {
     MessageContext context = mockContext(USER, GROUP_ID);
 
-    bot.reportCommands().action().accept(context);
+    defaultAbs.reportCommands().action().accept(context);
 
     verify(silent, times(1)).send("default - dis iz default command", GROUP_ID);
   }
@@ -578,7 +580,7 @@ public class AbilityBotTest {
     when(message.hasText()).thenReturn(true);
     MessageContext creatorCtx = newContext(update, CREATOR, GROUP_ID);
 
-    bot.commands().action().accept(creatorCtx);
+    defaultAbs.commands().action().accept(creatorCtx);
 
     String expected = "PUBLIC\n/commands\n/count\n/default - dis iz default command\n/group\n/test\nADMIN\n/admin\n/ban\n/demote\n/promote\n/unban\nCREATOR\n/backup\n/claim\n/recover\n/report";
     verify(silent, times(1)).send(expected, GROUP_ID);
@@ -595,7 +597,7 @@ public class AbilityBotTest {
 
     MessageContext userCtx = newContext(update, USER, GROUP_ID);
 
-    bot.commands().action().accept(userCtx);
+    defaultAbs.commands().action().accept(userCtx);
 
     String expected = "PUBLIC\n/commands\n/count\n/default - dis iz default command\n/group\n/test";
     verify(silent, times(1)).send(expected, GROUP_ID);
