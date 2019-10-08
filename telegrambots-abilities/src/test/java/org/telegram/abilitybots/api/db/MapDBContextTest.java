@@ -12,6 +12,7 @@ import java.util.Set;
 
 import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Sets.newHashSet;
+import static com.google.common.collect.Sets.toImmutableEnumSet;
 import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -36,6 +37,24 @@ class MapDBContextTest {
   void tearDown() throws IOException {
     db.clear();
     db.close();
+  }
+
+  @Test
+  void canRecoverVar() {
+    Var<String> test = db.getVar(TEST);
+    String val = "abilitybot";
+    test.set(val);
+
+    Object backup = db.backup();
+    db.clear();
+    // db.clear does not clear atomic variables
+    // TODO: get clear to remove all non-collection variables in DB
+    test.set("somevalue");
+    boolean recovered = db.recover(backup);
+    String recoveredVal = db.<String>getVar(TEST).get();
+
+    assertTrue(recovered, "Could not recover JSON backup file");
+    assertEquals(val, recoveredVal, "Could not properly recover val from Var in DB");
   }
 
   @Test
