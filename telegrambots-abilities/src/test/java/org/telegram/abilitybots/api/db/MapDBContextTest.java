@@ -17,8 +17,8 @@ import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.telegram.abilitybots.api.bot.AbilityBotTest.CREATOR;
-import static org.telegram.abilitybots.api.bot.AbilityBotTest.USER;
+import static org.telegram.abilitybots.api.bot.TestUtils.CREATOR;
+import static org.telegram.abilitybots.api.bot.TestUtils.USER;
 import static org.telegram.abilitybots.api.db.MapDBContext.offlineInstance;
 
 class MapDBContextTest {
