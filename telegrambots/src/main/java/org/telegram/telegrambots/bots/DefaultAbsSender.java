@@ -414,7 +414,7 @@ public abstract class DefaultAbsSender extends AbsSender {
 
             return sendAudio.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
-            throw new TelegramApiException("Unable to send sticker", e);
+            throw new TelegramApiException("Unable to send audio", e);
         }
     }
 
