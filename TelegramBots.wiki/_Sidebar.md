@@ -10,6 +10,7 @@
     * [[Using Replies]]
     * [[State Machines]]
     * [[Database Handling]]
+    * [[Ability Extensions]]
     * [[Bot Testing]]
     * [[Bot Recovery]]
     * [[Advanced]]
