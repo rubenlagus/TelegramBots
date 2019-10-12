@@ -12,12 +12,7 @@ import org.mapdb.Serializer;
 import org.telegram.abilitybots.api.util.Pair;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.StringJoiner;
+import java.util.*;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
@@ -188,15 +183,15 @@ public class MapDBContext implements DBContext {
         return Pair.of(entry.getKey(), newArrayList((List) struct));
       else if (struct instanceof Map)
         return Pair.of(entry.getKey(), new BackupMap((Map) struct));
-      else
-        return Pair.of(entry.getKey(), struct);
+      else if (struct instanceof Atomic.Var)
+        return Pair.of(entry.getKey(), BackupVar.createVar(((Atomic.Var) struct).get()));
+      return Pair.of(entry.getKey(), struct);
     }).collect(toMap(pair -> (String) pair.a(), Pair::b));
   }
 
   private void doRecover(Map<String, Object> backupData) {
     clear();
     backupData.forEach((name, value) -> {
-
       if (value instanceof Set) {
         Set entrySet = (Set) value;
         getSet(name).addAll(entrySet);
@@ -206,6 +201,8 @@ public class MapDBContext implements DBContext {
       } else if (value instanceof List) {
         List entryList = (List) value;
         getList(name).addAll(entryList);
+      } else if (value instanceof BackupVar) {
+        getVar(name).set(((BackupVar) value).var());
       } else {
         log.error(format("Unable to identify object type during DB recovery, entry name: %s", name));
       }

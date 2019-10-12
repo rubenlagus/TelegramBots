@@ -32,7 +32,7 @@ public Ability playWithMe() {
         .privacy(PUBLIC)
         .locality(ALL)
         .input(0)
-        .action(ctx -> sender.forceReply(playMessage, ctx.chatId()))
+        .action(ctx -> silent.forceReply(playMessage, ctx.chatId()))
         // The signature of a reply is -> (Consumer<Update> action, Predicate<Update>... conditions)
         // So, we  first declare the action that takes an update (NOT A MESSAGECONTEXT) like the action above
         // The reason of that is that a reply can be so versatile depending on the message, context becomes an inefficient wrapping
@@ -40,7 +40,7 @@ public Ability playWithMe() {
               // Prints to console
               System.out.println("I'm in a reply!");
               // Sends message
-              sender.send("It's been nice playing with you!", upd.getMessage().getChatId());
+              silent.send("It's been nice playing with you!", upd.getMessage().getChatId());
             },
             // Now we start declaring conditions, MESSAGE is a member of the enum Flag class
             // That class contains out-of-the-box predicates for your replies!

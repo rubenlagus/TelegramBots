@@ -253,7 +253,8 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
             Stream<Reply> extensionReplies = extensions.stream()
                     .flatMap(ext -> stream(ext.getClass().getMethods())
                             .filter(checkReturnType(Reply.class))
-                            .map(returnReply(ext)));
+                            .map(returnReply(ext)))
+                            .flatMap(Reply::stream);
 
             // Replies can be standalone or attached to abilities, fetch those too
             Stream<Reply> abilityReplies = abilities.values().stream()
@@ -282,7 +283,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     /**
      * Invokes the method and retrieves its return {@link Reply}.
      *
-     * @param obj an bot or extension that this method is invoked with
+     * @param obj a bot or extension that this method is invoked with
      * @return a {@link Function} which returns the {@link Reply} returned by the given method
      */
     private Function<? super Method, AbilityExtension> returnExtension(Object obj) {
@@ -299,7 +300,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     /**
      * Invokes the method and retrieves its return {@link Ability}.
      *
-     * @param obj an bot or extension that this method is invoked with
+     * @param obj a bot or extension that this method is invoked with
      * @return a {@link Function} which returns the {@link Ability} returned by the given method
      */
     private static Function<? super Method, Ability> returnAbility(Object obj) {
@@ -316,7 +317,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     /**
      * Invokes the method and retrieves its return {@link Reply}.
      *
-     * @param obj an bot or extension that this method is invoked with
+     * @param obj a bot or extension that this method is invoked with
      * @return a {@link Function} which returns the {@link Reply} returned by the given method
      */
     private static Function<? super Method, Reply> returnReply(Object obj) {
