@@ -244,4 +244,8 @@ public final class AbilityUtils {
 
     return name.toString();
   }
+
+  public static String escape(String username) {
+      return username.replace("_", "\\_");
+  }
 }

@@ -8,6 +8,7 @@
     * [[Simple Example]]
     * [[Hello Ability]]
     * [[Using Replies]]
+    * [[Ability Toggle]]
     * [[State Machines]]
     * [[Database Handling]]
     * [[Ability Extensions]]

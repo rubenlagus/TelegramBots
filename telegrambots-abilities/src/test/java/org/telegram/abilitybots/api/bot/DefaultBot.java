@@ -3,6 +3,7 @@ package org.telegram.abilitybots.api.bot;
 import org.telegram.abilitybots.api.db.DBContext;
 import org.telegram.abilitybots.api.objects.Ability;
 import org.telegram.abilitybots.api.objects.Ability.AbilityBuilder;
+import org.telegram.abilitybots.api.toggle.AbilityToggle;
 
 import static org.telegram.abilitybots.api.objects.Ability.builder;
 import static org.telegram.abilitybots.api.objects.Flag.CALLBACK_QUERY;
@@ -15,6 +16,10 @@ public class DefaultBot extends AbilityBot {
 
   public DefaultBot(String token, String username, DBContext db) {
     super(token, username, db);
+  }
+
+  public DefaultBot(String token, String username, DBContext db, AbilityToggle toggle) {
+    super(token, username, db, toggle);
   }
 
   public static AbilityBuilder getDefaultBuilder() {
