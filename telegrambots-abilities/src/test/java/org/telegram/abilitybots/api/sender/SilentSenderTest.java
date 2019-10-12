@@ -2,15 +2,19 @@ package org.telegram.abilitybots.api.sender;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.meta.updateshandlers.SentCallback;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class SilentSenderTest {
   private SilentSender silent;
@@ -40,4 +44,34 @@ class SilentSenderTest {
 
     assertEquals(data, execute.get(), "Silent execution resulted in a different object");
   }
+
+  @Test
+  void callsAsyncVariantOfExecute() throws TelegramApiException {
+    SendMessage methodObject = new SendMessage();
+    NoOpCallback callback = new NoOpCallback();
+
+    silent.executeAsync(methodObject, callback);
+
+    verify(sender, only()).executeAsync(methodObject, callback);
+  }
+
+  private class NoOpCallback implements SentCallback<Message> {
+
+    @Override
+    public void onResult(BotApiMethod<Message> method, Message response) {
+
+    }
+
+    @Override
+    public void onError(BotApiMethod<Message> method, TelegramApiRequestException apiException) {
+
+    }
+
+    @Override
+    public void onException(BotApiMethod<Message> method, Exception exception) {
+
+    }
+  }
+
+  ;
 }

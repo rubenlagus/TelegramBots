@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.updateshandlers.SentCallback;
 
 import java.io.Serializable;
 import java.util.Optional;
@@ -52,12 +53,12 @@ public class SilentSender {
     }
   }
 
-  public <T extends Serializable, Method extends BotApiMethod<T>> Optional<T> executeAsync(Method method) {
+  public <T extends Serializable, Method extends BotApiMethod<T>, Callback extends SentCallback<T>> void
+  executeAsync(Method method, Callback callable) {
     try {
-      return Optional.ofNullable(sender.execute(method));
+      sender.executeAsync(method, callable);
     } catch (TelegramApiException e) {
       log.error("Could not execute bot API method", e);
-      return Optional.empty();
     }
   }
 
