@@ -22,6 +22,7 @@ import java.util.function.BiConsumer;
  */
 public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingBot implements ICommandRegistry {
     private final CommandRegistry commandRegistry;
+    private String botUsername;
 
     /**
      * Creates a TelegramLongPollingCommandBot using default options
@@ -30,6 +31,19 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      */
     public TelegramLongPollingCommandBot() {
         this(ApiContext.getInstance(DefaultBotOptions.class));
+    }
+
+    /**
+     * Creates a TelegramLongPollingCommandBot using default options
+     * Use ICommandRegistry's methods on this bot to register commands
+     *
+     * @param botUsername Username of the bot
+     * @deprecated Overwrite {@link #getBotUsername() getBotUsername} instead
+     */
+    @Deprecated
+    public TelegramLongPollingCommandBot(String botUsername){
+        this();
+        this.botUsername = botUsername;
     }
 
     /**
@@ -138,7 +152,9 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      * @return Bot username
      */
     @Override
-    public abstract String getBotUsername();
+    public String getBotUsername(){
+        return this.botUsername;
+    };
 
     /**
      * Process all updates, that are not commands.
