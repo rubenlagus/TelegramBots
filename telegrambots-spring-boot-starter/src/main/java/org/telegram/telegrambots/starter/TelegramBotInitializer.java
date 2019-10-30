@@ -1,7 +1,7 @@
 package org.telegram.telegrambots.starter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -21,7 +21,7 @@ import static java.lang.String.format;
  * Receives all beand which are #LongPollingBot and #WebhookBot and register them in #TelegramBotsApi.
  */
 public class TelegramBotInitializer implements InitializingBean {
-    private static final Logger log = LogManager.getLogger(TelegramBotInitializer.class);
+    private static final Logger log = LoggerFactory.getLogger(TelegramBotInitializer.class);
 
 	private final TelegramBotsApi telegramBotsApi;
     private final List<LongPollingBot> longPollingBots;

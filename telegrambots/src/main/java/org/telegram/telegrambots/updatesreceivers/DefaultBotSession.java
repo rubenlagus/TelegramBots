@@ -11,9 +11,9 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.ApiConstants;
 import org.telegram.telegrambots.meta.api.methods.updates.GetUpdates;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -40,7 +40,7 @@ import static org.telegram.telegrambots.Constants.SOCKET_TIMEOUT;
  * Thread to request updates with active wait
  */
 public class DefaultBotSession implements BotSession {
-    private static final Logger log = LogManager.getLogger(DefaultBotSession.class);
+    private static final Logger log = LoggerFactory.getLogger(DefaultBotSession.class);
 
     private AtomicBoolean running = new AtomicBoolean(false);
 
@@ -207,7 +207,7 @@ public class DefaultBotSession implements BotSession {
                             log.debug(e.getLocalizedMessage(), e);
                             interrupt();
                         } catch (Exception global) {
-                            log.fatal(global.getLocalizedMessage(), global);
+                            log.error(global.getLocalizedMessage(), global);
                             try {
                                 synchronized (lock) {
                                     lock.wait(exponentialBackOff.nextBackOffMillis());
@@ -263,7 +263,7 @@ public class DefaultBotSession implements BotSession {
                     }
                 }
             } catch (SocketException | InvalidObjectException | TelegramApiRequestException e) {
-                log.fatal(e.getLocalizedMessage(), e);
+                log.error(e.getLocalizedMessage(), e);
             } catch (SocketTimeoutException e) {
                 log.info(e.getLocalizedMessage(), e);
             } catch (InterruptedException e) {
@@ -309,7 +309,7 @@ public class DefaultBotSession implements BotSession {
                     log.debug(e.getLocalizedMessage(), e);
                     interrupt();
                 } catch (Exception e) {
-                    log.fatal(e.getLocalizedMessage(), e);
+                    log.error(e.getLocalizedMessage(), e);
                 }
             }
             log.debug("Handler thread has being closed");

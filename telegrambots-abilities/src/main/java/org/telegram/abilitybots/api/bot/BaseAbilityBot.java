@@ -3,9 +3,12 @@ package org.telegram.abilitybots.api.bot;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.collect.ImmutableMap;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimap;
+import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.telegram.abilitybots.api.db.DBContext;
 import org.telegram.abilitybots.api.objects.*;
 import org.telegram.abilitybots.api.sender.DefaultSender;
@@ -79,7 +82,7 @@ import static org.telegram.abilitybots.api.util.AbilityUtils.*;
  */
 @SuppressWarnings({"ConfusingArgumentToVarargsMethod", "UnusedReturnValue", "WeakerAccess", "unused", "ConstantConditions"})
 public abstract class BaseAbilityBot extends DefaultAbsSender implements AbilityExtension {
-    private static final Logger log = LogManager.getLogger(BaseAbilityBot.class);
+    private static final Logger log = LoggerFactory.getLogger(BaseAbilityBot.class);
 
     protected static final String DEFAULT = "default";
     // DB objects
