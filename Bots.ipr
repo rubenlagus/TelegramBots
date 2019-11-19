@@ -506,10 +506,18 @@
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/telegrambots" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/telegrambots-abilities" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/telegrambots-abilities/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/telegrambots-abilities/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/telegrambots-chat-session-bot" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/telegrambots-chat-session-bot/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/telegrambots-extensions" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/telegrambots-extensions/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/telegrambots-meta" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/telegrambots-meta/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/telegrambots-spring-boot-starter" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/telegrambots-spring-boot-starter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/telegrambots-spring-boot-starter/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/telegrambots/src/main/java" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
   <component name="InspectionProjectProfileManager">
@@ -1118,15 +1126,15 @@
         <root url="jar://$MAVEN_REPOSITORY$/jakarta/activation/jakarta.activation-api/1.2.1/jakarta.activation-api-1.2.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: jakarta.annotation:jakarta.annotation-api:$">
+    <library name="Maven: jakarta.annotation:jakarta.annotation-api:1.3.5">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/jakarta/annotation/jakarta.annotation-api/$/jakarta.annotation-api-$.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/jakarta/annotation/jakarta.annotation-api/1.3.5/jakarta.annotation-api-1.3.5.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/jakarta/annotation/jakarta.annotation-api/$/jakarta.annotation-api-$-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/jakarta/annotation/jakarta.annotation-api/1.3.5/jakarta.annotation-api-1.3.5-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/jakarta/annotation/jakarta.annotation-api/$/jakarta.annotation-api-$-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/jakarta/annotation/jakarta.annotation-api/1.3.5/jakarta.annotation-api-1.3.5-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: jakarta.servlet:jakarta.servlet-api:4.0.3">

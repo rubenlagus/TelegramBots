@@ -1,3 +1,6 @@
+### <a id="4.4.0.2"></a>To version 4.4.0.2 ###
+1. Logging framework has been replaced by slf4j, so now you'll need to manage your own implementation.
+
 ### <a id="4.0.0"></a>To version 4.0.0 ###
 1. Replace removed method from AbsSender with `execute` requests.
 2. Everything under "Telegrambots-meta" has been moved to package `org.telegram.telegrambots.meta`.
