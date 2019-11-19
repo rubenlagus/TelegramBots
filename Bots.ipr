@@ -906,70 +906,70 @@
         <root url="jar://$MAVEN_REPOSITORY$/aopalliance/aopalliance/1.0/aopalliance-1.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.9">
+    <library name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.10.1">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-annotations/2.9.9/jackson-annotations-2.9.9.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-annotations/2.10.1/jackson-annotations-2.10.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-annotations/2.9.9/jackson-annotations-2.9.9-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-annotations/2.10.1/jackson-annotations-2.10.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-annotations/2.9.9/jackson-annotations-2.9.9-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-annotations/2.10.1/jackson-annotations-2.10.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.9">
+    <library name="Maven: com.fasterxml.jackson.core:jackson-core:2.10.1">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-core/2.9.9/jackson-core-2.9.9.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-core/2.10.1/jackson-core-2.10.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-core/2.9.9/jackson-core-2.9.9-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-core/2.10.1/jackson-core-2.10.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-core/2.9.9/jackson-core-2.9.9-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-core/2.10.1/jackson-core-2.10.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: com.fasterxml.jackson.core:jackson-databind:2.9.9.2">
+    <library name="Maven: com.fasterxml.jackson.core:jackson-databind:2.10.1">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.9.9.2/jackson-databind-2.9.9.2.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.10.1/jackson-databind-2.10.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.9.9.2/jackson-databind-2.9.9.2-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.10.1/jackson-databind-2.10.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.9.9.2/jackson-databind-2.9.9.2-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.10.1/jackson-databind-2.10.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-base:2.9.9">
+    <library name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-base:2.10.1">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/jaxrs/jackson-jaxrs-base/2.9.9/jackson-jaxrs-base-2.9.9.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/jaxrs/jackson-jaxrs-base/2.10.1/jackson-jaxrs-base-2.10.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/jaxrs/jackson-jaxrs-base/2.9.9/jackson-jaxrs-base-2.9.9-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/jaxrs/jackson-jaxrs-base/2.10.1/jackson-jaxrs-base-2.10.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/jaxrs/jackson-jaxrs-base/2.9.9/jackson-jaxrs-base-2.9.9-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/jaxrs/jackson-jaxrs-base/2.10.1/jackson-jaxrs-base-2.10.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.9.9">
+    <library name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.10.1">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/jaxrs/jackson-jaxrs-json-provider/2.9.9/jackson-jaxrs-json-provider-2.9.9.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/jaxrs/jackson-jaxrs-json-provider/2.10.1/jackson-jaxrs-json-provider-2.10.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/jaxrs/jackson-jaxrs-json-provider/2.9.9/jackson-jaxrs-json-provider-2.9.9-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/jaxrs/jackson-jaxrs-json-provider/2.10.1/jackson-jaxrs-json-provider-2.10.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/jaxrs/jackson-jaxrs-json-provider/2.9.9/jackson-jaxrs-json-provider-2.9.9-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/jaxrs/jackson-jaxrs-json-provider/2.10.1/jackson-jaxrs-json-provider-2.10.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.9.9">
+    <library name="Maven: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.10.1">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/module/jackson-module-jaxb-annotations/2.9.9/jackson-module-jaxb-annotations-2.9.9.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/module/jackson-module-jaxb-annotations/2.10.1/jackson-module-jaxb-annotations-2.10.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/module/jackson-module-jaxb-annotations/2.9.9/jackson-module-jaxb-annotations-2.9.9-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/module/jackson-module-jaxb-annotations/2.10.1/jackson-module-jaxb-annotations-2.10.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/module/jackson-module-jaxb-annotations/2.9.9/jackson-module-jaxb-annotations-2.9.9-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/module/jackson-module-jaxb-annotations/2.10.1/jackson-module-jaxb-annotations-2.10.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: com.google.code.findbugs:jsr305:3.0.2">
@@ -1280,125 +1280,136 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpmime/4.5.10/httpmime-4.5.10-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.apache.logging.log4j:log4j-api:2.12.0">
+    <library name="Maven: org.apache.logging.log4j:log4j-api:2.12.1">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.12.0/log4j-api-2.12.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.12.1/log4j-api-2.12.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.12.0/log4j-api-2.12.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.12.1/log4j-api-2.12.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.12.0/log4j-api-2.12.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.12.1/log4j-api-2.12.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.apache.logging.log4j:log4j-core:2.12.0">
+    <library name="Maven: org.apache.logging.log4j:log4j-core:2.12.1">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-core/2.12.0/log4j-core-2.12.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-core/2.12.1/log4j-core-2.12.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-core/2.12.0/log4j-core-2.12.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-core/2.12.1/log4j-core-2.12.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-core/2.12.0/log4j-core-2.12.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-core/2.12.1/log4j-core-2.12.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.apache.shiro:shiro-cache:1.4.1">
+    <library name="Maven: org.apache.logging.log4j:log4j-slf4j-impl:2.12.1">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-cache/1.4.1/shiro-cache-1.4.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-slf4j-impl/2.12.1/log4j-slf4j-impl-2.12.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-cache/1.4.1/shiro-cache-1.4.1-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-slf4j-impl/2.12.1/log4j-slf4j-impl-2.12.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-cache/1.4.1/shiro-cache-1.4.1-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-slf4j-impl/2.12.1/log4j-slf4j-impl-2.12.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.apache.shiro:shiro-config-core:1.4.1">
+    <library name="Maven: org.apache.shiro:shiro-cache:1.4.2">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-config-core/1.4.1/shiro-config-core-1.4.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-cache/1.4.2/shiro-cache-1.4.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-config-core/1.4.1/shiro-config-core-1.4.1-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-cache/1.4.2/shiro-cache-1.4.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-config-core/1.4.1/shiro-config-core-1.4.1-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-cache/1.4.2/shiro-cache-1.4.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.apache.shiro:shiro-config-ogdl:1.4.1">
+    <library name="Maven: org.apache.shiro:shiro-config-core:1.4.2">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-config-ogdl/1.4.1/shiro-config-ogdl-1.4.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-config-core/1.4.2/shiro-config-core-1.4.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-config-ogdl/1.4.1/shiro-config-ogdl-1.4.1-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-config-core/1.4.2/shiro-config-core-1.4.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-config-ogdl/1.4.1/shiro-config-ogdl-1.4.1-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-config-core/1.4.2/shiro-config-core-1.4.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.apache.shiro:shiro-core:1.4.1">
+    <library name="Maven: org.apache.shiro:shiro-config-ogdl:1.4.2">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-core/1.4.1/shiro-core-1.4.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-config-ogdl/1.4.2/shiro-config-ogdl-1.4.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-core/1.4.1/shiro-core-1.4.1-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-config-ogdl/1.4.2/shiro-config-ogdl-1.4.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-core/1.4.1/shiro-core-1.4.1-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-config-ogdl/1.4.2/shiro-config-ogdl-1.4.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.apache.shiro:shiro-crypto-cipher:1.4.1">
+    <library name="Maven: org.apache.shiro:shiro-core:1.4.2">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-cipher/1.4.1/shiro-crypto-cipher-1.4.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-core/1.4.2/shiro-core-1.4.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-cipher/1.4.1/shiro-crypto-cipher-1.4.1-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-core/1.4.2/shiro-core-1.4.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-cipher/1.4.1/shiro-crypto-cipher-1.4.1-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-core/1.4.2/shiro-core-1.4.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.apache.shiro:shiro-crypto-core:1.4.1">
+    <library name="Maven: org.apache.shiro:shiro-crypto-cipher:1.4.2">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-core/1.4.1/shiro-crypto-core-1.4.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-cipher/1.4.2/shiro-crypto-cipher-1.4.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-core/1.4.1/shiro-crypto-core-1.4.1-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-cipher/1.4.2/shiro-crypto-cipher-1.4.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-core/1.4.1/shiro-crypto-core-1.4.1-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-cipher/1.4.2/shiro-crypto-cipher-1.4.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.apache.shiro:shiro-crypto-hash:1.4.1">
+    <library name="Maven: org.apache.shiro:shiro-crypto-core:1.4.2">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-hash/1.4.1/shiro-crypto-hash-1.4.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-core/1.4.2/shiro-crypto-core-1.4.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-hash/1.4.1/shiro-crypto-hash-1.4.1-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-core/1.4.2/shiro-crypto-core-1.4.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-hash/1.4.1/shiro-crypto-hash-1.4.1-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-core/1.4.2/shiro-crypto-core-1.4.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.apache.shiro:shiro-event:1.4.1">
+    <library name="Maven: org.apache.shiro:shiro-crypto-hash:1.4.2">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-event/1.4.1/shiro-event-1.4.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-hash/1.4.2/shiro-crypto-hash-1.4.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-event/1.4.1/shiro-event-1.4.1-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-hash/1.4.2/shiro-crypto-hash-1.4.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-event/1.4.1/shiro-event-1.4.1-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-hash/1.4.2/shiro-crypto-hash-1.4.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.apache.shiro:shiro-lang:1.4.1">
+    <library name="Maven: org.apache.shiro:shiro-event:1.4.2">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-lang/1.4.1/shiro-lang-1.4.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-event/1.4.2/shiro-event-1.4.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-lang/1.4.1/shiro-lang-1.4.1-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-event/1.4.2/shiro-event-1.4.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-lang/1.4.1/shiro-lang-1.4.1-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-event/1.4.2/shiro-event-1.4.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.apache.shiro:shiro-lang:1.4.2">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-lang/1.4.2/shiro-lang-1.4.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-lang/1.4.2/shiro-lang-1.4.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-lang/1.4.2/shiro-lang-1.4.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.apiguardian:apiguardian-api:1.1.0">
@@ -1412,15 +1423,15 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/apiguardian/apiguardian-api/1.1.0/apiguardian-api-1.1.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.assertj:assertj-core:3.13.2">
+    <library name="Maven: org.assertj:assertj-core:3.14.0">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/assertj/assertj-core/3.13.2/assertj-core-3.13.2.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/assertj/assertj-core/3.14.0/assertj-core-3.14.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/assertj/assertj-core/3.13.2/assertj-core-3.13.2-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/assertj/assertj-core/3.14.0/assertj-core-3.14.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/assertj/assertj-core/3.13.2/assertj-core-3.13.2-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/assertj/assertj-core/3.14.0/assertj-core-3.14.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.checkerframework:checker-qual:2.8.1">
@@ -1863,26 +1874,26 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/mapdb/mapdb/3.0.7/mapdb-3.0.7-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.mockito:mockito-core:3.0.0">
+    <library name="Maven: org.mockito:mockito-core:3.1.0">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-core/3.0.0/mockito-core-3.0.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-core/3.1.0/mockito-core-3.1.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-core/3.0.0/mockito-core-3.0.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-core/3.1.0/mockito-core-3.1.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-core/3.0.0/mockito-core-3.0.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-core/3.1.0/mockito-core-3.1.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.mockito:mockito-junit-jupiter:3.0.0">
+    <library name="Maven: org.mockito:mockito-junit-jupiter:3.1.0">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-junit-jupiter/3.0.0/mockito-junit-jupiter-3.0.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-junit-jupiter/3.1.0/mockito-junit-jupiter-3.1.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-junit-jupiter/3.0.0/mockito-junit-jupiter-3.0.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-junit-jupiter/3.1.0/mockito-junit-jupiter-3.1.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-junit-jupiter/3.0.0/mockito-junit-jupiter-3.0.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-junit-jupiter/3.1.0/mockito-junit-jupiter-3.1.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.objenesis:objenesis:2.6">
@@ -1907,15 +1918,15 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.slf4j:slf4j-api:1.7.21">
+    <library name="Maven: org.slf4j:slf4j-api:1.7.29">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.21/slf4j-api-1.7.21.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.29/slf4j-api-1.7.29.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.21/slf4j-api-1.7.21-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.29/slf4j-api-1.7.29-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.21/slf4j-api-1.7.21-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.29/slf4j-api-1.7.29-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.springframework.boot:spring-boot-autoconfigure:2.1.8.RELEASE">

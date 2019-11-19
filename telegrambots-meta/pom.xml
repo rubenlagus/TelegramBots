@@ -70,8 +70,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <guice.version>4.2.2</guice.version>
-        <jackson.version>2.9.9.2</jackson.version>
-        <jacksonanotation.version>2.9.9</jacksonanotation.version>
+        <jackson.version>2.10.1</jackson.version>
+        <jacksonanotation.version>2.10.1</jacksonanotation.version>
         <json.version>20180813</json.version>
         <guava.version>28.1-jre</guava.version>
     </properties>
