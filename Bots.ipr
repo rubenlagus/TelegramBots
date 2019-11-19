@@ -22,10 +22,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="telegrambots-abilities" />
-        <module name="telegrambots-extensions" />
         <module name="telegrambots-meta" />
+        <module name="telegrambots-extensions" />
         <module name="telegrambots" />
+        <module name="telegrambots-abilities" />
         <module name="telegrambots-chat-session-bot" />
         <module name="telegrambots-spring-boot-starter" />
       </profile>
