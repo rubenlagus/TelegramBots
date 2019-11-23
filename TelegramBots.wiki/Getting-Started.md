@@ -11,13 +11,13 @@ First you need ot get the library and add it to your project. There are few poss
            <dependency>
               <groupId>org.telegram</groupId>
               <artifactId>telegrambots</artifactId>
-              <version>4.4.0</version>
+              <version>4.4.0.2</version>
            </dependency>
         ```
     * With **Gradle**:
     
         ```groovy
-          compile group: 'org.telegram', name: 'telegrambots', version: '4.4.0'
+          compile group: 'org.telegram', name: 'telegrambots', version: '4.4.0.2'
         ```
  
 2. Don't like **Maven Central Repository**? It can also be taken from [Jitpack](https://jitpack.io/#rubenlagus/TelegramBots).

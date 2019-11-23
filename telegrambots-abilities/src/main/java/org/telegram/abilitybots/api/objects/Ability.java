@@ -2,8 +2,8 @@ package org.telegram.abilitybots.api.objects;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Arrays;
@@ -35,7 +35,7 @@ import static org.apache.commons.lang3.StringUtils.*;
  * @author Abbas Abou Daya
  */
 public final class Ability {
-  private static final Logger log = LogManager.getLogger(Ability.class);
+  private static final Logger log = LoggerFactory.getLogger(Ability.class);
 
   private final String name;
   private final String info;
@@ -147,8 +147,8 @@ public final class Ability {
     private Privacy privacy;
     private Locality locality;
     private int argNum;
-    private Consumer<MessageContext> consumer;
-    private Consumer<MessageContext> postConsumer;
+    private Consumer<MessageContext> action;
+    private Consumer<MessageContext> postAction;
     private List<Reply> replies;
     private Predicate<Update>[] flags;
 
@@ -157,7 +157,7 @@ public final class Ability {
     }
 
     public AbilityBuilder action(Consumer<MessageContext> consumer) {
-      this.consumer = consumer;
+      this.action = consumer;
       return this;
     }
 
@@ -191,8 +191,8 @@ public final class Ability {
       return this;
     }
 
-    public AbilityBuilder post(Consumer<MessageContext> postConsumer) {
-      this.postConsumer = postConsumer;
+    public AbilityBuilder post(Consumer<MessageContext> postAction) {
+      this.postAction = postAction;
       return this;
     }
 
@@ -202,8 +202,21 @@ public final class Ability {
       return this;
     }
 
+    public AbilityBuilder basedOn(Ability ability) {
+      replies.clear();
+      replies.addAll(ability.replies());
+
+      return name(ability.name())
+          .info(ability.info())
+          .input(ability.tokens())
+          .locality(ability.locality())
+          .privacy(ability.privacy())
+          .action(ability.action())
+          .post(ability.postAction());
+    }
+
     public Ability build() {
-      return new Ability(name, info, locality, privacy, argNum, consumer, postConsumer, replies, flags);
+      return new Ability(name, info, locality, privacy, argNum, action, postAction, replies, flags);
     }
   }
 }

@@ -1,9 +1,9 @@
 package org.telegram.telegrambots.util;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -11,18 +11,20 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.telegram.telegrambots.meta.ApiConstants;
-import org.telegram.telegrambots.meta.api.methods.updates.DeleteWebhook;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.facilities.TelegramHttpClientBuilder;
+import org.telegram.telegrambots.meta.ApiConstants;
+import org.telegram.telegrambots.meta.api.methods.updates.DeleteWebhook;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+
+import static org.telegram.telegrambots.Constants.SOCKET_TIMEOUT;
 
 public final class WebhookUtils {
   private WebhookUtils() {
@@ -35,8 +37,16 @@ public final class WebhookUtils {
     try (CloseableHttpClient httpclient = TelegramHttpClientBuilder.build(botOptions)) {
       String requestUrl = bot.getBaseUrl() + SetWebhook.PATH;
 
+      RequestConfig requestConfig = botOptions.getRequestConfig();
+      if (requestConfig == null) {
+        requestConfig = RequestConfig.copy(RequestConfig.custom().build())
+                .setSocketTimeout(SOCKET_TIMEOUT)
+                .setConnectTimeout(SOCKET_TIMEOUT)
+                .setConnectionRequestTimeout(SOCKET_TIMEOUT).build();
+      }
+
       HttpPost httppost = new HttpPost(requestUrl);
-      httppost.setConfig(botOptions.getRequestConfig());
+      httppost.setConfig(requestConfig);
       MultipartEntityBuilder builder = MultipartEntityBuilder.create();
       builder.addTextBody(SetWebhook.URL_FIELD, url);
       if (botOptions.getMaxWebhookConnections() != null) {
@@ -54,9 +64,7 @@ public final class WebhookUtils {
       HttpEntity multipart = builder.build();
       httppost.setEntity(multipart);
       try (CloseableHttpResponse response = httpclient.execute(httppost, botOptions.getHttpContext())) {
-        HttpEntity ht = response.getEntity();
-        BufferedHttpEntity buf = new BufferedHttpEntity(ht);
-        String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
+        String responseContent = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
         JSONObject jsonObject = new JSONObject(responseContent);
         if (!jsonObject.getBoolean(ApiConstants.RESPONSE_FIELD_OK)) {
           throw new TelegramApiRequestException("Error setting webhook", jsonObject);

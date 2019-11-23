@@ -15,12 +15,7 @@ import org.telegram.abilitybots.api.sender.SilentSender;
 import org.telegram.abilitybots.api.util.Pair;
 import org.telegram.abilitybots.api.util.Trio;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdministrators;
-import org.telegram.telegrambots.meta.api.objects.ChatMember;
-import org.telegram.telegrambots.meta.api.objects.Document;
-import org.telegram.telegrambots.meta.api.objects.File;
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.*;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.BufferedWriter;
@@ -39,15 +34,12 @@ import static java.util.Optional.empty;
 import static org.apache.commons.io.FileUtils.deleteQuietly;
 import static org.apache.commons.lang3.ArrayUtils.addAll;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.telegram.abilitybots.api.bot.DefaultBot.getDefaultBuilder;
+import static org.telegram.abilitybots.api.bot.TestUtils.*;
+import static org.telegram.abilitybots.api.bot.TestUtils.CREATOR;
 import static org.telegram.abilitybots.api.db.MapDBContext.offlineInstance;
 import static org.telegram.abilitybots.api.objects.Flag.DOCUMENT;
 import static org.telegram.abilitybots.api.objects.Flag.MESSAGE;
@@ -65,10 +57,9 @@ public class AbilityBotTest {
   private static final long GROUP_ID = 10L;
   private static final String TEST = "test";
   private static final String[] TEXT = {TEST};
-  public static final User USER = new User(1, "first", false, "last", "username", null);
-  public static final User CREATOR = new User(1337, "creatorFirst", false, "creatorLast", "creatorUsername", null);
 
   private DefaultBot bot;
+  private DefaultAbilities defaultAbs;
   private DBContext db;
   private MessageSender sender;
   private SilentSender silent;
@@ -77,6 +68,7 @@ public class AbilityBotTest {
   void setUp() {
     db = offlineInstance("db");
     bot = new DefaultBot(EMPTY, EMPTY, db);
+    defaultAbs = new DefaultAbilities(bot);
 
     sender = mock(MessageSender.class);
     silent = mock(SilentSender.class);
@@ -93,7 +85,7 @@ public class AbilityBotTest {
 
   @Test
   void sendsPrivacyViolation() {
-    Update update = mockFullUpdate(USER, "/admin");
+    Update update = mockFullUpdate(bot, USER, "/admin");
 
     bot.onUpdateReceived(update);
 
@@ -102,7 +94,7 @@ public class AbilityBotTest {
 
   @Test
   void sendsLocalityViolation() {
-    Update update = mockFullUpdate(USER, "/group");
+    Update update = mockFullUpdate(bot, USER, "/group");
 
     bot.onUpdateReceived(update);
 
@@ -112,7 +104,7 @@ public class AbilityBotTest {
 
   @Test
   void sendsInputArgsViolation() {
-    Update update = mockFullUpdate(USER, "/count 1 2 3");
+    Update update = mockFullUpdate(bot, USER, "/count 1 2 3");
 
     bot.onUpdateReceived(update);
 
@@ -121,7 +113,7 @@ public class AbilityBotTest {
 
   @Test
   void canProcessRepliesIfSatisfyRequirements() {
-    Update update = mockFullUpdate(USER, "must reply");
+    Update update = mockFullUpdate(bot, USER, "must reply");
 
     // False means the update was not pushed down the stream since it has been consumed by the reply
     assertFalse(bot.filterReply(update));
@@ -132,7 +124,7 @@ public class AbilityBotTest {
   void canBackupDB() throws TelegramApiException {
     MessageContext context = defaultContext();
 
-    bot.backupDB().action().accept(context);
+    defaultAbs.backupDB().action().accept(context);
     deleteQuietly(new java.io.File("backup.json"));
 
     verify(sender, times(1)).sendDocument(any());
@@ -147,7 +139,7 @@ public class AbilityBotTest {
     // Support for null parameter matching since due to mocking API changes
     when(sender.downloadFile(ArgumentMatchers.<File>isNull())).thenReturn(backupFile);
 
-    bot.recoverDB().replies().get(0).actOn(update);
+    defaultAbs.recoverDB().replies().get(0).actOn(update);
 
     verify(silent, times(1)).send(RECOVER_SUCCESS, GROUP_ID);
     assertEquals(db.getSet(TEST), newHashSet(TEST), "Bot recovered but the DB is still not in sync");
@@ -169,7 +161,7 @@ public class AbilityBotTest {
 
     MessageContext context = defaultContext();
 
-    bot.demoteAdmin().action().accept(context);
+    defaultAbs.demoteAdmin().action().accept(context);
 
     Set<Integer> actual = bot.admins();
     Set<Integer> expected = emptySet();
@@ -182,7 +174,7 @@ public class AbilityBotTest {
 
     MessageContext context = defaultContext();
 
-    bot.promoteAdmin().action().accept(context);
+    defaultAbs.promoteAdmin().action().accept(context);
 
     Set<Integer> actual = bot.admins();
     Set<Integer> expected = newHashSet(USER.getId());
@@ -194,7 +186,7 @@ public class AbilityBotTest {
     addUsers(USER);
     MessageContext context = defaultContext();
 
-    bot.banUser().action().accept(context);
+    defaultAbs.banUser().action().accept(context);
 
     Set<Integer> actual = bot.blacklist();
     Set<Integer> expected = newHashSet(USER.getId());
@@ -208,7 +200,7 @@ public class AbilityBotTest {
 
     MessageContext context = defaultContext();
 
-    bot.unbanUser().action().accept(context);
+    defaultAbs.unbanUser().action().accept(context);
 
     Set<Integer> actual = bot.blacklist();
     Set<Integer> expected = newHashSet();
@@ -225,7 +217,7 @@ public class AbilityBotTest {
     addUsers(USER, CREATOR);
     MessageContext context = mockContext(USER, GROUP_ID, CREATOR.getUserName());
 
-    bot.banUser().action().accept(context);
+    defaultAbs.banUser().action().accept(context);
 
     Set<Integer> actual = bot.blacklist();
     Set<Integer> expected = newHashSet(USER.getId());
@@ -243,7 +235,7 @@ public class AbilityBotTest {
   void creatorCanClaimBot() {
     MessageContext context = mockContext(CREATOR, GROUP_ID);
 
-    bot.claimCreator().action().accept(context);
+    defaultAbs.claimCreator().action().accept(context);
 
     Set<Integer> actual = bot.admins();
     Set<Integer> expected = newHashSet(CREATOR.getId());
@@ -312,7 +304,7 @@ public class AbilityBotTest {
 
   @Test
   void canCheckInput() {
-    Update update = mockFullUpdate(USER, "/something");
+    Update update = mockFullUpdate(bot, USER, "/something");
     Ability abilityWithOneInput = getDefaultBuilder()
         .build();
     Ability abilityWithZeroInput = getDefaultBuilder()
@@ -544,28 +536,9 @@ public class AbilityBotTest {
   void canReportCommands() {
     MessageContext context = mockContext(USER, GROUP_ID);
 
-    bot.reportCommands().action().accept(context);
+    defaultAbs.reportCommands().action().accept(context);
 
     verify(silent, times(1)).send("default - dis iz default command", GROUP_ID);
-  }
-
-  @NotNull
-  static MessageContext mockContext(User user) {
-    return mockContext(user, user.getId());
-  }
-
-  @NotNull
-  static MessageContext mockContext(User user, long groupId, String... args) {
-    Update update = mock(Update.class);
-    Message message = mock(Message.class);
-
-    when(update.hasMessage()).thenReturn(true);
-    when(update.getMessage()).thenReturn(message);
-
-    when(message.getFrom()).thenReturn(user);
-    when(message.hasText()).thenReturn(true);
-
-    return newContext(update, user, groupId, args);
   }
 
   @Test
@@ -578,7 +551,7 @@ public class AbilityBotTest {
     when(message.hasText()).thenReturn(true);
     MessageContext creatorCtx = newContext(update, CREATOR, GROUP_ID);
 
-    bot.commands().action().accept(creatorCtx);
+    defaultAbs.commands().action().accept(creatorCtx);
 
     String expected = "PUBLIC\n/commands\n/count\n/default - dis iz default command\n/group\n/test\nADMIN\n/admin\n/ban\n/demote\n/promote\n/unban\nCREATOR\n/backup\n/claim\n/recover\n/report";
     verify(silent, times(1)).send(expected, GROUP_ID);
@@ -595,31 +568,10 @@ public class AbilityBotTest {
 
     MessageContext userCtx = newContext(update, USER, GROUP_ID);
 
-    bot.commands().action().accept(userCtx);
+    defaultAbs.commands().action().accept(userCtx);
 
     String expected = "PUBLIC\n/commands\n/count\n/default - dis iz default command\n/group\n/test";
     verify(silent, times(1)).send(expected, GROUP_ID);
-  }
-
-  @NotNull
-  private Update mockFullUpdate(User user, String args) {
-    bot.users().put(USER.getId(), USER);
-    bot.users().put(CREATOR.getId(), CREATOR);
-    bot.userIds().put(CREATOR.getUserName(), CREATOR.getId());
-    bot.userIds().put(USER.getUserName(), USER.getId());
-
-    bot.admins().add(CREATOR.getId());
-
-    Update update = mock(Update.class);
-    when(update.hasMessage()).thenReturn(true);
-    Message message = mock(Message.class);
-    when(message.getFrom()).thenReturn(user);
-    when(message.getText()).thenReturn(args);
-    when(message.hasText()).thenReturn(true);
-    when(message.isUserMessage()).thenReturn(true);
-    when(message.getChatId()).thenReturn((long) user.getId());
-    when(update.getMessage()).thenReturn(message);
-    return update;
   }
 
   private void mockUser(Update update, Message message, User user) {

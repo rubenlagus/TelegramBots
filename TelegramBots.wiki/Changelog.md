@@ -1,3 +1,14 @@
+### <a id="4.4.0.2"></a>4.4.0.2 ###
+1. Use SLF4J
+2. Support case-insensitive usernames
+3. Add Ability toggles and export default abilities to their own class
+4. Add state machine capability to AbilityBot via ReplyFlow
+5. Support backup and recovery of db vars
+6. Fixes: #602, #641, #652, #691
+
+### <a id="4.4.0.1"></a>4.4.0.1 ###
+1. Bug fix when importing the project
+
 ### <a id="4.4.0"></a>4.4.0 ###
 1. Update Api version [4.4](https://core.telegram.org/bots/api-changelog#july-29-2019)
 2. Removed BotLogger, replaced with [log4j2](https://logging.apache.org/log4j/2.x/)

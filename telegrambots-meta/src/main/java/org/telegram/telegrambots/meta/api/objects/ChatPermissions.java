@@ -73,6 +73,38 @@ public class ChatPermissions implements BotApiObject {
         return canPinMessages;
     }
 
+    public void setCanSendMessages(Boolean canSendMessages) {
+        this.canSendMessages = canSendMessages;
+    }
+
+    public void setGetCanSendMediaMessages(Boolean getCanSendMediaMessages) {
+        this.getCanSendMediaMessages = getCanSendMediaMessages;
+    }
+
+    public void setCanSendPolls(Boolean canSendPolls) {
+        this.canSendPolls = canSendPolls;
+    }
+
+    public void setCanSendOtherMessages(Boolean canSendOtherMessages) {
+        this.canSendOtherMessages = canSendOtherMessages;
+    }
+
+    public void setCanAddWebPagePreviews(Boolean canAddWebPagePreviews) {
+        this.canAddWebPagePreviews = canAddWebPagePreviews;
+    }
+
+    public void setCanChangeInfo(Boolean canChangeInfo) {
+        this.canChangeInfo = canChangeInfo;
+    }
+
+    public void setCanInviteUsers(Boolean canInviteUsers) {
+        this.canInviteUsers = canInviteUsers;
+    }
+
+    public void setCanPinMessages(Boolean canPinMessages) {
+        this.canPinMessages = canPinMessages;
+    }
+
     @Override
     public String toString() {
         return "ChatPermissions{" +

@@ -3,21 +3,16 @@ package org.telegram.abilitybots.api.db;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.mapdb.Atomic;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
 import org.mapdb.Serializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.telegram.abilitybots.api.util.Pair;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.StringJoiner;
+import java.util.*;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
@@ -35,7 +30,7 @@ import static org.mapdb.Serializer.JAVA;
  */
 @SuppressWarnings({"unchecked", "WeakerAccess"})
 public class MapDBContext implements DBContext {
-  private static final Logger log = LogManager.getLogger(MapDBContext.class);
+  private static final Logger log = LoggerFactory.getLogger(MapDBContext.class);
 
   private final DB db;
   private final ObjectMapper objectMapper;
@@ -188,15 +183,15 @@ public class MapDBContext implements DBContext {
         return Pair.of(entry.getKey(), newArrayList((List) struct));
       else if (struct instanceof Map)
         return Pair.of(entry.getKey(), new BackupMap((Map) struct));
-      else
-        return Pair.of(entry.getKey(), struct);
+      else if (struct instanceof Atomic.Var)
+        return Pair.of(entry.getKey(), BackupVar.createVar(((Atomic.Var) struct).get()));
+      return Pair.of(entry.getKey(), struct);
     }).collect(toMap(pair -> (String) pair.a(), Pair::b));
   }
 
   private void doRecover(Map<String, Object> backupData) {
     clear();
     backupData.forEach((name, value) -> {
-
       if (value instanceof Set) {
         Set entrySet = (Set) value;
         getSet(name).addAll(entrySet);
@@ -206,6 +201,8 @@ public class MapDBContext implements DBContext {
       } else if (value instanceof List) {
         List entryList = (List) value;
         getList(name).addAll(entryList);
+      } else if (value instanceof BackupVar) {
+        getVar(name).set(((BackupVar) value).var());
       } else {
         log.error(format("Unable to identify object type during DB recovery, entry name: %s", name));
       }
