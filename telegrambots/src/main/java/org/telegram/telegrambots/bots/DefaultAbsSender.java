@@ -65,9 +65,9 @@ public abstract class DefaultAbsSender extends AbsSender {
     protected final ExecutorService exe;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final DefaultBotOptions options;
-    private volatile CloseableHttpClient httpClient;
-    private volatile RequestConfig requestConfig;
-    private final TelegramFileDownloader telegramFileDownloader = new TelegramFileDownloader(this::getBotToken);
+    private final CloseableHttpClient httpClient;
+    private final RequestConfig requestConfig;
+    private final TelegramFileDownloader telegramFileDownloader;
 
     protected DefaultAbsSender(DefaultBotOptions options) {
         super();
@@ -76,11 +76,14 @@ public abstract class DefaultAbsSender extends AbsSender {
         this.options = options;
 
         httpClient = TelegramHttpClientBuilder.build(options);
+        this.telegramFileDownloader = new TelegramFileDownloader(httpClient, this::getBotToken);
         configureHttpContext();
 
-        requestConfig = options.getRequestConfig();
-        if (requestConfig == null) {
-            requestConfig = RequestConfig.copy(RequestConfig.custom().build())
+        final RequestConfig configFromOptions = options.getRequestConfig();
+        if (configFromOptions != null) {
+            this.requestConfig = configFromOptions;
+        } else {
+            this.requestConfig = RequestConfig.copy(RequestConfig.custom().build())
                     .setSocketTimeout(SOCKET_TIMEOUT)
                     .setConnectTimeout(SOCKET_TIMEOUT)
                     .setConnectionRequestTimeout(SOCKET_TIMEOUT).build();
