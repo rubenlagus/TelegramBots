@@ -4,7 +4,7 @@
 3. Add Ability toggles and export default abilities to their own class
 4. Add state machine capability to AbilityBot via ReplyFlow
 5. Support backup and recovery of db vars
-6. Fixes: #602, #641, #652
+6. Fixes: #602, #641, #652, #691
 
 ### <a id="4.4.0.1"></a>4.4.0.1 ###
 1. Bug fix when importing the project
