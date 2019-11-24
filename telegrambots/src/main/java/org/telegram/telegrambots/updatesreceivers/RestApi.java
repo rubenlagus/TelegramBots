@@ -1,7 +1,7 @@
 package org.telegram.telegrambots.updatesreceivers;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Path("callback")
 public class RestApi {
-    private static final Logger log = LogManager.getLogger(RestApi.class);
+    private static final Logger log = LoggerFactory.getLogger(RestApi.class);
 
     private final ConcurrentHashMap<String, WebhookBot> callbacks = new ConcurrentHashMap<>();
 

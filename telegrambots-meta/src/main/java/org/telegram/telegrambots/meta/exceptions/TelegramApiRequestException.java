@@ -18,9 +18,9 @@
 package org.telegram.telegrambots.meta.exceptions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.ResponseParameters;
 
@@ -33,7 +33,7 @@ import java.io.IOException;
  * Exception thrown when something goes wrong in the api
  */
 public class TelegramApiRequestException extends TelegramApiException {
-    private static final Logger log = LogManager.getLogger(TelegramApiRequestException.class);
+    private static final Logger log = LoggerFactory.getLogger(TelegramApiRequestException.class);
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private static final String ERRORDESCRIPTIONFIELD = "description";
@@ -56,7 +56,7 @@ public class TelegramApiRequestException extends TelegramApiException {
             try {
                 parameters = OBJECT_MAPPER.readValue(object.getJSONObject(PARAMETERSFIELD).toString(), ResponseParameters.class);
             } catch (IOException e) {
-                log.fatal(e.getLocalizedMessage(), e);
+                log.error(e.getLocalizedMessage(), e);
             }
         }
     }
