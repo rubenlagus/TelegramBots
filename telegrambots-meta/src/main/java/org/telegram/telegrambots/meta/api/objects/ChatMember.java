@@ -21,7 +21,7 @@ public class ChatMember implements BotApiObject {
     private static final String CANEDITMESSAGES_FIELD = "can_edit_messages";
     private static final String CANDELETEMESSAGES_FIELD = "can_delete_messages";
     private static final String CANINVITEUSERS_FIELD = "can_invite_users";
-    private static final String CANRESTRICTUSERS_FIELD = "can_restrict_users";
+    private static final String CANRESTRICTMEMBERS_FIELD = "can_restrict_members";
     private static final String CANPINMESSAGES_FIELD = "can_pin_messages";
     private static final String CANPROMOTEMEMBERS_FIELD = "can_promote_members";
     private static final String CANSENDMESSAGES_FIELD = "can_send_messages";
@@ -49,8 +49,8 @@ public class ChatMember implements BotApiObject {
     private Boolean canDeleteMessages; ///< Optional. Administrators only. True, if the administrator can delete messages of other users
     @JsonProperty(CANINVITEUSERS_FIELD)
     private Boolean canInviteUsers; ///< Optional. Administrators and restricted only. True, if the administrator can invite new users to the chat
-    @JsonProperty(CANRESTRICTUSERS_FIELD)
-    private Boolean canRestrictUsers; ///< Optional. Administrators only. True, if the administrator can restrict, ban or unban chat members
+    @JsonProperty(CANRESTRICTMEMBERS_FIELD)
+    private Boolean canRestrictMembers; ///< Optional. Administrators only. True, if the administrator can restrict, ban or unban chat members
     @JsonProperty(CANPINMESSAGES_FIELD)
     private Boolean canPinMessages; ///< Optional. Administrators and restricted only. True, if the administrator can pin messages, groups and supergroups only
     @JsonProperty(CANPROMOTEMEMBERS_FIELD)
@@ -115,8 +115,8 @@ public class ChatMember implements BotApiObject {
         return canInviteUsers;
     }
 
-    public Boolean getCanRestrictUsers() {
-        return canRestrictUsers;
+    public Boolean getCanRestrictMembers() {
+        return canRestrictMembers;
     }
 
     public Boolean getCanPinMessages() {
@@ -163,7 +163,7 @@ public class ChatMember implements BotApiObject {
                 ", canEditMessages=" + canEditMessages +
                 ", canDeleteMessages=" + canDeleteMessages +
                 ", canInviteUsers=" + canInviteUsers +
-                ", canRestrictUsers=" + canRestrictUsers +
+                ", canRestrictMembers=" + canRestrictMembers +
                 ", canPinMessages=" + canPinMessages +
                 ", canPromoteMembers=" + canPromoteMembers +
                 ", canSendMessages=" + canSendMessages +
