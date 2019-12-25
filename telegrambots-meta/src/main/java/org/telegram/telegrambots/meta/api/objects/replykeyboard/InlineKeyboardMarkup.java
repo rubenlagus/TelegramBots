@@ -29,6 +29,11 @@ public class InlineKeyboardMarkup implements ReplyKeyboard {
         keyboard = new ArrayList<>();
     }
 
+    public InlineKeyboardMarkup(List<List<InlineKeyboardButton>> keyboard) {
+        super();
+        this.keyboard = keyboard;
+    }
+
     public List<List<InlineKeyboardButton>> getKeyboard() {
         return keyboard;
     }

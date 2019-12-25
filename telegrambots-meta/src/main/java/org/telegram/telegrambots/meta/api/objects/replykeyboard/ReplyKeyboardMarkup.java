@@ -43,6 +43,11 @@ public class ReplyKeyboardMarkup implements ReplyKeyboard {
         keyboard = new ArrayList<>();
     }
 
+    public ReplyKeyboardMarkup(List<KeyboardRow> keyboard) {
+        super();
+        this.keyboard = keyboard;
+    }
+
     public List<KeyboardRow> getKeyboard() {
         return keyboard;
     }
