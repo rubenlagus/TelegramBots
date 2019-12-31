@@ -15,25 +15,27 @@ public class ChatPhoto implements BotApiObject {
     private static final String BIGFILEUNIQUEID_FIELD = "big_file_unique_id";
 
     /**
-     * Unique file identifier of a small chat photo (160x160).
+     * File identifier of small (160x160) chat photo.
      * This file_id can be used only for photo download and only for as long as the photo is not changed.
      */
     @JsonProperty(SMALLFILEID_FIELD)
     private String smallFileId;
     /**
-     * Unique identifier for a big chat photo (160x160), which is supposed to be the same over time and for different bots.
+     * Unique file identifier of small (160x160) chat photo,
+     * which is supposed to be the same over time and for different bots.
      * Can't be used to download or reuse the file.
      */
     @JsonProperty(SMALLFILEUNIQUEID_FIELD)
     private String smallFileUniqueId;
     /**
-     * Unique file identifier of a big chat photo (640x640).
+     * File identifier of big (640x640) chat photo.
      * This file_id can be used only for photo download and only for as long as the photo is not changed.
      */
     @JsonProperty(BIGFILEID_FIELD)
     private String bigFileId;
     /**
-     * Unique identifier for a big chat photo (640x640), which is supposed to be the same over time and for different bots.
+     * Unique file identifier of big (640x640) chat photo,
+     * which is supposed to be the same over time and for different bots.
      * Can't be used to download or reuse the file.
      */
     @JsonProperty(BIGFILEUNIQUEID_FIELD)
