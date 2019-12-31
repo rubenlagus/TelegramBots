@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
@@ -26,6 +25,7 @@ public class Chat implements BotApiObject {
     private static final String STICKERSETNAME_FIELD = "sticker_set_name";
     private static final String CANSETSTICKERSET_FIELD = "can_set_sticker_set";
     private static final String PERMISSIONS_FIELD = "permissions";
+    private static final String SLOWMODEDELAY_FIELD = "slow_mode_delay";
 
     private static final String USERCHATTYPE = "private";
     private static final String GROUPCHATTYPE = "group";
@@ -75,6 +75,13 @@ public class Chat implements BotApiObject {
     private Boolean canSetStickerSet; ///< Optional. True, if the bot can change group the sticker set. Returned only in getChat.
     @JsonProperty(PERMISSIONS_FIELD)
     private ChatPermissions permissions; ///< Optional. Default chat member permissions, for groups and supergroups. Returned only in getChat.
+    /**
+     * Optional.
+     * For supergroups, the minimum allowed delay between consecutive messages sent by each unpriviledged user.
+     * Returned only in getChat.
+     */
+    @JsonProperty(SLOWMODEDELAY_FIELD)
+    private Integer slowModeDelay;
 
     public Chat() {
         super();
@@ -152,6 +159,10 @@ public class Chat implements BotApiObject {
         return canSetStickerSet;
     }
 
+    public Integer getSlowModeDelay() {
+        return slowModeDelay;
+    }
+
     @Override
     public String toString() {
         return "Chat{" +
@@ -169,6 +180,7 @@ public class Chat implements BotApiObject {
                 ", stickerSetName='" + stickerSetName + '\'' +
                 ", canSetStickerSet=" + canSetStickerSet +
                 ", permissions=" + permissions +
+                ", slowModeDelay=" + slowModeDelay +
                 '}';
     }
 }

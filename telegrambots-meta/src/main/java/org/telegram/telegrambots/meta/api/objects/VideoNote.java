@@ -11,13 +11,20 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
  */
 public class VideoNote implements BotApiObject {
     private static final String FILEID_FIELD = "file_id";
+    private static final String FILEUNIQUEID_FIELD = "file_unique_id";
     private static final String LENGTH_FIELD = "length";
     private static final String DURATION_FIELD = "duration";
     private static final String THUMB_FIELD = "thumb";
     private static final String FILESIZE_FIELD = "file_size";
 
     @JsonProperty(FILEID_FIELD)
-    private String fileId; ///< Unique identifier for this file
+    private String fileId; ///< Identifier for this file, which can be used to download or reuse the file
+    /**
+     * Unique identifier for this file, which is supposed to be the same over time and for different bots.
+     * Can't be used to download or reuse the file.
+     */
+    @JsonProperty(FILEUNIQUEID_FIELD)
+    private String fileUniqueId;
     @JsonProperty(LENGTH_FIELD)
     private Integer length; ///< Video width and height as defined by sender
     @JsonProperty(DURATION_FIELD)
@@ -51,6 +58,10 @@ public class VideoNote implements BotApiObject {
         return fileSize;
     }
 
+    public String getFileUniqueId() {
+        return fileUniqueId;
+    }
+
     @Override
     public String toString() {
         return "VideoNote{" +
@@ -59,6 +70,7 @@ public class VideoNote implements BotApiObject {
                 ", duration=" + duration +
                 ", thumb=" + thumb +
                 ", fileSize=" + fileSize +
+                ", fileUniqueId=" + fileUniqueId +
                 '}';
     }
 }

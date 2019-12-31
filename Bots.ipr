@@ -22,10 +22,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="telegrambots-meta" />
-        <module name="telegrambots-extensions" />
-        <module name="telegrambots" />
         <module name="telegrambots-abilities" />
+        <module name="telegrambots-extensions" />
+        <module name="telegrambots-meta" />
+        <module name="telegrambots" />
         <module name="telegrambots-chat-session-bot" />
         <module name="telegrambots-spring-boot-starter" />
       </profile>
@@ -1456,37 +1456,37 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/mojo/animal-sniffer-annotations/1.18/animal-sniffer-annotations-1.18-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.eclipse.collections:eclipse-collections-api:10.0.0">
+    <library name="Maven: org.eclipse.collections:eclipse-collections-api:10.1.0">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-api/10.0.0/eclipse-collections-api-10.0.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-api/10.1.0/eclipse-collections-api-10.1.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-api/10.0.0/eclipse-collections-api-10.0.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-api/10.1.0/eclipse-collections-api-10.1.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-api/10.0.0/eclipse-collections-api-10.0.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-api/10.1.0/eclipse-collections-api-10.1.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.eclipse.collections:eclipse-collections-forkjoin:10.0.0">
+    <library name="Maven: org.eclipse.collections:eclipse-collections-forkjoin:10.1.0">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-forkjoin/10.0.0/eclipse-collections-forkjoin-10.0.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-forkjoin/10.1.0/eclipse-collections-forkjoin-10.1.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-forkjoin/10.0.0/eclipse-collections-forkjoin-10.0.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-forkjoin/10.1.0/eclipse-collections-forkjoin-10.1.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-forkjoin/10.0.0/eclipse-collections-forkjoin-10.0.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-forkjoin/10.1.0/eclipse-collections-forkjoin-10.1.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.eclipse.collections:eclipse-collections:10.0.0">
+    <library name="Maven: org.eclipse.collections:eclipse-collections:10.1.0">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections/10.0.0/eclipse-collections-10.0.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections/10.1.0/eclipse-collections-10.1.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections/10.0.0/eclipse-collections-10.0.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections/10.1.0/eclipse-collections-10.1.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections/10.0.0/eclipse-collections-10.0.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections/10.1.0/eclipse-collections-10.1.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.glassfish.grizzly:grizzly-framework:2.4.4">

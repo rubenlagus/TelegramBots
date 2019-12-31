@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
@@ -12,6 +11,7 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 public class Audio implements BotApiObject {
 
     private static final String FILEID_FIELD = "file_id";
+    private static final String FILEUNIQUEID_FIELD = "file_unique_id";
     private static final String DURATION_FIELD = "duration";
     private static final String MIMETYPE_FIELD = "mime_type";
     private static final String FILESIZE_FIELD = "file_size";
@@ -20,7 +20,13 @@ public class Audio implements BotApiObject {
     private static final String THUMB_FIELD = "thumb";
 
     @JsonProperty(FILEID_FIELD)
-    private String fileId; ///< Unique identifier for this file
+    private String fileId; ///< Identifier for this file, which can be used to download or reuse the file
+    /**
+     * Unique identifier for this file, which is supposed to be the same over time and for different bots.
+     * Can't be used to download or reuse the file.
+     */
+    @JsonProperty(FILEUNIQUEID_FIELD)
+    private String fileUniqueId;
     @JsonProperty(DURATION_FIELD)
     private Integer duration; ///< Integer	Duration of the audio in seconds as defined by sender
     @JsonProperty(MIMETYPE_FIELD)
@@ -66,6 +72,10 @@ public class Audio implements BotApiObject {
         return thumb;
     }
 
+    public String getFileUniqueId() {
+        return fileUniqueId;
+    }
+
     @Override
     public String toString() {
         return "Audio{" +
@@ -76,6 +86,7 @@ public class Audio implements BotApiObject {
                 ", title='" + title + '\'' +
                 ", performer='" + performer + '\'' +
                 ", thumb=" + thumb +
+                ", fileUniqueId=" + fileUniqueId +
                 '}';
     }
 }

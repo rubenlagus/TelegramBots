@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 import java.security.InvalidParameterException;
@@ -14,12 +13,19 @@ import java.text.MessageFormat;
  * @date 24 of June of 2015
  */
 public class File implements BotApiObject {
-    private static final String FILE_ID = "file_id";
+    private static final String FILEID_FIELD = "file_id";
+    private static final String FILEUNIQUEID_FIELD = "file_unique_id";
     private static final String FILE_SIZE_FIELD = "file_size";
     private static final String FILE_PATH_FIELD = "file_path";
 
-    @JsonProperty(FILE_ID)
-    private String fileId; ///< Unique identifier for this file
+    @JsonProperty(FILEID_FIELD)
+    private String fileId; ///< Identifier for this file, which can be used to download or reuse the file
+    /**
+     * Unique identifier for this file, which is supposed to be the same over time and for different bots.
+     * Can't be used to download or reuse the file.
+     */
+    @JsonProperty(FILEUNIQUEID_FIELD)
+    private String fileUniqueId;
     @JsonProperty(FILE_SIZE_FIELD)
     private Integer fileSize; ///< Optional. File size, if known
     @JsonProperty(FILE_PATH_FIELD)
@@ -41,13 +47,8 @@ public class File implements BotApiObject {
         return filePath;
     }
 
-    @Override
-    public String toString() {
-        return "File{" +
-                "fileId='" + fileId + '\'' +
-                ", fileSize=" + fileSize +
-                ", filePath='" + filePath + '\'' +
-                '}';
+    public String getFileUniqueId() {
+        return fileUniqueId;
     }
 
     public String getFileUrl(String botToken) {
@@ -59,5 +60,15 @@ public class File implements BotApiObject {
             throw new InvalidParameterException("Bot token can't be empty");
         }
         return MessageFormat.format("https://api.telegram.org/file/bot{0}/{1}", botToken, filePath);
+    }
+
+    @Override
+    public String toString() {
+        return "File{" +
+                "fileId='" + fileId + '\'' +
+                ", fileSize=" + fileSize +
+                ", filePath='" + filePath + '\'' +
+                ", fileUniqueId=" + fileUniqueId +
+                '}';
     }
 }
