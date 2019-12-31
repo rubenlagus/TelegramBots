@@ -5,6 +5,8 @@ import org.telegram.telegrambots.meta.api.interfaces.InputBotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
+import java.util.Objects;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -104,5 +106,23 @@ public class LoginUrl implements InputBotApiObject, Validable {
                 ", botUsername='" + botUsername + '\'' +
                 ", requestWriteAccess=" + requestWriteAccess +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof LoginUrl)) {
+            return false;
+        }
+        LoginUrl loginUrl = (LoginUrl) o;
+        return Objects.equals(url, loginUrl.url) &&
+                Objects.equals(forwardText, loginUrl.forwardText) &&
+                Objects.equals(botUsername, loginUrl.botUsername) &&
+                Objects.equals(requestWriteAccess, loginUrl.requestWriteAccess);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(url, forwardText, botUsername, requestWriteAccess);
     }
 }
