@@ -3,8 +3,8 @@ package org.telegram.abilitybots.api.bot;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.telegram.abilitybots.api.db.DBContext;
 import org.telegram.abilitybots.api.objects.Ability;
 import org.telegram.abilitybots.api.objects.MessageContext;
@@ -35,12 +35,36 @@ import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.joining;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.telegram.abilitybots.api.objects.Ability.builder;
-import static org.telegram.abilitybots.api.objects.Flag.*;
+import static org.telegram.abilitybots.api.objects.Flag.DOCUMENT;
+import static org.telegram.abilitybots.api.objects.Flag.MESSAGE;
+import static org.telegram.abilitybots.api.objects.Flag.REPLY;
 import static org.telegram.abilitybots.api.objects.Locality.ALL;
 import static org.telegram.abilitybots.api.objects.Locality.USER;
-import static org.telegram.abilitybots.api.objects.Privacy.*;
-import static org.telegram.abilitybots.api.util.AbilityMessageCodes.*;
-import static org.telegram.abilitybots.api.util.AbilityUtils.*;
+import static org.telegram.abilitybots.api.objects.Privacy.ADMIN;
+import static org.telegram.abilitybots.api.objects.Privacy.CREATOR;
+import static org.telegram.abilitybots.api.objects.Privacy.PUBLIC;
+import static org.telegram.abilitybots.api.util.AbilityMessageCodes.ABILITY_BAN_FAIL;
+import static org.telegram.abilitybots.api.util.AbilityMessageCodes.ABILITY_BAN_SUCCESS;
+import static org.telegram.abilitybots.api.util.AbilityMessageCodes.ABILITY_CLAIM_FAIL;
+import static org.telegram.abilitybots.api.util.AbilityMessageCodes.ABILITY_CLAIM_SUCCESS;
+import static org.telegram.abilitybots.api.util.AbilityMessageCodes.ABILITY_COMMANDS_NOT_FOUND;
+import static org.telegram.abilitybots.api.util.AbilityMessageCodes.ABILITY_DEMOTE_FAIL;
+import static org.telegram.abilitybots.api.util.AbilityMessageCodes.ABILITY_DEMOTE_SUCCESS;
+import static org.telegram.abilitybots.api.util.AbilityMessageCodes.ABILITY_PROMOTE_FAIL;
+import static org.telegram.abilitybots.api.util.AbilityMessageCodes.ABILITY_PROMOTE_SUCCESS;
+import static org.telegram.abilitybots.api.util.AbilityMessageCodes.ABILITY_RECOVER_ERROR;
+import static org.telegram.abilitybots.api.util.AbilityMessageCodes.ABILITY_RECOVER_FAIL;
+import static org.telegram.abilitybots.api.util.AbilityMessageCodes.ABILITY_RECOVER_MESSAGE;
+import static org.telegram.abilitybots.api.util.AbilityMessageCodes.ABILITY_RECOVER_SUCCESS;
+import static org.telegram.abilitybots.api.util.AbilityMessageCodes.ABILITY_UNBAN_FAIL;
+import static org.telegram.abilitybots.api.util.AbilityMessageCodes.ABILITY_UNBAN_SUCCESS;
+import static org.telegram.abilitybots.api.util.AbilityMessageCodes.USER_NOT_FOUND;
+import static org.telegram.abilitybots.api.util.AbilityUtils.addTag;
+import static org.telegram.abilitybots.api.util.AbilityUtils.commitTo;
+import static org.telegram.abilitybots.api.util.AbilityUtils.escape;
+import static org.telegram.abilitybots.api.util.AbilityUtils.getLocalizedMessage;
+import static org.telegram.abilitybots.api.util.AbilityUtils.shortName;
+import static org.telegram.abilitybots.api.util.AbilityUtils.stripTag;
 
 public final class DefaultAbilities implements AbilityExtension {
   // Default commands
@@ -53,7 +77,7 @@ public final class DefaultAbilities implements AbilityExtension {
   public static final String RECOVER = "recover";
   public static final String COMMANDS = "commands";
   public static final String REPORT = "report";
-  private static final Logger log = LogManager.getLogger(DefaultAbilities.class);
+  private static final Logger log = LoggerFactory.getLogger(DefaultAbilities.class);
   private final BaseAbilityBot bot;
 
   public DefaultAbilities(BaseAbilityBot bot) {

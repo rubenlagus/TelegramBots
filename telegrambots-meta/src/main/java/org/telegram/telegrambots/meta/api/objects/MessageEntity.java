@@ -2,7 +2,6 @@ package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
@@ -31,8 +30,10 @@ public class MessageEntity implements BotApiObject {
      * italic (italic text),
      * code (monowidth string),
      * pre (monowidth block),
-     * text_link (for clickable text URLs)
-     * text_mention (for users without usernames)
+     * text_link (for clickable text URLs),
+     * text_mention (for users without usernames),
+     * underline,
+     * strikethrough
      */
 
     @JsonProperty(TYPE_FIELD)

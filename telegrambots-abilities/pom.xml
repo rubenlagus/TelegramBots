@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.telegram</groupId>
         <artifactId>Bots</artifactId>
-        <version>4.4.0.2</version>
+        <version>4.5</version>
     </parent>
 
     <artifactId>telegrambots-abilities</artifactId>
@@ -78,14 +78,13 @@
 
         <commonslang.version>3.9</commonslang.version>
         <mapdb.version>3.0.7</mapdb.version>
-        <log4j.version>2.12.1</log4j.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots</artifactId>
-            <version>4.4.0.2</version>
+            <version>4.5</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -102,16 +101,6 @@
                     <artifactId>guava</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>${log4j.version}</version>
         </dependency>
     </dependencies>
 

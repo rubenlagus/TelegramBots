@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.stickers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 
@@ -13,6 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 public class Sticker implements BotApiObject {
 
     private static final String FILEID_FIELD = "file_id";
+    private static final String FILEUNIQUEID_FIELD = "file_unique_id";
     private static final String WIDTH_FIELD = "width";
     private static final String HEIGHT_FIELD = "height";
     private static final String THUMB_FIELD = "thumb";
@@ -23,7 +23,13 @@ public class Sticker implements BotApiObject {
     private static final String ISANIMATED_FIELD = "is_animated";
 
     @JsonProperty(FILEID_FIELD)
-    private String fileId; ///< Unique identifier for this file
+    private String fileId; ///< Identifier for this file, which can be used to download or reuse the file
+    /**
+     * Unique identifier for this file, which is supposed to be the same over time and for different bots.
+     * Can't be used to download or reuse the file.
+     */
+    @JsonProperty(FILEUNIQUEID_FIELD)
+    private String fileUniqueId;
     @JsonProperty(WIDTH_FIELD)
     private Integer width; ///< Sticker width
     @JsonProperty(HEIGHT_FIELD)
@@ -81,6 +87,10 @@ public class Sticker implements BotApiObject {
         return isAnimated;
     }
 
+    public String getFileUniqueId() {
+        return fileUniqueId;
+    }
+
     @Override
     public String toString() {
         return "Sticker{" +
@@ -93,6 +103,7 @@ public class Sticker implements BotApiObject {
                 ", setName='" + setName + '\'' +
                 ", maskPosition=" + maskPosition +
                 ", isAnimated=" + isAnimated +
+                ", fileUniqueId=" + fileUniqueId +
                 '}';
     }
 }

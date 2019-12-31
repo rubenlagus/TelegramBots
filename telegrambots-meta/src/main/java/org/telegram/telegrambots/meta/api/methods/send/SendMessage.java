@@ -5,8 +5,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -149,6 +149,15 @@ public class SendMessage extends BotApiMethod<Message> {
     public SendMessage enableHtml(boolean enable) {
         if (enable) {
             this.parseMode = ParseMode.HTML;
+        } else {
+            this.parseMode = null;
+        }
+        return this;
+    }
+
+    public SendMessage enableMarkdownV2(boolean enable) {
+        if (enable) {
+            this.parseMode = ParseMode.MARKDOWNV2;
         } else {
             this.parseMode = null;
         }
