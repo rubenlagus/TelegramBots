@@ -123,7 +123,7 @@ public final class CommandRegistry implements ICommandRegistry {
      */
     private String removeUsernameFromCommandIfNeeded(String command) {
         if (allowCommandsWithUsername) {
-            return command.replaceAll("(?i)@" + Pattern.quote(botUsername), "").trim();
+            return command.substring(0,command.indexOf("@"));
         }
         return command;
     }
