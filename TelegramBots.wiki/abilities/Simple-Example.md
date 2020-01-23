@@ -9,7 +9,7 @@ As with any Java project, you will need to set your dependencies.
    <dependency>
       <groupId>org.telegram</groupId>
       <artifactId>telegrambots-abilities</artifactId>
-      <version>4.5</version>
+      <version>4.6</version>
    </dependency>
 ```
 * **Gradle**

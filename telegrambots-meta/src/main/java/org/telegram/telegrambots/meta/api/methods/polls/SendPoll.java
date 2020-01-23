@@ -2,14 +2,16 @@ package org.telegram.telegrambots.meta.api.methods.polls;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,6 +31,11 @@ public class SendPoll extends BotApiMethod<Message> {
     private static final String CHATID_FIELD = "chat_id";
     private static final String QUESTION_FIELD = "question";
     private static final String OPTIONS_FIELD = "options";
+    private static final String ISANONYMOUS_FIELD = "is_anonymous";
+    private static final String TYPE_FIELD = "type";
+    private static final String ALLOWMULTIPLEANSWERS_FIELD = "allows_multiple_answers";
+    private static final String CORRECTOPTIONID_FIELD = "correct_option_id";
+    private static final String ISCLOSED_FIELD = "is_closed";
     private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     private static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
@@ -38,17 +45,29 @@ public class SendPoll extends BotApiMethod<Message> {
      * A native poll can't be sent to a private chat.
      */
     @JsonProperty(CHATID_FIELD)
-    private String chatId;
+    private String chatId; ///< Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     @JsonProperty(QUESTION_FIELD)
     private String question; ///< Poll question, 1-255 characters
     @JsonProperty(OPTIONS_FIELD)
-    private List<String> options; ///< List of answer options, 1-10 strings 1-100 characters each
+    private List<String> options = new ArrayList<>(); ///< List of answer options, 2-10 strings 1-100 characters each
+    @JsonProperty(ISANONYMOUS_FIELD)
+    private Boolean isAnonymous; ///< Optional	True, if the poll needs to be anonymous, defaults to True
+    @JsonProperty(TYPE_FIELD)
+    private String type; ///< Optional	Poll type, “quiz” or “regular”, defaults to “regular”
+    @JsonProperty(ALLOWMULTIPLEANSWERS_FIELD)
+    private Boolean allowMultipleAnswers; ///< Optional	True, if the poll allows multiple answers, ignored for polls in quiz mode, defaults to False
+    @JsonProperty(CORRECTOPTIONID_FIELD)
+    private Integer correctOptionId; ///< Optional	0-based identifier of the correct answer option, required for polls in quiz mode
+    @JsonProperty(ISCLOSED_FIELD)
+    private Boolean isClosed; ///< Optional	Pass True, if the poll needs to be immediately closed
     @JsonProperty(DISABLENOTIFICATION_FIELD)
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     @JsonProperty(REPLYTOMESSAGEID_FIELD)
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     @JsonProperty(REPLYMARKUP_FIELD)
+    @JsonDeserialize()
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+
 
     public SendPoll() {
         super();
@@ -132,6 +151,51 @@ public class SendPoll extends BotApiMethod<Message> {
         return this;
     }
 
+    public Boolean getAnonymous() {
+        return isAnonymous;
+    }
+
+    public SendPoll setAnonymous(Boolean anonymous) {
+        isAnonymous = anonymous;
+        return this;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public SendPoll setType(String type) {
+        this.type = type;
+        return this;
+    }
+
+    public Boolean getAllowMultipleAnswers() {
+        return allowMultipleAnswers;
+    }
+
+    public SendPoll setAllowMultipleAnswers(Boolean allowMultipleAnswers) {
+        this.allowMultipleAnswers = allowMultipleAnswers;
+        return this;
+    }
+
+    public Integer getCorrectOptionId() {
+        return correctOptionId;
+    }
+
+    public SendPoll setCorrectOptionId(Integer correctOptionId) {
+        this.correctOptionId = correctOptionId;
+        return this;
+    }
+
+    public Boolean getClosed() {
+        return isClosed;
+    }
+
+    public SendPoll setClosed(Boolean closed) {
+        isClosed = closed;
+        return this;
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -141,7 +205,8 @@ public class SendPoll extends BotApiMethod<Message> {
     public Message deserializeResponse(String answer) throws TelegramApiRequestException {
         try {
             ApiResponse<Message> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Message>>(){});
+                    new TypeReference<ApiResponse<Message>>() {
+                    });
             if (result.getOk()) {
                 return result.getResult();
             } else {
@@ -160,39 +225,40 @@ public class SendPoll extends BotApiMethod<Message> {
         if (question == null || question.isEmpty()) {
             throw new TelegramApiValidationException("Question parameter can't be empty", this);
         }
-        if (options == null || options.isEmpty()) {
-            throw new TelegramApiValidationException("Options parameter can't be empty", this);
+        if (options == null || options.size() < 2 || options.size() > 10) {
+            throw new TelegramApiValidationException("Options parameter must be between 2 and 10 item", this);
+        }
+        if (options.parallelStream().anyMatch(x -> x.isEmpty() || x.length() > 100)) {
+            throw new TelegramApiValidationException("Options parameter values must be between 1 and 100 chars length", this);
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
     }
 
+
     @Override
     public boolean equals(Object o) {
-        if (o == this) return true;
-        if (!(o instanceof SendPoll)) {
-            return false;
-        }
-        SendPoll sendMessage = (SendPoll) o;
-        return Objects.equals(chatId, sendMessage.chatId)
-                && Objects.equals(disableNotification, sendMessage.disableNotification)
-                && Objects.equals(question, sendMessage.question)
-                && Objects.equals(options, sendMessage.options)
-                && Objects.equals(replyMarkup, sendMessage.replyMarkup)
-                && Objects.equals(replyToMessageId, sendMessage.replyToMessageId)
-                ;
+        if (this == o) return true;
+        if (!(o instanceof SendPoll)) return false;
+        SendPoll sendPoll = (SendPoll) o;
+        return Objects.equals(chatId, sendPoll.chatId) &&
+                Objects.equals(question, sendPoll.question) &&
+                Objects.equals(options, sendPoll.options) &&
+                Objects.equals(isAnonymous, sendPoll.isAnonymous) &&
+                Objects.equals(type, sendPoll.type) &&
+                Objects.equals(allowMultipleAnswers, sendPoll.allowMultipleAnswers) &&
+                Objects.equals(correctOptionId, sendPoll.correctOptionId) &&
+                Objects.equals(isClosed, sendPoll.isClosed) &&
+                Objects.equals(disableNotification, sendPoll.disableNotification) &&
+                Objects.equals(replyToMessageId, sendPoll.replyToMessageId) &&
+                Objects.equals(replyMarkup, sendPoll.replyMarkup);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(
-                chatId,
-                disableNotification,
-                options,
-                replyMarkup,
-                replyToMessageId,
-                question);
+        return Objects.hash(chatId, question, options, isAnonymous, type, allowMultipleAnswers, correctOptionId,
+                isClosed, disableNotification, replyToMessageId, replyMarkup);
     }
 
     @Override
@@ -201,6 +267,11 @@ public class SendPoll extends BotApiMethod<Message> {
                 "chatId='" + chatId + '\'' +
                 ", question='" + question + '\'' +
                 ", options=" + options +
+                ", isAnonymous=" + isAnonymous +
+                ", type='" + type + '\'' +
+                ", allowMultipleAnswers=" + allowMultipleAnswers +
+                ", correctOptionId=" + correctOptionId +
+                ", isClosed=" + isClosed +
                 ", disableNotification=" + disableNotification +
                 ", replyToMessageId=" + replyToMessageId +
                 ", replyMarkup=" + replyMarkup +

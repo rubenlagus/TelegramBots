@@ -17,35 +17,34 @@
 
 package org.telegram.telegrambots.meta.exceptions;
 
-import org.telegram.telegrambots.meta.api.interfaces.InputBotApiObject;
+import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Exception from method validations
- * @date 16 of September of 2016
+ * Exception from method validations
  */
 public class TelegramApiValidationException extends TelegramApiException {
     private PartialBotApiMethod method;
-    private InputBotApiObject object;
+    private BotApiObject object;
 
     public TelegramApiValidationException(String message, PartialBotApiMethod method) {
         super(message);
         this.method = method;
     }
 
-    public TelegramApiValidationException(String message, InputBotApiObject object) {
+    public TelegramApiValidationException(String message, BotApiObject object) {
         super(message);
         this.object = object;
     }
 
-    public PartialBotApiMethod getMethod() {
-        return method;
+    public BotApiObject getObject() {
+        return object;
     }
 
-    public InputBotApiObject getObject() {
-        return object;
+    public PartialBotApiMethod getMethod() {
+        return method;
     }
 
     @Override

@@ -17,6 +17,7 @@ public class MessageEntity implements BotApiObject {
     private static final String LENGTH_FIELD = "length";
     private static final String URL_FIELD = "url";
     private static final String USER_FIELD = "user";
+    private static final String LANGUAGE_FIELD = "language";
     /**
      * Type of the entity. One of
      * mention (@username),
@@ -46,6 +47,8 @@ public class MessageEntity implements BotApiObject {
     private String url; ///< Optional. For “text_link” only, url that will be opened after user taps on the text
     @JsonProperty(USER_FIELD)
     private User user; ///< Optional. For “text_mention” only, the mentioned user
+    @JsonProperty(LANGUAGE_FIELD)
+    private String language; ///< Optional. For “pre” only, the programming language of the entity text
     @JsonIgnore
     private String text; ///< Text present in the entity. Computed from offset and length
 
@@ -77,6 +80,10 @@ public class MessageEntity implements BotApiObject {
         return user;
     }
 
+    public String getLanguage() {
+        return language;
+    }
+
     protected void computeText(String message) {
         if (message != null) {
             text = message.substring(offset, offset + length);
@@ -89,8 +96,10 @@ public class MessageEntity implements BotApiObject {
                 "type='" + type + '\'' +
                 ", offset=" + offset +
                 ", length=" + length +
-                ", url=" + url +
+                ", url='" + url + '\'' +
                 ", user=" + user +
+                ", language='" + language + '\'' +
+                ", text='" + text + '\'' +
                 '}';
     }
 }
