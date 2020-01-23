@@ -22,10 +22,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="telegrambots-abilities" />
-        <module name="telegrambots-extensions" />
         <module name="telegrambots-meta" />
+        <module name="telegrambots-extensions" />
         <module name="telegrambots" />
+        <module name="telegrambots-abilities" />
         <module name="telegrambots-chat-session-bot" />
         <module name="telegrambots-spring-boot-starter" />
       </profile>
@@ -2019,6 +2019,19 @@
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/telegrambots-meta/telegrambots-meta-4.2-sources.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots-meta/4.2/telegrambots-meta-4.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.telegram:telegrambots-meta:4.5">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots-meta/4.5/telegrambots-meta-4.5.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$PROJECT_DIR$/telegrambots-meta/telegrambots-meta-4.5-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots-meta/4.5/telegrambots-meta-4.5-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/telegrambots-meta/telegrambots-meta-4.5-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/telegram/telegrambots-meta/4.5/telegrambots-meta-4.5-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.telegram:telegrambots:3.5">

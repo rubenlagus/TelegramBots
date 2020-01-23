@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
 import org.telegram.telegrambots.meta.api.objects.payments.PreCheckoutQuery;
 import org.telegram.telegrambots.meta.api.objects.payments.ShippingQuery;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
+import org.telegram.telegrambots.meta.api.objects.polls.PollAnswer;
 
 /**
  * @author Ruben Bermudez
@@ -28,6 +29,7 @@ public class Update implements BotApiObject {
     private static final String SHIPPING_QUERY_FIELD = "shipping_query";
     private static final String PRE_CHECKOUT_QUERY_FIELD = "pre_checkout_query";
     private static final String POLL_FIELD = "poll";
+    private static final String POLLANSWER_FIELD = "poll_answer";
 
     @JsonProperty(UPDATEID_FIELD)
     private Integer updateId;
@@ -51,6 +53,15 @@ public class Update implements BotApiObject {
     private PreCheckoutQuery preCheckoutQuery; ///< Optional. New incoming pre-checkout query. Contains full information about checkout
     @JsonProperty(POLL_FIELD)
     private Poll poll; ///< Optional. New poll state. Bots receive only updates about polls, which are sent by the bot.
+    /**
+     * Optional.
+     * A user changed their answer in a non-anonymous poll.
+     *
+     * @apiNote Bots receive new votes only in polls that were sent by the bot itself.
+     */
+    @JsonProperty(POLLANSWER_FIELD)
+    private PollAnswer pollAnswer;
+
 
     public Update() {
         super();
@@ -100,6 +111,10 @@ public class Update implements BotApiObject {
         return poll;
     }
 
+    public PollAnswer getPollAnswer() {
+        return pollAnswer;
+    }
+
     public boolean hasMessage() {
         return message != null;
     }
@@ -140,6 +155,10 @@ public class Update implements BotApiObject {
         return poll != null;
     }
 
+    public boolean hasPollAnswer() {
+        return pollAnswer != null;
+    }
+
     @Override
     public String toString() {
         return "Update{" +
@@ -153,6 +172,8 @@ public class Update implements BotApiObject {
                 ", editedChannelPost=" + editedChannelPost +
                 ", shippingQuery=" + shippingQuery +
                 ", preCheckoutQuery=" + preCheckoutQuery +
+                ", poll=" + poll +
+                ", pollAnswer=" + pollAnswer +
                 '}';
     }
 }

@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 import java.util.Objects;
@@ -19,6 +18,9 @@ public class User implements BotApiObject {
     private static final String LASTNAME_FIELD = "last_name";
     private static final String USERNAME_FIELD = "username";
     private static final String LANGUAGECODE_FIELD = "language_code";
+    private static final String CANJOINGROUPS_FIELD = "can_join_groups";
+    private static final String CANREADALLGROUPMESSAGES_FIELD = "can_read_all_group_messages";
+    private static final String SUPPORTINLINEQUERIES_FIELD = "supports_inline_queries";
 
     @JsonProperty(ID_FIELD)
     private Integer id; ///< Unique identifier for this user or bot
@@ -32,6 +34,12 @@ public class User implements BotApiObject {
     private String userName; ///< Optional. User‘s or bot’s username
     @JsonProperty(LANGUAGECODE_FIELD)
     private String languageCode; ///< Optional. IETF language tag of the user's language
+    @JsonProperty(CANJOINGROUPS_FIELD)
+    private Boolean canJoinGroups; ///< Optional. True, if the bot can be invited to groups. Returned only in getMe.
+    @JsonProperty(CANREADALLGROUPMESSAGES_FIELD)
+    private Boolean canReadAllGroupMessages; ///< Optional. True, if privacy mode is disabled for the bot. Returned only in getMe.
+    @JsonProperty(SUPPORTINLINEQUERIES_FIELD)
+    private Boolean supportInlineQueries; ///< Optional. True, if the bot supports inline queries. Returned only in getMe.
 
     public User() {
         super();
@@ -70,6 +78,18 @@ public class User implements BotApiObject {
         return isBot;
     }
 
+    public Boolean getCanJoinGroups() {
+        return canJoinGroups;
+    }
+
+    public Boolean getCanReadAllGroupMessages() {
+        return canReadAllGroupMessages;
+    }
+
+    public Boolean getSupportInlineQueries() {
+        return supportInlineQueries;
+    }
+
     @Override
     public boolean equals(Object o) {
       if (this == o) return true;
@@ -80,12 +100,16 @@ public class User implements BotApiObject {
           Objects.equals(isBot, user.isBot) &&
           Objects.equals(lastName, user.lastName) &&
           Objects.equals(userName, user.userName) &&
-          Objects.equals(languageCode, user.languageCode);
+          Objects.equals(languageCode, user.languageCode) &&
+          Objects.equals(canJoinGroups, user.canJoinGroups) &&
+          Objects.equals(canReadAllGroupMessages, user.canReadAllGroupMessages) &&
+          Objects.equals(supportInlineQueries, user.supportInlineQueries);
     }
 
     @Override
     public int hashCode() {
-      return Objects.hash(id, firstName, isBot, lastName, userName, languageCode);
+      return Objects.hash(id, firstName, isBot, lastName, userName, languageCode,
+              canJoinGroups, canReadAllGroupMessages, supportInlineQueries);
     }
 
     @Override
@@ -97,6 +121,9 @@ public class User implements BotApiObject {
                 ", lastName='" + lastName + '\'' +
                 ", userName='" + userName + '\'' +
                 ", languageCode='" + languageCode + '\'' +
+                ", canJoinGroups=" + canJoinGroups +
+                ", canReadAllGroupMessages=" + canReadAllGroupMessages +
+                ", supportInlineQueries=" + supportInlineQueries +
                 '}';
     }
 }

@@ -63,12 +63,10 @@ Reply saidLeft = Reply.of(upd -> silent.send("Sir, I have gone left.", getChatId
           hasMessageWith("go left or else"));
 ```
 Now, after your naughty bot retaliates, the user can say "go left or else" to force the bot to go left. Awesome, our logic now looks like this:
-<div align="center">
 
-![Alt text](./img/replyflow_diagram.svg)
-<img src="./img/replyflow_diagram.svg">
-
-</div>
+<p align="center">
+  [[/abilities/img/replyflow_diagram.svg|Diagram]]
+</p>
 
 ## Complete Example
 ```java
