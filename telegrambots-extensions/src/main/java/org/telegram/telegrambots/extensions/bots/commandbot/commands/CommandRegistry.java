@@ -2,6 +2,7 @@ package org.telegram.telegrambots.extensions.bots.commandbot.commands;
 
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -100,15 +101,18 @@ public final class CommandRegistry implements ICommandRegistry {
                 String commandMessage = text.substring(1);
                 String[] commandSplit = commandMessage.split(BotCommand.COMMAND_PARAMETER_SEPARATOR_REGEXP);
 
-                String command = removeUsernameFromCommandIfNeeded(commandSplit[0]);
-
-                if (commandRegistryMap.containsKey(command)) {
-                    String[] parameters = Arrays.copyOfRange(commandSplit, 1, commandSplit.length);
-                    commandRegistryMap.get(command).processMessage(absSender, message, parameters);
-                    return true;
-                } else if (defaultConsumer != null) {
-                    defaultConsumer.accept(absSender, message);
-                    return true;
+                try {
+                    String command = removeUsernameFromCommandIfNeeded(commandSplit[0], absSender.getMe().getUserName());
+                    if (commandRegistryMap.containsKey(command)) {
+                        String[] parameters = Arrays.copyOfRange(commandSplit, 1, commandSplit.length);
+                        commandRegistryMap.get(command).processMessage(absSender, message, parameters);
+                        return true;
+                    } else if (defaultConsumer != null) {
+                        defaultConsumer.accept(absSender, message);
+                        return true;
+                    }
+                } catch (TelegramApiException | NullPointerException e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -121,9 +125,9 @@ public final class CommandRegistry implements ICommandRegistry {
      * @param command Command to simplify
      * @return Simplified command
      */
-    private String removeUsernameFromCommandIfNeeded(String command) {
+    private String removeUsernameFromCommandIfNeeded(String command, String botUsername) {
         if (allowCommandsWithUsername) {
-            return command.substring(0,command.indexOf("@"));
+            return command.replaceAll("(?i)@" + Pattern.quote(botUsername), "").trim();
         }
         return command;
     }
