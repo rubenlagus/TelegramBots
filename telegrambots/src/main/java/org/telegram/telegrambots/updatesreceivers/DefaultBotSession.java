@@ -274,6 +274,14 @@ public class DefaultBotSession implements BotSession {
             } catch (InterruptedException e) {
                 log.info(e.getLocalizedMessage(), e);
                 interrupt();
+            } catch (InternalError e) {
+                // handle InternalError to workaround OpenJDK bug (resolved since 13.0)
+                // https://bugs.openjdk.java.net/browse/JDK-8173620
+                Throwable cause = e.getCause();
+                if (cause instanceof IOException) {
+                    log.error(e.getLocalizedMessage(), e);
+                }
+                throw e;
             }
             return Collections.emptyList();
         }
