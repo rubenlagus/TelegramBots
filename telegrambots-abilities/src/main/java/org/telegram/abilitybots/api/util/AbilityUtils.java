@@ -69,6 +69,8 @@ public final class AbilityUtils {
       return update.getEditedMessage().getFrom();
     } else if (CHOSEN_INLINE_QUERY.test(update)) {
       return update.getChosenInlineQuery().getFrom();
+    } else if (PRECHECKOUT_QUERY.test(update)) {
+      return update.getPreCheckoutQuery().getFrom();
     } else {
       throw new IllegalStateException("Could not retrieve originating user from update");
     }
@@ -140,6 +142,8 @@ public final class AbilityUtils {
       return update.getEditedMessage().getChatId();
     } else if (CHOSEN_INLINE_QUERY.test(update)) {
       return (long) update.getChosenInlineQuery().getFrom().getId();
+    } else if (PRECHECKOUT_QUERY.test(update)) {
+      return (long) update.getPreCheckoutQuery().getFrom().getId();
     } else {
       throw new IllegalStateException("Could not retrieve originating chat ID from update");
     }
