@@ -3,9 +3,6 @@ package org.telegram.abilitybots.api.bot;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Multimap;
-import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -192,6 +189,9 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
                 .map(this::getContext)
                 .map(this::consumeUpdate)
                 .forEach(this::postConsumption);
+
+        // Commit to DB now after all the actions have been dealt
+        db.commit();
 
         long processingTime = System.currentTimeMillis() - millisStarted;
         log.info(format("[%s] Processing of update [%s] ended at %s%n---> Processing time: [%d ms] <---%n", botUsername, update.getUpdateId(), now(), processingTime));
@@ -480,7 +480,6 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
             return user;
         });
 
-        db.commit();
         return update;
     }
 
