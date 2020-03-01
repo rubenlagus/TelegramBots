@@ -1,8 +1,8 @@
 # Understanding the Library
 
-This little handy guide will not teach you how to a particular thing in the library. 
+This little handy guide will not teach you how to do a particular thing in the library. 
 It will also not teach you how to create bots or anything in the liking of that. 
-For that take a look at the Getting Started guide
+For that take a look at the [Getting Started] guide
 
 This guide will give you a general understanding on how the library function and will answer a lot of frequently 
 asked questions. I recommend everyone who wants to work with this library more to read this guide.
@@ -53,3 +53,25 @@ We get the same result. The library just handily maps it to an object for us to 
 So how do we find out how to do things with the library?
 
 ## Understanding how the API is mapped in the library
+The base for all our operations is the [telegram bot api documentations](https://core.telegram.org/bots/api) . This 220 kB monster of a website will tell us almost everything we need to know about how to use the api.
+
+It is split into multiple sections. We can ignore the sections *Authorizing your bot", "Making Requests" and "Getting Updates". These things are done for us by the library.
+
+So, let's see how we can send a poll for example. First, lets take a look at the *Available Methods*. It already gives us a bunch of send methods
+
+* sendMessage
+* sendPhoto
+* sendAudio
+* sendDocument
+* sendVideo
+* sendAnimation
+* sendVoice
+* sendVideoNote
+* sendMediaGroup
+* sendLocation
+* sendVenue
+* sendContact
+* sendPoll
+* sendChatAction
+
+One of them sticks out to us. *sendPoll* looks promising, and when we take a look at the description
