@@ -60,7 +60,6 @@ import static org.telegram.abilitybots.api.util.AbilityMessageCodes.ABILITY_UNBA
 import static org.telegram.abilitybots.api.util.AbilityMessageCodes.ABILITY_UNBAN_SUCCESS;
 import static org.telegram.abilitybots.api.util.AbilityMessageCodes.USER_NOT_FOUND;
 import static org.telegram.abilitybots.api.util.AbilityUtils.addTag;
-import static org.telegram.abilitybots.api.util.AbilityUtils.commitTo;
 import static org.telegram.abilitybots.api.util.AbilityUtils.escape;
 import static org.telegram.abilitybots.api.util.AbilityUtils.getLocalizedMessage;
 import static org.telegram.abilitybots.api.util.AbilityUtils.shortName;
@@ -288,7 +287,6 @@ public final class DefaultAbilities implements AbilityExtension {
             sendMd(ABILITY_BAN_SUCCESS, ctx, escape(bannedUser));
           }
         })
-        .post(commitTo(bot.db))
         .build();
   }
 
@@ -315,7 +313,6 @@ public final class DefaultAbilities implements AbilityExtension {
             bot.silent.sendMd(getLocalizedMessage(ABILITY_UNBAN_SUCCESS, ctx.user().getLanguageCode(), escape(username)), ctx.chatId());
           }
         })
-        .post(commitTo(bot.db))
         .build();
   }
 
@@ -339,7 +336,7 @@ public final class DefaultAbilities implements AbilityExtension {
             admins.add(userId);
             sendMd(ABILITY_PROMOTE_SUCCESS, ctx, escape(username));
           }
-        }).post(commitTo(bot.db))
+        })
         .build();
   }
 
@@ -363,7 +360,6 @@ public final class DefaultAbilities implements AbilityExtension {
             sendMd(ABILITY_DEMOTE_FAIL, ctx, escape(username));
           }
         })
-        .post(commitTo(bot.db))
         .build();
   }
 
@@ -389,7 +385,6 @@ public final class DefaultAbilities implements AbilityExtension {
             send(ABILITY_CLAIM_SUCCESS, ctx);
           }
         })
-        .post(commitTo(bot.db))
         .build();
   }
 
