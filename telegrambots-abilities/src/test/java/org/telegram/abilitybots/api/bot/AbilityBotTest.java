@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
 import org.telegram.abilitybots.api.db.DBContext;
 import org.telegram.abilitybots.api.objects.*;
 import org.telegram.abilitybots.api.sender.MessageSender;
@@ -128,6 +129,30 @@ public class AbilityBotTest {
     deleteQuietly(new java.io.File("backup.json"));
 
     verify(sender, times(1)).sendDocument(any());
+  }
+
+  @Test
+  void canReportStatistics() {
+    MessageContext context = defaultContext();
+
+    defaultAbs.reportStats().action().accept(context);
+
+    verify(silent, times(1)).send("count: 0\nmustreply: 0", GROUP_ID);
+  }
+
+  @Test
+  void canReportUpdatedStatistics() {
+    Update upd1 = mockFullUpdate(bot, CREATOR, "/count 1 2 3 4");
+    bot.onUpdateReceived(upd1);
+    Update upd2 = mockFullUpdate(bot, CREATOR, "must reply");
+    bot.onUpdateReceived(upd2);
+
+    Mockito.reset(silent);
+
+    Update statUpd = mockFullUpdate(bot, CREATOR, "/stats");
+    bot.onUpdateReceived(statUpd);
+
+    verify(silent, times(1)).send("count: 1\nmustreply: 1", CREATOR.getId());
   }
 
   @Test
@@ -553,7 +578,7 @@ public class AbilityBotTest {
 
     defaultAbs.commands().action().accept(creatorCtx);
 
-    String expected = "PUBLIC\n/commands\n/count\n/default - dis iz default command\n/group\n/test\nADMIN\n/admin\n/ban\n/demote\n/promote\n/unban\nCREATOR\n/backup\n/claim\n/recover\n/report";
+    String expected = "PUBLIC\n/commands\n/count\n/default - dis iz default command\n/group\n/test\nADMIN\n/admin\n/ban\n/demote\n/promote\n/stats\n/unban\nCREATOR\n/backup\n/claim\n/recover\n/report";
     verify(silent, times(1)).send(expected, GROUP_ID);
   }
 

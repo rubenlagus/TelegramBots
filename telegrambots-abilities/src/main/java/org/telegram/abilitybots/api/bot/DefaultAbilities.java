@@ -26,6 +26,7 @@ import java.io.PrintStream;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.StringJoiner;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.collect.MultimapBuilder.hashKeys;
@@ -76,6 +77,7 @@ public final class DefaultAbilities implements AbilityExtension {
   public static final String RECOVER = "recover";
   public static final String COMMANDS = "commands";
   public static final String REPORT = "report";
+  public static final String STATS = "stats";
   private static final Logger log = LoggerFactory.getLogger(DefaultAbilities.class);
   private final BaseAbilityBot bot;
 
@@ -180,6 +182,26 @@ public final class DefaultAbilities implements AbilityExtension {
   }
 
   /**
+   * @return the ability to report statistics for abilities and replies.
+   */
+  public Ability reportStats() {
+    return builder()
+        .name(STATS)
+        .locality(ALL)
+        .privacy(ADMIN)
+        .input(0)
+        .action(ctx -> {
+          String stats = bot.stats().entrySet().stream()
+              .map(entry -> String.format("%s: %d", entry.getKey(), entry.getValue().hits()))
+              .reduce(new StringJoiner("\n"), StringJoiner::add, StringJoiner::merge)
+              .toString();
+
+          bot.silent.send(stats, ctx.chatId());
+        })
+        .build();
+  }
+
+  /**
    * This backup ability returns the object defined by {@link DBContext#backup()} as a message document.
    * <p>
    * This is a high-profile ability and is restricted to the CREATOR only.
@@ -211,6 +233,7 @@ public final class DefaultAbilities implements AbilityExtension {
         })
         .build();
   }
+
 
   /**
    * Recovers the bot database using {@link DBContext#recover(Object)}.

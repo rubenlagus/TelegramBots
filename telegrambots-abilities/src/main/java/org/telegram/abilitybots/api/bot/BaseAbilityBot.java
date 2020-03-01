@@ -1,6 +1,6 @@
 package org.telegram.abilitybots.api.bot;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.*;
 import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.collect.ImmutableMap;
 import org.jetbrains.annotations.NotNull;
@@ -33,15 +33,18 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.google.common.collect.Sets.difference;
 import static java.lang.String.format;
 import static java.time.ZonedDateTime.now;
 import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
 import static java.util.regex.Pattern.CASE_INSENSITIVE;
 import static java.util.regex.Pattern.compile;
+import static java.util.stream.Collectors.toSet;
 import static org.telegram.abilitybots.api.objects.Locality.*;
 import static org.telegram.abilitybots.api.objects.MessageContext.newContext;
 import static org.telegram.abilitybots.api.objects.Privacy.*;
+import static org.telegram.abilitybots.api.objects.Stats.createStats;
 import static org.telegram.abilitybots.api.util.AbilityMessageCodes.*;
 import static org.telegram.abilitybots.api.util.AbilityUtils.*;
 
@@ -87,6 +90,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     public static final String USERS = "USERS";
     public static final String USER_ID = "USER_ID";
     public static final String BLACKLIST = "BLACKLIST";
+    public static final String STATS = "ABILITYBOT_STATS";
 
     // DB and sender
     protected final DBContext db;
@@ -102,6 +106,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
 
     // Ability registry
     private Map<String, Ability> abilities;
+    private Map<String, Stats> stats;
 
     // Reply registry
     private List<Reply> replies;
@@ -119,6 +124,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         silent = new SilentSender(sender);
 
         registerAbilities();
+        initStats();
     }
 
     /**
@@ -150,6 +156,13 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     }
 
     /**
+     * @return a mapping of ability and reply names to their corresponding statistics
+     */
+    protected Map<String, Stats> stats() {
+        return stats;
+    }
+
+    /**
      * @return the immutable map of <String,Ability>
      */
     public Map<String, Ability> abilities() {
@@ -162,6 +175,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     public List<Reply> replies() {
         return replies;
     }
+
 
     /**
      * This method contains the stream of actions that are applied on any update.
@@ -188,6 +202,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
                 .filter(this::checkMessageFlags)
                 .map(this::getContext)
                 .map(this::consumeUpdate)
+                .map(this::updateStats)
                 .forEach(this::postConsumption);
 
         // Commit to DB now after all the actions have been dealt
@@ -275,6 +290,19 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         }
     }
 
+    private void initStats() {
+        Set<String> enabledStats = Stream.concat(
+            replies.stream().filter(Reply::statsEnabled).map(Reply::name),
+            abilities.entrySet().stream()
+                .filter(entry -> entry.getValue().statsEnabled())
+                .map(Map.Entry::getKey)).collect(toSet());
+        stats = db.getMap(STATS);
+        Set<String> toBeRemoved = difference(stats.keySet(), enabledStats);
+        toBeRemoved.forEach(stats::remove);
+        enabledStats.forEach(abName -> stats.computeIfAbsent(abName,
+            name -> createStats(abName, 0)));
+    }
+
     /**
      * @param clazz the type to be tested
      * @return a predicate testing the return type of the method corresponding to the class parameter
@@ -342,6 +370,26 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     Pair<MessageContext, Ability> consumeUpdate(Pair<MessageContext, Ability> pair) {
         pair.b().action().accept(pair.a());
         return pair;
+    }
+
+    Pair<MessageContext, Ability> updateStats(Pair<MessageContext, Ability> pair) {
+        Ability ab = pair.b();
+        if (ab.statsEnabled()) {
+            updateStats(pair.b().name());
+        }
+        return pair;
+    }
+
+    private void updateReplyStats(Reply reply) {
+        if (reply.statsEnabled()) {
+            updateStats(reply.name());
+        }
+    }
+
+    void updateStats(String name) {
+        Stats statsObj = stats.get(name);
+        statsObj.hit();
+        stats.put(name, statsObj);
     }
 
     Pair<MessageContext, Ability> getContext(Trio<Update, Ability, String[]> trio) {
@@ -504,6 +552,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
                 .filter(reply -> reply.isOkFor(update))
                 .map(reply -> {
                     reply.actOn(update);
+                    updateReplyStats(reply);
                     return false;
                 })
                 .reduce(true, Boolean::logicalAnd);
