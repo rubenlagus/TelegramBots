@@ -75,3 +75,47 @@ So, let's see how we can send a poll for example. First, lets take a look at the
 * sendChatAction
 
 One of them sticks out to us. *sendPoll* looks promising, and when we take a look at the description
+
+`Use this method to send a native poll. On success, the sent Message is returned`
+
+That looks like the thing we need. So let's see what we need to send it
+![](poll_params.png)
+
+So as we can see, we need to set 3 things. The id of the chat we want to send it to, a question as a string and an Array of Strings.
+This will result in an anonymous regular type poll without mutliselection looking like this when sent:
+
+![](poll_example.png)
+
+We can customize a bunch of other things like create quizzes, send closed polls or reply to a certain message. Now, how is this api object mapped in the library? How *do* we create a poll?
+
+Pretty straight forward. We take our libary, look for the "Go To Class" or "SearchClass" option and type in the name of the Method we are looking for. This will quickly yield a "SendPoll" method.
+
+**Every** Method, listed under *Available Methods* has such a Class. And if we go ahead and scroll down a bit we find a set of fields for the class
+
+```java
+@JsonProperty(CHATID_FIELD)
+private String chatId; ///< Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+@JsonProperty(QUESTION_FIELD)
+private String question; ///< Poll question, 1-255 characters
+@JsonProperty(OPTIONS_FIELD)
+private List<String> options = new ArrayList<>(); ///< List of answer options, 2-10 strings 1-100 characters each
+@JsonProperty(ISANONYMOUS_FIELD)
+private Boolean isAnonymous; ///< Optional	True, if the poll needs to be anonymous, defaults to True
+@JsonProperty(TYPE_FIELD)
+private String type; ///< Optional	Poll type, “quiz” or “regular”, defaults to “regular”
+@JsonProperty(ALLOWMULTIPLEANSWERS_FIELD)
+private Boolean allowMultipleAnswers; ///< Optional	True, if the poll allows multiple answers, ignored for polls in quiz mode, defaults to False
+@JsonProperty(CORRECTOPTIONID_FIELD)
+private Integer correctOptionId; ///< Optional	0-based identifier of the correct answer option, required for polls in quiz mode
+@JsonProperty(ISCLOSED_FIELD)
+private Boolean isClosed; ///< Optional	Pass True, if the poll needs to be immediately closed
+@JsonProperty(DISABLENOTIFICATION_FIELD)
+private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
+@JsonProperty(REPLYTOMESSAGEID_FIELD)
+private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
+@JsonProperty(REPLYMARKUP_FIELD)
+@JsonDeserialize()
+private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+```
+
+This is a lot at first glance, but if we remember back at the table from the documentation, everything is there. We have the 3 required fields on top (chatId, question and the list of options and everything) else below
