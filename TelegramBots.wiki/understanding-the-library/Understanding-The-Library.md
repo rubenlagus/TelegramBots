@@ -124,3 +124,44 @@ private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a c
 ```
 
 This is a lot at first glance, but if we remember back at the table from the documentation, everything is there. We have the 3 required fields on top (chatId, question and the list of options and everything) else below
+
+Let's reproduce our poll from earlier. We create the Method object and set all required fields. This particular class already allows us to set everything in a constructor, this is normally the case for required fields. All other fields can be set by using the setter method (**Attention** Calling a setter overrides the last value in a field. You can call setter multiple times on a method object, but it's normally not correct to do so)
+
+```java
+AbsSender ourBot = getOurBot();
+
+List<String> options = new List<>();
+options.add("Yes");
+options.add("No");
+
+// Let's just assume we get the chatMessage as a parameter. For example from the message received, or from a database
+SendPoll ourPoll = new SendPoll(someChatId, "Some Question", options);
+
+ourBot.execute(ourPoll);
+```
+This will send the message as expected to telegram and finally to the given chat. But what about return values?
+
+If we go back to the documentation and look at the description it says:
+`Use this method to send a native poll. On success, the sent Message is returned`
+Message links us to the Message object. An object so big that i wont be showing it's documentation in this guide. It can be found here: [Telegram Bot Api: Message Object](https://core.telegram.org/bots/api#message)
+
+Just the documentation tells us that it returns a Message object. How do we get that object? Easy. Execute() returns it.
+
+```java
+Message thePollMessage = ourBot.execute(ourPoll);
+```
+This again works for any method that returns a value. SendMessage, SendPhoto, SendPoll, GetMe, GetChatMember etc.
+
+## But what about Photos?
+Some methods aren't quite as straight forward to use. Let's take a bit of time to look at methods that upload files to telegram. Namely: SendPhoto, SendAnimation, SendSticker, SendDocument, SendVideo, SendVideoNote, SendAudio and SendVoice. All of these require what telegram calls an "InputFile". This can either be a FileId of a previous send file, a url to the file on a public sever or the actual file. In the Library this is mapped using different set methods in the above classes. Currently sending by FileId, sending by java.io.File and sending by InputStream is supported. Sending by URL is not supported as of writing this guide
+
+### FileId
+Using a fileId is pretty straight forward. The FileId is returned from telegram upon sending a File. Just set the given FileId and execute the method. Make sure that the FileId actually point to a file of the correct type
+
+### File
+The classic approach of creating a java.io.File by Path on your hard drive or by loading a classpath resource. 
+
+### InputStream
+Sending a file by InputStream will cause the library to read the stream and then converting it into the Request. It's the same as sending a java.io.File, but more convenient some times.
+
+For more information on how to send Files, take a look at the [FAQ: How to send Photos](../FAQ.md). The basic concept will be the same across all Methods.
