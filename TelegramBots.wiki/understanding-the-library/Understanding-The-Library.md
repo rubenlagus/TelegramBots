@@ -1,4 +1,6 @@
 # Understanding the Library
+Last updated: 2020-03-04
+
 
 This little handy guide will not teach you how to do a particular thing in the library. 
 It will also not teach you how to create bots or anything in the liking of that. 
