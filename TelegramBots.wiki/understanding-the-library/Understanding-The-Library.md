@@ -35,10 +35,13 @@ we can also do directly calling the library.
 
 Take this piece of code:
 ```java
+// We initialize our bot in a separate method. See this as the initialization code from the getting started guide
 AbsSender ourBot = getOurBot();
 
+// We create the Method class. This one doesn't need any parameters to be able to be send
 GetMe getMe = new GetMe();
 
+// At last, we just need to execute the method and get the result
 User bot = ourBot.execute(getMe);
 ```
 
