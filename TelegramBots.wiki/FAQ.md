@@ -8,6 +8,7 @@
 * [Method ```sendMessage()``` (or other) is deprecated, what should I do?](#sendmessage_deprecated)
 * [Is there any example for WebHook?](#example_webhook)
 * [How to use spring boot starter?](#spring_boot_starter)
+* [How to get a list of all group members](#list_of_group_members)
 
 ## <a id="how_to_get_picture"></a>How to download photo? ##
 
@@ -282,3 +283,24 @@ After that your bot will look like:
   }
 ```
 Also you could just implement LongPollingBot or WebHookBot interfaces. All this bots will be registered in context and connected to Telegram api.
+
+
+## <a id="list_of_group_members"></a>How to get a list of all group members ##
+
+Telegram Bot API does not allow you to get a list of all group members.
+However, you can create your own list of users:
+```java
+   public class YourBotClassName extends TelegramLongPollingBot {
+     List<User> groupMembers = new ArrayList<>();
+     //Bot body.
+   }
+```
+And if someone joins the group, add it to the list:
+```java
+   @Override
+   public void onUpdateReceived(Update update) {
+     if (update.getMessage().getNewChatMembers() != null) {
+          groupMembers.addAll(update.getMessage().getNewChatMembers());
+     }
+   }
+```
