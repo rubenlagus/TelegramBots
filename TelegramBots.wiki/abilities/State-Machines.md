@@ -70,7 +70,6 @@ Now, after your naughty bot retaliates, the user can say "go left or else" to fo
 
 ## Complete Example
 ```java
-public static class ReplyFlowBot extends AbilityBot {
   public class ReplyFlowBot extends AbilityBot {
     public ReplyFlowBot(String botToken, String botUsername) {
       super(botToken, botUsername);
