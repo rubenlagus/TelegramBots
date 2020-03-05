@@ -295,7 +295,7 @@ However, you can create your own list of users:
      //Bot body.
    }
 ```
-And if someone joins the group, add it to the list:
+And if someone joins the group, add a new user to the list:
 ```java
    @Override
    public void onUpdateReceived(Update update) {
