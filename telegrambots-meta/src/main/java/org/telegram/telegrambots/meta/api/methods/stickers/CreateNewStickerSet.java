@@ -2,8 +2,8 @@ package org.telegram.telegrambots.meta.api.methods.stickers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.stickers.MaskPosition;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -18,7 +18,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * Use this method to create new sticker set owned by a user. The bot will be able to edit the created sticker set.
+ * Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created.
+ * You must use exactly one of the fields png_sticker or tgs_sticker.
  * Returns True on success.
  */
 public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
@@ -28,6 +29,7 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
     public static final String NAME_FIELD = "name";
     public static final String TITLE_FIELD = "title";
     public static final String PNGSTICKER_FIELD = "png_sticker";
+    public static final String TGSSTICKER_FIELD = "tgs_sticker";
     public static final String EMOJIS_FIELD = "emojis";
     public static final String CONTAINSMASKS_FIELD = "contains_masks";
     public static final String MASKPOSITION_FIELD = "mask_position";
@@ -52,6 +54,12 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
      * using multipart/form-data. More info on Sending Files »
      */
     private InputFile pngSticker;
+
+    /**
+     * TGS animation with the sticker, uploaded using multipart/form-data.
+     * See https://core.telegram.org/animated_stickers#technical-requirements for technical requirements
+     */
+    private InputFile tgsSticker;
 
     public CreateNewStickerSet() {
         super();
@@ -100,6 +108,21 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
         return this;
     }
 
+    public CreateNewStickerSet setTgsSticker(InputFile tgsSticker) {
+        this.tgsSticker = checkNotNull(tgsSticker);
+        return this;
+    }
+
+    public CreateNewStickerSet setTgsSticker(File tgsStickerFile) {
+        this.tgsSticker =  new InputFile(checkNotNull(tgsStickerFile), tgsStickerFile.getName());;
+        return this;
+    }
+
+    public CreateNewStickerSet setTgsSticker(String tgsStickerName, InputStream tgsStickerStream) {
+        this.pngSticker = new InputFile(checkNotNull(tgsStickerStream), checkNotNull(tgsStickerName));
+        return this;
+    }
+
     public String getName() {
         return name;
     }
@@ -140,6 +163,10 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
         this.maskPosition = maskPosition;
     }
 
+    public InputFile getTgsSticker() {
+        return tgsSticker;
+    }
+
     @Override
     public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
         try {
@@ -170,11 +197,20 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
             throw new TelegramApiValidationException("emojis can't be empty", this);
         }
 
-        if (pngSticker == null) {
-            throw new TelegramApiValidationException("PngSticker parameter can't be empty", this);
+        if (pngSticker == null && tgsSticker == null) {
+            throw new TelegramApiValidationException("One of pngSticker or tgsSticker is needed", this);
         }
 
-        pngSticker.validate();
+        if (pngSticker != null && tgsSticker != null) {
+            throw new TelegramApiValidationException("Only one of pngSticker or tgsSticker are allowed", this);
+        }
+
+        if (pngSticker != null) {
+            pngSticker.validate();
+        }
+        if (tgsSticker != null) {
+            tgsSticker.validate();
+        }
 
         if (maskPosition != null) {
             maskPosition.validate();
@@ -191,6 +227,7 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
                 ", containsMasks=" + containsMasks +
                 ", maskPosition=" + maskPosition +
                 ", pngSticker=" + pngSticker +
+                ", tgsSticker=" + tgsSticker +
                 '}';
     }
 }

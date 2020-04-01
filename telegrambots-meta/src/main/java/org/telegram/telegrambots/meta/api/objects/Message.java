@@ -67,6 +67,7 @@ public class Message implements BotApiObject {
     private static final String FORWARDSENDERNAME_FIELD = "forward_sender_name";
     private static final String POLL_FIELD = "poll";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
+    private static final String DICE_FIELD = "dice";
 
     @JsonProperty(MESSAGEID_FIELD)
     private Integer messageId; ///< Integer	Unique message identifier
@@ -207,6 +208,8 @@ public class Message implements BotApiObject {
      */
     @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup;
+    @JsonProperty(DICE_FIELD)
+    private Dice dice; // Optional. Message is a dice with random value from 1 to 6
 
     public Message() {
         super();
@@ -508,6 +511,14 @@ public class Message implements BotApiObject {
 
     public Poll getPoll() {
         return poll;
+    }
+
+    public Dice getDice() {
+        return dice;
+    }
+
+    public boolean hasDice() {
+        return dice != null;
     }
 
     public boolean hasReplyMarkup() {

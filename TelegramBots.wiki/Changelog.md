@@ -1,3 +1,6 @@
+### <a id="4.7"></a>4.7 ###
+1. Update Api version [4.7](https://core.telegram.org/bots/api-changelog#march-30-2020)
+
 ### <a id="4.6"></a>4.6 ###
 1. Update Api version [4.6](https://core.telegram.org/bots/api-changelog#january-23-2020)
 

@@ -22,10 +22,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="telegrambots-meta" />
-        <module name="telegrambots-extensions" />
-        <module name="telegrambots" />
         <module name="telegrambots-abilities" />
+        <module name="telegrambots-extensions" />
+        <module name="telegrambots-meta" />
+        <module name="telegrambots" />
         <module name="telegrambots-chat-session-bot" />
         <module name="telegrambots-spring-boot-starter" />
       </profile>
@@ -791,30 +791,6 @@
           <option name="ITERATION_ELEMENTS_WRAPPING" value="chop_down_if_not_single" />
         </formatting-settings>
       </DBN-SQL>
-      <DBN-PSQL>
-        <case-options enabled="false">
-          <option name="KEYWORD_CASE" value="lower" />
-          <option name="FUNCTION_CASE" value="lower" />
-          <option name="PARAMETER_CASE" value="lower" />
-          <option name="DATATYPE_CASE" value="lower" />
-          <option name="OBJECT_CASE" value="preserve" />
-        </case-options>
-        <formatting-settings enabled="false" />
-      </DBN-PSQL>
-      <DBN-SQL>
-        <case-options enabled="false">
-          <option name="KEYWORD_CASE" value="lower" />
-          <option name="FUNCTION_CASE" value="lower" />
-          <option name="PARAMETER_CASE" value="lower" />
-          <option name="DATATYPE_CASE" value="lower" />
-          <option name="OBJECT_CASE" value="preserve" />
-        </case-options>
-        <formatting-settings enabled="false">
-          <option name="STATEMENT_SPACING" value="one_line" />
-          <option name="CLAUSE_CHOP_DOWN" value="chop_down_if_statement_long" />
-          <option name="ITERATION_ELEMENTS_WRAPPING" value="chop_down_if_not_single" />
-        </formatting-settings>
-      </DBN-SQL>
     </code_scheme>
   </component>
   <component name="ProjectCodeStyleSettingsManager">
@@ -875,6 +851,28 @@
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
+  </component>
+  <component name="RemoteRepositoriesConfiguration">
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="libs-release" />
+      <option name="url" value="http://18.184.80.197:8081/artifactory/libs-release" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Maven Central repository" />
+      <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="snapshots" />
+      <option name="name" value="libs-snapshot" />
+      <option name="url" value="http://18.184.80.197:8081/artifactory/libs-snapshot" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jboss.community" />
+      <option name="name" value="JBoss Community repository" />
+      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
@@ -1423,37 +1421,37 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/mojo/animal-sniffer-annotations/1.18/animal-sniffer-annotations-1.18-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.eclipse.collections:eclipse-collections-api:10.1.0">
+    <library name="Maven: org.eclipse.collections:eclipse-collections-api:10.2.0">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-api/10.1.0/eclipse-collections-api-10.1.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-api/10.2.0/eclipse-collections-api-10.2.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-api/10.1.0/eclipse-collections-api-10.1.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-api/10.2.0/eclipse-collections-api-10.2.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-api/10.1.0/eclipse-collections-api-10.1.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-api/10.2.0/eclipse-collections-api-10.2.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.eclipse.collections:eclipse-collections-forkjoin:10.1.0">
+    <library name="Maven: org.eclipse.collections:eclipse-collections-forkjoin:10.2.0">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-forkjoin/10.1.0/eclipse-collections-forkjoin-10.1.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-forkjoin/10.2.0/eclipse-collections-forkjoin-10.2.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-forkjoin/10.1.0/eclipse-collections-forkjoin-10.1.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-forkjoin/10.2.0/eclipse-collections-forkjoin-10.2.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-forkjoin/10.1.0/eclipse-collections-forkjoin-10.1.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections-forkjoin/10.2.0/eclipse-collections-forkjoin-10.2.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.eclipse.collections:eclipse-collections:10.1.0">
+    <library name="Maven: org.eclipse.collections:eclipse-collections:10.2.0">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections/10.1.0/eclipse-collections-10.1.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections/10.2.0/eclipse-collections-10.2.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections/10.1.0/eclipse-collections-10.1.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections/10.2.0/eclipse-collections-10.2.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections/10.1.0/eclipse-collections-10.1.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/collections/eclipse-collections/10.2.0/eclipse-collections-10.2.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.glassfish.grizzly:grizzly-framework:2.4.4">

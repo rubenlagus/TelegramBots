@@ -2,8 +2,8 @@ package org.telegram.telegrambots.meta.api.methods.stickers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.stickers.MaskPosition;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -18,7 +18,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * Use this method to add a new sticker to a set created by the bot. Returns True on success.
+ * Use this method to add a new sticker to a set created by the bot.
+ * You must use exactly one of the fields png_sticker or tgs_sticker.
+ * Animated stickers can be added to animated sticker sets and only to them.
+ * Animated sticker sets can have up to 50 stickers.
+ * Static sticker sets can have up to 120 stickers.
+ * Returns True on success.
  */
 public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
     public static final String PATH = "addStickerToSet";
@@ -26,6 +31,7 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
     public static final String USERID_FIELD = "user_id";
     public static final String NAME_FIELD = "name";
     public static final String PNGSTICKER_FIELD = "png_sticker";
+    public static final String TGSSTICKER_FIELD = "tgs_sticker";
     public static final String EMOJIS_FIELD = "emojis";
     public static final String MASKPOSITION_FIELD = "mask_position";
 
@@ -40,6 +46,11 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
      * to get a file from the Internet, or upload a new one using multipart/form-data.
      */
     private InputFile pngSticker;
+    /**
+     * TGS animation with the sticker, uploaded using multipart/form-data.
+     * See https://core.telegram.org/animated_stickers#technical-requirements for technical requirements
+     */
+    private InputFile tgsSticker;
 
     public AddStickerToSet() {
         super();
@@ -80,6 +91,20 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
         Objects.requireNonNull(pngSticker, "pngSticker cannot be null!");
         this.pngSticker = new InputFile(pngSticker, pngStickerName);
         return this;
+    }
+
+    public AddStickerToSet setTgsSticker(File tgsSticker) {
+        this.tgsSticker = new InputFile(checkNotNull(tgsSticker), tgsSticker.getName());
+        return this;
+    }
+
+    public AddStickerToSet setTgsSticker(String tgsStickerName, InputStream tgsSticker) {
+        this.tgsSticker = new InputFile(checkNotNull(tgsSticker), checkNotNull(tgsStickerName));
+        return this;
+    }
+
+    public InputFile getTgsSticker() {
+        return tgsSticker;
     }
 
     public String getName() {
@@ -136,11 +161,20 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
             throw new TelegramApiValidationException("emojis can't be empty", this);
         }
 
-        if (pngSticker == null) {
-            throw new TelegramApiValidationException("PngSticker can't be empty", this);
+        if (pngSticker == null && tgsSticker == null) {
+            throw new TelegramApiValidationException("One of pngSticker or tgsSticker is needed", this);
         }
 
-        pngSticker.validate();
+        if (pngSticker != null && tgsSticker != null) {
+            throw new TelegramApiValidationException("Only one of pngSticker or tgsSticker are allowed", this);
+        }
+
+        if (pngSticker != null) {
+            pngSticker.validate();
+        }
+        if (tgsSticker != null) {
+            tgsSticker.validate();
+        }
 
         if (maskPosition != null) {
             maskPosition.validate();
@@ -155,6 +189,7 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
                 ", emojis='" + emojis + '\'' +
                 ", maskPosition=" + maskPosition +
                 ", pngSticker=" + pngSticker +
+                ", tgsSticker=" + tgsSticker +
                 '}';
     }
 }
