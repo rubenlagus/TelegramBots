@@ -26,6 +26,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
 import org.telegram.telegrambots.meta.api.methods.send.SendVoice;
 import org.telegram.telegrambots.meta.api.methods.stickers.AddStickerToSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.CreateNewStickerSet;
+import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumb;
 import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.File;
@@ -548,7 +549,11 @@ public abstract class DefaultAbsSender extends AbsSender {
             builder.addTextBody(AddStickerToSet.USERID_FIELD, addStickerToSet.getUserId().toString(), TEXT_PLAIN_CONTENT_TYPE);
             builder.addTextBody(AddStickerToSet.NAME_FIELD, addStickerToSet.getName(), TEXT_PLAIN_CONTENT_TYPE);
             builder.addTextBody(AddStickerToSet.EMOJIS_FIELD, addStickerToSet.getEmojis(), TEXT_PLAIN_CONTENT_TYPE);
-            addInputFile(builder, addStickerToSet.getPngSticker(), AddStickerToSet.PNGSTICKER_FIELD, true);
+            if (addStickerToSet.getPngSticker() != null) {
+                addInputFile(builder, addStickerToSet.getPngSticker(), AddStickerToSet.PNGSTICKER_FIELD, true);
+            } else {
+                addInputFile(builder, addStickerToSet.getTgsSticker(), AddStickerToSet.TGSSTICKER_FIELD, true);
+            }
 
             if (addStickerToSet.getMaskPosition() != null) {
                 builder.addTextBody(AddStickerToSet.MASKPOSITION_FIELD, objectMapper.writeValueAsString(addStickerToSet.getMaskPosition()), TEXT_PLAIN_CONTENT_TYPE);
@@ -557,6 +562,28 @@ public abstract class DefaultAbsSender extends AbsSender {
             httppost.setEntity(multipart);
 
             return addStickerToSet.deserializeResponse(sendHttpPostRequest(httppost));
+        } catch (IOException e) {
+            throw new TelegramApiException("Unable to add sticker to set", e);
+        }
+    }
+
+    @Override
+    public Boolean execute(SetStickerSetThumb setStickerSetThumb) throws TelegramApiException {
+        assertParamNotNull(setStickerSetThumb, "setStickerSetThumb");
+        setStickerSetThumb.validate();
+        try {
+            String url = getBaseUrl() + AddStickerToSet.PATH;
+            HttpPost httppost = configuredHttpPost(url);
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setLaxMode();
+            builder.setCharset(StandardCharsets.UTF_8);
+            builder.addTextBody(SetStickerSetThumb.USERID_FIELD, setStickerSetThumb.getUserId().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            builder.addTextBody(SetStickerSetThumb.NAME_FIELD, setStickerSetThumb.getName(), TEXT_PLAIN_CONTENT_TYPE);
+            addInputFile(builder, setStickerSetThumb.getThumb(), SetStickerSetThumb.THUMB_FIELD, true);
+            HttpEntity multipart = builder.build();
+            httppost.setEntity(multipart);
+
+            return setStickerSetThumb.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
             throw new TelegramApiException("Unable to add sticker to set", e);
         }
@@ -577,7 +604,11 @@ public abstract class DefaultAbsSender extends AbsSender {
             builder.addTextBody(CreateNewStickerSet.TITLE_FIELD, createNewStickerSet.getTitle(), TEXT_PLAIN_CONTENT_TYPE);
             builder.addTextBody(CreateNewStickerSet.EMOJIS_FIELD, createNewStickerSet.getEmojis(), TEXT_PLAIN_CONTENT_TYPE);
             builder.addTextBody(CreateNewStickerSet.CONTAINSMASKS_FIELD, createNewStickerSet.getContainsMasks().toString(), TEXT_PLAIN_CONTENT_TYPE);
-            addInputFile(builder, createNewStickerSet.getPngSticker(), CreateNewStickerSet.PNGSTICKER_FIELD, true);
+            if (createNewStickerSet.getPngSticker() != null) {
+                addInputFile(builder, createNewStickerSet.getPngSticker(), CreateNewStickerSet.PNGSTICKER_FIELD, true);
+            } else {
+                addInputFile(builder, createNewStickerSet.getTgsSticker(), CreateNewStickerSet.TGSSTICKER_FIELD, true);
+            }
 
             if (createNewStickerSet.getMaskPosition() != null) {
                 builder.addTextBody(CreateNewStickerSet.MASKPOSITION_FIELD, objectMapper.writeValueAsString(createNewStickerSet.getMaskPosition()), TEXT_PLAIN_CONTENT_TYPE);

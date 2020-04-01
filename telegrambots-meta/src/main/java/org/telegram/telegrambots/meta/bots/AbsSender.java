@@ -3,9 +3,18 @@ package org.telegram.telegrambots.meta.bots;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.GetMe;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
-import org.telegram.telegrambots.meta.api.methods.send.*;
+import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
+import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
+import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
+import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
+import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
+import org.telegram.telegrambots.meta.api.methods.send.SendVoice;
 import org.telegram.telegrambots.meta.api.methods.stickers.AddStickerToSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.CreateNewStickerSet;
+import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumb;
 import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
 import org.telegram.telegrambots.meta.api.methods.updates.GetWebhookInfo;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
@@ -125,6 +134,14 @@ public abstract class AbsSender {
      * @throws TelegramApiException If there is any error adding the sticker to the set
      */
     public abstract Boolean execute(AddStickerToSet addStickerToSet) throws TelegramApiException;
+
+    /**
+     * Set sticker set thumb (https://core.telegram.org/bots/api#setStickerSetThumb)
+     * @param setStickerSetThumb Information of the sticker to set
+     * @return If success, true is returned
+     * @throws TelegramApiException If there is any error setting the thumb to the set
+     */
+    public abstract Boolean execute(SetStickerSetThumb setStickerSetThumb) throws TelegramApiException;
 
     /**
      * Creates a new sticker set (https://core.telegram.org/bots/api#createNewStickerSet)

@@ -9,7 +9,7 @@ import java.util.Objects;
 
 /**
  * @author Ruben Bermudez
- * @version 4.6
+ * @version 4.7
  *
  * This object represents an answer of a user in a non-anonymous poll.
  */
