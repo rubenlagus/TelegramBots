@@ -22,7 +22,7 @@ We'll be introducing an ability that maintains a special counter for every user.
           // db.getMap takes in a string, this must be unique and the same everytime you want to call the exact same map
           // TODO: Using integer as a key in this db map is not recommended, it won't be serialized/deserialized properly if you ever decide to recover/backup db
           Map<String, Integer> countMap = db.getMap("COUNTERS");
-          int userId = ctx.user().id();
+          int userId = ctx.user().getId();
 
           // Get and increment counter, put it back in the map
           Integer counter = countMap.compute(String.valueOf(userId), (id, count) -> count == null ? 1 : ++count);
@@ -41,7 +41,7 @@ We'll be introducing an ability that maintains a special counter for every user.
           */
 
           // Send formatted will enable markdown
-          String message = String.format("%s, your count is now *%d*!", ctx.user().shortName(), counter);
+          String message = String.format("%s, your count is now *%d*!", ctx.user().getUserName(), counter);
           silent.send(message, ctx.chatId());
         })
         .build();
