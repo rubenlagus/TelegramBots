@@ -54,21 +54,20 @@ public Ability saysHelloWorld() {
 The test for this ability would be:
 
 ```java
-@Test
+  @Test
   public void canSayHelloWorld() {
     Update upd = new Update();
-    // Create a new EndUser - EndUser is a class similar to Telegram User, but contains
-    // some utility methods like fullName() and shortName() for ease of use
-    EndUser endUser = EndUser.endUser(USER_ID, "Abbas", "Abou Daya", "addo37");
+    // Create a new User - User is a class similar to Telegram User
+    User user = new User(USER_ID, "Abbas", false, "Abou Daya", "addo37", null);
     // This is the context that you're used to, it is the necessary conumer item for the ability
-    MessageContext context = MessageContext.newContext(upd, endUser, CHAT_ID);
+    MessageContext context = MessageContext.newContext(upd, user, CHAT_ID);
 
     // We consume a context in the lamda declaration, so we pass the context to the action logic
     bot.saysHelloWorld().action().accept(context);
 
-    // We verify that the sender was called only ONCE and sent Hello World to CHAT_ID
-    // The sender here is a mock!
-    Mockito.verify(sender, times(1)).send("Hello World!", CHAT_ID);
+    // We verify that the silent sender was called only ONCE and sent Hello World to CHAT_ID
+    // The silent sender here is a mock!
+    Mockito.verify(silent, times(1)).send("Hello World!", CHAT_ID);
   }
 ```
 
@@ -85,10 +84,10 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.telegram.abilitybots.api.db.DBContext;
 import org.telegram.abilitybots.api.db.MapDBContext;
-import org.telegram.abilitybots.api.objects.EndUser;
 import org.telegram.abilitybots.api.objects.MessageContext;
-import org.telegram.abilitybots.api.sender.MessageSender;
+import org.telegram.abilitybots.api.sender.SilentSender;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
 
 import static org.mockito.Mockito.*;
 
@@ -98,36 +97,36 @@ public class ExampleBotTest {
 
   // Your bot handle here
   private ExampleBot bot;
-  // Your sender here
-  private MessageSender sender;
+  // Your sender here. Also you can create MessageSender
+  private SilentSender silent;
 
   @Before
   public void setUp() {
     // Create your bot
     bot = new ExampleBot();
     // Create a new sender as a mock
-    sender = mock(MessageSender.class);
-    // Set your bot sender to the mocked sender
+    silent = mock(SilentSender.class);
+    // Set your bot silent sender to the mocked sender
     // THIS is the line that prevents your bot from communicating with Telegram servers when it's running its own abilities
     // All method calls will go through the mocked interface -> which would do nothing except logging the fact that you've called this function with the specific arguments
-    bot.sender = sender;
+    // Create setter in your bot
+    bot.setSilentSender(silent);
   }
 
   @Test
   public void canSayHelloWorld() {
     Update upd = new Update();
-    // Create a new EndUser - EndUser is a class similar to Telegram User, but contains
-    // some utility methods like fullName() and shortName() for ease of use
-    EndUser endUser = EndUser.endUser(USER_ID, "Abbas", "Abou Daya", "addo37");
+    // Create a new User - User is a class similar to Telegram User
+    User user = new User(USER_ID, "Abbas", false, "Abou Daya", "addo37", null);
     // This is the context that you're used to, it is the necessary conumer item for the ability
-    MessageContext context = MessageContext.newContext(upd, endUser, CHAT_ID);
+    MessageContext context = MessageContext.newContext(upd, user, CHAT_ID);
 
     // We consume a context in the lamda declaration, so we pass the context to the action logic
     bot.saysHelloWorld().action().accept(context);
 
-    // We verify that the sender was called only ONCE and sent Hello World to CHAT_ID
-    // The sender here is a mock!
-    Mockito.verify(sender, times(1)).send("Hello World!", CHAT_ID);
+    // We verify that the silent sender was called only ONCE and sent Hello World to CHAT_ID
+    // The silent sender here is a mock!
+    Mockito.verify(silent, times(1)).send("Hello World!", CHAT_ID);
   }
 }
 ```
@@ -178,11 +177,13 @@ public class ExampleBotTest {
   private DBContext db;
   private MessageSender sender;
 
-@Before
+  @Before
   public void setUp() {
     bot = new ExampleBot(db);
     sender = mock(MessageSender.class);
-    bot.silent = new SilentSender(sender);
+    SilentSender silent = new SilentSender(sender);
+    // Create setter in your bot 
+    bot.setSilentSender(silent); 
     ...
   }
   
