@@ -11,9 +11,12 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
  */
 public class Dice implements BotApiObject {
     private static final String VALUE_FIELD = "value";
+    private static final String EMOJI_FIELD = "emoji";
 
     @JsonProperty(VALUE_FIELD)
     private Integer value; ///< Value of the dice, 1-6
+    @JsonProperty(EMOJI_FIELD)
+    private String emoji; ///< Emoji on which the dice throw animation is based
 
     public Dice() {
         super();
@@ -23,10 +26,15 @@ public class Dice implements BotApiObject {
         return value;
     }
 
+    public String getEmoji() {
+        return emoji;
+    }
+
     @Override
     public String toString() {
         return "Dice{" +
                 "value=" + value +
+                ", emoji='" + emoji + '\'' +
                 '}';
     }
 }

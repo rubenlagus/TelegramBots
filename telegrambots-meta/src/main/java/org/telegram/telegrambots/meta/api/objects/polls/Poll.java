@@ -2,6 +2,7 @@ package org.telegram.telegrambots.meta.api.objects.polls;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 
 import java.util.List;
 import java.util.Objects;
@@ -22,6 +23,10 @@ public class Poll implements BotApiObject {
     private static final String TYPE_FIELD = "type";
     private static final String ALLOWSMULTIPLEANSWERS_FIELD = "allows_multiple_answers";
     private static final String CORRECTOPTIONID_FIELD = "correct_option_id";
+    private static final String OPENPERIOD_FIELD = "open_period";
+    private static final String CLOSEDATE_FIELD = "close_date";
+    private static final String EXPLANATION_FIELD = "explanation";
+    private static final String EXPLANATIONENTITIES_FIELD = "explanation_entities";
 
     @JsonProperty(ID_FIELD)
     private String id; ///< Unique poll identifier
@@ -47,6 +52,14 @@ public class Poll implements BotApiObject {
      */
     @JsonProperty(CORRECTOPTIONID_FIELD)
     private Integer correctOptionId; ///< True, if the poll allows multiple answers
+    @JsonProperty(OPENPERIOD_FIELD)
+    private Integer openPeriod; ///< Optional. Amount of time in seconds the poll will be active after creation
+    @JsonProperty(CLOSEDATE_FIELD)
+    private Integer closeDate; ///< Optional. Point in time (Unix timestamp) when the poll will be automatically closed
+    @JsonProperty(EXPLANATION_FIELD)
+    private String explanation; ///< Optional. Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters
+    @JsonProperty(EXPLANATIONENTITIES_FIELD)
+    private List<MessageEntity> explanationEntities; ///< Optional. Special entities like usernames, URLs, bot commands, etc. that appear in the explanation
 
     public Poll() {
     }
@@ -123,6 +136,22 @@ public class Poll implements BotApiObject {
         this.correctOptionId = correctOptionId;
     }
 
+    public Integer getOpenPeriod() {
+        return openPeriod;
+    }
+
+    public Integer getCloseDate() {
+        return closeDate;
+    }
+
+    public String getExplanation() {
+        return explanation;
+    }
+
+    public List<MessageEntity> getExplanationEntities() {
+        return explanationEntities;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -136,12 +165,16 @@ public class Poll implements BotApiObject {
                 Objects.equals(isAnonymous, poll.isAnonymous) &&
                 Objects.equals(type, poll.type) &&
                 Objects.equals(allowMultipleAnswers, poll.allowMultipleAnswers) &&
-                Objects.equals(correctOptionId, poll.correctOptionId);
+                Objects.equals(correctOptionId, poll.correctOptionId) &&
+                Objects.equals(openPeriod, poll.openPeriod) &&
+                Objects.equals(closeDate, poll.closeDate) &&
+                Objects.equals(explanation, poll.explanation) &&
+                Objects.equals(explanationEntities, poll.explanationEntities);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, question, options, totalVoterCount, isClosed, isAnonymous, type, allowMultipleAnswers, correctOptionId);
+        return Objects.hash(id, question, options, totalVoterCount, isClosed, isAnonymous, type, allowMultipleAnswers, correctOptionId, openPeriod, closeDate, explanation, explanationEntities);
     }
 
     @Override
@@ -156,6 +189,10 @@ public class Poll implements BotApiObject {
                 ", type='" + type + '\'' +
                 ", allowMultipleAnswers=" + allowMultipleAnswers +
                 ", correctOptionId=" + correctOptionId +
+                ", openPeriod=" + openPeriod +
+                ", closeDate=" + closeDate +
+                ", explanation='" + explanation + '\'' +
+                ", explanationEntities=" + explanationEntities +
                 '}';
     }
 }

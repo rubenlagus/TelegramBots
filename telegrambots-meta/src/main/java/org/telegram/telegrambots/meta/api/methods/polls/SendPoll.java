@@ -39,6 +39,10 @@ public class SendPoll extends BotApiMethod<Message> {
     private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     private static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
+    private static final String OPENPERIOD_FIELD = "open_period";
+    private static final String CLOSEDATE_FIELD = "close_date";
+    private static final String EXPLANATION_FIELD = "explanation";
+    private static final String EXPLANATIONPARSEMODE_FIELD = "explanation_parse_mode";
 
     /**
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername).
@@ -67,7 +71,14 @@ public class SendPoll extends BotApiMethod<Message> {
     @JsonProperty(REPLYMARKUP_FIELD)
     @JsonDeserialize()
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
-
+    @JsonProperty(OPENPERIOD_FIELD)
+    private Integer openPeriod; ///< Optional. Amount of time in seconds the poll will be active after creation, 5-600. Can't be used together with close_date.
+    @JsonProperty(CLOSEDATE_FIELD)
+    private Integer closeDate; ///< Optional. Point in time (Unix timestamp) when the poll will be automatically closed. Must be at least 5 and no more than 600 seconds in the future. Can't be used together with open_period.
+    @JsonProperty(EXPLANATION_FIELD)
+    private String explanation; ///< Optional. Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters with at most 2 line feeds after entities parsing
+    @JsonProperty(EXPLANATIONPARSEMODE_FIELD)
+    private String explanationParseMode; ///< Optional. Mode for parsing entities in the explanation. See formatting options for more details.
 
     public SendPoll() {
         super();
@@ -196,6 +207,42 @@ public class SendPoll extends BotApiMethod<Message> {
         return this;
     }
 
+    public Integer getOpenPeriod() {
+        return openPeriod;
+    }
+
+    public SendPoll setOpenPeriod(Integer openPeriod) {
+        this.openPeriod = openPeriod;
+        return this;
+    }
+
+    public Integer getCloseDate() {
+        return closeDate;
+    }
+
+    public SendPoll setCloseDate(Integer closeDate) {
+        this.closeDate = closeDate;
+        return this;
+    }
+
+    public String getExplanation() {
+        return explanation;
+    }
+
+    public SendPoll setExplanation(String explanation) {
+        this.explanation = explanation;
+        return this;
+    }
+
+    public String getExplanationParseMode() {
+        return explanationParseMode;
+    }
+
+    public SendPoll setExplanationParseMode(String explanationParseMode) {
+        this.explanationParseMode = explanationParseMode;
+        return this;
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -228,6 +275,15 @@ public class SendPoll extends BotApiMethod<Message> {
         if (options == null || options.size() < 2 || options.size() > 10) {
             throw new TelegramApiValidationException("Options parameter must be between 2 and 10 item", this);
         }
+        if (openPeriod != null && closeDate != null) {
+            throw new TelegramApiValidationException("Only one of Open Period and Close Date are allowed", this);
+        }
+        if (openPeriod != null && (openPeriod < 5 || openPeriod > 600)) {
+            throw new TelegramApiValidationException("Open period can only be between 5 and 600", this);
+        }
+        if (explanation != null && explanation.length() > 200) {
+            throw new TelegramApiValidationException("Explanation can only have up to 200 characters", this);
+        }
         if (options.parallelStream().anyMatch(x -> x.isEmpty() || x.length() > 100)) {
             throw new TelegramApiValidationException("Options parameter values must be between 1 and 100 chars length", this);
         }
@@ -235,7 +291,6 @@ public class SendPoll extends BotApiMethod<Message> {
             replyMarkup.validate();
         }
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -252,13 +307,17 @@ public class SendPoll extends BotApiMethod<Message> {
                 Objects.equals(isClosed, sendPoll.isClosed) &&
                 Objects.equals(disableNotification, sendPoll.disableNotification) &&
                 Objects.equals(replyToMessageId, sendPoll.replyToMessageId) &&
-                Objects.equals(replyMarkup, sendPoll.replyMarkup);
+                Objects.equals(replyMarkup, sendPoll.replyMarkup) &&
+                Objects.equals(openPeriod, sendPoll.openPeriod) &&
+                Objects.equals(closeDate, sendPoll.closeDate) &&
+                Objects.equals(explanation, sendPoll.explanation) &&
+                Objects.equals(explanationParseMode, sendPoll.explanationParseMode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(chatId, question, options, isAnonymous, type, allowMultipleAnswers, correctOptionId,
-                isClosed, disableNotification, replyToMessageId, replyMarkup);
+        return Objects.hash(chatId, question, options, isAnonymous, type, allowMultipleAnswers, correctOptionId, isClosed,
+                disableNotification, replyToMessageId, replyMarkup, openPeriod, closeDate, explanation, explanationParseMode);
     }
 
     @Override
@@ -275,6 +334,10 @@ public class SendPoll extends BotApiMethod<Message> {
                 ", disableNotification=" + disableNotification +
                 ", replyToMessageId=" + replyToMessageId +
                 ", replyMarkup=" + replyMarkup +
+                ", openPeriod=" + openPeriod +
+                ", closeDate=" + closeDate +
+                ", explanation='" + explanation + '\'' +
+                ", explanationParseMode='" + explanationParseMode + '\'' +
                 '}';
     }
 }
