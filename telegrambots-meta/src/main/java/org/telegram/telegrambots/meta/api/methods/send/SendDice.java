@@ -121,7 +121,7 @@ public class SendDice extends BotApiMethod<Message> {
         if (chatId == null) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
-        if (emoji != null && !emoji.equals("“\uD83C\uDFB2") && !emoji.equals("\uD83C\uDFAF")) {
+        if (emoji != null && !emoji.equals("\uD83C\uDFB2") && !emoji.equals("\uD83C\uDFAF")) {
             throw new TelegramApiValidationException("Only \uD83C\uDFB2 and \uD83C\uDFAF are allowed in Emoji field ", this);
         }
         if (replyMarkup != null) {
