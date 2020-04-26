@@ -24,6 +24,8 @@ import static org.telegram.abilitybots.api.objects.Flag.*;
  * Helper and utility methods
  */
 public final class AbilityUtils {
+  public static User EMPTY_USER = new User();
+
   private AbilityUtils() {
 
   }
@@ -69,6 +71,14 @@ public final class AbilityUtils {
       return update.getEditedMessage().getFrom();
     } else if (CHOSEN_INLINE_QUERY.test(update)) {
       return update.getChosenInlineQuery().getFrom();
+    } else if (SHIPPING_QUERY.test(update)) {
+      return update.getShippingQuery().getFrom();
+    } else if (PRECHECKOUT_QUERY.test(update)) {
+      return update.getPreCheckoutQuery().getFrom();
+    } else if (POLL_ANSWER.test(update)) {
+      return update.getPollAnswer().getUser();
+    } else if (POLL.test(update)) {
+      return EMPTY_USER;
     } else {
       throw new IllegalStateException("Could not retrieve originating user from update");
     }

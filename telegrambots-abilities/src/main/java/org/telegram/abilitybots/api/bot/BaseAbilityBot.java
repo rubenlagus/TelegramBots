@@ -465,6 +465,10 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
 
     Update addUser(Update update) {
         User endUser = AbilityUtils.getUser(update);
+        if (endUser.equals(EMPTY_USER)) {
+            // Can't add an empty user, return the update as is
+            return update;
+        }
 
         users().compute(endUser.getId(), (id, user) -> {
             if (user == null) {
