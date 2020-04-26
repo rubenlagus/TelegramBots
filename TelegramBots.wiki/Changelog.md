@@ -1,5 +1,9 @@
-### <a id="4.8"></a>4.8 ###
+### <a id="4.8.1"></a>4.8.1 ###
 1. Update Api version [4.8](https://core.telegram.org/bots/api-changelog#april-24-2020)
+2. Add stats for Abilities
+3. New and updated wiki page
+4. Spring-boot support for version 2.2.2 
+5. Bug fixing: #745, #716, #629, #749, #730
 
 ### <a id="4.7"></a>4.7 ###
 1. Update Api version [4.7](https://core.telegram.org/bots/api-changelog#march-30-2020)
