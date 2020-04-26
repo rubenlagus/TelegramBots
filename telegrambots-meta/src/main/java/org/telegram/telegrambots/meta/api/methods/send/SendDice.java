@@ -21,12 +21,15 @@ public class SendDice extends BotApiMethod<Message> {
     public static final String PATH = "sendDice";
 
     private static final String CHATID_FIELD = "chat_id";
+    private static final String EMOJI_FIELD = "emoji";
     private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     private static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
 
     @JsonProperty(CHATID_FIELD)
     private String chatId; ///< Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+    @JsonProperty(EMOJI_FIELD)
+    private String emoji; ///< Optional. Emoji on which the dice throw animation is based. Currently, must be one of “🎲” or “🎯”. Defauts to “🎲”
     @JsonProperty(DISABLENOTIFICATION_FIELD)
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     @JsonProperty(REPLYTOMESSAGEID_FIELD)
@@ -84,6 +87,15 @@ public class SendDice extends BotApiMethod<Message> {
         return this;
     }
 
+    public String getEmoji() {
+        return emoji;
+    }
+
+    public SendDice setEmoji(String emoji) {
+        this.emoji = emoji;
+        return this;
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -109,6 +121,9 @@ public class SendDice extends BotApiMethod<Message> {
         if (chatId == null) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
+        if (emoji != null && !emoji.equals("\uD83C\uDFB2") && !emoji.equals("\uD83C\uDFAF")) {
+            throw new TelegramApiValidationException("Only \uD83C\uDFB2 and \uD83C\uDFAF are allowed in Emoji field ", this);
+        }
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
@@ -118,6 +133,7 @@ public class SendDice extends BotApiMethod<Message> {
     public String toString() {
         return "SendDice{" +
                 "chatId='" + chatId + '\'' +
+                ", emoji='" + emoji + '\'' +
                 ", disableNotification=" + disableNotification +
                 ", replyToMessageId=" + replyToMessageId +
                 ", replyMarkup=" + replyMarkup +

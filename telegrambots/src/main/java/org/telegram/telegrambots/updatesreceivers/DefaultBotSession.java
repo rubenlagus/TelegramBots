@@ -26,6 +26,7 @@ import org.telegram.telegrambots.meta.generics.UpdatesReader;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
@@ -274,7 +275,15 @@ public class DefaultBotSession implements BotSession {
             } catch (InterruptedException e) {
                 log.info(e.getLocalizedMessage(), e);
                 interrupt();
+            } catch (InternalError e) {
+                // handle InternalError to workaround OpenJDK bug (resolved since 13.0)
+                // https://bugs.openjdk.java.net/browse/JDK-8173620
+                if (e.getCause() instanceof InvocationTargetException) {
+                    Throwable cause = e.getCause().getCause();
+                    log.error(cause.getLocalizedMessage(), cause);
+                } else throw e;
             }
+
             return Collections.emptyList();
         }
     }
