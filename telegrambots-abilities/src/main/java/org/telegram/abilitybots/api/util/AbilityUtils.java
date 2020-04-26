@@ -24,7 +24,7 @@ import static org.telegram.abilitybots.api.objects.Flag.*;
  * Helper and utility methods
  */
 public final class AbilityUtils {
-  public static User EMPTY_USER = new User();
+  public static User EMPTY_USER = new User(0, "", false, "", "", "");
 
   private AbilityUtils() {
 
