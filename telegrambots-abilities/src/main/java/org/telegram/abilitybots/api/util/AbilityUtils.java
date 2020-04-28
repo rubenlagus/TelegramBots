@@ -150,6 +150,12 @@ public final class AbilityUtils {
       return update.getEditedMessage().getChatId();
     } else if (CHOSEN_INLINE_QUERY.test(update)) {
       return (long) update.getChosenInlineQuery().getFrom().getId();
+    } else if (SHIPPING_QUERY.test(update)) {
+      return (long) update.getShippingQuery().getFrom().getId();
+    } else if (PRECHECKOUT_QUERY.test(update)) {
+      return (long) update.getPreCheckoutQuery().getFrom().getId();
+    } else if (POLL_ANSWER.test(update)) {
+      return (long) update.getPollAnswer().getUser().getId();
     } else {
       throw new IllegalStateException("Could not retrieve originating chat ID from update");
     }
@@ -170,10 +176,8 @@ public final class AbilityUtils {
       return update.getEditedChannelPost().isUserMessage();
     } else if (EDITED_MESSAGE.test(update)) {
       return update.getEditedMessage().isUserMessage();
-    } else if (CHOSEN_INLINE_QUERY.test(update) || INLINE_QUERY.test(update)) {
-      return true;
     } else {
-      throw new IllegalStateException("Could not retrieve update context origin (user/group)");
+      return true;
     }
   }
 
