@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
@@ -152,6 +153,16 @@ public class AbilityBotTest {
             // looking for IllegalStateExceptions thrown by the method
           }
         });
+  }
+
+  @Test
+  void getChatIdCanHandleAllKindsOfUpdates() {
+    handlesAllUpdates(AbilityUtils::getUser);
+  }
+
+  @Test
+  void getUserCanHandleAllKindsOfUpdates() {
+    handlesAllUpdates(AbilityUtils::getChatId);
   }
 
   @Test
@@ -606,6 +617,29 @@ public class AbilityBotTest {
 
     String expected = "PUBLIC\n/commands\n/count\n/default - dis iz default command\n/group\n/test";
     verify(silent, times(1)).send(expected, GROUP_ID);
+  }
+
+  private void handlesAllUpdates(Consumer<Update> utilMethod) {
+    Arrays.stream(Update.class.getMethods())
+        // filter to all these methods of hasXXX (hasPoll, hasMessage, etc...)
+        .filter(method -> method.getName().startsWith("has"))
+        // Gotta filter out hashCode
+        .filter(method -> method.getReturnType().getName().equals("boolean"))
+        .forEach(method -> {
+          Update update = mock(Update.class);
+          try {
+            // Mock the method and make sure it returns true so that it gets processed by the following method
+            when(method.invoke(update)).thenReturn(true);
+            // Call the function, throws an IllegalStateException if there's an update that can't be processed
+            utilMethod.accept(update);
+          } catch (IllegalStateException e) {
+            throw new RuntimeException(
+                format("Found an update variation that is not handled by the getChatId util method [%s]", method.getName()), e);
+          } catch (NullPointerException | ReflectiveOperationException e) {
+            // This is fine, the mock isn't complete and we're only
+            // looking for IllegalStateExceptions thrown by the method
+          }
+        });
   }
 
   private void mockUser(Update update, Message message, User user) {

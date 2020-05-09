@@ -156,6 +156,8 @@ public final class AbilityUtils {
       return (long) update.getPreCheckoutQuery().getFrom().getId();
     } else if (POLL_ANSWER.test(update)) {
       return (long) update.getPollAnswer().getUser().getId();
+    } else if (POLL.test(update)) {
+      return (long) EMPTY_USER.getId();
     } else {
       throw new IllegalStateException("Could not retrieve originating chat ID from update");
     }
