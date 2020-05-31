@@ -12,6 +12,7 @@ import org.telegram.abilitybots.api.db.DBContext;
 import org.telegram.abilitybots.api.objects.*;
 import org.telegram.abilitybots.api.sender.MessageSender;
 import org.telegram.abilitybots.api.sender.SilentSender;
+import org.telegram.abilitybots.api.util.AbilityUtils;
 import org.telegram.abilitybots.api.util.Pair;
 import org.telegram.abilitybots.api.util.Trio;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdministrators;
@@ -25,6 +26,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
@@ -38,8 +40,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.telegram.abilitybots.api.bot.DefaultBot.getDefaultBuilder;
-import static org.telegram.abilitybots.api.bot.TestUtils.*;
 import static org.telegram.abilitybots.api.bot.TestUtils.CREATOR;
+import static org.telegram.abilitybots.api.bot.TestUtils.*;
 import static org.telegram.abilitybots.api.db.MapDBContext.offlineInstance;
 import static org.telegram.abilitybots.api.objects.Flag.DOCUMENT;
 import static org.telegram.abilitybots.api.objects.Flag.MESSAGE;
@@ -118,6 +120,49 @@ public class AbilityBotTest {
     // False means the update was not pushed down the stream since it has been consumed by the reply
     assertFalse(bot.filterReply(update));
     verify(silent, times(1)).send("reply", USER.getId());
+  }
+
+  @Test
+  void canProcessUpdatesWithoutUserInfo() {
+    Update update = mock(Update.class);
+    // At the moment, only poll updates carry no user information
+    when(update.hasPoll()).thenReturn(true);
+
+    bot.onUpdateReceived(update);
+  }
+
+  @Test
+  void getUserHasAllMethodsDefined() {
+    Arrays.stream(Update.class.getMethods())
+        // filter to all these methods of hasXXX (hasPoll, hasMessage, etc...)
+        .filter(method -> method.getName().startsWith("has"))
+        // Gotta filter out hashCode
+        .filter(method -> method.getReturnType().getName().equals("boolean"))
+        .forEach(method -> {
+          Update update = mock(Update.class);
+          try {
+            // Mock the method and make sure it returns true so that it gets processed by the following method
+            when(method.invoke(update)).thenReturn(true);
+            // Call the getUser function, throws an IllegalStateException if there's an update that can't be processed
+            AbilityUtils.getUser(update);
+          } catch (IllegalStateException e) {
+            throw new RuntimeException(
+                format("Found an update variation that is not handled by the getUser util method [%s]", method.getName()), e);
+          } catch (NullPointerException | ReflectiveOperationException e) {
+            // This is fine, the mock isn't complete and we're only
+            // looking for IllegalStateExceptions thrown by the method
+          }
+        });
+  }
+
+  @Test
+  void getChatIdCanHandleAllKindsOfUpdates() {
+    handlesAllUpdates(AbilityUtils::getUser);
+  }
+
+  @Test
+  void getUserCanHandleAllKindsOfUpdates() {
+    handlesAllUpdates(AbilityUtils::getChatId);
   }
 
   @Test
@@ -572,6 +617,29 @@ public class AbilityBotTest {
 
     String expected = "PUBLIC\n/commands\n/count\n/default - dis iz default command\n/group\n/test";
     verify(silent, times(1)).send(expected, GROUP_ID);
+  }
+
+  private void handlesAllUpdates(Consumer<Update> utilMethod) {
+    Arrays.stream(Update.class.getMethods())
+        // filter to all these methods of hasXXX (hasPoll, hasMessage, etc...)
+        .filter(method -> method.getName().startsWith("has"))
+        // Gotta filter out hashCode
+        .filter(method -> method.getReturnType().getName().equals("boolean"))
+        .forEach(method -> {
+          Update update = mock(Update.class);
+          try {
+            // Mock the method and make sure it returns true so that it gets processed by the following method
+            when(method.invoke(update)).thenReturn(true);
+            // Call the function, throws an IllegalStateException if there's an update that can't be processed
+            utilMethod.accept(update);
+          } catch (IllegalStateException e) {
+            throw new RuntimeException(
+                format("Found an update variation that is not handled by the getChatId util method [%s]", method.getName()), e);
+          } catch (NullPointerException | ReflectiveOperationException e) {
+            // This is fine, the mock isn't complete and we're only
+            // looking for IllegalStateExceptions thrown by the method
+          }
+        });
   }
 
   private void mockUser(Update update, Message message, User user) {

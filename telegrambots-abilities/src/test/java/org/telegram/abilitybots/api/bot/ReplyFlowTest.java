@@ -5,11 +5,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.abilitybots.api.db.DBContext;
+import org.telegram.abilitybots.api.objects.Flag;
 import org.telegram.abilitybots.api.objects.Reply;
 import org.telegram.abilitybots.api.objects.ReplyFlow;
 import org.telegram.abilitybots.api.sender.MessageSender;
 import org.telegram.abilitybots.api.sender.SilentSender;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 
 import java.io.IOException;
 import java.util.function.Predicate;
@@ -106,6 +108,20 @@ public class ReplyFlowTest {
     assertFalse(db.<Long, Integer>getMap(STATES).containsKey(chatId), "User still has state after terminal reply");
   }
 
+  @Test
+  void repliesHandlePollResponse() {
+    Update update = mock(Update.class);
+    when(update.hasPoll()).thenReturn(true);
+    when(update.hasMessage()).thenReturn(false);
+
+    Poll poll = mock(Poll.class);
+    when(poll.getId()).thenReturn("1");
+    when(update.getPoll()).thenReturn(poll);
+
+    // This should not be processed as a reply, so we wouldn't filter out (true)
+    assertTrue(bot.filterReply(update));
+  }
+
   public static class ReplyFlowBot extends AbilityBot {
 
     private ReplyFlowBot(String botToken, String botUsername, DBContext db) {
@@ -139,7 +155,7 @@ public class ReplyFlowTest {
 
     @NotNull
     private Predicate<Update> hasMessageWith(String msg) {
-      return upd -> upd.getMessage().getText().equalsIgnoreCase(msg);
+      return upd -> Flag.MESSAGE.test(upd) && upd.getMessage().getText().equalsIgnoreCase(msg);
     }
   }
 }

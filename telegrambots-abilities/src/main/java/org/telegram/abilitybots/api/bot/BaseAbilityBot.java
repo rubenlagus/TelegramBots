@@ -180,6 +180,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
                 .filter(this::checkBlacklist)
                 .map(this::addUser)
                 .filter(this::filterReply)
+                .filter(this::hasUser)
                 .map(this::getAbility)
                 .filter(this::validateAbility)
                 .filter(this::checkPrivacy)
@@ -485,6 +486,12 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         });
 
         return update;
+    }
+
+    private boolean hasUser(Update update) {
+        // Valid updates without users should return an empty user
+        // Updates that are not recognized by the getUser method will throw an exception
+        return !AbilityUtils.getUser(update).equals(EMPTY_USER);
     }
 
     private void updateUserId(User oldUser, User newUser) {
