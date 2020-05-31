@@ -3,6 +3,7 @@ package org.telegram.abilitybots.api.bot;
 import org.telegram.abilitybots.api.db.DBContext;
 import org.telegram.abilitybots.api.objects.Ability;
 import org.telegram.abilitybots.api.objects.Ability.AbilityBuilder;
+import org.telegram.abilitybots.api.objects.Reply;
 import org.telegram.abilitybots.api.toggle.AbilityToggle;
 
 import static org.telegram.abilitybots.api.objects.Ability.builder;
@@ -41,7 +42,7 @@ public class DefaultBot extends AbilityBot {
     return getDefaultBuilder()
         .name(DEFAULT)
         .info("dis iz default command")
-        .reply(upd -> silent.send("reply", upd.getMessage().getChatId()), MESSAGE, update -> update.getMessage().getText().equals("must reply"))
+        .reply(Reply.of(upd -> silent.send("reply", upd.getMessage().getChatId()), MESSAGE, update -> update.getMessage().getText().equals("must reply")).enableStats("mustreply"))
         .reply(upd -> silent.send("reply", upd.getCallbackQuery().getMessage().getChatId()), CALLBACK_QUERY)
         .build();
   }
@@ -67,6 +68,7 @@ public class DefaultBot extends AbilityBot {
         .privacy(PUBLIC)
         .locality(USER)
         .input(4)
+        .enableStats()
         .build();
   }
 

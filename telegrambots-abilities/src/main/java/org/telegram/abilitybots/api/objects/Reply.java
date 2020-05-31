@@ -26,12 +26,15 @@ import static java.util.Arrays.asList;
 public class Reply {
   public final List<Predicate<Update>> conditions;
   public final Consumer<Update> action;
+  private boolean statsEnabled;
+  private String name;
 
   Reply(List<Predicate<Update>> conditions, Consumer<Update> action) {
     this.conditions = ImmutableList.<Predicate<Update>>builder()
         .addAll(conditions)
         .build();
     this.action = action;
+    statsEnabled = false;
   }
 
   public static Reply of(Consumer<Update> action, List<Predicate<Update>> conditions) {
@@ -63,6 +66,20 @@ public class Reply {
 
   public Stream<Reply> stream(){
     return Stream.of(this);
+  }
+
+  public Reply enableStats(String name) {
+    this.name = name;
+    statsEnabled = true;
+    return this;
+  }
+
+  public boolean statsEnabled() {
+    return statsEnabled;
+  }
+
+  public String name() {
+    return name;
   }
 
   @Override
