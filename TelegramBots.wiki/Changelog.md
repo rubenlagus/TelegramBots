@@ -1,3 +1,7 @@
+### <a id="4.9"></a>4.9 ###
+1. Update Api version [4.9](https://core.telegram.org/bots/api-changelog#june-4-2020)
+2. Bug fixing: #731, #749, #752 and #753
+
 ### <a id="4.8.1"></a>4.8.1 ###
 1. Update Api version [4.8](https://core.telegram.org/bots/api-changelog#april-24-2020)
 2. Add stats for Abilities
