@@ -7,6 +7,10 @@ import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessageconten
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -16,12 +20,15 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  */
 @JsonDeserialize
 public class InlineQueryResultGif implements InlineQueryResult {
+    private static final List<String> VALIDTHUMBTYPES = Collections.unmodifiableList(Arrays.asList("image/jpeg", "image/gif", "video/mp4"));
+
     private static final String TYPE_FIELD = "type";
     private static final String ID_FIELD = "id";
     private static final String GIFURL_FIELD = "gif_url";
     private static final String GIFWIDTH_FIELD = "gif_width";
     private static final String GIFHEIGHT_FIELD = "gif_height";
     private static final String THUMBURL_FIELD = "thumb_url";
+    private static final String THUMBMIMETYPE_FIELD = "thumb_mime_type";
     private static final String TITLE_FIELD = "title";
     private static final String CAPTION_FIELD = "caption";
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
@@ -40,7 +47,9 @@ public class InlineQueryResultGif implements InlineQueryResult {
     @JsonProperty(GIFHEIGHT_FIELD)
     private Integer gifHeight; ///< Optional. Height of the GIF
     @JsonProperty(THUMBURL_FIELD)
-    private String thumbUrl; ///< Optional. URL of a static thumbnail for the result (jpeg or gif)
+    private String thumbUrl; ///< Optional. URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result
+    @JsonProperty(THUMBMIMETYPE_FIELD)
+    private String thumbUrlType; ///< Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”
     @JsonProperty(TITLE_FIELD)
     private String title; ///< Optional. Title for the result
     @JsonProperty(CAPTION_FIELD)
@@ -107,6 +116,15 @@ public class InlineQueryResultGif implements InlineQueryResult {
         return this;
     }
 
+    public String getThumbUrlType() {
+        return thumbUrlType;
+    }
+
+    public InlineQueryResultGif setThumbUrlType(String thumbUrlType) {
+        this.thumbUrlType = thumbUrlType;
+        return this;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -169,6 +187,9 @@ public class InlineQueryResultGif implements InlineQueryResult {
         if (gifUrl == null || gifUrl.isEmpty()) {
             throw new TelegramApiValidationException("GifUrl parameter can't be empty", this);
         }
+        if (thumbUrlType != null && !VALIDTHUMBTYPES.contains(thumbUrlType)) {
+            throw new TelegramApiValidationException("ThumbUrlType parameter must be one of “image/jpeg”, “image/gif”, or “video/mp4”", this);
+        }
         if (inputMessageContent != null) {
             inputMessageContent.validate();
         }
@@ -186,6 +207,7 @@ public class InlineQueryResultGif implements InlineQueryResult {
                 ", gifWidth=" + gifWidth +
                 ", gifHeight=" + gifHeight +
                 ", thumbUrl='" + thumbUrl + '\'' +
+                ", thumbUrlType='" + thumbUrlType + '\'' +
                 ", title='" + title + '\'' +
                 ", caption='" + caption + '\'' +
                 ", inputMessageContent=" + inputMessageContent +

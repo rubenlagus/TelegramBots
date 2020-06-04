@@ -10,14 +10,18 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Ruben Bermudez
  * @version 4.7
- * Use this method to send a dice, which will have a random value from 1 to 6. On success, the sent Message is returned.
- * (Yes, we're aware of the “proper” singular of die. But it's awkward, and we decided to help it change. One dice at a time!)
+ * Use this method to send an animated emoji that will display a random value. On success, the sent Message is returned.
  */
 public class SendDice extends BotApiMethod<Message> {
+    private static final List<String> VALIDEMOJIS = Collections.unmodifiableList(Arrays.asList("\uD83C\uDFB2", "\uD83C\uDFAF", "\uD83C\uDFC0"));
+
     public static final String PATH = "sendDice";
 
     private static final String CHATID_FIELD = "chat_id";
@@ -28,8 +32,12 @@ public class SendDice extends BotApiMethod<Message> {
 
     @JsonProperty(CHATID_FIELD)
     private String chatId; ///< Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+    /**
+     * Emoji on which the dice throw animation is based. Currently, must be one of “🎲”, “🎯”, or “🏀”.
+     * Dice can have values 1-6 for “🎲” and “🎯”, and values 1-5 for “🏀”. Defauts to “🎲”
+     */
     @JsonProperty(EMOJI_FIELD)
-    private String emoji; ///< Optional. Emoji on which the dice throw animation is based. Currently, must be one of “🎲” or “🎯”. Defauts to “🎲”
+    private String emoji;
     @JsonProperty(DISABLENOTIFICATION_FIELD)
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     @JsonProperty(REPLYTOMESSAGEID_FIELD)
@@ -121,8 +129,8 @@ public class SendDice extends BotApiMethod<Message> {
         if (chatId == null) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
-        if (emoji != null && !emoji.equals("\uD83C\uDFB2") && !emoji.equals("\uD83C\uDFAF")) {
-            throw new TelegramApiValidationException("Only \uD83C\uDFB2 and \uD83C\uDFAF are allowed in Emoji field ", this);
+        if (emoji != null && !VALIDEMOJIS.contains(emoji)) {
+            throw new TelegramApiValidationException("Only \uD83C\uDFB2, \uD83C\uDFAF or \uD83C\uDFC0 are allowed in Emoji field ", this);
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
