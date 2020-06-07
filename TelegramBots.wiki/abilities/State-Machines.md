@@ -70,30 +70,29 @@ Now, after your naughty bot retaliates, the user can say "go left or else" to fo
 
 ## Complete Example
 ```java
-public static class ReplyFlowBot extends AbilityBot {
-  public class ReplyFlowBot extends AbilityBot {
+public class ReplyFlowBot extends AbilityBot {
     public ReplyFlowBot(String botToken, String botUsername) {
-      super(botToken, botUsername);
+        super(botToken, botUsername);
     }
 
     @Override
     public int creatorId() {
-      return <YOUR ID HERE>;
+        return <YOUR ID HERE>;
     }
 
     public ReplyFlow directionFlow() {
-      Reply saidLeft = Reply.of(upd -> silent.send("Sir, I have gone left.", getChatId(upd)),
+        Reply saidLeft = Reply.of(upd -> silent.send("Sir, I have gone left.", getChatId(upd)),
           hasMessageWith("go left or else"));
 
-      ReplyFlow leftflow = ReplyFlow.builder(db)
+        ReplyFlow leftflow = ReplyFlow.builder(db)
           .action(upd -> silent.send("I don't know how to go left.", getChatId(upd)))
           .onlyIf(hasMessageWith("left"))
           .next(saidLeft).build();
 
-      Reply saidRight = Reply.of(upd -> silent.send("Sir, I have gone right.", getChatId(upd)),
+        Reply saidRight = Reply.of(upd -> silent.send("Sir, I have gone right.", getChatId(upd)),
           hasMessageWith("right"));
 
-      return ReplyFlow.builder(db)
+        return ReplyFlow.builder(db)
           .action(upd -> silent.send("Command me to go left or right!", getChatId(upd)))
           .onlyIf(hasMessageWith("wake up"))
           .next(leftflow)
@@ -103,9 +102,9 @@ public static class ReplyFlowBot extends AbilityBot {
 
     @NotNull
     private Predicate<Update> hasMessageWith(String msg) {
-      return upd -> upd.getMessage().getText().equalsIgnoreCase(msg);
+        return upd -> upd.getMessage().getText().equalsIgnoreCase(msg);
     }
-  }
+}
 ```
 ## Inline Declaration
 As you can see in the above example, we used a bottom-up approach. We declared the leaf replies before we got to the root reply flow.

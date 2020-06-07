@@ -32,3 +32,6 @@ As an example, if you want to restrict the updates to photos only, then you may 
     return Flag.PHOTO;
   }
 ```
+
+## Statistics
+AbilityBot can accrue basic statistics about the usage of your abilities and replies. Simply `enableStats()` on an Ability builder or `enableStats(<name>)` on replies to activate this feature. Once activated, you may call `/stats` and the bot will print a basic list of statistics. At the moment, AbilityBot only tracks hits. In the future, this will be enhanced to track more stats.

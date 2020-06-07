@@ -8,6 +8,10 @@ import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQuery
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -17,11 +21,15 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  */
 @JsonDeserialize
 public class InlineQueryResultCachedGif implements InlineQueryResult {
+    private static final List<String> VALIDTHUMBTYPES = Collections.unmodifiableList(Arrays.asList("image/jpeg", "image/gif", "video/mp4"));
+
     private static final String TYPE_FIELD = "type";
     private static final String ID_FIELD = "id";
     private static final String GIF_FILE_ID_FIELD = "gif_file_id";
     private static final String TITLE_FIELD = "title";
     private static final String CAPTION_FIELD = "caption";
+    private static final String THUMBURL_FIELD = "thumb_url";
+    private static final String THUMBMIMETYPE_FIELD = "thumb_mime_type";
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String PARSEMODE_FIELD = "parse_mode";
@@ -42,6 +50,10 @@ public class InlineQueryResultCachedGif implements InlineQueryResult {
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
     @JsonProperty(PARSEMODE_FIELD)
     private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+    @JsonProperty(THUMBURL_FIELD)
+    private String thumbUrl; ///< Optional. URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result
+    @JsonProperty(THUMBMIMETYPE_FIELD)
+    private String thumbUrlType;
 
     public InlineQueryResultCachedGif() {
         super();
@@ -114,6 +126,24 @@ public class InlineQueryResultCachedGif implements InlineQueryResult {
         return this;
     }
 
+    public String getThumbUrl() {
+        return thumbUrl;
+    }
+
+    public InlineQueryResultCachedGif setThumbUrl(String thumbUrl) {
+        this.thumbUrl = thumbUrl;
+        return this;
+    }
+
+    public String getThumbUrlType() {
+        return thumbUrlType;
+    }
+
+    public InlineQueryResultCachedGif setThumbUrlType(String thumbUrlType) {
+        this.thumbUrlType = thumbUrlType;
+        return this;
+    }
+
     @Override
     public void validate() throws TelegramApiValidationException {
         if (id == null || id.isEmpty()) {
@@ -121,6 +151,9 @@ public class InlineQueryResultCachedGif implements InlineQueryResult {
         }
         if (gifFileId == null || gifFileId.isEmpty()) {
             throw new TelegramApiValidationException("GifFileId parameter can't be empty", this);
+        }
+        if (thumbUrlType != null && !VALIDTHUMBTYPES.contains(thumbUrlType)) {
+            throw new TelegramApiValidationException("ThumbUrlType parameter must be one of “image/jpeg”, “image/gif”, or “video/mp4”", this);
         }
         if (inputMessageContent != null) {
             inputMessageContent.validate();
@@ -141,6 +174,8 @@ public class InlineQueryResultCachedGif implements InlineQueryResult {
                 ", inputMessageContent=" + inputMessageContent +
                 ", replyMarkup=" + replyMarkup +
                 ", parseMode='" + parseMode + '\'' +
+                ", thumbUrl='" + thumbUrl + '\'' +
+                ", thumbUrlType='" + thumbUrlType + '\'' +
                 '}';
     }
 }
