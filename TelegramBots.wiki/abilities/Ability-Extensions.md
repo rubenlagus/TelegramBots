@@ -80,7 +80,7 @@ public class SilenceAbility implements AbilityExtension {
     
     // Constructor for your bot
   
-    public AbilityExtension goodGuy() {
+    public AbilityExtension ignoreAnyoneExceptCreator() {
         return new SilenceAbility(silent, this::creatorId); // pass method reference instead of variable
     }
     
