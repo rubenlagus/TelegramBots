@@ -43,7 +43,7 @@ public class SendInvoice extends BotApiMethod<Message> {
     private static final String DISABLE_NOTIFICATION_FIELD = "disable_notification";
     private static final String REPLY_TO_MESSAGE_ID_FIELD = "reply_to_message_id";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
-    private static final String PRIVIDER_DATA_FIELD = "provider_data";
+    private static final String PROVIDER_DATA_FIELD = "provider_data";
 
     @JsonProperty(CHATID_FIELD)
     private Integer chatId; ///< Unique identifier for the target private chat
@@ -99,7 +99,7 @@ public class SendInvoice extends BotApiMethod<Message> {
      *
      * @note A detailed description of required fields should be provided by the payment provider.
      */
-    @JsonProperty(PRIVIDER_DATA_FIELD)
+    @JsonProperty(PROVIDER_DATA_FIELD)
     private String providerData;
 
 
