@@ -729,22 +729,18 @@ public abstract class DefaultAbsSender extends AbsSender {
     // Simplified methods
 
     @Override
-    protected final <T extends Serializable, Method extends BotApiMethod<T>, Callback extends SentCallback<T>> void sendApiMethodAsync(Method method, Callback callback) {
-        //noinspection Convert2Lambda
-        exe.submit(new Runnable() {
-            @Override
-            public void run() {
+    protected final <T extends Serializable, Method extends BotApiMethod<T>,
+            Callback extends SentCallback<T>> void sendApiMethodAsync(Method method, Callback callback) {
+        exe.submit(() -> {
+            try {
+                String responseContent = sendMethodRequest(method);
                 try {
-                    String responseContent = sendMethodRequest(method);
-                    try {
-                        callback.onResult(method, method.deserializeResponse(responseContent));
-                    } catch (TelegramApiRequestException e) {
-                        callback.onError(method, e);
-                    }
-                } catch (IOException | TelegramApiValidationException e) {
-                    callback.onException(method, e);
+                    callback.onResult(method, method.deserializeResponse(responseContent));
+                } catch (TelegramApiRequestException e) {
+                    callback.onError(method, e);
                 }
-
+            } catch (IOException | TelegramApiValidationException e) {
+                callback.onException(method, e);
             }
         });
     }
