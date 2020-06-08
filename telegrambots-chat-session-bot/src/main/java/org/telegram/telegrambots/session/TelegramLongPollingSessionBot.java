@@ -5,6 +5,8 @@ import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.DefaultSessionManager;
 import org.apache.shiro.session.mgt.SessionContext;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
+import org.telegram.telegrambots.bots.DefaultBotOptions;
+import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -21,7 +23,16 @@ public abstract class TelegramLongPollingSessionBot extends TelegramLongPollingB
         this(new DefaultChatIdConverter());
     }
 
+    public TelegramLongPollingSessionBot(DefaultBotOptions options){
+        this(new DefaultChatIdConverter(), options);
+    }
+
     public TelegramLongPollingSessionBot(ChatIdConverter chatIdConverter){
+        this(chatIdConverter, ApiContext.getInstance(DefaultBotOptions.class));
+    }
+
+    public TelegramLongPollingSessionBot(ChatIdConverter chatIdConverter, DefaultBotOptions options){
+        super(options);
         this.setSessionManager(new DefaultSessionManager());
         this.setChatIdConverter(chatIdConverter);
         AbstractSessionDAO sessionDAO = (AbstractSessionDAO) sessionManager.getSessionDAO();
