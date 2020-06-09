@@ -91,9 +91,9 @@ public class SendInvoice extends BotApiMethod<Message> {
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
 
     @JsonProperty(SEND_PHONE_NUMBER_TO_PROVIDER_FIELD)
-    private boolean sendPhoneNumberToProvider;      ///< Optional. Pass True, if user's phone number should be sent to provider
+    private Boolean sendPhoneNumberToProvider;      ///< Optional. Pass True, if user's phone number should be sent to provider
     @JsonProperty(SEND_EMAIL_TO_PROVIDER_FIELD)
-    private boolean sendEmailToProvider;        ///< Optional. Pass True, if user's email address should be sent to provider
+    private Boolean sendEmailToProvider;        ///< Optional. Pass True, if user's email address should be sent to provider
     /**
      * Optional. A JSON-serialized object for an inline keyboard.
      *
