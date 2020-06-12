@@ -35,6 +35,7 @@ public enum Flag implements Predicate<Update> {
   DOCUMENT(upd -> MESSAGE.test(upd) && upd.getMessage().hasDocument()),
   TEXT(upd -> MESSAGE.test(upd) && upd.getMessage().hasText()),
   PHOTO(upd -> MESSAGE.test(upd) && upd.getMessage().hasPhoto()),
+  AUDIO(upd -> MESSAGE.test(upd) && upd.getMessage().hasAudio()),
   LOCATION(upd -> MESSAGE.test(upd) && upd.getMessage().hasLocation()),
   CAPTION(upd -> MESSAGE.test(upd) && nonNull(upd.getMessage().getCaption()));
 
