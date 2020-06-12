@@ -84,7 +84,7 @@ import static org.telegram.abilitybots.api.util.AbilityUtils.*;
 public abstract class BaseAbilityBot extends DefaultAbsSender implements AbilityExtension {
     private static final Logger log = LoggerFactory.getLogger(BaseAbilityBot.class);
 
-    protected static final String DEFAULT = "default";
+    public static final String DEFAULT = "default";
     // DB objects
     public static final String ADMINS = "ADMINS";
     public static final String USERS = "USERS";
@@ -121,7 +121,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         this.db = db;
         this.toggle = toggle;
         this.sender = new DefaultSender(this);
-        silent = new SilentSender(sender);
+        this.silent = new SilentSender(sender);
 
         registerAbilities();
         initStats();
