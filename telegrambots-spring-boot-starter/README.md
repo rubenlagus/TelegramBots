@@ -45,7 +45,7 @@ public class YourApplicationMainClass {
 	    //Add this line to initialize bots context
 		ApiContextInitializer.init();
 		
-		SpringApplication.run(MusicUploaderApplication.class, args);
+		SpringApplication.run(YourApplicationMainClass.class, args);
 	}
 }
 ```
