@@ -95,7 +95,7 @@ Feel free to create issues [here](https://github.com/rubenlagus/TelegramBots/iss
 
 ## Powered by Intellij
 <p align="center">
-   <a href="https://www.jetbrains.com"><img src="jetbrains.png" width="75"></a>
+   <a href="https://www.jetbrains.com/?from=TelegramBots"><img src="jetbrains.png" width="75"></a>
 </p>
 
 
