@@ -277,7 +277,8 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
 
             // Replies can be standalone or attached to abilities, fetch those too
             Stream<Reply> abilityReplies = abilities.values().stream()
-                    .flatMap(ability -> ability.replies().stream());
+                    .flatMap(ability -> ability.replies().stream())
+                    .flatMap(Reply::stream);
 
             // Now create the replies registry (list)
             replies = Stream.concat(abilityReplies, extensionReplies).collect(

@@ -20,8 +20,8 @@ public class ReplyFlow extends Reply {
 
   private final Set<Reply> nextReplies;
 
-  private ReplyFlow(List<Predicate<Update>> conditions, Consumer<Update> action, Set<Reply> nextReplies) {
-    super(conditions, action);
+  private ReplyFlow(List<Predicate<Update>> conditions, Consumer<Update> action, Set<Reply> nextReplies, String name) {
+    super(conditions, action, name);
     this.nextReplies = nextReplies;
   }
 
@@ -50,6 +50,7 @@ public class ReplyFlow extends Reply {
     private List<Predicate<Update>> conds;
     private Consumer<Update> action;
     private Set<Reply> nextReplies;
+    private String name;
 
     private ReplyFlowBuilder(DBContext db, int id) {
       conds = new ArrayList<>();
@@ -67,6 +68,11 @@ public class ReplyFlow extends Reply {
       return this;
     }
 
+    public ReplyFlowBuilder enableStats(String name) {
+      this.name = name;
+      return this;
+    }
+
     public ReplyFlowBuilder onlyIf(Predicate<Update> pred) {
       conds.add(pred);
       return this;
@@ -79,7 +85,7 @@ public class ReplyFlow extends Reply {
         db.<Long, Integer>getMap(STATES).remove(chatId);
       });
 
-      Reply statefulReply = Reply.of(statefulAction, statefulConditions);
+      Reply statefulReply = new Reply(statefulConditions, statefulAction, nextReply.name());
       nextReplies.add(statefulReply);
       return this;
     }
@@ -87,7 +93,7 @@ public class ReplyFlow extends Reply {
     public ReplyFlowBuilder next(ReplyFlow nextReplyFlow) {
       List<Predicate<Update>> statefulConditions = toStateful(nextReplyFlow.conditions());
 
-      ReplyFlow statefulReplyFlow = new ReplyFlow(statefulConditions, nextReplyFlow.action(), nextReplyFlow.nextReplies());
+      ReplyFlow statefulReplyFlow = new ReplyFlow(statefulConditions, nextReplyFlow.action(), nextReplyFlow.nextReplies(), nextReplyFlow.name());
       nextReplies.add(statefulReplyFlow);
       return this;
     }
@@ -95,12 +101,21 @@ public class ReplyFlow extends Reply {
     public ReplyFlow build() {
       if (action == null)
         action = upd -> {};
-      Consumer<Update> statefulAction = action.andThen(upd -> {
-        Long chatId = AbilityUtils.getChatId(upd);
-        db.<Long, Integer>getMap(STATES).put(chatId, id);
-      });
 
-      return new ReplyFlow(conds, statefulAction, nextReplies);
+      Consumer<Update> statefulAction;
+      if (nextReplies.size() > 0) {
+        statefulAction = action.andThen(upd -> {
+          Long chatId = AbilityUtils.getChatId(upd);
+          db.<Long, Integer>getMap(STATES).put(chatId, id);
+        });
+      } else {
+        statefulAction = action.andThen(upd -> {
+          Long chatId = AbilityUtils.getChatId(upd);
+          db.<Long, Integer>getMap(STATES).remove(chatId);
+        });
+      }
+
+      return new ReplyFlow(conds, statefulAction, nextReplies, name);
     }
 
     @NotNull
