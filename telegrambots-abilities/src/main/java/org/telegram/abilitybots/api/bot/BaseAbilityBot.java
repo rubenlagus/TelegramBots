@@ -27,6 +27,7 @@ import org.telegram.telegrambots.meta.api.objects.User;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -557,13 +558,23 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
 
     boolean filterReply(Update update) {
         return replies.stream()
-                .filter(reply -> reply.isOkFor(update))
-                .map(reply -> {
+                .filter(reply -> runSilently(() -> reply.isOkFor(update), reply.name()))
+                .map(reply -> runSilently(() -> {
                     reply.actOn(update);
                     updateReplyStats(reply);
                     return false;
-                })
+                }, reply.name()))
                 .reduce(true, Boolean::logicalAnd);
+    }
+
+    boolean runSilently(Callable<Boolean> callable, String name) {
+        try {
+            return callable.call();
+        } catch(Exception ex) {
+            log.error(format("Reply [%s] failed to check for conditions. " +
+                "Make sure you're safeguarding against all possible updates.", name));
+        }
+        return false;
     }
 
     boolean checkMessageFlags(Trio<Update, Ability, String[]> trio) {
