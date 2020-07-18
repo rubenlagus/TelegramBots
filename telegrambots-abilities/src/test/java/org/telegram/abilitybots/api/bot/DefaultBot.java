@@ -3,6 +3,7 @@ package org.telegram.abilitybots.api.bot;
 import org.telegram.abilitybots.api.db.DBContext;
 import org.telegram.abilitybots.api.objects.Ability;
 import org.telegram.abilitybots.api.objects.Ability.AbilityBuilder;
+import org.telegram.abilitybots.api.objects.Flag;
 import org.telegram.abilitybots.api.objects.Reply;
 import org.telegram.abilitybots.api.toggle.AbilityToggle;
 
@@ -70,6 +71,12 @@ public class DefaultBot extends AbilityBot {
         .input(4)
         .enableStats()
         .build();
+  }
+
+  public Reply channelPostReply() {
+    return Reply.of(
+        upd -> silent.send("test channel post", upd.getChannelPost().getChatId()), Flag.CHANNEL_POST
+    );
   }
 
   public Ability testAbility() {
