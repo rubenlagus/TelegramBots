@@ -233,6 +233,18 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         return true;
     }
 
+    protected String getCommandPrefix() {
+        return "/";
+    }
+
+    protected String getCommandRegexSplit() {
+        return " ";
+    }
+
+    protected boolean allowNoSpaceText() {
+        return false;
+    }
+
     /**
      * Registers the declared abilities using method reflection. Also, replies are accumulated using the built abilities and standalone methods that return a Reply.
      * <p>
@@ -494,17 +506,23 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         if (!update.hasMessage() || !msg.hasText())
             return Trio.of(update, abilities.get(DEFAULT), new String[]{});
 
-        String[] tokens = msg.getText().split(" ");
-
-        if (tokens[0].startsWith("/")) {
-            String abilityToken = stripBotUsername(tokens[0].substring(1)).toLowerCase();
-            Ability ability = abilities.get(abilityToken);
-            tokens = Arrays.copyOfRange(tokens, 1, tokens.length);
-            return Trio.of(update, ability, tokens);
+        Ability ability;
+        String[] tokens = msg.getText().split(getCommandRegexSplit());
+        if (allowNoSpaceText()) {
+            String abName = abilities.keySet().stream()
+                .filter(name -> msg.getText().startsWith(format("%s%s", getCommandPrefix(), name)))
+                .findFirst().orElse(DEFAULT);
+            ability = abilities.get(abName);
         } else {
-            Ability ability = abilities.get(DEFAULT);
-            return Trio.of(update, ability, tokens);
+            if (tokens[0].startsWith(getCommandPrefix())) {
+                String abilityToken = stripBotUsername(tokens[0].substring(1)).toLowerCase();
+                ability = abilities.get(abilityToken);
+                tokens = Arrays.copyOfRange(tokens, 1, tokens.length);
+            } else {
+                ability = abilities.get(DEFAULT);
+            }
         }
+        return Trio.of(update, ability, tokens);
     }
 
     private String stripBotUsername(String token) {
