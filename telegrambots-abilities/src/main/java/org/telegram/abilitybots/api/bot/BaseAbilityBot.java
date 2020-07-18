@@ -37,6 +37,7 @@ import static com.google.common.collect.Sets.difference;
 import static java.lang.String.format;
 import static java.time.ZonedDateTime.now;
 import static java.util.Arrays.stream;
+import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;
 import static java.util.regex.Pattern.CASE_INSENSITIVE;
 import static java.util.regex.Pattern.compile;
@@ -402,8 +403,12 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     }
 
     boolean checkBlacklist(Update update) {
-        Integer id = AbilityUtils.getUser(update).getId();
+        User user = getUser(update);
+        if (isNull(user)) {
+            return true;
+        }
 
+        int id = user.getId();
         return id == creatorId() || !blacklist().contains(id);
     }
 
