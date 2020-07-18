@@ -241,7 +241,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         return " ";
     }
 
-    protected boolean allowNoSpaceText() {
+    protected boolean allowContinuousText() {
         return false;
     }
 
@@ -507,13 +507,17 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
             return Trio.of(update, abilities.get(DEFAULT), new String[]{});
 
         Ability ability;
-        String[] tokens = msg.getText().split(getCommandRegexSplit());
-        if (allowNoSpaceText()) {
+        String[] tokens;
+        if (allowContinuousText()) {
             String abName = abilities.keySet().stream()
                 .filter(name -> msg.getText().startsWith(format("%s%s", getCommandPrefix(), name)))
                 .findFirst().orElse(DEFAULT);
+            tokens = msg.getText()
+                .replaceFirst(getCommandPrefix() + abName, "")
+                .split(getCommandRegexSplit());
             ability = abilities.get(abName);
         } else {
+            tokens = msg.getText().split(getCommandRegexSplit());
             if (tokens[0].startsWith(getCommandPrefix())) {
                 String abilityToken = stripBotUsername(tokens[0].substring(1)).toLowerCase();
                 ability = abilities.get(abilityToken);
