@@ -28,25 +28,18 @@ public class InputMediaDeserializer extends StdDeserializer<InputMedia> {
 
     @Override
     public InputMedia deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
-            throws IOException, JsonProcessingException {
+            throws IOException {
 
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
         switch (node.get("type").asText()) {
             case "photo":
-                return objectMapper.readValue(node.toString(),
-                        new com.fasterxml.jackson.core.type.TypeReference<InputMediaPhoto>(){});
-            case "video":
-                return objectMapper.readValue(node.toString(),
-                        new com.fasterxml.jackson.core.type.TypeReference<InputMediaVideo>(){});
             case "animation":
-                return objectMapper.readValue(node.toString(),
-                        new com.fasterxml.jackson.core.type.TypeReference<InputMediaAnimation>(){});
+            case "video":
             case "audio":
-                return objectMapper.readValue(node.toString(),
-                        new com.fasterxml.jackson.core.type.TypeReference<InputMediaAudio>(){});
             case "document":
                 return objectMapper.readValue(node.toString(),
-                        new com.fasterxml.jackson.core.type.TypeReference<InputMediaDocument>(){});
+                        new com.fasterxml.jackson.core.type.TypeReference<InputMediaPhoto>() {
+                        });
         }
 
         return null;

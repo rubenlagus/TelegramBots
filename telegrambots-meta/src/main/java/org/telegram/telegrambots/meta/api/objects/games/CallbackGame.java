@@ -37,7 +37,7 @@ public class CallbackGame implements BotApiObject {
 
     @Override
     public boolean equals(Object o) {
-        return o == this || o instanceof CallbackGame;
+        return o instanceof CallbackGame;
     }
 
     @Override

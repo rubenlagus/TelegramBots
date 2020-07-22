@@ -114,7 +114,8 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
     }
 
     public CreateNewStickerSet setTgsSticker(File tgsStickerFile) {
-        this.tgsSticker =  new InputFile(checkNotNull(tgsStickerFile), tgsStickerFile.getName());;
+        this.tgsSticker = new InputFile(checkNotNull(tgsStickerFile), tgsStickerFile.getName());
+        ;
         return this;
     }
 
@@ -171,7 +172,8 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
     public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
         try {
             ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Boolean>>(){});
+                    new TypeReference<ApiResponse<Boolean>>() {
+                    });
             if (result.getOk()) {
                 return result.getResult();
             } else {

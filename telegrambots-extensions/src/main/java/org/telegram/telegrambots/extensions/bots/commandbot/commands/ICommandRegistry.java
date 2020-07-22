@@ -16,8 +16,8 @@ public interface ICommandRegistry {
 
     /**
      * Register a default action when there is no command register that match the message sent
-     * @param defaultConsumer Consumer to evaluate the message
      *
+     * @param defaultConsumer Consumer to evaluate the message
      * @note Use this method if you want your bot to execute a default action when the user
      * sends a command that is not registered.
      */

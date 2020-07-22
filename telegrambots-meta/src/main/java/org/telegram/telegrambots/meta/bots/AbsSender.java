@@ -29,6 +29,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * Abstract class for telegram server interaction.
+ *
  * @author Ruben Bermudez
  * @version 1.0
  */
@@ -97,6 +99,7 @@ public abstract class AbsSender {
 
     /**
      * Sends a file using Send Audio method (https://core.telegram.org/bots/api#sendaudio)
+     *
      * @param sendAudio Information to send
      * @return If success, the sent Message is returned
      * @throws TelegramApiException If there is any error sending the audio
@@ -106,6 +109,7 @@ public abstract class AbsSender {
     /**
      * Sends a voice note using Send Voice method (https://core.telegram.org/bots/api#sendvoice)
      * For this to work, your audio must be in an .ogg file encoded with OPUS
+     *
      * @param sendVoice Information to send
      * @return If success, the sent Message is returned
      * @throws TelegramApiException If there is any error sending the audio
@@ -114,6 +118,7 @@ public abstract class AbsSender {
 
     /**
      * Send a media group (https://core.telegram.org/bots/api#sendMediaGroup)
+     *
      * @return If success, list of generated messages
      * @throws TelegramApiException If there is any error sending the media group
      */
@@ -121,6 +126,7 @@ public abstract class AbsSender {
 
     /**
      * Set chat profile photo (https://core.telegram.org/bots/api#setChatPhoto)
+     *
      * @param setChatPhoto Information to set the photo
      * @return If success, true is returned
      * @throws TelegramApiException If there is any error setting the photo.
@@ -129,6 +135,7 @@ public abstract class AbsSender {
 
     /**
      * Adds a new sticker to a set (https://core.telegram.org/bots/api#addStickerToSet)
+     *
      * @param addStickerToSet Information of the sticker to set
      * @return If success, true is returned
      * @throws TelegramApiException If there is any error adding the sticker to the set
@@ -137,6 +144,7 @@ public abstract class AbsSender {
 
     /**
      * Set sticker set thumb (https://core.telegram.org/bots/api#setStickerSetThumb)
+     *
      * @param setStickerSetThumb Information of the sticker to set
      * @return If success, true is returned
      * @throws TelegramApiException If there is any error setting the thumb to the set
@@ -145,6 +153,7 @@ public abstract class AbsSender {
 
     /**
      * Creates a new sticker set (https://core.telegram.org/bots/api#createNewStickerSet)
+     *
      * @param createNewStickerSet Information of the sticker set to create
      * @return If success, true is returned
      * @throws TelegramApiException If there is any error creating the new sticker set
@@ -153,6 +162,7 @@ public abstract class AbsSender {
 
     /**
      * Upload a new file as sticker (https://core.telegram.org/bots/api#uploadStickerFile)
+     *
      * @param uploadStickerFile Information of the file to upload as sticker
      * @return If success, true is returned
      * @throws TelegramApiException If there is any error uploading the new file
@@ -161,6 +171,7 @@ public abstract class AbsSender {
 
     /**
      * Edit media in a message
+     *
      * @param editMessageMedia Information of the new media
      * @return If the edited message was sent by the bot, the edited Message is returned, otherwise True is returned
      * @throws TelegramApiException If there is any error editing the media
@@ -169,6 +180,7 @@ public abstract class AbsSender {
 
     /**
      * Send animation
+     *
      * @param sendAnimation Information of the animation
      * @return Sent message
      * @throws TelegramApiException If there is any error sending animation

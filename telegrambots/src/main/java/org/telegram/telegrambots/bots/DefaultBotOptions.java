@@ -87,8 +87,8 @@ public class DefaultBotOptions implements BotOptions {
     }
 
     /**
-     * @implSpec Default implementation assumes no proxy is needed and sets a 75secs timoute
      * @param requestConfig Request config to be used in all Http requests
+     * @implSpec Default implementation assumes no proxy is needed and sets a 75secs timoute
      */
     public void setRequestConfig(RequestConfig requestConfig) {
         this.requestConfig = requestConfig;
@@ -99,8 +99,8 @@ public class DefaultBotOptions implements BotOptions {
     }
 
     /**
-     * @implSpec Default implementation assumes starting at 500ms and max time of 60 minutes
      * @param exponentialBackOff ExponentialBackOff to be used when long polling fails
+     * @implSpec Default implementation assumes starting at 500ms and max time of 60 minutes
      */
     public void setExponentialBackOff(ExponentialBackOff exponentialBackOff) {
         this.exponentialBackOff = exponentialBackOff;

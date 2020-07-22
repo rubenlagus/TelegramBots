@@ -1,15 +1,15 @@
 package org.telegram.telegrambots.extensions.bots.commandbot;
 
 
-import org.telegram.telegrambots.meta.ApiContext;
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.CommandRegistry;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.ICommandRegistry;
+import org.telegram.telegrambots.meta.ApiContext;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import java.util.Collection;
 import java.util.Map;
@@ -26,7 +26,6 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
     /**
      * Creates a TelegramLongPollingCommandBot using default options
      * Use ICommandRegistry's methods on this bot to register commands
-     *
      */
     public TelegramLongPollingCommandBot() {
         this(ApiContext.getInstance(DefaultBotOptions.class));
@@ -37,7 +36,7 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      * usernames
      * Use ICommandRegistry's methods on this bot to register commands
      *
-     * @param options     Bot options
+     * @param options Bot options
      */
     public TelegramLongPollingCommandBot(DefaultBotOptions options) {
         this(options, true);

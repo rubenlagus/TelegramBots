@@ -24,8 +24,8 @@ import com.google.common.base.Preconditions;
  * </p>
  *
  * <pre>
- randomized_interval =
- retry_interval * (random value in range [1 - randomization_factor, 1 + randomization_factor])
+ * randomized_interval =
+ * retry_interval * (random value in range [1 - randomization_factor, 1 + randomization_factor])
  * </pre>
  *
  * <p>
@@ -47,26 +47,26 @@ import com.google.common.base.Preconditions;
  * </p>
  *
  * <pre>
- request#     retry_interval     randomized_interval
-
- 1             0.5                [0.25,   0.75]
- 2             0.75               [0.375,  1.125]
- 3             1.125              [0.562,  1.687]
- 4             1.687              [0.8435, 2.53]
- 5             2.53               [1.265,  3.795]
- 6             3.795              [1.897,  5.692]
- 7             5.692              [2.846,  8.538]
- 8             8.538              [4.269, 12.807]
- 9            12.807              [6.403, 19.210]
- 10           19.210              {@link ExponentialBackOff#maxElapsedTimeMillis}
+ * request#     retry_interval     randomized_interval
+ *
+ * 1             0.5                [0.25,   0.75]
+ * 2             0.75               [0.375,  1.125]
+ * 3             1.125              [0.562,  1.687]
+ * 4             1.687              [0.8435, 2.53]
+ * 5             2.53               [1.265,  3.795]
+ * 6             3.795              [1.897,  5.692]
+ * 7             5.692              [2.846,  8.538]
+ * 8             8.538              [4.269, 12.807]
+ * 9            12.807              [6.403, 19.210]
+ * 10           19.210              {@link ExponentialBackOff#maxElapsedTimeMillis}
  * </pre>
  *
  * <p>
  * Implementation is not thread-safe.
  * </p>
  *
- * @since 1.15
  * @author Ravi Mistry
+ * @since 1.15
  */
 public class ExponentialBackOff {
     /** The default initial interval value in milliseconds (0.5 seconds). */
@@ -230,6 +230,7 @@ public class ExponentialBackOff {
 
     /**
      * Nano time using  {@link System#nanoTime()}
+     *
      * @return time in nanoseconds
      */
     private long nanoTime() {

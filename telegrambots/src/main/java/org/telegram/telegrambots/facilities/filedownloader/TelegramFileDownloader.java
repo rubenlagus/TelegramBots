@@ -20,6 +20,7 @@ import static org.apache.http.HttpStatus.SC_OK;
 
 /**
  * Wraps the file downloading code into one class.
+ *
  * @author Chase22
  * @version 1.0
  */

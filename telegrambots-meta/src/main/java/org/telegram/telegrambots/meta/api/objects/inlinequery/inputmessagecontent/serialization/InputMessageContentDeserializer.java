@@ -32,24 +32,28 @@ public class InputMessageContentDeserializer extends StdDeserializer<InputMessag
 
         if (node.has("message_text")) {
             return objectMapper.readValue(node.toString(),
-                    new com.fasterxml.jackson.core.type.TypeReference<InputTextMessageContent>(){});
+                    new com.fasterxml.jackson.core.type.TypeReference<InputTextMessageContent>() {
+                    });
         }
 
         // Order here is important since Venue and Location has both latitude
         if (node.has("address")) {
             return objectMapper.readValue(node.toString(),
-                    new com.fasterxml.jackson.core.type.TypeReference<InputVenueMessageContent>(){});
+                    new com.fasterxml.jackson.core.type.TypeReference<InputVenueMessageContent>() {
+                    });
         }
 
 
         if (node.has("latitude")) {
             return objectMapper.readValue(node.toString(),
-                    new com.fasterxml.jackson.core.type.TypeReference<InputLocationMessageContent>(){});
+                    new com.fasterxml.jackson.core.type.TypeReference<InputLocationMessageContent>() {
+                    });
         }
 
         if (node.has("phone_number")) {
             return objectMapper.readValue(node.toString(),
-                    new com.fasterxml.jackson.core.type.TypeReference<InputContactMessageContent>(){});
+                    new com.fasterxml.jackson.core.type.TypeReference<InputContactMessageContent>() {
+                    });
         }
 
         return null;

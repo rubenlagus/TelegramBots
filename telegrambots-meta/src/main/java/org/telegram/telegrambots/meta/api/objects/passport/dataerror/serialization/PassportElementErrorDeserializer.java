@@ -32,32 +32,16 @@ public class PassportElementErrorDeserializer extends StdDeserializer<PassportEl
 
         switch (node.get("source").asText()) {
             case "data":
-                return objectMapper.readValue(node.toString(),
-                        new com.fasterxml.jackson.core.type.TypeReference<PassportElementErrorDataField>(){});
             case "front_side":
-                return objectMapper.readValue(node.toString(),
-                        new com.fasterxml.jackson.core.type.TypeReference<PassportElementErrorFrontSide>(){});
             case "reverse_side":
-                return objectMapper.readValue(node.toString(),
-                        new com.fasterxml.jackson.core.type.TypeReference<PassportElementErrorReverseSide>(){});
             case "selfie":
-                return objectMapper.readValue(node.toString(),
-                        new com.fasterxml.jackson.core.type.TypeReference<PassportElementErrorSelfie>(){});
             case "file":
-                return objectMapper.readValue(node.toString(),
-                        new com.fasterxml.jackson.core.type.TypeReference<PassportElementErrorFile>(){});
             case "files":
-                return objectMapper.readValue(node.toString(),
-                        new com.fasterxml.jackson.core.type.TypeReference<PassportElementErrorFiles>(){});
             case "translation_file":
-                return objectMapper.readValue(node.toString(),
-                        new com.fasterxml.jackson.core.type.TypeReference<PassportElementErrorTranslationFile>(){});
             case "translation_files":
-                return objectMapper.readValue(node.toString(),
-                        new com.fasterxml.jackson.core.type.TypeReference<PassportElementErrorTranslationFiles>(){});
             case "unspecified":
                 return objectMapper.readValue(node.toString(),
-                        new com.fasterxml.jackson.core.type.TypeReference<PassportElementErrorUnspecified>(){});
+                        new com.fasterxml.jackson.core.type.TypeReference<PassportElementErrorDataField>(){});
         }
 
 

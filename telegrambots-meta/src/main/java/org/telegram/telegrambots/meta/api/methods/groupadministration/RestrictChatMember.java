@@ -23,7 +23,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Use this method to restrict a user in a supergroup.
  * The bot must be an administrator in the supergroup for this to work and must have the appropriate admin rights.
  * Pass True for all boolean parameters to lift restrictions from a user. Returns True on success.
- *
  */
 @SuppressWarnings("WeakerAccess")
 public class RestrictChatMember extends BotApiMethod<Boolean> {
@@ -208,7 +207,8 @@ public class RestrictChatMember extends BotApiMethod<Boolean> {
     public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
         try {
             ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Boolean>>(){});
+                    new TypeReference<ApiResponse<Boolean>>() {
+                    });
             if (result.getOk()) {
                 return result.getResult();
             } else {

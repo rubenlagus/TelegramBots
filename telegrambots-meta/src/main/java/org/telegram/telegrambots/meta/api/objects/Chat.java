@@ -30,7 +30,7 @@ public class Chat implements BotApiObject {
     private static final String USERCHATTYPE = "private";
     private static final String GROUPCHATTYPE = "group";
     private static final String CHANNELCHATTYPE = "channel";
-    private static final String SUPERGROUPCHATTYPE  = "supergroup";
+    private static final String SUPERGROUPCHATTYPE = "supergroup";
 
     /**
      * Unique identifier for this chat.

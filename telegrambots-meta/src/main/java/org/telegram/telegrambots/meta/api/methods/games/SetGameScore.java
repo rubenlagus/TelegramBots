@@ -19,10 +19,9 @@ package org.telegram.telegrambots.meta.api.methods.games;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -146,7 +145,8 @@ public class SetGameScore extends BotApiMethod<Serializable> {
     public Serializable deserializeResponse(String answer) throws TelegramApiRequestException {
         try {
             ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Boolean>>(){});
+                    new TypeReference<ApiResponse<Boolean>>() {
+                    });
             if (result.getOk()) {
                 return result.getResult();
             } else {

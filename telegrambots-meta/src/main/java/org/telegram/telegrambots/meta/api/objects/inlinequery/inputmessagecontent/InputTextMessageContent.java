@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;

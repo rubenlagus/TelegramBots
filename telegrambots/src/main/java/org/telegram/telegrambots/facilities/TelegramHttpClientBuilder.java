@@ -12,8 +12,8 @@ import org.apache.http.ssl.SSLContexts;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.facilities.proxysocketfactorys.HttpConnectionSocketFactory;
 import org.telegram.telegrambots.facilities.proxysocketfactorys.HttpSSLConnectionSocketFactory;
-import org.telegram.telegrambots.facilities.proxysocketfactorys.SocksSSLConnectionSocketFactory;
 import org.telegram.telegrambots.facilities.proxysocketfactorys.SocksConnectionSocketFactory;
+import org.telegram.telegrambots.facilities.proxysocketfactorys.SocksSSLConnectionSocketFactory;
 
 import java.util.concurrent.TimeUnit;
 
@@ -37,13 +37,13 @@ public class TelegramHttpClientBuilder {
             case NO_PROXY:
                 return null;
             case HTTP:
-                registry = RegistryBuilder.<ConnectionSocketFactory> create()
+                registry = RegistryBuilder.<ConnectionSocketFactory>create()
                         .register("http", new HttpConnectionSocketFactory())
                         .register("https", new HttpSSLConnectionSocketFactory(SSLContexts.createSystemDefault())).build();
                 return new PoolingHttpClientConnectionManager(registry);
             case SOCKS4:
             case SOCKS5:
-                registry = RegistryBuilder.<ConnectionSocketFactory> create()
+                registry = RegistryBuilder.<ConnectionSocketFactory>create()
                         .register("http", new SocksConnectionSocketFactory())
                         .register("https", new SocksSSLConnectionSocketFactory(SSLContexts.createSystemDefault()))
                         .build();

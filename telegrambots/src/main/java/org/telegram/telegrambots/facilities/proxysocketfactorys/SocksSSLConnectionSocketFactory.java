@@ -5,12 +5,11 @@ import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.protocol.HttpContext;
 
+import javax.net.ssl.SSLContext;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.Socket;
-
-import javax.net.ssl.SSLContext;
 
 
 public class SocksSSLConnectionSocketFactory extends SSLConnectionSocketFactory {

@@ -2,9 +2,9 @@ package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -99,9 +99,9 @@ public class SendDocument extends PartialBotApiMethod<Message> {
     }
 
     public SendDocument setDocument(String documentName, InputStream inputStream) {
-    	Objects.requireNonNull(documentName, "documentName cannot be null!");
-    	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
-    	this.document = new InputFile(inputStream, documentName);
+        Objects.requireNonNull(documentName, "documentName cannot be null!");
+        Objects.requireNonNull(inputStream, "inputStream cannot be null!");
+        this.document = new InputFile(inputStream, documentName);
         return this;
     }
 
@@ -168,7 +168,8 @@ public class SendDocument extends PartialBotApiMethod<Message> {
     public Message deserializeResponse(String answer) throws TelegramApiRequestException {
         try {
             ApiResponse<Message> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Message>>(){});
+                    new TypeReference<ApiResponse<Message>>() {
+                    });
             if (result.getOk()) {
                 return result.getResult();
             } else {

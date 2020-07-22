@@ -33,7 +33,8 @@ public class GetMyCommands extends BotApiMethod<ArrayList<BotCommand>> {
     public ArrayList<BotCommand> deserializeResponse(String answer) throws TelegramApiRequestException {
         try {
             ApiResponse<ArrayList<BotCommand>> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<ArrayList<BotCommand>>>(){});
+                    new TypeReference<ApiResponse<ArrayList<BotCommand>>>() {
+                    });
             if (result.getOk()) {
                 return result.getResult();
             } else {

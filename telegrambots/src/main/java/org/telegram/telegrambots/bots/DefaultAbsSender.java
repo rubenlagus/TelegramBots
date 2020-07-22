@@ -109,6 +109,7 @@ public abstract class DefaultAbsSender extends AbsSender {
 
     /**
      * Returns the token of the bot to be able to perform Telegram Api Requests
+     *
      * @return Token of the bot
      */
     public abstract String getBotToken();
@@ -373,6 +374,7 @@ public abstract class DefaultAbsSender extends AbsSender {
 
     /**
      * Sends a file using Send Audio method (https://core.telegram.org/bots/api#sendaudio)
+     *
      * @param sendAudio Information to send
      * @return If success, the sent Message is returned
      * @throws TelegramApiException If there is any error sending the audio
@@ -402,7 +404,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendAudio.getTitle() != null) {
                 builder.addTextBody(SendAudio.TITLE_FIELD, sendAudio.getTitle(), TEXT_PLAIN_CONTENT_TYPE);
             }
-            if(sendAudio.getDuration() != null){
+            if (sendAudio.getDuration() != null) {
                 builder.addTextBody(SendAudio.DURATION_FIELD, sendAudio.getDuration().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendAudio.getDisableNotification() != null) {
@@ -432,6 +434,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     /**
      * Sends a voice note using Send Voice method (https://core.telegram.org/bots/api#sendvoice)
      * For this to work, your audio must be in an .ogg file encoded with OPUS
+     *
      * @param sendVoice Information to send
      * @return If success, the sent Message is returned
      * @throws TelegramApiException If there is any error sending the audio

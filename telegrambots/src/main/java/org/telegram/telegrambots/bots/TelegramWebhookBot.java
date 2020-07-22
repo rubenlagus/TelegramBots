@@ -13,16 +13,16 @@ import org.telegram.telegrambots.util.WebhookUtils;
  */
 @SuppressWarnings("WeakerAccess")
 public abstract class TelegramWebhookBot extends DefaultAbsSender implements WebhookBot {
-  public TelegramWebhookBot() {
-    this(ApiContext.getInstance(DefaultBotOptions.class));
-  }
+    public TelegramWebhookBot() {
+        this(ApiContext.getInstance(DefaultBotOptions.class));
+    }
 
-  public TelegramWebhookBot(DefaultBotOptions options) {
-    super(options);
-  }
+    public TelegramWebhookBot(DefaultBotOptions options) {
+        super(options);
+    }
 
-  @Override
-  public void setWebhook(String url, String publicCertificatePath) throws TelegramApiRequestException {
-    WebhookUtils.setWebhook(this, url, publicCertificatePath);
-  }
+    @Override
+    public void setWebhook(String url, String publicCertificatePath) throws TelegramApiRequestException {
+        WebhookUtils.setWebhook(this, url, publicCertificatePath);
+    }
 }
