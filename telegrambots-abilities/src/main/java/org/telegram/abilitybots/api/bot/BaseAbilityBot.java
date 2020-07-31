@@ -3,7 +3,6 @@ package org.telegram.abilitybots.api.bot;
 import com.google.common.collect.*;
 import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.collect.ImmutableMap;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.abilitybots.api.db.DBContext;
@@ -132,35 +131,35 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     /**
      * @return the map of <ID,User>
      */
-    protected Map<Integer, User> users() {
+    public Map<Integer, User> users() {
         return db.getMap(USERS);
     }
 
     /**
      * @return the map of <Username,ID>
      */
-    protected Map<String, Integer> userIds() {
+    public Map<String, Integer> userIds() {
         return db.getMap(USER_ID);
     }
 
     /**
      * @return a blacklist containing all the IDs of the banned users
      */
-    protected Set<Integer> blacklist() {
+    public Set<Integer> blacklist() {
         return db.getSet(BLACKLIST);
     }
 
     /**
      * @return an admin set of all the IDs of bot administrators
      */
-    protected Set<Integer> admins() {
+    public Set<Integer> admins() {
         return db.getSet(ADMINS);
     }
 
     /**
      * @return a mapping of ability and reply names to their corresponding statistics
      */
-    protected Map<String, Stats> stats() {
+    public Map<String, Stats> stats() {
         return stats;
     }
 
@@ -221,6 +220,32 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
 
     public String getBotUsername() {
         return botUsername;
+    }
+
+    public Privacy getPrivacy(Update update, int id) {
+        return isCreator(id) ?
+            CREATOR : isAdmin(id) ?
+            ADMIN : (isGroupUpdate(update) || isSuperGroupUpdate(update)) && isGroupAdmin(update, id) ?
+            GROUP_ADMIN : PUBLIC;
+    }
+
+    public boolean isGroupAdmin(Update update, int id) {
+        return isGroupAdmin(getChatId(update), id);
+    }
+
+    public boolean isGroupAdmin(long chatId, int id) {
+        GetChatAdministrators admins = new GetChatAdministrators().setChatId(chatId);
+        return silent.execute(admins)
+            .orElse(new ArrayList<>()).stream()
+            .anyMatch(member -> member.getUser().getId() == id);
+    }
+
+    public boolean isCreator(int id) {
+        return id == creatorId();
+    }
+
+    public boolean isAdmin(Integer id) {
+        return admins().contains(id);
     }
 
     /**
@@ -463,30 +488,6 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
                             AbilityUtils.getUser(trio.a()).getLanguageCode()),
                     getChatId(trio.a()));
         return isOk;
-    }
-
-    @NotNull
-    Privacy getPrivacy(Update update, int id) {
-        return isCreator(id) ?
-                CREATOR : isAdmin(id) ?
-                ADMIN : (isGroupUpdate(update) || isSuperGroupUpdate(update)) && isGroupAdmin(update, id) ?
-                GROUP_ADMIN : PUBLIC;
-    }
-
-    private boolean isGroupAdmin(Update update, int id) {
-        GetChatAdministrators admins = new GetChatAdministrators().setChatId(getChatId(update));
-
-        return silent.execute(admins)
-                .orElse(new ArrayList<>()).stream()
-                .anyMatch(member -> member.getUser().getId() == id);
-    }
-
-    private boolean isCreator(int id) {
-        return id == creatorId();
-    }
-
-    private boolean isAdmin(Integer id) {
-        return admins().contains(id);
     }
 
     boolean validateAbility(Trio<Update, Ability, String[]> trio) {
