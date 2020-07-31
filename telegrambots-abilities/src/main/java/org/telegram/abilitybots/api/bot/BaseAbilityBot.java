@@ -17,7 +17,6 @@ import org.telegram.abilitybots.api.util.Pair;
 import org.telegram.abilitybots.api.util.Trio;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdministrators;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -52,7 +51,7 @@ import static org.telegram.abilitybots.api.util.AbilityUtils.*;
 /**
  * The <b>father</b> of all ability bots. Bots that need to utilize abilities need to extend this bot.
  * <p>
- * It's important to note that this bot strictly extends {@link TelegramLongPollingBot}.
+ * It's important to note that this bot strictly extends {@link DefaultAbsSender}.
  * <p>
  * All bots extending the {@link BaseAbilityBot} get implicit abilities:
  * <ul>

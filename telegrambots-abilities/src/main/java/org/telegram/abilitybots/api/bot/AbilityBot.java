@@ -3,9 +3,9 @@ package org.telegram.abilitybots.api.bot;
 import org.telegram.abilitybots.api.db.DBContext;
 import org.telegram.abilitybots.api.toggle.AbilityToggle;
 import org.telegram.abilitybots.api.toggle.DefaultToggle;
+import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 import org.telegram.telegrambots.util.WebhookUtils;
@@ -13,7 +13,7 @@ import org.telegram.telegrambots.util.WebhookUtils;
 import static org.telegram.abilitybots.api.db.MapDBContext.onlineInstance;
 
 /**
- * The default AbilityBot class implements {@link LongPollingBot}. It delegates all updates to a {@link TelegramLongPollingBot} instance.
+ * The default AbilityBot class implements {@link LongPollingBot}. It delegates all updates to a {@link DefaultAbsSender} instance.
  *
  * @author Abbas Abou Daya
  */
