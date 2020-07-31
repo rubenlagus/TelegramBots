@@ -17,6 +17,7 @@ import java.util.function.Predicate;
 import static java.util.ResourceBundle.Control.FORMAT_PROPERTIES;
 import static java.util.ResourceBundle.Control.getNoFallbackControl;
 import static java.util.ResourceBundle.getBundle;
+import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.telegram.abilitybots.api.objects.Flag.*;
 
@@ -57,6 +58,10 @@ public final class AbilityUtils {
    * @throws IllegalStateException if the user could not be found
    */
   public static User getUser(Update update) {
+    return defaultIfNull(getUserElseThrow(update), EMPTY_USER);
+  }
+
+  private static User getUserElseThrow(Update update) {
     if (MESSAGE.test(update)) {
       return update.getMessage().getFrom();
     } else if (CALLBACK_QUERY.test(update)) {
@@ -199,16 +204,16 @@ public final class AbilityUtils {
     return update -> update.getMessage().getReplyToMessage().getText().equals(msg);
   }
 
-  public static String getLocalizedMessage(String messageCode, Locale locale, Object...arguments) {
+  public static String getLocalizedMessage(String messageCode, Locale locale, Object... arguments) {
     ResourceBundle bundle;
     if (locale == null) {
       bundle = getBundle("messages", Locale.ROOT);
     } else {
       try {
         bundle = getBundle(
-                "messages",
-                locale,
-                getNoFallbackControl(FORMAT_PROPERTIES));
+            "messages",
+            locale,
+            getNoFallbackControl(FORMAT_PROPERTIES));
       } catch (MissingResourceException e) {
         bundle = getBundle("messages", Locale.ROOT);
       }
@@ -217,7 +222,7 @@ public final class AbilityUtils {
     return MessageFormat.format(message, arguments);
   }
 
-  public static String getLocalizedMessage(String messageCode, String languageCode, Object...arguments){
+  public static String getLocalizedMessage(String messageCode, String languageCode, Object... arguments) {
     Locale locale = Strings.isNullOrEmpty(languageCode) ? null : Locale.forLanguageTag(languageCode);
     return getLocalizedMessage(messageCode, locale, arguments);
   }
@@ -247,8 +252,8 @@ public final class AbilityUtils {
    * The full name is identified as the concatenation of the first and last name, separated by a space.
    * This method can return an empty name if both first and last name are empty.
    *
-   * @return the full name of the user
    * @param user
+   * @return the full name of the user
    */
   public static String fullName(User user) {
     StringJoiner name = new StringJoiner(" ");
@@ -262,6 +267,6 @@ public final class AbilityUtils {
   }
 
   public static String escape(String username) {
-      return username.replace("_", "\\_");
+    return username.replace("_", "\\_");
   }
 }

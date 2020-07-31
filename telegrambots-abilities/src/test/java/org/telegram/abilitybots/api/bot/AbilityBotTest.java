@@ -644,6 +644,21 @@ public class AbilityBotTest {
     verify(silent, times(1)).send(expected, GROUP_ID);
   }
 
+  @Test
+  void canProcessChannelPosts() {
+    Update update = mock(Update.class);
+    Message message = mock(Message.class);
+    when(message.getChatId()).thenReturn(1L);
+
+    when(update.getChannelPost()).thenReturn(message);
+    when(update.hasChannelPost()).thenReturn(true);
+
+    bot.onUpdateReceived(update);
+
+    String expected = "test channel post";
+    verify(silent, times(1)).send(expected, 1);
+  }
+
   private void handlesAllUpdates(Consumer<Update> utilMethod) {
     Arrays.stream(Update.class.getMethods())
         // filter to all these methods of hasXXX (hasPoll, hasMessage, etc...)
