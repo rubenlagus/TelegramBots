@@ -36,6 +36,7 @@ import static com.google.common.collect.Sets.difference;
 import static java.lang.String.format;
 import static java.time.ZonedDateTime.now;
 import static java.util.Arrays.stream;
+import static java.util.Comparator.comparingInt;
 import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;
 import static java.util.regex.Pattern.CASE_INSENSITIVE;
@@ -517,7 +518,8 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         if (allowContinuousText()) {
             String abName = abilities.keySet().stream()
                 .filter(name -> msg.getText().startsWith(format("%s%s", getCommandPrefix(), name)))
-                .findFirst().orElse(DEFAULT);
+                .max(comparingInt(String::length))
+                .orElse(DEFAULT);
             tokens = msg.getText()
                 .replaceFirst(getCommandPrefix() + abName, "")
                 .split(getCommandRegexSplit());
