@@ -18,14 +18,14 @@ Usage
     <dependency>
         <groupId>org.telegram</groupId>
         <artifactId>telegrambots-spring-boot-starter</artifactId>
-        <version>4.9</version>
+        <version>4.9.1</version>
     </dependency>
 ```
 
 **Gradle**
 
 ```gradle
-    compile "org.telegram:telegrambots-spring-boot-starter:4.9"
+    compile "org.telegram:telegrambots-spring-boot-starter:4.9.1"
 ```
 
 Motivation
