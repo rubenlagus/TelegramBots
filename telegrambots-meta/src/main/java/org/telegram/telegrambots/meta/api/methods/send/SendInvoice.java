@@ -39,11 +39,13 @@ public class SendInvoice extends BotApiMethod<Message> {
     private static final String NEED_PHONE_NUMBER_FIELD = "need_phone_number";
     private static final String NEED_EMAIL_FIELD = "need_email";
     private static final String NEED_SHIPPING_ADDRESS_FIELD = "need_shipping_address";
+    private static final String SEND_PHONE_NUMBER_TO_PROVIDER_FIELD = "send_phone_number_to_provider";
+    private static final String SEND_EMAIL_TO_PROVIDER_FIELD = "send_email_to_provider";
     private static final String IS_FLEXIBLE_FIELD = "is_flexible";
     private static final String DISABLE_NOTIFICATION_FIELD = "disable_notification";
     private static final String REPLY_TO_MESSAGE_ID_FIELD = "reply_to_message_id";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
-    private static final String PRIVIDER_DATA_FIELD = "provider_data";
+    private static final String PROVIDER_DATA_FIELD = "provider_data";
 
     @JsonProperty(CHATID_FIELD)
     private Integer chatId; ///< Unique identifier for the target private chat
@@ -87,6 +89,11 @@ public class SendInvoice extends BotApiMethod<Message> {
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     @JsonProperty(REPLY_TO_MESSAGE_ID_FIELD)
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
+
+    @JsonProperty(SEND_PHONE_NUMBER_TO_PROVIDER_FIELD)
+    private Boolean sendPhoneNumberToProvider;      ///< Optional. Pass True, if user's phone number should be sent to provider
+    @JsonProperty(SEND_EMAIL_TO_PROVIDER_FIELD)
+    private Boolean sendEmailToProvider;        ///< Optional. Pass True, if user's email address should be sent to provider
     /**
      * Optional. A JSON-serialized object for an inline keyboard.
      *
@@ -99,11 +106,10 @@ public class SendInvoice extends BotApiMethod<Message> {
      *
      * @note A detailed description of required fields should be provided by the payment provider.
      */
-    @JsonProperty(PRIVIDER_DATA_FIELD)
+    @JsonProperty(PROVIDER_DATA_FIELD)
     private String providerData;
 
-
-    /**
+     /**
      * Build an empty SendInvoice object
      */
     public SendInvoice() {
@@ -277,6 +283,20 @@ public class SendInvoice extends BotApiMethod<Message> {
         return this;
     }
 
+    public Boolean getSendPhoneNumberToProvider() { return sendPhoneNumberToProvider; }
+
+    public SendInvoice setSendPhoneNumberToProvider(Boolean sendPhoneNumberToProvider) {
+        this.sendPhoneNumberToProvider = sendPhoneNumberToProvider;
+        return this;
+    }
+
+    public Boolean getSendEmailToProvider() { return sendEmailToProvider; }
+
+    public SendInvoice setSendEmailToProvider(Boolean sendEmailToProvider) {
+        this.sendEmailToProvider = sendEmailToProvider;
+        return this;
+    }
+
     public Boolean getFlexible() {
         return isFlexible;
     }
@@ -396,6 +416,8 @@ public class SendInvoice extends BotApiMethod<Message> {
                 ", needPhoneNumber=" + needPhoneNumber +
                 ", needEmail=" + needEmail +
                 ", needShippingAddress=" + needShippingAddress +
+                ", sendPhoneNumberToProvider=" + sendPhoneNumberToProvider +
+                ", sendEmailToProvider=" + sendEmailToProvider +
                 ", isFlexible=" + isFlexible +
                 ", disableNotification=" + disableNotification +
                 ", replyToMessageId=" + replyToMessageId +

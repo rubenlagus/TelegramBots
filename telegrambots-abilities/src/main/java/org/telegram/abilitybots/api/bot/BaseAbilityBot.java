@@ -3,7 +3,6 @@ package org.telegram.abilitybots.api.bot;
 import com.google.common.collect.*;
 import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.collect.ImmutableMap;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.abilitybots.api.db.DBContext;
@@ -18,7 +17,6 @@ import org.telegram.abilitybots.api.util.Pair;
 import org.telegram.abilitybots.api.util.Trio;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdministrators;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -27,6 +25,7 @@ import org.telegram.telegrambots.meta.api.objects.User;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -37,6 +36,8 @@ import static com.google.common.collect.Sets.difference;
 import static java.lang.String.format;
 import static java.time.ZonedDateTime.now;
 import static java.util.Arrays.stream;
+import static java.util.Comparator.comparingInt;
+import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;
 import static java.util.regex.Pattern.CASE_INSENSITIVE;
 import static java.util.regex.Pattern.compile;
@@ -51,7 +52,7 @@ import static org.telegram.abilitybots.api.util.AbilityUtils.*;
 /**
  * The <b>father</b> of all ability bots. Bots that need to utilize abilities need to extend this bot.
  * <p>
- * It's important to note that this bot strictly extends {@link TelegramLongPollingBot}.
+ * It's important to note that this bot strictly extends {@link DefaultAbsSender}.
  * <p>
  * All bots extending the {@link BaseAbilityBot} get implicit abilities:
  * <ul>
@@ -130,35 +131,35 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     /**
      * @return the map of <ID,User>
      */
-    protected Map<Integer, User> users() {
+    public Map<Integer, User> users() {
         return db.getMap(USERS);
     }
 
     /**
      * @return the map of <Username,ID>
      */
-    protected Map<String, Integer> userIds() {
+    public Map<String, Integer> userIds() {
         return db.getMap(USER_ID);
     }
 
     /**
      * @return a blacklist containing all the IDs of the banned users
      */
-    protected Set<Integer> blacklist() {
+    public Set<Integer> blacklist() {
         return db.getSet(BLACKLIST);
     }
 
     /**
      * @return an admin set of all the IDs of bot administrators
      */
-    protected Set<Integer> admins() {
+    public Set<Integer> admins() {
         return db.getSet(ADMINS);
     }
 
     /**
      * @return a mapping of ability and reply names to their corresponding statistics
      */
-    protected Map<String, Stats> stats() {
+    public Map<String, Stats> stats() {
         return stats;
     }
 
@@ -221,6 +222,32 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         return botUsername;
     }
 
+    public Privacy getPrivacy(Update update, int id) {
+        return isCreator(id) ?
+            CREATOR : isAdmin(id) ?
+            ADMIN : (isGroupUpdate(update) || isSuperGroupUpdate(update)) && isGroupAdmin(update, id) ?
+            GROUP_ADMIN : PUBLIC;
+    }
+
+    public boolean isGroupAdmin(Update update, int id) {
+        return isGroupAdmin(getChatId(update), id);
+    }
+
+    public boolean isGroupAdmin(long chatId, int id) {
+        GetChatAdministrators admins = new GetChatAdministrators().setChatId(chatId);
+        return silent.execute(admins)
+            .orElse(new ArrayList<>()).stream()
+            .anyMatch(member -> member.getUser().getId() == id);
+    }
+
+    public boolean isCreator(int id) {
+        return id == creatorId();
+    }
+
+    public boolean isAdmin(Integer id) {
+        return admins().contains(id);
+    }
+
     /**
      * Test the update against the provided global flags. The default implementation is a passthrough to all updates.
      * <p>
@@ -231,6 +258,18 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
      */
     protected boolean checkGlobalFlags(Update update) {
         return true;
+    }
+
+    protected String getCommandPrefix() {
+        return "/";
+    }
+
+    protected String getCommandRegexSplit() {
+        return " ";
+    }
+
+    protected boolean allowContinuousText() {
+        return false;
     }
 
     /**
@@ -277,7 +316,8 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
 
             // Replies can be standalone or attached to abilities, fetch those too
             Stream<Reply> abilityReplies = abilities.values().stream()
-                    .flatMap(ability -> ability.replies().stream());
+                    .flatMap(ability -> ability.replies().stream())
+                    .flatMap(Reply::stream);
 
             // Now create the replies registry (list)
             replies = Stream.concat(abilityReplies, extensionReplies).collect(
@@ -401,8 +441,12 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     }
 
     boolean checkBlacklist(Update update) {
-        Integer id = AbilityUtils.getUser(update).getId();
+        User user = getUser(update);
+        if (isNull(user)) {
+            return true;
+        }
 
+        int id = user.getId();
         return id == creatorId() || !blacklist().contains(id);
     }
 
@@ -458,30 +502,6 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         return isOk;
     }
 
-    @NotNull
-    Privacy getPrivacy(Update update, int id) {
-        return isCreator(id) ?
-                CREATOR : isAdmin(id) ?
-                ADMIN : (isGroupUpdate(update) || isSuperGroupUpdate(update)) && isGroupAdmin(update, id) ?
-                GROUP_ADMIN : PUBLIC;
-    }
-
-    private boolean isGroupAdmin(Update update, int id) {
-        GetChatAdministrators admins = new GetChatAdministrators().setChatId(getChatId(update));
-
-        return silent.execute(admins)
-                .orElse(new ArrayList<>()).stream()
-                .anyMatch(member -> member.getUser().getId() == id);
-    }
-
-    private boolean isCreator(int id) {
-        return id == creatorId();
-    }
-
-    private boolean isAdmin(Integer id) {
-        return admins().contains(id);
-    }
-
     boolean validateAbility(Trio<Update, Ability, String[]> trio) {
         return trio.b() != null;
     }
@@ -493,17 +513,28 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         if (!update.hasMessage() || !msg.hasText())
             return Trio.of(update, abilities.get(DEFAULT), new String[]{});
 
-        String[] tokens = msg.getText().split(" ");
-
-        if (tokens[0].startsWith("/")) {
-            String abilityToken = stripBotUsername(tokens[0].substring(1)).toLowerCase();
-            Ability ability = abilities.get(abilityToken);
-            tokens = Arrays.copyOfRange(tokens, 1, tokens.length);
-            return Trio.of(update, ability, tokens);
+        Ability ability;
+        String[] tokens;
+        if (allowContinuousText()) {
+            String abName = abilities.keySet().stream()
+                .filter(name -> msg.getText().startsWith(format("%s%s", getCommandPrefix(), name)))
+                .max(comparingInt(String::length))
+                .orElse(DEFAULT);
+            tokens = msg.getText()
+                .replaceFirst(getCommandPrefix() + abName, "")
+                .split(getCommandRegexSplit());
+            ability = abilities.get(abName);
         } else {
-            Ability ability = abilities.get(DEFAULT);
-            return Trio.of(update, ability, tokens);
+            tokens = msg.getText().split(getCommandRegexSplit());
+            if (tokens[0].startsWith(getCommandPrefix())) {
+                String abilityToken = stripBotUsername(tokens[0].substring(1)).toLowerCase();
+                ability = abilities.get(abilityToken);
+                tokens = Arrays.copyOfRange(tokens, 1, tokens.length);
+            } else {
+                ability = abilities.get(DEFAULT);
+            }
         }
+        return Trio.of(update, ability, tokens);
     }
 
     private String stripBotUsername(String token) {
@@ -556,13 +587,23 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
 
     boolean filterReply(Update update) {
         return replies.stream()
-                .filter(reply -> reply.isOkFor(update))
-                .map(reply -> {
+                .filter(reply -> runSilently(() -> reply.isOkFor(update), reply.name()))
+                .map(reply -> runSilently(() -> {
                     reply.actOn(update);
                     updateReplyStats(reply);
                     return false;
-                })
+                }, reply.name()))
                 .reduce(true, Boolean::logicalAnd);
+    }
+
+    boolean runSilently(Callable<Boolean> callable, String name) {
+        try {
+            return callable.call();
+        } catch(Exception ex) {
+            log.error(format("Reply [%s] failed to check for conditions. " +
+                "Make sure you're safeguarding against all possible updates.", name));
+        }
+        return false;
     }
 
     boolean checkMessageFlags(Trio<Update, Ability, String[]> trio) {

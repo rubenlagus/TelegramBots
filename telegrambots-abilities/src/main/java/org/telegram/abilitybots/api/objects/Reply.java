@@ -2,10 +2,8 @@ package org.telegram.abilitybots.api.objects;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -14,7 +12,6 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static java.util.Arrays.asList;
 
 /**
  * A reply consists of update conditionals and an action to be applied on the update.
@@ -35,6 +32,13 @@ public class Reply {
         .build();
     this.action = action;
     statsEnabled = false;
+  }
+
+  Reply(List<Predicate<Update>> conditions, Consumer<Update> action, String name) {
+    this(conditions, action);
+    if (Objects.nonNull(name)) {
+      enableStats(name);
+    }
   }
 
   public static Reply of(Consumer<Update> action, List<Predicate<Update>> conditions) {

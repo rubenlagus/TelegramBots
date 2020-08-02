@@ -243,16 +243,16 @@ This is just one way, how you can compile it (here with maven). The example belo
 Please use ```execute()``` instead. 
 Example:
 ```java
-SendMessage sn = new SendMessage();
+SendMessage message = new SendMessage();
 //add chat id and text
-execute(sn);
+execute(message);
 ```
 
 If you extend ```TelegramLongPollingCommandBot```, then use ```AbsSender.execute()``` instead.
 
 
 ## <a id="example_webhook"></a>Is there any example for WebHook? ##
-Please see the example Bot for https://telegram.me/SnowcrashBot in the [TelegramBotsExample]() repo and also an [example bot for Sping Boot](https://github.com/UnAfraid/SpringTelegramBot) from [UnAfraid](https://github.com/UnAfraid) [here](https://github.com/UnAfraid/SpringTelegramBot/blob/master/src/main/java/com/github/unafraid/spring/bot/TelegramWebhookBot.java)
+Please see the example Bot for https://telegram.me/SnowcrashBot in the [TelegramBotsExample]() repo and also an [example bot for Sping Boot](https://github.com/UnAfraid/SpringTelegramBot) from [UnAfraid](https://github.com/UnAfraid) [here](https://github.com/UnAfraid/SpringTelegramBot/blob/master/src/main/java/com/github/unafraid/spring/bot/TelegramWebHookBot.java)
 
 
 
@@ -268,7 +268,7 @@ public class YourApplicationMainClass {
 	    //Add this line to initialize bots context
 		ApiContextInitializer.init();
 		
-		SpringApplication.run(MusicUploaderApplication.class, args);
+		SpringApplication.run(YourApplicationMainClass.class, args);
 	}
 }
 ```

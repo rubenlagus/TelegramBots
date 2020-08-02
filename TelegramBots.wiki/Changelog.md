@@ -1,3 +1,6 @@
+### <a id="4.9.1"></a>4.9.1 ###
+1. Bug fixing: #767, #766, #761, #763, #776, #772, #771, #780
+
 ### <a id="4.9"></a>4.9 ###
 1. Update Api version [4.9](https://core.telegram.org/bots/api-changelog#june-4-2020)
 2. Bug fixing: #731, #749, #752 and #753
