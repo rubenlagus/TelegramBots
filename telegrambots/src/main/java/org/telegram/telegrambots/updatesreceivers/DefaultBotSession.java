@@ -214,7 +214,7 @@ public class DefaultBotSession implements BotSession {
                             }
                             log.debug(e.getLocalizedMessage(), e);
                             interrupt();
-                        } catch (Exception global) {
+                        } catch (Throwable global) {
                             log.error(global.getLocalizedMessage(), global);
                             try {
                                 synchronized (lock) {
@@ -322,7 +322,7 @@ public class DefaultBotSession implements BotSession {
                 } catch (InterruptedException e) {
                     log.debug(e.getLocalizedMessage(), e);
                     interrupt();
-                } catch (Exception e) {
+                } catch (Throwable e) {
                     log.error(e.getLocalizedMessage(), e);
                 }
             }

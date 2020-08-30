@@ -599,7 +599,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     boolean runSilently(Callable<Boolean> callable, String name) {
         try {
             return callable.call();
-        } catch(Exception ex) {
+        } catch(Throwable ex) {
             log.error(format("Reply [%s] failed to check for conditions. " +
                 "Make sure you're safeguarding against all possible updates.", name));
         }
