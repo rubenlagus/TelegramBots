@@ -82,7 +82,9 @@ public abstract class AbilityWebhookBot extends BaseAbilityBot implements Webhoo
   }
 
   private BotApiMethod consumeWebhookUpdate(Pair<MessageContext, Ability> pair){
-    return pair.b().webhookAction().apply(pair.a());
+    final BotApiMethod response = pair.b().webhookAction().apply(pair.a());
+    postConsumption(pair);
+    return response;
   }
 
   @Override
