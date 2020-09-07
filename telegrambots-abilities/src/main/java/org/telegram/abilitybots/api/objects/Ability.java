@@ -4,11 +4,13 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -34,6 +36,7 @@ import static org.apache.commons.lang3.StringUtils.*;
  *
  * @author Abbas Abou Daya
  */
+@SuppressWarnings("rawtypes")
 public final class Ability {
   private static final Logger log = LoggerFactory.getLogger(Ability.class);
 
@@ -44,12 +47,13 @@ public final class Ability {
   private final int argNum;
   private final boolean statsEnabled;
   private final Consumer<MessageContext> action;
+  private final Function<MessageContext, BotApiMethod> webhookAction;
   private final Consumer<MessageContext> postAction;
   private final List<Reply> replies;
   private final List<Predicate<Update>> flags;
 
   @SafeVarargs
-  private Ability(String name, String info, Locality locality, Privacy privacy, int argNum, boolean statsEnabled, Consumer<MessageContext> action, Consumer<MessageContext> postAction, List<Reply> replies, Predicate<Update>... flags) {
+  private Ability(String name, String info, Locality locality, Privacy privacy, int argNum, boolean statsEnabled, Consumer<MessageContext> action, Function<MessageContext, BotApiMethod> webhookAction, Consumer<MessageContext> postAction, List<Reply> replies, Predicate<Update>... flags) {
     checkArgument(!isEmpty(name), "Method name cannot be empty");
     checkArgument(!containsWhitespace(name), "Method name cannot contain spaces");
     checkArgument(isAlphanumeric(name), "Method name can only be alpha-numeric", name);
@@ -63,7 +67,15 @@ public final class Ability {
         "Use the number 0 if the method ignores the arguments OR uses as many as appended");
     this.argNum = argNum;
 
-    this.action = checkNotNull(action, "Method action can't be empty. Please assign a function by using .action() method");
+    this.webhookAction = webhookAction;
+    boolean isWebhook = webhookAction != null;
+
+    if (!isWebhook) {
+      this.action = checkNotNull(action, "Method action can't be empty. Please assign a function by using .action() method");
+    } else {
+      this.action = null;
+    }
+
     if (postAction == null)
       log.info(format("No post action was detected for method with name [%s]", name));
 
@@ -104,6 +116,10 @@ public final class Ability {
 
   public Consumer<MessageContext> action() {
     return action;
+  }
+
+  public Function<MessageContext, BotApiMethod> webhookAction() {
+    return webhookAction;
   }
 
   public Consumer<MessageContext> postAction() {
@@ -155,6 +171,7 @@ public final class Ability {
     private int argNum;
     private boolean statsEnabled;
     private Consumer<MessageContext> action;
+    private Function<MessageContext, BotApiMethod> webhookAction;
     private Consumer<MessageContext> postAction;
     private List<Reply> replies;
     private Predicate<Update>[] flags;
@@ -166,6 +183,11 @@ public final class Ability {
 
     public AbilityBuilder action(Consumer<MessageContext> consumer) {
       this.action = consumer;
+      return this;
+    }
+
+    public AbilityBuilder webhookAction(Function<MessageContext, BotApiMethod> webhookAction){
+      this.webhookAction = webhookAction;
       return this;
     }
 
@@ -234,7 +256,7 @@ public final class Ability {
     }
 
     public Ability build() {
-      return new Ability(name, info, locality, privacy, argNum, statsEnabled, action, postAction, replies, flags);
+      return new Ability(name, info, locality, privacy, argNum, statsEnabled, action, webhookAction, postAction, replies, flags);
     }
   }
 }

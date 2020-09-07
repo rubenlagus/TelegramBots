@@ -403,7 +403,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         };
     }
 
-    private void postConsumption(Pair<MessageContext, Ability> pair) {
+    protected void postConsumption(Pair<MessageContext, Ability> pair) {
         ofNullable(pair.b().postAction())
                 .ifPresent(consumer -> consumer.accept(pair.a()));
     }
@@ -567,7 +567,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         return update;
     }
 
-    private boolean hasUser(Update update) {
+    protected boolean hasUser(Update update) {
         // Valid updates without users should return an empty user
         // Updates that are not recognized by the getUser method will throw an exception
         return !AbilityUtils.getUser(update).equals(EMPTY_USER);
