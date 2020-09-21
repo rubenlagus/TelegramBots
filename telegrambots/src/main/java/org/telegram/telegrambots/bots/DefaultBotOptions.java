@@ -26,6 +26,8 @@ public class DefaultBotOptions implements BotOptions {
     private ProxyType proxyType;
     private String proxyHost;
     private int proxyPort;
+    private int getUpdatesTimeout;
+    private int getUpdatesLimit;
 
     public enum ProxyType {
         NO_PROXY,
@@ -39,6 +41,8 @@ public class DefaultBotOptions implements BotOptions {
         baseUrl = ApiConstants.BASE_URL;
         httpContext = HttpClientContext.create();
         proxyType = ProxyType.NO_PROXY;
+        getUpdatesLimit = ApiConstants.GETUPDATES_TIMEOUT;
+        getUpdatesLimit = 100;
     }
 
     @Override
@@ -128,5 +132,21 @@ public class DefaultBotOptions implements BotOptions {
 
     public void setProxyPort(int proxyPort) {
         this.proxyPort = proxyPort;
+    }
+
+    public int getGetUpdatesTimeout() {
+        return getUpdatesTimeout;
+    }
+
+    public void setGetUpdatesTimeout(int getUpdatesTimeout) {
+        this.getUpdatesTimeout = getUpdatesTimeout;
+    }
+
+    public int getGetUpdatesLimit() {
+        return getUpdatesLimit;
+    }
+
+    public void setGetUpdatesLimit(int getUpdatesLimit) {
+        this.getUpdatesLimit = getUpdatesLimit;
     }
 }
