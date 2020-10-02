@@ -50,6 +50,11 @@ public abstract class InputMedia<T> implements InputBotApiObject, Validable {
         super();
     }
 
+    public InputMedia(InputStream media, String fileName, String caption) {
+        setMedia(media, fileName);
+        this.caption = caption;
+    }
+
     public InputMedia(String media, String caption) {
         this.media = media;
         this.caption = caption;

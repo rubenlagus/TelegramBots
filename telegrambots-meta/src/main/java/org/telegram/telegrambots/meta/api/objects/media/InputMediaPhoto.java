@@ -3,6 +3,8 @@ package org.telegram.telegrambots.meta.api.objects.media;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
+import java.io.InputStream;
+
 /**
  * @author Ruben Bermudez
  * @version 3.5
@@ -16,6 +18,10 @@ public class InputMediaPhoto extends InputMedia<InputMediaPhoto> {
 
     public InputMediaPhoto() {
         super();
+    }
+
+    public InputMediaPhoto(InputStream media, String fileName, String caption) {
+        super(media, fileName, caption);
     }
 
     public InputMediaPhoto(String media, String caption) {

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
+import java.io.InputStream;
+
 /**
  * @author Ruben Bermudez
  * @version 3.5
@@ -42,6 +44,10 @@ public class InputMediaVideo extends InputMedia<InputMediaVideo> {
 
     public InputMediaVideo() {
         super();
+    }
+
+    public InputMediaVideo(InputStream media, String fileName, String caption) {
+        super(media, fileName, caption);
     }
 
     public InputMediaVideo(String media, String caption) {
