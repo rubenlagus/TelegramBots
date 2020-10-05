@@ -19,6 +19,7 @@ class ExtensionTest {
   @BeforeEach
   void setUp() {
     bot = new ExtensionUsingBot();
+    bot.onRegister();
   }
 
   @AfterEach
