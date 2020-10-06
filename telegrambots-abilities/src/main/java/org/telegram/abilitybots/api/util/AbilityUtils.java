@@ -269,4 +269,29 @@ public final class AbilityUtils {
   public static String escape(String username) {
     return username.replace("_", "\\_");
   }
+  
+  /**
+   * Checks if the passed string is a valid bot command according to the requirements of Telegram Bot API:
+   *    "A command must always start with the '/' symbol and may not be longer than 32 characters.
+   *    Commands can use latin letters, numbers and underscores."
+   *    (https://core.telegram.org/bots#commands)
+   *
+   * @param command String representation of a command to be checked for validity
+   * @return whether the command is valid
+   */
+  public static boolean isValidCommand(String command){
+    if (command == null || command.length() > 32) return false;
+    return command.matches("/[A-Za-z_0-9]+");
+  }
+
+  /**
+   * Checks if the passed String is a valid command name. Command name is text of a command without leading '/'
+   *
+   * @param commandName the command's name to be checked for validity
+   * @return whether the command's name is valid
+   */
+  public static boolean isValidCommandName(String commandName){
+    if (commandName == null || commandName.length() > 31) return false;
+    return commandName.matches("[A-Za-z_0-9]+");
+  }
 }
