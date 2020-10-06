@@ -287,8 +287,8 @@ public final class AbilityUtils {
   /**
    * Checks if the passed String is a valid command name. Command name is text of a command without leading '/'
    *
-   * @param commandName the command's name to be checked for validity
-   * @return whether the command's name is valid
+   * @param commandName the command name to be checked for validity
+   * @return whether the command name is valid
    */
   public static boolean isValidCommandName(String commandName){
     if (commandName == null || commandName.length() > 31) return false;
