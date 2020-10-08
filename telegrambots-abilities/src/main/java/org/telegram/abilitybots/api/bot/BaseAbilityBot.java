@@ -106,7 +106,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     private final String botUsername;
 
     // Ability registry
-    protected final List<AbilityExtension> extensions = new ArrayList<>();
+    private final List<AbilityExtension> extensions = new ArrayList<>();
     private Map<String, Ability> abilities;
     private Map<String, Stats> stats;
 
@@ -271,6 +271,18 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
 
     protected boolean allowContinuousText() {
         return false;
+    }
+
+    protected void addExtension(AbilityExtension extension) {
+        this.extensions.add(extension);
+    }
+
+    protected void addExtensions(AbilityExtension... extensions) {
+        this.extensions.addAll(Arrays.asList(extensions));
+    }
+
+    protected void addExtensions(Collection<AbilityExtension> extensions) {
+        this.extensions.addAll(extensions);
     }
 
     /**
