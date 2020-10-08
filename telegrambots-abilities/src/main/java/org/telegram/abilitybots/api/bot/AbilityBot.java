@@ -51,11 +51,6 @@ public abstract class AbilityBot extends BaseAbilityBot implements LongPollingBo
     }
 
     @Override
-    public void onRegister() {
-        super.onRegister();
-    }
-
-    @Override
     public void onUpdateReceived(Update update) {
         super.onUpdateReceived(update);
     }

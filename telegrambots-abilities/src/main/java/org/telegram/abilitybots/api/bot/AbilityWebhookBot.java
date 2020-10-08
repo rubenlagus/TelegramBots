@@ -57,11 +57,6 @@ public abstract class AbilityWebhookBot extends BaseAbilityBot implements Webhoo
     }
 
     @Override
-    public void onRegister() {
-        super.onRegister();
-    }
-
-    @Override
     public BotApiMethod onWebhookUpdateReceived(Update update) {
         super.onUpdateReceived(update);
         return null;
