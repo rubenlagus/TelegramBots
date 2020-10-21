@@ -14,27 +14,22 @@ import org.telegram.telegrambots.meta.generics.LongPollingBot;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class TestTelegramBotStarterRegistrationHooks {
 
-	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-			.withConfiguration(AutoConfigurations.of(MockTelegramBotsApi.class, TelegramBotStarterConfiguration.class));
-
-	// Terrible workaround for mockito loosing annotations on methods
-	private static boolean hookCalled = false;
-	private static boolean hookCalledWithSession = false;
-	private static final DefaultBotSession someBotSession = new DefaultBotSession();
-
-	private static final TelegramBotsApi mockTelegramBotsApi = mock(TelegramBotsApi.class);
+    private static final DefaultBotSession someBotSession = new DefaultBotSession();
+    private static final TelegramBotsApi mockTelegramBotsApi = mock(TelegramBotsApi.class);
+    // Terrible workaround for mockito loosing annotations on methods
+    private static boolean hookCalled = false;
+    private static boolean hookCalledWithSession = false;
+    private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
+			.withAllowBeanDefinitionOverriding(true)
+            .withConfiguration(AutoConfigurations.of(MockTelegramBotsApi.class,
+                                                     TelegramBotStarterConfiguration.class));
 
     @Test
-	void longPollingBotWithAnnotatedMethodshouldBeCalled() throws TelegramApiRequestException {
+    void longPollingBotWithAnnotatedMethodshouldBeCalled() throws TelegramApiRequestException {
 
         when(mockTelegramBotsApi.registerBot(any(LongPollingBot.class))).thenReturn(someBotSession);
 
@@ -45,48 +40,56 @@ class TestTelegramBotStarterRegistrationHooks {
                     final LongPollingBot bot = context.getBean(LongPollingBot.class);
                     final TelegramBotsApi telegramBotsApi = context.getBean(TelegramBotsApi.class);
 
-                   assertThat(hookCalled).isTrue();
-                   assertThat(hookCalledWithSession).isTrue();
-                   verify(telegramBotsApi, times(1)).registerBot(bot);
-                   verifyNoMoreInteractions(telegramBotsApi);
+                    assertThat(hookCalled).isTrue();
+                    assertThat(hookCalledWithSession).isTrue();
+                    verify(telegramBotsApi,
+                           times(1)).registerBot(bot);
+                    verifyNoMoreInteractions(telegramBotsApi);
                 });
     }
 
 
-	@Configuration
-	static class MockTelegramBotsApi{
+    @Configuration
+    static class MockTelegramBotsApi {
 
-		@Bean
-		public TelegramBotsApi telegramBotsApi() {
-			return mockTelegramBotsApi;
-		}
-	}
-	
-	@Configuration
-	static class LongPollingBotConfig{
-		@Bean
-		public LongPollingBot longPollingBot() { return new AnnotatedLongPollingBot(); }
-	}
+        @Bean
+        public TelegramBotsApi telegramBotsApi() {
+            return mockTelegramBotsApi;
+        }
+    }
 
-	static class AnnotatedLongPollingBot extends TelegramLongPollingBot {
+    @Configuration
+    static class LongPollingBotConfig {
+        @Bean
+        public LongPollingBot longPollingBot() {
+            return new AnnotatedLongPollingBot();
+        }
+    }
 
-		@Override
-		public void onUpdateReceived(final Update update) {}
+    static class AnnotatedLongPollingBot extends TelegramLongPollingBot {
 
-		@Override
-		public String getBotUsername() { return null; }
+        @Override
+        public void onUpdateReceived(final Update update) {
+        }
 
-		@Override
-		public String getBotToken() { return null; }
+        @Override
+        public String getBotUsername() {
+            return null;
+        }
 
-		@AfterBotRegistration
-		public void afterBotHook() {
+        @Override
+        public String getBotToken() {
+            return null;
+        }
+
+        @AfterBotRegistration
+        public void afterBotHook() {
             hookCalled = true;
         }
 
         @AfterBotRegistration
-		public void afterBotHookWithSession(BotSession session) {
+        public void afterBotHookWithSession(BotSession session) {
             hookCalledWithSession = session.equals(someBotSession);
         }
-	}
+    }
 }
