@@ -26,6 +26,18 @@ public final class CommandRegistry implements ICommandRegistry {
 
     /**
      * Creates a Command registry
+     *
+     * @param allowCommandsWithUsername True to allow commands with username, false otherwise
+     * @param botUsername               Bot username
+     */
+    public CommandRegistry(boolean allowCommandsWithUsername, String botUsername) {
+        Objects.requireNonNull(botUsername, "Bot username must not be null");
+        this.allowCommandsWithUsername = allowCommandsWithUsername;
+        this.botUsernameSupplier = () -> botUsername;
+    }
+
+    /**
+     * Creates a Command registry
      * @param allowCommandsWithUsername True to allow commands with username, false otherwise
      * @param botUsernameSupplier       Bot username supplier
      */
