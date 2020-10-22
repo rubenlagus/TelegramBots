@@ -117,6 +117,7 @@ public class TelegramBotsApi {
      * @param bot the bot to register
      */
     public BotSession registerBot(LongPollingBot bot) throws TelegramApiRequestException {
+        bot.onRegister();
         bot.clearWebhook();
         BotSession session = ApiContext.getInstance(BotSession.class);
         session.setToken(bot.getBotToken());
@@ -132,6 +133,7 @@ public class TelegramBotsApi {
      */
     public void registerBot(WebhookBot bot) throws TelegramApiRequestException {
         if (useWebhook) {
+            bot.onRegister();
             webhook.registerWebhook(bot);
             bot.setWebhook(externalUrl + bot.getBotPath(), pathToCertificate);
         }

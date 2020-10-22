@@ -104,6 +104,8 @@ public class ExampleBotTest {
   public void setUp() {
     // Create your bot
     bot = new ExampleBot();
+    // Call onRegister() to initialize abilities etc. 
+    bot.onRegister();
     // Create a new sender as a mock
     silent = mock(SilentSender.class);
     // Set your bot silent sender to the mocked sender
@@ -156,6 +158,7 @@ public class ExampleBotTest {
     // Offline instance will get deleted at JVM shutdown
     db = MapDBContext.offlineInstance("test");
     bot = new ExampleBot(db);
+    bot.onRegister();
     
     ...
   }
@@ -180,6 +183,7 @@ public class ExampleBotTest {
   @Before
   public void setUp() {
     bot = new ExampleBot(db);
+    bot.onRegister();
     sender = mock(MessageSender.class);
     SilentSender silent = new SilentSender(sender);
     // Create setter in your bot 
