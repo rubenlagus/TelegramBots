@@ -43,6 +43,7 @@ public final class TestUtils {
   static MessageContext mockContext(User user, long groupId, String... args) {
     Update update = mock(Update.class);
     Message message = mock(Message.class);
+    BaseAbilityBot bot = mock(BaseAbilityBot.class);
 
     when(update.hasMessage()).thenReturn(true);
     when(update.getMessage()).thenReturn(message);
@@ -50,7 +51,7 @@ public final class TestUtils {
     when(message.getFrom()).thenReturn(user);
     when(message.hasText()).thenReturn(true);
 
-    return newContext(update, user, groupId, args);
+    return newContext(update, user, groupId, bot, args);
   }
 
   @NotNull
