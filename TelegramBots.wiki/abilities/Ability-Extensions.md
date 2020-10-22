@@ -38,3 +38,17 @@ public class MrBadGuy implements AbilityExtension {
     // Override creatorId
  }
 ```
+
+It's also possible to add extensions in the constructor by using the `addExtension()` or `addExtensions()` method:
+
+```java
+ public class YourAwesomeBot implements AbilityBot {
+
+    public YourAwesomeBot() {
+      super(/* pass required args ... */);
+      addExtensions(new MrGoodGuy(), new MrBadGuy());
+    }
+    
+    // Override creatorId
+ }
+```
