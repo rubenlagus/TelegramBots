@@ -29,7 +29,10 @@ public final class CommandRegistry implements ICommandRegistry {
      *
      * @param allowCommandsWithUsername True to allow commands with username, false otherwise
      * @param botUsername               Bot username
+     * @throws java.lang.NullPointerException if {@code botUsername} is {@code null}
+     * @deprecated Use {@link #CommandRegistry(boolean, java.util.function.Supplier)} instead
      */
+    @Deprecated
     public CommandRegistry(boolean allowCommandsWithUsername, String botUsername) {
         Objects.requireNonNull(botUsername, "Bot username must not be null");
         this.allowCommandsWithUsername = allowCommandsWithUsername;
@@ -134,6 +137,8 @@ public final class CommandRegistry implements ICommandRegistry {
      * the command
      * @param command Command to simplify
      * @return Simplified command
+     * @throws java.lang.NullPointerException if {@code allowCommandsWithUsername} is {@code true}
+     *                                        and {@code botUsernameSupplier} returns {@code null}
      */
     private String removeUsernameFromCommandIfNeeded(String command) {
         if (allowCommandsWithUsername) {
