@@ -395,6 +395,10 @@ public class Message implements BotApiObject {
         return false;
     }
 
+    public boolean hasCaption() {
+        return this.caption != null;
+    }
+
     public boolean hasDocument() {
         return this.document != null;
     }
