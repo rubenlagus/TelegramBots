@@ -189,4 +189,13 @@ public class ChatMember implements BotApiObject {
                 ", customTitle=" + customTitle +
                 '}';
     }
+
+    public enum Status {
+        CREATOR,
+        ADMINISTRATOR,
+        MEMBER,
+        RESTRICTED,
+        LEFT,
+        KICKED
+    }
 }
