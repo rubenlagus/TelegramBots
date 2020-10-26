@@ -17,7 +17,7 @@ import static com.google.common.collect.Lists.newArrayList;
 import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Optional.ofNullable;
-import static org.apache.commons.lang3.StringUtils.*;
+import static org.telegram.abilitybots.api.util.AbilityUtils.isValidCommandName;
 
 /**
  * An ability is a fully-fledged bot action that contains all the necessary information to process:
