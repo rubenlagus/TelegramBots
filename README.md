@@ -1,5 +1,5 @@
 # Telegram Bot Java Library
-[![Telegram](http://trellobot.doomdns.org/telegrambadge.svg)](https://telegram.me/JavaBotsApi)
+[![Telegram](/TelegramBots.svg)](https://telegram.me/JavaBotsApi)
 
 
 [![Build Status](https://travis-ci.org/rubenlagus/TelegramBots.svg?branch=master)](https://travis-ci.org/rubenlagus/TelegramBots)
