@@ -1,5 +1,5 @@
 # Telegram Bot Java Library
-[![Telegram](http://trellobot.doomdns.org/telegrambadge.svg)](https://telegram.me/JavaBotsApi)
+[![Telegram](/TelegramBots.svg)](https://telegram.me/JavaBotsApi)
 
 
 [![Build Status](https://travis-ci.org/rubenlagus/TelegramBots.svg?branch=master)](https://travis-ci.org/rubenlagus/TelegramBots)
@@ -27,16 +27,16 @@ Just import add the library to your project with one of these options:
     <dependency>
         <groupId>org.telegram</groupId>
         <artifactId>telegrambots</artifactId>
-        <version>4.9.1</version>
+        <version>4.9.2</version>
     </dependency>
 ```
 
 ```gradle
-    compile "org.telegram:telegrambots:4.9.1"
+    compile "org.telegram:telegrambots:4.9.2"
 ```
 
-  2. Using Jitpack from [here](https://jitpack.io/#rubenlagus/TelegramBots/4.9.1)
-  3. Download the jar(including all dependencies) from [here](https://mvnrepository.com/artifact/org.telegram/telegrambots/4.9.1)
+  2. Using Jitpack from [here](https://jitpack.io/#rubenlagus/TelegramBots/4.9.2)
+  3. Download the jar(including all dependencies) from [here](https://mvnrepository.com/artifact/org.telegram/telegrambots/4.9.2)
 
 In order to use Long Polling mode, just create your own bot extending `org.telegram.telegrambots.bots.TelegramLongPollingBot`.
 

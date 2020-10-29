@@ -26,6 +26,7 @@ public class BareboneToggleTest {
     db = offlineInstance("db");
     toggle = new BareboneToggle();
     bareboneBot = new DefaultBot(EMPTY, EMPTY, db, toggle);
+    bareboneBot.onRegister();
     defaultAbs = new DefaultAbilities(bareboneBot);
   }
 

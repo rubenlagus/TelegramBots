@@ -1,7 +1,6 @@
 package org.telegram.abilitybots.api.toggle;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.abilitybots.api.bot.DefaultAbilities;
@@ -18,12 +17,10 @@ class CustomToggleTest {
   private DBContext db;
   private AbilityToggle toggle;
   private DefaultBot customBot;
-  private DefaultAbilities defaultAbs;
 
   @BeforeEach
   void setUp() {
     db = offlineInstance("db");
-    defaultAbs = new DefaultAbilities(customBot);
   }
 
   @AfterEach
@@ -36,6 +33,7 @@ class CustomToggleTest {
   public void canTurnOffAbilities() {
     toggle = new CustomToggle().turnOff(DefaultAbilities.CLAIM);
     customBot = new DefaultBot(EMPTY, EMPTY, db, toggle);
+    customBot.onRegister();
     assertFalse(customBot.abilities().containsKey(DefaultAbilities.CLAIM));
   }
 
@@ -44,6 +42,7 @@ class CustomToggleTest {
     String targetName = DefaultAbilities.CLAIM + "1toggle";
     toggle = new CustomToggle().toggle(DefaultAbilities.CLAIM, targetName);
     customBot = new DefaultBot(EMPTY, EMPTY, db, toggle);
+    customBot.onRegister();
 
     assertTrue(customBot.abilities().containsKey(targetName));
   }

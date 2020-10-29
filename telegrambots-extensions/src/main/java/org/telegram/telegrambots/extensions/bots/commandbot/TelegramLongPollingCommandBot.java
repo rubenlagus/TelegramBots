@@ -53,7 +53,7 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      */
     public TelegramLongPollingCommandBot(DefaultBotOptions options, boolean allowCommandsWithUsername) {
         super(options);
-        this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, this.getBotUsername());
+        this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, this::getBotUsername);
     }
 
     @Override

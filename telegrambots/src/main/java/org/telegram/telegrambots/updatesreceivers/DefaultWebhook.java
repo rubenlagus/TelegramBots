@@ -52,6 +52,7 @@ public class DefaultWebhook implements Webhook {
         ResourceConfig rc = new ResourceConfig();
         rc.register(restApi);
         rc.register(JacksonFeature.class);
+        rc.register(DefaultExceptionMapper.class);
 
         final HttpServer grizzlyServer;
         if (keystoreServerFile != null && keystoreServerPwd != null) {

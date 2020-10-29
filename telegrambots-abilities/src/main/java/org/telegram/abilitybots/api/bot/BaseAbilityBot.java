@@ -106,6 +106,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     private final String botUsername;
 
     // Ability registry
+    private final List<AbilityExtension> extensions = new ArrayList<>();
     private Map<String, Ability> abilities;
     private Map<String, Stats> stats;
 
@@ -123,9 +124,32 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         this.toggle = toggle;
         this.sender = new DefaultSender(this);
         silent = new SilentSender(sender);
+    }
 
+    public void onRegister() {
         registerAbilities();
         initStats();
+    }
+
+    /**
+     * @return the database of this bot
+     */
+    public DBContext db() {
+        return db;
+    }
+
+    /**
+     * @return the message sender for this bot
+     */
+    public MessageSender sender() {
+        return sender;
+    }
+
+    /**
+     * @return the silent sender for this bot
+     */
+    public SilentSender silent() {
+        return silent;
     }
 
     /**
@@ -272,6 +296,18 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         return false;
     }
 
+    protected void addExtension(AbilityExtension extension) {
+        this.extensions.add(extension);
+    }
+
+    protected void addExtensions(AbilityExtension... extensions) {
+        this.extensions.addAll(Arrays.asList(extensions));
+    }
+
+    protected void addExtensions(Collection<AbilityExtension> extensions) {
+        this.extensions.addAll(extensions);
+    }
+
     /**
      * Registers the declared abilities using method reflection. Also, replies are accumulated using the built abilities and standalone methods that return a Reply.
      * <p>
@@ -280,10 +316,10 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     private void registerAbilities() {
         try {
             // Collect all classes that implement AbilityExtension declared in the bot
-            List<AbilityExtension> extensions = stream(getClass().getMethods())
+            extensions.addAll(stream(getClass().getMethods())
                     .filter(checkReturnType(AbilityExtension.class))
                     .map(returnExtension(this))
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toList()));
 
             // Add the bot itself as it is an AbilityExtension
             extensions.add(this);
@@ -437,7 +473,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         Update update = trio.a();
         User user = AbilityUtils.getUser(update);
 
-        return Pair.of(newContext(update, user, getChatId(update), trio.c()), trio.b());
+        return Pair.of(newContext(update, user, getChatId(update), this, trio.c()), trio.b());
     }
 
     boolean checkBlacklist(Update update) {

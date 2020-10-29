@@ -19,6 +19,7 @@ class ExtensionTest {
   @BeforeEach
   void setUp() {
     bot = new ExtensionUsingBot();
+    bot.onRegister();
   }
 
   @AfterEach
@@ -32,6 +33,7 @@ class ExtensionTest {
     assertTrue(hasAbilityNamed("direct"), "Failed to find Ability in directly declared in root extension/bot");
     assertTrue(hasAbilityNamed("returningSuperClass0abc"), "Failed to find Ability in directly declared in extension returned by method returning the AbilityExtension class");
     assertTrue(hasAbilityNamed("returningSubClass0abc"), "Failed to find Ability in directly declared in extension returned by method returning the AbilityExtension subclass");
+    assertTrue(hasAbilityNamed("addedInConstructor0abc"), "Failed to find Ability in directly declared in extension added in the constructor");
   }
 
   private boolean hasAbilityNamed(String name) {
@@ -41,6 +43,7 @@ class ExtensionTest {
   public static class ExtensionUsingBot extends AbilityBot {
     ExtensionUsingBot() {
       super("", "", offlineInstance("testing"));
+      addExtension(new AbilityBotExtension("addedInConstructor"));
     }
 
     @Override
