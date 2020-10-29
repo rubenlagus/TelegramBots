@@ -17,7 +17,7 @@ import static com.google.common.collect.Lists.newArrayList;
 import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Optional.ofNullable;
-import static org.apache.commons.lang3.StringUtils.*;
+import static org.telegram.abilitybots.api.util.AbilityUtils.isValidCommandName;
 
 /**
  * An ability is a fully-fledged bot action that contains all the necessary information to process:
@@ -50,9 +50,8 @@ public final class Ability {
 
   @SafeVarargs
   private Ability(String name, String info, Locality locality, Privacy privacy, int argNum, boolean statsEnabled, Consumer<MessageContext> action, Consumer<MessageContext> postAction, List<Reply> replies, Predicate<Update>... flags) {
-    checkArgument(!isEmpty(name), "Method name cannot be empty");
-    checkArgument(!containsWhitespace(name), "Method name cannot contain spaces");
-    checkArgument(isAlphanumeric(name), "Method name can only be alpha-numeric", name);
+    checkArgument(isValidCommandName(name), "Method name can only contain alpha-numeric characters and underscores," +
+            " cannot be longer than 31 characters, empty or null", name);
     this.name = name;
     this.info = info;
 

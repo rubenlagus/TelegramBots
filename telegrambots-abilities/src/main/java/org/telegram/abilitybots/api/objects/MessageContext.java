@@ -2,6 +2,7 @@ package org.telegram.abilitybots.api.objects;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import org.telegram.abilitybots.api.bot.BaseAbilityBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 
@@ -19,16 +20,18 @@ public class MessageContext {
   private final Long chatId;
   private final String[] arguments;
   private final Update update;
+  private final BaseAbilityBot bot;
 
-  private MessageContext(Update update, User user, Long chatId, String[] arguments) {
+  private MessageContext(Update update, User user, Long chatId, BaseAbilityBot bot, String[] arguments) {
     this.user = user;
     this.chatId = chatId;
     this.update = update;
+    this.bot = bot;
     this.arguments = arguments;
   }
 
-  public static MessageContext newContext(Update update, User user, Long chatId, String... arguments) {
-    return new MessageContext(update, user, chatId, arguments);
+  public static MessageContext newContext(Update update, User user, Long chatId, BaseAbilityBot bot, String... arguments) {
+    return new MessageContext(update, user, chatId, bot, arguments);
   }
 
   /**
@@ -43,6 +46,13 @@ public class MessageContext {
    */
   public Long chatId() {
     return chatId;
+  }
+
+  /**
+   * @return the bot in which this message is executed
+   */
+  public BaseAbilityBot bot() {
+    return bot;
   }
 
   /**

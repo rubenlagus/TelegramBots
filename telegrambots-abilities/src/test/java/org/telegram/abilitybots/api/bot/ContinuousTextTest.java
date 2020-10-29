@@ -33,6 +33,7 @@ public class ContinuousTextTest {
   void setUp() {
     db = offlineInstance("db");
     bot = new ContinuousTextBot(EMPTY, EMPTY, db);
+    bot.onRegister();
     silent = mock(SilentSender.class);
     bot.silent = silent;
   }

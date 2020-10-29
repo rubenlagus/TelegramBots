@@ -65,3 +65,14 @@ Please note that this may cause ability overlap. If multiple abilities can match
 if you have two abilities `do` and `do1`, the command `/do1` will trigger the `do1` ability. 
 ## Statistics
 AbilityBot can accrue basic statistics about the usage of your abilities and replies. Simply `enableStats()` on an Ability builder or `enableStats(<name>)` on replies to activate this feature. Once activated, you may call `/stats` and the bot will print a basic list of statistics. At the moment, AbilityBot only tracks hits. In the future, this will be enhanced to track more stats.
+
+## Execute code on bot registration
+If you want to execute custom logic to initialize your bot, but you can't do it in the constructor,
+you can override the `onRegister()` method:
+```
+@Override
+public void onRegister() { 
+  super.onRegister();
+  // Execute custom initialize logic here
+}
+```

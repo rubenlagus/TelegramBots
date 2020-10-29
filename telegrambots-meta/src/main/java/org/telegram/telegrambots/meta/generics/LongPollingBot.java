@@ -11,7 +11,7 @@ import java.util.List;
  * @brief Callback to handle updates.
  * @date 20 of June of 2015
  */
-public interface LongPollingBot {
+public interface LongPollingBot extends TelegramBot {
     /**
      * This method is called when receiving updates via GetUpdates method
      * @param update Update received
@@ -26,16 +26,6 @@ public interface LongPollingBot {
     default void onUpdatesReceived(List<Update> updates) {
         updates.forEach(this::onUpdateReceived);
     }
-
-    /**
-     * Return bot username of this bot
-     */
-    String getBotUsername();
-
-    /**
-     * Return bot token to access Telegram API
-     */
-    String getBotToken();
 
     /**
      * Gets options for current bot

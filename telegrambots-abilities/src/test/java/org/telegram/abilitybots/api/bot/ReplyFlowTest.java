@@ -39,6 +39,7 @@ public class ReplyFlowTest {
   void setUp() {
     db = offlineInstance("db");
     bot = new ReplyFlowBot(EMPTY, EMPTY, db);
+    bot.onRegister();
 
     sender = mock(MessageSender.class);
     silent = mock(SilentSender.class);

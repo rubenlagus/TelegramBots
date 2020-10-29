@@ -71,6 +71,7 @@ public class AbilityBotTest {
   void setUp() {
     db = offlineInstance("db");
     bot = new DefaultBot(EMPTY, EMPTY, db);
+    bot.onRegister();
     defaultAbs = new DefaultAbilities(bot);
 
     sender = mock(MessageSender.class);
@@ -503,7 +504,7 @@ public class AbilityBotTest {
     mockUser(update, message, USER);
 
     Pair<MessageContext, Ability> actualPair = bot.getContext(trio);
-    Pair<MessageContext, Ability> expectedPair = Pair.of(newContext(update, USER, GROUP_ID, TEXT), ability);
+    Pair<MessageContext, Ability> expectedPair = Pair.of(newContext(update, USER, GROUP_ID, bot, TEXT), ability);
 
     assertEquals(expectedPair, actualPair, "Unexpected result when fetching for context");
   }
@@ -619,7 +620,7 @@ public class AbilityBotTest {
     when(update.hasMessage()).thenReturn(true);
     when(update.getMessage()).thenReturn(message);
     when(message.hasText()).thenReturn(true);
-    MessageContext creatorCtx = newContext(update, CREATOR, GROUP_ID);
+    MessageContext creatorCtx = newContext(update, CREATOR, GROUP_ID, bot);
 
     defaultAbs.commands().action().accept(creatorCtx);
 
@@ -636,7 +637,7 @@ public class AbilityBotTest {
     when(update.getMessage()).thenReturn(message);
     when(message.hasText()).thenReturn(true);
 
-    MessageContext userCtx = newContext(update, USER, GROUP_ID);
+    MessageContext userCtx = newContext(update, USER, GROUP_ID, bot);
 
     defaultAbs.commands().action().accept(userCtx);
 
