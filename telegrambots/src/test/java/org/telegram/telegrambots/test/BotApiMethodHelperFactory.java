@@ -18,11 +18,25 @@ import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMem
 import org.telegram.telegrambots.meta.api.methods.groupadministration.KickChatMember;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.LeaveChat;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.UnbanChatMember;
-import org.telegram.telegrambots.meta.api.methods.send.*;
+import org.telegram.telegrambots.meta.api.methods.send.SendChatAction;
+import org.telegram.telegrambots.meta.api.methods.send.SendContact;
+import org.telegram.telegrambots.meta.api.methods.send.SendGame;
+import org.telegram.telegrambots.meta.api.methods.send.SendInvoice;
+import org.telegram.telegrambots.meta.api.methods.send.SendLocation;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendVenue;
 import org.telegram.telegrambots.meta.api.methods.updates.GetWebhookInfo;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageCaption;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.meta.api.objects.Chat;
+import org.telegram.telegrambots.meta.api.objects.ChatMember;
+import org.telegram.telegrambots.meta.api.objects.File;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.UserProfilePhotos;
+import org.telegram.telegrambots.meta.api.objects.WebhookInfo;
+import org.telegram.telegrambots.meta.api.objects.games.GameHighScore;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputTextMessageContent;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResult;
@@ -37,6 +51,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +63,7 @@ public final class BotApiMethodHelperFactory {
     private BotApiMethodHelperFactory() {
     }
 
-    public static BotApiMethod getSendMessage() {
+    public static BotApiMethod<Message> getSendMessage() {
         return new SendMessage()
                 .setChatId("@test")
                 .setText("Hithere")
@@ -57,14 +72,14 @@ public final class BotApiMethodHelperFactory {
                 .setReplyMarkup(new ForceReplyKeyboard());
     }
 
-    public static BotApiMethod getAnswerCallbackQuery() {
+    public static BotApiMethod<Boolean> getAnswerCallbackQuery() {
         return new AnswerCallbackQuery()
                 .setCallbackQueryId("id")
                 .setText("text")
                 .setShowAlert(true);
     }
 
-    public static BotApiMethod getAnswerInlineQuery() {
+    public static BotApiMethod<Boolean> getAnswerInlineQuery() {
         return new AnswerInlineQuery()
                 .setInlineQueryId("id")
                 .setPersonal(true)
@@ -75,7 +90,7 @@ public final class BotApiMethodHelperFactory {
                 .setSwitchPmText("pmText");
     }
 
-    public static BotApiMethod getEditMessageCaption() {
+    public static BotApiMethod<Serializable> getEditMessageCaption() {
         return new EditMessageCaption()
                 .setChatId("ChatId")
                 .setMessageId(1)
@@ -84,7 +99,7 @@ public final class BotApiMethodHelperFactory {
     }
 
 
-    public static BotApiMethod getEditMessageText() {
+    public static BotApiMethod<Serializable> getEditMessageText() {
         return new EditMessageText()
                 .setChatId("ChatId")
                 .setMessageId(1)
@@ -93,13 +108,13 @@ public final class BotApiMethodHelperFactory {
                 .setReplyMarkup(getInlineKeyboardMarkup());
     }
 
-    public static BotApiMethod getEditMessageReplyMarkup() {
+    public static BotApiMethod<Serializable> getEditMessageReplyMarkup() {
         return new EditMessageReplyMarkup()
                 .setInlineMessageId("12345")
                 .setReplyMarkup(getInlineKeyboardMarkup());
     }
 
-    public static BotApiMethod getForwardMessage() {
+    public static BotApiMethod<Message> getForwardMessage() {
         return new ForwardMessage(54L, 123L, 55)
                 .setFromChatId("From")
                 .setChatId("To")
@@ -107,72 +122,72 @@ public final class BotApiMethodHelperFactory {
                 .disableNotification();
     }
 
-    public static BotApiMethod getGetChat() {
+    public static BotApiMethod<Chat> getGetChat() {
         return new GetChat()
                 .setChatId("12345");
     }
 
-    public static BotApiMethod getChatAdministrators() {
+    public static BotApiMethod<ArrayList<ChatMember>> getChatAdministrators() {
         return new GetChatAdministrators()
                 .setChatId("12345");
     }
 
-    public static BotApiMethod getChatMember() {
+    public static BotApiMethod<ChatMember> getChatMember() {
         return new GetChatMember()
                 .setChatId("12345")
                 .setUserId(98765);
     }
 
-    public static BotApiMethod getChatMembersCount() {
+    public static BotApiMethod<Integer> getChatMembersCount() {
         return new GetChatMembersCount()
                 .setChatId("12345");
     }
 
-    public static BotApiMethod getGetFile() {
+    public static BotApiMethod<File> getGetFile() {
         return new GetFile()
                 .setFileId("FileId");
     }
 
-    public static BotApiMethod getGetGameHighScores() {
+    public static BotApiMethod<ArrayList<GameHighScore>> getGetGameHighScores() {
         return new GetGameHighScores()
                 .setChatId("12345")
                 .setMessageId(67890)
                 .setUserId(98765);
     }
 
-    public static BotApiMethod getGetMe() {
+    public static BotApiMethod<User> getGetMe() {
         return new GetMe();
     }
 
-    public static BotApiMethod getGetUserProfilePhotos() {
+    public static BotApiMethod<UserProfilePhotos> getGetUserProfilePhotos() {
         return new GetUserProfilePhotos()
                 .setUserId(98765)
                 .setLimit(10)
                 .setOffset(3);
     }
 
-    public static BotApiMethod getGetWebhookInfo() {
+    public static BotApiMethod<WebhookInfo> getGetWebhookInfo() {
         return new GetWebhookInfo();
     }
 
-    public static BotApiMethod getKickChatMember() {
+    public static BotApiMethod<Boolean> getKickChatMember() {
         return new KickChatMember()
                 .setChatId("12345")
                 .setUserId(98765);
     }
 
-    public static BotApiMethod getLeaveChat() {
+    public static BotApiMethod<Boolean> getLeaveChat() {
         return new LeaveChat()
                 .setChatId("12345");
     }
 
-    public static BotApiMethod getSendChatAction() {
+    public static BotApiMethod<Boolean> getSendChatAction() {
         return new SendChatAction()
                 .setChatId("12345")
                 .setAction(ActionType.RECORDVIDEO);
     }
 
-    public static BotApiMethod getSendContact() {
+    public static BotApiMethod<Message> getSendContact() {
         return new SendContact()
                 .setChatId("12345")
                 .setFirstName("First Name")
@@ -213,24 +228,28 @@ public final class BotApiMethodHelperFactory {
     }
 
     private static InlineQueryResult getInlineQueryResultPhoto() {
-        return new InlineQueryResultPhoto()
-                .setId("1")
-                .setPhotoUrl("PhotoUrl")
-                .setPhotoWidth(10)
-                .setPhotoHeight(20)
-                .setMimeType("image/jpg")
-                .setThumbUrl("ThumbUrl")
-                .setTitle("Title")
-                .setDescription("Description")
-                .setCaption("Caption")
-                .setInputMessageContent(getInputMessageContent())
-                .setReplyMarkup(getInlineKeyboardMarkup());
+        return InlineQueryResultPhoto
+                .builder()
+                .id("1")
+                .photoUrl("PhotoUrl")
+                .photoWidth(10)
+                .photoHeight(20)
+                .mimeType("image/jpg")
+                .thumbUrl("ThumbUrl")
+                .title("Title")
+                .description("Description")
+                .caption("Caption")
+                .inputMessageContent(getInputMessageContent())
+                .replyMarkup(getInlineKeyboardMarkup())
+                .build();
     }
 
     private static InputMessageContent getInputMessageContent() {
-        return new InputTextMessageContent()
-                .setMessageText("Text")
-                .setParseMode(ParseMode.MARKDOWN);
+        return InputTextMessageContent
+                .builder()
+                .messageText("Text")
+                .parseMode(ParseMode.MARKDOWN)
+                .build();
     }
 
     private static InlineKeyboardMarkup getInlineKeyboardMarkup() {
@@ -245,13 +264,13 @@ public final class BotApiMethodHelperFactory {
                 .setKeyboard(keyboard);
     }
 
-    public static BotApiMethod getSendGame() {
+    public static BotApiMethod<Message> getSendGame() {
         return new SendGame()
                 .setChatId("12345")
                 .setGameShortName("MyGame");
     }
 
-    public static BotApiMethod getSendLocation() {
+    public static BotApiMethod<Message> getSendLocation() {
         return new SendLocation()
                 .setChatId("12345")
                 .setLatitude(12.5F)
@@ -259,7 +278,7 @@ public final class BotApiMethodHelperFactory {
                 .setReplyToMessageId(53);
     }
 
-    public static BotApiMethod getSendVenue() {
+    public static BotApiMethod<Message> getSendVenue() {
         return new SendVenue()
                 .setChatId("12345")
                 .setLatitude(12.5F)
@@ -270,7 +289,7 @@ public final class BotApiMethodHelperFactory {
                 .setFoursquareId("FourId");
     }
 
-    public static BotApiMethod getSetGameScore() {
+    public static BotApiMethod<Serializable> getSetGameScore() {
         return new SetGameScore()
                 .setInlineMessageId("12345")
                 .setDisableEditMessage(true)
@@ -278,13 +297,13 @@ public final class BotApiMethodHelperFactory {
                 .setUserId(98765);
     }
 
-    public static BotApiMethod getUnbanChatMember() {
+    public static BotApiMethod<Boolean> getUnbanChatMember() {
         return new UnbanChatMember()
                 .setChatId("12345")
                 .setUserId(98765);
     }
 
-    public static BotApiMethod getSendInvoice() {
+    public static BotApiMethod<Message> getSendInvoice() {
         List<LabeledPrice> prices = new ArrayList<>();
         prices.add(new LabeledPrice("LABEL", 1000));
 

@@ -2,7 +2,6 @@ package org.telegram.telegrambots.meta.test;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
@@ -183,8 +182,8 @@ class TestDeserialization {
         assertEquals("offset", inlineQuery.getOffset());
         assertFromUser(inlineQuery.getFrom());
         assertNotNull(inlineQuery.getLocation());
-        assertEquals(Float.valueOf("0.234242534"), inlineQuery.getLocation().getLatitude());
-        assertEquals(Float.valueOf("0.234242534"), inlineQuery.getLocation().getLongitude());
+        assertEquals(0.234242534, inlineQuery.getLocation().getLatitude());
+        assertEquals(0.234242534, inlineQuery.getLocation().getLongitude());
     }
 
     private void assertCallbackQuery(CallbackQuery callbackQuery) {

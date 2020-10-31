@@ -17,8 +17,11 @@
 package org.telegram.telegrambots.meta.api.objects.games;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
@@ -32,7 +35,9 @@ import java.util.List;
  * @apiNote Use BotFather to create and edit games, their short names will act as unique identifiers.
  */
 @Data
+@RequiredArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Game implements BotApiObject {
 
     private static final String TITLE_FIELD = "title";
@@ -43,10 +48,13 @@ public class Game implements BotApiObject {
     private static final String TEXTENTITIES_FIELD = "text_entities";
 
     @JsonProperty(TITLE_FIELD)
+    @NonNull
     private String title; ///< Title of the game
     @JsonProperty(DESCRIPTION_FIELD)
+    @NonNull
     private String description; ///< Description of the game
     @JsonProperty(PHOTO_FIELD)
+    @NonNull
     private List<PhotoSize> photo; ///< Photo
     /**
      * Optional. Brief description of the game or high scores included in the game message.

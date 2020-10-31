@@ -351,7 +351,7 @@ public class AbilityBotTest {
     String newFirstName = USER.getFirstName() + "-test";
     String newLastName = USER.getLastName() + "-test";
     int sameId = USER.getId();
-    User changedUser = new User(sameId, newFirstName, false, newLastName, newUsername, null);
+    User changedUser = new User(sameId, newFirstName, false, newLastName, newUsername, "en", false, false, false);
 
     mockAlternateUser(update, message, changedUser);
 
@@ -515,6 +515,7 @@ public class AbilityBotTest {
     assertTrue(bot.checkGlobalFlags(update), "Unexpected result when checking for the default global flags");
   }
 
+  @SuppressWarnings({"NumericOverflow", "divzero"})
   @Test
   void canConsumeUpdate() {
     Ability ability = getDefaultBuilder()

@@ -3,6 +3,12 @@ package org.telegram.telegrambots.meta.api.objects.inlinequery.result;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -15,6 +21,11 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * specified content instead of the photo.
  */
 @JsonDeserialize
+@Data
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class InlineQueryResultPhoto implements InlineQueryResult {
     private static final String TYPE_FIELD = "type";
     private static final String ID_FIELD = "id";
@@ -33,8 +44,10 @@ public class InlineQueryResultPhoto implements InlineQueryResult {
     @JsonProperty(TYPE_FIELD)
     private final String type = "photo"; ///< Type of the result, must be “photo”
     @JsonProperty(ID_FIELD)
+    @NonNull
     private String id; ///< Unique identifier of this result, 1-64 bytes
     @JsonProperty(PHOTOURL_FIELD)
+    @NonNull
     private String photoUrl; ///< A valid URL of the photo. Photo size must not exceed 5MB
     @JsonProperty(MIMETYPE_FIELD)
     private String mimeType; ///< Optional. MIME type of the photo, defaults to image/jpeg
@@ -57,122 +70,6 @@ public class InlineQueryResultPhoto implements InlineQueryResult {
     @JsonProperty(PARSEMODE_FIELD)
     private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
 
-    public InlineQueryResultPhoto() {
-        super();
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public InlineQueryResultPhoto setId(String id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getPhotoUrl() {
-        return photoUrl;
-    }
-
-    public InlineQueryResultPhoto setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
-        return this;
-    }
-
-    public String getMimeType() {
-        return mimeType;
-    }
-
-    public InlineQueryResultPhoto setMimeType(String mimeType) {
-        this.mimeType = mimeType;
-        return this;
-    }
-
-    public Integer getPhotoWidth() {
-        return photoWidth;
-    }
-
-    public InlineQueryResultPhoto setPhotoWidth(Integer photoWidth) {
-        this.photoWidth = photoWidth;
-        return this;
-    }
-
-    public Integer getPhotoHeight() {
-        return photoHeight;
-    }
-
-    public InlineQueryResultPhoto setPhotoHeight(Integer photoHeight) {
-        this.photoHeight = photoHeight;
-        return this;
-    }
-
-    public String getThumbUrl() {
-        return thumbUrl;
-    }
-
-    public InlineQueryResultPhoto setThumbUrl(String thumbUrl) {
-        this.thumbUrl = thumbUrl;
-        return this;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public InlineQueryResultPhoto setTitle(String title) {
-        this.title = title;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public InlineQueryResultPhoto setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public String getCaption() {
-        return caption;
-    }
-
-    public InlineQueryResultPhoto setCaption(String caption) {
-        this.caption = caption;
-        return this;
-    }
-
-    public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
-    }
-
-    public InlineQueryResultPhoto setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
-        return this;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public InlineQueryResultPhoto setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
-
-    public String getParseMode() {
-        return parseMode;
-    }
-
-    public InlineQueryResultPhoto setParseMode(String parseMode) {
-        this.parseMode = parseMode;
-        return this;
-    }
-
     @Override
     public void validate() throws TelegramApiValidationException {
         if (id == null || id.isEmpty()) {
@@ -187,24 +84,5 @@ public class InlineQueryResultPhoto implements InlineQueryResult {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "InlineQueryResultPhoto{" +
-                "type='" + type + '\'' +
-                ", id='" + id + '\'' +
-                ", photoUrl='" + photoUrl + '\'' +
-                ", mimeType='" + mimeType + '\'' +
-                ", photoWidth=" + photoWidth +
-                ", photoHeight=" + photoHeight +
-                ", thumbUrl='" + thumbUrl + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", caption='" + caption + '\'' +
-                ", inputMessageContent=" + inputMessageContent +
-                ", replyMarkup=" + replyMarkup +
-                ", parseMode='" + parseMode + '\'' +
-                '}';
     }
 }

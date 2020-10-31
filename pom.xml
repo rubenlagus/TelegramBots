@@ -67,7 +67,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
-        <junit.version>5.5.2</junit.version>
+        <junit.version>5.6.2</junit.version>
         <mockito.version>3.1.0</mockito.version>
         <mockitojupiter.version>3.1.0</mockitojupiter.version>
         <jacksonbase.version>2.10.1</jacksonbase.version>

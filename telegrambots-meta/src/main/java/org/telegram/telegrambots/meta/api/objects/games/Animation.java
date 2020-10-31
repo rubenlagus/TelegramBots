@@ -17,8 +17,11 @@
 package org.telegram.telegrambots.meta.api.objects.games;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 
@@ -28,7 +31,9 @@ import org.telegram.telegrambots.meta.api.objects.PhotoSize;
  * This object represents an animation file (GIF or H.264/MPEG-4 AVC video without sound).
  */
 @Data
+@RequiredArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Animation implements BotApiObject {
     private static final String FILEID_FIELD = "file_id";
     private static final String FILEUNIQUEID_FIELD = "file_unique_id";
@@ -41,18 +46,23 @@ public class Animation implements BotApiObject {
     private static final String FILESIZE_FIELD = "file_size";
 
     @JsonProperty(FILEID_FIELD)
+    @NonNull
     private String fileId; ///< Identifier for this file, which can be used to download or reuse the file
     /**
      * Unique identifier for this file, which is supposed to be the same over time and for different bots.
      * Can't be used to download or reuse the file.
      */
     @JsonProperty(FILEUNIQUEID_FIELD)
+    @NonNull
     private String fileUniqueId;
     @JsonProperty(WIDTH_FIELD)
+    @NonNull
     private Integer width; ///< Video width as defined by sender
     @JsonProperty(HEIGHT_FIELD)
+    @NonNull
     private Integer height; ///< Video height as defined by sender
     @JsonProperty(DURATION_FIELD)
+    @NonNull
     private Integer duration; ///< Duration of the video in seconds as defined by sender
     @JsonProperty(THUMB_FIELD)
     private PhotoSize thumb; ///< Optional. Animation thumbnail as defined by sender

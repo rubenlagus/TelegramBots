@@ -69,11 +69,11 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <guice.version>4.2.2</guice.version>
+        <guice.version>4.2.3</guice.version>
         <jackson.version>2.10.1</jackson.version>
         <jacksonanotation.version>2.10.1</jacksonanotation.version>
         <json.version>20180813</json.version>
-        <guava.version>28.1-jre</guava.version>
+        <guava.version>30.0-jre</guava.version>
     </properties>
 
     <dependencies>
@@ -119,6 +119,7 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
+
     </dependencies>
 
     <build>

@@ -1,6 +1,12 @@
 package org.telegram.telegrambots.meta.api.objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.games.Animation;
 import org.telegram.telegrambots.meta.api.objects.games.Game;
@@ -19,6 +25,10 @@ import java.util.List;
  * @version 1.0
  * This object represents a message.
  */
+@Data
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class Message implements BotApiObject {
     private static final String MESSAGEID_FIELD = "message_id";
     private static final String FROM_FIELD = "from";
@@ -71,12 +81,15 @@ public class Message implements BotApiObject {
     private static final String VIABOT_FIELD = "via_bot";
 
     @JsonProperty(MESSAGEID_FIELD)
+    @NonNull
     private Integer messageId; ///< Integer	Unique message identifier
     @JsonProperty(FROM_FIELD)
     private User from; ///< Optional. Sender, can be empty for messages sent to channels
     @JsonProperty(DATE_FIELD)
-    private Integer date; ///< Optional. Date the message was sent in Unix time
+    @NonNull
+    private Integer date; ///< ODate the message was sent in Unix time
     @JsonProperty(CHAT_FIELD)
+    @NonNull
     private Chat chat; ///< Conversation the message belongs to
     @JsonProperty(FORWARDFROM_FIELD)
     private User forwardFrom; ///< Optional. For forwarded messages, sender of the original message
@@ -213,37 +226,6 @@ public class Message implements BotApiObject {
     private Dice dice; // Optional. Message is a dice with random value from 1 to 6
     @JsonProperty(VIABOT_FIELD)
     private User viaBot; // Optional. Bot through which the message was sent
-    public Message() {
-        super();
-    }
-
-    public Integer getMessageId() {
-        return messageId;
-    }
-
-    public User getFrom() {
-        return from;
-    }
-
-    public Integer getDate() {
-        return date;
-    }
-
-    public Chat getChat() {
-        return chat;
-    }
-
-    public User getForwardFrom() {
-        return forwardFrom;
-    }
-
-    public Integer getForwardDate() {
-        return forwardDate;
-    }
-
-    public String getText() {
-        return text;
-    }
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {
@@ -259,130 +241,47 @@ public class Message implements BotApiObject {
         return captionEntities;
     }
 
-    public Audio getAudio() {
-        return audio;
-    }
-
-    public Document getDocument() {
-        return document;
-    }
-
-    public List<PhotoSize> getPhoto() {
-        return photo;
-    }
-
-    public Sticker getSticker() {
-        return sticker;
-    }
-
-    public boolean hasSticker() {
-        return sticker != null;
-    }
-
-    public Video getVideo() {
-        return video;
-    }
-
-    public Animation getAnimation() {
-        return animation;
-    }
-
-    public Contact getContact() {
-        return contact;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public Venue getVenue() {
-        return venue;
-    }
-
-    public Message getPinnedMessage() {
-        return pinnedMessage;
-    }
-
+    @JsonIgnore
     public List<User> getNewChatMembers() {
         return newChatMembers == null ? new ArrayList<>() : newChatMembers;
     }
 
-    public User getLeftChatMember() {
-        return leftChatMember;
+    @JsonIgnore
+    public boolean hasSticker() {
+        return sticker != null;
     }
 
-    public String getNewChatTitle() {
-        return newChatTitle;
-    }
-
-    public List<PhotoSize> getNewChatPhoto() {
-        return newChatPhoto;
-    }
-
-    public Boolean getDeleteChatPhoto() {
-        return deleteChatPhoto;
-    }
-
-    public Boolean getGroupchatCreated() {
-        return groupchatCreated;
-    }
-
-    public Message getReplyToMessage() {
-        return replyToMessage;
-    }
-
-    public Voice getVoice() {
-        return voice;
-    }
-
-    public String getCaption() {
-        return caption;
-    }
-
-    public Boolean getSuperGroupCreated() {
-        return superGroupCreated;
-    }
-
-    public Boolean getChannelChatCreated() {
-        return channelChatCreated;
-    }
-
-    public Long getMigrateToChatId() {
-        return migrateToChatId;
-    }
-
-    public Long getMigrateFromChatId() {
-        return migrateFromChatId;
-    }
-
-    public Integer getForwardFromMessageId() {
-        return forwardFromMessageId;
-    }
-
+    @JsonIgnore
     public boolean isGroupMessage() {
         return chat.isGroupChat();
     }
 
+    @JsonIgnore
     public boolean isUserMessage() {
         return chat.isUserChat();
     }
 
+    @JsonIgnore
     public boolean isChannelMessage() {
         return chat.isChannelChat();
     }
 
+    @JsonIgnore
     public boolean isSuperGroupMessage() {
         return chat.isSuperGroupChat();
     }
 
+    @JsonIgnore
     public Long getChatId() {
         return chat.getId();
     }
 
+    @JsonIgnore
     public boolean hasText() {
         return text != null && !text.isEmpty();
     }
 
+    @JsonIgnore
     public boolean isCommand() {
         if (hasText() && entities != null) {
             for (MessageEntity entity : entities) {
@@ -395,202 +294,98 @@ public class Message implements BotApiObject {
         return false;
     }
 
+    @JsonIgnore
     public boolean hasDocument() {
         return this.document != null;
     }
 
+    @JsonIgnore
     public boolean hasVideo() {
         return this.video != null;
     }
 
+    @JsonIgnore
     public boolean hasAudio(){
         return this.audio != null;
     }
 
+    @JsonIgnore
     public boolean hasVoice(){
         return this.voice != null;
     }
 
+    @JsonIgnore
     public boolean isReply() {
         return this.replyToMessage != null;
     }
 
+    @JsonIgnore
     public boolean hasLocation() {
         return location != null;
     }
 
-    public Chat getForwardFromChat() {
-        return forwardFromChat;
-    }
-
-    public Integer getEditDate() {
-        return editDate;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
+    @JsonIgnore
     private boolean hasGame() {
         return game != null;
     }
 
+    @JsonIgnore
     public boolean hasEntities() {
         return entities != null && !entities.isEmpty();
     }
 
+    @JsonIgnore
     public boolean hasPhoto() {
         return photo != null && !photo.isEmpty();
     }
 
+    @JsonIgnore
     public boolean hasInvoice() {
         return invoice != null;
     }
 
+    @JsonIgnore
     public boolean hasSuccessfulPayment() {
         return successfulPayment != null;
     }
 
+    @JsonIgnore
     public boolean hasContact() {
         return contact != null;
     }
 
-    public Invoice getInvoice() {
-        return invoice;
-    }
-
-    public SuccessfulPayment getSuccessfulPayment() {
-        return successfulPayment;
-    }
-
-    public VideoNote getVideoNote() {
-        return videoNote;
-    }
-
+    @JsonIgnore
     public boolean hasVideoNote() {
         return videoNote != null;
     }
 
-    public String getAuthorSignature() {
-        return authorSignature;
-    }
-
-    public String getForwardSignature() {
-        return forwardSignature;
-    }
-
-    public String getMediaGroupId() {
-        return mediaGroupId;
-    }
-
-    public String getConnectedWebsite() {
-        return connectedWebsite;
-    }
-
-    public PassportData getPassportData() {
-        return passportData;
-    }
-
+    @JsonIgnore
     public boolean hasPassportData() {
         return passportData != null;
     }
 
+    @JsonIgnore
     public boolean hasAnimation() {
         return animation != null;
     }
 
-    public String getForwardSenderName() {
-        return forwardSenderName;
-    }
-
-    public void setForwardSenderName(String forwardSenderName) {
-        this.forwardSenderName = forwardSenderName;
-    }
-
+    @JsonIgnore
     public boolean hasPoll() {
         return poll != null;
     }
 
-    public Poll getPoll() {
-        return poll;
-    }
-
-    public Dice getDice() {
-        return dice;
-    }
-
+    @JsonIgnore
     public boolean hasDice() {
         return dice != null;
     }
 
-    public User getViaBot() {
-        return viaBot;
-    }
-
+    @JsonIgnore
     public boolean hasViaBot() {
         return viaBot != null;
     }
 
+    @JsonIgnore
     public boolean hasReplyMarkup() {
         return replyMarkup != null;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    @Override
-    public String toString() {
-        return "Message{" +
-                "messageId=" + messageId +
-                ", from=" + from +
-                ", date=" + date +
-                ", chat=" + chat +
-                ", forwardFrom=" + forwardFrom +
-                ", forwardFromChat=" + forwardFromChat +
-                ", forwardDate=" + forwardDate +
-                ", text='" + text + '\'' +
-                ", entities=" + entities +
-                ", captionEntities=" + captionEntities +
-                ", audio=" + audio +
-                ", document=" + document +
-                ", photo=" + photo +
-                ", sticker=" + sticker +
-                ", video=" + video +
-                ", contact=" + contact +
-                ", location=" + location +
-                ", venue=" + venue +
-                ", animation=" + animation +
-                ", pinnedMessage=" + pinnedMessage +
-                ", newChatMembers=" + newChatMembers +
-                ", leftChatMember=" + leftChatMember +
-                ", newChatTitle='" + newChatTitle + '\'' +
-                ", newChatPhoto=" + newChatPhoto +
-                ", deleteChatPhoto=" + deleteChatPhoto +
-                ", groupchatCreated=" + groupchatCreated +
-                ", replyToMessage=" + replyToMessage +
-                ", voice=" + voice +
-                ", caption='" + caption + '\'' +
-                ", superGroupCreated=" + superGroupCreated +
-                ", channelChatCreated=" + channelChatCreated +
-                ", migrateToChatId=" + migrateToChatId +
-                ", migrateFromChatId=" + migrateFromChatId +
-                ", editDate=" + editDate +
-                ", game=" + game +
-                ", forwardFromMessageId=" + forwardFromMessageId +
-                ", invoice=" + invoice +
-                ", successfulPayment=" + successfulPayment +
-                ", videoNote=" + videoNote +
-                ", authorSignature='" + authorSignature + '\'' +
-                ", forwardSignature='" + forwardSignature + '\'' +
-                ", mediaGroupId='" + mediaGroupId + '\'' +
-                ", connectedWebsite='" + connectedWebsite + '\'' +
-                ", passportData=" + passportData +
-                ", forwardSenderName='" + forwardSenderName + '\'' +
-                ", poll=" + poll +
-                ", replyMarkup=" + replyMarkup +
-                ", dice=" + dice +
-                ", viaBot=" + viaBot +
-                '}';
     }
 }

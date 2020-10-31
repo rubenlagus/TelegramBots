@@ -3,7 +3,6 @@ package org.telegram.telegrambots.meta.api.methods;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
 
 import java.io.Serializable;
 
@@ -15,7 +14,6 @@ import java.io.Serializable;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Data
 public abstract class BotApiMethod<T extends Serializable> extends PartialBotApiMethod<T> {
     protected static final String METHOD_FIELD = "method";
 

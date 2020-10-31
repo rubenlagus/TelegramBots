@@ -1,6 +1,12 @@
 package org.telegram.telegrambots.meta.api.objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
@@ -9,6 +15,10 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
  * This object represents a Telegram chat with an user or a group
  */
 @SuppressWarnings("WeakerAccess")
+@Data
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class Chat implements BotApiObject {
 
     private static final String ID_FIELD = "id";
@@ -39,8 +49,10 @@ public class Chat implements BotApiObject {
      * so a signed 64 bit integer or double-precision float type are safe for storing this identifier.
      */
     @JsonProperty(ID_FIELD)
+    @NonNull
     private Long id; ///< Unique identifier for this chat, not exceeding 1e13 by absolute value
     @JsonProperty(TYPE_FIELD)
+    @NonNull
     private String type; ///< Type of the chat, one of “private”, “group” or “channel”
     @JsonProperty(TITLE_FIELD)
     private String title; ///< Optional. Title of the chat, only for channels and group chat
@@ -83,96 +95,23 @@ public class Chat implements BotApiObject {
     @JsonProperty(SLOWMODEDELAY_FIELD)
     private Integer slowModeDelay;
 
-    public Chat() {
-        super();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
+    @JsonIgnore
     public Boolean isGroupChat() {
         return GROUPCHATTYPE.equals(type);
     }
 
+    @JsonIgnore
     public Boolean isChannelChat() {
         return CHANNELCHATTYPE.equals(type);
     }
 
+    @JsonIgnore
     public Boolean isUserChat() {
         return USERCHATTYPE.equals(type);
     }
 
+    @JsonIgnore
     public Boolean isSuperGroupChat() {
         return SUPERGROUPCHATTYPE.equals(type);
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public ChatPermissions getPermissions() {
-        return permissions;
-    }
-
-    public ChatPhoto getPhoto() {
-        return photo;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getInviteLink() {
-        return inviteLink;
-    }
-
-    public Message getPinnedMessage() {
-        return pinnedMessage;
-    }
-
-    public String getStickerSetName() {
-        return stickerSetName;
-    }
-
-    public Boolean getCanSetStickerSet() {
-        return canSetStickerSet;
-    }
-
-    public Integer getSlowModeDelay() {
-        return slowModeDelay;
-    }
-
-    @Override
-    public String toString() {
-        return "Chat{" +
-                "id=" + id +
-                ", type='" + type + '\'' +
-                ", title='" + title + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", userName='" + userName + '\'' +
-                ", allMembersAreAdministrators=" + allMembersAreAdministrators +
-                ", photo=" + photo +
-                ", description='" + description + '\'' +
-                ", inviteLink='" + inviteLink + '\'' +
-                ", pinnedMessage=" + pinnedMessage +
-                ", stickerSetName='" + stickerSetName + '\'' +
-                ", canSetStickerSet=" + canSetStickerSet +
-                ", permissions=" + permissions +
-                ", slowModeDelay=" + slowModeDelay +
-                '}';
     }
 }

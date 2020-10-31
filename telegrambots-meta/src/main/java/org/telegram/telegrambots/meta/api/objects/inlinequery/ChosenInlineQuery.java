@@ -2,9 +2,12 @@ package org.telegram.telegrambots.meta.api.objects.inlinequery;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.User;
@@ -16,7 +19,9 @@ import org.telegram.telegrambots.meta.api.objects.User;
  * partner.
  */
 @Data
+@RequiredArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class ChosenInlineQuery implements BotApiObject {
     private static final String RESULTID_FIELD = "result_id";
@@ -26,8 +31,10 @@ public class ChosenInlineQuery implements BotApiObject {
     private static final String QUERY_FIELD = "query";
 
     @JsonProperty(RESULTID_FIELD)
+    @NonNull
     private String resultId; ///< The unique identifier for the result that was chosen.
     @JsonProperty(FROM_FIELD)
+    @NonNull
     private User from; ///< The user that chose the result.
     @JsonProperty(LOCATION_FIELD)
     private Location location; ///< Optional. Sender location, only for bots that require user location
@@ -40,5 +47,6 @@ public class ChosenInlineQuery implements BotApiObject {
     @JsonProperty(INLINE_MESSAGE_ID_FIELD)
     private String inlineMessageId;
     @JsonProperty(QUERY_FIELD)
+    @NonNull
     private String query; ///< The query that was used to obtain the result.
 }

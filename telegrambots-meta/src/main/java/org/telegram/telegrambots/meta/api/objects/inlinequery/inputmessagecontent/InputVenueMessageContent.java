@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
@@ -19,6 +20,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  */
 @JsonDeserialize
 @Data
+@RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
