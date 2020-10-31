@@ -18,16 +18,18 @@
 package org.telegram.telegrambots.meta.api.objects.games;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief This object represents one row of a game high scores table
- * @date 25 of September of 2016
+ * This object represents one row of a game high scores table
  */
+@Data
+@NoArgsConstructor
 public class GameHighScore implements BotApiObject {
     private static final String POSITION_FIELD = "position";
     private static final String USER_FIELD = "user";
@@ -39,25 +41,4 @@ public class GameHighScore implements BotApiObject {
     private User user; ///< User
     @JsonProperty(SCORE_FIELD)
     private Integer score; ///< Score
-
-    public Integer getPosition() {
-        return position;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public Integer getScore() {
-        return score;
-    }
-
-    @Override
-    public String toString() {
-        return "GameHighScore{" +
-                "position=" + position +
-                ", user=" + user +
-                ", score=" + score +
-                '}';
-    }
 }

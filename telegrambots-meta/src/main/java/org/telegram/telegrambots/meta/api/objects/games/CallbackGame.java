@@ -17,31 +17,16 @@
 
 package org.telegram.telegrambots.meta.api.objects.games;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
  * @author Ruben Bermudez
  * @version 2.4
- * @brief A placeholder, currently holds no information. Use BotFather to set up your game.
- * @date 16 of September of 2016
+ * A placeholder, currently holds no information. Use BotFather to set up your game.
  */
+@Data
+@NoArgsConstructor
 public class CallbackGame implements BotApiObject {
-    public CallbackGame() {
-        super();
-    }
-
-    @Override
-    public String toString() {
-        return "CallbackGame{}";
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return o == this || o instanceof CallbackGame;
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

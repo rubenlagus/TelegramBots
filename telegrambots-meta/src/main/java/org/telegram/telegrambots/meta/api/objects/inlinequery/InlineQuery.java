@@ -2,6 +2,9 @@ package org.telegram.telegrambots.meta.api.objects.inlinequery;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.User;
@@ -9,10 +12,12 @@ import org.telegram.telegrambots.meta.api.objects.User;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief This object represents an incoming inline query. When the user sends an empty query, your
+ * This object represents an incoming inline query. When the user sends an empty query, your
  * bot could return some default or trending results.
- * @date 01 of January of 2016
  */
+@Data
+@NoArgsConstructor
+@Builder
 public class InlineQuery implements BotApiObject {
     private static final String ID_FIELD = "id";
     private static final String FROM_FIELD = "from";
@@ -30,48 +35,5 @@ public class InlineQuery implements BotApiObject {
     private String query; ///< Text of the query
     @JsonProperty(OFFSET_FIELD)
     private String offset; ///< Offset of the results to be returned, can be controlled by the bot
-
-    public InlineQuery() {
-        super();
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public User getFrom() {
-        return from;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public String getQuery() {
-        return query;
-    }
-
-    public String getOffset() {
-        return offset;
-    }
-
-    public boolean hasQuery() {
-        return query != null && !query.isEmpty();
-    }
-
-    public boolean hasLocation() {
-        return location != null;
-    }
-
-    @Override
-    public String toString() {
-        return "InlineQuery{" +
-                "id='" + id + '\'' +
-                ", from=" + from +
-                ", location=" + location +
-                ", query='" + query + '\'' +
-                ", offset='" + offset + '\'' +
-                '}';
-    }
 }
 

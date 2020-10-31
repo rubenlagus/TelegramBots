@@ -17,6 +17,8 @@
 package org.telegram.telegrambots.meta.api.objects.games;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 
@@ -25,6 +27,8 @@ import org.telegram.telegrambots.meta.api.objects.PhotoSize;
  * @version 2.4
  * This object represents an animation file (GIF or H.264/MPEG-4 AVC video without sound).
  */
+@Data
+@NoArgsConstructor
 public class Animation implements BotApiObject {
     private static final String FILEID_FIELD = "file_id";
     private static final String FILEUNIQUEID_FIELD = "file_unique_id";
@@ -58,59 +62,4 @@ public class Animation implements BotApiObject {
     private String mimetype; ///< Optional. MIME type of the file as defined by sender
     @JsonProperty(FILESIZE_FIELD)
     private Integer fileSize; ///< Optional. File size
-
-    public Animation() {
-        super();
-    }
-
-    public String getFileId() {
-        return fileId;
-    }
-
-    public PhotoSize getThumb() {
-        return thumb;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public String getMimetype() {
-        return mimetype;
-    }
-
-    public Integer getFileSize() {
-        return fileSize;
-    }
-
-    public Integer getWidth() {
-        return width;
-    }
-
-    public Integer getHeight() {
-        return height;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public String getFileUniqueId() {
-        return fileUniqueId;
-    }
-
-    @Override
-    public String toString() {
-        return "Animation{" +
-                "fileId='" + fileId + '\'' +
-                ", width=" + width +
-                ", height=" + height +
-                ", duration=" + duration +
-                ", thumb=" + thumb +
-                ", fileName='" + fileName + '\'' +
-                ", mimetype='" + mimetype + '\'' +
-                ", fileSize=" + fileSize +
-                ", fileUniqueId=" + fileUniqueId +
-                '}';
-    }
 }

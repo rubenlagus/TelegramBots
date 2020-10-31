@@ -17,7 +17,8 @@
 package org.telegram.telegrambots.meta.api.objects.games;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
@@ -27,10 +28,11 @@ import java.util.List;
 /**
  * @author Ruben Bermudez
  * @version 2.4
- * @brief This object represents a game.
- * Use BotFather to create and edit games, their short names will act as unique identifiers.
- * @date 27 of September of 2016
+ * This object represents a game.
+ * @apiNote Use BotFather to create and edit games, their short names will act as unique identifiers.
  */
+@Data
+@NoArgsConstructor
 public class Game implements BotApiObject {
 
     private static final String TITLE_FIELD = "title";
@@ -63,45 +65,7 @@ public class Game implements BotApiObject {
     @JsonProperty(ANIMATION_FIELD)
     private Animation animation; ///< Optional. Animation
 
-    public Game() {
-        super();
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public List<PhotoSize> getPhoto() {
-        return photo;
-    }
-
-    public Animation getAnimation() {
-        return animation;
-    }
-
-    public String getText() {
-        return text;
-    }
-
     public boolean hasEntities() {
         return entities != null && !entities.isEmpty();
-    }
-
-    public List<MessageEntity> getEntities() {
-        return entities;
-    }
-
-    @Override
-    public String toString() {
-        return "Game{" +
-                "title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", photo=" + photo +
-                ", animation=" + animation +
-                '}';
     }
 }

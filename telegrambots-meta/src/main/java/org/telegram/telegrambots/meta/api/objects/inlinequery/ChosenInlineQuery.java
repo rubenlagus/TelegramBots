@@ -2,6 +2,9 @@ package org.telegram.telegrambots.meta.api.objects.inlinequery;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.User;
@@ -9,10 +12,12 @@ import org.telegram.telegrambots.meta.api.objects.User;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Represents a result of an inline query that was chosen by the user and sent to their chat
+ * Represents a result of an inline query that was chosen by the user and sent to their chat
  * partner.
- * @date 01 of January of 2016
  */
+@Data
+@NoArgsConstructor
+@Builder
 public class ChosenInlineQuery implements BotApiObject {
     private static final String RESULTID_FIELD = "result_id";
     private static final String FROM_FIELD = "from";
@@ -36,39 +41,4 @@ public class ChosenInlineQuery implements BotApiObject {
     private String inlineMessageId;
     @JsonProperty(QUERY_FIELD)
     private String query; ///< The query that was used to obtain the result.
-
-    public ChosenInlineQuery() {
-        super();
-    }
-
-    public String getResultId() {
-        return resultId;
-    }
-
-    public User getFrom() {
-        return from;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public String getInlineMessageId() {
-        return inlineMessageId;
-    }
-
-    public String getQuery() {
-        return query;
-    }
-
-    @Override
-    public String toString() {
-        return "ChosenInlineQuery{" +
-                "resultId='" + resultId + '\'' +
-                ", from=" + from +
-                ", location=" + location +
-                ", inlineMessageId=" + inlineMessageId +
-                ", query='" + query + '\'' +
-                '}';
-    }
 }

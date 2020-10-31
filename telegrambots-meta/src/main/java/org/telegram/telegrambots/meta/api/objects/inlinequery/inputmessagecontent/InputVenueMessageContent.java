@@ -3,16 +3,25 @@ package org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessageconte
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
  * Represents the content of a venue message to be sent as the result of an inline query.
- * @note This will only work in Telegram versions released after 9 April, 2016. Older clients will
+ * @apiNote  This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * ignore them.
  */
 @JsonDeserialize
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class InputVenueMessageContent implements InputMessageContent {
 
     private static final String LATITUDE_FIELD = "latitude";
@@ -23,76 +32,21 @@ public class InputVenueMessageContent implements InputMessageContent {
     private static final String FOURSQUARETYPE_FIELD = "foursquare_type";
 
     @JsonProperty(LATITUDE_FIELD)
+    @NonNull
     private Float latitude; ///< Latitude of the venue in degrees
     @JsonProperty(LONGITUDE_FIELD)
+    @NonNull
     private Float longitude; ///< Longitude of the venue in degrees
     @JsonProperty(TITLE_FIELD)
+    @NonNull
     private String title; ///< Name of the venue
     @JsonProperty(ADDRESS_FIELD)
+    @NonNull
     private String address; ///< Address of the venue
     @JsonProperty(FOURSQUAREID_FIELD)
     private String foursquareId; ///< Optional. Foursquare identifier of the venue, if known
     @JsonProperty(FOURSQUARETYPE_FIELD)
     private String foursquareType; ///< Optional. Foursquare type of the venue, if known.
-
-
-    public InputVenueMessageContent() {
-        super();
-    }
-
-    public Float getLatitude() {
-        return latitude;
-    }
-
-    public InputVenueMessageContent setLatitude(Float latitude) {
-        this.latitude = latitude;
-        return this;
-    }
-
-    public Float getLongitude() {
-        return longitude;
-    }
-
-    public InputVenueMessageContent setLongitude(Float longitude) {
-        this.longitude = longitude;
-        return this;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public InputVenueMessageContent setTitle(String title) {
-        this.title = title;
-        return this;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public InputVenueMessageContent setAddress(String address) {
-        this.address = address;
-        return this;
-    }
-
-    public String getFoursquareId() {
-        return foursquareId;
-    }
-
-    public InputVenueMessageContent setFoursquareId(String foursquareId) {
-        this.foursquareId = foursquareId;
-        return this;
-    }
-
-    public String getFoursquareType() {
-        return foursquareType;
-    }
-
-    public InputVenueMessageContent setFoursquareType(String foursquareType) {
-        this.foursquareType = foursquareType;
-        return this;
-    }
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -108,17 +62,5 @@ public class InputVenueMessageContent implements InputMessageContent {
         if (address == null || address.isEmpty()) {
             throw new TelegramApiValidationException("Address parameter can't be empty", this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "InputVenueMessageContent{" +
-                "latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", title='" + title + '\'' +
-                ", address='" + address + '\'' +
-                ", foursquareId='" + foursquareId + '\'' +
-                ", foursquareType='" + foursquareType + '\'' +
-                '}';
     }
 }
