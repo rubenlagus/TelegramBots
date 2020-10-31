@@ -1,7 +1,7 @@
 package org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.telegram.telegrambots.meta.api.interfaces.InputBotApiObject;
+import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.api.objects.LoginUrl;
 import org.telegram.telegrambots.meta.api.objects.games.CallbackGame;
@@ -16,10 +16,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @version 1.0
  * This object represents one button of an inline keyboard. You must use exactly one of the
  * optional fields.
- * @note This will only work in Telegram versions released after 9 April, 2016. Older clients will
+ * @apiNote This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * display unsupported message.
  */
-public class InlineKeyboardButton implements InputBotApiObject, Validable {
+public class InlineKeyboardButton implements Validable, BotApiObject {
 
     private static final String TEXT_FIELD = "text";
     private static final String URL_FIELD = "url";
@@ -39,7 +39,7 @@ public class InlineKeyboardButton implements InputBotApiObject, Validable {
     /**
      * Optional. Description of the game that will be launched when the user presses the button.
      *
-     * @note This type of button must always be the first button in the first row.
+     * @apiNote This type of button must always be the first button in the first row.
      */
     @JsonProperty(CALLBACK_GAME_FIELD)
     private CallbackGame callbackGame;
@@ -49,7 +49,7 @@ public class InlineKeyboardButton implements InputBotApiObject, Validable {
      * open that chat and insert the bot‘s username and the specified inline query in the input field.
      * Can be empty, in which case just the bot’s username will be inserted.
      *
-     * @note This offers an easy way for users to start using your bot in inline mode when
+     * @apiNote This offers an easy way for users to start using your bot in inline mode when
      * they are currently in a private chat with it.
      * Especially useful when combined with switch_pm… actions – in this case the user will
      * be automatically returned to the chat they switched from, skipping the chat selection screen.
@@ -67,7 +67,7 @@ public class InlineKeyboardButton implements InputBotApiObject, Validable {
     /**
      * Optional. Specify True, to send a Buy button.
      *
-     * @note This type of button must always be the first button in the first row.
+     * @apiNote This type of button must always be the first button in the first row.
      */
     @JsonProperty(PAY_FIELD)
     private Boolean pay;

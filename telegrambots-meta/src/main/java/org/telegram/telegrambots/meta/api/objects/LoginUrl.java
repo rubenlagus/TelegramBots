@@ -1,7 +1,7 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.telegram.telegrambots.meta.api.interfaces.InputBotApiObject;
+import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * All the user needs to do is tap/click a button and confirm that they want to log in.
  */
 @SuppressWarnings("unused")
-public class LoginUrl implements InputBotApiObject, Validable {
+public class LoginUrl implements Validable, BotApiObject {
     private static final String URL_FIELD = "url";
     private static final String FORWARD_TEXT_FIELD = "forward_text";
     private static final String BOT_USERNAME_FIELD = "bot_username";

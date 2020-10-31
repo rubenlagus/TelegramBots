@@ -127,14 +127,6 @@ public class Chat implements BotApiObject {
         return permissions;
     }
 
-    /**
-     * @deprecated Use {@link #getPermissions()} instead
-     */
-    @Deprecated
-    public Boolean getAllMembersAreAdministrators() {
-        return allMembersAreAdministrators;
-    }
-
     public ChatPhoto getPhoto() {
         return photo;
     }

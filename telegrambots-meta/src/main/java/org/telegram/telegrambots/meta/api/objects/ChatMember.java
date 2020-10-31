@@ -121,14 +121,6 @@ public class ChatMember implements BotApiObject {
         return canRestrictMembers;
     }
 
-    /**
-     * @deprecated Use {{@link #getCanRestrictMembers()}}
-     */
-    @Deprecated
-    public Boolean getCanRestrictUsers() {
-        return canRestrictMembers;
-    }
-
     public Boolean getCanPinMessages() {
         return canPinMessages;
     }

@@ -1,11 +1,10 @@
 package org.telegram.telegrambots.meta.api.methods.updatingmessages;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -110,26 +109,8 @@ public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
         return this;
     }
 
-    /**
-     * @deprecated  Replaced by {@link #getLongitude()}
-     */
-    @Deprecated
-    @JsonIgnore
-    public Float getLongitud() {
-        return longitude;
-    }
-
     public Float getLongitude() {
         return longitude;
-    }
-
-    /**
-     * @deprecated  Replaced by {@link #setLongitude(Float)}
-     */
-    @Deprecated
-    @JsonIgnore
-    public EditMessageLiveLocation setLongitud(Float longitude) {
-        return setLongitude(longitude);
     }
 
     public EditMessageLiveLocation setLongitude(Float longitude) {

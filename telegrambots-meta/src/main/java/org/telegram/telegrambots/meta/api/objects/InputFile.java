@@ -2,7 +2,7 @@ package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.telegram.telegrambots.meta.api.interfaces.InputBotApiObject;
+import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -17,7 +17,7 @@ import java.io.InputStream;
  */
 @SuppressWarnings({"WeakerAccess", "UnusedReturnValue"})
 @JsonSerialize(using = InputFileSerializer.class, as = String.class)
-public class InputFile implements InputBotApiObject, Validable {
+public class InputFile implements Validable, BotApiObject {
 
     private String attachName;
 

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.telegram.telegrambots.meta.api.interfaces.InputBotApiObject;
+import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.api.objects.media.serialization.InputMediaDeserializer;
 import org.telegram.telegrambots.meta.api.objects.media.serialization.InputMediaSerializer;
@@ -20,7 +20,7 @@ import java.io.InputStream;
 @SuppressWarnings({"unchecked"})
 @JsonSerialize(using = InputMediaSerializer.class)
 @JsonDeserialize(using = InputMediaDeserializer.class)
-public abstract class InputMedia<T> implements InputBotApiObject, Validable {
+public abstract class InputMedia<T> implements Validable, BotApiObject {
     public static final String TYPE_FIELD = "type";
     public static final String MEDIA_FIELD = "media";
     public static final String CAPTION_FIELD = "caption";
@@ -117,7 +117,7 @@ public abstract class InputMedia<T> implements InputBotApiObject, Validable {
         return caption;
     }
 
-    public InputMedia setCaption(String caption) {
+    public InputMedia<T> setCaption(String caption) {
         this.caption = caption;
         return this;
     }

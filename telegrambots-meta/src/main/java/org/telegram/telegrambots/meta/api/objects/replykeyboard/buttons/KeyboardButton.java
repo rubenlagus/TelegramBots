@@ -1,7 +1,7 @@
 package org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.telegram.telegrambots.meta.api.interfaces.InputBotApiObject;
+import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -19,7 +19,7 @@ import java.util.Objects;
  * @apiNote request_poll option will only work in Telegram versions released after 1X January, 2020.
  * Older clients will receive unsupported message.
  */
-public class KeyboardButton implements InputBotApiObject, Validable {
+public class KeyboardButton implements Validable, BotApiObject {
 
     private static final String TEXT_FIELD = "text";
     private static final String REQUEST_CONTACT_FIELD = "request_contact";

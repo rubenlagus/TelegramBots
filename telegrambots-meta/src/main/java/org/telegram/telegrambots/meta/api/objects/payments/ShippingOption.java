@@ -1,7 +1,7 @@
 package org.telegram.telegrambots.meta.api.objects.payments;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.telegram.telegrambots.meta.api.interfaces.InputBotApiObject;
+import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -15,7 +15,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * This object represents one shipping option.
  */
-public class ShippingOption implements InputBotApiObject, Validable {
+public class ShippingOption implements Validable, BotApiObject {
     private static final String ID_FIELD = "id";
     private static final String TITLE_FIELD = "title";
     private static final String PRICES_FIELD = "prices";

@@ -1,7 +1,7 @@
 package org.telegram.telegrambots.meta.api.objects.payments;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.telegram.telegrambots.meta.api.interfaces.InputBotApiObject;
+import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -12,17 +12,17 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @version 1.0
  * This object represents a portion of goods price.
  */
-public class LabeledPrice implements InputBotApiObject, Validable {
+public class LabeledPrice implements Validable, BotApiObject {
     private static final String LABEL_FIELD = "label";
     private static final String AMOUNT_FIELD = "amount";
 
     @JsonProperty(LABEL_FIELD)
     private String label; ///< Portion label
-    @JsonProperty(AMOUNT_FIELD)
     /**
      * Price of the product in the smallest units of the currency (integer, not float/double).
      * For example, for a price of US$ 1.45 pass amount = 145.
      */
+    @JsonProperty(AMOUNT_FIELD)
     private Integer amount;
 
     /**
