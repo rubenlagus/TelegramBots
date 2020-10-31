@@ -10,10 +10,10 @@ class CommandRegistryTest {
 
     @Test
     void should_create_registry() {
-        CommandRegistry registry = new CommandRegistry(true, "BotUsername");
+        CommandRegistry registry = new CommandRegistry(true, () -> "BotUsername");
         Assertions.assertNotNull(registry, "CommandRegistry is not created");
         NullPointerException exception = Assertions.assertThrows(NullPointerException.class,
-                () -> new CommandRegistry(true, (String) null));
+                () -> new CommandRegistry(true, () -> "BotUsername"));
         Assertions.assertEquals("Bot username must not be null", exception.getMessage(), "Invalid exception message");
     }
 
