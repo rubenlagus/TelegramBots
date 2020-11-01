@@ -3,10 +3,11 @@ package org.telegram.telegrambots.meta.api.objects;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.games.Animation;
 import org.telegram.telegrambots.meta.api.objects.games.Game;
@@ -25,8 +26,10 @@ import java.util.List;
  * @version 1.0
  * This object represents a message.
  */
-@Data
-@RequiredArgsConstructor
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Message implements BotApiObject {
@@ -79,22 +82,25 @@ public class Message implements BotApiObject {
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String DICE_FIELD = "dice";
     private static final String VIABOT_FIELD = "via_bot";
+    private static final String SENDERCHAT_FIELD = "sender_chat";
+    private static final String PROXIMITYALERTTRIGGERED_FIELD = "proximity_alert_triggered";
 
     @JsonProperty(MESSAGEID_FIELD)
-    @NonNull
     private Integer messageId; ///< Integer	Unique message identifier
     @JsonProperty(FROM_FIELD)
     private User from; ///< Optional. Sender, can be empty for messages sent to channels
     @JsonProperty(DATE_FIELD)
-    @NonNull
-    private Integer date; ///< ODate the message was sent in Unix time
+    private Integer date; ///< Date the message was sent in Unix time
     @JsonProperty(CHAT_FIELD)
-    @NonNull
     private Chat chat; ///< Conversation the message belongs to
     @JsonProperty(FORWARDFROM_FIELD)
     private User forwardFrom; ///< Optional. For forwarded messages, sender of the original message
+    /**
+     * Optional.
+     * For messages forwarded from channels or from anonymous administrators, information about the original sender chat
+     */
     @JsonProperty(FORWARDFROMCHAT_FIELD)
-    private Chat forwardFromChat; ///< Optional. For messages forwarded from a channel, information about the original channel
+    private Chat forwardFromChat;
     @JsonProperty(FORWARDDATE_FIELD)
     private Integer forwardDate; ///< Optional. For forwarded messages, date the original message was sent
     @JsonProperty(TEXT_FIELD)
@@ -201,8 +207,12 @@ public class Message implements BotApiObject {
     private SuccessfulPayment successfulPayment; ///< Optional. Message is a service message about a successful payment, information about the payment.
     @JsonProperty(VIDEO_NOTE_FIELD)
     private VideoNote videoNote; ///< Optional. Message is a video note, information about the video message
+    /**
+     * Optional.
+     * Signature of the post author for messages in channels, or the custom title of an anonymous group administrator
+     */
     @JsonProperty(AUTHORSIGNATURE_FIELD)
-    private String authorSignature; ///< Optional. Post author signature for posts in channel chats
+    private String authorSignature;
     @JsonProperty(FORWARDSIGNATURE_FIELD)
     private String forwardSignature; ///< Optional. Post author signature for messages forwarded from channel chats
     @JsonProperty(MEDIAGROUPID_FIELD)
@@ -226,6 +236,21 @@ public class Message implements BotApiObject {
     private Dice dice; // Optional. Message is a dice with random value from 1 to 6
     @JsonProperty(VIABOT_FIELD)
     private User viaBot; // Optional. Bot through which the message was sent
+    /**
+     * Optional.
+     * Sender of the message, sent on behalf of a chat. The channel itself for channel messages.
+     * The supergroup itself for messages from anonymous group administrators.
+     * The linked channel for messages automatically forwarded to the discussion group
+     */
+    @JsonProperty(SENDERCHAT_FIELD)
+    private Chat senderChat;
+    /**
+     * Optional.
+     * Service message.
+     * A user in the chat triggered another user's proximity alert while sharing Live Location.
+     */
+    @JsonProperty(PROXIMITYALERTTRIGGERED_FIELD)
+    private ProximityAlertTriggered proximityAlertTriggered;
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {

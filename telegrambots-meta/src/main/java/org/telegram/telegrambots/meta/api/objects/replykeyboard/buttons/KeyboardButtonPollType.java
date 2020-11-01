@@ -1,11 +1,16 @@
 package org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-
-import java.util.Objects;
 
 /**
  * @author Ruben Bermudez
@@ -13,6 +18,13 @@ import java.util.Objects;
  *
  * This object represents type of a poll, which is allowed to be created and sent when the corresponding button is pressed.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class KeyboardButtonPollType implements BotApiObject, Validable {
     private static final String TYPE_FIELD = "type";
 
@@ -26,45 +38,7 @@ public class KeyboardButtonPollType implements BotApiObject, Validable {
     @JsonProperty(TYPE_FIELD)
     private String type;
 
-    public KeyboardButtonPollType() {
-    }
-
-    public KeyboardButtonPollType(String type) {
-        this.type = type;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (type == null || type.isEmpty()) {
-            throw new TelegramApiValidationException("Type parameter can't be empty", this);
-        }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof KeyboardButtonPollType)) return false;
-        KeyboardButtonPollType that = (KeyboardButtonPollType) o;
-        return Objects.equals(type, that.type);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(type);
-    }
-
-    @Override
-    public String toString() {
-        return "KeyboardButtonPollType{" +
-                "type='" + type + '\'' +
-                '}';
     }
 }

@@ -1,6 +1,12 @@
 package org.telegram.telegrambots.meta.api.objects.stickers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 
@@ -11,6 +17,12 @@ import java.util.List;
  * @version 1.0
  * This object represents a sticker set.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class StickerSet implements BotApiObject {
     private static final String NAME_FIELD = "name";
     private static final String TITLE_FIELD = "title";
@@ -20,55 +32,15 @@ public class StickerSet implements BotApiObject {
     private static final String THUMB_FIELD = "thumb";
 
     @JsonProperty(NAME_FIELD)
-    private String name;
+    private String name; ///< Sticker set name
     @JsonProperty(TITLE_FIELD)
-    private String title;
+    private String title; ///< Sticker set title
     @JsonProperty(CONTAINSMASKS_FIELD)
-    private Boolean containsMasks;
+    private Boolean containsMasks; ///< True, if the sticker set contains animated stickers
     @JsonProperty(STICKERS_FIELD)
-    private List<Sticker> stickers;
+    private List<Sticker> stickers; ///< True, if the sticker set contains masks
     @JsonProperty(ISANIMATED_FIELD)
-    private Boolean isAnimated;
+    private Boolean isAnimated; ///< List of all set stickers
     @JsonProperty(THUMB_FIELD)
     private PhotoSize thumb; ///< Optional. Sticker set thumbnail in the .WEBP or .TGS format
-
-    public StickerSet() {
-        super();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public Boolean getContainsMasks() {
-        return containsMasks;
-    }
-
-    public List<Sticker> getStickers() {
-        return stickers;
-    }
-
-    public Boolean getAnimated() {
-        return isAnimated;
-    }
-
-    public PhotoSize getThumb() {
-        return thumb;
-    }
-
-    @Override
-    public String toString() {
-        return "StickerSet{" +
-                "name='" + name + '\'' +
-                ", title='" + title + '\'' +
-                ", containsMasks=" + containsMasks +
-                ", stickers=" + stickers +
-                ", isAnimated=" + isAnimated +
-                ", thumb=" + thumb +
-                '}';
-    }
 }

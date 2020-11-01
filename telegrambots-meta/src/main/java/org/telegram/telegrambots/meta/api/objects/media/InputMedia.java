@@ -4,27 +4,46 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.Singular;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.media.serialization.InputMediaDeserializer;
 import org.telegram.telegrambots.meta.api.objects.media.serialization.InputMediaSerializer;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * @author Ruben Bermudez
  * @version 3.5
  */
-@SuppressWarnings({"unchecked"})
+@SuppressWarnings({"unused"})
 @JsonSerialize(using = InputMediaSerializer.class)
 @JsonDeserialize(using = InputMediaDeserializer.class)
-public abstract class InputMedia<T> implements Validable, BotApiObject {
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+public abstract class InputMedia implements Validable, BotApiObject {
     public static final String TYPE_FIELD = "type";
     public static final String MEDIA_FIELD = "media";
     public static final String CAPTION_FIELD = "caption";
     public static final String PARSEMODE_FIELD = "parse_mode";
+    public static final String ENTITIES_FIELD = "entities";
 
     /**
      * File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended),
@@ -32,11 +51,15 @@ public abstract class InputMedia<T> implements Validable, BotApiObject {
      * to upload a new one using multipart/form-data under <file_attach_name> name.
      */
     @JsonProperty(MEDIA_FIELD)
+    @NonNull
     private String media;
     @JsonProperty(CAPTION_FIELD)
     private String caption; ///< Optional. Caption of the media to be sent, 0-200 characters
     @JsonProperty(PARSEMODE_FIELD)
     private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+    @JsonProperty(ENTITIES_FIELD)
+    @Singular
+    private List<MessageEntity> entities; ///< Optional. List of special entities that appear in message text, which can be specified instead of parse_mode
     @JsonIgnore
     private boolean isNewMedia; ///< True to upload a new media, false to use a fileId or URL
     @JsonIgnore
@@ -46,31 +69,6 @@ public abstract class InputMedia<T> implements Validable, BotApiObject {
     @JsonIgnore
     private InputStream newMediaStream; ///< New media stream
 
-    public InputMedia() {
-        super();
-    }
-
-    public InputMedia(String media, String caption) {
-        this.media = media;
-        this.caption = caption;
-    }
-
-    public String getMedia() {
-        return media;
-    }
-
-    public File getMediaFile() {
-        return newMediaFile;
-    }
-
-    public InputStream getNewMediaStream() {
-        return newMediaStream;
-    }
-
-    public String getMediaName() {
-        return mediaName;
-    }
-
     @JsonIgnore
     public boolean isNewMedia() {
         return isNewMedia;
@@ -79,56 +77,32 @@ public abstract class InputMedia<T> implements Validable, BotApiObject {
     /**
      * Use this setter to send an existing file (using file_id) or an url.
      * @param media File_id or URL of the file to send
-     * @return This object
      */
-    public T setMedia(String media) {
+    public void setMedia(String media) {
         this.media = media;
         this.isNewMedia = false;
-        return (T) this;
     }
 
     /**
      * Use this setter to send new file.
      * @param mediaFile File to send
-     * @return This object
      */
-    public T setMedia(File mediaFile, String fileName) {
+    public void setMedia(File mediaFile, String fileName) {
         this.newMediaFile = mediaFile;
         this.isNewMedia = true;
         this.mediaName = fileName;
         this.media = "attach://" + fileName;
-        return (T) this;
     }
 
     /**
      * Use this setter to send new file as stream.
      * @param mediaStream File to send
-     * @return This object
      */
-    public T setMedia(InputStream mediaStream, String fileName) {
+    public void setMedia(InputStream mediaStream, String fileName) {
         this.newMediaStream = mediaStream;
         this.isNewMedia = true;
         this.mediaName = fileName;
         this.media = "attach://" + fileName;
-        return (T) this;
-    }
-
-    public String getCaption() {
-        return caption;
-    }
-
-    public InputMedia<T> setCaption(String caption) {
-        this.caption = caption;
-        return this;
-    }
-
-    public String getParseMode() {
-        return parseMode;
-    }
-
-    public InputMedia<T> setParseMode(String parseMode) {
-        this.parseMode = parseMode;
-        return this;
     }
 
     @Override
@@ -143,21 +117,11 @@ public abstract class InputMedia<T> implements Validable, BotApiObject {
         } else if (media == null || media.isEmpty()) {
             throw new TelegramApiValidationException("Media can't be empty", this);
         }
+        if (parseMode != null && (entities != null && !entities.isEmpty()) ) {
+            throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
+        }
     }
 
     @JsonProperty(TYPE_FIELD)
     public abstract String getType();
-
-    @Override
-    public String toString() {
-        return "InputMedia{" +
-                "media='" + media + '\'' +
-                ", caption='" + caption + '\'' +
-                ", parseMode='" + parseMode + '\'' +
-                ", isNewMedia=" + isNewMedia +
-                ", mediaName='" + mediaName + '\'' +
-                ", newMediaFile=" + newMediaFile +
-                ", newMediaStream=" + newMediaStream +
-                '}';
-    }
 }

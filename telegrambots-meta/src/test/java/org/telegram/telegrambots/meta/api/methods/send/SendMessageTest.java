@@ -9,17 +9,28 @@ class SendMessageTest {
 
     @Test
     void comparison() {
-        SendMessage sm1 = new SendMessage().setChatId(1L).setText("Hello World");
-        SendMessage sm2 = new SendMessage().setChatId(1L).setText("Hello World");
-        SendMessage noMessage = new SendMessage().setChatId(1L);
-        SendMessage disabledNotification = new SendMessage().setChatId(1L).setText("Hello World").disableNotification();
+        SendMessage sm1 = SendMessage
+                .builder()
+                .chatId("1")
+                .text("Hello World")
+                .build();
+        SendMessage sm2 = SendMessage
+                .builder()
+                .chatId("1")
+                .text("Hello World")
+                .build();
+        SendMessage disabledNotification = SendMessage
+                .builder()
+                .chatId("1")
+                .text("Hello World")
+                .disableNotification(true)
+                .build();
 
+        sm1.equals(sm2);
         assertEquals(sm1, sm2);
-        assertNotEquals(sm1, noMessage);
         assertNotEquals(sm1, disabledNotification);
 
         assertEquals(sm1.hashCode(), sm2.hashCode());
-        assertNotEquals(sm1.hashCode(), noMessage.hashCode());
         assertNotEquals(sm1.hashCode(), disabledNotification.hashCode());
     }
 

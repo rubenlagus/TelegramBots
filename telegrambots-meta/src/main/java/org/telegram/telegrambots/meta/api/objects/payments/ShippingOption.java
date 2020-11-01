@@ -1,13 +1,20 @@
 package org.telegram.telegrambots.meta.api.objects.payments;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.Singular;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.util.List;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
@@ -15,63 +22,28 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * This object represents one shipping option.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ShippingOption implements Validable, BotApiObject {
     private static final String ID_FIELD = "id";
     private static final String TITLE_FIELD = "title";
     private static final String PRICES_FIELD = "prices";
 
     @JsonProperty(ID_FIELD)
+    @NonNull
     private String id; ///< Shipping option identifier
     @JsonProperty(TITLE_FIELD)
+    @NonNull
     private String title; ///< Option title
     @JsonProperty(PRICES_FIELD)
+    @NonNull
+    @Singular
     private List<LabeledPrice> prices; ///< List of price portions
-
-    /**
-     * Creates an empty shipping option
-     */
-    public ShippingOption() {
-        super();
-    }
-
-    /**
-     * Creates a shipping option with mandatory fields
-     * @param id Shipping option identifier
-     * @param title Option title
-     * @param prices List of price portions
-     */
-    public ShippingOption(String id, String title, List<LabeledPrice> prices) {
-        this.id = checkNotNull(id);
-        this.title = checkNotNull(title);
-        this.prices = checkNotNull(prices);
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public ShippingOption setId(String id) {
-        this.id = checkNotNull(id);
-        return this;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public ShippingOption setTitle(String title) {
-        this.title = checkNotNull(title);
-        return this;
-    }
-
-    public List<LabeledPrice> getPrices() {
-        return prices;
-    }
-
-    public ShippingOption setPrices(List<LabeledPrice> prices) {
-        this.prices = checkNotNull(prices);
-        return this;
-    }
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -87,14 +59,5 @@ public class ShippingOption implements Validable, BotApiObject {
         for (LabeledPrice price : prices) {
             price.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "ShippingOption{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", prices=" + prices +
-                '}';
     }
 }

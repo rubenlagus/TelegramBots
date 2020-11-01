@@ -3,6 +3,15 @@ package org.telegram.telegrambots.meta.api.objects.inlinequery.result;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -12,10 +21,18 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * @version 1.0
  * Represents a venue. By default, the venue will be sent by the user. Alternatively, you can
  * use input_message_content to send a message with the specified content instead of the venue.
- * @note This will only work in Telegram versions released after 9 April, 2016. Older clients will
+ * @apiNote This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * ignore them.
  */
 @JsonDeserialize
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class InlineQueryResultVenue implements InlineQueryResult {
 
     private static final String TYPE_FIELD = "type";
@@ -31,19 +48,25 @@ public class InlineQueryResultVenue implements InlineQueryResult {
     private static final String THUMBWIDTH_FIELD = "thumb_width";
     private static final String THUMBHEIGHT_FIELD = "thumb_height";
     private static final String FOURSQUARETYPE_FIELD = "foursquare_type";
-
+    private static final String GOOGLEPLACEID_FIELD = "google_place_id";
+    private static final String GOOGLEPLACETYPE_FIELD = "google_place_type";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "venue"; ///< Type of the result, must be "venue"
     @JsonProperty(ID_FIELD)
+    @NonNull
     private String id; ///< Unique identifier of this result, 1-64 bytes
     @JsonProperty(TITLE_FIELD)
-    private String title; ///< Optional. Location title
+    @NonNull
+    private String title; ///< Location title
     @JsonProperty(LATITUDE_FIELD)
+    @NonNull
     private Float latitude; ///< Venue latitude in degrees
     @JsonProperty(LONGITUDE_FIELD)
+    @NonNull
     private Float longitude; ///< Venue longitude in degrees
     @JsonProperty(ADDRESS_FIELD)
+    @NonNull
     private String address; ///< Address of the venue
     @JsonProperty(FOURSQUAREID_FIELD)
     private String foursquareId; ///< Optional. Foursquare identifier of the venue if known
@@ -59,122 +82,10 @@ public class InlineQueryResultVenue implements InlineQueryResult {
     private Integer thumbHeight; ///< Optional. Thumbnail height
     @JsonProperty(FOURSQUARETYPE_FIELD)
     private String foursquareType; ///< Optional. Foursquare type of the venue, if known.
-
-    public InlineQueryResultVenue() {
-        super();
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public InlineQueryResultVenue setId(String id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public InlineQueryResultVenue setTitle(String title) {
-        this.title = title;
-        return this;
-    }
-
-    public Float getLatitude() {
-        return latitude;
-    }
-
-    public InlineQueryResultVenue setLatitude(Float latitude) {
-        this.latitude = latitude;
-        return this;
-    }
-
-    public Float getLongitude() {
-        return longitude;
-    }
-
-    public InlineQueryResultVenue setLongitude(Float longitude) {
-        this.longitude = longitude;
-        return this;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public InlineQueryResultVenue setAddress(String address) {
-        this.address = address;
-        return this;
-    }
-
-    public String getFoursquareId() {
-        return foursquareId;
-    }
-
-    public InlineQueryResultVenue setFoursquareId(String foursquareId) {
-        this.foursquareId = foursquareId;
-        return this;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public InlineQueryResultVenue setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
-
-    public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
-    }
-
-    public InlineQueryResultVenue setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
-        return this;
-    }
-
-    public String getThumbUrl() {
-        return thumbUrl;
-    }
-
-    public InlineQueryResultVenue setThumbUrl(String thumbUrl) {
-        this.thumbUrl = thumbUrl;
-        return this;
-    }
-
-    public Integer getThumbWidth() {
-        return thumbWidth;
-    }
-
-    public InlineQueryResultVenue setThumbWidth(Integer thumbWidth) {
-        this.thumbWidth = thumbWidth;
-        return this;
-    }
-
-    public Integer getThumbHeight() {
-        return thumbHeight;
-    }
-
-    public InlineQueryResultVenue setThumbHeight(Integer thumbHeight) {
-        this.thumbHeight = thumbHeight;
-        return this;
-    }
-
-    public String getFoursquareType() {
-        return foursquareType;
-    }
-
-    public InlineQueryResultVenue setFoursquareType(String foursquareType) {
-        this.foursquareType = foursquareType;
-        return this;
-    }
+    @JsonProperty(GOOGLEPLACEID_FIELD)
+    private String googlePlaceId; ///< Optional. Google Places identifier of the venue
+    @JsonProperty(GOOGLEPLACETYPE_FIELD)
+    private String googlePlaceType; ///< Optional. Google Places type of the venue. (See supported types.)
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -200,24 +111,5 @@ public class InlineQueryResultVenue implements InlineQueryResult {
             replyMarkup.validate();
         }
 
-    }
-
-    @Override
-    public String toString() {
-        return "InlineQueryResultVenue{" +
-                "type='" + type + '\'' +
-                ", id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", address='" + address + '\'' +
-                ", foursquareId='" + foursquareId + '\'' +
-                ", replyMarkup=" + replyMarkup +
-                ", inputMessageContent=" + inputMessageContent +
-                ", thumbUrl='" + thumbUrl + '\'' +
-                ", thumbWidth=" + thumbWidth +
-                ", thumbHeight=" + thumbHeight +
-                ", foursquareType='" + foursquareType + '\'' +
-                '}';
     }
 }

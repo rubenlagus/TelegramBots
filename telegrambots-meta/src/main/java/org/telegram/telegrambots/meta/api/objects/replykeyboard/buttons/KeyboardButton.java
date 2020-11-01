@@ -1,11 +1,18 @@
 package org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-
-import java.util.Objects;
 
 /**
  * @author Ruben Bermudez
@@ -19,6 +26,14 @@ import java.util.Objects;
  * @apiNote request_poll option will only work in Telegram versions released after 1X January, 2020.
  * Older clients will receive unsupported message.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
 public class KeyboardButton implements Validable, BotApiObject {
 
     private static final String TEXT_FIELD = "text";
@@ -30,6 +45,7 @@ public class KeyboardButton implements Validable, BotApiObject {
      * If none of the optional fields are used, it will be sent to the bot as a message when the button is pressed
      */
     @JsonProperty(TEXT_FIELD)
+    @NonNull
     private String text;
     /**
      * Optional.
@@ -53,51 +69,6 @@ public class KeyboardButton implements Validable, BotApiObject {
     @JsonProperty(REQUEST_POLL_FIELD)
     private KeyboardButtonPollType requestPoll;
 
-    public KeyboardButton() {
-        super();
-    }
-
-    public KeyboardButton(String text) {
-        super();
-        this.text = text;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public KeyboardButton setText(String text) {
-        this.text = text;
-        return this;
-    }
-
-    public Boolean getRequestContact() {
-        return requestContact;
-    }
-
-    public KeyboardButton setRequestContact(Boolean requestContact) {
-        this.requestContact = requestContact;
-        return this;
-    }
-
-    public Boolean getRequestLocation() {
-        return requestLocation;
-    }
-
-    public KeyboardButton setRequestLocation(Boolean requestLocation) {
-        this.requestLocation = requestLocation;
-        return this;
-    }
-
-    public KeyboardButtonPollType getRequestPoll() {
-        return requestPoll;
-    }
-
-    public KeyboardButton setRequestPoll(KeyboardButtonPollType requestPoll) {
-        this.requestPoll = requestPoll;
-        return this;
-    }
-
     @Override
     public void validate() throws TelegramApiValidationException {
         if (text == null || text.isEmpty()) {
@@ -112,38 +83,5 @@ public class KeyboardButton implements Validable, BotApiObject {
         if (requestLocation != null && requestPoll != null && requestLocation) {
             throw new TelegramApiValidationException("Cant request location and poll at the same time", this);
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == this) return true;
-        if (!(o instanceof KeyboardButton)) {
-            return false;
-        }
-        KeyboardButton keyboardButton = (KeyboardButton) o;
-        return Objects.equals(requestContact, keyboardButton.requestContact)
-                && Objects.equals(requestLocation, keyboardButton.requestLocation)
-                && Objects.equals(requestPoll, keyboardButton.requestPoll)
-                && Objects.equals(text, keyboardButton.text)
-                ;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(
-                requestContact,
-                requestLocation,
-                requestPoll,
-                text);
-    }
-
-    @Override
-    public String toString() {
-        return "KeyboardButton{" +
-                "text=" + text +
-                ", requestContact=" + requestContact +
-                ", requestLocation=" + requestLocation +
-                ", requestPoll=" + requestPoll +
-                '}';
     }
 }

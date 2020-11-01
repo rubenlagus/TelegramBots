@@ -53,6 +53,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -64,95 +65,121 @@ public final class BotApiMethodHelperFactory {
     }
 
     public static BotApiMethod<Message> getSendMessage() {
-        return new SendMessage()
-                .setChatId("@test")
-                .setText("Hithere")
-                .setReplyToMessageId(12)
-                .setParseMode(ParseMode.HTML)
-                .setReplyMarkup(new ForceReplyKeyboard());
+        return SendMessage
+                .builder()
+                .chatId("@test")
+                .text("Hithere")
+                .replyToMessageId(12)
+                .parseMode(ParseMode.HTML)
+                .replyMarkup(new ForceReplyKeyboard())
+                .build();
     }
 
     public static BotApiMethod<Boolean> getAnswerCallbackQuery() {
-        return new AnswerCallbackQuery()
-                .setCallbackQueryId("id")
-                .setText("text")
-                .setShowAlert(true);
+        return AnswerCallbackQuery
+                .builder()
+                .callbackQueryId("id")
+                .text("text")
+                .showAlert(true)
+                .build();
     }
 
     public static BotApiMethod<Boolean> getAnswerInlineQuery() {
-        return new AnswerInlineQuery()
-                .setInlineQueryId("id")
-                .setPersonal(true)
-                .setResults(getInlineQueryResultArticle(), getInlineQueryResultPhoto())
-                .setCacheTime(100)
-                .setNextOffset("3")
-                .setSwitchPmParameter("PmParameter")
-                .setSwitchPmText("pmText");
+        return AnswerInlineQuery
+                .builder()
+                .inlineQueryId("id")
+                .isPersonal(true)
+                .results(Arrays.asList(getInlineQueryResultArticle(), getInlineQueryResultPhoto()))
+                .cacheTime(100)
+                .nextOffset("3")
+                .switchPmParameter("PmParameter")
+                .switchPmText("pmText")
+                .build();
     }
 
     public static BotApiMethod<Serializable> getEditMessageCaption() {
-        return new EditMessageCaption()
-                .setChatId("ChatId")
-                .setMessageId(1)
-                .setCaption("Caption")
-                .setReplyMarkup(getInlineKeyboardMarkup());
+        return EditMessageCaption
+                .builder()
+                .chatId("ChatId")
+                .messageId(1)
+                .caption("Caption")
+                .replyMarkup(getInlineKeyboardMarkup())
+                .build();
     }
 
 
     public static BotApiMethod<Serializable> getEditMessageText() {
-        return new EditMessageText()
-                .setChatId("ChatId")
-                .setMessageId(1)
-                .setText("Text")
-                .setParseMode(ParseMode.MARKDOWN)
-                .setReplyMarkup(getInlineKeyboardMarkup());
+        return EditMessageText
+                .builder()
+                .chatId("ChatId")
+                .messageId(1)
+                .text("Text")
+                .parseMode(ParseMode.MARKDOWN)
+                .replyMarkup(getInlineKeyboardMarkup())
+                .build();
     }
 
     public static BotApiMethod<Serializable> getEditMessageReplyMarkup() {
-        return new EditMessageReplyMarkup()
-                .setInlineMessageId("12345")
-                .setReplyMarkup(getInlineKeyboardMarkup());
+        return EditMessageReplyMarkup
+                .builder()
+                .inlineMessageId("12345")
+                .replyMarkup(getInlineKeyboardMarkup())
+                .build();
     }
 
     public static BotApiMethod<Message> getForwardMessage() {
-        return new ForwardMessage(54L, 123L, 55)
-                .setFromChatId("From")
-                .setChatId("To")
-                .setMessageId(15)
-                .disableNotification();
+        return ForwardMessage
+                .builder()
+                .fromChatId("From")
+                .chatId("To")
+                .messageId(15)
+                .disableNotification(true)
+                .build();
     }
 
     public static BotApiMethod<Chat> getGetChat() {
-        return new GetChat()
-                .setChatId("12345");
+        return GetChat
+                .builder()
+                .chatId("12345")
+                .build();
     }
 
     public static BotApiMethod<ArrayList<ChatMember>> getChatAdministrators() {
-        return new GetChatAdministrators()
-                .setChatId("12345");
+        return GetChatAdministrators
+                .builder()
+                .chatId("12345")
+                .build();
     }
 
     public static BotApiMethod<ChatMember> getChatMember() {
-        return new GetChatMember()
-                .setChatId("12345")
-                .setUserId(98765);
+        return GetChatMember
+                .builder()
+                .chatId("12345")
+                .userId(98765)
+                .build();
     }
 
     public static BotApiMethod<Integer> getChatMembersCount() {
-        return new GetChatMembersCount()
-                .setChatId("12345");
+        return GetChatMembersCount
+                .builder()
+                .chatId("12345")
+                .build();
     }
 
     public static BotApiMethod<File> getGetFile() {
-        return new GetFile()
-                .setFileId("FileId");
+        return GetFile
+                .builder()
+                .fileId("FileId")
+                .build();
     }
 
     public static BotApiMethod<ArrayList<GameHighScore>> getGetGameHighScores() {
-        return new GetGameHighScores()
-                .setChatId("12345")
-                .setMessageId(67890)
-                .setUserId(98765);
+        return GetGameHighScores
+                .builder()
+                .chatId("12345")
+                .messageId(67890)
+                .userId(98765)
+                .build();
     }
 
     public static BotApiMethod<User> getGetMe() {
@@ -160,10 +187,12 @@ public final class BotApiMethodHelperFactory {
     }
 
     public static BotApiMethod<UserProfilePhotos> getGetUserProfilePhotos() {
-        return new GetUserProfilePhotos()
-                .setUserId(98765)
-                .setLimit(10)
-                .setOffset(3);
+        return GetUserProfilePhotos
+                .builder()
+                .userId(98765)
+                .limit(10)
+                .offset(3)
+                .build();
     }
 
     public static BotApiMethod<WebhookInfo> getGetWebhookInfo() {
@@ -171,30 +200,38 @@ public final class BotApiMethodHelperFactory {
     }
 
     public static BotApiMethod<Boolean> getKickChatMember() {
-        return new KickChatMember()
-                .setChatId("12345")
-                .setUserId(98765);
+        return KickChatMember
+                .builder()
+                .chatId("12345")
+                .userId(98765)
+                .build();
     }
 
     public static BotApiMethod<Boolean> getLeaveChat() {
-        return new LeaveChat()
-                .setChatId("12345");
+        return LeaveChat
+                .builder()
+                .chatId("12345")
+                .build();
     }
 
     public static BotApiMethod<Boolean> getSendChatAction() {
-        return new SendChatAction()
-                .setChatId("12345")
-                .setAction(ActionType.RECORDVIDEO);
+        return SendChatAction
+                .builder()
+                .chatId("12345")
+                .action(ActionType.RECORDVIDEO.toString())
+                .build();
     }
 
     public static BotApiMethod<Message> getSendContact() {
-        return new SendContact()
-                .setChatId("12345")
-                .setFirstName("First Name")
-                .setLastName("Last Name")
-                .setPhoneNumber("123456789")
-                .setReplyMarkup(getKeyboardMarkup())
-                .setReplyToMessageId(54);
+        return SendContact
+                .builder()
+                .chatId("12345")
+                .firstName("First Name")
+                .lastName("Last Name")
+                .phoneNumber("123456789")
+                .replyMarkup(getKeyboardMarkup())
+                .replyToMessageId(54)
+                .build();
     }
 
     private static ReplyKeyboard getKeyboardMarkup() {
@@ -214,17 +251,19 @@ public final class BotApiMethodHelperFactory {
     }
 
     private static InlineQueryResult getInlineQueryResultArticle() {
-        return new InlineQueryResultArticle()
-                .setId("0")
-                .setTitle("Title")
-                .setUrl("Url")
-                .setHideUrl(false)
-                .setDescription("Description")
-                .setThumbUrl("ThumbUrl")
-                .setThumbWidth(10)
-                .setThumbHeight(20)
-                .setInputMessageContent(getInputMessageContent())
-                .setReplyMarkup(getInlineKeyboardMarkup());
+        return InlineQueryResultArticle
+                .builder()
+                .id("0")
+                .title("Title")
+                .url("Url")
+                .hideUrl(false)
+                .description("Description")
+                .thumbUrl("ThumbUrl")
+                .thumbWidth(10)
+                .thumbHeight(20)
+                .inputMessageContent(getInputMessageContent())
+                .replyMarkup(getInlineKeyboardMarkup())
+                .build();
     }
 
     private static InlineQueryResult getInlineQueryResultPhoto() {
@@ -253,68 +292,84 @@ public final class BotApiMethodHelperFactory {
     }
 
     private static InlineKeyboardMarkup getInlineKeyboardMarkup() {
-        InlineKeyboardButton button = new InlineKeyboardButton()
-                .setText("Button1")
-                .setCallbackData("Callback");
+        InlineKeyboardButton button = InlineKeyboardButton
+                .builder()
+                .text("Button1")
+                .callbackData("Callback")
+                .build();
         List<InlineKeyboardButton> row = new ArrayList<>();
         row.add(button);
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
         keyboard.add(row);
-        return new InlineKeyboardMarkup()
-                .setKeyboard(keyboard);
+        return InlineKeyboardMarkup
+                .builder()
+                .keyboard(keyboard)
+                .build();
     }
 
     public static BotApiMethod<Message> getSendGame() {
-        return new SendGame()
-                .setChatId("12345")
-                .setGameShortName("MyGame");
+        return SendGame
+                .builder()
+                .chatId("12345")
+                .gameShortName("MyGame")
+                .build();
     }
 
     public static BotApiMethod<Message> getSendLocation() {
-        return new SendLocation()
-                .setChatId("12345")
-                .setLatitude(12.5F)
-                .setLongitude(21.5F)
-                .setReplyToMessageId(53);
+        return SendLocation
+                .builder()
+                .chatId("12345")
+                .latitude(12.5)
+                .longitude(21.5)
+                .replyToMessageId(53)
+                .build();
     }
 
     public static BotApiMethod<Message> getSendVenue() {
-        return new SendVenue()
-                .setChatId("12345")
-                .setLatitude(12.5F)
-                .setLongitude(21.5F)
-                .setReplyToMessageId(53)
-                .setTitle("Venue Title")
-                .setAddress("Address")
-                .setFoursquareId("FourId");
+        return SendVenue
+                .builder()
+                .chatId("12345")
+                .latitude(12.5)
+                .longitude(21.5)
+                .replyToMessageId(53)
+                .title("Venue Title")
+                .address("Address")
+                .foursquareId("FourId")
+                .build();
     }
 
     public static BotApiMethod<Serializable> getSetGameScore() {
-        return new SetGameScore()
-                .setInlineMessageId("12345")
-                .setDisableEditMessage(true)
-                .setScore(12)
-                .setUserId(98765);
+        return SetGameScore
+                .builder()
+                .inlineMessageId("12345")
+                .disableEditMessage(true)
+                .score(12)
+                .userId(98765)
+                .build();
     }
 
     public static BotApiMethod<Boolean> getUnbanChatMember() {
-        return new UnbanChatMember()
-                .setChatId("12345")
-                .setUserId(98765);
+        return UnbanChatMember
+                .builder()
+                .chatId("12345")
+                .userId(98765)
+                .build();
     }
 
     public static BotApiMethod<Message> getSendInvoice() {
         List<LabeledPrice> prices = new ArrayList<>();
         prices.add(new LabeledPrice("LABEL", 1000));
 
-        return new SendInvoice()
-                .setChatId(12345)
-                .setTitle("Random title")
-                .setDescription("Random description")
-                .setPayload("Random Payload")
-                .setProviderToken("Random provider token")
-                .setStartParameter("STARTPARAM")
-                .setCurrency("EUR")
-                .setPrices(prices);
+        return SendInvoice
+                .builder()
+                .chatId(12345)
+                .title("Random title")
+                .description("Random description")
+                .payload("Random Payload")
+                .providerToken("Random provider token")
+                .startParameter("STARTPARAM")
+                .currency("EUR")
+                .prices(prices)
+                .build();
     }
 }

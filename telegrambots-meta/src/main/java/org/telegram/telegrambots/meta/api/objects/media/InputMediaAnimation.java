@@ -2,8 +2,19 @@ package org.telegram.telegrambots.meta.api.objects.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+
+import java.io.File;
+import java.io.InputStream;
+import java.util.List;
 
 /**
  * @author Ruben Bermudez
@@ -13,7 +24,11 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  */
 @SuppressWarnings("unused")
 @JsonDeserialize
-public class InputMediaAnimation extends InputMedia<InputMediaAnimation> {
+@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
+@ToString
+public class InputMediaAnimation extends InputMedia {
     private static final String TYPE = "animation";
 
     public static final String WIDTH_FIELD = "width";
@@ -40,44 +55,17 @@ public class InputMediaAnimation extends InputMedia<InputMediaAnimation> {
         super();
     }
 
-    public InputMediaAnimation(String media, String caption) {
-        super(media, caption);
+    public InputMediaAnimation(@NonNull String media) {
+        super(media);
     }
 
-    public Integer getWidth() {
-        return width;
-    }
-
-    public InputMediaAnimation setWidth(Integer width) {
+    @Builder
+    public InputMediaAnimation(@NonNull String media, String caption, String parseMode, List<MessageEntity> entities, boolean isNewMedia, String mediaName, File newMediaFile, InputStream newMediaStream, Integer width, Integer height, Integer duration, InputFile thumb) {
+        super(media, caption, parseMode, entities, isNewMedia, mediaName, newMediaFile, newMediaStream);
         this.width = width;
-        return this;
-    }
-
-    public Integer getHeight() {
-        return height;
-    }
-
-    public InputMediaAnimation setHeight(Integer height) {
         this.height = height;
-        return this;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public InputMediaAnimation setDuration(Integer duration) {
         this.duration = duration;
-        return this;
-    }
-
-    public InputFile getThumb() {
-        return thumb;
-    }
-
-    public InputMediaAnimation setThumb(InputFile thumb) {
         this.thumb = thumb;
-        return this;
     }
 
     @Override
@@ -88,15 +76,5 @@ public class InputMediaAnimation extends InputMedia<InputMediaAnimation> {
     @Override
     public void validate() throws TelegramApiValidationException {
         super.validate();
-    }
-
-    @Override
-    public String toString() {
-        return "InputMediaAnimation{" +
-                "width=" + width +
-                ", height=" + height +
-                ", duration=" + duration +
-                ", thumb=" + thumb +
-                "} " + super.toString();
     }
 }

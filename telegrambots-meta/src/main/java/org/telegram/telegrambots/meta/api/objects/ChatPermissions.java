@@ -1,6 +1,13 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
@@ -10,6 +17,13 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
  * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
  * Returns True on success.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ChatPermissions implements BotApiObject {
     private static final String CAN_SEND_MESSAGES_FIELD = "can_send_messages";
     private static final String CAN_SEND_MEDIA_MESSAGES_FIELD = "can_send_media_messages";
@@ -36,86 +50,4 @@ public class ChatPermissions implements BotApiObject {
     private Boolean canInviteUsers; ///< Optional. True, if the user is allowed to invite new users to the chat
     @JsonProperty(CAN_PIN_MESSAGES_FIELD)
     private Boolean canPinMessages; ///< Optional. True, if the user is allowed to pin messages. Ignored in public supergroups
-
-    public ChatPermissions() {
-        super();
-    }
-
-    public Boolean getCanSendMessages() {
-        return canSendMessages;
-    }
-
-    public Boolean getGetCanSendMediaMessages() {
-        return getCanSendMediaMessages;
-    }
-
-    public Boolean getCanSendPolls() {
-        return canSendPolls;
-    }
-
-    public Boolean getCanSendOtherMessages() {
-        return canSendOtherMessages;
-    }
-
-    public Boolean getCanAddWebPagePreviews() {
-        return canAddWebPagePreviews;
-    }
-
-    public Boolean getCanChangeInfo() {
-        return canChangeInfo;
-    }
-
-    public Boolean getCanInviteUsers() {
-        return canInviteUsers;
-    }
-
-    public Boolean getCanPinMessages() {
-        return canPinMessages;
-    }
-
-    public void setCanSendMessages(Boolean canSendMessages) {
-        this.canSendMessages = canSendMessages;
-    }
-
-    public void setGetCanSendMediaMessages(Boolean getCanSendMediaMessages) {
-        this.getCanSendMediaMessages = getCanSendMediaMessages;
-    }
-
-    public void setCanSendPolls(Boolean canSendPolls) {
-        this.canSendPolls = canSendPolls;
-    }
-
-    public void setCanSendOtherMessages(Boolean canSendOtherMessages) {
-        this.canSendOtherMessages = canSendOtherMessages;
-    }
-
-    public void setCanAddWebPagePreviews(Boolean canAddWebPagePreviews) {
-        this.canAddWebPagePreviews = canAddWebPagePreviews;
-    }
-
-    public void setCanChangeInfo(Boolean canChangeInfo) {
-        this.canChangeInfo = canChangeInfo;
-    }
-
-    public void setCanInviteUsers(Boolean canInviteUsers) {
-        this.canInviteUsers = canInviteUsers;
-    }
-
-    public void setCanPinMessages(Boolean canPinMessages) {
-        this.canPinMessages = canPinMessages;
-    }
-
-    @Override
-    public String toString() {
-        return "ChatPermissions{" +
-                "canSendMessages=" + canSendMessages +
-                ", getCanSendMediaMessages=" + getCanSendMediaMessages +
-                ", canSendPolls=" + canSendPolls +
-                ", canSendOtherMessages=" + canSendOtherMessages +
-                ", canAddWebPagePreviews=" + canAddWebPagePreviews +
-                ", canChangeInfo=" + canChangeInfo +
-                ", canInviteUsers=" + canInviteUsers +
-                ", canPinMessages=" + canPinMessages +
-                '}';
-    }
 }

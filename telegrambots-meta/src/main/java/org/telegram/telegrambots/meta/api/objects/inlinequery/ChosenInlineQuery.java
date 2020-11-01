@@ -1,13 +1,15 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.User;
@@ -18,7 +20,10 @@ import org.telegram.telegrambots.meta.api.objects.User;
  * Represents a result of an inline query that was chosen by the user and sent to their chat
  * partner.
  */
-@Data
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
 @RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor

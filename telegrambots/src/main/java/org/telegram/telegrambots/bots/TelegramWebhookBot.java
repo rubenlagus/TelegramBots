@@ -1,7 +1,8 @@
 package org.telegram.telegrambots.bots;
 
 import org.telegram.telegrambots.meta.ApiContext;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.WebhookBot;
 import org.telegram.telegrambots.util.WebhookUtils;
 
@@ -22,7 +23,7 @@ public abstract class TelegramWebhookBot extends DefaultAbsSender implements Web
   }
 
   @Override
-  public void setWebhook(String url, String publicCertificatePath) throws TelegramApiRequestException {
-    WebhookUtils.setWebhook(this, url, publicCertificatePath);
+  public void setWebhook(SetWebhook setWebhook) throws TelegramApiException {
+    WebhookUtils.setWebhook(this, setWebhook);
   }
 }

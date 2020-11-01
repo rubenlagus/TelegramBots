@@ -2,10 +2,17 @@ package org.telegram.telegrambots.meta.api.methods.updates;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.Singular;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -19,6 +26,13 @@ import java.util.List;
  * Use this method to receive incoming updates using long polling (wiki). An Array of Update
  * objects is returned.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class GetUpdates extends BotApiMethod<ArrayList<Update>>{
     public static final String PATH = "getupdates";
 
@@ -59,47 +73,8 @@ public class GetUpdates extends BotApiMethod<ArrayList<Update>>{
      * so unwanted updates may be received for a short period of time.
      */
     @JsonProperty(ALLOWEDUPDATES_FIELD)
+    @Singular
     private List<String> allowedUpdates;
-
-    public GetUpdates() {
-        super();
-    }
-
-    public Integer getOffset() {
-        return offset;
-    }
-
-    public GetUpdates setOffset(Integer offset) {
-        this.offset = offset;
-        return this;
-    }
-
-    public Integer getLimit() {
-        return limit;
-    }
-
-    public GetUpdates setLimit(Integer limit) {
-        this.limit = limit;
-        return this;
-    }
-
-    public Integer getTimeout() {
-        return timeout;
-    }
-
-    public GetUpdates setTimeout(Integer timeout) {
-        this.timeout = timeout;
-        return this;
-    }
-
-    public List<String> getAllowedUpdates() {
-        return allowedUpdates;
-    }
-
-    public GetUpdates setAllowedUpdates(List<String> allowedUpdates) {
-        this.allowedUpdates = allowedUpdates;
-        return this;
-    }
 
     @Override
     public String getMethod() {
@@ -124,15 +99,5 @@ public class GetUpdates extends BotApiMethod<ArrayList<Update>>{
 
     @Override
     public void validate() throws TelegramApiValidationException {
-    }
-
-    @Override
-    public String toString() {
-        return "GetUpdates{" +
-                "offset=" + offset +
-                ", limit=" + limit +
-                ", timeout=" + timeout +
-                ", allowedUpdates=" + allowedUpdates +
-                '}';
     }
 }

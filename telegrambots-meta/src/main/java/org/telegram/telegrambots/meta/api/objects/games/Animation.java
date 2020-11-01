@@ -18,10 +18,13 @@ package org.telegram.telegrambots.meta.api.objects.games;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 
@@ -30,7 +33,10 @@ import org.telegram.telegrambots.meta.api.objects.PhotoSize;
  * @version 2.4
  * This object represents an animation file (GIF or H.264/MPEG-4 AVC video without sound).
  */
-@Data
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
 @RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor

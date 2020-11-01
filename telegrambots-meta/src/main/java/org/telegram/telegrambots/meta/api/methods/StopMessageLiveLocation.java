@@ -2,8 +2,15 @@ package org.telegram.telegrambots.meta.api.methods;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -18,6 +25,13 @@ import java.io.Serializable;
  * before live_period expires. On success, if the message was sent by the bot, the sent Message is returned,
  * otherwise True is returned.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class StopMessageLiveLocation extends BotApiMethod<Serializable> {
     public static final String PATH = "stopMessageLiveLocation";
 
@@ -44,51 +58,6 @@ public class StopMessageLiveLocation extends BotApiMethod<Serializable> {
     private String inlineMessageId;
     @JsonProperty(REPLYMARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. A JSON-serialized object for an inline keyboard.
-
-    public StopMessageLiveLocation() {
-        super();
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public StopMessageLiveLocation setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public StopMessageLiveLocation setChatId(Long chatId) {
-        this.chatId = chatId.toString();
-        return this;
-    }
-
-    public Integer getMessageId() {
-        return messageId;
-    }
-
-    public StopMessageLiveLocation setMessageId(Integer messageId) {
-        this.messageId = messageId;
-        return this;
-    }
-
-    public String getInlineMessageId() {
-        return inlineMessageId;
-    }
-
-    public StopMessageLiveLocation setInlineMessageId(String inlineMessageId) {
-        this.inlineMessageId = inlineMessageId;
-        return this;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public StopMessageLiveLocation setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
 
     @Override
     public String getMethod() {
@@ -141,15 +110,5 @@ public class StopMessageLiveLocation extends BotApiMethod<Serializable> {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "StopMessageLiveLocation{" +
-                "chatId='" + chatId + '\'' +
-                ", messageId=" + messageId +
-                ", inlineMessageId='" + inlineMessageId + '\'' +
-                ", replyMarkup=" + replyMarkup +
-                '}';
     }
 }

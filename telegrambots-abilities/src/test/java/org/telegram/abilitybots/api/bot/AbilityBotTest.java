@@ -702,6 +702,7 @@ public class AbilityBotTest {
     Message botMessage = mock(Message.class);
     Document document = mock(Document.class);
 
+    when(document.getFileId()).thenReturn("FAKEFILEID");
     when(message.getFrom()).thenReturn(CREATOR);
     when(update.getMessage()).thenReturn(message);
     when(message.getDocument()).thenReturn(document);

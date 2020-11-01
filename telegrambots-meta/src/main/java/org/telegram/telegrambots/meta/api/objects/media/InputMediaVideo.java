@@ -2,8 +2,19 @@ package org.telegram.telegrambots.meta.api.objects.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+
+import java.io.File;
+import java.io.InputStream;
+import java.util.List;
 
 /**
  * @author Ruben Bermudez
@@ -13,7 +24,11 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  */
 @SuppressWarnings({"unused"})
 @JsonDeserialize
-public class InputMediaVideo extends InputMedia<InputMediaVideo> {
+@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
+@ToString
+public class InputMediaVideo extends InputMedia {
     private static final String TYPE = "video";
 
     public static final String WIDTH_FIELD = "width";
@@ -41,56 +56,20 @@ public class InputMediaVideo extends InputMedia<InputMediaVideo> {
     private InputFile thumb;
 
     public InputMediaVideo() {
-        super();
     }
 
-    public InputMediaVideo(String media, String caption) {
-        super(media, caption);
+    public InputMediaVideo(@NonNull String media) {
+        super(media);
     }
 
-    public Integer getWidth() {
-        return width;
-    }
-
-    public InputMediaVideo setWidth(Integer width) {
+    @Builder
+    public InputMediaVideo(@NonNull String media, String caption, String parseMode, List<MessageEntity> entities, boolean isNewMedia, String mediaName, File newMediaFile, InputStream newMediaStream, Integer width, Integer height, Integer duration, Boolean supportsStreaming, InputFile thumb) {
+        super(media, caption, parseMode, entities, isNewMedia, mediaName, newMediaFile, newMediaStream);
         this.width = width;
-        return this;
-    }
-
-    public Integer getHeight() {
-        return height;
-    }
-
-    public InputMediaVideo setHeight(Integer height) {
         this.height = height;
-        return this;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public InputMediaVideo setDuration(Integer duration) {
         this.duration = duration;
-        return this;
-    }
-
-    public Boolean getSupportsStreaming() {
-        return supportsStreaming;
-    }
-
-    public InputMediaVideo setSupportsStreaming(Boolean supportsStreaming) {
         this.supportsStreaming = supportsStreaming;
-        return this;
-    }
-
-    public InputFile getThumb() {
-        return thumb;
-    }
-
-    public InputMediaVideo setThumb(InputFile thumb) {
         this.thumb = thumb;
-        return this;
     }
 
     @Override
@@ -101,15 +80,5 @@ public class InputMediaVideo extends InputMedia<InputMediaVideo> {
     @Override
     public void validate() throws TelegramApiValidationException {
         super.validate();
-    }
-
-    @Override
-    public String toString() {
-        return "InputMediaVideo{" +
-                "width=" + width +
-                ", height=" + height +
-                ", duration=" + duration +
-                ", supportsStreaming=" + supportsStreaming +
-                "} " + super.toString();
     }
 }

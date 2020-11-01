@@ -14,6 +14,7 @@ import org.telegram.abilitybots.api.util.AbilityUtils;
 import org.telegram.abilitybots.api.util.Pair;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
@@ -221,9 +222,10 @@ public final class DefaultAbilities implements AbilityExtension {
 
           try (PrintStream printStream = new PrintStream(backup)) {
             printStream.print(bot.db.backup());
-            bot.sender.sendDocument(new SendDocument()
-                .setDocument(backup)
-                .setChatId(ctx.chatId())
+            bot.sender.sendDocument(SendDocument.builder()
+                    .document(new InputFile(backup))
+                    .chatId(ctx.chatId().toString())
+                    .build()
             );
           } catch (FileNotFoundException e) {
             log.error("Error while fetching backup", e);
@@ -472,6 +474,6 @@ public final class DefaultAbilities implements AbilityExtension {
   }
 
   protected File downloadFileWithId(String fileId) throws TelegramApiException {
-    return bot.sender.downloadFile(bot.sender.execute(new GetFile().setFileId(fileId)));
+    return bot.sender.downloadFile(bot.sender.execute(GetFile.builder().fileId(fileId).build()));
   }
 }

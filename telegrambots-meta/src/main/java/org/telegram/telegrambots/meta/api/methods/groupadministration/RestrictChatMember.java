@@ -3,6 +3,15 @@ package org.telegram.telegrambots.meta.api.methods.groupadministration;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.ChatPermissions;
@@ -13,9 +22,6 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZonedDateTime;
-import java.util.Objects;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
@@ -26,6 +32,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  */
 @SuppressWarnings("WeakerAccess")
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
 public class RestrictChatMember extends BotApiMethod<Boolean> {
     public static final String PATH = "restrictchatmember";
 
@@ -39,19 +53,11 @@ public class RestrictChatMember extends BotApiMethod<Boolean> {
     private static final String PERMISSIONS_FIELD = "permissions";
 
     @JsonProperty(CHATID_FIELD)
+    @NonNull
     private String chatId; ///< Required. Unique identifier for the chat to send the message to (Or username for channels)
     @JsonProperty(USER_ID_FIELD)
+    @NonNull
     private Integer userId; ///< Required. Unique identifier of the target user
-    @JsonProperty(UNTILDATE_FIELD)
-    private Integer untilDate; ///< Date when restrictions will be lifted for the user, unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be banned forever
-    @JsonProperty(CANSENDMESSAGES_FIELD)
-    private Boolean canSendMessages; ///< Pass True, if the user can send text messages, contacts, locations and venues
-    @JsonProperty(CANSENDMEDIAMESSAGES_FIELD)
-    private Boolean canSendMediaMessages; ///< Pass True, if the user can send audios, documents, photos, videos, video notes and voice notes, implies can_send_messages
-    @JsonProperty(CANSENDOTHERMESSAGES_FIELD)
-    private Boolean canSendOtherMessages; ///< Pass True, if the user can send animations, games, stickers and use inline bots, implies can_send_media_messages
-    @JsonProperty(CANADDWEBPAGEPREVIEWS_FIELD)
-    private Boolean canAddWebPagePreviews; ///< Pass True, if the user may add web page previews to their messages, implies can_send_messages
     /**
      * Optional
      * Date when restrictions will be lifted for the user, unix time.
@@ -59,76 +65,24 @@ public class RestrictChatMember extends BotApiMethod<Boolean> {
      * from the current time, they are considered to be restricted forever
      */
     @JsonProperty(PERMISSIONS_FIELD)
+    @NonNull
     private ChatPermissions permissions;
+    @JsonProperty(UNTILDATE_FIELD)
+    private Integer untilDate; ///< Optional. Date when restrictions will be lifted for the user, unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be banned forever
 
-    public RestrictChatMember() {
-        super();
-    }
-
-    public RestrictChatMember(String chatId, Integer userId) {
-        this.chatId = checkNotNull(chatId);
-        this.userId = checkNotNull(userId);
-    }
-
-    public RestrictChatMember(Long chatId, Integer userId) {
-        this.chatId = checkNotNull(chatId).toString();
-        this.userId = checkNotNull(userId);
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public RestrictChatMember setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public RestrictChatMember setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
-        return this;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public RestrictChatMember setUserId(Integer userId) {
-        this.userId = userId;
-        return this;
-    }
-
-    public Integer getUntilDate() {
-        return untilDate;
-    }
-
-    public RestrictChatMember setUntilDate(Integer untilDateInSeconds) {
-        this.untilDate = untilDateInSeconds;
-        return this;
+    @JsonIgnore
+    public void setUntilDateInstant(Instant instant) {
+        setUntilDate((int) instant.getEpochSecond());
     }
 
     @JsonIgnore
-    public RestrictChatMember setUntilDate(Instant instant) {
-        return setUntilDate((int) instant.getEpochSecond());
+    public void setUntilDateDateTime(ZonedDateTime date) {
+        setUntilDateInstant(date.toInstant());
     }
 
     @JsonIgnore
-    public RestrictChatMember setUntilDate(ZonedDateTime date) {
-        return setUntilDate(date.toInstant());
-    }
-
-    @JsonIgnore
-    public RestrictChatMember forTimePeriod(Duration duration) {
-        return setUntilDate(Instant.now().plusMillis(duration.toMillis()));
-    }
-
-    public ChatPermissions getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(ChatPermissions permissions) {
-        this.permissions = permissions;
+    public void forTimePeriodDuration(Duration duration) {
+        setUntilDateInstant(Instant.now().plusMillis(duration.toMillis()));
     }
 
     @Override
@@ -162,19 +116,5 @@ public class RestrictChatMember extends BotApiMethod<Boolean> {
         if (permissions == null) {
             throw new TelegramApiValidationException("Permissions can't be empty", this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "RestrictChatMember{" +
-                "chatId='" + chatId + '\'' +
-                ", userId=" + userId +
-                ", untilDate=" + untilDate +
-                ", canSendMessages=" + canSendMessages +
-                ", canSendMediaMessages=" + canSendMediaMessages +
-                ", canSendOtherMessages=" + canSendOtherMessages +
-                ", canAddWebPagePreviews=" + canAddWebPagePreviews +
-                ", permissions=" + permissions +
-                '}';
     }
 }

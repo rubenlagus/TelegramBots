@@ -2,6 +2,15 @@ package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -19,8 +28,16 @@ import java.util.List;
  * @version 4.7
  * Use this method to send an animated emoji that will display a random value. On success, the sent Message is returned.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SendDice extends BotApiMethod<Message> {
-    private static final List<String> VALIDEMOJIS = Collections.unmodifiableList(Arrays.asList("\uD83C\uDFB2", "\uD83C\uDFAF", "\uD83C\uDFC0"));
+    private static final List<String> VALIDEMOJIS = Collections.unmodifiableList(Arrays.asList("🎲", "🎯", "🏀", "⚽", "🎰"));
 
     public static final String PATH = "sendDice";
 
@@ -29,14 +46,19 @@ public class SendDice extends BotApiMethod<Message> {
     private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     private static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
+    private static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
 
     @JsonProperty(CHATID_FIELD)
+    @NonNull
     private String chatId; ///< Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     /**
-     * Emoji on which the dice throw animation is based. Currently, must be one of “🎲”, “🎯”, or “🏀”.
-     * Dice can have values 1-6 for “🎲” and “🎯”, and values 1-5 for “🏀”. Defauts to “🎲”
+     * Emoji on which the dice throw animation is based.
+     * Currently, must be one of “🎲”, “🎯”, “🏀”, “⚽”, or “🎰”.
+     * Dice can have values 1-6 for “🎲” and “🎯”, values 1-5 for “🏀” and “⚽”, and values 1-64 for “🎰”.
+     * Defaults to “🎲”
      */
     @JsonProperty(EMOJI_FIELD)
+    @NonNull
     private String emoji;
     @JsonProperty(DISABLENOTIFICATION_FIELD)
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
@@ -44,64 +66,15 @@ public class SendDice extends BotApiMethod<Message> {
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     @JsonProperty(REPLYMARKUP_FIELD)
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
+    private Boolean allowSendingWithoutReply; ///< Optional. Pass True, if the message should be sent even if the specified replied-to message is not found
 
-    public SendDice() {
-        super();
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public SendDice setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public SendDice setChatId(Long chatId) {
-        this.chatId = chatId.toString();
-        return this;
-    }
-
-    public Integer getReplyToMessageId() {
-        return replyToMessageId;
-    }
-
-    public SendDice setReplyToMessageId(Integer replyToMessageId) {
-        this.replyToMessageId = replyToMessageId;
-        return this;
-    }
-
-    public ReplyKeyboard getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public SendDice setReplyMarkup(ReplyKeyboard replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
-
-    public Boolean getDisableNotification() {
-        return disableNotification;
-    }
-
-    public SendDice enableNotification() {
+    public void enableNotification() {
         this.disableNotification = false;
-        return this;
     }
 
-    public SendDice disableNotification() {
+    public void disableNotification() {
         this.disableNotification = true;
-        return this;
-    }
-
-    public String getEmoji() {
-        return emoji;
-    }
-
-    public SendDice setEmoji(String emoji) {
-        this.emoji = emoji;
-        return this;
     }
 
     @Override
@@ -130,21 +103,10 @@ public class SendDice extends BotApiMethod<Message> {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
         if (emoji != null && !VALIDEMOJIS.contains(emoji)) {
-            throw new TelegramApiValidationException("Only \uD83C\uDFB2, \uD83C\uDFAF or \uD83C\uDFC0 are allowed in Emoji field ", this);
+            throw new TelegramApiValidationException("Only \"\uD83C\uDFB2\", \"\uD83C\uDFAF\", \"\uD83C\uDFC0\", \"⚽\", \"\uD83C\uDFB0\" are allowed in Emoji field ", this);
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "SendDice{" +
-                "chatId='" + chatId + '\'' +
-                ", emoji='" + emoji + '\'' +
-                ", disableNotification=" + disableNotification +
-                ", replyToMessageId=" + replyToMessageId +
-                ", replyMarkup=" + replyMarkup +
-                '}';
     }
 }

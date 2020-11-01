@@ -17,8 +17,11 @@
 
 package org.telegram.telegrambots.meta.api.objects.games;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
@@ -26,7 +29,10 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
  * @version 2.4
  * A placeholder, currently holds no information. Use BotFather to set up your game.
  */
-@Data
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 public class CallbackGame implements BotApiObject {
 }

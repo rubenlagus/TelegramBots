@@ -1,17 +1,27 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.Singular;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -19,6 +29,14 @@ import java.util.Objects;
  * @version 1.0
  * Use this method to send photos. On success, the sent Message is returned.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SendPhoto extends PartialBotApiMethod<Message> {
     public static final String PATH = "sendphoto";
 
@@ -29,110 +47,33 @@ public class SendPhoto extends PartialBotApiMethod<Message> {
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     public static final String REPLYMARKUP_FIELD = "reply_markup";
     public static final String PARSEMODE_FIELD = "parse_mode";
+    public static final String CAPTION_ENTITIES_FIELD = "caption_entities";
+    public static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
 
+    @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
+    @NonNull
     private InputFile photo; ///< Photo to send. file_id as String to resend a photo that is already on the Telegram servers or URL to upload it
     private String caption; ///< Optional Photo caption (may also be used when resending photos by file_id).
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
-    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+    private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+    @Singular
+    private List<MessageEntity> captionEntities; ///< Optional. 	List of special entities that appear in the caption, which can be specified instead of parse_mode
+    private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
 
-    public SendPhoto() {
-        super();
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public SendPhoto setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public SendPhoto setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
-        return this;
-    }
-
-    public InputFile getPhoto() {
-        return photo;
-    }
-
-    public SendPhoto setPhoto(String photo) {
-        this.photo = new InputFile(photo);
-        return this;
-    }
-
-    public String getCaption() {
-        return caption;
-    }
-
-    public SendPhoto setCaption(String caption) {
-        this.caption = caption;
-        return this;
-    }
-
-    public Integer getReplyToMessageId() {
-        return replyToMessageId;
-    }
-
-    public SendPhoto setReplyToMessageId(Integer replyToMessageId) {
-        this.replyToMessageId = replyToMessageId;
-        return this;
-    }
-
-    public ReplyKeyboard getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public SendPhoto setReplyMarkup(ReplyKeyboard replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
-
-    public Boolean getDisableNotification() {
-        return disableNotification;
-    }
-
-    public SendPhoto enableNotification() {
+    public void enableNotification() {
         this.disableNotification = false;
-        return this;
     }
 
-    public SendPhoto disableNotification() {
+    public void disableNotification() {
         this.disableNotification = true;
-        return this;
     }
 
-    public SendPhoto setPhoto(File file) {
-        Objects.requireNonNull(file, "file cannot be null!");
-        this.photo = new InputFile(file, file.getName());
-        return this;
-    }
-
-    public SendPhoto setPhoto(InputFile photo) {
+    public void setPhoto(InputFile photo) {
         Objects.requireNonNull(photo, "photo cannot be null!");
         this.photo = photo;
-        return this;
-    }
-
-    public SendPhoto setPhoto(String photoName, InputStream inputStream) {
-    	Objects.requireNonNull(photoName, "photoName cannot be null!");
-    	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
-    	this.photo = new InputFile(inputStream, photoName);
-        return this;
-    }
-
-    public String getParseMode() {
-        return parseMode;
-    }
-
-    public SendPhoto setParseMode(String parseMode) {
-        this.parseMode = parseMode;
-        return this;
     }
 
     @Override
@@ -160,23 +101,13 @@ public class SendPhoto extends PartialBotApiMethod<Message> {
             throw new TelegramApiValidationException("Photo parameter can't be empty", this);
         }
 
+        if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
+            throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
+        }
         photo.validate();
 
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "SendPhoto{" +
-                "chatId='" + chatId + '\'' +
-                ", photo=" + photo +
-                ", caption='" + caption + '\'' +
-                ", disableNotification=" + disableNotification +
-                ", replyToMessageId=" + replyToMessageId +
-                ", replyMarkup=" + replyMarkup +
-                ", parseMode='" + parseMode + '\'' +
-                '}';
     }
 }

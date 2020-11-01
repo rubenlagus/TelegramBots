@@ -162,7 +162,7 @@ public abstract class AbsSender {
     /**
      * Edit media in a message
      * @param editMessageMedia Information of the new media
-     * @return If the edited message was sent by the bot, the edited Message is returned, otherwise True is returned
+     * @return If the edited message is not an inline message, the edited Message is returned, otherwise True is returned
      * @throws TelegramApiException If there is any error editing the media
      */
     public abstract Serializable execute(EditMessageMedia editMessageMedia) throws TelegramApiException;

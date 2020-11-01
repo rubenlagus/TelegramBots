@@ -1,14 +1,16 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
@@ -19,7 +21,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * ignore them.
  */
 @JsonDeserialize
-@Data
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
 @RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,6 +37,8 @@ public class InputVenueMessageContent implements InputMessageContent {
     private static final String ADDRESS_FIELD = "address";
     private static final String FOURSQUAREID_FIELD = "foursquare_id";
     private static final String FOURSQUARETYPE_FIELD = "foursquare_type";
+    private static final String GOOGLEPLACEID_FIELD = "google_place_id";
+    private static final String GOOGLEPLACETYPE_FIELD = "google_place_type";
 
     @JsonProperty(LATITUDE_FIELD)
     @NonNull
@@ -49,6 +56,10 @@ public class InputVenueMessageContent implements InputMessageContent {
     private String foursquareId; ///< Optional. Foursquare identifier of the venue, if known
     @JsonProperty(FOURSQUARETYPE_FIELD)
     private String foursquareType; ///< Optional. Foursquare type of the venue, if known.
+    @JsonProperty(GOOGLEPLACEID_FIELD)
+    private String googlePlaceId; ///< Optional. Google Places identifier of the venue
+    @JsonProperty(GOOGLEPLACETYPE_FIELD)
+    private String googlePlaceType; ///< Optional. Google Places type of the venue. (See supported types.)
 
     @Override
     public void validate() throws TelegramApiValidationException {

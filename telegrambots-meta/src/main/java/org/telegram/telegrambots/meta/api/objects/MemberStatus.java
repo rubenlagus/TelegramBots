@@ -3,8 +3,7 @@ package org.telegram.telegrambots.meta.api.objects;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Group members categories
- * @date 22 of May of 2016
+ * Group members categories
  */
 public final class MemberStatus {
     public static final String CREATOR = "creator";

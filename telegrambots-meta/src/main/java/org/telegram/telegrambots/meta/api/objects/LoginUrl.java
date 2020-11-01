@@ -1,13 +1,18 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-
-import java.util.Objects;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
@@ -18,6 +23,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * All the user needs to do is tap/click a button and confirm that they want to log in.
  */
 @SuppressWarnings("unused")
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
 public class LoginUrl implements Validable, BotApiObject {
     private static final String URL_FIELD = "url";
     private static final String FORWARD_TEXT_FIELD = "forward_text";
@@ -33,6 +46,7 @@ public class LoginUrl implements Validable, BotApiObject {
      * of the data as described in Checking authorization.
      */
     @JsonProperty(URL_FIELD)
+    @NonNull
     private String url;
     @JsonProperty(FORWARD_TEXT_FIELD)
     private String forwardText; ///< Optional. New text of the button in forwarded messages.
@@ -46,83 +60,10 @@ public class LoginUrl implements Validable, BotApiObject {
     @JsonProperty(REQUEST_WRITE_ACCESS_FIELD)
     private Boolean requestWriteAccess; ///< Optional. Pass True to request the permission for your bot to send messages to the user.
 
-    public LoginUrl() {
-        super();
-    }
-
-    public LoginUrl(String url) {
-        this.url = checkNotNull(url);
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public LoginUrl setUrl(String url) {
-        this.url = url;
-        return this;
-    }
-
-    public String getForwardText() {
-        return forwardText;
-    }
-
-    public LoginUrl setForwardText(String forwardText) {
-        this.forwardText = forwardText;
-        return this;
-    }
-
-    public String getBotUsername() {
-        return botUsername;
-    }
-
-    public LoginUrl setBotUsername(String botUsername) {
-        this.botUsername = botUsername;
-        return this;
-
-    }
-
-    public Boolean getRequestWriteAccess() {
-        return requestWriteAccess;
-    }
-
-    public LoginUrl setRequestWriteAccess(Boolean requestWriteAccess) {
-        this.requestWriteAccess = requestWriteAccess;
-        return this;
-    }
-
     @Override
     public void validate() throws TelegramApiValidationException {
         if (url == null || url.isEmpty()) {
             throw new TelegramApiValidationException("Url parameter can't be empty", this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "LoginUrl{" +
-                "url='" + url + '\'' +
-                ", forwardText='" + forwardText + '\'' +
-                ", botUsername='" + botUsername + '\'' +
-                ", requestWriteAccess=" + requestWriteAccess +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == this) return true;
-        if (!(o instanceof LoginUrl)) {
-            return false;
-        }
-        LoginUrl loginUrl = (LoginUrl) o;
-        return Objects.equals(url, loginUrl.url) &&
-                Objects.equals(forwardText, loginUrl.forwardText) &&
-                Objects.equals(botUsername, loginUrl.botUsername) &&
-                Objects.equals(requestWriteAccess, loginUrl.requestWriteAccess);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(url, forwardText, botUsername, requestWriteAccess);
     }
 }

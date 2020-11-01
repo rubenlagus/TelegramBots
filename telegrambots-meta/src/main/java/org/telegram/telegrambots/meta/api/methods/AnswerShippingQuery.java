@@ -2,15 +2,22 @@ package org.telegram.telegrambots.meta.api.methods;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.telegram.telegrambots.meta.api.objects.payments.ShippingOption;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.payments.ShippingOption;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 import java.util.List;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
@@ -22,6 +29,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * On success, True is returned
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
 public class AnswerShippingQuery extends BotApiMethod<Boolean> {
     public static final String PATH = "answerShippingQuery";
 
@@ -31,66 +46,15 @@ public class AnswerShippingQuery extends BotApiMethod<Boolean> {
     private static final String ERROR_MESSAGE_FIELD = "error_message";
 
     @JsonProperty(SHIPPING_QUERY_ID_FIELD)
+    @NonNull
     private String shippingQueryId; ///< Unique identifier for the query to be answered
     @JsonProperty(OK_FIELD)
+    @NonNull
     private Boolean ok; ///< Specify True if delivery to the specified address is possible and False if there are any problems
     @JsonProperty(SHIPPING_OPTIONS_FIELD)
     private List<ShippingOption> shippingOptions; ///< Optional. Required if ok is True. A JSON-serialized array of available shipping options.
     @JsonProperty(ERROR_MESSAGE_FIELD)
     private String errorMessage; ///< Optional. Required if ok is False. Error message in human readable form that explains why it is impossible to complete the order (e.g. "Sorry, delivery to your desired address is unavailable').
-
-    /**
-     * Creates an empty answer shipping query
-     */
-    public AnswerShippingQuery() {
-        super();
-    }
-
-    /**
-     * Creates an answer shipping query with mandatory parameters
-     * @param shippingQueryId Unique identifier for the query to be answered
-     * @param ok Specify True if delivery to the specified address is possible and False if there are any problems
-     */
-    public AnswerShippingQuery(String shippingQueryId, Boolean ok) {
-        this.shippingQueryId = checkNotNull(shippingQueryId);
-        this.ok = checkNotNull(ok);
-    }
-
-    public String getShippingQueryId() {
-        return shippingQueryId;
-    }
-
-    public AnswerShippingQuery setShippingQueryId(String shippingQueryId) {
-        this.shippingQueryId = checkNotNull(shippingQueryId);
-        return this;
-    }
-
-    public Boolean getOk() {
-        return ok;
-    }
-
-    public AnswerShippingQuery setOk(Boolean ok) {
-        this.ok = checkNotNull(ok);
-        return this;
-    }
-
-    public List<ShippingOption> getShippingOptions() {
-        return shippingOptions;
-    }
-
-    public AnswerShippingQuery setShippingOptions(List<ShippingOption> shippingOptions) {
-        this.shippingOptions = shippingOptions;
-        return this;
-    }
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public AnswerShippingQuery setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-        return this;
-    }
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -132,15 +96,5 @@ public class AnswerShippingQuery extends BotApiMethod<Boolean> {
         } catch (IOException e) {
             throw new TelegramApiRequestException("Unable to deserialize response", e);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "AnswerShippingQuery{" +
-                "shippingQueryId='" + shippingQueryId + '\'' +
-                ", ok=" + ok +
-                ", shippingOptions=" + shippingOptions +
-                ", errorMessage='" + errorMessage + '\'' +
-                '}';
     }
 }

@@ -1,6 +1,12 @@
 package org.telegram.telegrambots.meta.api.objects.payments;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.User;
 
@@ -10,6 +16,12 @@ import org.telegram.telegrambots.meta.api.objects.User;
  *
  * This object contains information about incoming shipping query.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class ShippingQuery implements BotApiObject {
     private static final String ID_FIELD = "id";
     private static final String FROM_FIELD = "from";
@@ -24,34 +36,4 @@ public class ShippingQuery implements BotApiObject {
     private String invoicePayload; ///< Bot specified invoice payload
     @JsonProperty(SHIPPING_ADDRESS_FIELD)
     private ShippingAddress shippingAddress; ///< User specified shipping address
-
-    public ShippingQuery() {
-        super();
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public User getFrom() {
-        return from;
-    }
-
-    public String getInvoicePayload() {
-        return invoicePayload;
-    }
-
-    public ShippingAddress getShippingAddress() {
-        return shippingAddress;
-    }
-
-    @Override
-    public String toString() {
-        return "ShippingQuery{" +
-                "id='" + id + '\'' +
-                ", from=" + from +
-                ", invoicePayload='" + invoicePayload + '\'' +
-                ", shippingAddress=" + shippingAddress +
-                '}';
-    }
 }

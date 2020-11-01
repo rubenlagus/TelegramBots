@@ -1,17 +1,27 @@
 package org.telegram.telegrambots.meta.api.objects.payments;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
  * This object represents a portion of goods price.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class LabeledPrice implements Validable, BotApiObject {
     private static final String LABEL_FIELD = "label";
     private static final String AMOUNT_FIELD = "amount";
@@ -25,40 +35,6 @@ public class LabeledPrice implements Validable, BotApiObject {
     @JsonProperty(AMOUNT_FIELD)
     private Integer amount;
 
-    /**
-     * Builds an empty LabeledPrice
-     */
-    public LabeledPrice() {
-        super();
-    }
-
-    /**
-     * Builds a LabeledPrice with mandatory parameters
-     * @param label Portion label
-     * @param amount Currency amount in minimal quantity of the currency
-     */
-    public LabeledPrice(String label, Integer amount) {
-        super();
-        this.label = checkNotNull(label);
-        this.amount = checkNotNull(amount);
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = checkNotNull(label);
-    }
-
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = checkNotNull(amount);
-    }
-
     @Override
     public void validate() throws TelegramApiValidationException {
         if (label == null || label.isEmpty()) {
@@ -67,13 +43,5 @@ public class LabeledPrice implements Validable, BotApiObject {
         if (amount == null) {
             throw new TelegramApiValidationException("Amount parameter can't be empty", this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "LabeledPrice{" +
-                "label='" + label + '\'' +
-                ", amount=" + amount +
-                '}';
     }
 }

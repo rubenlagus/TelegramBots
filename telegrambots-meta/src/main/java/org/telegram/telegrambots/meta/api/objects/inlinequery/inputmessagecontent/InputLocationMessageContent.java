@@ -4,10 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
@@ -18,7 +21,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * ignore them.
  */
 @JsonDeserialize
-@Data
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
 @RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,15 +34,38 @@ public class InputLocationMessageContent implements InputMessageContent {
     private static final String LATITUDE_FIELD = "latitude";
     private static final String LONGITUDE_FIELD = "longitude";
     private static final String LIVEPERIOD_FIELD = "live_period";
+    private static final String HORIZONTALACCURACY_FIELD = "horizontal_accuracy";
+    private static final String HEADING_FIELD = "heading";
+    private static final String APPROACHINGNOTIFICATIONDISTANCE_FIELD = "approaching_notification_distance";
 
     @JsonProperty(LATITUDE_FIELD)
     @NonNull
-    private Float latitude; ///< Latitude of the location in degrees
+    private Double latitude; ///< Latitude of the location in degrees
     @JsonProperty(LONGITUDE_FIELD)
     @NonNull
-    private Float longitude; ///< Longitude of the location in degrees
+    private Double longitude; ///< Longitude of the location in degrees
     @JsonProperty(LIVEPERIOD_FIELD)
     private Integer livePeriod; ///< Optional. Period in seconds for which the location can be updated, should be between 60 and 86400.
+    /**
+     * Optional.
+     * The radius of uncertainty for the location, measured in meters; 0-1500
+     */
+    @JsonProperty(HORIZONTALACCURACY_FIELD)
+    private Double horizontalAccuracy;
+    /**
+     * Optional.
+     * For live locations, a direction in which the user is moving, in degrees.
+     * Must be between 1 and 360 if specified.
+     */
+    @JsonProperty(HEADING_FIELD)
+    private Integer heading;
+    /**
+     * Optional.
+     * For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters.
+     * Must be between 1 and 100000 if specified.
+     */
+    @JsonProperty(APPROACHINGNOTIFICATIONDISTANCE_FIELD)
+    private Integer approachingNotificationDistance;
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -48,6 +77,15 @@ public class InputLocationMessageContent implements InputMessageContent {
         }
         if (livePeriod != null && (livePeriod < 60 || livePeriod > 86400)) {
             throw new TelegramApiValidationException("Live period parameter must be between 60 and 86400", this);
+        }
+        if (horizontalAccuracy != null && (horizontalAccuracy < 0 || horizontalAccuracy > 1500)) {
+            throw new TelegramApiValidationException("Horizontal Accuracy parameter must be between 0 and 1500", this);
+        }
+        if (heading != null && (heading < 1 || heading > 360)) {
+            throw new TelegramApiValidationException("Heading Accuracy parameter must be between 0 and 1500", this);
+        }
+        if (approachingNotificationDistance != null && (approachingNotificationDistance < 1 || approachingNotificationDistance > 100000)) {
+            throw new TelegramApiValidationException("Approaching notification distance parameter must be between 0 and 1500", this);
         }
     }
 }

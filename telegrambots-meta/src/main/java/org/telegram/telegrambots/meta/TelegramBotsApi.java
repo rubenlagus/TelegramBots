@@ -1,5 +1,7 @@
 package org.telegram.telegrambots.meta;
 
+import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.generics.BotSession;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
@@ -11,8 +13,7 @@ import java.text.MessageFormat;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Bots manager
- * @date 14 of January of 2016
+ * Bots manager
  */
 public class TelegramBotsApi {
     private static final String webhookUrlFormat = "{0}callback/";
@@ -130,12 +131,13 @@ public class TelegramBotsApi {
     /**
      * Register a bot in the api that will receive updates using webhook method
      * @param bot Bot to register
+     * @param setWebhook Set webhook request to initialize the bot
      */
-    public void registerBot(WebhookBot bot) throws TelegramApiRequestException {
+    public void registerBot(WebhookBot bot, SetWebhook setWebhook) throws TelegramApiException {
         if (useWebhook) {
             bot.onRegister();
             webhook.registerWebhook(bot);
-            bot.setWebhook(externalUrl + bot.getBotPath(), pathToCertificate);
+            bot.setWebhook(setWebhook);
         }
     }
 

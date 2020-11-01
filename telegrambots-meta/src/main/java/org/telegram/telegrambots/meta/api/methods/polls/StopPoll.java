@@ -2,16 +2,21 @@ package org.telegram.telegrambots.meta.api.methods.polls;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
-import java.util.Objects;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
@@ -20,6 +25,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * On success, the stopped Poll with the final results is returned.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class StopPoll extends BotApiMethod<Poll> {
     public static final String PATH = "stopPoll";
 
@@ -27,47 +39,11 @@ public class StopPoll extends BotApiMethod<Poll> {
     private static final String MESSAGEID_FIELD = "message_id";
 
     @JsonProperty(CHATID_FIELD)
+    @NonNull
     private String chatId; ///< Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     @JsonProperty(MESSAGEID_FIELD)
+    @NonNull
     private Integer messageId; ///< Identifier of the original message with the poll
-
-    public StopPoll() {
-        super();
-    }
-
-    public StopPoll(String chatId, Integer messageId) {
-        this.chatId = checkNotNull(chatId);
-        this.messageId = checkNotNull(messageId);
-    }
-
-    public StopPoll(Long chatId, Integer messageId) {
-        this.chatId = checkNotNull(chatId).toString();
-        this.messageId = checkNotNull(messageId);
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public StopPoll setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public StopPoll setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
-        return this;
-    }
-
-    public Integer getMessageId() {
-        return messageId;
-    }
-
-    public StopPoll setMessageId(Integer messageId) {
-        this.messageId = messageId;
-        return this;
-    }
 
     @Override
     public String getMethod() {
@@ -97,32 +73,5 @@ public class StopPoll extends BotApiMethod<Poll> {
         if (messageId == null || messageId == 0) {
             throw new TelegramApiValidationException("Message Id parameter can't be empty", this);
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == this) return true;
-        if (!(o instanceof StopPoll)) {
-            return false;
-        }
-        StopPoll sendMessage = (StopPoll) o;
-        return Objects.equals(chatId, sendMessage.chatId)
-                && Objects.equals(messageId, sendMessage.messageId)
-                ;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(
-                chatId,
-                messageId);
-    }
-
-    @Override
-    public String toString() {
-        return "StopPoll{" +
-                "chatId='" + chatId + '\'' +
-                ", messageId=" + messageId +
-                '}';
     }
 }

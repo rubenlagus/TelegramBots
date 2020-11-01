@@ -3,9 +3,22 @@ package org.telegram.telegrambots.meta.api.objects.inlinequery.result;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.Singular;
+import lombok.ToString;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+
+import java.util.List;
 
 /**
  * @author Ruben Bermudez
@@ -13,10 +26,18 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * Represents a link to an mp3 audio file. By default, this audio file will be sent by the
  * user. Alternatively, you can use input_message_content to send a message with the specified
  * content instead of the audio.
- * @note This will only work in Telegram versions released after 9 April, 2016. Older clients will
+ * @apiNote This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * ignore them.
  */
 @JsonDeserialize
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class InlineQueryResultAudio implements InlineQueryResult {
 
     private static final String TYPE_FIELD = "type";
@@ -29,12 +50,15 @@ public class InlineQueryResultAudio implements InlineQueryResult {
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String CAPTION_FIELD = "caption";
     private static final String PARSEMODE_FIELD = "parse_mode";
+    private static final String CAPTION_ENTITIES_FIELD = "caption_entities";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "audio"; ///< Type of the result, must be "audio"
     @JsonProperty(ID_FIELD)
+    @NonNull
     private String id; ///< Unique identifier of this result
     @JsonProperty(AUDIOURL_FIELD)
+    @NonNull
     private String audioUrl; ///< A valid URL for the audio file
     @JsonProperty(TITLE_FIELD)
     private String title; ///< Optional. Title for the result
@@ -49,96 +73,10 @@ public class InlineQueryResultAudio implements InlineQueryResult {
     @JsonProperty(CAPTION_FIELD)
     private String caption; ///< Optional. Audio caption (may also be used when resending documents by file_id), 0-200 characters
     @JsonProperty(PARSEMODE_FIELD)
-    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
-
-    public InlineQueryResultAudio() {
-        super();
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public InlineQueryResultAudio setId(String id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getAudioUrl() {
-        return audioUrl;
-    }
-
-    public InlineQueryResultAudio setAudioUrl(String audioUrl) {
-        this.audioUrl = audioUrl;
-        return this;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public InlineQueryResultAudio setTitle(String title) {
-        this.title = title;
-        return this;
-    }
-
-    public String getPerformer() {
-        return performer;
-    }
-
-    public InlineQueryResultAudio setPerformer(String performer) {
-        this.performer = performer;
-        return this;
-    }
-
-    public Integer getAudioDuration() {
-        return audioDuration;
-    }
-
-    public InlineQueryResultAudio setAudioDuration(Integer audioDuration) {
-        this.audioDuration = audioDuration;
-        return this;
-    }
-
-    public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
-    }
-
-    public InlineQueryResultAudio setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
-        return this;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public InlineQueryResultAudio setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
-
-    public String getCaption() {
-        return caption;
-    }
-
-    public InlineQueryResultAudio setCaption(String caption) {
-        this.caption = caption;
-        return this;
-    }
-
-    public String getParseMode() {
-        return parseMode;
-    }
-
-    public InlineQueryResultAudio setParseMode(String parseMode) {
-        this.parseMode = parseMode;
-        return this;
-    }
+    private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+    @JsonProperty(CAPTION_ENTITIES_FIELD)
+    @Singular
+    private List<MessageEntity> captionEntities; ///< Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -148,27 +86,14 @@ public class InlineQueryResultAudio implements InlineQueryResult {
         if (audioUrl == null || audioUrl.isEmpty()) {
             throw new TelegramApiValidationException("AudioUrl parameter can't be empty", this);
         }
+        if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
+            throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
+        }
         if (inputMessageContent != null) {
             inputMessageContent.validate();
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "InlineQueryResultAudio{" +
-                "type='" + type + '\'' +
-                ", id='" + id + '\'' +
-                ", audioUrl='" + audioUrl + '\'' +
-                ", title='" + title + '\'' +
-                ", performer='" + performer + '\'' +
-                ", audioDuration=" + audioDuration +
-                ", inputMessageContent=" + inputMessageContent +
-                ", replyMarkup=" + replyMarkup +
-                ", caption='" + caption + '\'' +
-                ", parseMode='" + parseMode + '\'' +
-                '}';
     }
 }

@@ -1,17 +1,23 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.result;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.Singular;
+import lombok.ToString;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+
+import java.util.List;
 
 /**
  * @author Ruben Bermudez
@@ -21,7 +27,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * specified content instead of the photo.
  */
 @JsonDeserialize
-@Data
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
 @RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
@@ -40,6 +49,7 @@ public class InlineQueryResultPhoto implements InlineQueryResult {
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String PARSEMODE_FIELD = "parse_mode";
+    private static final String CAPTION_ENTITIES_FIELD = "caption_entities";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "photo"; ///< Type of the result, must be “photo”
@@ -69,6 +79,9 @@ public class InlineQueryResultPhoto implements InlineQueryResult {
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
     @JsonProperty(PARSEMODE_FIELD)
     private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+    @JsonProperty(CAPTION_ENTITIES_FIELD)
+    @Singular
+    private List<MessageEntity> captionEntities; ///< Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -77,6 +90,9 @@ public class InlineQueryResultPhoto implements InlineQueryResult {
         }
         if (photoUrl == null || photoUrl.isEmpty()) {
             throw new TelegramApiValidationException("PhotoUrl parameter can't be empty", this);
+        }
+        if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
+            throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
         }
         if (inputMessageContent != null) {
             inputMessageContent.validate();

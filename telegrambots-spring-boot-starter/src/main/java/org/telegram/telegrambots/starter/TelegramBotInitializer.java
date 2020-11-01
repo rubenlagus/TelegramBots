@@ -9,7 +9,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.generics.BotSession;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
-import org.telegram.telegrambots.meta.generics.WebhookBot;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -27,11 +26,11 @@ public class TelegramBotInitializer implements InitializingBean {
 
 	private final TelegramBotsApi telegramBotsApi;
     private final List<LongPollingBot> longPollingBots;
-    private final List<WebhookBot> webHookBots;
+    private final List<SpringWebhookBot> webHookBots;
 
     public TelegramBotInitializer(TelegramBotsApi telegramBotsApi,
     								List<LongPollingBot> longPollingBots,
-                                    List<WebhookBot> webHookBots) {
+                                    List<SpringWebhookBot> webHookBots) {
     	Objects.requireNonNull(telegramBotsApi);
     	Objects.requireNonNull(longPollingBots);
     	Objects.requireNonNull(webHookBots);
@@ -47,8 +46,8 @@ public class TelegramBotInitializer implements InitializingBean {
                 BotSession session = telegramBotsApi.registerBot(bot);
                 handleAfterRegistrationHook(bot, session);
             }
-            for (WebhookBot bot : webHookBots) {
-                telegramBotsApi.registerBot(bot);
+            for (SpringWebhookBot bot : webHookBots) {
+                telegramBotsApi.registerBot(bot, bot.getSetWebhook());
             }
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);

@@ -2,9 +2,16 @@ package org.telegram.telegrambots.meta.api.methods;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-
-import org.telegram.telegrambots.meta.api.objects.File;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -21,26 +28,21 @@ import java.io.IOException;
  * It is guaranteed that the link will be valid for at least 1 hour.
  * When the link expires, a new one can be requested by calling getFile again.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class GetFile extends BotApiMethod<File> {
     public static final String PATH = "getFile";
 
     private static final String FILEID_FIELD = "file_id";
 
     @JsonProperty(FILEID_FIELD)
+    @NonNull
     private String fileId; ///< File identifier to get info about
-
-    public GetFile() {
-        super();
-    }
-
-    public String getFileId() {
-        return fileId;
-    }
-
-    public GetFile setFileId(String fileId) {
-        this.fileId = fileId;
-        return this;
-    }
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -67,12 +69,5 @@ public class GetFile extends BotApiMethod<File> {
         } catch (IOException e) {
             throw new TelegramApiRequestException("Unable to deserialize response", e);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "GetFile{" +
-                "fileId='" + fileId + '\'' +
-                '}';
     }
 }

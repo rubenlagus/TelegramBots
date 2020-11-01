@@ -1,7 +1,14 @@
 package org.telegram.telegrambots.meta.api.methods.updates;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -15,12 +22,20 @@ import java.io.IOException;
  * Use this method to receive incoming updates using long polling (wiki). An Array of Update
  * objects is returned.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class DeleteWebhook extends BotApiMethod<Boolean>{
     public static final String PATH = "deleteWebhook";
 
-    public DeleteWebhook() {
-        super();
-    }
+    private static final String DROPPENDINGUPDATES_FIELD = "drop_pending_updates";
+
+    @JsonProperty(DROPPENDINGUPDATES_FIELD)
+    private Boolean dropPendingUpdates; ///< Optional. Pass True to drop all pending updates
 
     @Override
     public String getMethod() {
@@ -45,10 +60,5 @@ public class DeleteWebhook extends BotApiMethod<Boolean>{
 
     @Override
     public void validate() throws TelegramApiValidationException {
-    }
-
-    @Override
-    public String toString() {
-        return "DeleteWebhook{}";
     }
 }

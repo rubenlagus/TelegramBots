@@ -38,7 +38,7 @@ public class SilentSender {
   public Optional<Message> forceReply(String message, long id) {
     SendMessage msg = new SendMessage();
     msg.setText(message);
-    msg.setChatId(id);
+    msg.setChatId(Long.toString(id));
     msg.setReplyMarkup(new ForceReplyKeyboard());
 
     return execute(msg);
@@ -64,7 +64,7 @@ public class SilentSender {
 
   private Optional<Message> doSendMessage(String txt, long groupId, boolean format) {
     SendMessage smsg = new SendMessage();
-    smsg.setChatId(groupId);
+    smsg.setChatId(Long.toString(groupId));
     smsg.setText(txt);
     smsg.enableMarkdown(format);
 

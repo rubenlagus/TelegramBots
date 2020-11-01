@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.telegram</groupId>
         <artifactId>Bots</artifactId>
-        <version>4.9.2</version>
+        <version>5.0.0</version>
     </parent>
 
     <artifactId>telegrambots</artifactId>
@@ -70,13 +70,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <glassfish.version>2.29.1</glassfish.version>
+        <glassfish.version>2.32</glassfish.version>
         <jerseybundle.version>1.19.3</jerseybundle.version>
-        <httpcompontents.version>4.5.10</httpcompontents.version>
+        <httpcompontents.version>4.5.13</httpcompontents.version>
         <json.version>20180813</json.version>
-        <jackson.version>2.10.1</jackson.version>
-        <jacksonanotation.version>2.10.1</jacksonanotation.version>
-        <commonio.version>2.6</commonio.version>
+        <jackson.version>2.11.3</jackson.version>
+        <jacksonanotation.version>2.11.3</jacksonanotation.version>
+        <commonio.version>2.8.0</commonio.version>
     </properties>
 
     <dependencyManagement>
@@ -95,7 +95,7 @@
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots-meta</artifactId>
-            <version>4.9.2</version>
+            <version>5.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -110,7 +110,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-jaxb-annotations</artifactId>
-            <version>2.10.1</version>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -146,6 +146,12 @@
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-server</artifactId>
             <version>${glassfish.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>jakarta.xml.bind</groupId>
+                    <artifactId>jakarta.xml.bind-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>

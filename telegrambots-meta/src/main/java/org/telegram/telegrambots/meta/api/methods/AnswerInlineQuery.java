@@ -1,16 +1,23 @@
 package org.telegram.telegrambots.meta.api.methods;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-
-import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResult;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.Singular;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResult;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -19,6 +26,14 @@ import java.util.regex.Pattern;
  * @version 1.0
  * Use this method to send answers to an inline query. On success, True is returned.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
 public class AnswerInlineQuery extends BotApiMethod<Boolean> {
     public static final String PATH = "answerInlineQuery";
 
@@ -31,8 +46,11 @@ public class AnswerInlineQuery extends BotApiMethod<Boolean> {
     private static final String SWITCH_PM_PARAMETER_FIELD = "switch_pm_parameter";
 
     @JsonProperty(INLINEQUERYID_FIELD)
+    @NonNull
     private String inlineQueryId; ///< Unique identifier for answered query
     @JsonProperty(RESULTS_FIELD)
+    @Singular
+    @NonNull
     private List<InlineQueryResult> results; ///< A JSON-serialized array of results for the inline query
     @JsonProperty(CACHETIME_FIELD)
     private Integer cacheTime; ///< Optional	The maximum amount of time the result of the inline query may be cached on the server
@@ -44,79 +62,6 @@ public class AnswerInlineQuery extends BotApiMethod<Boolean> {
     private String switchPmText; ///< Optional. If passed, clients will display a button with specified text that switches the user to a private chat with the bot and sends the bot a start message with the parameter switch_pm_parameter
     @JsonProperty(SWITCH_PM_PARAMETER_FIELD)
     private String switchPmParameter; ///< Optional. Parameter for the start message sent to the bot when user presses the switch button
-
-    public AnswerInlineQuery() {
-        super();
-    }
-
-    public String getInlineQueryId() {
-        return inlineQueryId;
-    }
-
-    public AnswerInlineQuery setInlineQueryId(String inlineQueryId) {
-        this.inlineQueryId = inlineQueryId;
-        return this;
-    }
-
-    public List<InlineQueryResult> getResults() {
-        return results;
-    }
-
-    public AnswerInlineQuery setResults(List<InlineQueryResult> results) {
-        this.results = results;
-        return this;
-    }
-
-    @JsonIgnore
-    public AnswerInlineQuery setResults(InlineQueryResult... results) {
-        this.results = Arrays.asList(results);
-        return this;
-    }
-
-    public Integer getCacheTime() {
-        return cacheTime;
-    }
-
-    public AnswerInlineQuery setCacheTime(Integer cacheTime) {
-        this.cacheTime = cacheTime;
-        return this;
-    }
-
-    public Boolean isPersonal() {
-        return isPersonal;
-    }
-
-    public AnswerInlineQuery setPersonal(Boolean personal) {
-        isPersonal = personal;
-        return this;
-    }
-
-    public String getNextOffset() {
-        return nextOffset;
-    }
-
-    public AnswerInlineQuery setNextOffset(String nextOffset) {
-        this.nextOffset = nextOffset;
-        return this;
-    }
-
-    public String getSwitchPmText() {
-        return switchPmText;
-    }
-
-    public AnswerInlineQuery setSwitchPmText(String switchPmText) {
-        this.switchPmText = switchPmText;
-        return this;
-    }
-
-    public String getSwitchPmParameter() {
-        return switchPmParameter;
-    }
-
-    public AnswerInlineQuery setSwitchPmParameter(String switchPmParameter) {
-        this.switchPmParameter = switchPmParameter;
-        return this;
-    }
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -163,18 +108,5 @@ public class AnswerInlineQuery extends BotApiMethod<Boolean> {
         } catch (IOException e) {
             throw new TelegramApiRequestException("Unable to deserialize response", e);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "AnswerInlineQuery{" +
-                "inlineQueryId='" + inlineQueryId + '\'' +
-                ", results=" + results +
-                ", cacheTime=" + cacheTime +
-                ", isPersonal=" + isPersonal +
-                ", switchPmText=" + switchPmText +
-                ", switchPmParameter=" + switchPmParameter +
-                ", nextOffset='" + nextOffset + '\'' +
-                '}';
     }
 }

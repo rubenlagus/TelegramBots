@@ -1,6 +1,12 @@
 package org.telegram.telegrambots.meta.api.objects.payments;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
@@ -9,6 +15,12 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
  *
  * This object contains basic information about a successful payment.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class SuccessfulPayment implements BotApiObject {
     private static final String CURRENCY_FIELD = "currency";
     private static final String TOTAL_AMOUNT_FIELD = "total_amount";
@@ -20,11 +32,11 @@ public class SuccessfulPayment implements BotApiObject {
 
     @JsonProperty(CURRENCY_FIELD)
     private String currency; ///< Three-letter ISO 4217 currency code
-    @JsonProperty(TOTAL_AMOUNT_FIELD)
     /**
      * Total price in the smallest units of the currency (integer, not float/double).
      * For example, for a price of US$ 1.45 pass amount = 145.
      */
+    @JsonProperty(TOTAL_AMOUNT_FIELD)
     private Integer totalAmount;
     @JsonProperty(INVOICE_PAYLOAD_FIELD)
     private String invoicePayload; ///< Bot specified invoice payload
@@ -36,49 +48,4 @@ public class SuccessfulPayment implements BotApiObject {
     private String telegramPaymentChargeId; ///< Telegram payment identifier
     @JsonProperty(PROVIDER_PAYMENT_CHARGE_ID_FIELD)
     private String providerPaymentChargeId; ///< Provider payment identifier
-
-    public SuccessfulPayment() {
-        super();
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public Integer getTotalAmount() {
-        return totalAmount;
-    }
-
-    public String getInvoicePayload() {
-        return invoicePayload;
-    }
-
-    public String getShippingOptionId() {
-        return shippingOptionId;
-    }
-
-    public OrderInfo getOrderInfo() {
-        return orderInfo;
-    }
-
-    public String getTelegramPaymentChargeId() {
-        return telegramPaymentChargeId;
-    }
-
-    public String getProviderPaymentChargeId() {
-        return providerPaymentChargeId;
-    }
-
-    @Override
-    public String toString() {
-        return "SuccessfulPayment{" +
-                "currency='" + currency + '\'' +
-                ", totalAmount=" + totalAmount +
-                ", invoicePayload='" + invoicePayload + '\'' +
-                ", shippingOptionId='" + shippingOptionId + '\'' +
-                ", orderInfo=" + orderInfo +
-                ", telegramPaymentChargeId='" + telegramPaymentChargeId + '\'' +
-                ", providerPaymentChargeId='" + providerPaymentChargeId + '\'' +
-                '}';
-    }
 }

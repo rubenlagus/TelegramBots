@@ -2,15 +2,21 @@ package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
-import java.util.Objects;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
@@ -19,6 +25,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
  * Returns True on success.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SetChatDescription extends BotApiMethod<Boolean> {
     public static final String PATH = "setChatDescription";
 
@@ -26,50 +40,10 @@ public class SetChatDescription extends BotApiMethod<Boolean> {
     private static final String DESCRIPTION_FIELD = "description";
 
     @JsonProperty(CHATID_FIELD)
+    @NonNull
     private String chatId; ///< Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     @JsonProperty(DESCRIPTION_FIELD)
-    private String description; ///< New chat description, 0-255 characters
-
-    public SetChatDescription() {
-        super();
-    }
-
-    public SetChatDescription(String chatId, String description) {
-        super();
-        this.chatId = checkNotNull(chatId);
-        this.description = checkNotNull(description);
-    }
-
-    public SetChatDescription(Long chatId, String description) {
-        super();
-        this.chatId = checkNotNull(chatId).toString();
-        this.description = checkNotNull(description);
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public SetChatDescription setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public SetChatDescription setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public SetChatDescription setDescription(String description) {
-        Objects.requireNonNull(description);
-        this.description = description;
-        return this;
-    }
+    private String description; ///< Optional. New chat description, 0-255 characters
 
     @Override
     public String getMethod() {
@@ -99,13 +73,5 @@ public class SetChatDescription extends BotApiMethod<Boolean> {
         if (description == null) {
             throw new TelegramApiValidationException("Description can't be null", this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "SetChatDescription{" +
-                "chatId='" + chatId + '\'' +
-                ", description='" + description + '\'' +
-                '}';
     }
 }
