@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.updatesreceivers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.inject.Inject;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -61,7 +60,6 @@ public class DefaultBotSession implements BotSession {
     private DefaultBotOptions options;
     private UpdatesSupplier updatesSupplier;
 
-    @Inject
     public DefaultBotSession() {
     }
 

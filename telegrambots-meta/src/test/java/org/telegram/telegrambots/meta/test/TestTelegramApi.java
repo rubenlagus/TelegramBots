@@ -1,28 +1,33 @@
 package org.telegram.telegrambots.meta.test;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
-import org.telegram.telegrambots.meta.test.base.TestBase;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.generics.BotSession;
+import org.telegram.telegrambots.meta.generics.Webhook;
 
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.mock;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
  */
-class TestTelegramApi extends TestBase {
+class TestTelegramApi {
 
-    @Test
-    void TestTelegramApiMustBeInitializableForLongPolling() {
-        new TelegramBotsApi();
+    private Webhook webhook;
+
+    @BeforeEach
+    public void setUp() {
+        webhook = mock(Webhook.class);
     }
 
     @Test
-    void TestTelegramApiMustBeInitializableForWebhookWithoutSecureSupport() {
+    void TestTelegramApiMustBeInitializableForLongPolling() {
         try {
-            new TelegramBotsApi("externalUrl", "internalUrl");
-        } catch (TelegramApiRequestException e) {
+            new TelegramBotsApi(BotSession.class);
+        } catch (TelegramApiException e) {
             fail();
         }
     }
@@ -30,17 +35,8 @@ class TestTelegramApi extends TestBase {
     @Test
     void TestTelegramApiMustBeInitializableForWebhook() {
         try {
-            new TelegramBotsApi("keyStore", "keyStorePassword", "externalUrl", "internalUrl");
-        } catch (TelegramApiRequestException e) {
-            fail();
-        }
-    }
-
-    @Test
-    void TestTelegramApiMustBeInitializableForWebhookWithSelfSignedCertificate() {
-        try {
-            new TelegramBotsApi("keyStore", "keyStorePassword", "externalUrl", "internalUrl", "selfSignedPath");
-        } catch (TelegramApiRequestException e) {
+            new TelegramBotsApi(BotSession.class, webhook);
+        } catch (TelegramApiException e) {
             fail();
         }
     }

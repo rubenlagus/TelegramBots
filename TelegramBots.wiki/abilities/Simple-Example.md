@@ -81,11 +81,8 @@ Running the bot is just like running the regular Telegram bots. Create a Java cl
 ```java
 public class Application {
     public static void main(String[] args) {
-        // Initializes dependencies necessary for the base bot - Guice
-        ApiContextInitializer.init();
-
         // Create the TelegramBotsApi object to register your bots
-        TelegramBotsApi botsApi = new TelegramBotsApi();
+        TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
 
         try {
           // Register your newly created AbilityBot
