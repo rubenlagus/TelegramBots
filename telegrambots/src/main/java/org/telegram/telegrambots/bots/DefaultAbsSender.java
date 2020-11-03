@@ -2,6 +2,7 @@ package org.telegram.telegrambots.bots;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -50,6 +51,7 @@ import java.io.Serializable;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -61,6 +63,7 @@ import static org.telegram.telegrambots.Constants.SOCKET_TIMEOUT;
  * Implementation of all the methods needed to interact with Telegram Servers
  */
 @SuppressWarnings({"unused"})
+@Slf4j
 public abstract class DefaultAbsSender extends AbsSender {
     private static final ContentType TEXT_PLAIN_CONTENT_TYPE = ContentType.create("text/plain", StandardCharsets.UTF_8);
 
@@ -92,22 +95,6 @@ public abstract class DefaultAbsSender extends AbsSender {
         }
     }
 
-    private void configureHttpContext() {
-
-        if (options.getProxyType() != DefaultBotOptions.ProxyType.NO_PROXY) {
-            InetSocketAddress socksaddr = new InetSocketAddress(options.getProxyHost(), options.getProxyPort());
-            options.getHttpContext().setAttribute("socketAddress", socksaddr);
-        }
-
-        if (options.getProxyType() == DefaultBotOptions.ProxyType.SOCKS4) {
-            options.getHttpContext().setAttribute("socksVersion", 4);
-        }
-        if (options.getProxyType() == DefaultBotOptions.ProxyType.SOCKS5) {
-            options.getHttpContext().setAttribute("socksVersion", 5);
-        }
-
-    }
-
     /**
      * Returns the token of the bot to be able to perform Telegram Api Requests
      * @return Token of the bot
@@ -116,6 +103,10 @@ public abstract class DefaultAbsSender extends AbsSender {
 
     public final DefaultBotOptions getOptions() {
         return options;
+    }
+
+    public String getBaseUrl() {
+        return options.getBaseUrl() + getBotToken() + "/";
     }
 
     // Send Requests
@@ -776,6 +767,204 @@ public abstract class DefaultAbsSender extends AbsSender {
         }
     }
 
+    // Async Methods
+
+    @Override
+    public CompletableFuture<Message> executeAsync(SendDocument sendDocument) {
+        CompletableFuture<Message> completableFuture = new CompletableFuture<>();
+        exe.submit(() -> {
+            try {
+                completableFuture.complete(execute(sendDocument));
+            } catch (TelegramApiException e) {
+                completableFuture.completeExceptionally(e);
+            }
+        });
+        return completableFuture;
+    }
+
+    @Override
+    public CompletableFuture<Message> executeAsync(SendPhoto sendPhoto) {
+        CompletableFuture<Message> completableFuture = new CompletableFuture<>();
+        exe.submit(() -> {
+            try {
+                completableFuture.complete(execute(sendPhoto));
+            } catch (TelegramApiException e) {
+                completableFuture.completeExceptionally(e);
+            }
+        });
+        return completableFuture;
+    }
+
+    @Override
+    public CompletableFuture<Message> executeAsync(SendVideo sendVideo) {
+        CompletableFuture<Message> completableFuture = new CompletableFuture<>();
+        exe.submit(() -> {
+            try {
+                completableFuture.complete(execute(sendVideo));
+            } catch (TelegramApiException e) {
+                completableFuture.completeExceptionally(e);
+            }
+        });
+        return completableFuture;
+    }
+
+    @Override
+    public CompletableFuture<Message> executeAsync(SendVideoNote sendVideoNote) {
+        CompletableFuture<Message> completableFuture = new CompletableFuture<>();
+        exe.submit(() -> {
+            try {
+                completableFuture.complete(execute(sendVideoNote));
+            } catch (TelegramApiException e) {
+                completableFuture.completeExceptionally(e);
+            }
+        });
+        return completableFuture;
+    }
+
+    @Override
+    public CompletableFuture<Message> executeAsync(SendSticker sendSticker) {
+        CompletableFuture<Message> completableFuture = new CompletableFuture<>();
+        exe.submit(() -> {
+            try {
+                completableFuture.complete(execute(sendSticker));
+            } catch (TelegramApiException e) {
+                completableFuture.completeExceptionally(e);
+            }
+        });
+        return completableFuture;
+    }
+
+    @Override
+    public CompletableFuture<Message> executeAsync(SendAudio sendAudio) {
+        CompletableFuture<Message> completableFuture = new CompletableFuture<>();
+        exe.submit(() -> {
+            try {
+                completableFuture.complete(execute(sendAudio));
+            } catch (TelegramApiException e) {
+                completableFuture.completeExceptionally(e);
+            }
+        });
+        return completableFuture;
+    }
+
+    @Override
+    public CompletableFuture<Message> executeAsync(SendVoice sendVoice) {
+        CompletableFuture<Message> completableFuture = new CompletableFuture<>();
+        exe.submit(() -> {
+            try {
+                completableFuture.complete(execute(sendVoice));
+            } catch (TelegramApiException e) {
+                completableFuture.completeExceptionally(e);
+            }
+        });
+        return completableFuture;
+    }
+
+    @Override
+    public CompletableFuture<List<Message>> executeAsync(SendMediaGroup sendMediaGroup) {
+        CompletableFuture<List<Message>> completableFuture = new CompletableFuture<>();
+        exe.submit(() -> {
+            try {
+                completableFuture.complete(execute(sendMediaGroup));
+            } catch (TelegramApiException e) {
+                completableFuture.completeExceptionally(e);
+            }
+        });
+        return completableFuture;
+    }
+
+    @Override
+    public CompletableFuture<Boolean> executeAsync(SetChatPhoto setChatPhoto) {
+        CompletableFuture<Boolean> completableFuture = new CompletableFuture<>();
+        exe.submit(() -> {
+            try {
+                completableFuture.complete(execute(setChatPhoto));
+            } catch (TelegramApiException e) {
+                completableFuture.completeExceptionally(e);
+            }
+        });
+        return completableFuture;
+    }
+
+    @Override
+    public CompletableFuture<Boolean> executeAsync(AddStickerToSet addStickerToSet) {
+        CompletableFuture<Boolean> completableFuture = new CompletableFuture<>();
+        exe.submit(() -> {
+            try {
+                completableFuture.complete(execute(addStickerToSet));
+            } catch (TelegramApiException e) {
+                completableFuture.completeExceptionally(e);
+            }
+        });
+        return completableFuture;
+    }
+
+    @Override
+    public CompletableFuture<Boolean> executeAsync(SetStickerSetThumb setStickerSetThumb) {
+        CompletableFuture<Boolean> completableFuture = new CompletableFuture<>();
+        exe.submit(() -> {
+            try {
+                completableFuture.complete(execute(setStickerSetThumb));
+            } catch (TelegramApiException e) {
+                completableFuture.completeExceptionally(e);
+            }
+        });
+        return completableFuture;
+    }
+
+    @Override
+    public CompletableFuture<Boolean> executeAsync(CreateNewStickerSet createNewStickerSet) {
+        CompletableFuture<Boolean> completableFuture = new CompletableFuture<>();
+        exe.submit(() -> {
+            try {
+                completableFuture.complete(execute(createNewStickerSet));
+            } catch (TelegramApiException e) {
+                completableFuture.completeExceptionally(e);
+            }
+        });
+        return completableFuture;
+    }
+
+    @Override
+    public CompletableFuture<File> executeAsync(UploadStickerFile uploadStickerFile) {
+        CompletableFuture<File> completableFuture = new CompletableFuture<>();
+        exe.submit(() -> {
+            try {
+                completableFuture.complete(execute(uploadStickerFile));
+            } catch (TelegramApiException e) {
+                completableFuture.completeExceptionally(e);
+            }
+        });
+        return completableFuture;
+    }
+
+    @Override
+    public CompletableFuture<Serializable> executeAsync(EditMessageMedia editMessageMedia) {
+        CompletableFuture<Serializable> completableFuture = new CompletableFuture<>();
+        exe.submit(() -> {
+            try {
+                completableFuture.complete(execute(editMessageMedia));
+            } catch (TelegramApiException e) {
+                completableFuture.completeExceptionally(e);
+            }
+        });
+        return completableFuture;
+    }
+
+    @Override
+    public CompletableFuture<Message> executeAsync(SendAnimation sendAnimation) {
+        CompletableFuture<Message> completableFuture = new CompletableFuture<>();
+        exe.submit(() -> {
+            try {
+                completableFuture.complete(execute(sendAnimation));
+            } catch (TelegramApiException e) {
+                completableFuture.completeExceptionally(e);
+            }
+        });
+        return completableFuture;
+    }
+
+
     // Simplified methods
 
     @Override
@@ -800,6 +989,20 @@ public abstract class DefaultAbsSender extends AbsSender {
     }
 
     @Override
+    protected <T extends Serializable, Method extends BotApiMethod<T>> CompletableFuture<T> sendApiMethodAsync(Method method) {
+        CompletableFuture<T> completableFuture = new CompletableFuture<>();
+        exe.submit(() -> {
+            try {
+                String responseContent = sendMethodRequest(method);
+                completableFuture.complete(method.deserializeResponse(responseContent));
+            } catch (IOException | TelegramApiValidationException | TelegramApiRequestException e) {
+                completableFuture.completeExceptionally(e);
+            }
+        });
+        return completableFuture;
+    }
+
+    @Override
     protected final <T extends Serializable, Method extends BotApiMethod<T>> T sendApiMethod(Method method) throws TelegramApiException {
         try {
             String responseContent = sendMethodRequest(method);
@@ -807,6 +1010,24 @@ public abstract class DefaultAbsSender extends AbsSender {
         } catch (IOException e) {
             throw new TelegramApiException("Unable to execute " + method.getMethod() + " method", e);
         }
+    }
+
+    // Private methods
+
+    private void configureHttpContext() {
+
+        if (options.getProxyType() != DefaultBotOptions.ProxyType.NO_PROXY) {
+            InetSocketAddress socksaddr = new InetSocketAddress(options.getProxyHost(), options.getProxyPort());
+            options.getHttpContext().setAttribute("socketAddress", socksaddr);
+        }
+
+        if (options.getProxyType() == DefaultBotOptions.ProxyType.SOCKS4) {
+            options.getHttpContext().setAttribute("socksVersion", 4);
+        }
+        if (options.getProxyType() == DefaultBotOptions.ProxyType.SOCKS5) {
+            options.getHttpContext().setAttribute("socksVersion", 5);
+        }
+
     }
 
     private <T extends Serializable, Method extends BotApiMethod<T>> String sendMethodRequest(Method method) throws TelegramApiValidationException, IOException {
@@ -886,10 +1107,6 @@ public abstract class DefaultAbsSender extends AbsSender {
         if (addField) {
             builder.addTextBody(fileField, file.getAttachName(), TEXT_PLAIN_CONTENT_TYPE);
         }
-    }
-
-    public String getBaseUrl() {
-        return options.getBaseUrl() + getBotToken() + "/";
     }
 
     private void assertParamNotNull(Object param, String paramName) throws TelegramApiException {

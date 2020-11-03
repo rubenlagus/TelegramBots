@@ -27,6 +27,7 @@ import org.telegram.telegrambots.meta.updateshandlers.SentCallback;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @author Ruben Bermudez
@@ -49,6 +50,13 @@ public abstract class AbsSender {
         sendApiMethodAsync(method, callback);
     }
 
+    public <T extends Serializable, Method extends BotApiMethod<T>> CompletableFuture<T> executeAsync(Method method) throws TelegramApiException {
+        if (method == null) {
+            throw new TelegramApiException("Parameter method can not be null");
+        }
+        return sendApiMethodAsync(method);
+    }
+
     public <T extends Serializable, Method extends BotApiMethod<T>> T execute(Method method) throws TelegramApiException {
         if (method == null) {
             throw new TelegramApiException("Parameter method can not be null");
@@ -69,6 +77,15 @@ public abstract class AbsSender {
 
 
     // Send Requests Async
+
+
+    public final CompletableFuture<User> getMeAsync() {
+        return sendApiMethodAsync(new GetMe());
+    }
+
+    public final CompletableFuture<WebhookInfo> getWebhookInfoAsync() {
+        return sendApiMethodAsync(new GetWebhookInfo());
+    }
 
     public final void getMeAsync(SentCallback<User> sentCallback) throws TelegramApiException {
         if (sentCallback == null) {
@@ -175,9 +192,94 @@ public abstract class AbsSender {
      */
     public abstract Message execute(SendAnimation sendAnimation) throws TelegramApiException;
 
+
+    // Specific Send Requests Async
+
+    public abstract CompletableFuture<Message> executeAsync(SendDocument sendDocument);
+
+    public abstract CompletableFuture<Message> executeAsync(SendPhoto sendPhoto);
+
+    public abstract CompletableFuture<Message> executeAsync(SendVideo sendVideo);
+
+    public abstract CompletableFuture<Message> executeAsync(SendVideoNote sendVideoNote);
+
+    public abstract CompletableFuture<Message> executeAsync(SendSticker sendSticker);
+
+    /**
+     * Sends a file using Send Audio method (https://core.telegram.org/bots/api#sendaudio)
+     * @param sendAudio Information to send
+     * @return If success, the sent Message is returned
+     */
+    public abstract CompletableFuture<Message> executeAsync(SendAudio sendAudio);
+
+    /**
+     * Sends a voice note using Send Voice method (https://core.telegram.org/bots/api#sendvoice)
+     * For this to work, your audio must be in an .ogg file encoded with OPUS
+     * @param sendVoice Information to send
+     * @return If success, the sent Message is returned
+     */
+    public abstract CompletableFuture<Message> executeAsync(SendVoice sendVoice);
+
+    /**
+     * Send a media group (https://core.telegram.org/bots/api#sendMediaGroup)
+     * @return If success, list of generated messages
+     */
+    public abstract CompletableFuture<List<Message>> executeAsync(SendMediaGroup sendMediaGroup);
+
+    /**
+     * Set chat profile photo (https://core.telegram.org/bots/api#setChatPhoto)
+     * @param setChatPhoto Information to set the photo
+     * @return If success, true is returned
+     */
+    public abstract CompletableFuture<Boolean> executeAsync(SetChatPhoto setChatPhoto);
+
+    /**
+     * Adds a new sticker to a set (https://core.telegram.org/bots/api#addStickerToSet)
+     * @param addStickerToSet Information of the sticker to set
+     * @return If success, true is returned
+     */
+    public abstract CompletableFuture<Boolean> executeAsync(AddStickerToSet addStickerToSet);
+
+    /**
+     * Set sticker set thumb (https://core.telegram.org/bots/api#setStickerSetThumb)
+     * @param setStickerSetThumb Information of the sticker to set
+     * @return If success, true is returned
+     */
+    public abstract CompletableFuture<Boolean> executeAsync(SetStickerSetThumb setStickerSetThumb);
+
+    /**
+     * Creates a new sticker set (https://core.telegram.org/bots/api#createNewStickerSet)
+     * @param createNewStickerSet Information of the sticker set to create
+     * @return If success, true is returned
+     */
+    public abstract CompletableFuture<Boolean> executeAsync(CreateNewStickerSet createNewStickerSet);
+
+    /**
+     * Upload a new file as sticker (https://core.telegram.org/bots/api#uploadStickerFile)
+     * @param uploadStickerFile Information of the file to upload as sticker
+     * @return If success, true is returned
+     */
+    public abstract CompletableFuture<File> executeAsync(UploadStickerFile uploadStickerFile);
+
+    /**
+     * Edit media in a message
+     * @param editMessageMedia Information of the new media
+     * @return If the edited message is not an inline message, the edited Message is returned, otherwise True is returned
+     */
+    public abstract CompletableFuture<Serializable> executeAsync(EditMessageMedia editMessageMedia);
+
+    /**
+     * Send animation
+     * @param sendAnimation Information of the animation
+     * @return Sent message
+     */
+    public abstract CompletableFuture<Message> executeAsync(SendAnimation sendAnimation);
+
     // Simplified methods
 
     protected abstract <T extends Serializable, Method extends BotApiMethod<T>, Callback extends SentCallback<T>> void sendApiMethodAsync(Method method, Callback callback);
+
+    protected abstract <T extends Serializable, Method extends BotApiMethod<T>> CompletableFuture<T> sendApiMethodAsync(Method method);
 
     protected abstract <T extends Serializable, Method extends BotApiMethod<T>> T sendApiMethod(Method method) throws TelegramApiException;
 }

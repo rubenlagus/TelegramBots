@@ -66,14 +66,4 @@ public class PassportElementErrorTranslationFiles implements PassportElementErro
             throw new TelegramApiValidationException("Type parameter can't be empty", this);
         }
     }
-
-    @Override
-    public String toString() {
-        return "PassportElementErrorTranslationFiles{" +
-                "source='" + source + '\'' +
-                ", type='" + type + '\'' +
-                ", fileHashes=" + fileHashes +
-                ", message='" + message + '\'' +
-                '}';
-    }
 }

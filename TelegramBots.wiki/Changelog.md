@@ -6,6 +6,7 @@
 5. Locations now use Double instead of Float to avoid rounding.
 6. When registering a Webhook Bot, a SetWebhook object must be provided.
 7. When using Webhook with Spring, extends class SpringWebhookBot instead of WebhookBot 
+8. New Async methods returning CompletableFutures.
 
 ### <a id="4.9.2"></a>4.9.2 ###
 1. Bug fixing: #792, #801, #804, #810, #812, #813, #820 and #814
