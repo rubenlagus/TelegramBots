@@ -50,8 +50,7 @@ Once done, you just need to create a `org.telegram.telegrambots.meta.TelegramBot
     // Example taken from https://github.com/rubenlagus/TelegramBotsExample
     public class Main {
         public static void main(String[] args) {
-            ApiContextInitializer.init();
-            TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
             try {
                 telegramBotsApi.registerBot(new ChannelHandlers());
                 telegramBotsApi.registerBot(new DirectionsHandlers());

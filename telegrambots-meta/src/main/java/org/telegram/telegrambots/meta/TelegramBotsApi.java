@@ -76,7 +76,13 @@ public class TelegramBotsApi {
      * @param setWebhook Set webhook request to initialize the bot
      */
     public void registerBot(WebhookBot bot, SetWebhook setWebhook) throws TelegramApiException {
+        if (setWebhook == null) {
+            throw new TelegramApiException("Parameter setWebhook can not be null or empty");
+        }
         if (useWebhook) {
+            if (webhook == null) {
+                throw new TelegramApiException("This instance doesn't support Webhook bot, use correct constructor");
+            }
             bot.onRegister();
             webhook.registerWebhook(bot);
             bot.setWebhook(setWebhook);

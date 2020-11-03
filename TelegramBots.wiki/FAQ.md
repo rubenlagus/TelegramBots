@@ -265,9 +265,6 @@ Your main spring boot class should look like this:
 public class YourApplicationMainClass {
 
 	public static void main(String[] args) {
-	    //Add this line to initialize bots context
-		ApiContextInitializer.init();
-		
 		SpringApplication.run(YourApplicationMainClass.class, args);
 	}
 }
