@@ -10,6 +10,7 @@
 8. New Async methods returning CompletableFutures (yes, we still have the existing callback methods)
 9. Added new Async methods for missing cases returning CompletableFutures. Like for sendAudio or sendVideo.
 10. No more Guice to define custom class
+11. Bug fixes: #795
 
 **[[How to update to version 5.0.0|How-To-Update#5.0.0]]**
 
