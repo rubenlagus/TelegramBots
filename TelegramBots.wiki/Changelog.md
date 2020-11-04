@@ -1,5 +1,5 @@
 ### <a id="5.0.0"></a>5.0.0 ###
-1. Update Api version [5.0](https://core.telegram.org/bots/api-changelog#june-4-2020)
+1. Update Api version [5.0](https://core.telegram.org/bots/api-changelog#november-4-2020)
 2. Added Builders for many of the API methods and objects (hopefully all of them unless I missed something)
 3. Some setters/getters may have change name. They no longer return a reference to itself, use Builder for that.
 4. Simplified methods to set files in methods. Only InputFile is available now (this class contains constructors for all the cases)  
