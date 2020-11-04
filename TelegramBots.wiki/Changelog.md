@@ -1,3 +1,19 @@
+### <a id="5.0.0"></a>5.0.0 ###
+1. Update Api version [5.0](https://core.telegram.org/bots/api-changelog#june-4-2020)
+2. Added Builders for many of the API methods and objects (hopefully all of them unless I missed something)
+3. Some setters/getters may have change name. They no longer return a reference to itself, use Builder for that.
+4. Simplified methods to set files in methods. Only InputFile is available now (this class contains constructors for all the cases)  
+5. Locations now use Double instead of Float to avoid rounding.
+6. When using a TelegramApi for webhook usage, a Webhook instance has to be provided in constructor (i.e. DefaultWebhook class)
+6. When registering a Webhook Bot, a SetWebhook object must be provided.
+7. When using Webhook with Spring, extends class SpringWebhookBot instead of WebhookBot 
+8. New Async methods returning CompletableFutures (yes, we still have the existing callback methods)
+9. Added new Async methods for missing cases returning CompletableFutures. Like for sendAudio or sendVideo.
+10. No more Guice to define custom class
+11. Bug fixes: #795
+
+**[[How to update to version 5.0.0|How-To-Update#5.0.0]]**
+
 ### <a id="4.9.2"></a>4.9.2 ###
 1. Bug fixing: #792, #801, #804, #810, #812, #813, #820 and #814
 

@@ -2,16 +2,22 @@ package org.telegram.telegrambots.meta.api.methods;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.telegram.telegrambots.meta.api.objects.passport.dataerror.PassportElementError;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.Singular;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.passport.dataerror.PassportElementError;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
@@ -20,6 +26,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Informs a user that some Telegram Passport data contains errors.
  * The user will not be able to resend data, until the errors are fixed
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SetPassportDataErrors extends BotApiMethod<Boolean> {
     public static final String PATH = "setPassportDataErrors";
 
@@ -27,46 +40,12 @@ public class SetPassportDataErrors extends BotApiMethod<Boolean> {
     private static final String ERRORS_FIELD = "errors";
     
     @JsonProperty(USERID_FIELD)
+    @NonNull
     private Integer userId; ///< User identifier
     @JsonProperty(ERRORS_FIELD)
+    @NonNull
+    @Singular
     private List<PassportElementError> errors; ///< A JSON-serialized array describing the errors
-
-    public SetPassportDataErrors(Integer userId, List<PassportElementError> errors) {
-        super();
-        this.userId = checkNotNull(userId);
-        this.errors = checkNotNull(errors);
-    }
-
-    public SetPassportDataErrors() {
-        super();
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public SetPassportDataErrors setUserId(Integer userId) {
-        this.userId = userId;
-        return this;
-    }
-
-    public List<PassportElementError> getErrors() {
-        return errors;
-    }
-
-    public SetPassportDataErrors setErrors(List<PassportElementError> errors) {
-        this.errors = errors;
-        return this;
-    }
-
-    public SetPassportDataErrors addError(PassportElementError error) {
-        error = checkNotNull(error);
-        if (this.errors == null) {
-            this.errors = new ArrayList<>();
-        }
-        this.errors.add(error);
-        return this;
-    }
 
     @Override
     public String getMethod() {

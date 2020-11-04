@@ -2,6 +2,14 @@ package org.telegram.telegrambots.meta.api.methods.stickers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.stickers.StickerSet;
@@ -10,29 +18,26 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * @author Ruben Bermudez
  * @version 1.0
  * Use this method to get a sticker set. On success, a StickerSet object is returned.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class GetStickerSet extends BotApiMethod<StickerSet> {
     private static final String PATH = "getStickerSet";
 
     private static final String NAME_FIELD = "name";
 
     @JsonProperty(NAME_FIELD)
+    @NonNull
     private String name; ///< Name of the sticker set
-
-    public GetStickerSet(String name) {
-        super();
-        this.name = checkNotNull(name);
-    }
-
-    public GetStickerSet() {
-        super();
-    }
 
     @Override
     public String getMethod() {
@@ -59,21 +64,5 @@ public class GetStickerSet extends BotApiMethod<StickerSet> {
         if (name == null || name.isEmpty()) {
             throw new TelegramApiValidationException("Name can't be null", this);
         }
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public GetStickerSet setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    @Override
-    public String toString() {
-        return "GetStickerSet{" +
-                "name='" + name + '\'' +
-                '}';
     }
 }

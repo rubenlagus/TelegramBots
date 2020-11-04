@@ -1,6 +1,12 @@
 package org.telegram.telegrambots.meta.api.objects.payments;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 
@@ -10,6 +16,12 @@ import org.telegram.telegrambots.meta.api.objects.PhotoSize;
  *
  * This object contains basic information about an invoice.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Invoice implements BotApiObject {
     private static final String TITLE_FIELD = "title";
     private static final String DESCRIPTION_FIELD = "description";
@@ -26,52 +38,12 @@ public class Invoice implements BotApiObject {
     private String startParameter; ///< Unique bot deep-linking parameter for generation of this invoice
     @JsonProperty(CURRENCY_FIELD)
     private String currency; ///< Three-letter ISO 4217 currency code
-    @JsonProperty(TOTAL_AMOUNT_FIELD)
     /**
      * Total price in the smallest units of the currency (integer, not float/double).
      * For example, for a price of US$ 1.45 pass amount = 145.
      */
+    @JsonProperty(TOTAL_AMOUNT_FIELD)
     private Integer totalAmount; ///< Goods total price in minimal quantity of the currency
     @JsonProperty(PHOTO_FIELD)
     private PhotoSize photo; ///< Optional. Goods photo
-
-    public Invoice() {
-        super();
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getStartParameter() {
-        return startParameter;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public Integer getTotalAmount() {
-        return totalAmount;
-    }
-
-    public PhotoSize getPhoto() {
-        return photo;
-    }
-
-    @Override
-    public String toString() {
-        return "Invoice{" +
-                "title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", startParameter='" + startParameter + '\'' +
-                ", currency='" + currency + '\'' +
-                ", totalAmount=" + totalAmount +
-                ", photo=" + photo +
-                '}';
-    }
 }

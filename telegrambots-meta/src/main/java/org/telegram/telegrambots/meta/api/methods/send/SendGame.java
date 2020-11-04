@@ -19,22 +19,37 @@ package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
-import java.util.Objects;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
  * Use this method to send a game. On success, the sent Message is returned.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SendGame extends BotApiMethod<Message> {
     public static final String PATH = "sendGame";
 
@@ -43,10 +58,13 @@ public class SendGame extends BotApiMethod<Message> {
     private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     private static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
+    private static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
 
     @JsonProperty(CHATID_FIELD)
+    @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     @JsonProperty(GAMESHORTNAME_FIELD)
+    @NonNull
     private String gameShortName; ///< Short name of the game
     @JsonProperty(DISABLENOTIFICATION_FIELD)
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
@@ -54,65 +72,15 @@ public class SendGame extends BotApiMethod<Message> {
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     @JsonProperty(REPLYMARKUP_FIELD)
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
+    private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
 
-    public SendGame() {
-        super();
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public SendGame setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public SendGame setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
-        return this;
-    }
-
-    public Integer getReplyToMessageId() {
-        return replyToMessageId;
-    }
-
-    public SendGame setReplyToMessageId(Integer replyToMessageId) {
-        this.replyToMessageId = replyToMessageId;
-        return this;
-    }
-
-    public ReplyKeyboard getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public SendGame setReplyMarkup(ReplyKeyboard replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
-
-    public Boolean getDisableNotification() {
-        return disableNotification;
-    }
-
-    public SendGame enableNotification() {
+    public void enableNotification() {
         this.disableNotification = null;
-        return this;
     }
 
-    public SendGame disableNotification() {
+    public void disableNotification() {
         this.disableNotification = true;
-        return this;
-    }
-
-    public String getGameShortName() {
-        return gameShortName;
-    }
-
-    public SendGame setGameShortName(String gameShortName) {
-        this.gameShortName = gameShortName;
-        return this;
     }
 
     @Override
@@ -146,16 +114,5 @@ public class SendGame extends BotApiMethod<Message> {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "SendGame{" +
-                "chatId='" + chatId + '\'' +
-                ", gameShortName='" + gameShortName + '\'' +
-                ", disableNotification=" + disableNotification +
-                ", replyToMessageId=" + replyToMessageId +
-                ", replyMarkup=" + replyMarkup +
-                '}';
     }
 }

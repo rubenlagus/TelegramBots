@@ -1,24 +1,34 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief This object represents an incoming callback query from a
+ * This object represents an incoming callback query from a
  * callback button in an inline keyboard.
  * If the button that originated the query was attached to a message sent by the bot,
  * the field message will be present. If the button was attached to a message sent via the bot
  * (in inline mode), the field inline_message_id will be present.
- * @note Exactly one of the fields data or game_short_name will be present.
- * @note  After the user presses an inline button, Telegram clients will display a progress bar
+ * @apiNote  Exactly one of the fields data or game_short_name will be present.
+ * @apiNote   After the user presses an inline button, Telegram clients will display a progress bar
  * until you call answerCallbackQuery. It is, therefore, necessary to react by
  * calling answerCallbackQuery even if no notification to the user is needed
  * (e.g., without specifying any of the optional parameters).
- * @date 10 of April of 2016
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class CallbackQuery implements BotApiObject {
 
     private static final String ID_FIELD = "id";
@@ -37,7 +47,7 @@ public class CallbackQuery implements BotApiObject {
      * Optional.
      * Message with the callback button that originated the query.
      *
-     * @note The message content and message date will not be available if the message is too old
+     * @apiNote  The message content and message date will not be available if the message is too old
      */
     @JsonProperty(MESSAGE_FIELD)
     private Message message;
@@ -46,7 +56,7 @@ public class CallbackQuery implements BotApiObject {
     /**
      *
      * Optional. Data associated with the callback button.
-     * @note Be aware that a bad client can send arbitrary data in this field
+     * @apiNote  Be aware that a bad client can send arbitrary data in this field
      */
     @JsonProperty(DATA_FIELD)
     private String data;
@@ -61,49 +71,4 @@ public class CallbackQuery implements BotApiObject {
      */
     @JsonProperty(CHAT_INSTANCE_FIELD)
     private String chatInstance;
-
-    public CallbackQuery() {
-        super();
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public User getFrom() {
-        return this.from;
-    }
-
-    public Message getMessage() {
-        return this.message;
-    }
-
-    public String getInlineMessageId() {
-        return this.inlineMessageId;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public String getGameShortName() {
-        return gameShortName;
-    }
-
-    public String getChatInstance() {
-        return chatInstance;
-    }
-
-    @Override
-    public String toString() {
-        return "CallbackQuery{" +
-                "id='" + id + '\'' +
-                ", from=" + from +
-                ", message=" + message +
-                ", inlineMessageId='" + inlineMessageId + '\'' +
-                ", data='" + data + '\'' +
-                ", gameShortName='" + gameShortName + '\'' +
-                ", chatInstance='" + chatInstance + '\'' +
-                '}';
-    }
 }

@@ -1,17 +1,21 @@
 package org.telegram.telegrambots.meta.api.methods.stickers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
@@ -19,6 +23,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Use this method to set the thumbnail of a sticker set. Animated thumbnails can be set for animated sticker sets only.
  * Returns True on success.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SetStickerSetThumb extends BotApiMethod<Boolean> {
     private static final String PATH = "setStickerSetThumb";
 
@@ -26,7 +37,9 @@ public class SetStickerSetThumb extends BotApiMethod<Boolean> {
     public static final String USERID_FIELD = "user_id";
     public static final String THUMB_FIELD = "thumb";
 
+    @NonNull
     private String name; ///< Sticker set name
+    @NonNull
     private Integer userId; ///< User identifier of the sticker set owner
     /**
      * A PNG image with the thumbnail, must be up to 128 kilobytes in size and have width and height exactly 100px,
@@ -36,57 +49,8 @@ public class SetStickerSetThumb extends BotApiMethod<Boolean> {
      * String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data.
      * Animated sticker set thumbnail can't be uploaded via HTTP URL.
      */
+    @NonNull
     private InputFile thumb;
-
-    public SetStickerSetThumb() {
-        super();
-    }
-
-    public SetStickerSetThumb(String name, Integer userId, InputFile thumb) {
-        this.name = name;
-        this.userId = userId;
-        this.thumb = thumb;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public InputFile getThumb() {
-        return thumb;
-    }
-
-    public SetStickerSetThumb setThumb(String thumb) {
-        this.thumb = new InputFile(thumb);
-        return this;
-    }
-
-    public SetStickerSetThumb setThumb(InputFile thumb) {
-        this.thumb = thumb;
-        return this;
-    }
-
-    public SetStickerSetThumb setThumb(File thumbFile) {
-        this.thumb =  new InputFile(checkNotNull(thumbFile), thumbFile.getName());;
-        return this;
-    }
-
-    public SetStickerSetThumb setThumb(String thumbName, InputStream thumbStream) {
-        this.thumb = new InputFile(checkNotNull(thumbStream), checkNotNull(thumbName));
-        return this;
-    }
 
     @Override
     public String getMethod() {
@@ -120,14 +84,5 @@ public class SetStickerSetThumb extends BotApiMethod<Boolean> {
             throw new TelegramApiValidationException("thumb can't be null", this);
         }
         thumb.validate();
-    }
-
-    @Override
-    public String toString() {
-        return "SetStickerSetThumb{" +
-                "name='" + name + '\'' +
-                ", userId=" + userId +
-                ", thumb=" + thumb +
-                '}';
     }
 }

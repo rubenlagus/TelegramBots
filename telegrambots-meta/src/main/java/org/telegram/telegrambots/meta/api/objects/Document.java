@@ -1,15 +1,26 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief This object represents a general file (as opposed to photos and audio files).
+ * This object represents a general file (as opposed to photos and audio files).
  * Telegram users can send files of any type of up to 1.5 GB in size.
- * @date 20 of June of 2015
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Document implements BotApiObject {
 
     private static final String FILEID_FIELD = "file_id";
@@ -35,44 +46,4 @@ public class Document implements BotApiObject {
     private String mimeType; ///< Optional. Mime type of a file as defined by sender
     @JsonProperty(FILESIZE_FIELD)
     private Integer fileSize; ///< Optional. File size
-
-    public Document() {
-        super();
-    }
-
-    public String getFileId() {
-        return fileId;
-    }
-
-    public PhotoSize getThumb() {
-        return thumb;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public String getMimeType() {
-        return mimeType;
-    }
-
-    public Integer getFileSize() {
-        return fileSize;
-    }
-
-    public String getFileUniqueId() {
-        return fileUniqueId;
-    }
-
-    @Override
-    public String toString() {
-        return "Document{" +
-                "fileId='" + fileId + '\'' +
-                ", thumb=" + thumb +
-                ", fileName='" + fileName + '\'' +
-                ", mimeType='" + mimeType + '\'' +
-                ", fileSize=" + fileSize +
-                ", fileUniqueId=" + fileUniqueId +
-                '}';
-    }
 }

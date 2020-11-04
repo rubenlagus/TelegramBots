@@ -1,6 +1,12 @@
 package org.telegram.telegrambots.meta.api.methods.commands;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
@@ -17,12 +23,14 @@ import java.util.ArrayList;
  * Requires no parameters.
  * Returns Array of BotCommand on success.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@Builder
 public class GetMyCommands extends BotApiMethod<ArrayList<BotCommand>> {
     public static final String PATH = "getMyCommands";
-
-    public GetMyCommands() {
-        super();
-    }
 
     @Override
     public String getMethod() {
@@ -46,10 +54,5 @@ public class GetMyCommands extends BotApiMethod<ArrayList<BotCommand>> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-    }
-
-    @Override
-    public String toString() {
-        return "GetMyCommands{}";
     }
 }

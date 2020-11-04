@@ -3,24 +3,41 @@ package org.telegram.telegrambots.meta.api.methods.send;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
-import java.util.Objects;
-
-import static com.google.common.base.Preconditions.checkNotNull;
+import java.util.List;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
  * Use this method to send text messages. On success, the sent Message is returned.
  */
+@SuppressWarnings("unused")
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SendMessage extends BotApiMethod<Message> {
     public static final String PATH = "sendmessage";
 
@@ -31,10 +48,14 @@ public class SendMessage extends BotApiMethod<Message> {
     private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     private static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
+    private static final String ENTITIES_FIELD = "entities";
+    private static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
 
     @JsonProperty(CHATID_FIELD)
+    @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     @JsonProperty(TEXT_FIELD)
+    @NonNull
     private String text; ///< Text of the message to be sent
     @JsonProperty(PARSEMODE_FIELD)
     private String parseMode; ///< Optional. Send Markdown, if you want Telegram apps to show bold, italic and URL text in your bot's message.
@@ -47,121 +68,49 @@ public class SendMessage extends BotApiMethod<Message> {
     @JsonProperty(REPLYMARKUP_FIELD)
     @JsonDeserialize()
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    @JsonProperty(ENTITIES_FIELD)
+    private List<MessageEntity> entities; ///< Optional. List of special entities that appear in message text, which can be specified instead of parse_mode
+    @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
+    private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
 
-    public SendMessage() {
-        super();
-    }
-
-    public SendMessage(String chatId, String text) {
-        this.chatId = checkNotNull(chatId);
-        this.text = checkNotNull(text);
-    }
-
-    public SendMessage(Long chatId, String text) {
-        this.chatId = checkNotNull(chatId).toString();
-        this.text = checkNotNull(text);
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public SendMessage setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public SendMessage setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
-        return this;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public SendMessage setText(String text) {
-        this.text = text;
-        return this;
-    }
-
-    public Integer getReplyToMessageId() {
-        return replyToMessageId;
-    }
-
-    public SendMessage setReplyToMessageId(Integer replyToMessageId) {
-        this.replyToMessageId = replyToMessageId;
-        return this;
-    }
-
-    public ReplyKeyboard getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public SendMessage setReplyMarkup(ReplyKeyboard replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
-
-    public Boolean getDisableWebPagePreview() {
-        return disableWebPagePreview;
-    }
-
-    public Boolean getDisableNotification() {
-        return disableNotification;
-    }
-
-    public SendMessage disableWebPagePreview() {
+    public void disableWebPagePreview() {
         disableWebPagePreview = true;
-        return this;
     }
 
-    public SendMessage enableWebPagePreview() {
+    public void enableWebPagePreview() {
         disableWebPagePreview = null;
-        return this;
     }
 
-    public SendMessage enableNotification() {
+    public void enableNotification() {
         this.disableNotification = null;
-        return this;
     }
 
-    public SendMessage disableNotification() {
+    public void disableNotification() {
         this.disableNotification = true;
-        return this;
     }
 
-    public SendMessage setParseMode(String parseMode) {
-        this.parseMode = parseMode;
-        return this;
-    }
-
-    public SendMessage enableMarkdown(boolean enable) {
+    public void enableMarkdown(boolean enable) {
         if (enable) {
             this.parseMode = ParseMode.MARKDOWN;
         } else {
             this.parseMode = null;
         }
-        return this;
     }
 
-    public SendMessage enableHtml(boolean enable) {
+    public void enableHtml(boolean enable) {
         if (enable) {
             this.parseMode = ParseMode.HTML;
         } else {
             this.parseMode = null;
         }
-        return this;
     }
 
-    public SendMessage enableMarkdownV2(boolean enable) {
+    public void enableMarkdownV2(boolean enable) {
         if (enable) {
             this.parseMode = ParseMode.MARKDOWNV2;
         } else {
             this.parseMode = null;
         }
-        return this;
     }
 
     @Override
@@ -192,50 +141,11 @@ public class SendMessage extends BotApiMethod<Message> {
         if (text == null || text.isEmpty()) {
             throw new TelegramApiValidationException("Text parameter can't be empty", this);
         }
+        if (parseMode != null && (entities != null && !entities.isEmpty()) ) {
+            throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
+        }
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == this) return true;
-        if (!(o instanceof SendMessage)) {
-            return false;
-        }
-        SendMessage sendMessage = (SendMessage) o;
-        return Objects.equals(chatId, sendMessage.chatId)
-                && Objects.equals(disableNotification, sendMessage.disableNotification)
-                && Objects.equals(disableWebPagePreview, sendMessage.disableWebPagePreview)
-                && Objects.equals(parseMode, sendMessage.parseMode)
-                && Objects.equals(replyMarkup, sendMessage.replyMarkup)
-                && Objects.equals(replyToMessageId, sendMessage.replyToMessageId)
-                && Objects.equals(text, sendMessage.text)
-                ;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(
-                chatId,
-                disableNotification,
-                disableWebPagePreview,
-                parseMode,
-                replyMarkup,
-                replyToMessageId,
-                text);
-    }
-
-    @Override
-    public String toString() {
-        return "SendMessage{" +
-                "chatId='" + chatId + '\'' +
-                ", text='" + text + '\'' +
-                ", parseMode='" + parseMode + '\'' +
-                ", disableNotification='" + disableNotification + '\'' +
-                ", disableWebPagePreview=" + disableWebPagePreview +
-                ", replyToMessageId=" + replyToMessageId +
-                ", replyMarkup=" + replyMarkup +
-                '}';
     }
 }

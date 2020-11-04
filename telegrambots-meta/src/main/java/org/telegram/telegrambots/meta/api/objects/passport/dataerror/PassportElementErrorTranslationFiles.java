@@ -2,12 +2,18 @@ package org.telegram.telegrambots.meta.api.objects.passport.dataerror;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.Singular;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
@@ -17,6 +23,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * The error is considered resolved when a file with the document translation change.
  */
 @JsonDeserialize
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PassportElementErrorTranslationFiles implements PassportElementError {
     private static final String SOURCE_FIELD = "source";
     private static final String TYPE_FIELD = "type";
@@ -31,62 +44,15 @@ public class PassportElementErrorTranslationFiles implements PassportElementErro
      * “passport_registration”, “temporary_registration”
      */
     @JsonProperty(TYPE_FIELD)
+    @NonNull
     private String type;
     @JsonProperty(FILEHASHES_FIELD)
+    @NonNull
+    @Singular
     private List<String> fileHashes; ///< List of base64-encoded file hashes
     @JsonProperty(MESSAGE_FIELD)
+    @NonNull
     private String message; ///< Error message
-
-    public PassportElementErrorTranslationFiles() {
-        super();
-    }
-
-    public PassportElementErrorTranslationFiles(String type, List<String> fileHashes, String message) {
-        super();
-        this.type = checkNotNull(type);
-        this.fileHashes = checkNotNull(fileHashes);
-        this.message = checkNotNull(message);
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public PassportElementErrorTranslationFiles setType(String type) {
-        this.type = checkNotNull(type);
-        return this;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public List<String> getFileHashes() {
-        return fileHashes;
-    }
-
-    public PassportElementErrorTranslationFiles setFileHashes(List<String> fileHashes) {
-        this.fileHashes = checkNotNull(fileHashes);
-        return this;
-    }
-
-    public PassportElementErrorTranslationFiles addFileHash(String fileHash) {
-        fileHash = checkNotNull(fileHash);
-        if (fileHashes == null) {
-            fileHashes = new ArrayList<>();
-        }
-        fileHashes.add(fileHash);
-        return this;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public PassportElementErrorTranslationFiles setMessage(String message) {
-        this.message = checkNotNull(message);
-        return this;
-    }
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -99,15 +65,5 @@ public class PassportElementErrorTranslationFiles implements PassportElementErro
         if (type == null || type.isEmpty()) {
             throw new TelegramApiValidationException("Type parameter can't be empty", this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "PassportElementErrorTranslationFiles{" +
-                "source='" + source + '\'' +
-                ", type='" + type + '\'' +
-                ", fileHashes=" + fileHashes +
-                ", message='" + message + '\'' +
-                '}';
     }
 }

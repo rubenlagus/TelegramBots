@@ -3,9 +3,22 @@ package org.telegram.telegrambots.meta.api.objects.inlinequery.result;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.Singular;
+import lombok.ToString;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+
+import java.util.List;
 
 /**
  * @author Ruben Bermudez
@@ -15,6 +28,14 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * use input_message_content to send a message with the specified content instead of the animation.
  */
 @JsonDeserialize
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
 
     private static final String TYPE_FIELD = "type";
@@ -29,12 +50,15 @@ public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String MPEG4_DURATION_FIELD = "mpeg4_duration";
     private static final String PARSEMODE_FIELD = "parse_mode";
+    private static final String CAPTION_ENTITIES_FIELD = "caption_entities";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "mpeg4_gif"; ///< Type of the result, must be "mpeg4_gif"
     @JsonProperty(ID_FIELD)
+    @NonNull
     private String id; ///< Unique identifier of this result, 1-64 bytes
     @JsonProperty(MPEG4URL_FIELD)
+    @NonNull
     private String mpeg4Url; ///< A valid URL for the MP4 file. File size must not exceed 1MB
     @JsonProperty(MPEG4WIDTH_FIELD)
     private Integer mpeg4Width; ///< Optional. Video width
@@ -53,114 +77,10 @@ public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
     @JsonProperty(MPEG4_DURATION_FIELD)
     private Integer mpeg4Duration; ///< Optional. Video duration
     @JsonProperty(PARSEMODE_FIELD)
-    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
-
-    public InlineQueryResultMpeg4Gif() {
-        super();
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public InlineQueryResultMpeg4Gif setId(String id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getMpeg4Url() {
-        return mpeg4Url;
-    }
-
-    public InlineQueryResultMpeg4Gif setMpeg4Url(String mpeg4Url) {
-        this.mpeg4Url = mpeg4Url;
-        return this;
-    }
-
-    public Integer getMpeg4Width() {
-        return mpeg4Width;
-    }
-
-    public InlineQueryResultMpeg4Gif setMpeg4Width(Integer mpeg4Width) {
-        this.mpeg4Width = mpeg4Width;
-        return this;
-    }
-
-    public Integer getMpeg4Height() {
-        return mpeg4Height;
-    }
-
-    public InlineQueryResultMpeg4Gif setMpeg4Height(Integer mpeg4Height) {
-        this.mpeg4Height = mpeg4Height;
-        return this;
-    }
-
-    public String getThumbUrl() {
-        return thumbUrl;
-    }
-
-    public InlineQueryResultMpeg4Gif setThumbUrl(String thumbUrl) {
-        this.thumbUrl = thumbUrl;
-        return this;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public InlineQueryResultMpeg4Gif setTitle(String title) {
-        this.title = title;
-        return this;
-    }
-
-    public String getCaption() {
-        return caption;
-    }
-
-    public InlineQueryResultMpeg4Gif setCaption(String caption) {
-        this.caption = caption;
-        return this;
-    }
-
-    public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
-    }
-
-    public InlineQueryResultMpeg4Gif setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
-        return this;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public InlineQueryResultMpeg4Gif setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
-
-    public Integer getMpeg4Duration() {
-        return mpeg4Duration;
-    }
-
-    public InlineQueryResultMpeg4Gif setMpeg4Duration(Integer mpeg4Duration) {
-        this.mpeg4Duration = mpeg4Duration;
-        return this;
-    }
-
-    public String getParseMode() {
-        return parseMode;
-    }
-
-    public InlineQueryResultMpeg4Gif setParseMode(String parseMode) {
-        this.parseMode = parseMode;
-        return this;
-    }
+    private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+    @JsonProperty(CAPTION_ENTITIES_FIELD)
+    @Singular
+    private List<MessageEntity> captionEntities; ///< Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -170,29 +90,14 @@ public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
         if (mpeg4Url == null || mpeg4Url.isEmpty()) {
             throw new TelegramApiValidationException("Mpeg4Url parameter can't be empty", this);
         }
+        if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
+            throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
+        }
         if (inputMessageContent != null) {
             inputMessageContent.validate();
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "InlineQueryResultMpeg4Gif{" +
-                "type='" + type + '\'' +
-                ", id='" + id + '\'' +
-                ", mpeg4Url='" + mpeg4Url + '\'' +
-                ", mpeg4Width=" + mpeg4Width +
-                ", mpeg4Height=" + mpeg4Height +
-                ", thumbUrl='" + thumbUrl + '\'' +
-                ", title='" + title + '\'' +
-                ", caption='" + caption + '\'' +
-                ", inputMessageContent=" + inputMessageContent +
-                ", replyMarkup=" + replyMarkup +
-                ", mpeg4Duration=" + mpeg4Duration +
-                ", parseMode='" + parseMode + '\'' +
-                '}';
     }
 }

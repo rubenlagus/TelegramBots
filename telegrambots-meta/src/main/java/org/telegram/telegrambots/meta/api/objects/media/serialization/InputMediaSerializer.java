@@ -4,7 +4,12 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
-import org.telegram.telegrambots.meta.api.objects.media.*;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
+import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaAnimation;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaAudio;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaDocument;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaVideo;
 
 import java.io.IOException;
 
@@ -25,6 +30,13 @@ public class InputMediaSerializer extends JsonSerializer<InputMedia> {
         }
         if (value.getParseMode() != null) {
             gen.writeStringField(InputMedia.PARSEMODE_FIELD, value.getParseMode());
+        }
+        if (value.getEntities() != null) {
+            gen.writeArrayFieldStart(InputMedia.ENTITIES_FIELD);
+            for (MessageEntity entity : value.getEntities()) {
+                gen.writeObject(entity);
+            }
+            gen.writeEndArray();
         }
 
         if (value instanceof InputMediaAudio) {

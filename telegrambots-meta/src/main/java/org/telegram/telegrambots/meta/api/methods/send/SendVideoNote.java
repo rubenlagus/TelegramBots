@@ -1,20 +1,24 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Objects;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
@@ -23,6 +27,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Use this method to send video messages. On success, the sent Message is returned.
  */
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SendVideoNote extends PartialBotApiMethod<Message> {
     public static final String PATH = "sendvideonote";
 
@@ -34,8 +46,11 @@ public class SendVideoNote extends PartialBotApiMethod<Message> {
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     public static final String REPLYMARKUP_FIELD = "reply_markup";
     public static final String THUMB_FIELD = "thumb";
+    public static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
 
+    @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
+    @NonNull
     private InputFile videoNote; ///< Videonote to send. file_id as String to resend a video that is already on the Telegram servers.
     private Integer duration; ///< Optional. Duration of sent video in seconds
     private Integer length; ///< Optional. Video width and height
@@ -50,174 +65,14 @@ public class SendVideoNote extends PartialBotApiMethod<Message> {
      * if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
      */
     private InputFile thumb;
+    private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
 
-    public SendVideoNote() {
-        super();
-    }
-
-    /**
-     * Creates a new video note with a video already present in telegram servers
-     * @param chatId Chat Id to send the video note
-     * @param videoNote Video note file_id to send
-     */
-    public SendVideoNote(String chatId, String videoNote) {
-        this.chatId = checkNotNull(chatId);
-        this.setVideoNote(checkNotNull(videoNote));
-    }
-
-    /**
-     * Creates a new video note with a video already present in telegram servers
-     * @param chatId Chat Id to send the video note
-     * @param videoNote Video note file_id to send
-     */
-    public SendVideoNote(Long chatId, String videoNote) {
-
-        this.chatId = checkNotNull(chatId).toString();
-        this.setVideoNote(checkNotNull(videoNote));
-    }
-
-    /**
-     * Creates a new video note with a new video note
-     * @param chatId Chat Id to send the video note
-     * @param videoNote Video note file to upload
-     */
-    public SendVideoNote(String chatId, File videoNote) {
-        this.chatId = checkNotNull(chatId);
-        this.setVideoNote(videoNote);
-    }
-
-    /**
-     * Creates a new video note with a video already present in telegram servers
-     * @param chatId Chat Id to send the video note
-     * @param videoNote Video note file to upload
-     */
-    public SendVideoNote(Integer chatId, File videoNote) {
-        this.chatId = checkNotNull(chatId).toString();
-        this.setVideoNote(videoNote);
-    }
-
-    /**
-     * Creates a new video note with a new video note
-     * @param chatId Chat Id to send the video note
-     * @param videoNoteName Name of the video note file
-     * @param videoNote Video note file to upload
-     */
-    public SendVideoNote(String chatId, String videoNoteName, InputStream videoNote) {
-        this.chatId = checkNotNull(chatId);
-        this.setVideoNote(videoNoteName, videoNote);
-    }
-
-    /**
-     * Creates a new video note with a video already present in telegram servers
-     * @param chatId Chat Id to send the video note
-     * @param videoNoteName Name of the video note file
-     * @param videoNote Video note file to upload
-     */
-    public SendVideoNote(Integer chatId, String videoNoteName, InputStream videoNote) {
-        this.chatId = checkNotNull(chatId).toString();
-        this.setVideoNote(videoNoteName, videoNote);
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public SendVideoNote setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public InputFile getVideoNote() {
-        return videoNote;
-    }
-
-    public SendVideoNote setVideoNote(String videoNote) {
-        this.videoNote = new InputFile(videoNote);
-        return this;
-    }
-
-    public Integer getLength() {
-        return length;
-    }
-
-    public SendVideoNote setLength(Integer length) {
-        this.length = length;
-        return this;
-    }
-
-    public SendVideoNote setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
-        return this;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public SendVideoNote setDuration(Integer duration) {
-        this.duration = duration;
-        return this;
-    }
-
-    public Integer getReplyToMessageId() {
-        return replyToMessageId;
-    }
-
-    public SendVideoNote setReplyToMessageId(Integer replyToMessageId) {
-        this.replyToMessageId = replyToMessageId;
-        return this;
-    }
-
-    public ReplyKeyboard getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public SendVideoNote setReplyMarkup(ReplyKeyboard replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
-
-    public Boolean getDisableNotification() {
-        return disableNotification;
-    }
-
-    public SendVideoNote enableNotification() {
+    public void enableNotification() {
         this.disableNotification = false;
-        return this;
     }
 
-    public SendVideoNote disableNotification() {
+    public void disableNotification() {
         this.disableNotification = true;
-        return this;
-    }
-
-    public SendVideoNote setVideoNote(InputFile videoNote) {
-        Objects.requireNonNull(videoNote, "videoNote cannot be null!");
-        this.videoNote = videoNote;
-        return this;
-    }
-
-    public SendVideoNote setVideoNote(File file) {
-        Objects.requireNonNull(file, "file cannot be null!");
-        this.videoNote = new InputFile(file, file.getName());
-        return this;
-    }
-
-    public SendVideoNote setVideoNote(String videoName, InputStream inputStream) {
-    	Objects.requireNonNull(videoName, "videoName cannot be null!");
-    	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
-    	this.videoNote = new InputFile(inputStream, videoName);
-        return this;
-    }
-
-    public InputFile getThumb() {
-        return thumb;
-    }
-
-    public SendVideoNote setThumb(InputFile thumb) {
-        this.thumb = thumb;
-        return this;
     }
 
     @Override
@@ -253,19 +108,5 @@ public class SendVideoNote extends PartialBotApiMethod<Message> {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "SendVideoNote{" +
-                "chatId='" + chatId + '\'' +
-                ", videoNote=" + videoNote +
-                ", duration=" + duration +
-                ", length=" + length +
-                ", disableNotification=" + disableNotification +
-                ", replyToMessageId=" + replyToMessageId +
-                ", replyMarkup=" + replyMarkup +
-                ", thumb=" + thumb +
-                '}';
     }
 }

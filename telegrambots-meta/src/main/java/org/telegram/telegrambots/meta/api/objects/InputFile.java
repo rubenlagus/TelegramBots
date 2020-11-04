@@ -2,7 +2,11 @@ package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.telegram.telegrambots.meta.api.interfaces.InputBotApiObject;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -17,7 +21,11 @@ import java.io.InputStream;
  */
 @SuppressWarnings({"WeakerAccess", "UnusedReturnValue"})
 @JsonSerialize(using = InputFileSerializer.class, as = String.class)
-public class InputFile implements InputBotApiObject, Validable {
+@EqualsAndHashCode(callSuper = false)
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+public class InputFile implements Validable, BotApiObject {
 
     private String attachName;
 
@@ -30,13 +38,19 @@ public class InputFile implements InputBotApiObject, Validable {
     @JsonIgnore
     private boolean isNew; ///< True if the file is new, false if it is a file_id
 
-    public InputFile() {
-        super();
-    }
-
     public InputFile(String attachName) {
         this();
         setMedia(attachName);
+    }
+
+    /**
+     * Constructor to set a new file
+     *
+     * @param mediaFile File to send
+     */
+    public InputFile(File mediaFile) {
+        this();
+        setMedia(mediaFile, mediaFile.getName());
     }
 
     /**
@@ -71,6 +85,19 @@ public class InputFile implements InputBotApiObject, Validable {
         this.newMediaFile = mediaFile;
         this.mediaName = fileName;
         this.attachName = "attach://" + fileName;
+        this.isNew = true;
+        return this;
+    }
+
+    /**
+     * Use this setter to send new file.
+     * @param mediaFile File to send
+     * @return This object
+     */
+    public InputFile setMedia(File mediaFile) {
+        this.newMediaFile = mediaFile;
+        this.mediaName = mediaFile.getName();
+        this.attachName = "attach://" + mediaFile.getName();
         this.isNew = true;
         return this;
     }

@@ -2,16 +2,25 @@ package org.telegram.telegrambots.meta.api.methods.updatingmessages;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.Singular;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author Ruben Bermudez
@@ -19,6 +28,13 @@ import java.io.Serializable;
  * Use this method to edit captions of messages.
  * On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class EditMessageCaption extends BotApiMethod<Serializable> {
     public static final String PATH = "editmessagecaption";
 
@@ -28,6 +44,7 @@ public class EditMessageCaption extends BotApiMethod<Serializable> {
     private static final String CAPTION_FIELD = "caption";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
     private static final String PARSEMODE_FIELD = "parse_mode";
+    private static final String CAPTION_ENTITIES_FIELD = "caption_entities";
 
     /**
      * Required if inline_message_id is not specified. Unique identifier for the chat to send the
@@ -50,65 +67,10 @@ public class EditMessageCaption extends BotApiMethod<Serializable> {
     @JsonProperty(REPLYMARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. A JSON-serialized object for an inline keyboard.
     @JsonProperty(PARSEMODE_FIELD)
-    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
-
-    public EditMessageCaption() {
-        super();
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public EditMessageCaption setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public Integer getMessageId() {
-        return messageId;
-    }
-
-    public EditMessageCaption setMessageId(Integer messageId) {
-        this.messageId = messageId;
-        return this;
-    }
-
-    public String getInlineMessageId() {
-        return inlineMessageId;
-    }
-
-    public EditMessageCaption setInlineMessageId(String inlineMessageId) {
-        this.inlineMessageId = inlineMessageId;
-        return this;
-    }
-
-    public String getCaption() {
-        return caption;
-    }
-
-    public EditMessageCaption setCaption(String caption) {
-        this.caption = caption;
-        return this;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public EditMessageCaption setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
-
-    public String getParseMode() {
-        return parseMode;
-    }
-
-    public EditMessageCaption setParseMode(String parseMode) {
-        this.parseMode = parseMode;
-        return this;
-    }
+    private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+    @JsonProperty(CAPTION_ENTITIES_FIELD)
+    @Singular
+    private List<MessageEntity> captionEntities; ///< Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
 
     @Override
     public String getMethod() {
@@ -158,20 +120,11 @@ public class EditMessageCaption extends BotApiMethod<Serializable> {
                 throw new TelegramApiValidationException("MessageId parameter must be empty if inlineMessageId is provided", this);
             }
         }
+        if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
+            throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
+        }
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "EditMessageCaption{" +
-                "chatId='" + chatId + '\'' +
-                ", messageId=" + messageId +
-                ", inlineMessageId='" + inlineMessageId + '\'' +
-                ", caption='" + caption + '\'' +
-                ", replyMarkup=" + replyMarkup +
-                ", parseMode='" + parseMode + '\'' +
-                '}';
     }
 }

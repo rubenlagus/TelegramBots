@@ -3,6 +3,17 @@ package org.telegram.telegrambots.meta.api.objects.inlinequery.result.cached;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.Singular;
+import lombok.ToString;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResult;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -20,6 +31,14 @@ import java.util.List;
  * input_message_content to send a message with specified content instead of the animation.
  */
 @JsonDeserialize
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class InlineQueryResultCachedGif implements InlineQueryResult {
     private static final List<String> VALIDTHUMBTYPES = Collections.unmodifiableList(Arrays.asList("image/jpeg", "image/gif", "video/mp4"));
 
@@ -33,12 +52,15 @@ public class InlineQueryResultCachedGif implements InlineQueryResult {
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String PARSEMODE_FIELD = "parse_mode";
+    private static final String CAPTION_ENTITIES_FIELD = "caption_entities";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "gif"; ///< Type of the result, must be "gif"
     @JsonProperty(ID_FIELD)
+    @NonNull
     private String id; ///< Unique identifier of this result, 1-64 bytes
     @JsonProperty(GIF_FILE_ID_FIELD)
+    @NonNull
     private String gifFileId; ///< A valid file identifier for the GIF file
     @JsonProperty(TITLE_FIELD)
     private String title; ///< Optional. Title for the result
@@ -49,100 +71,14 @@ public class InlineQueryResultCachedGif implements InlineQueryResult {
     @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
     @JsonProperty(PARSEMODE_FIELD)
-    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+    private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
     @JsonProperty(THUMBURL_FIELD)
     private String thumbUrl; ///< Optional. URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result
     @JsonProperty(THUMBMIMETYPE_FIELD)
     private String thumbUrlType;
-
-    public InlineQueryResultCachedGif() {
-        super();
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public InlineQueryResultCachedGif setId(String id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getGifFileId() {
-        return gifFileId;
-    }
-
-    public InlineQueryResultCachedGif setGifFileId(String gifFileId) {
-        this.gifFileId = gifFileId;
-        return this;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public InlineQueryResultCachedGif setTitle(String title) {
-        this.title = title;
-        return this;
-    }
-
-    public String getCaption() {
-        return caption;
-    }
-
-    public InlineQueryResultCachedGif setCaption(String caption) {
-        this.caption = caption;
-        return this;
-    }
-
-    public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
-    }
-
-    public InlineQueryResultCachedGif setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
-        return this;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public InlineQueryResultCachedGif setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
-
-    public String getParseMode() {
-        return parseMode;
-    }
-
-    public InlineQueryResultCachedGif setParseMode(String parseMode) {
-        this.parseMode = parseMode;
-        return this;
-    }
-
-    public String getThumbUrl() {
-        return thumbUrl;
-    }
-
-    public InlineQueryResultCachedGif setThumbUrl(String thumbUrl) {
-        this.thumbUrl = thumbUrl;
-        return this;
-    }
-
-    public String getThumbUrlType() {
-        return thumbUrlType;
-    }
-
-    public InlineQueryResultCachedGif setThumbUrlType(String thumbUrlType) {
-        this.thumbUrlType = thumbUrlType;
-        return this;
-    }
+    @JsonProperty(CAPTION_ENTITIES_FIELD)
+    @Singular
+    private List<MessageEntity> captionEntities; ///< Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -155,27 +91,14 @@ public class InlineQueryResultCachedGif implements InlineQueryResult {
         if (thumbUrlType != null && !VALIDTHUMBTYPES.contains(thumbUrlType)) {
             throw new TelegramApiValidationException("ThumbUrlType parameter must be one of “image/jpeg”, “image/gif”, or “video/mp4”", this);
         }
+        if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
+            throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
+        }
         if (inputMessageContent != null) {
             inputMessageContent.validate();
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "InlineQueryResultCachedGif{" +
-                "type='" + type + '\'' +
-                ", id='" + id + '\'' +
-                ", gifFileId='" + gifFileId + '\'' +
-                ", title='" + title + '\'' +
-                ", caption='" + caption + '\'' +
-                ", inputMessageContent=" + inputMessageContent +
-                ", replyMarkup=" + replyMarkup +
-                ", parseMode='" + parseMode + '\'' +
-                ", thumbUrl='" + thumbUrl + '\'' +
-                ", thumbUrlType='" + thumbUrlType + '\'' +
-                '}';
     }
 }

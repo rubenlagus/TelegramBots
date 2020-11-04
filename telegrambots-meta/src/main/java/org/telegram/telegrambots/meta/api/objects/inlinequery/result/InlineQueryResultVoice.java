@@ -3,9 +3,22 @@ package org.telegram.telegrambots.meta.api.objects.inlinequery.result;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.Singular;
+import lombok.ToString;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+
+import java.util.List;
 
 /**
  * @author Ruben Bermudez
@@ -13,10 +26,18 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * Represents a link to a voice recording in an .ogg container encoded with OPUS. By default,
  * this voice recording will be sent by the user. Alternatively, you can use input_message_content
  * to send a message with the specified content instead of the the voice message.
- * @note This will only work in Telegram versions released after 9 April, 2016. Older clients will
+ * @apiNote This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * ignore them.
  */
 @JsonDeserialize
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class InlineQueryResultVoice implements InlineQueryResult {
     private static final String TYPE_FIELD = "type";
     private static final String ID_FIELD = "id";
@@ -27,14 +48,18 @@ public class InlineQueryResultVoice implements InlineQueryResult {
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String CAPTION_FIELD = "caption";
     private static final String PARSEMODE_FIELD = "parse_mode";
+    private static final String CAPTION_ENTITIES_FIELD = "caption_entities";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "voice"; ///< Type of the result, must be "voice"
     @JsonProperty(ID_FIELD)
+    @NonNull
     private String id; ///< Unique identifier of this result, 1-64 bytes
     @JsonProperty(VOICEURL_FIELD)
+    @NonNull
     private String voiceUrl; ///< A valid URL for the voice recording
     @JsonProperty(TITLE_FIELD)
+    @NonNull
     private String title; ///< Recording title
     @JsonProperty(VOICE_DURATION_FIELD)
     private Integer voiceDuration; ///< Optional. Recording duration in seconds
@@ -45,78 +70,10 @@ public class InlineQueryResultVoice implements InlineQueryResult {
     @JsonProperty(CAPTION_FIELD)
     private String caption; ///< Optional. Voice caption (may also be used when resending documents by file_id), 0-200 characters
     @JsonProperty(PARSEMODE_FIELD)
-    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
-
-    public InlineQueryResultVoice() {
-        super();
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public InlineQueryResultVoice setId(String id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getVoiceUrl() {
-        return voiceUrl;
-    }
-
-    public InlineQueryResultVoice setVoiceUrl(String voiceUrl) {
-        this.voiceUrl = voiceUrl;
-        return this;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public InlineQueryResultVoice setTitle(String title) {
-        this.title = title;
-        return this;
-    }
-
-    public Integer getVoiceDuration() {
-        return voiceDuration;
-    }
-
-    public InlineQueryResultVoice setVoiceDuration(Integer voiceDuration) {
-        this.voiceDuration = voiceDuration;
-        return this;
-    }
-
-    public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
-    }
-
-    public InlineQueryResultVoice setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
-        return this;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public InlineQueryResultVoice setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
-
-    public String getCaption() {
-        return caption;
-    }
-
-    public InlineQueryResultVoice setCaption(String caption) {
-        this.caption = caption;
-        return this;
-    }
+    private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+    @JsonProperty(CAPTION_ENTITIES_FIELD)
+    @Singular
+    private List<MessageEntity> captionEntities; ///< Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -126,26 +83,14 @@ public class InlineQueryResultVoice implements InlineQueryResult {
         if (voiceUrl == null || voiceUrl.isEmpty()) {
             throw new TelegramApiValidationException("VoiceUrl parameter can't be empty", this);
         }
+        if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
+            throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
+        }
         if (inputMessageContent != null) {
             inputMessageContent.validate();
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "InlineQueryResultVoice{" +
-                "type='" + type + '\'' +
-                ", id='" + id + '\'' +
-                ", voiceUrl='" + voiceUrl + '\'' +
-                ", title='" + title + '\'' +
-                ", voiceDuration=" + voiceDuration +
-                ", inputMessageContent=" + inputMessageContent +
-                ", replyMarkup=" + replyMarkup +
-                ", caption='" + caption + '\'' +
-                ", parseMode='" + parseMode + '\'' +
-                '}';
     }
 }

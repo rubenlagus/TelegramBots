@@ -258,7 +258,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     }
 
     public boolean isGroupAdmin(long chatId, int id) {
-        GetChatAdministrators admins = new GetChatAdministrators().setChatId(chatId);
+        GetChatAdministrators admins = GetChatAdministrators.builder().chatId(Long.toString(chatId)).build();
         return silent.execute(admins)
             .orElse(new ArrayList<>()).stream()
             .anyMatch(member -> member.getUser().getId() == id);

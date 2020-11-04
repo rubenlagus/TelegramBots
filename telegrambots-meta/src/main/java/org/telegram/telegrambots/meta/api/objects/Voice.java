@@ -1,14 +1,25 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief This object represents a voice note
- * @date 16 of July of 2015
+ * This object represents a voice note
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Voice implements BotApiObject {
     private static final String FILEID_FIELD = "file_id";
     private static final String FILEUNIQUEID_FIELD = "file_unique_id";
@@ -30,39 +41,4 @@ public class Voice implements BotApiObject {
     private String mimeType; ///< Optional. MIME type of the file as defined by sender
     @JsonProperty(FILESIZE_FIELD)
     private Integer fileSize; ///< Optional. File size
-
-    public Voice() {
-        super();
-    }
-
-    public String getFileId() {
-        return fileId;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public String getMimeType() {
-        return mimeType;
-    }
-
-    public Integer getFileSize() {
-        return fileSize;
-    }
-
-    public String getFileUniqueId() {
-        return fileUniqueId;
-    }
-
-    @Override
-    public String toString() {
-        return "Voice{" +
-                "fileId='" + fileId + '\'' +
-                ", duration=" + duration +
-                ", mimeType='" + mimeType + '\'' +
-                ", fileSize=" + fileSize +
-                ", fileUniqueId=" + fileUniqueId +
-                '}';
-    }
 }

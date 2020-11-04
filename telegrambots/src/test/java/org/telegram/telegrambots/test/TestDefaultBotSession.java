@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 import org.telegram.telegrambots.test.Fakes.FakeLongPollingBot;
@@ -37,6 +38,7 @@ public class TestDefaultBotSession {
     @Before
     public void setUp() throws Exception {
         session = getDefaultBotSession();
+        new TelegramBotsApi(DefaultBotSession.class);
     }
 
     @After

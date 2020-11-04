@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.extensions.bots.commandbot;
 
 
-import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.bots.AbsSender;
@@ -29,7 +28,7 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      *
      */
     public TelegramLongPollingCommandBot() {
-        this(ApiContext.getInstance(DefaultBotOptions.class));
+        this(new DefaultBotOptions());
     }
 
     /**

@@ -2,16 +2,22 @@ package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ChatMember;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.ChatMember;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * @author Ruben Bermudez
@@ -22,32 +28,21 @@ import java.util.Objects;
  * If the chat is a group or a supergroup and no administrators were appointed,
  * only the creator will be returned.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class GetChatAdministrators extends BotApiMethod<ArrayList<ChatMember>> {
     public static final String PATH = "getChatAdministrators";
 
     private static final String CHATID_FIELD = "chat_id";
 
     @JsonProperty(CHATID_FIELD)
+    @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
-
-    public GetChatAdministrators() {
-        super();
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public GetChatAdministrators setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public GetChatAdministrators setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
-        return this;
-    }
 
     @Override
     public String getMethod() {
@@ -74,12 +69,5 @@ public class GetChatAdministrators extends BotApiMethod<ArrayList<ChatMember>> {
         if (chatId == null || chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "GetChatAdministrators{" +
-                "chatId='" + chatId + '\'' +
-                '}';
     }
 }

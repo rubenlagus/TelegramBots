@@ -1,6 +1,12 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
@@ -9,6 +15,12 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
  *
  * This object represents a video message (available in Telegram apps as of v.4.0).
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class VideoNote implements BotApiObject {
     private static final String FILEID_FIELD = "file_id";
     private static final String FILEUNIQUEID_FIELD = "file_unique_id";
@@ -33,44 +45,4 @@ public class VideoNote implements BotApiObject {
     private PhotoSize thumb; ///< Optional. Video thumbnail
     @JsonProperty(FILESIZE_FIELD)
     private Integer fileSize; ///< Optional. File size
-
-    public VideoNote() {
-        super();
-    }
-
-    public String getFileId() {
-        return fileId;
-    }
-
-    public Integer getLength() {
-        return length;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public PhotoSize getThumb() {
-        return thumb;
-    }
-
-    public Integer getFileSize() {
-        return fileSize;
-    }
-
-    public String getFileUniqueId() {
-        return fileUniqueId;
-    }
-
-    @Override
-    public String toString() {
-        return "VideoNote{" +
-                "fileId='" + fileId + '\'' +
-                ", length=" + length +
-                ", duration=" + duration +
-                ", thumb=" + thumb +
-                ", fileSize=" + fileSize +
-                ", fileUniqueId=" + fileUniqueId +
-                '}';
-    }
 }

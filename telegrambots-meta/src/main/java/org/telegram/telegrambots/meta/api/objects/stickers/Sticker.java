@@ -1,6 +1,12 @@
 package org.telegram.telegrambots.meta.api.objects.stickers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 
@@ -9,6 +15,12 @@ import org.telegram.telegrambots.meta.api.objects.PhotoSize;
  * @version 1.0
  * This object represents a sticker.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Sticker implements BotApiObject {
 
     private static final String FILEID_FIELD = "file_id";
@@ -46,64 +58,4 @@ public class Sticker implements BotApiObject {
     private MaskPosition maskPosition; ///< Optional. For mask stickers, the position where the mask should be placed
     @JsonProperty(ISANIMATED_FIELD)
     private Boolean isAnimated; ///< True, if the sticker is animated
-
-    public Sticker() {
-        super();
-    }
-
-    public String getFileId() {
-        return fileId;
-    }
-
-    public Integer getWidth() {
-        return width;
-    }
-
-    public Integer getHeight() {
-        return height;
-    }
-
-    public PhotoSize getThumb() {
-        return thumb;
-    }
-
-    public Integer getFileSize() {
-        return fileSize;
-    }
-
-    public String getEmoji() {
-        return emoji;
-    }
-
-    public String getSetName() {
-        return setName;
-    }
-
-    public MaskPosition getMaskPosition() {
-        return maskPosition;
-    }
-
-    public Boolean getAnimated() {
-        return isAnimated;
-    }
-
-    public String getFileUniqueId() {
-        return fileUniqueId;
-    }
-
-    @Override
-    public String toString() {
-        return "Sticker{" +
-                "fileId='" + fileId + '\'' +
-                ", width=" + width +
-                ", height=" + height +
-                ", thumb=" + thumb +
-                ", fileSize=" + fileSize +
-                ", emoji='" + emoji + '\'' +
-                ", setName='" + setName + '\'' +
-                ", maskPosition=" + maskPosition +
-                ", isAnimated=" + isAnimated +
-                ", fileUniqueId=" + fileUniqueId +
-                '}';
-    }
 }

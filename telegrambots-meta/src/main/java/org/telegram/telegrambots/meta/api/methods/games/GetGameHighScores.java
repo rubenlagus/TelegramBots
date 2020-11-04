@@ -19,6 +19,15 @@ package org.telegram.telegrambots.meta.api.methods.games;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.games.GameHighScore;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
@@ -35,12 +44,20 @@ import java.util.ArrayList;
  * Will return the score of the specified user and several of his neighbors in a game.
  * On success, returns an Array of GameHighScore objects.
  *
- * @note This method will currently return scores for the target user,
+ * @apiNote  This method will currently return scores for the target user,
  * plus two of his closest neighbors on each side. Will also return the top three users
  * if the user and his neighbors are not among them.
  * Please note that this behavior is subject to change.
  *
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
 public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
     public static final String PATH = "getGameHighScores";
 
@@ -56,52 +73,8 @@ public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
     @JsonProperty(INLINE_MESSAGE_ID_FIELD)
     private String inlineMessageId; ///< Optional	Required if chat_id and message_id are not specified. Identifier of the inline message
     @JsonProperty(USER_ID_FIELD)
+    @NonNull
     private Integer userId; ///<Target user id
-
-    public GetGameHighScores() {
-        super();
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public Integer getMessageId() {
-        return messageId;
-    }
-
-    public String getInlineMessageId() {
-        return inlineMessageId;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public GetGameHighScores setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public GetGameHighScores setChatId(Long chatId) {
-        this.chatId = chatId.toString();
-        return this;
-    }
-
-    public GetGameHighScores setMessageId(Integer messageId) {
-        this.messageId = messageId;
-        return this;
-    }
-
-    public GetGameHighScores setInlineMessageId(String inlineMessageId) {
-        this.inlineMessageId = inlineMessageId;
-        return this;
-    }
-
-    public GetGameHighScores setUserId(Integer userId) {
-        this.userId = userId;
-        return this;
-    }
 
     @Override
     public String getMethod() {
@@ -143,15 +116,5 @@ public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
                 throw new TelegramApiValidationException("MessageId parameter must be empty if inlineMessageId is provided", this);
             }
         }
-    }
-
-    @Override
-    public String toString() {
-        return "GetGameHighScores{" +
-                "chatId='" + chatId + '\'' +
-                ", messageId=" + messageId +
-                ", inlineMessageId='" + inlineMessageId + '\'' +
-                ", userId=" + userId +
-                '}';
     }
 }

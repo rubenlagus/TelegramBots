@@ -2,6 +2,14 @@ package org.telegram.telegrambots.meta.api.methods.stickers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -9,13 +17,18 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * @author Ruben Bermudez
  * @version 1.0
  * Use this method to move a sticker in a set created by the bot to a specific position. Returns True on success.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SetStickerPositionInSet extends BotApiMethod<Boolean> {
     private static final String PATH = "setStickerPositionInSet";
 
@@ -23,18 +36,11 @@ public class SetStickerPositionInSet extends BotApiMethod<Boolean> {
     private static final String POSITION_FIELD = "position";
 
     @JsonProperty(STICKER_FIELD)
+    @NonNull
     private String sticker; ///< File identifier of the sticker
     @JsonProperty(POSITION_FIELD)
+    @NonNull
     private Integer position; ///< New sticker position in the set, zero-based
-
-    public SetStickerPositionInSet(String sticker, Integer position) {
-        this.sticker = checkNotNull(sticker);
-        this.position = checkNotNull(position);
-    }
-
-    public SetStickerPositionInSet() {
-        super();
-    }
 
     @Override
     public String getMethod() {
@@ -64,31 +70,5 @@ public class SetStickerPositionInSet extends BotApiMethod<Boolean> {
         if (position == null || position < 0) {
             throw new TelegramApiValidationException("position can't be null", this);
         }
-    }
-
-    public String getSticker() {
-        return sticker;
-    }
-
-    public SetStickerPositionInSet setSticker(String sticker) {
-        this.sticker = checkNotNull(sticker);
-        return this;
-    }
-
-    public Integer getPosition() {
-        return position;
-    }
-
-    public SetStickerPositionInSet setPosition(Integer position) {
-        this.position = checkNotNull(position);
-        return this;
-    }
-
-    @Override
-    public String toString() {
-        return "SetStickerPositionInSet{" +
-                "sticker='" + sticker + '\'' +
-                ", position=" + position +
-                '}';
     }
 }

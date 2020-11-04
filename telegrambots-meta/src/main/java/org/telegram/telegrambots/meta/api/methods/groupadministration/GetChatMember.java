@@ -2,15 +2,21 @@ package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ChatMember;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.ChatMember;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
-import java.util.Objects;
 
 /**
  * @author Ruben Bermudez
@@ -18,6 +24,13 @@ import java.util.Objects;
  * Use this method to get information about a member of a chat.
  * Returns a ChatMember object on success.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class GetChatMember extends BotApiMethod<ChatMember> {
     public static final String PATH = "getChatMember";
 
@@ -25,37 +38,11 @@ public class GetChatMember extends BotApiMethod<ChatMember> {
     private static final String USERID_FIELD = "user_id";
 
     @JsonProperty(CHATID_FIELD)
+    @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     @JsonProperty(USERID_FIELD)
+    @NonNull
     private Integer userId; ///< Unique identifier of the target user
-
-    public GetChatMember() {
-        super();
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public GetChatMember setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public GetChatMember setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
-        return this;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public GetChatMember setUserId(Integer userId) {
-        this.userId = userId;
-        return this;
-    }
 
     @Override
     public String getMethod() {
@@ -85,13 +72,5 @@ public class GetChatMember extends BotApiMethod<ChatMember> {
         if (userId == null) {
             throw new TelegramApiValidationException("UserId can't be null", this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "GetChatMember{" +
-                "chatId='" + chatId + '\'' +
-                ", userId='" + userId + '\'' +
-                '}';
     }
 }

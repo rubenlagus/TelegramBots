@@ -7,16 +7,42 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Before;
 import org.junit.Test;
-import org.telegram.telegrambots.meta.api.methods.*;
+import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
+import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.ForwardMessage;
+import org.telegram.telegrambots.meta.api.methods.GetFile;
+import org.telegram.telegrambots.meta.api.methods.GetMe;
+import org.telegram.telegrambots.meta.api.methods.GetUserProfilePhotos;
 import org.telegram.telegrambots.meta.api.methods.games.GetGameHighScores;
 import org.telegram.telegrambots.meta.api.methods.games.SetGameScore;
-import org.telegram.telegrambots.meta.api.methods.groupadministration.*;
-import org.telegram.telegrambots.meta.api.methods.send.*;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChat;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdministrators;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMember;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMembersCount;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.KickChatMember;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.LeaveChat;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.UnbanChatMember;
+import org.telegram.telegrambots.meta.api.methods.send.SendChatAction;
+import org.telegram.telegrambots.meta.api.methods.send.SendContact;
+import org.telegram.telegrambots.meta.api.methods.send.SendGame;
+import org.telegram.telegrambots.meta.api.methods.send.SendInvoice;
+import org.telegram.telegrambots.meta.api.methods.send.SendLocation;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendVenue;
 import org.telegram.telegrambots.meta.api.methods.updates.GetWebhookInfo;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageCaption;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.meta.api.objects.Chat;
+import org.telegram.telegrambots.meta.api.objects.ChatMember;
+import org.telegram.telegrambots.meta.api.objects.File;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.UserProfilePhotos;
+import org.telegram.telegrambots.meta.api.objects.WebhookInfo;
+import org.telegram.telegrambots.meta.api.objects.games.GameHighScore;
 import org.telegram.telegrambots.test.Fakes.FakeWebhook;
 import org.telegram.telegrambots.updatesreceivers.RestApi;
 
@@ -24,6 +50,8 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -55,7 +83,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getSendMessage());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<Message> result =
                 target("callback/testbot")
                 .request(MediaType.APPLICATION_JSON)
                 .post(entity, SendMessage.class);
@@ -67,7 +95,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getAnswerCallbackQuery());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<Boolean> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, AnswerCallbackQuery.class);
@@ -80,7 +108,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getAnswerInlineQuery());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<Boolean> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, AnswerInlineQuery.class);
@@ -93,7 +121,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getEditMessageCaption());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<Serializable> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, EditMessageCaption.class);
@@ -109,7 +137,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getEditMessageReplyMarkup());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<Serializable> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, EditMessageReplyMarkup.class);
@@ -125,7 +153,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getEditMessageText());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<Serializable> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, EditMessageText.class);
@@ -141,7 +169,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getForwardMessage());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<Message> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, ForwardMessage.class);
@@ -155,7 +183,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getGetChat());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<Chat> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, GetChat.class);
@@ -168,7 +196,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getChatAdministrators());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<ArrayList<ChatMember>> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, GetChatAdministrators.class);
@@ -181,7 +209,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getChatMember());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<ChatMember> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, GetChatMember.class);
@@ -194,7 +222,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getChatMembersCount());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<Integer> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, GetChatMembersCount.class);
@@ -207,7 +235,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getGetFile());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<File> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, GetFile.class);
@@ -220,7 +248,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getGetGameHighScores());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<ArrayList<GameHighScore>> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, GetGameHighScores.class);
@@ -233,7 +261,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getGetMe());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<User> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, GetMe.class);
@@ -246,7 +274,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getGetUserProfilePhotos());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<UserProfilePhotos> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, GetUserProfilePhotos.class);
@@ -259,7 +287,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getGetWebhookInfo());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<WebhookInfo> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, GetWebhookInfo.class);
@@ -272,7 +300,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getKickChatMember());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<Boolean> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, KickChatMember.class);
@@ -285,7 +313,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getLeaveChat());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<Boolean> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, LeaveChat.class);
@@ -298,7 +326,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getSendChatAction());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<Boolean> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, SendChatAction.class);
@@ -311,7 +339,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getSendContact());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<Message> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, SendContact.class);
@@ -324,7 +352,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getSendGame());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<Message> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, SendGame.class);
@@ -337,7 +365,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getSendLocation());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<Message> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, SendLocation.class);
@@ -350,7 +378,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getSendVenue());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<Message> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, SendVenue.class);
@@ -363,7 +391,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getSetGameScore());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<Serializable> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, SetGameScore.class);
@@ -376,7 +404,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getUnbanChatMember());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<Boolean> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, UnbanChatMember.class);
@@ -389,7 +417,7 @@ public class TestRestApi extends JerseyTest {
         webhookBot.setReturnValue(BotApiMethodHelperFactory.getSendInvoice());
 
         Entity<Update> entity = Entity.json(getUpdate());
-        BotApiMethod result =
+        BotApiMethod<Message> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, SendInvoice.class);
@@ -409,7 +437,7 @@ public class TestRestApi extends JerseyTest {
         }
     }
 
-    private String map(BotApiMethod method) {
+    private <T extends Serializable> String map(BotApiMethod<T> method) {
         ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.writeValueAsString(method);

@@ -1,14 +1,12 @@
 package org.telegram.telegrambots.updatesreceivers;
 
-import com.google.inject.Inject;
-
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.ssl.SSLContextConfigurator;
 import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.Webhook;
 import org.telegram.telegrambots.meta.generics.WebhookBot;
 
@@ -19,8 +17,7 @@ import java.net.URI;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Webhook to receive updates
- * @date 20 of June of 2015
+ * Webhook to receive updates
  */
 public class DefaultWebhook implements Webhook {
     private String keystoreServerFile;
@@ -29,8 +26,7 @@ public class DefaultWebhook implements Webhook {
 
     private final RestApi restApi;
 
-    @Inject
-    public DefaultWebhook() throws TelegramApiRequestException {
+    public DefaultWebhook() {
         this.restApi = new RestApi();
     }
 
@@ -38,7 +34,7 @@ public class DefaultWebhook implements Webhook {
         this.internalUrl = internalUrl;
     }
 
-    public void setKeyStore(String keyStore, String keyStorePassword) throws TelegramApiRequestException {
+    public void setKeyStore(String keyStore, String keyStorePassword) throws TelegramApiException {
         this.keystoreServerFile = keyStore;
         this.keystoreServerPwd = keyStorePassword;
         validateServerKeystoreFile(keyStore);
@@ -48,7 +44,7 @@ public class DefaultWebhook implements Webhook {
         restApi.registerCallback(callback);
     }
 
-    public void startServer() throws TelegramApiRequestException {
+    public void startServer() throws TelegramApiException {
         ResourceConfig rc = new ResourceConfig();
         rc.register(restApi);
         rc.register(JacksonFeature.class);
@@ -71,7 +67,7 @@ public class DefaultWebhook implements Webhook {
         try {
             grizzlyServer.start();
         } catch (IOException e) {
-            throw new TelegramApiRequestException("Error starting webhook server", e);
+            throw new TelegramApiException("Error starting webhook server", e);
         }
     }
 
@@ -79,10 +75,10 @@ public class DefaultWebhook implements Webhook {
         return URI.create(internalUrl);
     }
 
-    private static void validateServerKeystoreFile(String keyStore) throws TelegramApiRequestException {
+    private static void validateServerKeystoreFile(String keyStore) throws TelegramApiException {
         File file = new File(keyStore);
         if (!file.exists() || !file.canRead()) {
-            throw new TelegramApiRequestException("Can't find or access server keystore file.");
+            throw new TelegramApiException("Can't find or access server keystore file.");
         }
     }
 }

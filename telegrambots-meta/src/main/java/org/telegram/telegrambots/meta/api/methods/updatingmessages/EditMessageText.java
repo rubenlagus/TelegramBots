@@ -2,17 +2,27 @@ package org.telegram.telegrambots.meta.api.methods.updatingmessages;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author Ruben Bermudez
@@ -20,6 +30,15 @@ import java.io.Serializable;
  * Use this method to edit text messages. On
  * success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
  */
+@SuppressWarnings("unused")
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class EditMessageText extends BotApiMethod<Serializable> {
     public static final String PATH = "editmessagetext";
 
@@ -30,6 +49,7 @@ public class EditMessageText extends BotApiMethod<Serializable> {
     private static final String PARSE_MODE_FIELD = "parse_mode";
     private static final String DISABLE_WEB_PREVIEW_FIELD = "disable_web_page_preview";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
+    private static final String ENTITIES_FIELD = "entities";
 
     /**
      * Required if inline_message_id is not specified. Unique identifier for the chat to send the
@@ -51,6 +71,7 @@ public class EditMessageText extends BotApiMethod<Serializable> {
      * New text of the message
      */
     @JsonProperty(TEXT_FIELD)
+    @NonNull
     private String text;
     /**
      * Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width
@@ -62,93 +83,35 @@ public class EditMessageText extends BotApiMethod<Serializable> {
     private Boolean disableWebPagePreview; ///< Optional. Disables link previews for links in this message
     @JsonProperty(REPLYMARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. A JSON-serialized object for an inline keyboard.
+    @JsonProperty(ENTITIES_FIELD)
+    private List<MessageEntity> entities; ///< Optional. List of special entities that appear in message text, which can be specified instead of parse_mode
 
-    public EditMessageText() {
-        super();
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public EditMessageText setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public EditMessageText setChatId(Long chatId) {
+    public void setChatId(Long chatId) {
         this.chatId = chatId.toString();
-        return this;
     }
 
-    public Integer getMessageId() {
-        return messageId;
-    }
-
-    public EditMessageText setMessageId(Integer messageId) {
-        this.messageId = messageId;
-        return this;
-    }
-
-    public String getInlineMessageId() {
-        return inlineMessageId;
-    }
-
-    public EditMessageText setInlineMessageId(String inlineMessageId) {
-        this.inlineMessageId = inlineMessageId;
-        return this;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public EditMessageText setText(String text) {
-        this.text = text;
-        return this;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public EditMessageText setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
-
-    public EditMessageText disableWebPagePreview() {
+    public void disableWebPagePreview() {
         disableWebPagePreview = true;
-        return this;
     }
 
-    public EditMessageText enableWebPagePreview() {
+    public void enableWebPagePreview() {
         disableWebPagePreview = null;
-        return this;
     }
 
-    public EditMessageText enableMarkdown(boolean enable) {
+    public void enableMarkdown(boolean enable) {
         if (enable) {
             this.parseMode = ParseMode.MARKDOWN;
         } else {
             this.parseMode = null;
         }
-        return this;
     }
 
-    public EditMessageText enableHtml(boolean enable) {
+    public void enableHtml(boolean enable) {
         if (enable) {
             this.parseMode = ParseMode.HTML;
         } else {
             this.parseMode = null;
         }
-        return this;
-    }
-
-
-    public EditMessageText setParseMode(String parseMode) {
-        this.parseMode = parseMode;
-        return this;
     }
 
     @Override
@@ -202,21 +165,11 @@ public class EditMessageText extends BotApiMethod<Serializable> {
         if (text == null || text.isEmpty()) {
             throw new TelegramApiValidationException("Text parameter can't be empty", this);
         }
+        if (parseMode != null && (entities != null && !entities.isEmpty()) ) {
+            throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
+        }
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "EditMessageText{" +
-                "chatId=" + chatId +
-                ", messageId=" + messageId +
-                ", inlineMessageId=" + inlineMessageId +
-                ", text=" + text +
-                ", parseMode=" + parseMode +
-                ", disableWebPagePreview=" + disableWebPagePreview +
-                ", replyMarkup=" + replyMarkup +
-                '}';
     }
 }

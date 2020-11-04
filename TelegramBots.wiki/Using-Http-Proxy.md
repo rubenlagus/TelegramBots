@@ -44,14 +44,11 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-
-            ApiContextInitializer.init();
-
             // Create the TelegramBotsApi object to register your bots
-            TelegramBotsApi botsApi = new TelegramBotsApi();
+            TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSessioin.class);
 
             // Set up Http proxy
-            DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);            
+            DefaultBotOptions botOptions = new DefaultBotOptions());            
 
             botOptions.setProxyHost(PROXY_HOST);
             botOptions.setProxyPort(PROXY_PORT);
@@ -96,13 +93,11 @@ public class Main {
                 }
             });
         
-            ApiContextInitializer.init();
-
             // Create the TelegramBotsApi object to register your bots
             TelegramBotsApi botsApi = new TelegramBotsApi();
 
             // Set up Http proxy
-            DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);          
+            DefaultBotOptions botOptions = new DefaultBotOptions();          
 
             botOptions.setProxyHost(PROXY_HOST);
             botOptions.setProxyPort(PROXY_PORT);

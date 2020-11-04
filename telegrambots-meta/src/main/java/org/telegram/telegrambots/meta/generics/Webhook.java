@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.meta.generics;
 
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 /**
  * @author Ruben Bermudez
@@ -8,8 +8,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
  * Webhook interface
  */
 public interface Webhook {
-    void startServer() throws TelegramApiRequestException;
+    void startServer() throws TelegramApiException;
     void registerWebhook(WebhookBot callback);
     void setInternalUrl(String internalUrl);
-    void setKeyStore(String keyStore, String keyStorePassword) throws TelegramApiRequestException;
+    void setKeyStore(String keyStore, String keyStorePassword) throws TelegramApiException;
 }

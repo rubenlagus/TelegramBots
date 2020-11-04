@@ -26,21 +26,6 @@ public final class CommandRegistry implements ICommandRegistry {
 
     /**
      * Creates a Command registry
-     *
-     * @param allowCommandsWithUsername True to allow commands with username, false otherwise
-     * @param botUsername               Bot username
-     * @throws java.lang.NullPointerException if {@code botUsername} is {@code null}
-     * @deprecated Use {@link #CommandRegistry(boolean, java.util.function.Supplier)} instead
-     */
-    @Deprecated
-    public CommandRegistry(boolean allowCommandsWithUsername, String botUsername) {
-        Objects.requireNonNull(botUsername, "Bot username must not be null");
-        this.allowCommandsWithUsername = allowCommandsWithUsername;
-        this.botUsernameSupplier = () -> botUsername;
-    }
-
-    /**
-     * Creates a Command registry
      * @param allowCommandsWithUsername True to allow commands with username, false otherwise
      * @param botUsernameSupplier       Bot username supplier
      */
@@ -103,7 +88,7 @@ public final class CommandRegistry implements ICommandRegistry {
     /**
      * Executes a command action if the command is registered.
      *
-     * @note If the command is not registered and there is a default consumer,
+     * @apiNote  If the command is not registered and there is a default consumer,
      * that action will be performed
      *
      * @param absSender absSender

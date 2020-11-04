@@ -2,9 +2,15 @@ package org.telegram.telegrambots.meta.api.objects.passport.dataerror;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
@@ -14,6 +20,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * The error is considered resolved when the file with the document’s reverse side changes.
  */
 @JsonDeserialize
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PassportElementErrorReverseSide implements PassportElementError {
     private static final String SOURCE_FIELD = "source";
     private static final String TYPE_FIELD = "type";
@@ -26,53 +39,14 @@ public class PassportElementErrorReverseSide implements PassportElementError {
      * Type of the Telegram Passport data with the error, one of “driver_license”, “identity_card”
      */
     @JsonProperty(TYPE_FIELD)
+    @NonNull
     private String type;
     @JsonProperty(FILEHASH_FIELD)
+    @NonNull
     private String fileHash; ///< Base64-encoded hash of file with document's reverse side
     @JsonProperty(MESSAGE_FIELD)
+    @NonNull
     private String message; ///< Error message
-
-    public PassportElementErrorReverseSide() {
-        super();
-    }
-
-    public PassportElementErrorReverseSide(String type, String fileHash, String message) {
-        super();
-        this.type = checkNotNull(type);
-        this.fileHash = checkNotNull(fileHash);
-        this.message = checkNotNull(message);
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public PassportElementErrorReverseSide setType(String type) {
-        this.type = checkNotNull(type);
-        return this;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public String getFileHash() {
-        return fileHash;
-    }
-
-    public PassportElementErrorReverseSide setFileHash(String fileHash) {
-        this.fileHash = fileHash;
-        return this;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public PassportElementErrorReverseSide setMessage(String message) {
-        this.message = checkNotNull(message);
-        return this;
-    }
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -85,15 +59,5 @@ public class PassportElementErrorReverseSide implements PassportElementError {
         if (type == null || type.isEmpty()) {
             throw new TelegramApiValidationException("Type parameter can't be empty", this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "PassportElementErrorReverseSide{" +
-                "source='" + source + '\'' +
-                ", type='" + type + '\'' +
-                ", fileHash='" + fileHash + '\'' +
-                ", message='" + message + '\'' +
-                '}';
     }
 }

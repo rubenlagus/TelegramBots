@@ -20,6 +20,15 @@ package org.telegram.telegrambots.meta.api.methods.games;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
@@ -39,6 +48,14 @@ import java.io.Serializable;
  * Returns an error, if the new score is not greater than the user's current score in
  * the chat and force is False.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SetGameScore extends BotApiMethod<Serializable> {
     public static final String PATH = "setGameScore";
 
@@ -59,83 +76,13 @@ public class SetGameScore extends BotApiMethod<Serializable> {
     @JsonProperty(DISABLEEDITMESSAGE_FIELD)
     private Boolean disableEditMessage; ///< Optional	Pass True, if the game message should not be automatically edited to include the current scoreboard. Defaults to False
     @JsonProperty(USER_ID_FIELD)
+    @NonNull
     private Integer userId; ///< User identifier
     @JsonProperty(SCORE_FIELD)
+    @NonNull
     private Integer score; ///< New score, must be positive
     @JsonProperty(FORCE_FIELD)
     private Boolean force; ///< Optional. Pass True, if the high score is allowed to decrease. This can be useful when fixing mistakes or banning cheaters
-
-    public SetGameScore() {
-        super();
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public Integer getMessageId() {
-        return messageId;
-    }
-
-    public String getInlineMessageId() {
-        return inlineMessageId;
-    }
-
-    public Boolean getDisableEditMessage() {
-        return disableEditMessage;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public Integer getScore() {
-        return score;
-    }
-
-    public Boolean getForce() {
-        return force;
-    }
-
-    public SetGameScore setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public SetGameScore setChatId(Long chatId) {
-        this.chatId = chatId.toString();
-        return this;
-    }
-
-    public SetGameScore setMessageId(Integer messageId) {
-        this.messageId = messageId;
-        return this;
-    }
-
-    public SetGameScore setInlineMessageId(String inlineMessageId) {
-        this.inlineMessageId = inlineMessageId;
-        return this;
-    }
-
-    public SetGameScore setDisableEditMessage(Boolean disableEditMessage) {
-        this.disableEditMessage = disableEditMessage;
-        return this;
-    }
-
-    public SetGameScore setUserId(Integer userId) {
-        this.userId = userId;
-        return this;
-    }
-
-    public SetGameScore setScore(Integer score) {
-        this.score = score;
-        return this;
-    }
-
-    public SetGameScore setForce(Boolean force) {
-        this.force = force;
-        return this;
-    }
 
     @Override
     public String getMethod() {
@@ -191,18 +138,5 @@ public class SetGameScore extends BotApiMethod<Serializable> {
                 throw new TelegramApiValidationException("MessageId parameter must be empty if inlineMessageId is provided", this);
             }
         }
-    }
-
-    @Override
-    public String toString() {
-        return "SetGameScore{" +
-                "chatId='" + chatId + '\'' +
-                ", messageId=" + messageId +
-                ", inlineMessageId='" + inlineMessageId + '\'' +
-                ", disableEditMessage=" + disableEditMessage +
-                ", userId=" + userId +
-                ", score=" + score +
-                ", force=" + force +
-                '}';
     }
 }
