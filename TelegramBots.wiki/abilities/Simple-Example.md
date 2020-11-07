@@ -81,10 +81,10 @@ Running the bot is just like running the regular Telegram bots. Create a Java cl
 ```java
 public class Application {
     public static void main(String[] args) {
-        // Create the TelegramBotsApi object to register your bots
-        TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-
         try {
+          // Create the TelegramBotsApi object to register your bots
+          TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
+
           // Register your newly created AbilityBot
           botsApi.registerBot(new HelloBot());
         } catch (TelegramApiException e) {
