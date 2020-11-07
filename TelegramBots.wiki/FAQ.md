@@ -79,29 +79,29 @@ Quick example here that is showing ChactActions for commands like "/type" or "/r
 ```java
 if (update.hasMessage() && update.getMessage().hasText()) {
 
-	String text = update.getMessage().getText();
+    String text = update.getMessage().getText();
 
-	SendChatAction sendChatAction = new SendChatAction();
-	sendChatAction.setChatId(update.getMessage().getChatId());
+    SendChatAction sendChatAction = new SendChatAction();
+    sendChatAction.setChatId(update.getMessage().getChatId());
 
-	if (text.equals("/type")) {
-		// -> "typing"
-		sendChatAction.setAction(ActionType.TYPING);
-		// -> "recording a voice message"
-	} else if (text.equals("/record_audio")) {
-		sendChatAction.setAction(ActionType.RECORDAUDIO);
-	} else {
-		// -> more actions in the Enum ActionType
-		// For information: https://core.telegram.org/bots/api#sendchataction
-		sendChatAction.setAction(ActionType.UPLOADDOCUMENT);
-	}
+    if (text.equals("/type")) {
+        // -> "typing"
+        sendChatAction.setAction(ActionType.TYPING);
+        // -> "recording a voice message"
+    } else if (text.equals("/record_audio")) {
+        sendChatAction.setAction(ActionType.RECORDAUDIO);
+    } else {
+        // -> more actions in the Enum ActionType
+        // For information: https://core.telegram.org/bots/api#sendchataction
+        sendChatAction.setAction(ActionType.UPLOADDOCUMENT);
+    }
 
-	try {
-		Boolean wasSuccessfull = execute(sendChatAction);
-	} catch (TelegramApiException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+    try {
+        Boolean wasSuccessfull = execute(sendChatAction);
+    } catch (TelegramApiException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
 }
 ```
 
@@ -116,7 +116,7 @@ There are several method to send a photo to an user using `sendPhoto` method: Wi
         // Set destination chat id
         sendPhotoRequest.setChatId(chatId);
         // Set the photo url as a simple photo
-        sendPhotoRequest.setPhoto(url);
+        sendPhotoRequest.setPhoto(new InputFile(url));
         try {
             // Execute the method
             execute(sendPhotoRequest);
@@ -131,7 +131,7 @@ There are several method to send a photo to an user using `sendPhoto` method: Wi
         // Set destination chat id
         sendPhotoRequest.setChatId(chatId);
         // Set the photo url as a simple photo
-        sendPhotoRequest.setPhoto(fileId);
+        sendPhotoRequest.setPhoto(new InputFile(fileId));
         try {
             // Execute the method
             execute(sendPhotoRequest);
@@ -145,8 +145,8 @@ There are several method to send a photo to an user using `sendPhoto` method: Wi
         SendPhoto sendPhotoRequest = new SendPhoto();
         // Set destination chat id
         sendPhotoRequest.setChatId(chatId);
-        // Set the photo file as a new photo (You can also use InputStream with a method overload)
-        sendPhotoRequest.setNewPhoto(new File(filePath));
+        // Set the photo file as a new photo (You can also use InputStream with a constructor overload)
+        sendPhotoRequest.setPhoto(new InputFile(new File(filePath)));
         try {
             // Execute the method
             execute(sendPhotoRequest);
@@ -162,24 +162,23 @@ In this example we will check if user sends to bot a photo, if it is, get Photo'
 ```java
 // If it is a photo
 if (update.hasMessage() && update.getMessage().hasPhoto()) {
-            // Array with photos
-            List<PhotoSize> photos = update.getMessage().getPhoto();
-            // Get largest photo's file_id
-            String f_id = photos.stream()
-                    .sorted(Comparator.comparing(PhotoSize::getFileSize).reversed())
-                    .findFirst()
-                    .orElse(null).getFileId();
-            // Send photo by file_id we got before
-            SendPhoto msg = new SendPhoto()
-                    .setChatId(update.getMessage().getChatId())
-                    .setPhoto(f_id)
-                    .setCaption("Photo");
-            try {
-                execute(msg); // Call method to send the photo
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
-        }
+    // Array with photos
+    List<PhotoSize> photos = update.getMessage().getPhoto();
+    // Get largest photo's file_id
+    String f_id = photos.stream()
+            .max(Comparator.comparing(PhotoSize::getFileSize))
+            .orElseThrow().getFileId();
+    // Send photo by file_id we got before
+    SendPhoto msg = new SendPhoto()
+            .setChatId(update.getMessage().getChatId())
+            .setPhoto(new InputFile(f_id))
+            .setCaption("Photo");
+    try {
+        execute(msg); // Call method to send the photo
+    } catch (TelegramApiException e) {
+        e.printStackTrace();
+    }
+}
 ```
 
 ## <a id="how_to_use_custom_keyboards"></a>How to use custom keyboards? ##
@@ -264,9 +263,9 @@ Your main spring boot class should look like this:
 @SpringBootApplication
 public class YourApplicationMainClass {
 
-	public static void main(String[] args) {
-		SpringApplication.run(YourApplicationMainClass.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(YourApplicationMainClass.class, args);
+    }
 }
 ```
 
