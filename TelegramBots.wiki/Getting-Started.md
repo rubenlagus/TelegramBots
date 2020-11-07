@@ -135,9 +135,8 @@ Now that we have the library, we can start coding. There are few steps to follow
         public class Main {
             public static void main(String[] args) {
 
-                TelegramBotsApi botsApi = new TelegramBotsApi();
-
                 try {
+                    TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
                     botsApi.registerBot(new MyAmazingBot());
                 } catch (TelegramApiException e) {
                     e.printStackTrace();

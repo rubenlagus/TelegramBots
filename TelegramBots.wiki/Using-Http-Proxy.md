@@ -94,7 +94,7 @@ public class Main {
             });
         
             // Create the TelegramBotsApi object to register your bots
-            TelegramBotsApi botsApi = new TelegramBotsApi();
+            TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
 
             // Set up Http proxy
             DefaultBotOptions botOptions = new DefaultBotOptions();          
