@@ -1,3 +1,9 @@
+### <a id="5.0.1"></a>5.0.1 ###
+1. Fixing couple of bugs from 5.0.0
+2. Buf fixing: #794 
+3. Docs updated to reflect usage for version 5.0.0
+4. EditMessageText setChatIId(Long) is removed to keep consistency 
+
 ### <a id="5.0.0"></a>5.0.0 ###
 1. Update Api version [5.0](https://core.telegram.org/bots/api-changelog#november-4-2020)
 2. Added Builders for many of the API methods and objects (hopefully all of them unless I missed something)
