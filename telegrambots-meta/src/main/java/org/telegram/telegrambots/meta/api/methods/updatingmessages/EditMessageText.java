@@ -86,14 +86,6 @@ public class EditMessageText extends BotApiMethod<Serializable> {
     @JsonProperty(ENTITIES_FIELD)
     private List<MessageEntity> entities; ///< Optional. List of special entities that appear in message text, which can be specified instead of parse_mode
 
-    /**
-     * @deprecated Use {#setChatId(String)}
-     */
-    @Deprecated
-    public void setChatId(Long chatId) {
-        this.chatId = chatId.toString();
-    }
-
     public void disableWebPagePreview() {
         disableWebPagePreview = true;
     }
