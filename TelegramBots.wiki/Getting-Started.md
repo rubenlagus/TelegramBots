@@ -11,13 +11,13 @@ First you need ot get the library and add it to your project. There are few poss
            <dependency>
               <groupId>org.telegram</groupId>
               <artifactId>telegrambots</artifactId>
-              <version>5.0.0</version>
+              <version>5.0.1</version>
            </dependency>
         ```
     * With **Gradle**:
     
         ```groovy
-          compile group: 'org.telegram', name: 'telegrambots', version: '5.0.0'
+          compile group: 'org.telegram', name: 'telegrambots', version: '5.0.1'
         ```
  
 2. Don't like **Maven Central Repository**? It can also be taken from [Jitpack](https://jitpack.io/#rubenlagus/TelegramBots).
@@ -135,9 +135,8 @@ Now that we have the library, we can start coding. There are few steps to follow
         public class Main {
             public static void main(String[] args) {
 
-                TelegramBotsApi botsApi = new TelegramBotsApi();
-
                 try {
+                    TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
                     botsApi.registerBot(new MyAmazingBot());
                 } catch (TelegramApiException e) {
                     e.printStackTrace();

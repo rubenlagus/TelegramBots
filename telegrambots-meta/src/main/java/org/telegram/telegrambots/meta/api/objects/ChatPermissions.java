@@ -37,7 +37,7 @@ public class ChatPermissions implements BotApiObject {
     @JsonProperty(CAN_SEND_MESSAGES_FIELD)
     private Boolean canSendMessages; ///< Optional. True, if the user is allowed to send text messages, contacts, locations and venues
     @JsonProperty(CAN_SEND_MEDIA_MESSAGES_FIELD)
-    private Boolean getCanSendMediaMessages; ///< Optional. True, if the user is allowed to send audios, documents, photos, videos, video notes and voice notes, implies can_send_messages
+    private Boolean canSendMediaMessages; ///< Optional. True, if the user is allowed to send audios, documents, photos, videos, video notes and voice notes, implies can_send_messages
     @JsonProperty(CAN_SEND_POLLS_FIELD)
     private Boolean canSendPolls; ///< Optional. True, if the user is allowed to send polls, implies can_send_messages
     @JsonProperty(CAN_SEND_OTHER_MESSAGES_FIELD)

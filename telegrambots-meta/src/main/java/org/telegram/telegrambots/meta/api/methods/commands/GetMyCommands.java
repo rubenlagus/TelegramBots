@@ -1,10 +1,10 @@
 package org.telegram.telegrambots.meta.api.methods.commands;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class GetMyCommands extends BotApiMethod<ArrayList<BotCommand>> {
     public static final String PATH = "getMyCommands";

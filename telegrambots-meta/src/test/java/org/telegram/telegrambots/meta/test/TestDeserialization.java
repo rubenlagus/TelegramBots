@@ -5,7 +5,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.telegram.telegrambots.meta.api.methods.commands.GetMyCommands;
+import org.telegram.telegrambots.meta.api.methods.updates.Close;
 import org.telegram.telegrambots.meta.api.methods.updates.GetUpdates;
+import org.telegram.telegrambots.meta.api.methods.updates.LogOut;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.Audio;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -17,6 +20,7 @@ import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.Voice;
+import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.ChosenInlineQuery;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
 
@@ -149,6 +153,50 @@ class TestDeserialization {
             JsonNode realUpdate = realArray.get(i);
             assertEquals(realUpdate, handledUpdate);
         }
+    }
+
+    @Test
+    void TestDeserializationCloseMethod() throws Exception {
+        String updateText = "{\"ok\":true,\"result\": true}";
+
+        Boolean response = new Close().deserializeResponse(updateText);
+
+        assertTrue(response);
+    }
+
+    @Test
+    void TestDeserializationLogoutMethod() throws Exception {
+        String updateText = "{\"ok\":true,\"result\": true}";
+
+        Boolean response = new LogOut().deserializeResponse(updateText);
+
+        assertTrue(response);
+    }
+
+    @Test
+    void TestDeserializationGetMyCommandsMethod() throws Exception {
+        String updateText = "{\n" +
+                "    \"ok\": true,\n" +
+                "    \"result\": [\n" +
+                "        {\n" +
+                "            \"command\": \"enabled\",\n" +
+                "            \"description\": \"Enabled Command\"\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"command\": \"disabled\",\n" +
+                "            \"description\": \"Disabled Command\"\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}";
+
+        ArrayList<BotCommand> response = new GetMyCommands().deserializeResponse(updateText);
+
+        assertNotNull(response);
+        assertEquals(2, response.size());
+        assertEquals("enabled", response.get(0).getCommand());
+        assertEquals("Enabled Command", response.get(0).getDescription());
+        assertEquals("disabled", response.get(1).getCommand());
+        assertEquals("Disabled Command", response.get(1).getDescription());
     }
 
     @Test
