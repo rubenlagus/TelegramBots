@@ -9,7 +9,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
-import org.telegram.telegrambots.meta.api.objects.WebhookInfo;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -30,7 +29,7 @@ import java.io.IOException;
 @ToString
 @AllArgsConstructor
 @Builder
-public class LogOut extends BotApiMethod<WebhookInfo> {
+public class LogOut extends BotApiMethod<Boolean> {
     public static final String PATH = "logOut";
 
     @Override
@@ -39,15 +38,15 @@ public class LogOut extends BotApiMethod<WebhookInfo> {
     }
 
     @Override
-    public WebhookInfo deserializeResponse(String answer) throws TelegramApiRequestException {
+    public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
         try {
-            ApiResponse<WebhookInfo> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<WebhookInfo>>() {
+            ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
+                    new TypeReference<ApiResponse<Boolean>>() {
                     });
             if (result.getOk()) {
                 return result.getResult();
             } else {
-                throw new TelegramApiRequestException("Error logging out info", result);
+                throw new TelegramApiRequestException("Error logging out", result);
             }
         } catch (IOException e2) {
             throw new TelegramApiRequestException("Unable to deserialize response", e2);
