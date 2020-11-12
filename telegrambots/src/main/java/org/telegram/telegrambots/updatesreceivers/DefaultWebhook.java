@@ -22,7 +22,7 @@ import java.net.URI;
 public class DefaultWebhook implements Webhook {
     private String keystoreServerFile;
     private String keystoreServerPwd;
-    private String internalUrl;
+    private String internalUrl = "/";
 
     private final RestApi restApi;
 
