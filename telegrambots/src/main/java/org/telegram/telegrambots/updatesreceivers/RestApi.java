@@ -22,8 +22,11 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version 1.0
  * Rest api to for webhook callback function
  */
-@Path("callback")
+@Path(RestApi.CALLBACK)
 public class RestApi {
+
+    public static final String CALLBACK = "callback";
+
     private static final Logger log = LoggerFactory.getLogger(RestApi.class);
 
     private final ConcurrentHashMap<String, WebhookBot> callbacks = new ConcurrentHashMap<>();

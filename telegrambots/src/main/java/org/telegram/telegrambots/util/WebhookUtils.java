@@ -20,6 +20,7 @@ import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.updatesreceivers.RestApi;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,13 +38,14 @@ public final class WebhookUtils {
   /**
    * Set webhook address to receive updates
    * @param bot Bot to set the webhook to
+   * @param botPath Path to bot
    * @param setWebhook SetSebhook object with webhook information
    * @throws TelegramApiRequestException If any issue executing the request
    *
    * @apiNote Telegram API parameters will be taken only from SetWebhook object
    * @apiNote Bot options will be fetched from Bot to set up the HTTP connection
    */
-  public static void setWebhook(DefaultAbsSender bot, SetWebhook setWebhook) throws TelegramApiException {
+  public static void setWebhook(DefaultAbsSender bot, String botPath, SetWebhook setWebhook) throws TelegramApiException {
     setWebhook.validate();
 
     DefaultBotOptions botOptions = bot.getOptions();
@@ -61,7 +63,7 @@ public final class WebhookUtils {
       HttpPost httppost = new HttpPost(requestUrl);
       httppost.setConfig(requestConfig);
       MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-      builder.addTextBody(SetWebhook.URL_FIELD, setWebhook.getUrl(), TEXT_PLAIN_CONTENT_TYPE);
+      builder.addTextBody(SetWebhook.URL_FIELD, getBotUrl(botPath, setWebhook.getUrl()), TEXT_PLAIN_CONTENT_TYPE);
       if (setWebhook.getMaxConnections() != null) {
         builder.addTextBody(SetWebhook.MAXCONNECTIONS_FIELD, setWebhook.getMaxConnections().toString(), TEXT_PLAIN_CONTENT_TYPE);
       }
@@ -103,7 +105,7 @@ public final class WebhookUtils {
    * @deprecated Use {{@link #setWebhook(DefaultAbsSender, SetWebhook)}} instead
    */
   @Deprecated
-  public static void setWebhook(DefaultAbsSender bot, String url, String publicCertificatePath) throws TelegramApiRequestException {
+  public static void setWebhook(DefaultAbsSender bot, String botPath, String url, String publicCertificatePath) throws TelegramApiRequestException {
     DefaultBotOptions botOptions = bot.getOptions();
 
     try (CloseableHttpClient httpclient = TelegramHttpClientBuilder.build(botOptions)) {
@@ -120,7 +122,7 @@ public final class WebhookUtils {
       HttpPost httppost = new HttpPost(requestUrl);
       httppost.setConfig(requestConfig);
       MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-      builder.addTextBody(SetWebhook.URL_FIELD, url);
+      builder.addTextBody(SetWebhook.URL_FIELD, getBotUrl(botPath, url));
       if (botOptions.getMaxWebhookConnections() != null) {
         builder.addTextBody(SetWebhook.MAXCONNECTIONS_FIELD, botOptions.getMaxWebhookConnections().toString());
       }
@@ -150,6 +152,10 @@ public final class WebhookUtils {
     } catch (IOException e) {
       throw new TelegramApiRequestException("Error executing setWebook method", e);
     }
+  }
+
+  private static String getBotUrl(String botPath, String url) {
+    return url + RestApi.CALLBACK + "/" + botPath.replace("/", "");
   }
 
   public static void clearWebhook(DefaultAbsSender bot) throws TelegramApiRequestException {

@@ -65,7 +65,7 @@ public abstract class AbilityWebhookBot extends BaseAbilityBot implements Webhoo
 
     @Override
     public void setWebhook(SetWebhook setWebhook) throws TelegramApiException {
-        WebhookUtils.setWebhook(this, setWebhook);
+        WebhookUtils.setWebhook(this, this.getBotPath(), setWebhook);
     }
 
     @Override
