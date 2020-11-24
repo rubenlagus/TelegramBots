@@ -210,7 +210,7 @@ public class AbilityBotTest {
     // Support for null parameter matching since due to mocking API changes
     when(sender.downloadFile(ArgumentMatchers.<File>isNull())).thenReturn(backupFile);
 
-    defaultAbs.recoverDB().replies().get(0).actOn(update);
+    defaultAbs.recoverDB().replies().get(0).actOn(bot, update);
 
     verify(silent, times(1)).send(RECOVER_SUCCESS, GROUP_ID);
     assertEquals(db.getSet(TEST), newHashSet(TEST), "Bot recovered but the DB is still not in sync");

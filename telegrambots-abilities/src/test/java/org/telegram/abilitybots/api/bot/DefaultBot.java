@@ -43,8 +43,8 @@ public class DefaultBot extends AbilityBot {
     return getDefaultBuilder()
         .name(DEFAULT)
         .info("dis iz default command")
-        .reply(Reply.of(upd -> silent.send("reply", upd.getMessage().getChatId()), MESSAGE, update -> update.getMessage().getText().equals("must reply")).enableStats("mustreply"))
-        .reply(upd -> silent.send("reply", upd.getCallbackQuery().getMessage().getChatId()), CALLBACK_QUERY)
+        .reply(Reply.of((bot, upd) -> silent.send("reply", upd.getMessage().getChatId()), MESSAGE, update -> update.getMessage().getText().equals("must reply")).enableStats("mustreply"))
+        .reply((bot, upd) -> silent.send("reply", upd.getCallbackQuery().getMessage().getChatId()), CALLBACK_QUERY)
         .build();
   }
 
@@ -75,7 +75,7 @@ public class DefaultBot extends AbilityBot {
 
   public Reply channelPostReply() {
     return Reply.of(
-        upd -> silent.send("test channel post", upd.getChannelPost().getChatId()), Flag.CHANNEL_POST
+            (bot, upd) -> silent.send("test channel post", upd.getChannelPost().getChatId()), Flag.CHANNEL_POST
     );
   }
 
