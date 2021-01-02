@@ -2,10 +2,7 @@ package org.telegram.telegrambots.meta;
 
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.generics.BotSession;
-import org.telegram.telegrambots.meta.generics.LongPollingBot;
-import org.telegram.telegrambots.meta.generics.Webhook;
-import org.telegram.telegrambots.meta.generics.WebhookBot;
+import org.telegram.telegrambots.meta.generics.*;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -55,6 +52,9 @@ public class TelegramBotsApi {
      * @param bot the bot to register
      */
     public BotSession registerBot(LongPollingBot bot) throws TelegramApiException {
+        if (checkBotCredentials(bot)){
+            throw new TelegramApiException("token or username can't be blank or null");
+        }
         bot.onRegister();
         bot.clearWebhook();
         BotSession session;
@@ -76,6 +76,9 @@ public class TelegramBotsApi {
      * @param setWebhook Set webhook request to initialize the bot
      */
     public void registerBot(WebhookBot bot, SetWebhook setWebhook) throws TelegramApiException {
+        if (checkBotCredentials(bot)){
+            throw new TelegramApiException("token or username can't be blank or null");
+        }
         if (setWebhook == null) {
             throw new TelegramApiException("Parameter setWebhook can not be null or empty");
         }
@@ -87,5 +90,17 @@ public class TelegramBotsApi {
             webhook.registerWebhook(bot);
             bot.setWebhook(setWebhook);
         }
+    }
+
+    /**
+     * checking that the username and token are presented
+     * @param bot bot to register
+     * @return true if username or token is empty or null
+     */
+    public boolean checkBotCredentials(TelegramBot bot){
+        return bot.getBotUsername().isEmpty()   ||
+                bot.getBotToken().isEmpty()     ||
+                bot.getBotUsername() == null    ||
+                bot.getBotToken() == null;
     }
 }
