@@ -102,7 +102,7 @@ public class SendPoll extends BotApiMethod<Message> {
     private String explanationParseMode; ///< Optional. Mode for parsing entities in the explanation. See formatting options for more details.
     @JsonProperty(EXPLANATION_ENTITIES_FIELD)
     @Singular
-    private List<MessageEntity> captionEntities; ///< Optional. List of special entities that appear in the poll explanation, which can be specified instead of parse_mode
+    private List<MessageEntity> explanationEntities; ///< Optional. List of special entities that appear in the poll explanation, which can be specified instead of parse_mode
     @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
 
@@ -158,7 +158,7 @@ public class SendPoll extends BotApiMethod<Message> {
         if (options.parallelStream().anyMatch(x -> x.isEmpty() || x.length() > 100)) {
             throw new TelegramApiValidationException("Options parameter values must be between 1 and 100 chars length", this);
         }
-        if (explanationParseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
+        if (explanationParseMode != null && (explanationEntities != null && !explanationEntities.isEmpty()) ) {
             throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
         }
         if (replyMarkup != null) {

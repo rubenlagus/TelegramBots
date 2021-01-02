@@ -36,13 +36,13 @@ public class TestSerialization {
                 .livePeriod(100)
                 .allowSendingWithoutReply(true)
                 .heading(125)
-                .approachingNotificationDistance(100)
+                .proximityAlertRadius(100)
                 .build();
 
         String json = mapper.writeValueAsString(location);
 
         assertNotNull(json);
-        assertEquals("{\"chat_id\":\"12345\",\"latitude\":20.758069,\"longitude\":-0.005702,\"disable_notification\":true,\"reply_to_message_id\":1,\"live_period\":100,\"allow_sending_without_reply\":true,\"horizontal_accuracy\":65.0,\"heading\":125,\"approaching_notification_distance\":100,\"method\":\"sendlocation\"}",
+        assertEquals("{\"chat_id\":\"12345\",\"latitude\":20.758069,\"longitude\":-0.005702,\"disable_notification\":true,\"reply_to_message_id\":1,\"live_period\":100,\"allow_sending_without_reply\":true,\"horizontal_accuracy\":65.0,\"heading\":125,\"proximity_alert_radius\":100,\"method\":\"sendlocation\"}",
                 json);
     }
 

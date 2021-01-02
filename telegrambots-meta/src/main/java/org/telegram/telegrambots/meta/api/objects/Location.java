@@ -28,7 +28,7 @@ public class Location implements BotApiObject {
     private static final String HORIZONTALACCURACY_FIELD = "horizontal_accuracy";
     private static final String LIVEPERIOD_FIELD = "live_period";
     private static final String HEADING_FIELD = "heading";
-    private static final String PROXMITYALERTDISTANCE_FIELD = "proximity_alert_distance";
+    private static final String PROXMITYALERTRADIUS_FIELD = "proximity_alert_radius";
 
     @JsonProperty(LONGITUDE_FIELD)
     @NonNull
@@ -41,7 +41,6 @@ public class Location implements BotApiObject {
      * The radius of uncertainty for the location, measured in meters; 0-1500
      */
     @JsonProperty(HORIZONTALACCURACY_FIELD)
-    @NonNull
     private Double horizontalAccuracy;
     /**
      * Optional.
@@ -49,21 +48,18 @@ public class Location implements BotApiObject {
      * For active live locations only.
      */
     @JsonProperty(LIVEPERIOD_FIELD)
-    @NonNull
     private Integer livePeriod;
     /**
      * Optional.
      * The direction in which user is moving, in degrees; 1-360. For active live locations only.
      */
     @JsonProperty(HEADING_FIELD)
-    @NonNull
     private Integer heading;
     /**
      * Optional.
-     * A maximum distance for proximity alerts about approaching another chat member, in meters.
+     * Maximum distance for proximity alerts about approaching another chat member, in meters.
      * For sent live locations only.
      */
-    @JsonProperty(PROXMITYALERTDISTANCE_FIELD)
-    @NonNull
-    private Integer proximityAlertDistance;
+    @JsonProperty(PROXMITYALERTRADIUS_FIELD)
+    private Integer proximityAlertRadius;
 }

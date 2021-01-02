@@ -36,7 +36,7 @@ public class InputLocationMessageContent implements InputMessageContent {
     private static final String LIVEPERIOD_FIELD = "live_period";
     private static final String HORIZONTALACCURACY_FIELD = "horizontal_accuracy";
     private static final String HEADING_FIELD = "heading";
-    private static final String APPROACHINGNOTIFICATIONDISTANCE_FIELD = "approaching_notification_distance";
+    private static final String PROXIMITYALERTRADIUS_FIELD = "proximity_alert_radius";
 
     @JsonProperty(LATITUDE_FIELD)
     @NonNull
@@ -64,8 +64,8 @@ public class InputLocationMessageContent implements InputMessageContent {
      * For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters.
      * Must be between 1 and 100000 if specified.
      */
-    @JsonProperty(APPROACHINGNOTIFICATIONDISTANCE_FIELD)
-    private Integer approachingNotificationDistance;
+    @JsonProperty(PROXIMITYALERTRADIUS_FIELD)
+    private Integer proximityAlertRadius;
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -82,10 +82,10 @@ public class InputLocationMessageContent implements InputMessageContent {
             throw new TelegramApiValidationException("Horizontal Accuracy parameter must be between 0 and 1500", this);
         }
         if (heading != null && (heading < 1 || heading > 360)) {
-            throw new TelegramApiValidationException("Heading Accuracy parameter must be between 0 and 1500", this);
+            throw new TelegramApiValidationException("Heading Accuracy parameter must be between 1 and 360", this);
         }
-        if (approachingNotificationDistance != null && (approachingNotificationDistance < 1 || approachingNotificationDistance > 100000)) {
-            throw new TelegramApiValidationException("Approaching notification distance parameter must be between 0 and 1500", this);
+        if (proximityAlertRadius != null && (proximityAlertRadius < 1 || proximityAlertRadius > 100000)) {
+            throw new TelegramApiValidationException("Approaching notification distance parameter must be between 1 and 100000", this);
         }
     }
 }
