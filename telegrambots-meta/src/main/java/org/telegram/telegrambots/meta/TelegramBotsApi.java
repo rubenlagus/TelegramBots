@@ -98,9 +98,9 @@ public class TelegramBotsApi {
      * @return true if username or token is empty or null
      */
     public boolean checkBotCredentials(TelegramBot bot){
-        return bot.getBotUsername().isEmpty()   ||
-                bot.getBotToken().isEmpty()     ||
-                bot.getBotUsername() == null    ||
-                bot.getBotToken() == null;
+        return  bot.getBotUsername() == null    ||
+                bot.getBotToken() == null       ||
+                bot.getBotUsername().isEmpty()  ||
+                bot.getBotToken().isEmpty();
     }
 }
