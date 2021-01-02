@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.commands.GetMyCommands;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMember;
 import org.telegram.telegrambots.meta.api.methods.updates.Close;
 import org.telegram.telegrambots.meta.api.methods.updates.GetUpdates;
 import org.telegram.telegrambots.meta.api.methods.updates.LogOut;
@@ -13,6 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.Audio;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Chat;
+import org.telegram.telegrambots.meta.api.objects.ChatMember;
 import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.EntityType;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -162,6 +164,52 @@ class TestDeserialization {
         Boolean response = new Close().deserializeResponse(updateText);
 
         assertTrue(response);
+    }
+
+    @Test
+    void TestDeserializationChatMember() throws Exception {
+        String updateText = "{\n" +
+                "    \"ok\": true,\n" +
+                "    \"result\": {\n" +
+                "        \"user\": {\n" +
+                "            \"id\": 1111111,\n" +
+                "            \"is_bot\": true,\n" +
+                "            \"first_name\": \"MyTesting\",\n" +
+                "            \"username\": \"MyTestingUsername\"\n" +
+                "        },\n" +
+                "        \"status\": \"restricted\",\n" +
+                "        \"until_date\": 0,\n" +
+                "        \"can_send_messages\": false,\n" +
+                "        \"can_send_media_messages\": false,\n" +
+                "        \"can_send_polls\": false,\n" +
+                "        \"can_send_other_messages\": false,\n" +
+                "        \"can_add_web_page_previews\": false,\n" +
+                "        \"can_change_info\": false,\n" +
+                "        \"can_invite_users\": false,\n" +
+                "        \"can_pin_messages\": false,\n" +
+                "        \"is_member\": true\n" +
+                "    }\n" +
+                "}";
+
+        ChatMember response = new GetChatMember().deserializeResponse(updateText);
+
+        assertNotNull(response);
+        assertNotNull(response.getUser());
+        assertEquals(1111111, response.getUser().getId());
+        assertTrue(response.getUser().getIsBot());
+        assertEquals("MyTesting", response.getUser().getFirstName());
+        assertEquals("MyTestingUsername", response.getUser().getUserName());
+        assertEquals("restricted", response.getStatus());
+        assertEquals(0, response.getUntilDate());
+        assertFalse(response.getCanSendMessages());
+        assertFalse(response.getCanSendMediaMessages());
+        assertFalse(response.getCanSendPolls());
+        assertFalse(response.getCanSendOtherMessages());
+        assertFalse(response.getCanAddWebPagePreviews());
+        assertFalse(response.getCanChangeInfo());
+        assertFalse(response.getCanInviteUsers());
+        assertFalse(response.getCanPinMessages());
+        assertTrue(response.getIsMember());
     }
 
     @Test

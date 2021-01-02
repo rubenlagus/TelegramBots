@@ -27,7 +27,7 @@ public class ChatMember implements BotApiObject {
     private static final String STATUS_FIELD = "status";
     private static final String UNTILDATE_FIELD = "until_date";
     private static final String CANBEEDITED_FIELD = "can_be_edited";
-    private static final String CANCHANGEINFORMATION_FIELD = "can_change_information";
+    private static final String CANCHANGEINFO_FIELD = "can_change_info";
     private static final String CANPOSTMESSAGES_FIELD = "can_post_messages";
     private static final String CANEDITMESSAGES_FIELD = "can_edit_messages";
     private static final String CANDELETEMESSAGES_FIELD = "can_delete_messages";
@@ -52,8 +52,8 @@ public class ChatMember implements BotApiObject {
     private Integer untilDate; ///< Optional. Restricted and kicked only. Date when restrictions will be lifted for this user, unix time
     @JsonProperty(CANBEEDITED_FIELD)
     private Boolean canBeEdited; ///< Optional. Administrators only. True, if the bot is allowed to edit administrator privileges of that user
-    @JsonProperty(CANCHANGEINFORMATION_FIELD)
-    private Boolean canChangeInformation; ///< Optional. Administrators and restricted only. True, if the administrator can change the chat title, photo and other settings
+    @JsonProperty(CANCHANGEINFO_FIELD)
+    private Boolean canChangeInfo; ///< Optional. Administrators and restricted only. True, if the administrator can change the chat title, photo and other settings
     @JsonProperty(CANPOSTMESSAGES_FIELD)
     private Boolean canPostMessages; ///< Optional. Administrators only. True, if the administrator can post in the channel, channels only
     @JsonProperty(CANEDITMESSAGES_FIELD)
@@ -79,7 +79,7 @@ public class ChatMember implements BotApiObject {
     @JsonProperty(CAN_SEND_POLLS_FIELD)
     private Boolean canSendPolls; ///< Optional. Restricted only. True, if the user is allowed to send polls.
     @JsonProperty(ISMEMBER_FIELD)
-    private Boolean isMemberField; ///< True, if the user is a member of the chat at the moment of the request. For example, it can be false for the chat creator or for a restricted user.
+    private Boolean isMember; ///< True, if the user is a member of the chat at the moment of the request. For example, it can be false for the chat creator or for a restricted user.
     @JsonProperty(CUSTOMTITLE_FIELD)
     private String customTitle; ///< Optional. Owner and administrators only. Custom title for this user
     @JsonProperty(ISANONYMOUS_FIELD)
