@@ -40,7 +40,7 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
-import static org.telegram.abilitybots.api.bot.DefaultBot.getDefaultBuilder;
+import static org.telegram.abilitybots.api.bot.DefaultBot.*;
 import static org.telegram.abilitybots.api.bot.TestUtils.CREATOR;
 import static org.telegram.abilitybots.api.bot.TestUtils.*;
 import static org.telegram.abilitybots.api.db.MapDBContext.offlineInstance;
@@ -661,27 +661,51 @@ public class AbilityBotTest {
     verify(silent, times(1)).send(expected, 1);
   }
 
+  @Test
+  void canProcessRepliesRegisteredInCollection() {
+    Update firstUpdate = mock(Update.class);
+    Message firstMessage = mock(Message.class);
+    when(firstMessage.getText()).thenReturn(FIRST_REPLY_KEY_MESSAGE);
+    when(firstMessage.getChatId()).thenReturn(1L);
+
+    Update secondUpdate = mock(Update.class);
+    Message secondMessage = mock(Message.class);
+    when(secondMessage.getText()).thenReturn(SECOND_REPLY_KEY_MESSAGE);
+    when(secondMessage.getChatId()).thenReturn(1L);
+
+    mockUser(firstUpdate, firstMessage, USER);
+    mockUser(secondUpdate, secondMessage, USER);
+
+
+    bot.onUpdateReceived(firstUpdate);
+    bot.onUpdateReceived(secondUpdate);
+
+    verify(silent, times(2)).send(anyString(), anyLong());
+    verify(silent, times(1)).send("first reply answer", 1);
+    verify(silent, times(1)).send("second reply answer", 1);
+  }
+
   private void handlesAllUpdates(Consumer<Update> utilMethod) {
     Arrays.stream(Update.class.getMethods())
-        // filter to all these methods of hasXXX (hasPoll, hasMessage, etc...)
-        .filter(method -> method.getName().startsWith("has"))
-        // Gotta filter out hashCode
-        .filter(method -> method.getReturnType().getName().equals("boolean"))
-        .forEach(method -> {
-          Update update = mock(Update.class);
-          try {
-            // Mock the method and make sure it returns true so that it gets processed by the following method
-            when(method.invoke(update)).thenReturn(true);
-            // Call the function, throws an IllegalStateException if there's an update that can't be processed
-            utilMethod.accept(update);
-          } catch (IllegalStateException e) {
-            throw new RuntimeException(
-                format("Found an update variation that is not handled by the getChatId util method [%s]", method.getName()), e);
-          } catch (NullPointerException | ReflectiveOperationException e) {
-            // This is fine, the mock isn't complete and we're only
-            // looking for IllegalStateExceptions thrown by the method
-          }
-        });
+            // filter to all these methods of hasXXX (hasPoll, hasMessage, etc...)
+            .filter(method -> method.getName().startsWith("has"))
+            // Gotta filter out hashCode
+            .filter(method -> method.getReturnType().getName().equals("boolean"))
+            .forEach(method -> {
+              Update update = mock(Update.class);
+              try {
+                // Mock the method and make sure it returns true so that it gets processed by the following method
+                when(method.invoke(update)).thenReturn(true);
+                // Call the function, throws an IllegalStateException if there's an update that can't be processed
+                utilMethod.accept(update);
+              } catch (IllegalStateException e) {
+                throw new RuntimeException(
+                        format("Found an update variation that is not handled by the getChatId util method [%s]", method.getName()), e);
+              } catch (NullPointerException | ReflectiveOperationException e) {
+                // This is fine, the mock isn't complete and we're only
+                // looking for IllegalStateExceptions thrown by the method
+              }
+            });
   }
 
   private void mockUser(Update update, Message message, User user) {

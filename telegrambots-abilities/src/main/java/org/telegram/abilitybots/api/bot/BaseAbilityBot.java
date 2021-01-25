@@ -248,9 +248,9 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
 
     public Privacy getPrivacy(Update update, int id) {
         return isCreator(id) ?
-            CREATOR : isAdmin(id) ?
-            ADMIN : (isGroupUpdate(update) || isSuperGroupUpdate(update)) && isGroupAdmin(update, id) ?
-            GROUP_ADMIN : PUBLIC;
+                CREATOR : isAdmin(id) ?
+                ADMIN : (isGroupUpdate(update) || isSuperGroupUpdate(update)) && isGroupAdmin(update, id) ?
+                GROUP_ADMIN : PUBLIC;
     }
 
     public boolean isGroupAdmin(Update update, int id) {
@@ -260,8 +260,8 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     public boolean isGroupAdmin(long chatId, int id) {
         GetChatAdministrators admins = GetChatAdministrators.builder().chatId(Long.toString(chatId)).build();
         return silent.execute(admins)
-            .orElse(new ArrayList<>()).stream()
-            .anyMatch(member -> member.getUser().getId() == id);
+                .orElse(new ArrayList<>()).stream()
+                .anyMatch(member -> member.getUser().getId() == id);
     }
 
     public boolean isCreator(int id) {
@@ -326,17 +326,17 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
 
             DefaultAbilities defaultAbs = new DefaultAbilities(this);
             Stream<Ability> defaultAbsStream = stream(DefaultAbilities.class.getMethods())
-                .filter(checkReturnType(Ability.class))
-                .map(returnAbility(defaultAbs))
-                .filter(ab -> !toggle.isOff(ab))
-                .map(toggle::processAbility);
+                    .filter(checkReturnType(Ability.class))
+                    .map(returnAbility(defaultAbs))
+                    .filter(ab -> !toggle.isOff(ab))
+                    .map(toggle::processAbility);
 
             // Extract all abilities from every single extension instance
             abilities = Stream.concat(defaultAbsStream,
-                extensions.stream()
-                    .flatMap(ext -> stream(ext.getClass().getMethods())
-                            .filter(checkReturnType(Ability.class))
-                            .map(returnAbility(ext))))
+                    extensions.stream()
+                            .flatMap(ext -> stream(ext.getClass().getMethods())
+                                    .filter(checkReturnType(Ability.class))
+                                    .map(returnAbility(ext))))
                     // Abilities are immutable, build it respectively
                     .collect(ImmutableMap::<String, Ability>builder,
                             (b, a) -> b.put(a.name(), a),
@@ -348,7 +348,14 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
                     .flatMap(ext -> stream(ext.getClass().getMethods())
                             .filter(checkReturnType(Reply.class))
                             .map(returnReply(ext)))
-                            .flatMap(Reply::stream);
+                    .flatMap(Reply::stream);
+
+            Stream<Reply> extensionCollectionReplies = extensions.stream()
+                    .flatMap(extension -> stream(extension.getClass().getMethods())
+                            .filter(checkReturnType(ReplyCollection.class))
+                            .map(returnReplyCollection(extension))
+                            .map(ReplyCollection::getReplies))
+                    .flatMap(Collection::stream);
 
             // Replies can be standalone or attached to abilities, fetch those too
             Stream<Reply> abilityReplies = abilities.values().stream()
@@ -356,10 +363,12 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
                     .flatMap(Reply::stream);
 
             // Now create the replies registry (list)
-            replies = Stream.concat(abilityReplies, extensionReplies).collect(
-                    ImmutableList::<Reply>builder,
-                    Builder::add,
-                    (b1, b2) -> b1.addAll(b2.build()))
+            replies = Stream.of(abilityReplies, extensionReplies, extensionCollectionReplies)
+                    .flatMap(replyStream -> replyStream)
+                    .collect(
+                            ImmutableList::<Reply>builder,
+                            Builder::add,
+                            (b1, b2) -> b1.addAll(b2.build()))
                     .build();
         } catch (IllegalStateException e) {
             log.error("Duplicate names found while registering abilities. Make sure that the abilities declared don't clash with the reserved ones.", e);
@@ -369,15 +378,15 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
 
     private void initStats() {
         Set<String> enabledStats = Stream.concat(
-            replies.stream().filter(Reply::statsEnabled).map(Reply::name),
-            abilities.entrySet().stream()
-                .filter(entry -> entry.getValue().statsEnabled())
-                .map(Map.Entry::getKey)).collect(toSet());
+                replies.stream().filter(Reply::statsEnabled).map(Reply::name),
+                abilities.entrySet().stream()
+                        .filter(entry -> entry.getValue().statsEnabled())
+                        .map(Map.Entry::getKey)).collect(toSet());
         stats = db.getMap(STATS);
         Set<String> toBeRemoved = difference(stats.keySet(), enabledStats);
         toBeRemoved.forEach(stats::remove);
         enabledStats.forEach(abName -> stats.computeIfAbsent(abName,
-            name -> createStats(abName, 0)));
+                name -> createStats(abName, 0)));
     }
 
     /**
@@ -434,6 +443,23 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
                 return (Reply) method.invoke(obj);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 log.error("Could not add reply", e);
+                throw new RuntimeException(e);
+            }
+        };
+    }
+
+    /**
+     * Invokes the method and retrieves its return {@link ReplyCollection}.
+     *
+     * @param obj a bot or extension that this method is invoked with
+     * @return a {@link Function} which returns the {@link ReplyCollection} returned by the given method
+     */
+    private static Function<? super Method, ReplyCollection> returnReplyCollection(Object obj) {
+        return method -> {
+            try {
+                return (ReplyCollection) method.invoke(obj);
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                log.error("Could not add Reply Collection", e);
                 throw new RuntimeException(e);
             }
         };
@@ -553,12 +579,12 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         String[] tokens;
         if (allowContinuousText()) {
             String abName = abilities.keySet().stream()
-                .filter(name -> msg.getText().startsWith(format("%s%s", getCommandPrefix(), name)))
-                .max(comparingInt(String::length))
-                .orElse(DEFAULT);
+                    .filter(name -> msg.getText().startsWith(format("%s%s", getCommandPrefix(), name)))
+                    .max(comparingInt(String::length))
+                    .orElse(DEFAULT);
             tokens = msg.getText()
-                .replaceFirst(getCommandPrefix() + abName, "")
-                .split(getCommandRegexSplit());
+                    .replaceFirst(getCommandPrefix() + abName, "")
+                    .split(getCommandRegexSplit());
             ability = abilities.get(abName);
         } else {
             tokens = msg.getText().split(getCommandRegexSplit());
@@ -637,7 +663,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
             return callable.call();
         } catch(Exception ex) {
             log.error(format("Reply [%s] failed to check for conditions. " +
-                "Make sure you're safeguarding against all possible updates.", name));
+                    "Make sure you're safeguarding against all possible updates.", name));
         }
         return false;
     }
