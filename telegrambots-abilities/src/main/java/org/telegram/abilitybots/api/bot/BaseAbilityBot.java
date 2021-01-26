@@ -260,8 +260,8 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     public boolean isGroupAdmin(long chatId, int id) {
         GetChatAdministrators admins = GetChatAdministrators.builder().chatId(Long.toString(chatId)).build();
         return silent.execute(admins)
-             .orElse(new ArrayList<>()).stream()
-             .anyMatch(member -> member.getUser().getId() == id);
+            .orElse(new ArrayList<>()).stream()
+            .anyMatch(member -> member.getUser().getId() == id);
     }
 
     public boolean isCreator(int id) {
@@ -326,17 +326,17 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
 
             DefaultAbilities defaultAbs = new DefaultAbilities(this);
             Stream<Ability> defaultAbsStream = stream(DefaultAbilities.class.getMethods())
-                 .filter(checkReturnType(Ability.class))
-                 .map(returnAbility(defaultAbs))
-                 .filter(ab -> !toggle.isOff(ab))
-                 .map(toggle::processAbility);
+                .filter(checkReturnType(Ability.class))
+                .map(returnAbility(defaultAbs))
+                .filter(ab -> !toggle.isOff(ab))
+                .map(toggle::processAbility);
 
             // Extract all abilities from every single extension instance
             abilities = Stream.concat(defaultAbsStream,
-                 extensions.stream()
-                      .flatMap(ext -> stream(ext.getClass().getMethods())
-                              .filter(checkReturnType(Ability.class))
-                              .map(returnAbility(ext))))
+                extensions.stream()
+                    .flatMap(ext -> stream(ext.getClass().getMethods())
+                            .filter(checkReturnType(Ability.class))
+                            .map(returnAbility(ext))))
                     // Abilities are immutable, build it respectively
                     .collect(ImmutableMap::<String, Ability>builder,
                             (b, a) -> b.put(a.name(), a),

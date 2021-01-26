@@ -692,19 +692,19 @@ public class AbilityBotTest {
         // Gotta filter out hashCode
         .filter(method -> method.getReturnType().getName().equals("boolean"))
         .forEach(method -> {
-            Update update = mock(Update.class);
-            try {
-                // Mock the method and make sure it returns true so that it gets processed by the following method
-                when(method.invoke(update)).thenReturn(true);
-                // Call the function, throws an IllegalStateException if there's an update that can't be processed
-                utilMethod.accept(update);
-            } catch (IllegalStateException e) {
-                throw new RuntimeException(
-                    format("Found an update variation that is not handled by the getChatId util method [%s]", method.getName()), e);
-            } catch (NullPointerException | ReflectiveOperationException e) {
-                // This is fine, the mock isn't complete and we're only
-                // looking for IllegalStateExceptions thrown by the method
-            }
+          Update update = mock(Update.class);
+          try {
+            // Mock the method and make sure it returns true so that it gets processed by the following method
+            when(method.invoke(update)).thenReturn(true);
+            // Call the function, throws an IllegalStateException if there's an update that can't be processed
+            utilMethod.accept(update);
+          } catch (IllegalStateException e) {
+            throw new RuntimeException(
+                format("Found an update variation that is not handled by the getChatId util method [%s]", method.getName()), e);
+          } catch (NullPointerException | ReflectiveOperationException e) {
+            // This is fine, the mock isn't complete and we're only
+            // looking for IllegalStateExceptions thrown by the method
+          }
         });
   }
 
