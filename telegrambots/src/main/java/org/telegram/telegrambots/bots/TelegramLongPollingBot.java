@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.bots;
 
-import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 import org.telegram.telegrambots.util.WebhookUtils;
@@ -13,7 +12,7 @@ import org.telegram.telegrambots.util.WebhookUtils;
  */
 public abstract class TelegramLongPollingBot extends DefaultAbsSender implements LongPollingBot {
     public TelegramLongPollingBot() {
-        this(ApiContext.getInstance(DefaultBotOptions.class));
+        this(new DefaultBotOptions());
     }
 
     public TelegramLongPollingBot(DefaultBotOptions options) {

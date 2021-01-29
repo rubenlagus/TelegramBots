@@ -1,6 +1,12 @@
 package org.telegram.telegrambots.meta.api.objects.payments;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
@@ -9,6 +15,12 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
  *
  * This object represents information about an order.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderInfo implements BotApiObject {
     private static final String NAME_FIELD = "name";
     private static final String PHONE_NUMBER_FIELD = "phone_number";
@@ -23,34 +35,4 @@ public class OrderInfo implements BotApiObject {
     private String email; ///< Optional. User email
     @JsonProperty(SHIPPING_ADDRESS_FIELD)
     private ShippingAddress shippingAddress; ///< Optional. First line for the address
-
-    public OrderInfo() {
-        super();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public ShippingAddress getShippingAddress() {
-        return shippingAddress;
-    }
-
-    @Override
-    public String toString() {
-        return "OrderInfo{" +
-                "name='" + name + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", email='" + email + '\'' +
-                ", shippingAddress=" + shippingAddress +
-                '}';
-    }
 }

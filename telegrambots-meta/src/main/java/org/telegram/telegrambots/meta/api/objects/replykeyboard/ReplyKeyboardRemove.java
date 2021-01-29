@@ -1,11 +1,17 @@
 package org.telegram.telegrambots.meta.api.objects.replykeyboard;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-
-import java.util.Objects;
 
 /**
  * @author Ruben Bermudez
@@ -16,11 +22,20 @@ import java.util.Objects;
  * hidden immediately after the user presses a button (@see ReplyKeyboardMarkup).
  */
 @JsonDeserialize
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ReplyKeyboardRemove implements ReplyKeyboard {
     private static final String REMOVEKEYBOARD_FIELD = "remove_keyboard";
     private static final String SELECTIVE_FIELD = "selective";
 
     @JsonProperty(REMOVEKEYBOARD_FIELD)
+    @NonNull
     private Boolean removeKeyboard; ///< Requests clients to remove the custom keyboard
     /**
      * Optional. Use this parameter if you want to show the keyboard to specific users only.
@@ -30,55 +45,10 @@ public class ReplyKeyboardRemove implements ReplyKeyboard {
     @JsonProperty(SELECTIVE_FIELD)
     private Boolean selective;
 
-    public ReplyKeyboardRemove() {
-        super();
-        this.removeKeyboard = true;
-    }
-
-    public Boolean getRemoveKeyboard() {
-        return removeKeyboard;
-    }
-
-    public Boolean getSelective() {
-        return selective;
-    }
-
-    public ReplyKeyboardRemove setSelective(Boolean selective) {
-        this.selective = selective;
-        return this;
-    }
-
     @Override
     public void validate() throws TelegramApiValidationException {
         if (removeKeyboard == null) {
             throw new TelegramApiValidationException("RemoveKeyboard parameter can't be null", this);
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == this) return true;
-        if (!(o instanceof ReplyKeyboardRemove)) {
-            return false;
-        }
-        ReplyKeyboardRemove replyKeyboardRemove = (ReplyKeyboardRemove) o;
-        return Objects.equals(removeKeyboard, replyKeyboardRemove.removeKeyboard)
-                && Objects.equals(selective, replyKeyboardRemove.selective)
-                ;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(
-                removeKeyboard,
-                selective);
-    }
-
-    @Override
-    public String toString() {
-        return "ReplyKeyboardRemove{" +
-                "removeKeyboard=" + removeKeyboard +
-                ", selective=" + selective +
-                '}';
     }
 }

@@ -2,15 +2,21 @@ package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
-import java.util.Objects;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
@@ -20,6 +26,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Pass False for all boolean parameters to demote a user. Returns True on success.
  *
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PromoteChatMember extends BotApiMethod<Boolean> {
     public static final String PATH = "promoteChatMember";
 
@@ -33,137 +47,32 @@ public class PromoteChatMember extends BotApiMethod<Boolean> {
     private static final String CANRESTRICTMEMBERS_FIELD = "can_restrict_members";
     private static final String CANPINMESSAGES_FIELD = "can_pin_messages";
     private static final String CANPROMOTEMEMBERS_FIELD = "can_promote_members";
+    private static final String ISANONYMOUS_FIELD = "is_anonymous";
 
     @JsonProperty(CHATID_FIELD)
+    @NonNull
     private String chatId; ///< Required. Unique identifier for the chat to send the message to (Or username for channels)
     @JsonProperty(USER_ID_FIELD)
+    @NonNull
     private Integer userId; ///< Required. Unique identifier of the target user
     @JsonProperty(CANCHANGEINFORMATION_FIELD)
-    private Boolean canChangeInformation; ///< Pass True, if the administrator can change chat title, photo and other settings
+    private Boolean canChangeInformation; ///< Optional. Pass True, if the administrator can change chat title, photo and other settings
     @JsonProperty(CANPOSTMESSAGES_FIELD)
-    private Boolean canPostMessages; ///< Pass True, if the administrator can create channel posts, channels only
+    private Boolean canPostMessages; ///< Optional. Pass True, if the administrator can create channel posts, channels only
     @JsonProperty(CANEDITMESSAGES_FIELD)
-    private Boolean canEditMessages; ///< Pass True, if the administrator can edit messages of other users, channels only
+    private Boolean canEditMessages; ///< Optional. Pass True, if the administrator can edit messages of other users, channels only
     @JsonProperty(CANDELETEMESSAGES_FIELD)
-    private Boolean canDeleteMessages; ///< Pass True, if the administrator can delete messages of other users
+    private Boolean canDeleteMessages; ///< Optional. Pass True, if the administrator can delete messages of other users
     @JsonProperty(CANINVITEUSERS_FIELD)
-    private Boolean canInviteUsers; ///< Pass True, if the administrator can invite new users to the chat
+    private Boolean canInviteUsers; ///< Optional. Pass True, if the administrator can invite new users to the chat
     @JsonProperty(CANRESTRICTMEMBERS_FIELD)
-    private Boolean canRestrictMembers; ///< Pass True, if the administrator can restrict, ban or unban chat members
+    private Boolean canRestrictMembers; ///< Optional. Pass True, if the administrator can restrict, ban or unban chat members
     @JsonProperty(CANPINMESSAGES_FIELD)
-    private Boolean canPinMessages; ///< Pass True, if the administrator can pin messages
+    private Boolean canPinMessages; ///< Optional. Pass True, if the administrator can pin messages
     @JsonProperty(CANPROMOTEMEMBERS_FIELD)
-    private Boolean canPromoteMembers; ///< Pass True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administators that were appointed by the him)
-
-    public PromoteChatMember() {
-        super();
-    }
-
-    public PromoteChatMember(String chatId, Integer userId) {
-        this.chatId = checkNotNull(chatId);
-        this.userId = checkNotNull(userId);
-    }
-
-    public PromoteChatMember(Long chatId, Integer userId) {
-        this.chatId = checkNotNull(chatId).toString();
-        this.userId = checkNotNull(userId);
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public PromoteChatMember setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public PromoteChatMember setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
-        return this;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public PromoteChatMember setUserId(Integer userId) {
-        this.userId = userId;
-        return this;
-    }
-
-    public Boolean getCanChangeInformation() {
-        return canChangeInformation;
-    }
-
-    public PromoteChatMember setCanChangeInformation(Boolean canChangeInformation) {
-        this.canChangeInformation = canChangeInformation;
-        return this;
-    }
-
-    public Boolean getCanPostMessages() {
-        return canPostMessages;
-    }
-
-    public PromoteChatMember setCanPostMessages(Boolean canPostMessages) {
-        this.canPostMessages = canPostMessages;
-        return this;
-    }
-
-    public Boolean getCanEditMessages() {
-        return canEditMessages;
-    }
-
-    public PromoteChatMember setCanEditMessages(Boolean canEditMessages) {
-        this.canEditMessages = canEditMessages;
-        return this;
-    }
-
-    public Boolean getCanDeleteMessages() {
-        return canDeleteMessages;
-    }
-
-    public PromoteChatMember setCanDeleteMessages(Boolean canDeleteMessages) {
-        this.canDeleteMessages = canDeleteMessages;
-        return this;
-    }
-
-    public Boolean getCanInviteUsers() {
-        return canInviteUsers;
-    }
-
-    public PromoteChatMember setCanInviteUsers(Boolean canInviteUsers) {
-        this.canInviteUsers = canInviteUsers;
-        return this;
-    }
-
-    public Boolean getCanRestrictMembers() {
-        return canRestrictMembers;
-    }
-
-    public PromoteChatMember setCanRestrictMembers(Boolean canRestrictMembers) {
-        this.canRestrictMembers = canRestrictMembers;
-        return this;
-    }
-
-    public Boolean getCanPinMessages() {
-        return canPinMessages;
-    }
-
-    public PromoteChatMember setCanPinMessages(Boolean canPinMessages) {
-        this.canPinMessages = canPinMessages;
-        return this;
-    }
-
-    public Boolean getCanPromoteMembers() {
-        return canPromoteMembers;
-    }
-
-    public PromoteChatMember setCanPromoteMembers(Boolean canPromoteMembers) {
-        this.canPromoteMembers = canPromoteMembers;
-        return this;
-    }
+    private Boolean canPromoteMembers; ///< Optional. Pass True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administators that were appointed by the him)
+    @JsonProperty(ISANONYMOUS_FIELD)
+    private Boolean isAnonymous; ///< Optional. Pass True, if the administrator's presence in the chat is hidden
 
     @Override
     public String getMethod() {
@@ -194,21 +103,5 @@ public class PromoteChatMember extends BotApiMethod<Boolean> {
         if (userId == null) {
             throw new TelegramApiValidationException("UserId can't be null", this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "PromoteChatMember{" +
-                "chatId='" + chatId + '\'' +
-                ", userId=" + userId +
-                ", canChangeInformation=" + canChangeInformation +
-                ", canPostMessages=" + canPostMessages +
-                ", canEditMessages=" + canEditMessages +
-                ", canDeleteMessages=" + canDeleteMessages +
-                ", canInviteUsers=" + canInviteUsers +
-                ", canRestrictMembers=" + canRestrictMembers +
-                ", canPinMessages=" + canPinMessages +
-                ", canPromoteMembers=" + canPromoteMembers +
-                '}';
     }
 }

@@ -2,16 +2,23 @@ package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
-import java.util.Objects;
 
 /**
  * @author Ruben Bermudez
@@ -19,6 +26,14 @@ import java.util.Objects;
  * Use this method to send information about user contact. On success, the sent Message is
  * returned.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SendContact extends BotApiMethod<Message> {
     public static final String PATH = "sendContact";
 
@@ -30,12 +45,16 @@ public class SendContact extends BotApiMethod<Message> {
     private static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
     private static final String VCARD_FIELD = "vcard";
+    private static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
 
     @JsonProperty(CHATID_FIELD)
+    @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     @JsonProperty(PHONE_NUMBER_FIELD)
+    @NonNull
     private String phoneNumber; ///< User's phone number
     @JsonProperty(FIRST_NAME_FIELD)
+    @NonNull
     private String firstName; ///< User's first name
     @JsonProperty(LAST_NAME_FIELD)
     private String lastName; ///< Optional. User's last name
@@ -47,91 +66,15 @@ public class SendContact extends BotApiMethod<Message> {
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
     @JsonProperty(VCARD_FIELD)
     private String vCard; ///< Optional. Additional data about the contact in the form of a vCard
+    @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
+    private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
 
-    public SendContact() {
-        super();
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public SendContact setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public SendContact setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
-        return this;
-    }
-
-    public Integer getReplyToMessageId() {
-        return replyToMessageId;
-    }
-
-    public SendContact setReplyToMessageId(Integer replyToMessageId) {
-        this.replyToMessageId = replyToMessageId;
-        return this;
-    }
-
-    public ReplyKeyboard getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public SendContact setReplyMarkup(ReplyKeyboard replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
-
-    public Boolean getDisableNotification() {
-        return disableNotification;
-    }
-
-    public SendContact enableNotification() {
+    public void enableNotification() {
         this.disableNotification = false;
-        return this;
     }
 
-    public SendContact disableNotification() {
+    public void disableNotification() {
         this.disableNotification = true;
-        return this;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public SendContact setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-        return this;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public SendContact setFirstName(String firstName) {
-        this.firstName = firstName;
-        return this;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public SendContact setLastName(String lastName) {
-        this.lastName = lastName;
-        return this;
-    }
-
-    public String getvCard() {
-        return vCard;
-    }
-
-    public void setvCard(String vCard) {
-        this.vCard = vCard;
     }
 
     @Override
@@ -168,19 +111,5 @@ public class SendContact extends BotApiMethod<Message> {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "SendContact{" +
-                "chatId='" + chatId + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", disableNotification=" + disableNotification +
-                ", replyToMessageId=" + replyToMessageId +
-                ", replyMarkup=" + replyMarkup +
-                ", vCard='" + vCard + '\'' +
-                '}';
     }
 }

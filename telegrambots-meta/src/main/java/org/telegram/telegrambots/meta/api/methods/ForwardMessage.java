@@ -2,20 +2,35 @@ package org.telegram.telegrambots.meta.api.methods;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-
-import org.telegram.telegrambots.meta.api.objects.Message;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
-import java.util.Objects;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
  * Use this method to send text messages. On success, the sent Message is returned.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ForwardMessage extends BotApiMethod<Message> {
     public static final String PATH = "forwardmessage";
 
@@ -25,10 +40,13 @@ public class ForwardMessage extends BotApiMethod<Message> {
     private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
 
     @JsonProperty(CHATID_FIELD)
+    @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (or username for channels)
     @JsonProperty(FROMCHATID_FIELD)
+    @NonNull
     private String fromChatId; ///< Unique identifier for the chat where the original message was sent — User or GroupChat id
     @JsonProperty(MESSAGEID_FIELD)
+    @NonNull
     private Integer messageId; ///< Unique message identifier
     /**
      * Optional. Sends the message silently.
@@ -38,99 +56,6 @@ public class ForwardMessage extends BotApiMethod<Message> {
      */
     @JsonProperty(DISABLENOTIFICATION_FIELD)
     private Boolean disableNotification;
-
-    public ForwardMessage() {
-        super();
-    }
-
-    public ForwardMessage(String chatId, String fromChatId, Integer messageId) {
-        this();
-        Objects.requireNonNull(chatId);
-        Objects.requireNonNull(fromChatId);
-        this.chatId = chatId;
-        this.fromChatId = fromChatId;
-        this.messageId = messageId;
-    }
-
-    public ForwardMessage(String chatId, Long fromChatId, Integer messageId) {
-        this();
-        Objects.requireNonNull(chatId);
-        Objects.requireNonNull(fromChatId);
-        this.chatId = chatId;
-        this.fromChatId = fromChatId.toString();
-        this.messageId = messageId;
-    }
-
-    public ForwardMessage(Long chatId, String fromChatId, Integer messageId) {
-        this();
-        Objects.requireNonNull(chatId);
-        Objects.requireNonNull(fromChatId);
-        this.chatId = chatId.toString();
-        this.fromChatId = fromChatId;
-        this.messageId = messageId;
-    }
-
-    public ForwardMessage(Long chatId, Long fromChatId, Integer messageId) {
-        this();
-        Objects.requireNonNull(chatId);
-        Objects.requireNonNull(fromChatId);
-        this.chatId = chatId.toString();
-        this.fromChatId = fromChatId.toString();
-        this.messageId = messageId;
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public ForwardMessage setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public ForwardMessage setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
-        return this;
-    }
-
-    public String getFromChatId() {
-        return fromChatId;
-    }
-
-    public ForwardMessage setFromChatId(String fromChatId) {
-        this.fromChatId = fromChatId;
-        return this;
-    }
-
-    public ForwardMessage setFromChatId(Long fromChatId) {
-        Objects.requireNonNull(fromChatId);
-        this.fromChatId = fromChatId.toString();
-        return this;
-    }
-
-    public Integer getMessageId() {
-        return messageId;
-    }
-
-    public ForwardMessage setMessageId(Integer messageId) {
-        this.messageId = messageId;
-        return this;
-    }
-
-    public Boolean getDisableNotification() {
-        return disableNotification;
-    }
-
-    public ForwardMessage enableNotification() {
-        this.disableNotification = false;
-        return this;
-    }
-
-    public ForwardMessage disableNotification() {
-        this.disableNotification = true;
-        return this;
-    }
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -163,15 +88,5 @@ public class ForwardMessage extends BotApiMethod<Message> {
         } catch (IOException e) {
             throw new TelegramApiRequestException("Unable to deserialize response", e);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "ForwardMessage{" +
-                "chatId='" + chatId + '\'' +
-                ", fromChatId='" + fromChatId + '\'' +
-                ", messageId=" + messageId +
-                ", disableNotification=" + disableNotification +
-                '}';
     }
 }

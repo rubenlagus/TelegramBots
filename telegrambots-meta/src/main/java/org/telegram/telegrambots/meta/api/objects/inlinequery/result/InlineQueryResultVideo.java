@@ -3,9 +3,22 @@ package org.telegram.telegrambots.meta.api.objects.inlinequery.result;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.Singular;
+import lombok.ToString;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+
+import java.util.List;
 
 /**
  * @author Ruben Bermudez
@@ -15,6 +28,14 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * instead of the video.
  */
 @JsonDeserialize
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class InlineQueryResultVideo implements InlineQueryResult {
     private static final String TYPE_FIELD = "type";
     private static final String ID_FIELD = "id";
@@ -30,14 +51,18 @@ public class InlineQueryResultVideo implements InlineQueryResult {
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String PARSEMODE_FIELD = "parse_mode";
+    private static final String CAPTION_ENTITIES_FIELD = "caption_entities";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "video"; ///< Type of the result, must be "video"
     @JsonProperty(ID_FIELD)
+    @NonNull
     private String id; ///< Unique identifier of this result
     @JsonProperty(MIMETYPE_FIELD)
+    @NonNull
     private String mimeType; ///< Mime type of the content of video url, i.e. “text/html” or “video/mp4”
     @JsonProperty(VIDEOURL_FIELD)
+    @NonNull
     private String videoUrl; ///< A valid URL for the embedded video player or video file
     @JsonProperty(VIDEOWIDTH_FIELD)
     private Integer videoWidth; ///< Optional. Video width
@@ -58,132 +83,10 @@ public class InlineQueryResultVideo implements InlineQueryResult {
     @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
     @JsonProperty(PARSEMODE_FIELD)
-    private String parseMode; ///< Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
-
-    public InlineQueryResultVideo() {
-        super();
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public InlineQueryResultVideo setId(String id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getMimeType() {
-        return mimeType;
-    }
-
-    public InlineQueryResultVideo setMimeType(String mimeType) {
-        this.mimeType = mimeType;
-        return this;
-    }
-
-    public String getVideoUrl() {
-        return videoUrl;
-    }
-
-    public InlineQueryResultVideo setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
-        return this;
-    }
-
-    public Integer getVideoWidth() {
-        return videoWidth;
-    }
-
-    public InlineQueryResultVideo setVideoWidth(Integer videoWidth) {
-        this.videoWidth = videoWidth;
-        return this;
-    }
-
-    public Integer getVideoHeight() {
-        return videoHeight;
-    }
-
-    public InlineQueryResultVideo setVideoHeight(Integer videoHeight) {
-        this.videoHeight = videoHeight;
-        return this;
-    }
-
-    public Integer getVideoDuration() {
-        return videoDuration;
-    }
-
-    public InlineQueryResultVideo setVideoDuration(Integer videoDuration) {
-        this.videoDuration = videoDuration;
-        return this;
-    }
-
-    public String getThumbUrl() {
-        return thumbUrl;
-    }
-
-    public InlineQueryResultVideo setThumbUrl(String thumbUrl) {
-        this.thumbUrl = thumbUrl;
-        return this;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public InlineQueryResultVideo setTitle(String title) {
-        this.title = title;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public InlineQueryResultVideo setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public String getCaption() {
-        return caption;
-    }
-
-    public InlineQueryResultVideo setCaption(String caption) {
-        this.caption = caption;
-        return this;
-    }
-
-    public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
-    }
-
-    public InlineQueryResultVideo setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
-        return this;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public InlineQueryResultVideo setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
-
-    public String getParseMode() {
-        return parseMode;
-    }
-
-    public InlineQueryResultVideo setParseMode(String parseMode) {
-        this.parseMode = parseMode;
-        return this;
-    }
+    private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+    @JsonProperty(CAPTION_ENTITIES_FIELD)
+    @Singular
+    private List<MessageEntity> captionEntities; ///< Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -193,31 +96,14 @@ public class InlineQueryResultVideo implements InlineQueryResult {
         if (videoUrl == null || videoUrl.isEmpty()) {
             throw new TelegramApiValidationException("VideoUrl parameter can't be empty", this);
         }
+        if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
+            throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
+        }
         if (inputMessageContent != null) {
             inputMessageContent.validate();
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "InlineQueryResultVideo{" +
-                "type='" + type + '\'' +
-                ", id='" + id + '\'' +
-                ", mimeType='" + mimeType + '\'' +
-                ", videoUrl='" + videoUrl + '\'' +
-                ", videoWidth=" + videoWidth +
-                ", videoHeight=" + videoHeight +
-                ", videoDuration=" + videoDuration +
-                ", thumbUrl='" + thumbUrl + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", caption='" + caption + '\'' +
-                ", inputMessageContent=" + inputMessageContent +
-                ", replyMarkup=" + replyMarkup +
-                ", parseMode='" + parseMode + '\'' +
-                '}';
     }
 }

@@ -1,18 +1,27 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.Singular;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Objects;
+import java.util.List;
 
 /**
  * @author Ruben Bermudez
@@ -22,6 +31,14 @@ import java.util.Objects;
  *
  * Bots can currently send animation files of up to 50 MB in size, this limit may be changed in the future.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SendAnimation extends PartialBotApiMethod<Message> {
     public static final String PATH = "sendAnimation";
 
@@ -36,14 +53,17 @@ public class SendAnimation extends PartialBotApiMethod<Message> {
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     public static final String REPLYMARKUP_FIELD = "reply_markup";
     public static final String THUMB_FIELD = "thumb";
+    public static final String CAPTION_ENTITIES_FIELD = "caption_entities";
+    public static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
 
-
+    @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     /**
      * Animation to send. Pass a file_id as String to send an animation that exists on the
      * Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an animation
      * from the Internet, or upload a new animation using multipart/form-data.
      */
+    @NonNull
     private InputFile animation;
     private Integer duration; ///< Optional. Duration of sent animation in seconds
     private String caption; ///< Optional. Animation caption (may also be used when resending videos by file_id).
@@ -54,6 +74,7 @@ public class SendAnimation extends PartialBotApiMethod<Message> {
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
     private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
     /**
+     * Optional.
      * Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size.
      * A thumbnail’s width and height should not exceed 320.
      * Ignored if the file is not uploaded using multipart/form-data.
@@ -61,137 +82,16 @@ public class SendAnimation extends PartialBotApiMethod<Message> {
      * if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
      */
     private InputFile thumb;
+    @Singular
+    private List<MessageEntity> captionEntities; ///< Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
+    private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
 
-    public SendAnimation() {
-        super();
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public SendAnimation setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public InputFile getAnimation() {
-        return animation;
-    }
-
-    public SendAnimation setAnimation(String animation) {
-        this.animation = new InputFile(animation);
-        return this;
-    }
-
-    public SendAnimation setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
-        return this;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public SendAnimation setDuration(Integer duration) {
-        this.duration = duration;
-        return this;
-    }
-
-    public String getCaption() {
-        return caption;
-    }
-
-    public SendAnimation setCaption(String caption) {
-        this.caption = caption;
-        return this;
-    }
-
-    public Integer getReplyToMessageId() {
-        return replyToMessageId;
-    }
-
-    public SendAnimation setReplyToMessageId(Integer replyToMessageId) {
-        this.replyToMessageId = replyToMessageId;
-        return this;
-    }
-
-    public ReplyKeyboard getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public SendAnimation setReplyMarkup(ReplyKeyboard replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
-
-    public Boolean getDisableNotification() {
-        return disableNotification;
-    }
-
-    public SendAnimation enableNotification() {
+    public void enableNotification() {
         this.disableNotification = false;
-        return this;
     }
 
-    public SendAnimation disableNotification() {
+    public void disableNotification() {
         this.disableNotification = true;
-        return this;
-    }
-
-    public Integer getWidth() {
-        return width;
-    }
-
-    public SendAnimation setWidth(Integer width) {
-        this.width = width;
-        return this;
-    }
-
-    public Integer getHeight() {
-        return height;
-    }
-
-    public SendAnimation setHeight(Integer height) {
-        this.height = height;
-        return this;
-    }
-
-    public SendAnimation setAnimation(File file) {
-        this.animation = new InputFile(file, file.getName());
-        return this;
-    }
-
-    public SendAnimation setAnimation(String animationName, InputStream inputStream) {
-    	Objects.requireNonNull(animationName, "animationName cannot be null!");
-    	Objects.requireNonNull(inputStream, "inputStream cannot be null!");
-        this.animation = new InputFile(inputStream, animationName);
-        return this;
-    }
-
-    public SendAnimation setAnimation(InputFile animation) {
-        Objects.requireNonNull(animation, "animation cannot be null!");
-        this.animation = animation;
-        return this;
-    }
-
-    public String getParseMode() {
-        return parseMode;
-    }
-
-    public SendAnimation setParseMode(String parseMode) {
-        this.parseMode = parseMode;
-        return this;
-    }
-
-    public InputFile getThumb() {
-        return thumb;
-    }
-
-    public SendAnimation setThumb(InputFile thumb) {
-        this.thumb = thumb;
-        return this;
     }
 
     @Override
@@ -219,6 +119,10 @@ public class SendAnimation extends PartialBotApiMethod<Message> {
             throw new TelegramApiValidationException("Animation parameter can't be empty", this);
         }
 
+        if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
+            throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
+        }
+
         animation.validate();
 
         if (replyMarkup != null) {
@@ -227,21 +131,5 @@ public class SendAnimation extends PartialBotApiMethod<Message> {
         if (thumb != null) {
             thumb.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "SendAnimation{" + "chatId='" + chatId + '\'' +
-                ", animation=" + animation +
-                ", duration=" + duration +
-                ", caption='" + caption + '\'' +
-                ", width=" + width +
-                ", height=" + height +
-                ", disableNotification=" + disableNotification +
-                ", replyToMessageId=" + replyToMessageId +
-                ", replyMarkup=" + replyMarkup +
-                ", parseMode='" + parseMode + '\'' +
-                ", thumb=" + thumb +
-                '}';
     }
 }

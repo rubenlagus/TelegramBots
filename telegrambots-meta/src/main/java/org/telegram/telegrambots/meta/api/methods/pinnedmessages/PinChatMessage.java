@@ -2,24 +2,39 @@ package org.telegram.telegrambots.meta.api.methods.pinnedmessages;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
-import java.util.Objects;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
  * @version 3.1
- * Use this method to pin a message in a group, a supergroup or a channel.
- * The bot must be an administrator in the chat for this to work and must
- * have the ‘can_pin_messages’ admin right in the supergroup or ‘can_edit_messages’
- * admin right in the channel. Returns True on success.
+ * Use this method to add a message to the list of pinned messages in a chat.
+ * Returns True on success.
+ *
+ * @apiNote If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must
+ * have the 'can_pin_messages' admin right in a supergroup or 'can_edit_messages' admin right in a channel.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PinChatMessage extends BotApiMethod<Boolean> {
     public static final String PATH = "pinChatMessage";
 
@@ -28,8 +43,10 @@ public class PinChatMessage extends BotApiMethod<Boolean> {
     private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
 
     @JsonProperty(CHATID_FIELD)
+    @NonNull
     private String chatId; ///< Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     @JsonProperty(MESSAGEID_FIELD)
+    @NonNull
     private Integer messageId; ///< Required. Identifier of a message to pin
     /**
      * Pass True, if it is not necessary to send a notification to all chat members about the new pinned message.
@@ -37,56 +54,6 @@ public class PinChatMessage extends BotApiMethod<Boolean> {
      */
     @JsonProperty(DISABLENOTIFICATION_FIELD)
     private Boolean disableNotification;
-
-    public PinChatMessage() {
-        super();
-    }
-
-    public PinChatMessage(String chatId, Integer messageId) {
-        super();
-        this.chatId = checkNotNull(chatId);
-        this.messageId = checkNotNull(messageId);
-    }
-
-    public PinChatMessage(Long chatId, Integer messageId) {
-        super();
-        this.chatId = checkNotNull(chatId).toString();
-        this.messageId = checkNotNull(messageId);
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public PinChatMessage setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public PinChatMessage setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
-        return this;
-    }
-
-    public Integer getMessageId() {
-        return messageId;
-    }
-
-    public PinChatMessage setMessageId(Integer messageId) {
-        Objects.requireNonNull(messageId);
-        this.messageId = messageId;
-        return this;
-    }
-
-    public Boolean getDisableNotification() {
-        return disableNotification;
-    }
-
-    public PinChatMessage setDisableNotification(Boolean disableNotification) {
-        this.disableNotification = disableNotification;
-        return this;
-    }
 
     @Override
     public String getMethod() {
@@ -116,14 +83,5 @@ public class PinChatMessage extends BotApiMethod<Boolean> {
         if (messageId == null) {
             throw new TelegramApiValidationException("MessageId parameter can't be null", this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "PinChatMessage{" +
-                "chatId='" + chatId + '\'' +
-                ", messageId=" + messageId +
-                ", disableNotification=" + disableNotification +
-                '}';
     }
 }

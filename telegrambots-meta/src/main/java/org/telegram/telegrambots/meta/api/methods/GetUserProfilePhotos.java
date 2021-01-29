@@ -3,6 +3,15 @@ package org.telegram.telegrambots.meta.api.methods;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.objects.UserProfilePhotos;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -15,6 +24,14 @@ import java.io.IOException;
  * @version 1.0
  * Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
 public class GetUserProfilePhotos extends BotApiMethod<UserProfilePhotos> {
     public static final String PATH = "getuserprofilephotos";
 
@@ -23,9 +40,10 @@ public class GetUserProfilePhotos extends BotApiMethod<UserProfilePhotos> {
     private static final String LIMIT_FIELD = "limit";
 
     @JsonProperty(USERID_FIELD)
+    @NonNull
     private Integer userId; ///< Unique identifier of the target user
     /**
-     * Sequential number of the first photo to be returned. By default, all photos are returned.
+     * Optional. Sequential number of the first photo to be returned. By default, all photos are returned.
      */
     @JsonProperty(OFFSET_FIELD)
     private Integer offset;
@@ -34,37 +52,6 @@ public class GetUserProfilePhotos extends BotApiMethod<UserProfilePhotos> {
      */
     @JsonProperty(LIMIT_FIELD)
     private Integer limit;
-
-    public GetUserProfilePhotos() {
-        super();
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public GetUserProfilePhotos setUserId(Integer userId) {
-        this.userId = userId;
-        return this;
-    }
-
-    public Integer getOffset() {
-        return offset;
-    }
-
-    public GetUserProfilePhotos setOffset(Integer offset) {
-        this.offset = offset;
-        return this;
-    }
-
-    public Integer getLimit() {
-        return limit;
-    }
-
-    public GetUserProfilePhotos setLimit(Integer limit) {
-        this.limit = limit;
-        return this;
-    }
 
     @Override
     public String getMethod() {
@@ -91,14 +78,5 @@ public class GetUserProfilePhotos extends BotApiMethod<UserProfilePhotos> {
         if (userId == null) {
             throw new TelegramApiValidationException("UserId parameter can't be empty", this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "GetUserProfilePhotos{" +
-                "userId=" + userId +
-                ", offset=" + offset +
-                ", limit=" + limit +
-                '}';
     }
 }

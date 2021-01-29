@@ -2,10 +2,19 @@ package org.telegram.telegrambots.meta.api.methods.updatingmessages;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -17,11 +26,20 @@ import java.io.Serializable;
  * @author Ruben Bermudez
  * @version 4.0.0
  * Use this method to edit audio, document, photo, or video messages.
- * If a message is a part of a message album, then it can be edited only to a photo or a video.
- * Otherwise, message type can be changed arbitrarily. When inline message is edited, new file can't be uploaded.
- * Use previously uploaded file via its file_id or specify a URL.
+ * f a message is part of a message album, then it can be edited only to an audio for audio albums,
+ * only to a document for document albums and to a photo or a video otherwise
+ * When an inline message is edited, a new file can't be uploaded.
+ * Use a previously uploaded file via its file_id or specify a URL.
  * On success, if the edited message was sent by the bot, the edited Message is returned, otherwise True is returned.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class EditMessageMedia extends PartialBotApiMethod<Serializable> {
     public static final String PATH = "editMessageMedia";
 
@@ -50,64 +68,12 @@ public class EditMessageMedia extends PartialBotApiMethod<Serializable> {
     /**
      * A JSON-serialized object for a new media content of the message
      */
+    @NonNull
     @JsonProperty(MEDIA_FIELD)
     private InputMedia media;
 
     @JsonProperty(REPLYMARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. A JSON-serialized object for an inline keyboard.
-
-    public EditMessageMedia() {
-        super();
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public EditMessageMedia setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public EditMessageMedia setChatId(Long chatId) {
-        this.chatId = chatId.toString();
-        return this;
-    }
-
-    public Integer getMessageId() {
-        return messageId;
-    }
-
-    public EditMessageMedia setMessageId(Integer messageId) {
-        this.messageId = messageId;
-        return this;
-    }
-
-    public String getInlineMessageId() {
-        return inlineMessageId;
-    }
-
-    public EditMessageMedia setInlineMessageId(String inlineMessageId) {
-        this.inlineMessageId = inlineMessageId;
-        return this;
-    }
-
-    public InputMedia getMedia() {
-        return media;
-    }
-
-    public void setMedia(InputMedia media) {
-        this.media = media;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public EditMessageMedia setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
 
     @Override
     public Serializable deserializeResponse(String answer) throws TelegramApiRequestException {
@@ -161,16 +127,5 @@ public class EditMessageMedia extends PartialBotApiMethod<Serializable> {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "EditMessageMedia{" +
-                "chatId='" + chatId + '\'' +
-                ", messageId=" + messageId +
-                ", inlineMessageId='" + inlineMessageId + '\'' +
-                ", media=" + media +
-                ", replyMarkup=" + replyMarkup +
-                '}';
     }
 }

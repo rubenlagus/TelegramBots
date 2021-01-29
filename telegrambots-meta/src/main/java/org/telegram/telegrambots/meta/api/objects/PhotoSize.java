@@ -1,14 +1,25 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief This object represents one size of a photo or a file / sticker thumbnail.
- * @date 20 of June of 2015
+ * This object represents one size of a photo or a file / sticker thumbnail.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class PhotoSize implements BotApiObject {
 
     private static final String FILEID_FIELD = "file_id";
@@ -34,47 +45,4 @@ public class PhotoSize implements BotApiObject {
     private Integer fileSize; ///< Optional. File size
     @JsonProperty(FILEPATH_FIELD)
     private String filePath; ///< Undocumented field. Optional. Can contain the path to download the file directly without calling to getFile
-
-    public PhotoSize() {
-        super();
-    }
-
-    public String getFileId() {
-        return fileId;
-    }
-
-    public Integer getWidth() {
-        return width;
-    }
-
-    public Integer getHeight() {
-        return height;
-    }
-
-    public Integer getFileSize() {
-        return fileSize;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public boolean hasFilePath() {
-        return filePath != null && !filePath.isEmpty();
-    }
-
-    public String getFileUniqueId() {
-        return fileUniqueId;
-    }
-
-    @Override
-    public String toString() {
-        return "PhotoSize{" +
-                "fileId='" + fileId + '\'' +
-                ", width=" + width +
-                ", height=" + height +
-                ", fileSize=" + fileSize +
-                ", fileUniqueId=" + fileUniqueId +
-                '}';
-    }
 }

@@ -2,10 +2,16 @@ package org.telegram.telegrambots.meta.api.methods.updatingmessages;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -20,6 +26,13 @@ import java.io.Serializable;
  * On success, if edited message is sent by the bot, the edited Message is returned,
  * otherwise True is returned.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class EditMessageReplyMarkup extends BotApiMethod<Serializable> {
     public static final String PATH = "editmessagereplymarkup";
 
@@ -46,51 +59,6 @@ public class EditMessageReplyMarkup extends BotApiMethod<Serializable> {
     private String inlineMessageId;
     @JsonProperty(REPLYMARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. A JSON-serialized object for an inline keyboard.
-
-    public EditMessageReplyMarkup() {
-        super();
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public EditMessageReplyMarkup setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public EditMessageReplyMarkup setChatId(Long chatId) {
-        this.chatId = chatId.toString();
-        return this;
-    }
-
-    public Integer getMessageId() {
-        return messageId;
-    }
-
-    public EditMessageReplyMarkup setMessageId(Integer messageId) {
-        this.messageId = messageId;
-        return this;
-    }
-
-    public String getInlineMessageId() {
-        return inlineMessageId;
-    }
-
-    public EditMessageReplyMarkup setInlineMessageId(String inlineMessageId) {
-        this.inlineMessageId = inlineMessageId;
-        return this;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public EditMessageReplyMarkup setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
 
     @Override
     public String getMethod() {
@@ -143,15 +111,5 @@ public class EditMessageReplyMarkup extends BotApiMethod<Serializable> {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "EditMessageReplyMarkup{" +
-                "chatId=" + chatId +
-                ", messageId=" + messageId +
-                ", inlineMessageId=" + inlineMessageId +
-                ", replyMarkup=" + replyMarkup +
-                '}';
     }
 }

@@ -20,6 +20,15 @@ package org.telegram.telegrambots.meta.api.objects.inlinequery.result;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -32,6 +41,14 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * @apiNote  This will only work in Telegram versions released after 1 October, 2016. Older clients will ignore them.
  */
 @JsonDeserialize
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class InlineQueryResultGame implements InlineQueryResult {
 
     private static final String TYPE_FIELD = "type";
@@ -42,45 +59,13 @@ public class InlineQueryResultGame implements InlineQueryResult {
     @JsonProperty(TYPE_FIELD)
     private final String type = "game"; ///< Type of the result, must be "game"
     @JsonProperty(ID_FIELD)
+    @NonNull
     private String id; ///< Unique identifier of this result, 1-64 bytes
     @JsonProperty(GAMESHORTNAME_FIELD)
+    @NonNull
     private String gameShortName; ///< Short name of the game
     @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
-
-    public InlineQueryResultGame() {
-        super();
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public InlineQueryResultGame setId(String id) {
-        this.id = id;
-        return this;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public InlineQueryResultGame setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
-
-    public String getGameShortName() {
-        return gameShortName;
-    }
-
-    public void setGameShortName(String gameShortName) {
-        this.gameShortName = gameShortName;
-    }
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -93,15 +78,5 @@ public class InlineQueryResultGame implements InlineQueryResult {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "InlineQueryResultGame{" +
-                "type='" + type + '\'' +
-                ", id='" + id + '\'' +
-                ", gameShortName='" + gameShortName + '\'' +
-                ", replyMarkup=" + replyMarkup +
-                '}';
     }
 }

@@ -3,19 +3,26 @@ package org.telegram.telegrambots.meta.api.methods.polls;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.Singular;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
@@ -25,6 +32,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * On success, the sent Message is returned.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SendPoll extends BotApiMethod<Message> {
     public static final String PATH = "sendPoll";
 
@@ -43,17 +58,23 @@ public class SendPoll extends BotApiMethod<Message> {
     private static final String CLOSEDATE_FIELD = "close_date";
     private static final String EXPLANATION_FIELD = "explanation";
     private static final String EXPLANATIONPARSEMODE_FIELD = "explanation_parse_mode";
+    private static final String EXPLANATION_ENTITIES_FIELD = "explanation_entities";
+    private static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
 
     /**
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername).
      * A native poll can't be sent to a private chat.
      */
     @JsonProperty(CHATID_FIELD)
+    @NonNull
     private String chatId; ///< Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     @JsonProperty(QUESTION_FIELD)
-    private String question; ///< Poll question, 1-255 characters
+    @NonNull
+    private String question; ///< Poll question, 1-300 characters
     @JsonProperty(OPTIONS_FIELD)
-    private List<String> options = new ArrayList<>(); ///< List of answer options, 2-10 strings 1-100 characters each
+    @Singular
+    @NonNull
+    private List<String> options; ///< List of answer options, 2-10 strings 1-100 characters each
     @JsonProperty(ISANONYMOUS_FIELD)
     private Boolean isAnonymous; ///< Optional	True, if the poll needs to be anonymous, defaults to True
     @JsonProperty(TYPE_FIELD)
@@ -79,168 +100,18 @@ public class SendPoll extends BotApiMethod<Message> {
     private String explanation; ///< Optional. Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters with at most 2 line feeds after entities parsing
     @JsonProperty(EXPLANATIONPARSEMODE_FIELD)
     private String explanationParseMode; ///< Optional. Mode for parsing entities in the explanation. See formatting options for more details.
+    @JsonProperty(EXPLANATION_ENTITIES_FIELD)
+    @Singular
+    private List<MessageEntity> explanationEntities; ///< Optional. List of special entities that appear in the poll explanation, which can be specified instead of parse_mode
+    @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
+    private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
 
-    public SendPoll() {
-        super();
-    }
-
-    public SendPoll(String chatId, String question, List<String> options) {
-        this.chatId = checkNotNull(chatId);
-        this.question = checkNotNull(question);
-        this.options = checkNotNull(options);
-    }
-
-    public SendPoll(Long chatId, String question, List<String> options) {
-        this.chatId = checkNotNull(chatId).toString();
-        this.question = checkNotNull(question);
-        this.options = checkNotNull(options);
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public SendPoll setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public SendPoll setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
-        return this;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public SendPoll setQuestion(String question) {
-        this.question = question;
-        return this;
-    }
-
-    public List<String> getOptions() {
-        return options;
-    }
-
-    public SendPoll setOptions(List<String> options) {
-        this.options = options;
-        return this;
-    }
-
-    public Integer getReplyToMessageId() {
-        return replyToMessageId;
-    }
-
-    public SendPoll setReplyToMessageId(Integer replyToMessageId) {
-        this.replyToMessageId = replyToMessageId;
-        return this;
-    }
-
-    public ReplyKeyboard getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public SendPoll setReplyMarkup(ReplyKeyboard replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
-
-
-    public Boolean getDisableNotification() {
-        return disableNotification;
-    }
-
-    public SendPoll enableNotification() {
+    public void enableNotification() {
         this.disableNotification = null;
-        return this;
     }
 
-    public SendPoll disableNotification() {
+    public void disableNotification() {
         this.disableNotification = true;
-        return this;
-    }
-
-    public Boolean getAnonymous() {
-        return isAnonymous;
-    }
-
-    public SendPoll setAnonymous(Boolean anonymous) {
-        isAnonymous = anonymous;
-        return this;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public SendPoll setType(String type) {
-        this.type = type;
-        return this;
-    }
-
-    public Boolean getAllowMultipleAnswers() {
-        return allowMultipleAnswers;
-    }
-
-    public SendPoll setAllowMultipleAnswers(Boolean allowMultipleAnswers) {
-        this.allowMultipleAnswers = allowMultipleAnswers;
-        return this;
-    }
-
-    public Integer getCorrectOptionId() {
-        return correctOptionId;
-    }
-
-    public SendPoll setCorrectOptionId(Integer correctOptionId) {
-        this.correctOptionId = correctOptionId;
-        return this;
-    }
-
-    public Boolean getClosed() {
-        return isClosed;
-    }
-
-    public SendPoll setClosed(Boolean closed) {
-        isClosed = closed;
-        return this;
-    }
-
-    public Integer getOpenPeriod() {
-        return openPeriod;
-    }
-
-    public SendPoll setOpenPeriod(Integer openPeriod) {
-        this.openPeriod = openPeriod;
-        return this;
-    }
-
-    public Integer getCloseDate() {
-        return closeDate;
-    }
-
-    public SendPoll setCloseDate(Integer closeDate) {
-        this.closeDate = closeDate;
-        return this;
-    }
-
-    public String getExplanation() {
-        return explanation;
-    }
-
-    public SendPoll setExplanation(String explanation) {
-        this.explanation = explanation;
-        return this;
-    }
-
-    public String getExplanationParseMode() {
-        return explanationParseMode;
-    }
-
-    public SendPoll setExplanationParseMode(String explanationParseMode) {
-        this.explanationParseMode = explanationParseMode;
-        return this;
     }
 
     @Override
@@ -287,57 +158,11 @@ public class SendPoll extends BotApiMethod<Message> {
         if (options.parallelStream().anyMatch(x -> x.isEmpty() || x.length() > 100)) {
             throw new TelegramApiValidationException("Options parameter values must be between 1 and 100 chars length", this);
         }
+        if (explanationParseMode != null && (explanationEntities != null && !explanationEntities.isEmpty()) ) {
+            throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
+        }
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof SendPoll)) return false;
-        SendPoll sendPoll = (SendPoll) o;
-        return Objects.equals(chatId, sendPoll.chatId) &&
-                Objects.equals(question, sendPoll.question) &&
-                Objects.equals(options, sendPoll.options) &&
-                Objects.equals(isAnonymous, sendPoll.isAnonymous) &&
-                Objects.equals(type, sendPoll.type) &&
-                Objects.equals(allowMultipleAnswers, sendPoll.allowMultipleAnswers) &&
-                Objects.equals(correctOptionId, sendPoll.correctOptionId) &&
-                Objects.equals(isClosed, sendPoll.isClosed) &&
-                Objects.equals(disableNotification, sendPoll.disableNotification) &&
-                Objects.equals(replyToMessageId, sendPoll.replyToMessageId) &&
-                Objects.equals(replyMarkup, sendPoll.replyMarkup) &&
-                Objects.equals(openPeriod, sendPoll.openPeriod) &&
-                Objects.equals(closeDate, sendPoll.closeDate) &&
-                Objects.equals(explanation, sendPoll.explanation) &&
-                Objects.equals(explanationParseMode, sendPoll.explanationParseMode);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(chatId, question, options, isAnonymous, type, allowMultipleAnswers, correctOptionId, isClosed,
-                disableNotification, replyToMessageId, replyMarkup, openPeriod, closeDate, explanation, explanationParseMode);
-    }
-
-    @Override
-    public String toString() {
-        return "SendPoll{" +
-                "chatId='" + chatId + '\'' +
-                ", question='" + question + '\'' +
-                ", options=" + options +
-                ", isAnonymous=" + isAnonymous +
-                ", type='" + type + '\'' +
-                ", allowMultipleAnswers=" + allowMultipleAnswers +
-                ", correctOptionId=" + correctOptionId +
-                ", isClosed=" + isClosed +
-                ", disableNotification=" + disableNotification +
-                ", replyToMessageId=" + replyToMessageId +
-                ", replyMarkup=" + replyMarkup +
-                ", openPeriod=" + openPeriod +
-                ", closeDate=" + closeDate +
-                ", explanation='" + explanation + '\'' +
-                ", explanationParseMode='" + explanationParseMode + '\'' +
-                '}';
     }
 }

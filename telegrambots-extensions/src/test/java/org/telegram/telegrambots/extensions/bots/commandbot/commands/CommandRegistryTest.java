@@ -9,15 +9,6 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 class CommandRegistryTest {
 
     @Test
-    void should_create_registry() {
-        CommandRegistry registry = new CommandRegistry(true, "BotUsername");
-        Assertions.assertNotNull(registry, "CommandRegistry is not created");
-        NullPointerException exception = Assertions.assertThrows(NullPointerException.class,
-                () -> new CommandRegistry(true, (String) null));
-        Assertions.assertEquals("Bot username must not be null", exception.getMessage(), "Invalid exception message");
-    }
-
-    @Test
     void should_executes_commandWithBotUsername() {
         CommandRegistry registry = new CommandRegistry(true, () -> "BotUsername");
         IBotCommand command = Mockito.mock(IBotCommand.class);

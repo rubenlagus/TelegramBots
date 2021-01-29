@@ -2,15 +2,20 @@ package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
-import java.util.Objects;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
@@ -18,42 +23,21 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Use this method to export an invite link to a supergroup or a channel. The bot must be an administrator in the
  * chat for this to work and must have the appropriate admin rights. Returns exported invite link as String on success.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ExportChatInviteLink extends BotApiMethod<String> {
     public static final String PATH = "exportChatInviteLink";
 
     private static final String CHATID_FIELD = "chat_id";
 
     @JsonProperty(CHATID_FIELD)
+    @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
-
-    public ExportChatInviteLink() {
-        super();
-    }
-
-    public ExportChatInviteLink(String chatId) {
-        super();
-        this.chatId = checkNotNull(chatId);
-    }
-
-    public ExportChatInviteLink(Long chatId) {
-        super();
-        this.chatId = checkNotNull(chatId).toString();
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public ExportChatInviteLink setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public ExportChatInviteLink setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
-        return this;
-    }
 
     @Override
     public String getMethod() {
@@ -80,12 +64,5 @@ public class ExportChatInviteLink extends BotApiMethod<String> {
         if (chatId == null || chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "ExportChatInviteLink{" +
-                "chatId='" + chatId + '\'' +
-                '}';
     }
 }

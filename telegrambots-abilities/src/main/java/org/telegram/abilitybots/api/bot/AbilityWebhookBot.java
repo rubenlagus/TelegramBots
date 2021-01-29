@@ -3,11 +3,12 @@ package org.telegram.abilitybots.api.bot;
 import org.telegram.abilitybots.api.db.DBContext;
 import org.telegram.abilitybots.api.toggle.AbilityToggle;
 import org.telegram.abilitybots.api.toggle.DefaultToggle;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.WebhookBot;
 import org.telegram.telegrambots.util.WebhookUtils;
 
@@ -63,8 +64,8 @@ public abstract class AbilityWebhookBot extends BaseAbilityBot implements Webhoo
     }
 
     @Override
-    public void setWebhook(String url, String publicCertificatePath) throws TelegramApiRequestException {
-        WebhookUtils.setWebhook(this, url, publicCertificatePath);
+    public void setWebhook(SetWebhook setWebhook) throws TelegramApiException {
+        WebhookUtils.setWebhook(this, setWebhook);
     }
 
     @Override

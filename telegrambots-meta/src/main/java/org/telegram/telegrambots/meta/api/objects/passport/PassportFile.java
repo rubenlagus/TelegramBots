@@ -1,6 +1,12 @@
 package org.telegram.telegrambots.meta.api.objects.passport;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
@@ -9,6 +15,12 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
  * This object represents a file uploaded to Telegram Passport.
  * Currently all Telegram Passport files are in JPEG format when decrypted and don't exceed 10MB.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class PassportFile implements BotApiObject {
     private static final String FILEID_FIELD = "file_id";
     private static final String FILEUNIQUEID_FIELD = "file_unique_id";
@@ -27,39 +39,4 @@ public class PassportFile implements BotApiObject {
     private Integer fileSize; ///< File size
     @JsonProperty(FILEDATE_FIELD)
     private Integer fileDate; ///< Unix time when the file was uploaded
-
-    public PassportFile() {
-    }
-
-    public PassportFile(String fileId, Integer fileSize, Integer fileDate) {
-        this.fileId = fileId;
-        this.fileSize = fileSize;
-        this.fileDate = fileDate;
-    }
-
-    public String getFileId() {
-        return fileId;
-    }
-
-    public Integer getFileSize() {
-        return fileSize;
-    }
-
-    public Integer getFileDate() {
-        return fileDate;
-    }
-
-    public String getFileUniqueId() {
-        return fileUniqueId;
-    }
-
-    @Override
-    public String toString() {
-        return "PassportFile{" +
-                "fileId='" + fileId + '\'' +
-                ", fileSize=" + fileSize +
-                ", fileDate=" + fileDate +
-                ", fileUniqueId=" + fileUniqueId +
-                '}';
-    }
 }

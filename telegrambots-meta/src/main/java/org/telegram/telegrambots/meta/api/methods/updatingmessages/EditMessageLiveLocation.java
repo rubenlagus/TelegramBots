@@ -1,27 +1,40 @@
 package org.telegram.telegrambots.meta.api.methods.updatingmessages;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
  * Use this method to edit live location.
  * A location can be edited until its live_period expires or editing is explicitly disabled by a call to
- * stopMessageLiveLocation. On success, if the edited message was sent by the bot, the edited Message is returned,
+ * stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned,
  * otherwise True is returned.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
     public static final String PATH = "editMessageLiveLocation";
 
@@ -31,6 +44,9 @@ public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
     private static final String LATITUDE_FIELD = "latitude";
     private static final String LONGITUDE_FIELD = "longitude";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
+    private static final String HORIZONTALACCURACY_FIELD = "horizontal_accuracy";
+    private static final String HEADING_FIELD = "heading";
+    private static final String PROXIMITYALERTRADIUS_FIELD = "proximity_alert_radius";
 
     /**
      * Required if inline_message_id is not specified. Unique identifier for the chat to send the
@@ -49,94 +65,33 @@ public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
     @JsonProperty(INLINE_MESSAGE_ID_FIELD)
     private String inlineMessageId;
     @JsonProperty(LATITUDE_FIELD)
-    private Float latitude; ///< Latitude of new location
+    @NonNull
+    private Double latitude; ///< Latitude of new location
     @JsonProperty(LONGITUDE_FIELD)
-    private Float longitude; ///< Longitude of new location
+    @NonNull
+    private Double longitude; ///< Longitude of new location
     @JsonProperty(REPLYMARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. A JSON-serialized object for an inline keyboard.
-
-    public EditMessageLiveLocation() {
-        super();
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public EditMessageLiveLocation setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public EditMessageLiveLocation setChatId(Long chatId) {
-        this.chatId = chatId.toString();
-        return this;
-    }
-
-    public Integer getMessageId() {
-        return messageId;
-    }
-
-    public EditMessageLiveLocation setMessageId(Integer messageId) {
-        this.messageId = messageId;
-        return this;
-    }
-
-    public String getInlineMessageId() {
-        return inlineMessageId;
-    }
-
-    public EditMessageLiveLocation setInlineMessageId(String inlineMessageId) {
-        this.inlineMessageId = inlineMessageId;
-        return this;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public EditMessageLiveLocation setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
-
-    public Float getLatitude() {
-        return latitude;
-    }
-
-    public EditMessageLiveLocation setLatitude(Float latitude) {
-        Objects.requireNonNull(latitude);
-        this.latitude = latitude;
-        return this;
-    }
-
     /**
-     * @deprecated  Replaced by {@link #getLongitude()}
+     * Optional.
+     * The radius of uncertainty for the location, measured in meters; 0-1500
      */
-    @Deprecated
-    @JsonIgnore
-    public Float getLongitud() {
-        return longitude;
-    }
-
-    public Float getLongitude() {
-        return longitude;
-    }
-
+    @JsonProperty(HORIZONTALACCURACY_FIELD)
+    private Double horizontalAccuracy;
     /**
-     * @deprecated  Replaced by {@link #setLongitude(Float)}
+     * Optional.
+     * For live locations, a direction in which the user is moving, in degrees.
+     * Must be between 1 and 360 if specified.
      */
-    @Deprecated
-    @JsonIgnore
-    public EditMessageLiveLocation setLongitud(Float longitude) {
-        return setLongitude(longitude);
-    }
-
-    public EditMessageLiveLocation setLongitude(Float longitude) {
-        Objects.requireNonNull(longitude);
-        this.longitude = longitude;
-        return this;
-    }
+    @JsonProperty(HEADING_FIELD)
+    private Integer heading;
+    /**
+     * Optional.
+     * For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters.
+     * Must be between 1 and 100000 if specified.
+     */
+    @JsonProperty(PROXIMITYALERTRADIUS_FIELD)
+    private Integer proximityAlertRadius;
 
     @Override
     public String getMethod() {
@@ -192,20 +147,17 @@ public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
         if (longitude == null) {
             throw new TelegramApiValidationException("Longitude parameter can't be empty", this);
         }
+        if (horizontalAccuracy != null && (horizontalAccuracy < 0 || horizontalAccuracy > 1500)) {
+            throw new TelegramApiValidationException("Horizontal Accuracy parameter must be between 0 and 1500", this);
+        }
+        if (heading != null && (heading < 1 || heading > 360)) {
+            throw new TelegramApiValidationException("Heading Accuracy parameter must be between 1 and 360", this);
+        }
+        if (proximityAlertRadius != null && (proximityAlertRadius < 1 || proximityAlertRadius > 100000)) {
+            throw new TelegramApiValidationException("Approaching notification distance parameter must be between 1 and 100000", this);
+        }
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "EditMessageLiveLocation{" +
-                "chatId='" + chatId + '\'' +
-                ", messageId=" + messageId +
-                ", inlineMessageId='" + inlineMessageId + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", replyMarkup=" + replyMarkup +
-                '}';
     }
 }

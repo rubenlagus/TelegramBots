@@ -1,3 +1,111 @@
+### <a id="5.0.0"></a>To version 5.0.0 ###
+1. ApiContextInitializer.init(); has been removed and is not required anymore, instead:
+    ```java
+    TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
+   
+    // When using webhook, create your own version of DefaultWebhook with all your parameters set.
+    TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class, defaultWebhookInstance);
+    ```
+2. For location related class, change from Float to Double type, i.e:
+    ```java
+       Double latitude = location.getLatitude()
+    ```
+3. Instead of chain set method, use builder pattern:
+    ```java
+       // Before
+       new SendMessage()
+                       .setChatId("@test")
+                       .setText("Hithere")
+                       .setReplyToMessageId(12)
+                       .setParseMode(ParseMode.HTML)
+                       .setReplyMarkup(new ForceReplyKeyboard())
+       // After
+       SendMessage
+                       .builder()
+                       .chatId("@test")
+                       .text("Hithere")
+                       .replyToMessageId(12)
+                       .parseMode(ParseMode.HTML)
+                       .replyMarkup(new ForceReplyKeyboard())
+                       .build();
+    ```
+4. Method doesn't accept chatId as Long any more, only as a String. Use Long.toString(...) when needed I.e:
+    ```java
+       Long chatIdLong = message.getChatId();
+       SendMessage
+                  .builder()
+                  .chatId(Long.toString(chatIdLong))
+                  .text("Hithere")
+                  .build();
+    ```
+5. When registering a Webhook bot, provide the SetWebhook method object:
+    ```java
+       TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class, defaultWebhookInstance);
+       telegramApi.registerBot(myWebhookBot, mySetWebhook);
+    ```
+6. When using Spring with a webhook bot, make your bot inherit form SpringWebhookBot instead of WebhookBot and provide your SetWebhook method in the constructor:
+    ```java
+       // Extend correct class
+       public class TestSpringWebhookBot extends SpringWebhookBot {
+       
+               public TestSpringWebhookBot(SetWebhook setWebhook) {
+                   super(setWebhook);
+               }
+       
+               public TestSpringWebhookBot(DefaultBotOptions options, SetWebhook setWebhook) {
+                   super(options, setWebhook);
+               }
+       
+               @Override
+               public String getBotUsername() {
+                   return null;
+               }
+       
+               @Override
+               public String getBotToken() {
+                   return null;
+               }
+       
+               @Override
+               public BotApiMethod onWebhookUpdateReceived(Update update) {
+                   return null;
+               }
+       
+               @Override
+               public String getBotPath() {
+                   return null;
+               }
+           }
+   
+       // Create your SetWebhook method
+       @Bean
+       public SetWebhook setWebhookInstance() {
+           return SetWebhook.builder()....build();
+       }
+   
+       // Create it as
+       @Bean
+       public TestSpringWebhookBot testSpringWebhookBot(SetWebhook setWebhookInstance) {
+           return new TestSpringWebhookBot(setWebhookInstance);
+       }
+    ```
+7. Use InputFile to set files to upload instead of different setters, i.e:
+    ```java
+       // With a file
+       SendDocument
+           .builder()
+           .chatId("123456")
+           .document(new InputFile(new File("Filename.pdf")))  
+           .build()  
+       // With a Stream
+       SendDocument
+           .builder()
+           .chatId("123456")
+           .document(new InputFile("FileName", new FileInputStream("Filename.pdf")))  
+           .build()
+    ```
+
+
 ### <a id="4.4.0.2"></a>To version 4.4.0.2 ###
 1. Logging framework has been replaced by slf4j, so now you'll need to manage your own implementation.
 

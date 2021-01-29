@@ -3,6 +3,15 @@ package org.telegram.telegrambots.meta.api.objects.inlinequery.result;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -13,10 +22,18 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * Represents a location on a map. By default, the location will be sent by the user.
  * Alternatively, you can use input_message_content to send a message with the specified content
  * instead of the location.
- * @note This will only work in Telegram versions released after 9 April, 2016. Older clients will
+ * @apiNote This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * ignore them.
  */
 @JsonDeserialize
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class InlineQueryResultLocation implements InlineQueryResult {
 
     private static final String TYPE_FIELD = "type";
@@ -30,16 +47,23 @@ public class InlineQueryResultLocation implements InlineQueryResult {
     private static final String THUMBWIDTH_FIELD = "thumb_width";
     private static final String THUMBHEIGHT_FIELD = "thumb_height";
     private static final String LIVEPERIOD_FIELD = "live_period";
+    private static final String HORIZONTALACCURACY_FIELD = "horizontal_accuracy";
+    private static final String HEADING_FIELD = "heading";
+    private static final String PROXIMITYALERTRADIUS_FIELD = "proximity_alert_radius";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "location"; ///< Type of the result, must be "location"
     @JsonProperty(ID_FIELD)
+    @NonNull
     private String id; ///< Unique identifier of this result, 1-64 bytes
     @JsonProperty(TITLE_FIELD)
-    private String title; ///< Optional. Location title
+    @NonNull
+    private String title; ///< Location title
     @JsonProperty(LATITUDE_FIELD)
+    @NonNull
     private Float latitude; ///< Location latitude in degrees
     @JsonProperty(LONGITUDE_FIELD)
+    @NonNull
     private Float longitude; ///< Location longitude in degrees
     @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
@@ -53,104 +77,26 @@ public class InlineQueryResultLocation implements InlineQueryResult {
     private Integer thumbHeight; ///< Optional. Thumbnail height
     @JsonProperty(LIVEPERIOD_FIELD)
     private Integer livePeriod; ///< Optional. Period in seconds for which the location can be updated, should be between 60 and 86400.
-
-    public InlineQueryResultLocation() {
-        super();
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public InlineQueryResultLocation setId(String id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public InlineQueryResultLocation setTitle(String title) {
-        this.title = title;
-        return this;
-    }
-
-    public Float getLatitude() {
-        return latitude;
-    }
-
-    public InlineQueryResultLocation setLatitude(Float latitude) {
-        this.latitude = latitude;
-        return this;
-    }
-
-    public Float getLongitude() {
-        return longitude;
-    }
-
-    public InlineQueryResultLocation setLongitude(Float longitude) {
-        this.longitude = longitude;
-        return this;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public InlineQueryResultLocation setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
-
-    public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
-    }
-
-    public InlineQueryResultLocation setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
-        return this;
-    }
-
-    public String getThumbUrl() {
-        return thumbUrl;
-    }
-
-    public InlineQueryResultLocation setThumbUrl(String thumbUrl) {
-        this.thumbUrl = thumbUrl;
-        return this;
-    }
-
-    public Integer getThumbWidth() {
-        return thumbWidth;
-    }
-
-    public InlineQueryResultLocation setThumbWidth(Integer thumbWidth) {
-        this.thumbWidth = thumbWidth;
-        return this;
-    }
-
-    public Integer getThumbHeight() {
-        return thumbHeight;
-    }
-
-    public InlineQueryResultLocation setThumbHeight(Integer thumbHeight) {
-        this.thumbHeight = thumbHeight;
-        return this;
-    }
-
-    public Integer getLivePeriod() {
-        return livePeriod;
-    }
-
-    public InlineQueryResultLocation setLivePeriod(Integer livePeriod) {
-        this.livePeriod = livePeriod;
-        return this;
-    }
+    /**
+     * Optional.
+     * The radius of uncertainty for the location, measured in meters; 0-1500
+     */
+    @JsonProperty(HORIZONTALACCURACY_FIELD)
+    private Double horizontalAccuracy;
+    /**
+     * Optional.
+     * For live locations, a direction in which the user is moving, in degrees.
+     * Must be between 1 and 360 if specified.
+     */
+    @JsonProperty(HEADING_FIELD)
+    private Integer heading;
+    /**
+     * Optional.
+     * For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters.
+     * Must be between 1 and 100000 if specified.
+     */
+    @JsonProperty(PROXIMITYALERTRADIUS_FIELD)
+    private Integer proximityAlertRadius;
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -169,28 +115,20 @@ public class InlineQueryResultLocation implements InlineQueryResult {
         if (livePeriod != null && (livePeriod < 60 || livePeriod > 86400)) {
             throw new TelegramApiValidationException("Live period parameter must be between 60 and 86400", this);
         }
+        if (horizontalAccuracy != null && (horizontalAccuracy < 0 || horizontalAccuracy > 1500)) {
+            throw new TelegramApiValidationException("Horizontal Accuracy parameter must be between 0 and 1500", this);
+        }
+        if (heading != null && (heading < 1 || heading > 360)) {
+            throw new TelegramApiValidationException("Heading Accuracy parameter must be between 1 and 360", this);
+        }
+        if (proximityAlertRadius != null && (proximityAlertRadius < 1 || proximityAlertRadius > 100000)) {
+            throw new TelegramApiValidationException("Approaching notification distance parameter must be between 1 and 100000", this);
+        }
         if (inputMessageContent != null) {
             inputMessageContent.validate();
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "InlineQueryResultLocation{" +
-                "type='" + type + '\'' +
-                ", id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", replyMarkup=" + replyMarkup +
-                ", inputMessageContent=" + inputMessageContent +
-                ", thumbUrl='" + thumbUrl + '\'' +
-                ", thumbWidth=" + thumbWidth +
-                ", thumbHeight=" + thumbHeight +
-                ", livePeriod=" + livePeriod +
-                '}';
     }
 }

@@ -7,7 +7,7 @@
     <groupId>org.telegram</groupId>
     <artifactId>Bots</artifactId>
     <packaging>pom</packaging>
-    <version>4.9.2</version>
+    <version>5.0.1</version>
 
     <modules>
         <module>telegrambots</module>
@@ -67,17 +67,26 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
-        <junit.version>5.5.2</junit.version>
-        <mockito.version>3.1.0</mockito.version>
-        <mockitojupiter.version>3.1.0</mockitojupiter.version>
-        <jacksonbase.version>2.10.1</jacksonbase.version>
-        <jackson.version>2.10.1</jackson.version>
-        <slf4j.version>1.7.29</slf4j.version>
+        <junit.version>5.7.0</junit.version>
+        <mockito.version>3.6.0</mockito.version>
+        <mockitojupiter.version>3.6.0</mockitojupiter.version>
+        <jacksonanotation.version>2.11.3</jacksonanotation.version>
+        <jackson.version>2.11.3</jackson.version>
+        <json.version>20180813</json.version>
+        <slf4j.version>1.7.30</slf4j.version>
         <jakarta.annotation.version>1.3.5</jakarta.annotation.version>
+        <lombok.version>1.18.16</lombok.version>
+        <guava.version>30.0-jre</guava.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
@@ -99,12 +108,22 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>${jacksonbase.version}</version>
+                <version>${jacksonanotation.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.module</groupId>
                 <artifactId>jackson-module-jaxb-annotations</artifactId>
-                <version>${jacksonbase.version}</version>
+                <version>${jacksonanotation.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.jaxrs</groupId>
+                <artifactId>jackson-jaxrs-json-provider</artifactId>
+                <version>${jacksonanotation.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
@@ -115,6 +134,11 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>${json.version}</version>
             </dependency>
             <!-- Included to enforce common version-->
             <dependency>

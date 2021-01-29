@@ -19,14 +19,25 @@ package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Contains information about why a request was unsuccessfull.
- * @date 28 of September of 2016
+ * Contains information about why a request was unsuccessfull.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class ResponseParameters implements BotApiObject {
     private static final String MIGRATETOCHATID_FIELD = "migrate_to_chat_id";
     private static final String RETRYAFTER_FIELD = "retry_after";
@@ -45,24 +56,4 @@ public class ResponseParameters implements BotApiObject {
      */
     @JsonProperty(RETRYAFTER_FIELD)
     private Integer retryAfter;
-
-    public ResponseParameters() {
-        super();
-    }
-
-    public Long getMigrateToChatId() {
-        return migrateToChatId;
-    }
-
-    public Integer getRetryAfter() {
-        return retryAfter;
-    }
-
-    @Override
-    public String toString() {
-        return "ResponseParameters{" +
-                "migrateToChatId=" + migrateToChatId +
-                ", retryAfter=" + retryAfter +
-                '}';
-    }
 }

@@ -2,15 +2,20 @@ package org.telegram.telegrambots.meta.api.methods.updatingmessages;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
-import java.util.Objects;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
@@ -25,6 +30,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * - If the bot has can_delete_messages permission in a supergroup or a channel, it can delete any message there.
  * Returns True on success.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class DeleteMessage extends BotApiMethod<Boolean> {
     public static final String PATH = "deleteMessage";
 
@@ -35,50 +47,14 @@ public class DeleteMessage extends BotApiMethod<Boolean> {
      * Unique identifier for the chat to send the message to (Or username for channels)
      */
     @JsonProperty(CHATID_FIELD)
+    @NonNull
     private String chatId;
     /**
      * Identifier of the message to delete
      */
     @JsonProperty(MESSAGEID_FIELD)
+    @NonNull
     private Integer messageId;
-
-    public DeleteMessage() {
-        super();
-    }
-
-    public DeleteMessage(String chatId, Integer messageId) {
-        this.chatId = checkNotNull(chatId);
-        this.messageId = checkNotNull(messageId);
-    }
-
-    public DeleteMessage(Long chatId, Integer messageId) {
-        this.chatId = checkNotNull(chatId).toString();
-        this.messageId = checkNotNull(messageId);
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public DeleteMessage setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public DeleteMessage setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
-        return this;
-    }
-
-    public Integer getMessageId() {
-        return messageId;
-    }
-
-    public DeleteMessage setMessageId(Integer messageId) {
-        this.messageId = messageId;
-        return this;
-    }
 
     @Override
     public String getMethod() {
@@ -109,13 +85,5 @@ public class DeleteMessage extends BotApiMethod<Boolean> {
         if (messageId == null) {
             throw new TelegramApiValidationException("MessageId parameter can't be empty", this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "DeleteMessage{" +
-                "chatId='" + chatId + '\'' +
-                ", messageId=" + messageId +
-                '}';
     }
 }

@@ -6,11 +6,15 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
-import org.telegram.telegrambots.meta.generics.WebhookBot;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 class TestTelegramBotStarterConfiguration {
 
@@ -25,7 +29,7 @@ class TestTelegramBotStarterConfiguration {
             assertThat(context).hasSingleBean(TelegramBotsApi.class);
             assertThat(context).hasSingleBean(TelegramBotInitializer.class);
             assertThat(context).doesNotHaveBean(LongPollingBot.class);
-            assertThat(context).doesNotHaveBean(WebhookBot.class);
+            assertThat(context).doesNotHaveBean(SpringWebhookBot.class);
             verifyNoMoreInteractions(context.getBean(TelegramBotsApi.class));
         });
     }
@@ -35,7 +39,7 @@ class TestTelegramBotStarterConfiguration {
         this.contextRunner.withUserConfiguration(LongPollingBotConfig.class)
                 .run((context) -> {
                     assertThat(context).hasSingleBean(LongPollingBot.class);
-                    assertThat(context).doesNotHaveBean(WebhookBot.class);
+                    assertThat(context).doesNotHaveBean(SpringWebhookBot.class);
 
                     TelegramBotsApi telegramBotsApi = context.getBean(TelegramBotsApi.class);
 
@@ -49,13 +53,13 @@ class TestTelegramBotStarterConfiguration {
     void createOnlyWebhookBot() {
         this.contextRunner.withUserConfiguration(WebhookBotConfig.class)
                 .run((context) -> {
-                    assertThat(context).hasSingleBean(WebhookBot.class);
+                    assertThat(context).hasSingleBean(SpringWebhookBot.class);
                     assertThat(context).doesNotHaveBean(LongPollingBot.class);
 
                     TelegramBotsApi telegramBotsApi = context.getBean(TelegramBotsApi.class);
 
                     verify(telegramBotsApi,
-                           times(1)).registerBot(context.getBean(WebhookBot.class));
+                           times(1)).registerBot(context.getBean(SpringWebhookBot.class), context.getBean(SpringWebhookBot.class).getSetWebhook());
                     verifyNoMoreInteractions(telegramBotsApi);
                 });
     }
@@ -66,14 +70,14 @@ class TestTelegramBotStarterConfiguration {
                                                  WebhookBotConfig.class)
                 .run((context) -> {
                     assertThat(context).hasSingleBean(LongPollingBot.class);
-                    assertThat(context).hasSingleBean(WebhookBot.class);
+                    assertThat(context).hasSingleBean(SpringWebhookBot.class);
 
                     TelegramBotsApi telegramBotsApi = context.getBean(TelegramBotsApi.class);
 
                     verify(telegramBotsApi,
                            times(1)).registerBot(context.getBean(LongPollingBot.class));
                     verify(telegramBotsApi,
-                           times(1)).registerBot(context.getBean(WebhookBot.class));
+                           times(1)).registerBot(context.getBean(SpringWebhookBot.class), context.getBean(SpringWebhookBot.class).getSetWebhook());
                     //verifyNoMoreInteractions(telegramBotsApi);
                 });
     }
@@ -98,8 +102,15 @@ class TestTelegramBotStarterConfiguration {
     @Configuration
     static class WebhookBotConfig {
         @Bean
-        public WebhookBot webhookBot() {
-            return mock(WebhookBot.class);
+        public SpringWebhookBot webhookBot(SetWebhook setWebhook) {
+            SpringWebhookBot bot = mock(SpringWebhookBot.class);
+            doReturn(setWebhook).when(bot).getSetWebhook();
+            return bot;
+        }
+
+        @Bean
+        public SetWebhook setWebhook() {
+            return mock(SetWebhook.class);
         }
     }
 }

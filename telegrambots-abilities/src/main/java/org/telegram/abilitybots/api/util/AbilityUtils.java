@@ -25,7 +25,7 @@ import static org.telegram.abilitybots.api.objects.Flag.*;
  * Helper and utility methods
  */
 public final class AbilityUtils {
-  public static User EMPTY_USER = new User(0, "", false, "", "", "");
+  public static User EMPTY_USER = new User(0, "", false);
 
   private AbilityUtils() {
 
@@ -37,7 +37,7 @@ public final class AbilityUtils {
    */
   public static String stripTag(String username) {
     String lowerCase = username.toLowerCase();
-    return lowerCase.startsWith("@") ? lowerCase.substring(1, lowerCase.length()) : lowerCase;
+    return lowerCase.startsWith("@") ? lowerCase.substring(1) : lowerCase;
   }
 
   /**
@@ -252,7 +252,7 @@ public final class AbilityUtils {
    * The full name is identified as the concatenation of the first and last name, separated by a space.
    * This method can return an empty name if both first and last name are empty.
    *
-   * @param user
+   * @param user User to use
    * @return the full name of the user
    */
   public static String fullName(User user) {

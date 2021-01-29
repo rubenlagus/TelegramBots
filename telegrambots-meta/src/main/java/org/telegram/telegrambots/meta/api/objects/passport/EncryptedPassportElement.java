@@ -1,6 +1,12 @@
 package org.telegram.telegrambots.meta.api.objects.passport;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 import java.util.ArrayList;
@@ -12,6 +18,12 @@ import java.util.List;
  * Contains information about documents or other Telegram Passport data shared with the bot by the user.
  */
 @SuppressWarnings("unused")
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class EncryptedPassportElement implements BotApiObject {
     private static final String TYPE_FIELD = "type";
     private static final String DATA_FIELD = "data";
@@ -84,79 +96,4 @@ public class EncryptedPassportElement implements BotApiObject {
      */
     @JsonProperty(HASH_FIELD)
     private String hash;
-
-    public EncryptedPassportElement(String type, String data, String phoneNumber, String email, List<PassportFile> files,
-                                    PassportFile frontSide, PassportFile reverseSide, PassportFile selfie) {
-        this.type = type;
-        this.data = data;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.files = files;
-        this.frontSide = frontSide;
-        this.reverseSide = reverseSide;
-        this.selfie = selfie;
-    }
-
-    public EncryptedPassportElement() {
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public List<PassportFile> getFiles() {
-        return files;
-    }
-
-    public PassportFile getFrontSide() {
-        return frontSide;
-    }
-
-    public PassportFile getReverseSide() {
-        return reverseSide;
-    }
-
-    public PassportFile getSelfie() {
-        return selfie;
-    }
-
-    public String getHash() {
-        return hash;
-    }
-
-    public boolean hasTranslations() {
-        return translations != null && !translations.isEmpty();
-    }
-
-    public ArrayList<PassportFile> getTranslations() {
-        return translations;
-    }
-
-    @Override
-    public String toString() {
-        return "EncryptedPassportElement{" +
-                "type='" + type + '\'' +
-                ", data='" + data + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", email='" + email + '\'' +
-                ", files=" + files +
-                ", frontSide=" + frontSide +
-                ", reverseSide=" + reverseSide +
-                ", selfie=" + selfie +
-                ", translations=" + translations +
-                ", hash='" + hash + '\'' +
-                '}';
-    }
 }

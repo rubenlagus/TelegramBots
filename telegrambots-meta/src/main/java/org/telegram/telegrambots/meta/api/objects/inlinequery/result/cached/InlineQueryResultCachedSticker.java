@@ -3,6 +3,15 @@ package org.telegram.telegrambots.meta.api.objects.inlinequery.result.cached;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResult;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -14,10 +23,18 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * Represents a link to a sticker stored on the Telegram servers. By default, this sticker
  * will be sent by the user. Alternatively, you can use input_message_content to send a message with
  * the specified content instead of the sticker.
- * @note This will only work in Telegram versions released after 9 April, 2016. Older clients will
+ * @apiNote This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * ignore them.
  */
 @JsonDeserialize
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class InlineQueryResultCachedSticker implements InlineQueryResult {
 
     private static final String TYPE_FIELD = "type";
@@ -29,57 +46,15 @@ public class InlineQueryResultCachedSticker implements InlineQueryResult {
     @JsonProperty(TYPE_FIELD)
     private final String type = "sticker"; ///< Type of the result, must be "sticker"
     @JsonProperty(ID_FIELD)
+    @NonNull
     private String id; ///< Unique identifier of this result, 1-64 bytes
     @JsonProperty(STICKER_FILE_ID_FIELD)
+    @NonNull
     private String stickerFileId; ///< A valid file identifier of the sticker
     @JsonProperty(INPUTMESSAGECONTENT_FIELD)
     private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent instead of the sticker
     @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
-
-    public InlineQueryResultCachedSticker() {
-        super();
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public InlineQueryResultCachedSticker setId(String id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getStickerFileId() {
-        return stickerFileId;
-    }
-
-    public InlineQueryResultCachedSticker setStickerFileId(String stickerFileId) {
-        this.stickerFileId = stickerFileId;
-        return this;
-    }
-
-    public InputMessageContent getInputMessageContent() {
-        return inputMessageContent;
-    }
-
-    public InlineQueryResultCachedSticker setInputMessageContent(InputMessageContent inputMessageContent) {
-        this.inputMessageContent = inputMessageContent;
-        return this;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public InlineQueryResultCachedSticker setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -95,16 +70,5 @@ public class InlineQueryResultCachedSticker implements InlineQueryResult {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "InlineQueryResultCachedSticker{" +
-                "type='" + type + '\'' +
-                ", id='" + id + '\'' +
-                ", sticker_file_id='" + stickerFileId + '\'' +
-                ", inputMessageContent='" + inputMessageContent + '\'' +
-                ", replyMarkup='" + replyMarkup + '\'' +
-                '}';
     }
 }

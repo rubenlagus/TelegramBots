@@ -22,7 +22,7 @@ import static org.telegram.abilitybots.api.objects.Locality.ALL;
 import static org.telegram.abilitybots.api.objects.Privacy.PUBLIC;
 
 public class ContinuousTextTest {
-  private static final User USER = new User(1, "first", false, "last", "username", null);
+  private static final User USER = new User(1, "first", false);
 
   private DBContext db;
 

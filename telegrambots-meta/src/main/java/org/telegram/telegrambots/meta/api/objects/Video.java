@@ -1,14 +1,25 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief This object represents a video file.
- * @date 20 of June of 2015
+ * This object represents a video file.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Video implements BotApiObject {
 
     private static final String FILEID_FIELD = "file_id";
@@ -19,6 +30,7 @@ public class Video implements BotApiObject {
     private static final String THUMB_FIELD = "thumb";
     private static final String MIMETYPE_FIELD = "mime_type";
     private static final String FILESIZE_FIELD = "file_size";
+    private static final String FILENAME_FIELD = "file_name";
 
     @JsonProperty(FILEID_FIELD)
     private String fileId; ///< Identifier for this file, which can be used to download or reuse the file
@@ -40,54 +52,6 @@ public class Video implements BotApiObject {
     private String mimeType; ///< Optional. Mime type of a file as defined by sender
     @JsonProperty(FILESIZE_FIELD)
     private Integer fileSize; ///< Optional. File size
-
-    public Video() {
-        super();
-    }
-
-    public String getFileId() {
-        return fileId;
-    }
-
-    public Integer getWidth() {
-        return width;
-    }
-
-    public Integer getHeight() {
-        return height;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public PhotoSize getThumb() {
-        return thumb;
-    }
-
-    public String getMimeType() {
-        return mimeType;
-    }
-
-    public Integer getFileSize() {
-        return fileSize;
-    }
-
-    public String getFileUniqueId() {
-        return fileUniqueId;
-    }
-
-    @Override
-    public String toString() {
-        return "Video{" +
-                "fileId='" + fileId + '\'' +
-                ", width=" + width +
-                ", height=" + height +
-                ", duration=" + duration +
-                ", thumb=" + thumb +
-                ", mimeType='" + mimeType + '\'' +
-                ", fileSize=" + fileSize +
-                ", fileUniqueId=" + fileUniqueId +
-                '}';
-    }
+    @JsonProperty(FILENAME_FIELD)
+    private String fileName; ///< Optional. Original filename as defined by sender
 }

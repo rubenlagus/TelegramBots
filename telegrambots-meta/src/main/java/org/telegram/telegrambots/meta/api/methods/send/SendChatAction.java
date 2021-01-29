@@ -3,7 +3,14 @@ package org.telegram.telegrambots.meta.api.methods.send;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
@@ -11,9 +18,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
-import java.util.Objects;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
@@ -22,6 +26,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram
  * clients clear its typing status).
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SendChatAction extends BotApiMethod<Boolean> {
 
     public static final String PATH = "sendChatAction";
@@ -30,6 +41,7 @@ public class SendChatAction extends BotApiMethod<Boolean> {
     private static final String ACTION_FIELD = "action";
 
     @JsonProperty(CHATID_FIELD)
+    @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     /**
      * Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages,
@@ -38,46 +50,17 @@ public class SendChatAction extends BotApiMethod<Boolean> {
      * record_video_note or upload_video_note for video notes.
      */
     @JsonProperty(ACTION_FIELD)
+    @NonNull
     private String action;
 
-    public SendChatAction() {
-        super();
-    }
-
-    public SendChatAction(String chatId, String action) {
-        this.chatId = checkNotNull(chatId);
-        this.action = checkNotNull(action);
-    }
-
-    public SendChatAction(Long chatId, String action) {
-        this.chatId = checkNotNull(chatId).toString();
-        this.action = checkNotNull(action);
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
     @JsonIgnore
-    public ActionType getAction() {
+    public ActionType getActionType() {
         return ActionType.get(action);
     }
 
-    public SendChatAction setChatId(String chatId) {
-        this.chatId = chatId;
-        return this;
-    }
-
-    public SendChatAction setChatId(Long chatId) {
-        Objects.requireNonNull(chatId);
-        this.chatId = chatId.toString();
-        return this;
-    }
-
     @JsonIgnore
-    public SendChatAction setAction(ActionType action) {
+    public void setAction(ActionType action) {
         this.action = action.toString();
-        return this;
     }
 
     @Override
@@ -108,13 +91,5 @@ public class SendChatAction extends BotApiMethod<Boolean> {
         if (action == null) {
             throw new TelegramApiValidationException("Action parameter can't be empty", this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "SendChatAction{" +
-                "chatId='" + chatId + '\'' +
-                ", action='" + action + '\'' +
-                '}';
     }
 }

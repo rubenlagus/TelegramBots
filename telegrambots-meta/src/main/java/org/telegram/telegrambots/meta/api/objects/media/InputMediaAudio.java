@@ -2,8 +2,19 @@ package org.telegram.telegrambots.meta.api.objects.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+
+import java.io.File;
+import java.io.InputStream;
+import java.util.List;
 
 /**
  * @author Ruben Bermudez
@@ -13,7 +24,11 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  */
 @SuppressWarnings({"unused"})
 @JsonDeserialize
-public class InputMediaAudio extends InputMedia<InputMediaAudio> {
+@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
+@ToString
+public class InputMediaAudio extends InputMedia {
     private static final String TYPE = "audio";
 
     public static final String DURATION_FIELD = "duration";
@@ -36,49 +51,21 @@ public class InputMediaAudio extends InputMedia<InputMediaAudio> {
      */
     private InputFile thumb;
 
-
     public InputMediaAudio() {
         super();
     }
 
-    public InputMediaAudio(String media, String caption) {
-        super(media, caption);
+    public InputMediaAudio(@NonNull String media) {
+        super(media);
     }
 
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public InputMediaAudio setDuration(Integer duration) {
+    @Builder
+    public InputMediaAudio(@NonNull String media, String caption, String parseMode, List<MessageEntity> entities, boolean isNewMedia, String mediaName, File newMediaFile, InputStream newMediaStream, Integer duration, String performer, String title, InputFile thumb) {
+        super(media, caption, parseMode, entities, isNewMedia, mediaName, newMediaFile, newMediaStream);
         this.duration = duration;
-        return this;
-    }
-
-    public String getPerformer() {
-        return performer;
-    }
-
-    public InputMediaAudio setPerformer(String performer) {
         this.performer = performer;
-        return this;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public InputMediaAudio setTitle(String title) {
         this.title = title;
-        return this;
-    }
-
-    public InputFile getThumb() {
-        return thumb;
-    }
-
-    public InputMediaAudio setThumb(InputFile thumb) {
         this.thumb = thumb;
-        return this;
     }
 
     @Override
@@ -89,15 +76,5 @@ public class InputMediaAudio extends InputMedia<InputMediaAudio> {
     @Override
     public void validate() throws TelegramApiValidationException {
         super.validate();
-    }
-
-    @Override
-    public String toString() {
-        return "InputMediaAudio{" +
-                "duration=" + duration +
-                ", performer=" + performer +
-                ", title=" + title +
-                ", thumb=" + thumb +
-                "} " + super.toString();
     }
 }

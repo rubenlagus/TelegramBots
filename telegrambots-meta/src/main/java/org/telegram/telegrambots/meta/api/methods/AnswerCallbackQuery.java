@@ -2,7 +2,15 @@ package org.telegram.telegrambots.meta.api.methods;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -16,10 +24,18 @@ import java.io.IOException;
  * will be displayed to the user as a notification at the top of the chat screen or as an alert. On
  * success, True is returned.
  *
- * @note Alternatively, the user can be redirected to the specified URL. For this option to work,
+ * @apiNote  Alternatively, the user can be redirected to the specified URL. For this option to work,
  * you must enable /setcustomurls for your bot via BotFather and accept the terms.
  *
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
 public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
     public static final String PATH = "answercallbackquery";
 
@@ -30,6 +46,7 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
     private static final String CACHETIME_FIELD = "cache_time";
 
     @JsonProperty(CALLBACKQUERYID_FIELD)
+    @NonNull
     private String callbackQueryId; ///< Unique identifier for the query to be answered
     @JsonProperty(TEXT_FIELD)
     private String text; ///< Optional	Text of the notification. If not specified, nothing will be shown to the user, 0-200 characters
@@ -47,59 +64,10 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
      * Optional	The maximum amount of time in seconds that the result of the callback query
      * may be cached client-side.
      *
-     * @note Telegram apps will support caching starting in version 3.14. Defaults to 0.
+     * @apiNote Telegram apps will support caching starting in version 3.14. Defaults to 0.
      */
     @JsonProperty(CACHETIME_FIELD)
     private Integer cacheTime;
-
-    public AnswerCallbackQuery() {
-        super();
-    }
-
-    public String getCallbackQueryId() {
-        return this.callbackQueryId;
-    }
-
-    public AnswerCallbackQuery setCallbackQueryId(String callbackQueryId) {
-        this.callbackQueryId = callbackQueryId;
-        return this;
-    }
-
-    public String getText() {
-        return this.text;
-    }
-
-    public AnswerCallbackQuery setText(String text) {
-        this.text = text;
-        return this;
-    }
-
-    public Boolean getShowAlert() {
-        return this.showAlert;
-    }
-
-    public AnswerCallbackQuery setShowAlert(Boolean showAlert) {
-        this.showAlert = showAlert;
-        return this;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public AnswerCallbackQuery setUrl(String url) {
-        this.url = url;
-        return this;
-    }
-
-    public Integer getCacheTime() {
-        return cacheTime;
-    }
-
-    public AnswerCallbackQuery setCacheTime(Integer cacheTime) {
-        this.cacheTime = cacheTime;
-        return this;
-    }
 
     @Override
     public String getMethod() {
@@ -126,16 +94,5 @@ public class AnswerCallbackQuery extends BotApiMethod<Boolean> {
         if (callbackQueryId == null) {
             throw new TelegramApiValidationException("CallbackQueryId can't be null", this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "AnswerCallbackQuery{" +
-                "callbackQueryId='" + callbackQueryId + '\'' +
-                ", text='" + text + '\'' +
-                ", showAlert=" + showAlert +
-                ", url='" + url + '\'' +
-                ", cacheTime=" + cacheTime +
-                '}';
     }
 }

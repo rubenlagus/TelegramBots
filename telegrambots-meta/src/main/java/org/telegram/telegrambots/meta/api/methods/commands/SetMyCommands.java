@@ -2,6 +2,15 @@ package org.telegram.telegrambots.meta.api.methods.commands;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.Singular;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
@@ -11,13 +20,18 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 import java.io.IOException;
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * @author Ruben Bermudez
  * @version 4.7
  * Use this method to change the list of the bot's commands. Returns True on success.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SetMyCommands extends BotApiMethod<Boolean> {
     public static final String PATH = "setMyCommands";
 
@@ -28,24 +42,9 @@ public class SetMyCommands extends BotApiMethod<Boolean> {
      * At most 100 commands can be specified.
      */
     @JsonProperty(COMMANDS_FIELD)
+    @Singular
+    @NonNull
     private List<BotCommand> commands;
-
-    public SetMyCommands() {
-        super();
-    }
-
-    public SetMyCommands(List<BotCommand> commands) {
-        this.commands = checkNotNull(commands);
-    }
-
-    public List<BotCommand> getCommands() {
-        return commands;
-    }
-
-    public SetMyCommands setCommands(List<BotCommand> commands) {
-        this.commands = checkNotNull(commands);
-        return this;
-    }
 
     @Override
     public String getMethod() {
@@ -78,12 +77,5 @@ public class SetMyCommands extends BotApiMethod<Boolean> {
         for (BotCommand command : commands) {
             command.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "SetMyCommands{" +
-                "commands=" + commands +
-                '}';
     }
 }

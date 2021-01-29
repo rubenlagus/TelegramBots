@@ -19,8 +19,8 @@ import static org.telegram.abilitybots.api.bot.TestUtils.mockContext;
 import static org.telegram.abilitybots.api.db.MapDBContext.offlineInstance;
 
 class AbilityBotI18nTest {
-  private static final User NO_LANGUAGE_USER = new User(1, "first", false, "last", "username", null);
-  private static final User ITALIAN_USER = new User(2, "first", false, "last", "username", "it-IT");
+  private static final User NO_LANGUAGE_USER = new User(1, "first", false, "last", "username", null, false, false, false);
+  private static final User ITALIAN_USER = new User(2, "first", false, "last", "username", "it-IT", false, false, false);
 
   private DBContext db;
   private NoPublicCommandsBot bot;

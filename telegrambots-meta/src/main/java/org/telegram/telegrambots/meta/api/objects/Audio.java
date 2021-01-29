@@ -1,6 +1,12 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
@@ -8,6 +14,12 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
  * @version 1.0
  * This object represents an audio file
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Audio implements BotApiObject {
 
     private static final String FILEID_FIELD = "file_id";
@@ -18,6 +30,7 @@ public class Audio implements BotApiObject {
     private static final String TITLE_FIELD = "title";
     private static final String PERFORMER_FIELD = "performer";
     private static final String THUMB_FIELD = "thumb";
+    private static final String FILENAME_FIELD = "file_name";
 
     @JsonProperty(FILEID_FIELD)
     private String fileId; ///< Identifier for this file, which can be used to download or reuse the file
@@ -39,54 +52,6 @@ public class Audio implements BotApiObject {
     private String performer; ///< Optional. Performer of the audio as defined by sender or by audio tags
     @JsonProperty(THUMB_FIELD)
     private PhotoSize thumb; ///< Optional. Thumbnail of the album cover to which the music file belongs
-
-    public Audio() {
-        super();
-    }
-
-    public String getFileId() {
-        return fileId;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public String getMimeType() {
-        return mimeType;
-    }
-
-    public Integer getFileSize() {
-        return fileSize;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getPerformer() {
-        return performer;
-    }
-
-    public PhotoSize getThumb() {
-        return thumb;
-    }
-
-    public String getFileUniqueId() {
-        return fileUniqueId;
-    }
-
-    @Override
-    public String toString() {
-        return "Audio{" +
-                "fileId='" + fileId + '\'' +
-                ", duration=" + duration +
-                ", mimeType='" + mimeType + '\'' +
-                ", fileSize=" + fileSize +
-                ", title='" + title + '\'' +
-                ", performer='" + performer + '\'' +
-                ", thumb=" + thumb +
-                ", fileUniqueId=" + fileUniqueId +
-                '}';
-    }
+    @JsonProperty(FILENAME_FIELD)
+    private String fileName; ///< Optional. Original filename as defined by sender
 }

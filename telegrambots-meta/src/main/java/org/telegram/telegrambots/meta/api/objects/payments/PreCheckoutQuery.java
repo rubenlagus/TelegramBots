@@ -1,6 +1,12 @@
 package org.telegram.telegrambots.meta.api.objects.payments;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.User;
 
@@ -10,6 +16,12 @@ import org.telegram.telegrambots.meta.api.objects.User;
  *
  * This object contains information about incoming pre-checkout query.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class PreCheckoutQuery implements BotApiObject {
     private static final String ID_FIELD = "id";
     private static final String FROM_FIELD = "from";
@@ -25,11 +37,11 @@ public class PreCheckoutQuery implements BotApiObject {
     private User from; ///< User who sent the query
     @JsonProperty(CURRENCY_FIELD)
     private String currency; ///< Three-letter ISO 4217 currency code
-    @JsonProperty(TOTAL_AMOUNT_FIELD)
     /**
      * Total price in the smallest units of the currency (integer, not float/double).
      * For example, for a price of US$ 1.45 pass amount = 145.
      */
+    @JsonProperty(TOTAL_AMOUNT_FIELD)
     private Integer totalAmount;
     @JsonProperty(INVOICE_PAYLOAD_FIELD)
     private String invoicePayload; ///< Bot specified invoice payload
@@ -37,49 +49,4 @@ public class PreCheckoutQuery implements BotApiObject {
     private String shippingOptionId; ///< Optional. Identifier of a chosen by user shipping option
     @JsonProperty(ORDER_INFO_FIELD)
     private OrderInfo orderInfo; ///< Optional. Order info provided by the user
-
-    public PreCheckoutQuery() {
-        super();
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public User getFrom() {
-        return from;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public Integer getTotalAmount() {
-        return totalAmount;
-    }
-
-    public String getInvoicePayload() {
-        return invoicePayload;
-    }
-
-    public String getShippingOptionId() {
-        return shippingOptionId;
-    }
-
-    public OrderInfo getOrderInfo() {
-        return orderInfo;
-    }
-
-    @Override
-    public String toString() {
-        return "PreCheckoutQuery{" +
-                "id='" + id + '\'' +
-                ", from=" + from +
-                ", currency='" + currency + '\'' +
-                ", totalAmount=" + totalAmount +
-                ", invoicePayload='" + invoicePayload + '\'' +
-                ", shippingOptionId='" + shippingOptionId + '\'' +
-                ", orderInfo=" + orderInfo +
-                '}';
-    }
 }

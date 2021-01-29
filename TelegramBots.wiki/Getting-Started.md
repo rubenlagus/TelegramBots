@@ -11,13 +11,13 @@ First you need ot get the library and add it to your project. There are few poss
            <dependency>
               <groupId>org.telegram</groupId>
               <artifactId>telegrambots</artifactId>
-              <version>4.9.2</version>
+              <version>5.0.1</version>
            </dependency>
         ```
     * With **Gradle**:
     
         ```groovy
-          compile group: 'org.telegram', name: 'telegrambots', version: '4.9.2'
+          compile group: 'org.telegram', name: 'telegrambots', version: '5.0.1'
         ```
  
 2. Don't like **Maven Central Repository**? It can also be taken from [Jitpack](https://jitpack.io/#rubenlagus/TelegramBots).
@@ -98,14 +98,12 @@ Now that we have the library, we can start coding. There are few steps to follow
         ```
 
 2. **Instantiate `TelegramBotsApi` and register our new bot:**
-    For this part, we need to actually perform 3 steps: _Initialize Api Context_, _Instantiate Telegram Api_ and _Register our Bot_. In this tutorial, we are going to make it in our `main` method:
+    For this part, we need to actually perform 2 steps: _Instantiate Telegram Api_ and _Register our Bot_. In this tutorial, we are going to make it in our `main` method:
 
     ```java
 
     public class Main {
         public static void main(String[] args) {
-
-            // TODO Initialize Api Context
 
             // TODO Instantiate Telegram Bots API
 
@@ -115,33 +113,14 @@ Now that we have the library, we can start coding. There are few steps to follow
 
     ```
 
-    * **Initialize Api Context**: This can be easily done calling the only method present in `ApiContextInitializer`:
-
-        ```java
-
-        public class Main {
-            public static void main(String[] args) {
-
-                ApiContextInitializer.init();
-
-                // TODO Instantiate Telegram Bots API
-
-                // TODO Register our bot
-            }
-        }
-
-        ```
-
     * **Instantiate Telegram Bots API**: Easy as well, just create a new instance. Remember that a single instance can handle different bots but each bot can run only once (Telegram doesn't support concurrent calls to `GetUpdates`):
 
         ```java
-
+      
         public class Main {
             public static void main(String[] args) {
-
-                ApiContextInitializer.init();
-
-                TelegramBotsApi botsApi = new TelegramBotsApi();
+                // You can use your own BotSession implementation if needed.
+                TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
 
                 // TODO Register our bot
             }
@@ -156,11 +135,8 @@ Now that we have the library, we can start coding. There are few steps to follow
         public class Main {
             public static void main(String[] args) {
 
-                ApiContextInitializer.init();
-
-                TelegramBotsApi botsApi = new TelegramBotsApi();
-
                 try {
+                    TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
                     botsApi.registerBot(new MyAmazingBot());
                 } catch (TelegramApiException e) {
                     e.printStackTrace();

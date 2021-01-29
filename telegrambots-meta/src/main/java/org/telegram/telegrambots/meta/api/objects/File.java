@@ -1,6 +1,12 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 import java.security.InvalidParameterException;
@@ -9,9 +15,14 @@ import java.text.MessageFormat;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief This object represents a file ready to be downloaded
- * @date 24 of June of 2015
+ * This object represents a file ready to be downloaded
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class File implements BotApiObject {
     private static final String FILEID_FIELD = "file_id";
     private static final String FILEUNIQUEID_FIELD = "file_unique_id";
@@ -31,26 +42,6 @@ public class File implements BotApiObject {
     @JsonProperty(FILE_PATH_FIELD)
     private String filePath; ///< Optional. File path. Use https://api.telegram.org/file/bot<token>/<file_path> to get the file.
 
-    public File() {
-        super();
-    }
-
-    public String getFileId() {
-        return fileId;
-    }
-
-    public Integer getFileSize() {
-        return fileSize;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public String getFileUniqueId() {
-        return fileUniqueId;
-    }
-
     public String getFileUrl(String botToken) {
         return getFileUrl(botToken, filePath);
     }
@@ -60,15 +51,5 @@ public class File implements BotApiObject {
             throw new InvalidParameterException("Bot token can't be empty");
         }
         return MessageFormat.format("https://api.telegram.org/file/bot{0}/{1}", botToken, filePath);
-    }
-
-    @Override
-    public String toString() {
-        return "File{" +
-                "fileId='" + fileId + '\'' +
-                ", fileSize=" + fileSize +
-                ", filePath='" + filePath + '\'' +
-                ", fileUniqueId=" + fileUniqueId +
-                '}';
     }
 }

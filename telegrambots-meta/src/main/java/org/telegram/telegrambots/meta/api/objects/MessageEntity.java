@@ -2,6 +2,15 @@ package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
@@ -11,6 +20,14 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
  * usernames, URL.
  */
 @SuppressWarnings("WeakerAccess")
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class MessageEntity implements BotApiObject {
     private static final String TYPE_FIELD = "type";
     private static final String OFFSET_FIELD = "offset";
@@ -38,10 +55,13 @@ public class MessageEntity implements BotApiObject {
      */
 
     @JsonProperty(TYPE_FIELD)
+    @NonNull
     private String type;
     @JsonProperty(OFFSET_FIELD)
+    @NonNull
     private Integer offset; ///< Offset in UTF-16 code units to the start of the entity
     @JsonProperty(LENGTH_FIELD)
+    @NonNull
     private Integer length; ///< Length of the entity in UTF-16 code units
     @JsonProperty(URL_FIELD)
     private String url; ///< Optional. For “text_link” only, url that will be opened after user taps on the text
@@ -52,54 +72,9 @@ public class MessageEntity implements BotApiObject {
     @JsonIgnore
     private String text; ///< Text present in the entity. Computed from offset and length
 
-    public MessageEntity() {
-        super();
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public Integer getOffset() {
-        return offset;
-    }
-
-    public Integer getLength() {
-        return length;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
     protected void computeText(String message) {
         if (message != null) {
             text = message.substring(offset, offset + length);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "MessageEntity{" +
-                "type='" + type + '\'' +
-                ", offset=" + offset +
-                ", length=" + length +
-                ", url='" + url + '\'' +
-                ", user=" + user +
-                ", language='" + language + '\'' +
-                ", text='" + text + '\'' +
-                '}';
     }
 }

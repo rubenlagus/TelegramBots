@@ -9,8 +9,7 @@ import java.util.List;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Row for ReplyKeyBoardMarkup
- * @date 10 of April of 2016
+ * Row for ReplyKeyBoardMarkup
  */
 public class KeyboardRow extends ArrayList<KeyboardButton> implements Validable {
     public boolean add(String text) {

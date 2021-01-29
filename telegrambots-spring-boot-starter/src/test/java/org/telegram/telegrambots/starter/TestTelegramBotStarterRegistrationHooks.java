@@ -8,13 +8,18 @@ import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.BotSession;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 class TestTelegramBotStarterRegistrationHooks {
 
@@ -29,7 +34,7 @@ class TestTelegramBotStarterRegistrationHooks {
                                                      TelegramBotStarterConfiguration.class));
 
     @Test
-    void longPollingBotWithAnnotatedMethodshouldBeCalled() throws TelegramApiRequestException {
+    void longPollingBotWithAnnotatedMethodshouldBeCalled() throws TelegramApiException {
 
         when(mockTelegramBotsApi.registerBot(any(LongPollingBot.class))).thenReturn(someBotSession);
 

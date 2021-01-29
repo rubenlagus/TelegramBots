@@ -1,7 +1,12 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 import java.util.List;
@@ -9,9 +14,14 @@ import java.util.List;
 /**
  * @author Ruben Bermudez
  * @version 2.4
- * @brief Contains information about the current status of a webhook.
- * @date 12 of August of 2016
+ * Contains information about the current status of a webhook.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class WebhookInfo implements BotApiObject {
 
     private static final String URL_FIELD = "url";
@@ -21,6 +31,7 @@ public class WebhookInfo implements BotApiObject {
     private static final String ALLOWEDUPDATES_FIELD = "allowed_updates";
     private static final String LASTERRORDATE_FIELD = "last_error_date";
     private static final String LASTERRORMESSAGE_FIELD = "last_error_message";
+    private static final String IPADDRESS_FIELD = "ip_address";
 
     @JsonProperty(URL_FIELD)
     private String url; ///< Webhook URL, may be empty if webhook is not set up
@@ -36,36 +47,6 @@ public class WebhookInfo implements BotApiObject {
     private Integer maxConnections; ///< Optional. Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery
     @JsonProperty(ALLOWEDUPDATES_FIELD)
     private List<String> allowedUpdates; ///< Optional. A list of update types the bot is subscribed to. Defaults to all update types
-
-    public WebhookInfo() {
-        super();
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public boolean isHasCustomCertificate() {
-        return hasCustomCertificate;
-    }
-
-    public int getPendingUpdatesCount() {
-        return pendingUpdatesCount;
-    }
-
-    public int getLastErrorDate() {
-        return lastErrorDate;
-    }
-
-    public String getLastErrorMessage() {
-        return lastErrorMessage;
-    }
-
-    public Integer getMaxConnections() {
-        return maxConnections;
-    }
-
-    public List<String> getAllowedUpdates() {
-        return allowedUpdates;
-    }
+    @JsonProperty(IPADDRESS_FIELD)
+    private String ipAddress; ///< Optional. Currently used webhook IP address
 }

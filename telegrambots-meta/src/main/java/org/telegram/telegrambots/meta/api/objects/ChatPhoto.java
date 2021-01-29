@@ -1,6 +1,12 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
@@ -8,6 +14,12 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
  * @version 1.0
  * This object represents a chat photo (profile picture of a user, group or channel)
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class ChatPhoto implements BotApiObject {
     private static final String SMALLFILEID_FIELD = "small_file_id";
     private static final String SMALLFILEUNIQUEID_FIELD = "small_file_unique_id";
@@ -40,34 +52,4 @@ public class ChatPhoto implements BotApiObject {
      */
     @JsonProperty(BIGFILEUNIQUEID_FIELD)
     private String bigFileUniqueId;
-
-    public ChatPhoto() {
-        super();
-    }
-
-    public String getSmallFileId() {
-        return smallFileId;
-    }
-
-    public String getBigFileId() {
-        return bigFileId;
-    }
-
-    public String getSmallFileUniqueId() {
-        return smallFileUniqueId;
-    }
-
-    public String getBigFileUniqueId() {
-        return bigFileUniqueId;
-    }
-
-    @Override
-    public String toString() {
-        return "ChatPhoto{" +
-                "smallFileId='" + smallFileId + '\'' +
-                ", smallFileUniqueId='" + smallFileUniqueId + '\'' +
-                ", bigFileId='" + bigFileId + '\'' +
-                ", bigFileUniqueId='" + bigFileUniqueId + '\'' +
-                '}';
-    }
 }

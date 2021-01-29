@@ -1,6 +1,12 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.ChosenInlineQuery;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
@@ -17,6 +23,12 @@ import org.telegram.telegrambots.meta.api.objects.polls.PollAnswer;
  *
  * @apiNote Only one of the optional parameters can be present in any given update.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Update implements BotApiObject {
     private static final String UPDATEID_FIELD = "update_id";
     private static final String MESSAGE_FIELD = "message";
@@ -62,59 +74,6 @@ public class Update implements BotApiObject {
     @JsonProperty(POLLANSWER_FIELD)
     private PollAnswer pollAnswer;
 
-
-    public Update() {
-        super();
-    }
-
-    public Integer getUpdateId() {
-        return updateId;
-    }
-
-    public Message getMessage() {
-        return message;
-    }
-
-    public InlineQuery getInlineQuery() {
-        return inlineQuery;
-    }
-
-    public ChosenInlineQuery getChosenInlineQuery() {
-        return chosenInlineQuery;
-    }
-
-    public CallbackQuery getCallbackQuery() {
-        return callbackQuery;
-    }
-
-    public Message getEditedMessage() {
-        return editedMessage;
-    }
-
-    public Message getChannelPost() {
-        return channelPost;
-    }
-
-    public Message getEditedChannelPost() {
-        return editedChannelPost;
-    }
-
-    public ShippingQuery getShippingQuery() {
-        return shippingQuery;
-    }
-
-    public PreCheckoutQuery getPreCheckoutQuery() {
-        return preCheckoutQuery;
-    }
-
-    public Poll getPoll() {
-        return poll;
-    }
-
-    public PollAnswer getPollAnswer() {
-        return pollAnswer;
-    }
-
     public boolean hasMessage() {
         return message != null;
     }
@@ -157,23 +116,5 @@ public class Update implements BotApiObject {
 
     public boolean hasPollAnswer() {
         return pollAnswer != null;
-    }
-
-    @Override
-    public String toString() {
-        return "Update{" +
-                "updateId=" + updateId +
-                ", message=" + message +
-                ", inlineQuery=" + inlineQuery +
-                ", chosenInlineQuery=" + chosenInlineQuery +
-                ", callbackQuery=" + callbackQuery +
-                ", editedMessage=" + editedMessage +
-                ", channelPost=" + channelPost +
-                ", editedChannelPost=" + editedChannelPost +
-                ", shippingQuery=" + shippingQuery +
-                ", preCheckoutQuery=" + preCheckoutQuery +
-                ", poll=" + poll +
-                ", pollAnswer=" + pollAnswer +
-                '}';
     }
 }

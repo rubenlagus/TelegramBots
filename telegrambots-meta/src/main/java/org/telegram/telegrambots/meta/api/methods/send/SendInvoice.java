@@ -2,10 +2,19 @@ package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.payments.LabeledPrice;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -13,13 +22,19 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 import java.io.IOException;
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * @author Ruben Bermudez
  * @version 1.0
  * Use this method to send an invoice. On success, the sent Message is returned.
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SendInvoice extends BotApiMethod<Message> {
     public static final String PATH = "sendinvoice";
 
@@ -46,22 +61,31 @@ public class SendInvoice extends BotApiMethod<Message> {
     private static final String REPLY_TO_MESSAGE_ID_FIELD = "reply_to_message_id";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String PROVIDER_DATA_FIELD = "provider_data";
+    private static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
 
     @JsonProperty(CHATID_FIELD)
+    @NonNull
     private Integer chatId; ///< Unique identifier for the target private chat
     @JsonProperty(TITLE_FIELD)
+    @NonNull
     private String title; ///< Product name
     @JsonProperty(DESCRIPTION_FIELD)
+    @NonNull
     private String description; ///< Product description
     @JsonProperty(PAYLOAD_FIELD)
+    @NonNull
     private String payload; ///< Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
     @JsonProperty(PROVIDER_TOKEN_FIELD)
+    @NonNull
     private String providerToken; ///< Payments provider token, obtained via Botfather
     @JsonProperty(START_PARAMETER_FIELD)
+    @NonNull
     private String startParameter; ///< Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter.
     @JsonProperty(CURRENCY_FIELD)
+    @NonNull
     private String currency; ///< 3-letter ISO 4217 currency code
     @JsonProperty(PRICES_FIELD)
+    @NonNull
     private List<LabeledPrice> prices; ///< Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
     /**
      * Optional. URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service.
@@ -97,250 +121,19 @@ public class SendInvoice extends BotApiMethod<Message> {
     /**
      * Optional. A JSON-serialized object for an inline keyboard.
      *
-     * @note If empty, one 'Buy title' button will be shown. If not empty, the first button must be a Pay button.
+     * @apiNote If empty, one 'Buy title' button will be shown. If not empty, the first button must be a Pay button.
      */
     @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup;
     /**
      * Optional JSON-encoded data about the invoice, which will be shared with the payment provider.
      *
-     * @note A detailed description of required fields should be provided by the payment provider.
+     * @apiNote A detailed description of required fields should be provided by the payment provider.
      */
     @JsonProperty(PROVIDER_DATA_FIELD)
     private String providerData;
-
-     /**
-     * Build an empty SendInvoice object
-     */
-    public SendInvoice() {
-        super();
-    }
-
-    /**
-     * Build a SendInvoice object with empty parameters
-     * @param chatId Unique identifier for the target private chat
-     * @param title Product name
-     * @param description Product description
-     * @param payload Bot defined invoice payload, 1-128 bytes.
-     * @param providerToken Payments provider token
-     * @param startParameter Unique deep-linking parameter.
-     * @param currency 3-letter ISO 4217 currency code
-     * @param prices Price breakdown, a list of components
-     */
-    public SendInvoice(Integer chatId, String title, String description, String payload, String providerToken,
-                       String startParameter, String currency, List<LabeledPrice> prices) {
-        this.chatId = checkNotNull(chatId);
-        this.title = checkNotNull(title);
-        this.description = checkNotNull(description);
-        this.payload = checkNotNull(payload);
-        this.providerToken = checkNotNull(providerToken);
-        this.startParameter = checkNotNull(startParameter);
-        this.currency = checkNotNull(currency);
-        this.prices = checkNotNull(prices);
-    }
-
-    public Integer getChatId() {
-        return chatId;
-    }
-
-    public SendInvoice setChatId(Integer chatId) {
-        this.chatId = checkNotNull(chatId);
-        return this;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public SendInvoice setTitle(String title) {
-        this.title = checkNotNull(title);
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public SendInvoice setDescription(String description) {
-        this.description = checkNotNull(description);
-        return this;
-    }
-
-    public String getPayload() {
-        return payload;
-    }
-
-    public SendInvoice setPayload(String payload) {
-        this.payload = checkNotNull(payload);
-        return this;
-    }
-
-    public String getProviderToken() {
-        return providerToken;
-    }
-
-    public SendInvoice setProviderToken(String providerToken) {
-        this.providerToken = checkNotNull(providerToken);
-        return this;
-    }
-
-    public String getStartParameter() {
-        return startParameter;
-    }
-
-    public SendInvoice setStartParameter(String startParameter) {
-        this.startParameter = checkNotNull(startParameter);
-        return this;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public SendInvoice setCurrency(String currency) {
-        this.currency = checkNotNull(currency);
-        return this;
-    }
-
-    public List<LabeledPrice> getPrices() {
-        return prices;
-    }
-
-    public SendInvoice setPrices(List<LabeledPrice> prices) {
-        this.prices = checkNotNull(prices);
-        return this;
-    }
-
-    public String getPhotoUrl() {
-        return photoUrl;
-    }
-
-    public SendInvoice setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
-        return this;
-    }
-
-    public Integer getPhotoSize() {
-        return photoSize;
-    }
-
-    public SendInvoice setPhotoSize(Integer photoSize) {
-        this.photoSize = photoSize;
-        return this;
-    }
-
-    public Integer getPhotoWidth() {
-        return photoWidth;
-    }
-
-    public SendInvoice setPhotoWidth(Integer photoWidth) {
-        this.photoWidth = photoWidth;
-        return this;
-    }
-
-    public Integer getPhotoHeight() {
-        return photoHeight;
-    }
-
-    public SendInvoice setPhotoHeight(Integer photoHeight) {
-        this.photoHeight = photoHeight;
-        return this;
-    }
-
-    public Boolean getNeedName() {
-        return needName;
-    }
-
-    public SendInvoice setNeedName(Boolean needName) {
-        this.needName = needName;
-        return this;
-    }
-
-    public Boolean getNeedPhoneNumber() {
-        return needPhoneNumber;
-    }
-
-    public SendInvoice setNeedPhoneNumber(Boolean needPhoneNumber) {
-        this.needPhoneNumber = needPhoneNumber;
-        return this;
-    }
-
-    public Boolean getNeedEmail() {
-        return needEmail;
-    }
-
-    public SendInvoice setNeedEmail(Boolean needEmail) {
-        this.needEmail = needEmail;
-        return this;
-    }
-
-    public Boolean getNeedShippingAddress() {
-        return needShippingAddress;
-    }
-
-    public SendInvoice setNeedShippingAddress(Boolean needShippingAddress) {
-        this.needShippingAddress = needShippingAddress;
-        return this;
-    }
-
-    public Boolean getSendPhoneNumberToProvider() { return sendPhoneNumberToProvider; }
-
-    public SendInvoice setSendPhoneNumberToProvider(Boolean sendPhoneNumberToProvider) {
-        this.sendPhoneNumberToProvider = sendPhoneNumberToProvider;
-        return this;
-    }
-
-    public Boolean getSendEmailToProvider() { return sendEmailToProvider; }
-
-    public SendInvoice setSendEmailToProvider(Boolean sendEmailToProvider) {
-        this.sendEmailToProvider = sendEmailToProvider;
-        return this;
-    }
-
-    public Boolean getFlexible() {
-        return isFlexible;
-    }
-
-    public SendInvoice setFlexible(Boolean flexible) {
-        isFlexible = flexible;
-        return this;
-    }
-
-    public Boolean getDisableNotification() {
-        return disableNotification;
-    }
-
-    public SendInvoice setDisableNotification(Boolean disableNotification) {
-        this.disableNotification = disableNotification;
-        return this;
-    }
-
-    public Integer getReplyToMessageId() {
-        return replyToMessageId;
-    }
-
-    public SendInvoice setReplyToMessageId(Integer replyToMessageId) {
-        this.replyToMessageId = replyToMessageId;
-        return this;
-    }
-
-    public InlineKeyboardMarkup getReplyMarkup() {
-        return replyMarkup;
-    }
-
-    public SendInvoice setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-        this.replyMarkup = replyMarkup;
-        return this;
-    }
-
-    public String getProviderData() {
-        return providerData;
-    }
-
-    public SendInvoice setProviderData(String providerData) {
-        this.providerData = providerData;
-        return this;
-    }
+    @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
+    private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
 
     @Override
     public String getMethod() {
@@ -395,34 +188,5 @@ public class SendInvoice extends BotApiMethod<Message> {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "SendInvoice{" +
-                "chatId=" + chatId +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", payload='" + payload + '\'' +
-                ", providerToken='" + providerToken + '\'' +
-                ", startParameter='" + startParameter + '\'' +
-                ", currency='" + currency + '\'' +
-                ", prices=" + prices +
-                ", photoUrl='" + photoUrl + '\'' +
-                ", photoSize=" + photoSize +
-                ", photoWidth=" + photoWidth +
-                ", photoHeight=" + photoHeight +
-                ", needName=" + needName +
-                ", needPhoneNumber=" + needPhoneNumber +
-                ", needEmail=" + needEmail +
-                ", needShippingAddress=" + needShippingAddress +
-                ", sendPhoneNumberToProvider=" + sendPhoneNumberToProvider +
-                ", sendEmailToProvider=" + sendEmailToProvider +
-                ", isFlexible=" + isFlexible +
-                ", disableNotification=" + disableNotification +
-                ", replyToMessageId=" + replyToMessageId +
-                ", replyMarkup=" + replyMarkup +
-                ", providerData='" + providerData + '\'' +
-                '}';
     }
 }

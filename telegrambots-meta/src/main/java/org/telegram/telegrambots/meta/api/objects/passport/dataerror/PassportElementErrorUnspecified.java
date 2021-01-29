@@ -2,9 +2,15 @@ package org.telegram.telegrambots.meta.api.objects.passport.dataerror;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Ruben Bermudez
@@ -14,6 +20,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * The error is considered resolved when new data is added.
  */
 @JsonDeserialize
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PassportElementErrorUnspecified implements PassportElementError {
     private static final String SOURCE_FIELD = "source";
     private static final String TYPE_FIELD = "type";
@@ -26,53 +39,14 @@ public class PassportElementErrorUnspecified implements PassportElementError {
      * Type of element of the user's Telegram Passport which has the issue
      */
     @JsonProperty(TYPE_FIELD)
+    @NonNull
     private String type;
     @JsonProperty(ELEMENTHASH_FIELD)
+    @NonNull
     private String elementHash; ///< Base64-encoded element hash
     @JsonProperty(MESSAGE_FIELD)
+    @NonNull
     private String message; ///< Error message
-
-    public PassportElementErrorUnspecified() {
-        super();
-    }
-
-    public PassportElementErrorUnspecified(String type, String elementHash, String message) {
-        super();
-        this.type = checkNotNull(type);
-        this.elementHash = checkNotNull(elementHash);
-        this.message = checkNotNull(message);
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public PassportElementErrorUnspecified setType(String type) {
-        this.type = checkNotNull(type);
-        return this;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public String getElementHash() {
-        return elementHash;
-    }
-
-    public PassportElementErrorUnspecified setElementHash(String elementHash) {
-        this.elementHash = elementHash;
-        return this;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public PassportElementErrorUnspecified setMessage(String message) {
-        this.message = checkNotNull(message);
-        return this;
-    }
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -85,15 +59,5 @@ public class PassportElementErrorUnspecified implements PassportElementError {
         if (type == null || type.isEmpty()) {
             throw new TelegramApiValidationException("Type parameter can't be empty", this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "PassportElementErrorFile{" +
-                "source='" + source + '\'' +
-                ", type='" + type + '\'' +
-                ", elementHash='" + elementHash + '\'' +
-                ", message='" + message + '\'' +
-                '}';
     }
 }

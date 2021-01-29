@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.updatesreceivers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.inject.Inject;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -10,11 +9,10 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
-import org.telegram.telegrambots.bots.DefaultBotOptions;
-import org.telegram.telegrambots.facilities.TelegramHttpClientBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.telegram.telegrambots.meta.ApiConstants;
+import org.telegram.telegrambots.bots.DefaultBotOptions;
+import org.telegram.telegrambots.facilities.TelegramHttpClientBuilder;
 import org.telegram.telegrambots.meta.api.methods.updates.GetUpdates;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -62,7 +60,6 @@ public class DefaultBotSession implements BotSession {
     private DefaultBotOptions options;
     private UpdatesSupplier updatesSupplier;
 
-    @Inject
     public DefaultBotSession() {
     }
 
@@ -235,10 +232,12 @@ public class DefaultBotSession implements BotSession {
         }
 
         private List<Update> getUpdatesFromServer() throws IOException {
-            GetUpdates request = new GetUpdates()
-                    .setLimit(options.getGetUpdatesLimit())
-                    .setTimeout(options.getGetUpdatesTimeout())
-                    .setOffset(lastReceivedUpdate + 1);
+            GetUpdates request = GetUpdates
+                    .builder()
+                    .limit(options.getGetUpdatesLimit())
+                    .timeout(options.getGetUpdatesTimeout())
+                    .offset(lastReceivedUpdate + 1)
+                    .build();
 
             if (options.getAllowedUpdates() != null) {
                 request.setAllowedUpdates(options.getAllowedUpdates());

@@ -1,8 +1,9 @@
 package org.telegram.telegrambots.test.Fakes;
 
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.WebhookBot;
 
 /**
@@ -32,7 +33,7 @@ public class FakeWebhook implements WebhookBot {
     }
 
     @Override
-    public void setWebhook(String url, String publicCertificatePath) throws TelegramApiRequestException {
+    public void setWebhook(SetWebhook setWebhook) throws TelegramApiException {
 
     }
 

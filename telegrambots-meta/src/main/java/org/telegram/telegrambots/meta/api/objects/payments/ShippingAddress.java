@@ -1,6 +1,12 @@
 package org.telegram.telegrambots.meta.api.objects.payments;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
@@ -9,6 +15,12 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
  *
  * 2-letter ISO 3166-1 alpha-2 country code
  */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class ShippingAddress implements BotApiObject {
     private static final String COUNTRY_CODE_FIELD = "country_code";
     private static final String STATE_FIELD = "state";
@@ -29,44 +41,4 @@ public class ShippingAddress implements BotApiObject {
     private String streetLine2; ///< Second line for the address
     @JsonProperty(POST_CODE_FIELD)
     private String postCode; ///< Address post code
-
-    public ShippingAddress() {
-        super();
-    }
-
-    public String getCountryCode() {
-        return countryCode;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getStreetLine1() {
-        return streetLine1;
-    }
-
-    public String getStreetLine2() {
-        return streetLine2;
-    }
-
-    public String getPostCode() {
-        return postCode;
-    }
-
-    @Override
-    public String toString() {
-        return "ShippingAddress{" +
-                "countryCode='" + countryCode + '\'' +
-                ", state='" + state + '\'' +
-                ", city='" + city + '\'' +
-                ", streetLine1='" + streetLine1 + '\'' +
-                ", streetLine2='" + streetLine2 + '\'' +
-                ", postCode='" + postCode + '\'' +
-                '}';
-    }
 }
