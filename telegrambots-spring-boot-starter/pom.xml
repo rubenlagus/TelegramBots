@@ -71,8 +71,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <telegrambots.version>5.0.1</telegrambots.version>
-        <spring-boot.version>2.3.8.RELEASE</spring-boot.version>
-        <assertj-core.version>3.19.0</assertj-core.version>
+        <spring-boot.version>2.4.2</spring-boot.version>
 
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
@@ -108,16 +107,9 @@
         
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-test</artifactId>
+			<artifactId>spring-boot-starter-test</artifactId>
 			<version>${spring-boot.version}</version>
 			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.assertj</groupId>
-			<artifactId>assertj-core</artifactId>
-			<scope>test</scope>
-			<version>${assertj-core.version}</version>
 		</dependency>
     </dependencies>
 
