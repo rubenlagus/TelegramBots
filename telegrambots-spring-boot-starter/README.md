@@ -25,7 +25,7 @@ Usage
 **Gradle**
 
 ```gradle
-    compile "org.telegram:telegrambots-spring-boot-starter:5.0.1"
+    implementation 'org.telegram:telegrambots-spring-boot-starter:5.0.1'
 ```
 
 Motivation
