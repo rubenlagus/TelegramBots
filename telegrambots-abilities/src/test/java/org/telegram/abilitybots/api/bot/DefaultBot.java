@@ -8,9 +8,6 @@ import org.telegram.abilitybots.api.objects.Reply;
 import org.telegram.abilitybots.api.objects.ReplyCollection;
 import org.telegram.abilitybots.api.toggle.AbilityToggle;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.telegram.abilitybots.api.objects.Ability.builder;
 import static org.telegram.abilitybots.api.objects.Flag.CALLBACK_QUERY;
 import static org.telegram.abilitybots.api.objects.Flag.MESSAGE;
@@ -86,21 +83,16 @@ public class DefaultBot extends AbilityBot {
   }
 
   public ReplyCollection createReplyCollection() {
-    List<Reply> replyList = new ArrayList<>();
-    replyList.add(
-            Reply.of(
-                    upd -> silent.send("first reply answer", upd.getMessage().getChatId()),
-                    update -> update.getMessage().getText().equalsIgnoreCase(FIRST_REPLY_KEY_MESSAGE)
-            )
+    return ReplyCollection.of(
+        Reply.of(
+            upd -> silent.send("first reply answer", upd.getMessage().getChatId()),
+            update -> update.getMessage().getText().equalsIgnoreCase(FIRST_REPLY_KEY_MESSAGE)
+        ),
+        Reply.of(
+            upd -> silent.send("second reply answer", upd.getMessage().getChatId()),
+            update -> update.getMessage().getText().equalsIgnoreCase(SECOND_REPLY_KEY_MESSAGE)
+        )
     );
-    replyList.add(
-            Reply.of(
-                    upd -> silent.send("second reply answer", upd.getMessage().getChatId()),
-                    update -> update.getMessage().getText().equalsIgnoreCase(SECOND_REPLY_KEY_MESSAGE)
-            )
-
-    );
-    return new ReplyCollection(replyList);
   }
 
   public Ability testAbility() {

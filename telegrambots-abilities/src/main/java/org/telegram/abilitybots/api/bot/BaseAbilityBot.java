@@ -348,14 +348,14 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
                     .flatMap(ext -> stream(ext.getClass().getMethods())
                             .filter(checkReturnType(Reply.class))
                             .map(returnReply(ext)))
-                    .flatMap(Reply::stream);
+                            .flatMap(Reply::stream);
 
+            // Extract all replies from extension instances methods, returning ReplyCollection
             Stream<Reply> extensionCollectionReplies = extensions.stream()
                     .flatMap(extension -> stream(extension.getClass().getMethods())
                             .filter(checkReturnType(ReplyCollection.class))
                             .map(returnReplyCollection(extension))
-                            .map(ReplyCollection::getReplies))
-                    .flatMap(Collection::stream);
+                            .flatMap(ReplyCollection::stream));
 
             // Replies can be standalone or attached to abilities, fetch those too
             Stream<Reply> abilityReplies = abilities.values().stream()
