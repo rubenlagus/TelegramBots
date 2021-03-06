@@ -350,16 +350,25 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
                             .map(returnReply(ext)))
                             .flatMap(Reply::stream);
 
+            // Extract all replies from extension instances methods, returning ReplyCollection
+            Stream<Reply> extensionCollectionReplies = extensions.stream()
+                    .flatMap(extension -> stream(extension.getClass().getMethods())
+                            .filter(checkReturnType(ReplyCollection.class))
+                            .map(returnReplyCollection(extension))
+                            .flatMap(ReplyCollection::stream));
+
             // Replies can be standalone or attached to abilities, fetch those too
             Stream<Reply> abilityReplies = abilities.values().stream()
                     .flatMap(ability -> ability.replies().stream())
                     .flatMap(Reply::stream);
 
             // Now create the replies registry (list)
-            replies = Stream.concat(abilityReplies, extensionReplies).collect(
-                    ImmutableList::<Reply>builder,
-                    Builder::add,
-                    (b1, b2) -> b1.addAll(b2.build()))
+            replies = Stream.of(abilityReplies, extensionReplies, extensionCollectionReplies)
+                    .flatMap(replyStream -> replyStream)
+                    .collect(
+                            ImmutableList::<Reply>builder,
+                            Builder::add,
+                            (b1, b2) -> b1.addAll(b2.build()))
                     .build();
         } catch (IllegalStateException e) {
             log.error("Duplicate names found while registering abilities. Make sure that the abilities declared don't clash with the reserved ones.", e);
@@ -434,6 +443,23 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
                 return (Reply) method.invoke(obj);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 log.error("Could not add reply", e);
+                throw new RuntimeException(e);
+            }
+        };
+    }
+
+    /**
+     * Invokes the method and retrieves its return {@link ReplyCollection}.
+     *
+     * @param obj a bot or extension that this method is invoked with
+     * @return a {@link Function} which returns the {@link ReplyCollection} returned by the given method
+     */
+    private static Function<? super Method, ReplyCollection> returnReplyCollection(Object obj) {
+        return method -> {
+            try {
+                return (ReplyCollection) method.invoke(obj);
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                log.error("Could not add Reply Collection", e);
                 throw new RuntimeException(e);
             }
         };
