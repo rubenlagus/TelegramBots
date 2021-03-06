@@ -625,7 +625,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         return replies.stream()
                 .filter(reply -> runSilently(() -> reply.isOkFor(update), reply.name()))
                 .map(reply -> runSilently(() -> {
-                    reply.actOn(update);
+                    reply.actOn(this, update);
                     updateReplyStats(reply);
                     return false;
                 }, reply.name()))

@@ -254,7 +254,7 @@ public final class DefaultAbilities implements AbilityExtension {
         .input(0)
         .action(ctx -> bot.silent.forceReply(
             getLocalizedMessage(ABILITY_RECOVER_MESSAGE, ctx.user().getLanguageCode()), ctx.chatId()))
-        .reply(update -> {
+        .reply((bot, update) -> {
           String replyToMsg = update.getMessage().getReplyToMessage().getText();
           String recoverMessage = getLocalizedMessage(ABILITY_RECOVER_MESSAGE, AbilityUtils.getUser(update).getLanguageCode());
           if (!replyToMsg.equals(recoverMessage))

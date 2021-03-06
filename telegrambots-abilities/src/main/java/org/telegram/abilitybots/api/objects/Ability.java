@@ -4,10 +4,12 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.telegram.abilitybots.api.bot.BaseAbilityBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -208,8 +210,18 @@ public final class Ability {
       return this;
     }
 
+    /**
+     * @deprecated Please use {@link #reply(BiConsumer, Predicate[])}
+     */
+    @Deprecated
     @SafeVarargs
     public final AbilityBuilder reply(Consumer<Update> action, Predicate<Update>... conditions) {
+      replies.add(Reply.of(action, conditions));
+      return this;
+    }
+
+    @SafeVarargs
+    public final AbilityBuilder reply(BiConsumer<BaseAbilityBot, Update> action, Predicate<Update>... conditions) {
       replies.add(Reply.of(action, conditions));
       return this;
     }
