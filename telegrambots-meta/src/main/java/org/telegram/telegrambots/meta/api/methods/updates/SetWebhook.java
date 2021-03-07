@@ -50,7 +50,7 @@ public class SetWebhook extends BotApiMethod<Boolean> {
 
     @JsonProperty(URL_FIELD)
     @NonNull
-    private String url; ///< Optional. HTTPS url to send updates to. Use an empty string to remove webhook integration
+    private String url; ///< HTTPS url to send updates to. Use an empty string to remove webhook integration
     @JsonProperty(CERTIFICATE_FIELD)
     private InputFile certificate; ///< Optional. Upload your public key certificate so that the root certificate in use can be checked
     /**

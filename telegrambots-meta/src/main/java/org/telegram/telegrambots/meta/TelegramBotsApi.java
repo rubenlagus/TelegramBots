@@ -1,9 +1,11 @@
 package org.telegram.telegrambots.meta;
 
+import com.google.common.base.Strings;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.BotSession;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
+import org.telegram.telegrambots.meta.generics.TelegramBot;
 import org.telegram.telegrambots.meta.generics.Webhook;
 import org.telegram.telegrambots.meta.generics.WebhookBot;
 
@@ -15,8 +17,6 @@ import java.lang.reflect.InvocationTargetException;
  * Bots manager
  */
 public class TelegramBotsApi {
-    private static final String webhookUrlFormat = "{0}callback/";
-
     Class<? extends BotSession> botSessionClass;
     private boolean useWebhook; ///< True to enable webhook usage
     private Webhook webhook; ///< Webhook instance
@@ -55,6 +55,12 @@ public class TelegramBotsApi {
      * @param bot the bot to register
      */
     public BotSession registerBot(LongPollingBot bot) throws TelegramApiException {
+        if (bot == null) {
+            throw new TelegramApiException("Parameter bot can not be null");
+        }
+        if (!validateBotUsernameAndToken(bot)) {
+            throw new TelegramApiException("Bot token and username can't be empty");
+        }
         bot.onRegister();
         bot.clearWebhook();
         BotSession session;
@@ -74,18 +80,33 @@ public class TelegramBotsApi {
      * Register a bot in the api that will receive updates using webhook method
      * @param bot Bot to register
      * @param setWebhook Set webhook request to initialize the bot
+     *
+     * @apiNote The webhook url will be appended with `/callback/bot.getBotPath()` at the end
      */
     public void registerBot(WebhookBot bot, SetWebhook setWebhook) throws TelegramApiException {
         if (setWebhook == null) {
-            throw new TelegramApiException("Parameter setWebhook can not be null or empty");
+            throw new TelegramApiException("Parameter setWebhook can not be null");
         }
         if (useWebhook) {
             if (webhook == null) {
                 throw new TelegramApiException("This instance doesn't support Webhook bot, use correct constructor");
             }
+            if (!validateBotUsernameAndToken(bot)) {
+                throw new TelegramApiException("Bot token and username can't be empty");
+            }
             bot.onRegister();
             webhook.registerWebhook(bot);
             bot.setWebhook(setWebhook);
         }
+    }
+
+    /**
+     * Checks that the username and token are presented
+     * @param telegramBot bot to register
+     * @return False if username or token are empty or null, true otherwise
+     */
+    private boolean validateBotUsernameAndToken(TelegramBot telegramBot) {
+        return !Strings.isNullOrEmpty(telegramBot.getBotToken()) &&
+                !Strings.isNullOrEmpty(telegramBot.getBotUsername());
     }
 }

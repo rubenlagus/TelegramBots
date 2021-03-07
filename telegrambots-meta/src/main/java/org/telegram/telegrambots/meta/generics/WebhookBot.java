@@ -16,7 +16,7 @@ public interface WebhookBot extends TelegramBot {
      * This method is called when receiving updates via webhook
      * @param update Update received
      */
-    BotApiMethod onWebhookUpdateReceived(Update update);
+    BotApiMethod<?> onWebhookUpdateReceived(Update update);
 
     /**
      * Execute setWebhook method to set up the url of the webhook
