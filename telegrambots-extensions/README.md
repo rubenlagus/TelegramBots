@@ -23,5 +23,5 @@ Just import add the library to your project with one of these options:
    2. Using Gradle:
 
 ```gradle
-    compile "org.telegram:telegrambotsextensions:5.0.1"
+    implementation 'org.telegram:telegrambotsextensions:5.0.1'
 ```

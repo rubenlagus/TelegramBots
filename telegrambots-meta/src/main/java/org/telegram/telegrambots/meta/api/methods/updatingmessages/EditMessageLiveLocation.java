@@ -46,7 +46,7 @@ public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
     private static final String REPLYMARKUP_FIELD = "reply_markup";
     private static final String HORIZONTALACCURACY_FIELD = "horizontal_accuracy";
     private static final String HEADING_FIELD = "heading";
-    private static final String APPROACHINGNOTIFICATIONDISTANCE_FIELD = "approaching_notification_distance";
+    private static final String PROXIMITYALERTRADIUS_FIELD = "proximity_alert_radius";
 
     /**
      * Required if inline_message_id is not specified. Unique identifier for the chat to send the
@@ -90,8 +90,8 @@ public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
      * For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters.
      * Must be between 1 and 100000 if specified.
      */
-    @JsonProperty(APPROACHINGNOTIFICATIONDISTANCE_FIELD)
-    private Integer approachingNotificationDistance;
+    @JsonProperty(PROXIMITYALERTRADIUS_FIELD)
+    private Integer proximityAlertRadius;
 
     @Override
     public String getMethod() {
@@ -151,10 +151,10 @@ public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
             throw new TelegramApiValidationException("Horizontal Accuracy parameter must be between 0 and 1500", this);
         }
         if (heading != null && (heading < 1 || heading > 360)) {
-            throw new TelegramApiValidationException("Heading Accuracy parameter must be between 0 and 1500", this);
+            throw new TelegramApiValidationException("Heading Accuracy parameter must be between 1 and 360", this);
         }
-        if (approachingNotificationDistance != null && (approachingNotificationDistance < 1 || approachingNotificationDistance > 100000)) {
-            throw new TelegramApiValidationException("Approaching notification distance parameter must be between 0 and 1500", this);
+        if (proximityAlertRadius != null && (proximityAlertRadius < 1 || proximityAlertRadius > 100000)) {
+            throw new TelegramApiValidationException("Approaching notification distance parameter must be between 1 and 100000", this);
         }
         if (replyMarkup != null) {
             replyMarkup.validate();

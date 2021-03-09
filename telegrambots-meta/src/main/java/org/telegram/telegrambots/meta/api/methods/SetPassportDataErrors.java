@@ -41,7 +41,7 @@ public class SetPassportDataErrors extends BotApiMethod<Boolean> {
     
     @JsonProperty(USERID_FIELD)
     @NonNull
-    private Integer userId; ///< User identifier
+    private Long userId; ///< User identifier
     @JsonProperty(ERRORS_FIELD)
     @NonNull
     @Singular

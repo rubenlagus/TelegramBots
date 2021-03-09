@@ -254,7 +254,7 @@ public final class DefaultAbilities implements AbilityExtension {
         .input(0)
         .action(ctx -> bot.silent.forceReply(
             getLocalizedMessage(ABILITY_RECOVER_MESSAGE, ctx.user().getLanguageCode()), ctx.chatId()))
-        .reply(update -> {
+        .reply((bot, update) -> {
           String replyToMsg = update.getMessage().getReplyToMessage().getText();
           String recoverMessage = getLocalizedMessage(ABILITY_RECOVER_MESSAGE, AbilityUtils.getUser(update).getLanguageCode());
           if (!replyToMsg.equals(recoverMessage))
@@ -293,7 +293,7 @@ public final class DefaultAbilities implements AbilityExtension {
         .input(1)
         .action(ctx -> {
           String username = stripTag(ctx.firstArg());
-          int userId = getUserIdSendError(username, ctx);
+          long userId = getUserIdSendError(username, ctx);
           String bannedUser;
 
           // Protection from abuse
@@ -304,7 +304,7 @@ public final class DefaultAbilities implements AbilityExtension {
             bannedUser = addTag(username);
           }
 
-          Set<Integer> blacklist = bot.blacklist();
+          Set<Long> blacklist = bot.blacklist();
           if (blacklist.contains(userId))
             sendMd(ABILITY_BAN_FAIL, ctx, escape(bannedUser));
           else {
@@ -328,9 +328,9 @@ public final class DefaultAbilities implements AbilityExtension {
         .input(1)
         .action(ctx -> {
           String username = stripTag(ctx.firstArg());
-          Integer userId = getUserIdSendError(username, ctx);
+          Long userId = getUserIdSendError(username, ctx);
 
-          Set<Integer> blacklist = bot.blacklist();
+          Set<Long> blacklist = bot.blacklist();
 
           if (!blacklist.remove(userId))
             bot.silent.sendMd(getLocalizedMessage(ABILITY_UNBAN_FAIL, ctx.user().getLanguageCode(), escape(username)), ctx.chatId());
@@ -352,9 +352,9 @@ public final class DefaultAbilities implements AbilityExtension {
         .input(1)
         .action(ctx -> {
           String username = stripTag(ctx.firstArg());
-          Integer userId = getUserIdSendError(username, ctx);
+          Long userId = getUserIdSendError(username, ctx);
 
-          Set<Integer> admins = bot.admins();
+          Set<Long> admins = bot.admins();
           if (admins.contains(userId))
             sendMd(ABILITY_PROMOTE_FAIL, ctx, escape(username));
           else {
@@ -376,9 +376,9 @@ public final class DefaultAbilities implements AbilityExtension {
         .input(1)
         .action(ctx -> {
           String username = stripTag(ctx.firstArg());
-          Integer userId = getUserIdSendError(username, ctx);
+          Long userId = getUserIdSendError(username, ctx);
 
-          Set<Integer> admins = bot.admins();
+          Set<Long> admins = bot.admins();
           if (admins.remove(userId)) {
             sendMd(ABILITY_DEMOTE_SUCCESS, ctx, escape(username));
           } else {
@@ -400,8 +400,8 @@ public final class DefaultAbilities implements AbilityExtension {
         .privacy(CREATOR)
         .input(0)
         .action(ctx -> {
-          Set<Integer> admins = bot.admins();
-          int id = bot.creatorId();
+          Set<Long> admins = bot.admins();
+          long id = bot.creatorId();
 
           if (admins.contains(id))
             send(ABILITY_CLAIM_FAIL, ctx);
@@ -420,7 +420,7 @@ public final class DefaultAbilities implements AbilityExtension {
    * @return the user
    */
   private User getUser(String username) {
-    Integer id = bot.userIds().get(username.toLowerCase());
+    Long id = bot.userIds().get(username.toLowerCase());
     if (id == null) {
       throw new IllegalStateException(format("Could not find ID corresponding to username [%s]", username));
     }
@@ -434,7 +434,7 @@ public final class DefaultAbilities implements AbilityExtension {
    * @param id the id of the required user
    * @return the user
    */
-  private User getUser(int id) {
+  private User getUser(long id) {
     User user = bot.users().get(id);
     if (user == null) {
       throw new IllegalStateException(format("Could not find user corresponding to id [%d]", id));
@@ -450,7 +450,7 @@ public final class DefaultAbilities implements AbilityExtension {
    * @param ctx      the message context with the originating user
    * @return the id of the user
    */
-  private int getUserIdSendError(String username, MessageContext ctx) {
+  private long getUserIdSendError(String username, MessageContext ctx) {
     try {
       return getUser(username).getId();
     } catch (IllegalStateException ex) {

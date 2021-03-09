@@ -13,8 +13,8 @@ As with any Java project, you will need to set your dependencies.
    </dependency>
 ```
 * **Gradle**
-```groovy
-  implementation group: 'org.telegram', name: 'telegrambots-abilities', version: '5.0.1'
+```gradle
+  implementation 'org.telegram:telegrambots-abilities:5.0.1'
 ```
 * [JitPack](https://jitpack.io/#rubenlagus/TelegramBots)
     

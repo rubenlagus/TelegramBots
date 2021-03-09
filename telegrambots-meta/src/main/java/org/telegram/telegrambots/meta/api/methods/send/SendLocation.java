@@ -46,7 +46,7 @@ public class SendLocation extends BotApiMethod<Message> {
     private static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
     private static final String HORIZONTALACCURACY_FIELD = "horizontal_accuracy";
     private static final String HEADING_FIELD = "heading";
-    private static final String APPROACHINGNOTIFICATIONDISTANCE_FIELD = "approaching_notification_distance";
+    private static final String PROXIMITYALERTRADIUS_FIELD = "proximity_alert_radius";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -85,8 +85,8 @@ public class SendLocation extends BotApiMethod<Message> {
      * For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters.
      * Must be between 1 and 100000 if specified.
      */
-    @JsonProperty(APPROACHINGNOTIFICATIONDISTANCE_FIELD)
-    private Integer approachingNotificationDistance;
+    @JsonProperty(PROXIMITYALERTRADIUS_FIELD)
+    private Integer proximityAlertRadius;
 
     public void enableNotification() {
         this.disableNotification = false;
@@ -131,10 +131,10 @@ public class SendLocation extends BotApiMethod<Message> {
             throw new TelegramApiValidationException("Horizontal Accuracy parameter must be between 0 and 1500", this);
         }
         if (heading != null && (heading < 1 || heading > 360)) {
-            throw new TelegramApiValidationException("Heading Accuracy parameter must be between 0 and 1500", this);
+            throw new TelegramApiValidationException("Heading Accuracy parameter must be between 1 and 360", this);
         }
-        if (approachingNotificationDistance != null && (approachingNotificationDistance < 1 || approachingNotificationDistance > 100000)) {
-            throw new TelegramApiValidationException("Approaching notification distance parameter must be between 0 and 1500", this);
+        if (proximityAlertRadius != null && (proximityAlertRadius < 1 || proximityAlertRadius > 100000)) {
+            throw new TelegramApiValidationException("Proximity alert radius parameter must be between 1 and 100000", this);
         }
         if (replyMarkup != null) {
             replyMarkup.validate();

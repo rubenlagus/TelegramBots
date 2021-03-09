@@ -45,6 +45,7 @@ public class Chat implements BotApiObject {
     private static final String SLOWMODEDELAY_FIELD = "slow_mode_delay";
     private static final String LINKEDCHATID_FIELD = "linked_chat_id";
     private static final String LOCATION_FIELD = "location";
+    private static final String MESSAGEAUTODELETETIME_FIELD = "message_auto_delete_time";
 
     private static final String USERCHATTYPE = "private";
     private static final String GROUPCHATTYPE = "group";
@@ -80,14 +81,8 @@ public class Chat implements BotApiObject {
     private ChatPhoto photo; ///< Optional. Chat photo. Returned only in getChat.
     @JsonProperty(DESCRIPTION_FIELD)
     private String description; ///< Optional. Description, for groups, supergroups and channel chats. Returned only in getChat.
-    /**
-     * Optional. Chat invite link, for groups, supergroups and channel chats.
-     * Each administrator in a chat generates their own invite links, so the bot must first generate the link using
-     * exportChatInviteLink.
-     * Each Returned only in getChat.
-     */
     @JsonProperty(INVITELINK_FIELD)
-    private String inviteLink;
+    private String inviteLink; ///< Optional. Primary invite link, for groups, supergroups and channel chats. Returned only in getChat.
     @JsonProperty(PINNEDMESSAGE_FIELD)
     private Message pinnedMessage; ///< Optional. The most recent pinned message (by sending date). Returned only in getChat.
     @JsonProperty(STICKERSETNAME_FIELD)
@@ -119,6 +114,9 @@ public class Chat implements BotApiObject {
     private Long linkedChatId;
     @JsonProperty(LOCATION_FIELD)
     private ChatLocation location; ///< Optional. For supergroups, the location to which the supergroup is connected. Returned only in getChat.
+    @JsonProperty(MESSAGEAUTODELETETIME_FIELD)
+    private Integer messageAutoDeleteTime; ///< Optional. The time after which all messages sent to the chat will be automatically deleted; in seconds. Returned only in getChat.
+
 
     @JsonIgnore
     public Boolean isGroupChat() {

@@ -47,7 +47,7 @@ class ExtensionTest {
     }
 
     @Override
-    public int creatorId() {
+    public long creatorId() {
       return 0;
     }
 

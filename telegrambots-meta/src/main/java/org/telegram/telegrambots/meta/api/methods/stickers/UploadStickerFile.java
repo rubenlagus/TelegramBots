@@ -38,7 +38,7 @@ public class UploadStickerFile extends PartialBotApiMethod<File> {
     public static final String PNGSTICKER_FIELD = "png_sticker";
 
     @NonNull
-    private Integer userId; ///< User identifier of sticker file owner
+    private Long userId; ///< User identifier of sticker file owner
     /**
      * Png image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px,
      * and either width or height must be exactly 512px. More info on Sending Files »

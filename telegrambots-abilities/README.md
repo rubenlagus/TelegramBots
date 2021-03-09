@@ -25,7 +25,7 @@ Usage
 **Gradle**
 
 ```gradle
-    compile "org.telegram:telegrambots-abilities:5.0.1"
+    implementation 'org.telegram:telegrambots-abilities:5.0.1'
 ```
 
 **JitPack** - [JitPack](https://jitpack.io/#rubenlagus/TelegramBots/v5.0.1)

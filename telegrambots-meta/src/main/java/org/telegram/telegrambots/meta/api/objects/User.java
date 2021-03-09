@@ -35,9 +35,15 @@ public class User implements BotApiObject {
     private static final String CANREADALLGROUPMESSAGES_FIELD = "can_read_all_group_messages";
     private static final String SUPPORTINLINEQUERIES_FIELD = "supports_inline_queries";
 
+    /**
+     * Unique identifier for this user or bot.
+     *
+     * @apiNote This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it.
+     * But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier.
+     */
     @JsonProperty(ID_FIELD)
     @NonNull
-    private Integer id; ///< Unique identifier for this user or bot
+    private Long id; ///< Unique identifier for this user or bot
     @JsonProperty(FIRSTNAME_FIELD)
     @NonNull
     private String firstName; ///< User‘s or bot’s first name

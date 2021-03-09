@@ -158,24 +158,24 @@ public class ReplyFlowTest {
     }
 
     @Override
-    public int creatorId() {
+    public long creatorId() {
       return 0;
     }
 
     public ReplyFlow directionFlow() {
-      Reply saidLeft = Reply.of(upd -> silent.send("Sir, I have gone left.", getChatId(upd)),
+      Reply saidLeft = Reply.of((bot, upd) -> silent.send("Sir, I have gone left.", getChatId(upd)),
           hasMessageWith("go left or else"));
 
       ReplyFlow leftflow = ReplyFlow.builder(db, 2)
-          .action(upd -> silent.send("I don't know how to go left.", getChatId(upd)))
+          .action((bot, upd) -> silent.send("I don't know how to go left.", getChatId(upd)))
           .onlyIf(hasMessageWith("left"))
           .next(saidLeft).build();
 
-      Reply saidRight = Reply.of(upd -> silent.send("Sir, I have gone right.", getChatId(upd)),
+      Reply saidRight = Reply.of((bot, upd) -> silent.send("Sir, I have gone right.", getChatId(upd)),
           hasMessageWith("right"));
 
       return ReplyFlow.builder(db, 1)
-          .action(upd -> silent.send("Command me to go left or right!", getChatId(upd)))
+          .action((bot, upd) -> silent.send("Command me to go left or right!", getChatId(upd)))
           .onlyIf(hasMessageWith("wake up"))
           .next(leftflow)
           .next(saidRight)
@@ -184,10 +184,10 @@ public class ReplyFlowTest {
 
     public Reply errantReply() {
       return Reply.of(
-          upd -> {
+          (bot, upd) -> {
             throw new RuntimeException("Throwing an exception inside the update consumer");
           },
-          upd -> {
+          (upd) -> {
             throw new RuntimeException("Throwing an exception inside the reply conditions (flags)");
           });
     }
@@ -195,7 +195,7 @@ public class ReplyFlowTest {
     public Ability replyFlowsWithAbility() {
       Reply replyWithVk = ReplyFlow.builder(db, 2)
           .enableStats("SECOND")
-          .action(upd -> {
+          .action((bot, upd) -> {
             silent.send("Second reply", upd.getMessage().getChatId());
           })
           .onlyIf(hasMessageWith("two"))
@@ -203,7 +203,7 @@ public class ReplyFlowTest {
 
       Reply replyWithNickname = ReplyFlow.builder(db, 1)
           .enableStats("FIRST")
-          .action(upd -> {
+          .action((bot, upd) -> {
             silent.send("First reply", upd.getMessage().getChatId());
           })
           .onlyIf(hasMessageWith("one"))

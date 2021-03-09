@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.util;
 
+import com.google.common.base.Strings;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -11,6 +12,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.facilities.TelegramHttpClientBuilder;
@@ -20,6 +22,7 @@ import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.meta.generics.WebhookBot;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,7 +46,7 @@ public final class WebhookUtils {
    * @apiNote Telegram API parameters will be taken only from SetWebhook object
    * @apiNote Bot options will be fetched from Bot to set up the HTTP connection
    */
-  public static void setWebhook(DefaultAbsSender bot, SetWebhook setWebhook) throws TelegramApiException {
+  public static void setWebhook(DefaultAbsSender bot, WebhookBot webhookBot, SetWebhook setWebhook) throws TelegramApiException {
     setWebhook.validate();
 
     DefaultBotOptions botOptions = bot.getOptions();
@@ -61,7 +64,7 @@ public final class WebhookUtils {
       HttpPost httppost = new HttpPost(requestUrl);
       httppost.setConfig(requestConfig);
       MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-      builder.addTextBody(SetWebhook.URL_FIELD, setWebhook.getUrl(), TEXT_PLAIN_CONTENT_TYPE);
+      builder.addTextBody(SetWebhook.URL_FIELD, getBotUrl(setWebhook, webhookBot), TEXT_PLAIN_CONTENT_TYPE);
       if (setWebhook.getMaxConnections() != null) {
         builder.addTextBody(SetWebhook.MAXCONNECTIONS_FIELD, setWebhook.getMaxConnections().toString(), TEXT_PLAIN_CONTENT_TYPE);
       }
@@ -100,10 +103,10 @@ public final class WebhookUtils {
   }
 
   /**
-   * @deprecated Use {{@link #setWebhook(DefaultAbsSender, SetWebhook)}} instead
+   * @deprecated Use {{@link #setWebhook(DefaultAbsSender, WebhookBot, SetWebhook)}} instead
    */
   @Deprecated
-  public static void setWebhook(DefaultAbsSender bot, String url, String publicCertificatePath) throws TelegramApiRequestException {
+  public static void setWebhook(DefaultAbsSender bot, WebhookBot webhookBot, String url, String publicCertificatePath) throws TelegramApiRequestException {
     DefaultBotOptions botOptions = bot.getOptions();
 
     try (CloseableHttpClient httpclient = TelegramHttpClientBuilder.build(botOptions)) {
@@ -120,7 +123,7 @@ public final class WebhookUtils {
       HttpPost httppost = new HttpPost(requestUrl);
       httppost.setConfig(requestConfig);
       MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-      builder.addTextBody(SetWebhook.URL_FIELD, url);
+      builder.addTextBody(SetWebhook.URL_FIELD, getBotUrl(url, webhookBot.getBotPath()));
       if (botOptions.getMaxWebhookConnections() != null) {
         builder.addTextBody(SetWebhook.MAXCONNECTIONS_FIELD, botOptions.getMaxWebhookConnections().toString());
       }
@@ -161,5 +164,25 @@ public final class WebhookUtils {
     } catch (TelegramApiException e) {
       throw new TelegramApiRequestException("Error removing old webhook", e);
     }
+  }
+
+  private static String getBotUrl(SetWebhook setWebhook, WebhookBot webhookBot) {
+    String externalUrl = setWebhook.getUrl();
+    return getBotUrl(externalUrl, webhookBot.getBotPath());
+  }
+
+  private static String getBotUrl(String externalUrl, String botPath) {
+    if (!externalUrl.endsWith("/")) {
+      externalUrl += "/";
+    }
+    externalUrl += Constants.WEBHOOK_URL_PATH;
+    if (!Strings.isNullOrEmpty(botPath)) {
+      if (!botPath.startsWith("/")) {
+        externalUrl += "/";
+      }
+      externalUrl += botPath;
+    }
+
+    return externalUrl;
   }
 }

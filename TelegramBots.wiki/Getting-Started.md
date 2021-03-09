@@ -16,8 +16,8 @@ First you need ot get the library and add it to your project. There are few poss
         ```
     * With **Gradle**:
     
-        ```groovy
-          compile group: 'org.telegram', name: 'telegrambots', version: '5.0.1'
+        ```gradle
+          implementation 'org.telegram:telegrambots:5.0.1'
         ```
  
 2. Don't like **Maven Central Repository**? It can also be taken from [Jitpack](https://jitpack.io/#rubenlagus/TelegramBots).

@@ -25,9 +25,9 @@ public class Dice implements BotApiObject {
     private static final String EMOJI_FIELD = "emoji";
 
     /**
-     * Value of the dice:
-     * 1-6 for “🎲” and “🎯” base emoji
-     * 1-5 for “🏀” and “⚽” base emoji
+     * Value of the dice,
+     * 1-6 for “🎲”, “🎯” and “🎳” base emoji,
+     * 1-5 for “🏀” and “⚽” base emoji,
      * 1-64 for “🎰” base emoji
      */
     @JsonProperty(VALUE_FIELD)

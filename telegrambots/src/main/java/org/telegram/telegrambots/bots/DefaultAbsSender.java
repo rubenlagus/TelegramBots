@@ -180,6 +180,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendDocument.getAllowSendingWithoutReply() != null) {
                 builder.addTextBody(SendDocument.ALLOWSENDINGWITHOUTREPLY_FIELD, sendDocument.getAllowSendingWithoutReply().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
+            if (sendDocument.getDisableContentTypeDetection() != null) {
+                builder.addTextBody(SendDocument.DISABLECONTENTTYPEDETECTION_FIELD, sendDocument.getDisableContentTypeDetection().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            }
             if (sendDocument.getCaptionEntities() != null) {
                 builder.addTextBody(SendDocument.CAPTION_ENTITIES_FIELD, objectMapper.writeValueAsString(sendDocument.getCaptionEntities()), TEXT_PLAIN_CONTENT_TYPE);
             }

@@ -57,7 +57,7 @@ public class RestrictChatMember extends BotApiMethod<Boolean> {
     private String chatId; ///< Required. Unique identifier for the chat to send the message to (Or username for channels)
     @JsonProperty(USER_ID_FIELD)
     @NonNull
-    private Integer userId; ///< Required. Unique identifier of the target user
+    private Long userId; ///< Required. Unique identifier of the target user
     /**
      * Optional
      * Date when restrictions will be lifted for the user, unix time.

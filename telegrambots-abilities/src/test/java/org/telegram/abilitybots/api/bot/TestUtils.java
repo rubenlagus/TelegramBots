@@ -11,8 +11,8 @@ import static org.mockito.Mockito.when;
 import static org.telegram.abilitybots.api.objects.MessageContext.newContext;
 
 public final class TestUtils {
-  public static final User USER = new User(1, "first", false, "last", "username", null, false, false, false);
-  public static final User CREATOR = new User(1337, "creatorFirst", false, "creatorLast", "creatorUsername", null, false, false, false);
+  public static final User USER = new User(1L, "first", false, "last", "username", null, false, false, false);
+  public static final User CREATOR = new User(1337L, "creatorFirst", false, "creatorLast", "creatorUsername", null, false, false, false);
 
   private TestUtils() {
 
