@@ -6,6 +6,8 @@
 5. Added CommandMessage to extensions
 6. Abilities: Inject bot instance to reply update consumer support for multiple reply declarations.
 
+**[[How to update to version 5.1.0|How-To-Update#5.1.0]]**
+
 ### <a id="5.0.1"></a>5.0.1 ###
 1. Fixing couple of bugs from 5.0.0
 2. Bug fixing: #794 
