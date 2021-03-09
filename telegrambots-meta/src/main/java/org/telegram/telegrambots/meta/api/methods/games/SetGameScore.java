@@ -77,7 +77,7 @@ public class SetGameScore extends BotApiMethod<Serializable> {
     private Boolean disableEditMessage; ///< Optional	Pass True, if the game message should not be automatically edited to include the current scoreboard. Defaults to False
     @JsonProperty(USER_ID_FIELD)
     @NonNull
-    private Integer userId; ///< User identifier
+    private Long userId; ///< User identifier
     @JsonProperty(SCORE_FIELD)
     @NonNull
     private Integer score; ///< New score, must be positive

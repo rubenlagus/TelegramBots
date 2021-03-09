@@ -50,7 +50,7 @@ public class UnbanChatMember extends BotApiMethod<Boolean> {
     private String chatId; ///< Required. Unique identifier for the chat to send the message to (Or username for channels)
     @JsonProperty(USERID_FIELD)
     @NonNull
-    private Integer userId; ///< Required. Unique identifier of the target user
+    private Long userId; ///< Required. Unique identifier of the target user
     @JsonProperty(ONLYISBANNED_FIELD)
     private Boolean onlyIfBanned; ///< Optional. Do nothing if the user is not banned
 

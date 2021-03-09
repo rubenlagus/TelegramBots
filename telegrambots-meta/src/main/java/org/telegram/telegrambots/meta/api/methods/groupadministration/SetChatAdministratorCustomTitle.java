@@ -42,7 +42,7 @@ public class SetChatAdministratorCustomTitle extends BotApiMethod<Boolean> {
     private String chatId; ///< Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     @JsonProperty(USERID_FIELD)
     @NonNull
-    private Integer userId; ///< Unique identifier of the target user
+    private Long userId; ///< Unique identifier of the target user
     @JsonProperty(CUSTOMTITLE_FIELD)
     @NonNull
     private String customTitle; ///< New custom title for the administrator; 0-16 characters, emoji are not allowed

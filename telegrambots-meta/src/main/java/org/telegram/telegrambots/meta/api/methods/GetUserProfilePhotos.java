@@ -41,7 +41,7 @@ public class GetUserProfilePhotos extends BotApiMethod<UserProfilePhotos> {
 
     @JsonProperty(USERID_FIELD)
     @NonNull
-    private Integer userId; ///< Unique identifier of the target user
+    private Long userId; ///< Unique identifier of the target user
     /**
      * Optional. Sequential number of the first photo to be returned. By default, all photos are returned.
      */

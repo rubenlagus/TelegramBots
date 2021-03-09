@@ -43,6 +43,8 @@ public class ChatMember implements BotApiObject {
     private static final String ISMEMBER_FIELD = "is_member";
     private static final String CUSTOMTITLE_FIELD = "custom_title";
     private static final String ISANONYMOUS_FIELD = "is_anonymous";
+    private static final String CANMANAGECHAT_FIELD = "can_manage_chat";
+    private static final String CANMANAGEVOICECHATS_FIELD = "can_manage_voice_chats";
 
     @JsonProperty(USER_FIELD)
     private User user; ///< Information about the user
@@ -84,6 +86,27 @@ public class ChatMember implements BotApiObject {
     private String customTitle; ///< Optional. Owner and administrators only. Custom title for this user
     @JsonProperty(ISANONYMOUS_FIELD)
     private Boolean isAnonymous; ///< Optional. Owner and administrators only. True, if the user's presence in the chat is hidden
+    /**
+     * Optional.
+     *
+     * Administrators only.
+     *
+     * True, if the administrator can access the chat event log, chat statistics, message statistics in channels,
+     * see channel members, see anonymous administrators in supergoups and ignore slow mode.
+     *
+     * Implied by any other administrator privilege
+     */
+    @JsonProperty(CANMANAGECHAT_FIELD)
+    private Boolean canManageChat;
+    /**
+     * Optional.
+     *
+     * Administrators only.
+     *
+     * True, if the administrator can manage voice chats; groups and supergroups only
+     */
+    @JsonProperty(CANMANAGEVOICECHATS_FIELD)
+    private Boolean canManageVoiceChats;
 
     public Instant getUntilDateAsInstant() {
         if (untilDate == null) {

@@ -47,7 +47,7 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
     public static final String MASKPOSITION_FIELD = "mask_position";
 
     @NonNull
-    private Integer userId; ///< User identifier of created sticker set owner
+    private Long userId; ///< User identifier of created sticker set owner
     /**
      * Name of sticker set, to be used in t.me/addstickers/<name> URLs.
      * Can contain only english letters, digits and underscores.

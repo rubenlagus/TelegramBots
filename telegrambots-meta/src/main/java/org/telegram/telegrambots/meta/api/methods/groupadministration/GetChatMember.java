@@ -42,7 +42,7 @@ public class GetChatMember extends BotApiMethod<ChatMember> {
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     @JsonProperty(USERID_FIELD)
     @NonNull
-    private Integer userId; ///< Unique identifier of the target user
+    private Long userId; ///< Unique identifier of the target user
 
     @Override
     public String getMethod() {

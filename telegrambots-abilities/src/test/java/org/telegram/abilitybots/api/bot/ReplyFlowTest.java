@@ -158,7 +158,7 @@ public class ReplyFlowTest {
     }
 
     @Override
-    public int creatorId() {
+    public long creatorId() {
       return 0;
     }
 

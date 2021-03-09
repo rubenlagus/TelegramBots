@@ -155,7 +155,7 @@ public final class BotApiMethodHelperFactory {
         return GetChatMember
                 .builder()
                 .chatId("12345")
-                .userId(98765)
+                .userId(98765L)
                 .build();
     }
 
@@ -178,7 +178,7 @@ public final class BotApiMethodHelperFactory {
                 .builder()
                 .chatId("12345")
                 .messageId(67890)
-                .userId(98765)
+                .userId(98765L)
                 .build();
     }
 
@@ -189,7 +189,7 @@ public final class BotApiMethodHelperFactory {
     public static BotApiMethod<UserProfilePhotos> getGetUserProfilePhotos() {
         return GetUserProfilePhotos
                 .builder()
-                .userId(98765)
+                .userId(98765L)
                 .limit(10)
                 .offset(3)
                 .build();
@@ -203,7 +203,7 @@ public final class BotApiMethodHelperFactory {
         return KickChatMember
                 .builder()
                 .chatId("12345")
-                .userId(98765)
+                .userId(98765L)
                 .build();
     }
 
@@ -344,7 +344,7 @@ public final class BotApiMethodHelperFactory {
                 .inlineMessageId("12345")
                 .disableEditMessage(true)
                 .score(12)
-                .userId(98765)
+                .userId(98765L)
                 .build();
     }
 
@@ -352,7 +352,7 @@ public final class BotApiMethodHelperFactory {
         return UnbanChatMember
                 .builder()
                 .chatId("12345")
-                .userId(98765)
+                .userId(98765L)
                 .build();
     }
 

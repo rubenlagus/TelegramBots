@@ -234,8 +234,8 @@ public class AbilityBotTest {
 
     defaultAbs.demoteAdmin().action().accept(context);
 
-    Set<Integer> actual = bot.admins();
-    Set<Integer> expected = emptySet();
+    Set<Long> actual = bot.admins();
+    Set<Long> expected = emptySet();
     assertEquals(expected, actual, "Could not sudont super-admin");
   }
 
@@ -247,8 +247,8 @@ public class AbilityBotTest {
 
     defaultAbs.promoteAdmin().action().accept(context);
 
-    Set<Integer> actual = bot.admins();
-    Set<Integer> expected = newHashSet(USER.getId());
+    Set<Long> actual = bot.admins();
+    Set<Long> expected = newHashSet(USER.getId());
     assertEquals(expected, actual, "Could not sudo user");
   }
 
@@ -259,8 +259,8 @@ public class AbilityBotTest {
 
     defaultAbs.banUser().action().accept(context);
 
-    Set<Integer> actual = bot.blacklist();
-    Set<Integer> expected = newHashSet(USER.getId());
+    Set<Long> actual = bot.blacklist();
+    Set<Long> expected = newHashSet(USER.getId());
     assertEquals(expected, actual, "The ban was not emplaced");
   }
 
@@ -273,8 +273,8 @@ public class AbilityBotTest {
 
     defaultAbs.unbanUser().action().accept(context);
 
-    Set<Integer> actual = bot.blacklist();
-    Set<Integer> expected = newHashSet();
+    Set<Long> actual = bot.blacklist();
+    Set<Long> expected = newHashSet();
     assertEquals(expected, actual, "The ban was not lifted");
   }
 
@@ -290,8 +290,8 @@ public class AbilityBotTest {
 
     defaultAbs.banUser().action().accept(context);
 
-    Set<Integer> actual = bot.blacklist();
-    Set<Integer> expected = newHashSet(USER.getId());
+    Set<Long> actual = bot.blacklist();
+    Set<Long> expected = newHashSet(USER.getId());
     assertEquals(expected, actual, "Impostor was not added to the blacklist");
   }
 
@@ -308,8 +308,8 @@ public class AbilityBotTest {
 
     defaultAbs.claimCreator().action().accept(context);
 
-    Set<Integer> actual = bot.admins();
-    Set<Integer> expected = newHashSet(CREATOR.getId());
+    Set<Long> actual = bot.admins();
+    Set<Long> expected = newHashSet(CREATOR.getId());
     assertEquals(expected, actual, "Creator was not properly added to the super admins set");
   }
 
@@ -335,8 +335,8 @@ public class AbilityBotTest {
 
     bot.addUser(update);
 
-    Map<String, Integer> expectedUserIds = ImmutableMap.of(USER.getUserName(), USER.getId());
-    Map<Integer, User> expectedUsers = ImmutableMap.of(USER.getId(), USER);
+    Map<String, Long> expectedUserIds = ImmutableMap.of(USER.getUserName(), USER.getId());
+    Map<Long, User> expectedUsers = ImmutableMap.of(USER.getId(), USER);
     assertEquals(expectedUserIds, bot.userIds(), "User was not added");
     assertEquals(expectedUsers, bot.users(), "User was not added");
   }
@@ -350,15 +350,15 @@ public class AbilityBotTest {
     String newUsername = USER.getUserName() + "-test";
     String newFirstName = USER.getFirstName() + "-test";
     String newLastName = USER.getLastName() + "-test";
-    int sameId = USER.getId();
+    long sameId = USER.getId();
     User changedUser = new User(sameId, newFirstName, false, newLastName, newUsername, "en", false, false, false);
 
     mockAlternateUser(update, message, changedUser);
 
     bot.addUser(update);
 
-    Map<String, Integer> expectedUserIds = ImmutableMap.of(changedUser.getUserName(), changedUser.getId());
-    Map<Integer, User> expectedUsers = ImmutableMap.of(changedUser.getId(), changedUser);
+    Map<String, Long> expectedUserIds = ImmutableMap.of(changedUser.getUserName(), changedUser.getId());
+    Map<Long, User> expectedUsers = ImmutableMap.of(changedUser.getId(), changedUser);
     assertEquals(bot.userIds(), expectedUserIds, "User was not properly edited");
     assertEquals(expectedUsers, expectedUsers, "User was not properly edited");
   }

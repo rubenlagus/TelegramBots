@@ -48,7 +48,7 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
     public static final String MASKPOSITION_FIELD = "mask_position";
 
     @NonNull
-    private Integer userId; ///< User identifier of sticker set owner
+    private Long userId; ///< User identifier of sticker set owner
     @NonNull
     private String name; ///< Sticker set name
     @NonNull
