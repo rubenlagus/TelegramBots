@@ -34,8 +34,15 @@ public class Contact implements BotApiObject {
     private String firstName; ///< Contact's first name
     @JsonProperty(LASTNAME_FIELD)
     private String lastName; ///< Optional. Contact's last name
+    /**
+     * Optional.
+     * Contact's user identifier in Telegram.
+     *
+     * @apiNote This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it.
+     * But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier.
+     */
     @JsonProperty(USERID_FIELD)
-    private Integer userID; ///< Optional. Contact's user identifier in Telegram
+    private Long userId; ///< Optional. Contact's user identifier in Telegram
     @JsonProperty(VCARD_FIELD)
     private String vCard; ///< Optional. Additional data about the contact in the form of a vCard
 }

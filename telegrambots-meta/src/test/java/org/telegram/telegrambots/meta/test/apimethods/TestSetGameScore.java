@@ -30,7 +30,7 @@ class TestSetGameScore {
         setGameScore.setDisableEditMessage(true);
         setGameScore.setMessageId(54321);
         setGameScore.setScore(12);
-        setGameScore.setUserId(98765);
+        setGameScore.setUserId(98765L);
     }
 
     @Test

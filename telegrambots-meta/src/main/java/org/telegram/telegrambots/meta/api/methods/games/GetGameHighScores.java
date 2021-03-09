@@ -74,7 +74,7 @@ public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
     private String inlineMessageId; ///< Optional	Required if chat_id and message_id are not specified. Identifier of the inline message
     @JsonProperty(USER_ID_FIELD)
     @NonNull
-    private Integer userId; ///<Target user id
+    private Long userId; ///<Target user id
 
     @Override
     public String getMethod() {

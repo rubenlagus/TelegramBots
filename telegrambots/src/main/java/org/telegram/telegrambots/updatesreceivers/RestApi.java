@@ -2,6 +2,7 @@ package org.telegram.telegrambots.updatesreceivers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -22,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version 1.0
  * Rest api to for webhook callback function
  */
-@Path("callback")
+@Path(Constants.WEBHOOK_URL_PATH)
 public class RestApi {
     private static final Logger log = LoggerFactory.getLogger(RestApi.class);
 
@@ -44,7 +45,7 @@ public class RestApi {
     public Response updateReceived(@PathParam("botPath") String botPath, Update update) {
         if (callbacks.containsKey(botPath)) {
             try {
-                BotApiMethod response = callbacks.get(botPath).onWebhookUpdateReceived(update);
+                BotApiMethod<?> response = callbacks.get(botPath).onWebhookUpdateReceived(update);
                 if (response != null) {
                     response.validate();
                 }

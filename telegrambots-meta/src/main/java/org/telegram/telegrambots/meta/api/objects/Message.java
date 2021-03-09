@@ -17,6 +17,9 @@ import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
+import org.telegram.telegrambots.meta.api.objects.voicechat.VoiceChatEnded;
+import org.telegram.telegrambots.meta.api.objects.voicechat.VoiceChatParticipantsInvited;
+import org.telegram.telegrambots.meta.api.objects.voicechat.VoiceChatStarted;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +87,10 @@ public class Message implements BotApiObject {
     private static final String VIABOT_FIELD = "via_bot";
     private static final String SENDERCHAT_FIELD = "sender_chat";
     private static final String PROXIMITYALERTTRIGGERED_FIELD = "proximity_alert_triggered";
+    private static final String MESSAGEAUTODELETETIMERCHANGED_FIELD = "message_auto_delete_timer_changed\t";
+    private static final String VOICECHATSTARTED_FIELD = "voice_chat_started";
+    private static final String VOICECHATENDED_FIELD = "voice_chat_ended";
+    private static final String VOICECHATPARTICIPANTSINVITED_FIELD = "voice_chat_participants_invited";
 
     @JsonProperty(MESSAGEID_FIELD)
     private Integer messageId; ///< Integer	Unique message identifier
@@ -251,6 +258,15 @@ public class Message implements BotApiObject {
      */
     @JsonProperty(PROXIMITYALERTTRIGGERED_FIELD)
     private ProximityAlertTriggered proximityAlertTriggered;
+    @JsonProperty(MESSAGEAUTODELETETIMERCHANGED_FIELD)
+    private MessageAutoDeleteTimerChanged messageAutoDeleteTimerChanged; ///< Optional. Service message: auto-delete timer settings changed in the chat
+    @JsonProperty(VOICECHATSTARTED_FIELD)
+    private VoiceChatStarted voiceChatStarted; ///< Optional. Service message: voice chat started
+    @JsonProperty(VOICECHATENDED_FIELD)
+    private VoiceChatEnded voiceChatEnded; ///< Optional. Service message: voice chat ended
+    @JsonProperty(VOICECHATPARTICIPANTSINVITED_FIELD)
+    private VoiceChatParticipantsInvited voiceChatParticipantsInvited; ///< Optional. Service message: new members invited to a voice chat
+
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {
@@ -412,5 +428,25 @@ public class Message implements BotApiObject {
     @JsonIgnore
     public boolean hasReplyMarkup() {
         return replyMarkup != null;
+    }
+
+    @JsonIgnore
+    private boolean hasMessageAutoDeleteTimerChanged() {
+        return messageAutoDeleteTimerChanged != null;
+    }
+
+    @JsonIgnore
+    private boolean hasVoiceChatStarted() {
+        return voiceChatStarted != null;
+    }
+
+    @JsonIgnore
+    private boolean hasVoiceChatEnded() {
+        return voiceChatEnded != null;
+    }
+
+    @JsonIgnore
+    private boolean hasVoiceChatParticipantsInvited() {
+        return voiceChatParticipantsInvited != null;
     }
 }

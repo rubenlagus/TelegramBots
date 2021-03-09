@@ -1,6 +1,16 @@
+### <a id="5.1.0"></a>5.1.0 ###
+1. Update Api version [5.1](https://core.telegram.org/bots/api-changelog#march-9-2021)
+2. Bug fixing: #832, #841, #844, #851, #857
+3. Update Spring boot version 2.4.3
+4. Update Gradle docs
+5. Added CommandMessage to extensions
+6. Abilities: Inject bot instance to reply update consumer support for multiple reply declarations.
+
+**[[How to update to version 5.1.0|How-To-Update#5.1.0]]**
+
 ### <a id="5.0.1"></a>5.0.1 ###
 1. Fixing couple of bugs from 5.0.0
-2. Buf fixing: #794 
+2. Bug fixing: #794 
 3. Docs updated to reflect usage for version 5.0.0
 4. EditMessageText setChatIId(Long) is removed to keep consistency 
 

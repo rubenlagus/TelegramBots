@@ -7,7 +7,7 @@
     <groupId>org.telegram</groupId>
     <artifactId>Bots</artifactId>
     <packaging>pom</packaging>
-    <version>5.0.1</version>
+    <version>5.1.0</version>
 
     <modules>
         <module>telegrambots</module>
@@ -67,7 +67,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
-        <junit.version>5.7.0</junit.version>
+        <junit.version>5.7.1</junit.version>
         <mockito.version>3.6.0</mockito.version>
         <mockitojupiter.version>3.6.0</mockitojupiter.version>
         <jacksonanotation.version>2.11.3</jacksonanotation.version>

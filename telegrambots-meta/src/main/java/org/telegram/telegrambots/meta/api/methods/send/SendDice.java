@@ -37,7 +37,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class SendDice extends BotApiMethod<Message> {
-    private static final List<String> VALIDEMOJIS = Collections.unmodifiableList(Arrays.asList("🎲", "🎯", "🏀", "⚽", "🎰"));
+    private static final List<String> VALIDEMOJIS = Collections.unmodifiableList(Arrays.asList("🎲", "🎯", "🏀", "⚽", "🎳", "🎰"));
 
     public static final String PATH = "sendDice";
 
@@ -52,13 +52,17 @@ public class SendDice extends BotApiMethod<Message> {
     @NonNull
     private String chatId; ///< Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     /**
+     * Optional.
+     *
      * Emoji on which the dice throw animation is based.
-     * Currently, must be one of “🎲”, “🎯”, “🏀”, “⚽”, or “🎰”.
-     * Dice can have values 1-6 for “🎲” and “🎯”, values 1-5 for “🏀” and “⚽”, and values 1-64 for “🎰”.
+     *
+     * Currently, must be one of “🎲”, “🎯”, “🏀”, “⚽”, “🎳”, or “🎰”.
+     *
+     * Dice can have values 1-6 for “🎲”, “🎯” and “🎳”, values 1-5 for “🏀” and “⚽”, and values 1-64 for “🎰”.
+     *
      * Defaults to “🎲”
      */
     @JsonProperty(EMOJI_FIELD)
-    @NonNull
     private String emoji;
     @JsonProperty(DISABLENOTIFICATION_FIELD)
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.

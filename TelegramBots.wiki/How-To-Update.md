@@ -1,3 +1,6 @@
+### <a id="5.1.0"></a>To version 5.1.0 ###
+1. All users IDs fields are now Long type as per API guidelines.
+
 ### <a id="5.0.0"></a>To version 5.0.0 ###
 1. ApiContextInitializer.init(); has been removed and is not required anymore, instead:
     ```java

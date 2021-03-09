@@ -25,7 +25,7 @@ import static org.telegram.abilitybots.api.objects.Flag.*;
  * Helper and utility methods
  */
 public final class AbilityUtils {
-  public static User EMPTY_USER = new User(0, "", false);
+  public static User EMPTY_USER = new User(0L, "", false);
 
   private AbilityUtils() {
 
@@ -82,6 +82,10 @@ public final class AbilityUtils {
       return update.getPreCheckoutQuery().getFrom();
     } else if (POLL_ANSWER.test(update)) {
       return update.getPollAnswer().getUser();
+    } else if (MY_CHAT_MEMBER.test(update)) {
+      return update.getMyChatMember().getFrom();
+    } else if (CHAT_MEMBER.test(update)) {
+      return update.getChatMember().getFrom();
     } else if (POLL.test(update)) {
       return EMPTY_USER;
     } else {
@@ -146,7 +150,7 @@ public final class AbilityUtils {
     } else if (CALLBACK_QUERY.test(update)) {
       return update.getCallbackQuery().getMessage().getChatId();
     } else if (INLINE_QUERY.test(update)) {
-      return (long) update.getInlineQuery().getFrom().getId();
+      return update.getInlineQuery().getFrom().getId();
     } else if (CHANNEL_POST.test(update)) {
       return update.getChannelPost().getChatId();
     } else if (EDITED_CHANNEL_POST.test(update)) {
@@ -154,15 +158,19 @@ public final class AbilityUtils {
     } else if (EDITED_MESSAGE.test(update)) {
       return update.getEditedMessage().getChatId();
     } else if (CHOSEN_INLINE_QUERY.test(update)) {
-      return (long) update.getChosenInlineQuery().getFrom().getId();
+      return update.getChosenInlineQuery().getFrom().getId();
     } else if (SHIPPING_QUERY.test(update)) {
-      return (long) update.getShippingQuery().getFrom().getId();
+      return update.getShippingQuery().getFrom().getId();
     } else if (PRECHECKOUT_QUERY.test(update)) {
-      return (long) update.getPreCheckoutQuery().getFrom().getId();
+      return update.getPreCheckoutQuery().getFrom().getId();
     } else if (POLL_ANSWER.test(update)) {
-      return (long) update.getPollAnswer().getUser().getId();
+      return update.getPollAnswer().getUser().getId();
     } else if (POLL.test(update)) {
-      return (long) EMPTY_USER.getId();
+      return EMPTY_USER.getId();
+    } else if (MY_CHAT_MEMBER.test(update)) {
+      return update.getMyChatMember().getChat().getId();
+    } else if (CHAT_MEMBER.test(update)) {
+      return update.getChatMember().getChat().getId();
     } else {
       throw new IllegalStateException("Could not retrieve originating chat ID from update");
     }

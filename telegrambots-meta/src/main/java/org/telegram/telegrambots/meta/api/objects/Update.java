@@ -42,6 +42,8 @@ public class Update implements BotApiObject {
     private static final String PRE_CHECKOUT_QUERY_FIELD = "pre_checkout_query";
     private static final String POLL_FIELD = "poll";
     private static final String POLLANSWER_FIELD = "poll_answer";
+    private static final String MYCHATMEMBER_FIELD = "my_chat_member";
+    private static final String CHATMEMBER_FIELD = "chat_member";
 
     @JsonProperty(UPDATEID_FIELD)
     private Integer updateId;
@@ -73,6 +75,22 @@ public class Update implements BotApiObject {
      */
     @JsonProperty(POLLANSWER_FIELD)
     private PollAnswer pollAnswer;
+    /**
+     * Optional.
+     *
+     * The bot's chat member status was updated in a chat.
+     * For private chats, this update is received only when the bot is blocked or unblocked by the user.
+     */
+    @JsonProperty(MYCHATMEMBER_FIELD)
+    private ChatMemberUpdated myChatMember;
+    /**
+     * Optional.
+     *
+     * A chat member's status was updated in a chat.
+     * The bot must be an administrator in the chat and must explicitly specify “chat_member” in the list of allowed_updates to receive these updates.
+     */
+    @JsonProperty(CHATMEMBER_FIELD)
+    private ChatMemberUpdated chatMember;
 
     public boolean hasMessage() {
         return message != null;
@@ -116,5 +134,13 @@ public class Update implements BotApiObject {
 
     public boolean hasPollAnswer() {
         return pollAnswer != null;
+    }
+
+    public boolean hasMyChatMember() {
+        return myChatMember != null;
+    }
+
+    public boolean hasChatMember() {
+        return chatMember != null;
     }
 }

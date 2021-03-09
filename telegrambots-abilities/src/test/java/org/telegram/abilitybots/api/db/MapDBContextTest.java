@@ -12,7 +12,6 @@ import java.util.Set;
 
 import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Sets.newHashSet;
-import static com.google.common.collect.Sets.toImmutableEnumSet;
 import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -59,22 +58,22 @@ class MapDBContextTest {
 
   @Test
   void canRecoverDB() {
-    Map<Integer, User> users = db.getMap(USERS);
-    Map<String, Integer> userIds = db.getMap(USER_ID);
+    Map<Long, User> users = db.getMap(USERS);
+    Map<String, Long> userIds = db.getMap(USER_ID);
     users.put(CREATOR.getId(), CREATOR);
     users.put(USER.getId(), USER);
     userIds.put(CREATOR.getUserName(), CREATOR.getId());
     userIds.put(USER.getUserName(), USER.getId());
 
     db.getSet("AYRE").add(123123);
-    Map<Integer, User> originalUsers = newHashMap(users);
+    Map<Long, User> originalUsers = newHashMap(users);
     String beforeBackupInfo = db.info(USERS);
 
     Object jsonBackup = db.backup();
     db.clear();
     boolean recovered = db.recover(jsonBackup);
 
-    Map<Integer, User> recoveredUsers = db.getMap(USERS);
+    Map<Long, User> recoveredUsers = db.getMap(USERS);
     String afterRecoveryInfo = db.info(USERS);
 
     assertTrue(recovered, "Could not recover database successfully");

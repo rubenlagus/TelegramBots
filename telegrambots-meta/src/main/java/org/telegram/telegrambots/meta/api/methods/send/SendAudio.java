@@ -58,8 +58,6 @@ public class SendAudio extends PartialBotApiMethod<Message> {
     public static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
 
     @NonNull
-    private Integer duration; ///< Integer	Duration of the audio in seconds as defined by sender
-    @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (or Username fro channels)
     @NonNull
     private InputFile audio; ///< Audio file to send. file_id as String to resend an audio that is already on the Telegram servers or Url to upload it
@@ -70,6 +68,7 @@ public class SendAudio extends PartialBotApiMethod<Message> {
     private String title; ///< Optional. Title of sent audio
     private String caption; ///< Optional. Audio caption (may also be used when resending documents by file_id), 0-200 characters
     private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+    private Integer duration; ///< Integer	Duration of the audio in seconds as defined by sender
     /**
      * Optional.
      * Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size.

@@ -22,7 +22,7 @@ import static org.telegram.abilitybots.api.objects.Locality.ALL;
 import static org.telegram.abilitybots.api.objects.Privacy.PUBLIC;
 
 public class ContinuousTextTest {
-  private static final User USER = new User(1, "first", false);
+  private static final User USER = new User(1L, "first", false);
 
   private DBContext db;
 
@@ -71,7 +71,7 @@ public class ContinuousTextTest {
     }
 
     @Override
-    public int creatorId() {
+    public long creatorId() {
       return 1337;
     }
 

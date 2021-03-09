@@ -4,9 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.generics.BotSession;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 
@@ -56,9 +54,6 @@ public class TelegramBotInitializer implements InitializingBean {
 
 	private void handleAnnotatedMethod(Object bot, Method method, BotSession session) {
         try {
-            TelegramApiRequestException test = new TelegramApiRequestException("Error getting updates", new ApiResponse());
-            log.error(test.getMessage(), test);
-
             if (method.getParameterCount() > 1) {
                 log.warn(format("Method %s of Type %s has too many parameters",
                                 method.getName(), method.getDeclaringClass().getCanonicalName()));

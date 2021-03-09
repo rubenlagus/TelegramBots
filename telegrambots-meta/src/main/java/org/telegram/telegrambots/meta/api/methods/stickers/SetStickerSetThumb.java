@@ -40,7 +40,7 @@ public class SetStickerSetThumb extends BotApiMethod<Boolean> {
     @NonNull
     private String name; ///< Sticker set name
     @NonNull
-    private Integer userId; ///< User identifier of the sticker set owner
+    private Long userId; ///< User identifier of the sticker set owner
     /**
      * A PNG image with the thumbnail, must be up to 128 kilobytes in size and have width and height exactly 100px,
      * or a TGS animation with the thumbnail up to 32 kilobytes in size;

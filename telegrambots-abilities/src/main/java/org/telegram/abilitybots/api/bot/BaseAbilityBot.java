@@ -113,7 +113,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     // Reply registry
     private List<Reply> replies;
 
-    public abstract int creatorId();
+    public abstract long creatorId();
 
     protected BaseAbilityBot(String botToken, String botUsername, DBContext db, AbilityToggle toggle, DefaultBotOptions botOptions) {
         super(botOptions);
@@ -155,28 +155,28 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     /**
      * @return the map of <ID,User>
      */
-    public Map<Integer, User> users() {
+    public Map<Long, User> users() {
         return db.getMap(USERS);
     }
 
     /**
      * @return the map of <Username,ID>
      */
-    public Map<String, Integer> userIds() {
+    public Map<String, Long> userIds() {
         return db.getMap(USER_ID);
     }
 
     /**
      * @return a blacklist containing all the IDs of the banned users
      */
-    public Set<Integer> blacklist() {
+    public Set<Long> blacklist() {
         return db.getSet(BLACKLIST);
     }
 
     /**
      * @return an admin set of all the IDs of bot administrators
      */
-    public Set<Integer> admins() {
+    public Set<Long> admins() {
         return db.getSet(ADMINS);
     }
 
@@ -246,29 +246,29 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         return botUsername;
     }
 
-    public Privacy getPrivacy(Update update, int id) {
+    public Privacy getPrivacy(Update update, long id) {
         return isCreator(id) ?
             CREATOR : isAdmin(id) ?
             ADMIN : (isGroupUpdate(update) || isSuperGroupUpdate(update)) && isGroupAdmin(update, id) ?
             GROUP_ADMIN : PUBLIC;
     }
 
-    public boolean isGroupAdmin(Update update, int id) {
+    public boolean isGroupAdmin(Update update, long id) {
         return isGroupAdmin(getChatId(update), id);
     }
 
-    public boolean isGroupAdmin(long chatId, int id) {
+    public boolean isGroupAdmin(long chatId, long id) {
         GetChatAdministrators admins = GetChatAdministrators.builder().chatId(Long.toString(chatId)).build();
         return silent.execute(admins)
             .orElse(new ArrayList<>()).stream()
             .anyMatch(member -> member.getUser().getId() == id);
     }
 
-    public boolean isCreator(int id) {
+    public boolean isCreator(long id) {
         return id == creatorId();
     }
 
-    public boolean isAdmin(Integer id) {
+    public boolean isAdmin(long id) {
         return admins().contains(id);
     }
 
@@ -350,16 +350,25 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
                             .map(returnReply(ext)))
                             .flatMap(Reply::stream);
 
+            // Extract all replies from extension instances methods, returning ReplyCollection
+            Stream<Reply> extensionCollectionReplies = extensions.stream()
+                    .flatMap(extension -> stream(extension.getClass().getMethods())
+                            .filter(checkReturnType(ReplyCollection.class))
+                            .map(returnReplyCollection(extension))
+                            .flatMap(ReplyCollection::stream));
+
             // Replies can be standalone or attached to abilities, fetch those too
             Stream<Reply> abilityReplies = abilities.values().stream()
                     .flatMap(ability -> ability.replies().stream())
                     .flatMap(Reply::stream);
 
             // Now create the replies registry (list)
-            replies = Stream.concat(abilityReplies, extensionReplies).collect(
-                    ImmutableList::<Reply>builder,
-                    Builder::add,
-                    (b1, b2) -> b1.addAll(b2.build()))
+            replies = Stream.of(abilityReplies, extensionReplies, extensionCollectionReplies)
+                    .flatMap(replyStream -> replyStream)
+                    .collect(
+                            ImmutableList::<Reply>builder,
+                            Builder::add,
+                            (b1, b2) -> b1.addAll(b2.build()))
                     .build();
         } catch (IllegalStateException e) {
             log.error("Duplicate names found while registering abilities. Make sure that the abilities declared don't clash with the reserved ones.", e);
@@ -439,6 +448,23 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         };
     }
 
+    /**
+     * Invokes the method and retrieves its return {@link ReplyCollection}.
+     *
+     * @param obj a bot or extension that this method is invoked with
+     * @return a {@link Function} which returns the {@link ReplyCollection} returned by the given method
+     */
+    private static Function<? super Method, ReplyCollection> returnReplyCollection(Object obj) {
+        return method -> {
+            try {
+                return (ReplyCollection) method.invoke(obj);
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                log.error("Could not add Reply Collection", e);
+                throw new RuntimeException(e);
+            }
+        };
+    }
+
     private void postConsumption(Pair<MessageContext, Ability> pair) {
         ofNullable(pair.b().postAction())
                 .ifPresent(consumer -> consumer.accept(pair.a()));
@@ -482,7 +508,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
             return true;
         }
 
-        int id = user.getId();
+        long id = user.getId();
         return id == creatorId() || !blacklist().contains(id);
     }
 
@@ -523,7 +549,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         Update update = trio.a();
         User user = AbilityUtils.getUser(update);
         Privacy privacy;
-        int id = user.getId();
+        long id = user.getId();
 
         privacy = getPrivacy(update, id);
 
@@ -625,7 +651,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         return replies.stream()
                 .filter(reply -> runSilently(() -> reply.isOkFor(update), reply.name()))
                 .map(reply -> runSilently(() -> {
-                    reply.actOn(update);
+                    reply.actOn(this, update);
                     updateReplyStats(reply);
                     return false;
                 }, reply.name()))

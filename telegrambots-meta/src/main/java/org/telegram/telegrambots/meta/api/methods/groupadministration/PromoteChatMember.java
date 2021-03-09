@@ -48,13 +48,15 @@ public class PromoteChatMember extends BotApiMethod<Boolean> {
     private static final String CANPINMESSAGES_FIELD = "can_pin_messages";
     private static final String CANPROMOTEMEMBERS_FIELD = "can_promote_members";
     private static final String ISANONYMOUS_FIELD = "is_anonymous";
+    private static final String CANMANAGECHAT_FIELD = "can_manage_chat";
+    private static final String CANMANAGEVOICECHATS_FIELD = "can_manage_voice_chats";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
     private String chatId; ///< Required. Unique identifier for the chat to send the message to (Or username for channels)
     @JsonProperty(USER_ID_FIELD)
     @NonNull
-    private Integer userId; ///< Required. Unique identifier of the target user
+    private Long userId; ///< Required. Unique identifier of the target user
     @JsonProperty(CANCHANGEINFORMATION_FIELD)
     private Boolean canChangeInformation; ///< Optional. Pass True, if the administrator can change chat title, photo and other settings
     @JsonProperty(CANPOSTMESSAGES_FIELD)
@@ -73,6 +75,23 @@ public class PromoteChatMember extends BotApiMethod<Boolean> {
     private Boolean canPromoteMembers; ///< Optional. Pass True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administators that were appointed by the him)
     @JsonProperty(ISANONYMOUS_FIELD)
     private Boolean isAnonymous; ///< Optional. Pass True, if the administrator's presence in the chat is hidden
+    /**
+     * Optional
+     *
+     * Pass True, if the administrator can access the chat event log, chat statistics, message statistics in channels,
+     * see channel members, see anonymous administrators in supergoups and ignore slow mode.
+     *
+     * Implied by any other administrator privilege
+     */
+    @JsonProperty(CANMANAGECHAT_FIELD)
+    private Boolean canManageChat;
+    /**
+     * Optional.
+     *
+     * Pass True, if the administrator can manage voice chats, supergroups only
+     */
+    @JsonProperty(CANMANAGEVOICECHATS_FIELD)
+    private Boolean canManageVoiceChats;
 
     @Override
     public String getMethod() {
