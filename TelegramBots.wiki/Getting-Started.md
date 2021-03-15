@@ -84,9 +84,10 @@ Now that we have the library, we can start coding. There are few steps to follow
         public void onUpdateReceived(Update update) {
             // We check if the update has a message and the message has text
             if (update.hasMessage() && update.getMessage().hasText()) {
-                SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
-                        .setChatId(update.getMessage().getChatId())
-                        .setText(update.getMessage().getText());
+                SendMessage message = new SendMessage(); // Create a SendMessage object with mandatory fields
+                message.setChatId(update.getMessage().getChatId().toString());
+                message.setText(update.getMessage().getText());
+                
                 try {
                     execute(message); // Call method to send the message
                 } catch (TelegramApiException e) {
