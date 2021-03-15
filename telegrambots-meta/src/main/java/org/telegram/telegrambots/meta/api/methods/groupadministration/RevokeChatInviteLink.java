@@ -39,7 +39,7 @@ import java.io.IOException;
 @AllArgsConstructor
 @Builder
 public class RevokeChatInviteLink extends BotApiMethod<ChatInviteLink> {
-    public static final String PATH = "createChatInviteLink";
+    public static final String PATH = "revokeChatInviteLink";
 
     private static final String CHATID_FIELD = "chat_id";
     private static final String INVITELINK_FIELD = "invite_link";
