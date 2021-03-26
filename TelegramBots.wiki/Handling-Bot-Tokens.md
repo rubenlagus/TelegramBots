@@ -1,10 +1,10 @@
-* [Bot Token Dont's](#bot-token-donts)
+* [Bot Token Rules](#bot-token-rules)
 * [Using Enviroment Variables](#using-environment-variables)
   * [Setting Enviroment Variables](#setting-environment-variables)
   * [Accessing Enviroment Variables](#accessing-enviroment-variables)
 * [Using Command Line Arguments](#using-command-line-arguments)
 
-# <a id="bot-token-donts"></a> Bot Token Dont's ##
+# <a id="bot-token-rules"></a> Bot Token Rules ##
 * Tokens should not be hardcoded into the bot code
 * Tokens should never be published
 * Tokens should not be pushed into Repositorys
@@ -36,7 +36,7 @@ It can also be set using the Windows GUI
 export VARIABLE_NAME = {YOUR_BOT_TOKEN}
 ```
 * Save the file
-* Either reboot your system or run the command above in your terminal
+* Either start a new terminal or run the command above
 
 ### IntelliJ
 * Go to Run->Edit Configuratuions...
@@ -45,7 +45,7 @@ export VARIABLE_NAME = {YOUR_BOT_TOKEN}
 * Click the Plus Icon to add a new Variable
 * Enter a Name and your Token as the Value
 
-###Heroku Cloud
+### Heroku Cloud
 * Naviage to your App
 * In the Settings Tab under Config Vars, click "Reveal Config Vars"
 * Enter a Name and your Token as the Value
@@ -65,7 +65,7 @@ String BOT_TOKEN = System.getenv("VARIABLE_NAME");
 In Spring the @Value annotation allows you to inject the Value into your class
 ```java
 public class Bot extends TelegramLongPollingBot {
-    public Bot(@Value("${VARIABLE_NAME") String botToken) {
+    public Bot(@Value("${VARIABLE_NAME}") String botToken) {
         this.botToken = botToken;
     }
 }
