@@ -41,7 +41,7 @@ public class DefaultBotOptions implements BotOptions {
         baseUrl = ApiConstants.BASE_URL;
         httpContext = HttpClientContext.create();
         proxyType = ProxyType.NO_PROXY;
-        getUpdatesLimit = ApiConstants.GETUPDATES_TIMEOUT;
+        getUpdatesTimeout = ApiConstants.GETUPDATES_TIMEOUT;
         getUpdatesLimit = 100;
     }
 

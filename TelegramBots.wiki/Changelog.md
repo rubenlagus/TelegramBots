@@ -1,3 +1,6 @@
+### <a id="5.1.1"></a>5.1.1 ###
+1.  Bug fixing: #874
+
 ### <a id="5.1.0"></a>5.1.0 ###
 1. Update Api version [5.1](https://core.telegram.org/bots/api-changelog#march-9-2021)
 2. Bug fixing: #832, #841, #844, #851, #857
