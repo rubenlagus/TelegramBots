@@ -1,62 +1,63 @@
 package org.telegram.telegrambots.extensions.bots.commandbot;
 
 
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.CommandRegistry;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.ICommandRegistry;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
 /**
- * This class adds command functionality to the TelegramLongPollingBot
+ * This class adds command functionality to the TelegramWebhookBot
  *
- * @author Timo Schulz (Mit0x2)
+ * @author Andrey Korsakov (loolzaaa)
  */
-public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingBot implements CommandBot, ICommandRegistry {
+public abstract class TelegramWebhookCommandBot extends TelegramWebhookBot implements CommandBot, ICommandRegistry {
     private final CommandRegistry commandRegistry;
 
     /**
-     * Creates a TelegramLongPollingCommandBot using default options
+     * Creates a TelegramWebhookCommandBot using default options
      * Use ICommandRegistry's methods on this bot to register commands
      *
      */
-    public TelegramLongPollingCommandBot() {
+    public TelegramWebhookCommandBot() {
         this(new DefaultBotOptions());
     }
 
     /**
-     * Creates a TelegramLongPollingCommandBot with custom options and allowing commands with
+     * Creates a TelegramWebhookCommandBot with custom options and allowing commands with
      * usernames
      * Use ICommandRegistry's methods on this bot to register commands
      *
      * @param options     Bot options
      */
-    public TelegramLongPollingCommandBot(DefaultBotOptions options) {
+    public TelegramWebhookCommandBot(DefaultBotOptions options) {
         this(options, true);
     }
 
     /**
-     * Creates a TelegramLongPollingCommandBot
+     * Creates a TelegramWebhookCommandBot
      * Use ICommandRegistry's methods on this bot to register commands
      *
      * @param options                   Bot options
      * @param allowCommandsWithUsername true to allow commands with parameters (default),
      *                                  false otherwise
      */
-    public TelegramLongPollingCommandBot(DefaultBotOptions options, boolean allowCommandsWithUsername) {
+    public TelegramWebhookCommandBot(DefaultBotOptions options, boolean allowCommandsWithUsername) {
         super(options);
         this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, this::getBotUsername);
     }
 
     @Override
-    public final void onUpdateReceived(Update update) {
+    public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
         if (update.hasMessage()) {
             Message message = update.getMessage();
             if (message.isCommand() && !filter(message)) {
@@ -64,10 +65,11 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
                     //we have received a not registered command, handle it as invalid
                     processInvalidCommandUpdate(update);
                 }
-                return;
+                return null;
             }
         }
         processNonCommandUpdate(update);
+        return null;
     }
 
     @Override
