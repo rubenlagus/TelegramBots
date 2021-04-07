@@ -267,7 +267,9 @@ public class DefaultBotSession implements BotSession {
                         log.error("Error deserializing update: " + responseContent, e);
                     }
                 }
-            } catch (SocketException | InvalidObjectException | TelegramApiRequestException e) {
+            } catch (TelegramApiRequestException e) {
+                log.error(e.getLocalizedMessage() + " - " + e.getApiResponse(), e);
+            } catch (SocketException | InvalidObjectException e) {
                 log.error(e.getLocalizedMessage(), e);
             } catch (SocketTimeoutException e) {
                 log.info(e.getLocalizedMessage(), e);
