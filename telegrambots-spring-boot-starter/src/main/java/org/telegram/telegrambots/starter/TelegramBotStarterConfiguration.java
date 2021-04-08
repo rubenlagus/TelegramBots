@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
@@ -29,9 +30,11 @@ public class TelegramBotStarterConfiguration {
     @ConditionalOnMissingBean
     public TelegramBotInitializer telegramBotInitializer(TelegramBotsApi telegramBotsApi,
                                                          ObjectProvider<List<LongPollingBot>> longPollingBots,
-                                                         ObjectProvider<List<SpringWebhookBot>> webHookBots) {
+                                                         ObjectProvider<List<SpringWebhookBot>> webHookBots,
+                                                         ObjectProvider<List<BotCommand>> botCommands) {
         return new TelegramBotInitializer(telegramBotsApi,
                 longPollingBots.getIfAvailable(Collections::emptyList),
-                webHookBots.getIfAvailable(Collections::emptyList));
+                webHookBots.getIfAvailable(Collections::emptyList),
+                botCommands.getIfAvailable(Collections::emptyList));
     }
 }

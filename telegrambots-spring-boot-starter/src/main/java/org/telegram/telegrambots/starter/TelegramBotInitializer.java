@@ -3,10 +3,14 @@ package org.telegram.telegrambots.starter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.BotSession;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
+import org.telegram.telegrambots.starter.Annotation.AfterBotRegistration;
+import org.telegram.telegrambots.starter.Annotation.TelegramCommand;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -25,21 +29,39 @@ public class TelegramBotInitializer implements InitializingBean {
 	private final TelegramBotsApi telegramBotsApi;
     private final List<LongPollingBot> longPollingBots;
     private final List<SpringWebhookBot> webHookBots;
+    private final List<BotCommand> botCommands;
 
     public TelegramBotInitializer(TelegramBotsApi telegramBotsApi,
     								List<LongPollingBot> longPollingBots,
-                                    List<SpringWebhookBot> webHookBots) {
+                                    List<SpringWebhookBot> webHookBots,
+                                    List<BotCommand> botCommands) {
     	Objects.requireNonNull(telegramBotsApi);
     	Objects.requireNonNull(longPollingBots);
     	Objects.requireNonNull(webHookBots);
+    	Objects.requireNonNull(botCommands);
     	this.telegramBotsApi = telegramBotsApi;
         this.longPollingBots = longPollingBots;
         this.webHookBots = webHookBots;
+        this.botCommands = botCommands;
     }
 
 	@Override
 	public void afterPropertiesSet() {
 		try {
+		    for (BotCommand command : botCommands){
+                TelegramCommand annotation = command.getClass().getAnnotation(TelegramCommand.class);
+                if (annotation == null) continue;
+
+                Class<? extends TelegramLongPollingCommandBot> bot = annotation.commandBot();
+                for (LongPollingBot longPollingBot : longPollingBots){
+                    System.out.println(longPollingBot.getClass());
+                    System.out.println(bot);
+                    if (longPollingBot.getClass().equals(bot)) {
+                        TelegramLongPollingCommandBot commandBot = (TelegramLongPollingCommandBot) longPollingBot;
+                        commandBot.register(command);
+                    }
+                }
+            }
             for (LongPollingBot bot : longPollingBots) {
                 BotSession session = telegramBotsApi.registerBot(bot);
                 handleAfterRegistrationHook(bot, session);

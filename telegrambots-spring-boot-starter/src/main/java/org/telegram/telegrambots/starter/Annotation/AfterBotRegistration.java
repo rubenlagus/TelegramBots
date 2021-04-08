@@ -1,4 +1,4 @@
-package org.telegram.telegrambots.starter;
+package org.telegram.telegrambots.starter.Annotation;
 
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.generics.BotSession;

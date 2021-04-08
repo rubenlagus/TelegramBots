@@ -56,3 +56,27 @@ After that your bot will look like:
   }
 ```
 Also you could just implement LongPollingBot or WebHookBot interfaces. All this bots will be registered in context and connected to Telegram api.
+
+
+## TelegramCommandLongPolingBot compatibility
+
+```java
+//Standard Spring component annotation
+@Component
+public class YourBotName extends TelegramLongPollingCommandBot {
+    //Bot body.
+}
+```
+
+you don't need to register Command manual, you can write
+
+```java
+import org.telegram.telegrambots.starter.Annotation.TelegramCommand;
+
+@TelegramCommand(YourBotName.class)
+public class youCommand extends BotCommand {
+
+}
+```
+
+command will be registered automatically
