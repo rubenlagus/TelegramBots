@@ -17,7 +17,11 @@ import org.telegram.telegrambots.meta.generics.LongPollingBot;
 import org.telegram.telegrambots.starter.Annotation.TelegramCommand;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 class TestTelegramBotStarterConfiguration {
 
@@ -58,7 +62,9 @@ class TestTelegramBotStarterConfiguration {
                 .run(context -> {
                     assertThat(context).hasSingleBean(TelegramLongPollingCommandBot.class);
                     assertThat(context).hasSingleBean(BotCommand.class);
+
                     TelegramLongPollingCommandBot telegramLongPollingCommandBot = context.getBean(TelegramLongPollingCommandBot.class);
+
                     verify(telegramLongPollingCommandBot, times(1)).register(context.getBean(BotCommand.class));
                     verifyNoMoreInteractions(telegramLongPollingCommandBot);
                 });
@@ -133,6 +139,16 @@ class TestTelegramBotStarterConfiguration {
     @TelegramCommand(commandBot = MyBot.class)
     static class MyBotCommand extends BotCommand{
         public MyBotCommand(String commandIdentifier, String description) {
+            super(commandIdentifier, description);
+        }
+
+        @Override
+        public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) { }
+    }
+
+    @TelegramCommand(commandBot = TelegramLongPollingCommandBot.class)
+    static class OtherBotCommand extends BotCommand{
+        public OtherBotCommand(String commandIdentifier, String description) {
             super(commandIdentifier, description);
         }
 

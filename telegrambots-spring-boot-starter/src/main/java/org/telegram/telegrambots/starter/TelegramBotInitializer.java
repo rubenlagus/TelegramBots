@@ -54,11 +54,10 @@ public class TelegramBotInitializer implements InitializingBean {
 
                 Class<? extends TelegramLongPollingCommandBot> bot = annotation.commandBot();
                 for (LongPollingBot longPollingBot : longPollingBots){
-                    System.out.println(longPollingBot.getClass());
-                    System.out.println(bot);
                     if (longPollingBot.getClass().equals(bot)) {
                         TelegramLongPollingCommandBot commandBot = (TelegramLongPollingCommandBot) longPollingBot;
                         commandBot.register(command);
+                        log.info(format("command \"%s\" register for bot \"%s\"", command.getClass(), bot));
                     }
                 }
             }
