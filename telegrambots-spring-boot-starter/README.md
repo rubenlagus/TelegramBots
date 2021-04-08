@@ -74,7 +74,7 @@ you don't need to register Command manual, you can write
 import org.telegram.telegrambots.starter.Annotation.TelegramCommand;
 
 @TelegramCommand(YourBotName.class)
-public class youCommand extends BotCommand {
+public class YourCommand extends BotCommand {
 
 }
 ```

@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.CommandRegistry;
@@ -57,11 +58,10 @@ class TestTelegramBotStarterConfiguration {
     }
 
     @Test
-    void createTelegramLongPollingCommandBotAndBotCommand(){
-        this.contextRunner.withUserConfiguration(TelegramCommandLongPollingBot.class, TelegramCommandConfig.class, CommandRegistryMock.class)
+    void createTelegramLongPollingCommandBotAndOneBotCommand(){
+        this.contextRunner.withUserConfiguration(TelegramCommandLongPollingBot.class, TelegramCommandConfig.class)
                 .run(context -> {
                     assertThat(context).hasSingleBean(TelegramLongPollingCommandBot.class);
-                    assertThat(context).hasSingleBean(BotCommand.class);
 
                     TelegramLongPollingCommandBot telegramLongPollingCommandBot = context.getBean(TelegramLongPollingCommandBot.class);
 
@@ -131,8 +131,13 @@ class TestTelegramBotStarterConfiguration {
     @Configuration
     static class TelegramCommandConfig {
         @Bean
+        @Primary
         public MyBotCommand botCommand(){
             return new MyBotCommand("foo", "bar");
+        }
+
+        @Bean OtherBotCommand otherBotCommand(){
+            return new OtherBotCommand("foo", "bar");
         }
     }
 
@@ -154,14 +159,6 @@ class TestTelegramBotStarterConfiguration {
 
         @Override
         public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) { }
-    }
-
-    @Configuration
-    static class CommandRegistryMock{
-        @Bean
-        public CommandRegistry commandRegistry(){
-            return mock(CommandRegistry.class);
-        }
     }
 
     @Configuration
