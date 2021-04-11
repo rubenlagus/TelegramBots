@@ -60,8 +60,8 @@ public class InterceptorRegistry implements IInterceptorsRegistry {
         return interceptors.
                 stream().
                 filter(it -> it.getClass().getAnnotation(First.class) != null).
-                filter(it -> it.getClass().getAnnotation(First.class).stage() == stage).
-                filter(it -> it.getClass().getAnnotation(First.class).stage() == Stage.BOTH).
+                filter(it -> it.getClass().getAnnotation(First.class).stage() == stage ||
+                        it.getClass().getAnnotation(First.class).stage() == Stage.BOTH).
                 collect(Collectors.toList());
     }
 
@@ -69,8 +69,8 @@ public class InterceptorRegistry implements IInterceptorsRegistry {
         return interceptors.
                 stream().
                 filter(it -> it.getClass().getAnnotation(Last.class) != null).
-                filter(it -> it.getClass().getAnnotation(Last.class).stage() == stage).
-                filter(it -> it.getClass().getAnnotation(Last.class).stage() == Stage.BOTH).
+                filter(it -> it.getClass().getAnnotation(Last.class).stage() == stage ||
+                        it.getClass().getAnnotation(Last.class).stage() == Stage.BOTH).
                 collect(Collectors.toList());
     }
 
