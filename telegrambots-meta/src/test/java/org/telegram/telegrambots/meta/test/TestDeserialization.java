@@ -344,6 +344,49 @@ class TestDeserialization {
     }
 
     @Test
+    void TestDeserializationMessageAutodeleteChanged() throws Exception {
+        String updateText = "{\n" +
+                "    \"ok\": true,\n" +
+                "    \"result\": [\n" +
+                "        {\n" +
+                "            \"update_id\": 259894298,\n" +
+                "            \"message\": {\n" +
+                "                \"message_id\": 101,\n" +
+                "                \"from\": {\n" +
+                "                    \"id\": 12345678,\n" +
+                "                    \"is_bot\": false,\n" +
+                "                    \"first_name\": \"FistName\",\n" +
+                "                    \"last_name\": \"LastName\",\n" +
+                "                    \"username\": \"username\"\n" +
+                "                },\n" +
+                "                \"chat\": {\n" +
+                "                    \"id\": 12345678,\n" +
+                "                    \"first_name\": \"FistName\",\n" +
+                "                    \"last_name\": \"LastName\",\n" +
+                "                    \"username\": \"username\",\n" +
+                "                    \"type\": \"private\"\n" +
+                "                },\n" +
+                "                \"date\": 1604171814,\n" +
+                "                \"message_auto_delete_timer_changed\": {\n" +
+                "                    \"message_auto_delete_time\": 100\n" +
+                "                }\n" +
+                "            \n" +
+                "            }\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}";
+
+        ArrayList<Update> response = new GetUpdates().deserializeResponse(updateText);
+
+        assertNotNull(response);
+        assertEquals(1, response.size());
+        assertNotNull(response.get(0));
+        assertNotNull(response.get(0).getMessage());
+        assertNotNull(response.get(0).getMessage().getMessageAutoDeleteTimerChanged());
+        assertEquals(100, response.get(0).getMessage().getMessageAutoDeleteTimerChanged().getMessageAutoDeleteTime());
+    }
+
+    @Test
     void TestDeserializationLogoutMethod() throws Exception {
         String updateText = "{\"ok\":true,\"result\": true}";
 
