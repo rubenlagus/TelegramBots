@@ -22,7 +22,7 @@ class TestAnswerInlineQuery {
     }
 
     @Test
-    void TestInlineQueryIdMustBePresent() {
+    void testInlineQueryIdMustBePresent() {
         try {
             answerInlineQuery.validate();
         } catch (TelegramApiValidationException e) {
@@ -31,7 +31,7 @@ class TestAnswerInlineQuery {
     }
 
     @Test
-    void TestInlineQueryIdCanNotBeEmpty() {
+    void testInlineQueryIdCanNotBeEmpty() {
         answerInlineQuery.setInlineQueryId("");
         try {
             answerInlineQuery.validate();
@@ -41,7 +41,7 @@ class TestAnswerInlineQuery {
     }
 
     @Test
-    void TestResultsMustBePresent() {
+    void testResultsMustBePresent() {
         answerInlineQuery.setInlineQueryId("RANDOMEID");
         try {
             answerInlineQuery.validate();
@@ -51,7 +51,7 @@ class TestAnswerInlineQuery {
     }
 
     @Test
-    void TestSwitchPmTextCanNotBeEmpty() {
+    void testSwitchPmTextCanNotBeEmpty() {
         answerInlineQuery.setInlineQueryId("RANDOMEID");
         answerInlineQuery.setResults(new ArrayList<>());
         answerInlineQuery.setSwitchPmText("");
@@ -64,7 +64,7 @@ class TestAnswerInlineQuery {
     }
 
     @Test
-    void TestSwitchPmParameterIsMandatoryIfSwitchPmTextIsPresent() {
+    void testSwitchPmParameterIsMandatoryIfSwitchPmTextIsPresent() {
         answerInlineQuery.setInlineQueryId("RANDOMEID");
         answerInlineQuery.setResults(new ArrayList<>());
         answerInlineQuery.setSwitchPmText("Test Text");
@@ -77,7 +77,7 @@ class TestAnswerInlineQuery {
     }
 
     @Test
-    void TestSwitchPmParameterCanNotBeEmptyIfSwitchPmTextIsPresent() {
+    void testSwitchPmParameterCanNotBeEmptyIfSwitchPmTextIsPresent() {
         answerInlineQuery.setInlineQueryId("RANDOMEID");
         answerInlineQuery.setResults(new ArrayList<>());
         answerInlineQuery.setSwitchPmText("Test Text");
@@ -91,7 +91,7 @@ class TestAnswerInlineQuery {
     }
 
     @Test
-    void TestSwitchPmParameterContainsUpTo64Chars() {
+    void testSwitchPmParameterContainsUpTo64Chars() {
         answerInlineQuery.setInlineQueryId("RANDOMEID");
         answerInlineQuery.setResults(new ArrayList<>());
         answerInlineQuery.setSwitchPmText("Test Text");
@@ -105,7 +105,7 @@ class TestAnswerInlineQuery {
     }
 
     @Test
-    void TestSwitchPmParameterOnlyContainsAcceptedCharacters() {
+    void testSwitchPmParameterOnlyContainsAcceptedCharacters() {
         answerInlineQuery.setInlineQueryId("RANDOMEID");
         answerInlineQuery.setResults(new ArrayList<>());
         answerInlineQuery.setSwitchPmText("Test Text");

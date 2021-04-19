@@ -28,7 +28,7 @@ class TestTelegramApi {
     }
 
     @Test
-    void TestTelegramApiMustBeInitializableForLongPolling() {
+    void testTelegramApiMustBeInitializableForLongPolling() {
         try {
             new TelegramBotsApi(BotSession.class);
         } catch (TelegramApiException e) {
@@ -37,7 +37,7 @@ class TestTelegramApi {
     }
 
     @Test
-    void TestTelegramApiMustBeInitializableForWebhook() {
+    void testTelegramApiMustBeInitializableForWebhook() {
         try {
             new TelegramBotsApi(BotSession.class, webhook);
         } catch (TelegramApiException e) {
@@ -46,7 +46,7 @@ class TestTelegramApi {
     }
 
     @Test
-    void TestTelegramApiMustBeThrowIfNotCreatedForWebhook() {
+    void testTelegramApiMustBeThrowIfNotCreatedForWebhook() {
         try {
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi(BotSession.class, null);
             telegramBotsApi.registerBot(new WebhookBot() {
