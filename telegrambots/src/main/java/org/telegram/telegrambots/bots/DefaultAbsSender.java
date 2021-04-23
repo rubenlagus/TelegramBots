@@ -74,6 +74,8 @@ public abstract class DefaultAbsSender extends AbsSender {
     private final RequestConfig requestConfig;
     private final TelegramFileDownloader telegramFileDownloader;
 
+    private final ExecutorService executor = Executors.newCachedThreadPool();
+
     protected DefaultAbsSender(DefaultBotOptions options) {
         super();
 
@@ -141,6 +143,18 @@ public abstract class DefaultAbsSender extends AbsSender {
 
     public final InputStream downloadFileAsStream(File file) throws TelegramApiException {
         return telegramFileDownloader.downloadFileAsStream(file);
+    }
+
+    // sendXXXXAsync method use ThreadPoolExecutor
+
+    public void Async_execute(SendPhoto sendPhoto){
+        executor.submit(()->{
+            try{
+                new Thread (String.valueOf(execute(sendPhoto)));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        });
     }
 
     // Specific Send Requests
