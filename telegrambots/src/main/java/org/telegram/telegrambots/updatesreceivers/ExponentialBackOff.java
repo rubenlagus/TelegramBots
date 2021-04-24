@@ -14,6 +14,7 @@
 package org.telegram.telegrambots.updatesreceivers;
 
 import com.google.common.base.Preconditions;
+import org.telegram.telegrambots.meta.generics.BackOff;
 
 /**
  * Implementation of BackOff that increases the back off period for each retry attempt using
@@ -68,7 +69,7 @@ import com.google.common.base.Preconditions;
  * @since 1.15
  * @author Ravi Mistry
  */
-public class ExponentialBackOff {
+public class ExponentialBackOff implements BackOff {
     /** The default initial interval value in milliseconds (0.5 seconds). */
     private static final int DEFAULT_INITIAL_INTERVAL_MILLIS = 500;
 
@@ -82,7 +83,7 @@ public class ExponentialBackOff {
     private static final double DEFAULT_MULTIPLIER = 1.5;
 
     /** The default maximum back off time in milliseconds (15 minutes). */
-    private static final int DEFAULT_MAX_INTERVAL_MILLIS = 30000;
+    private static final int DEFAULT_MAX_INTERVAL_MILLIS = 900000;
 
     /** The default maximum elapsed time in milliseconds (60 minutes). */
     private static final int DEFAULT_MAX_ELAPSED_TIME_MILLIS = 3600000;
@@ -161,7 +162,8 @@ public class ExponentialBackOff {
     }
 
     /** Sets the interval back to the initial retry interval and restarts the timer. */
-    final void reset() {
+    @Override
+    public void reset() {
         currentIntervalMillis = initialIntervalMillis;
         startTimeNanos = nanoTime();
     }
@@ -178,7 +180,8 @@ public class ExponentialBackOff {
      * Subclasses may override if a different algorithm is required.
      * </p>
      */
-    long nextBackOffMillis() {
+    @Override
+    public long nextBackOffMillis() {
         // Make sure we have not gone over the maximum elapsed time.
         if (getElapsedTimeMillis() > maxElapsedTimeMillis) {
             return maxElapsedTimeMillis;
@@ -274,7 +277,32 @@ public class ExponentialBackOff {
          */
         int maxElapsedTimeMillis = DEFAULT_MAX_ELAPSED_TIME_MILLIS;
 
-        Builder() {
+        public Builder() {
+        }
+
+        public Builder setInitialIntervalMillis(int initialIntervalMillis) {
+            this.initialIntervalMillis = initialIntervalMillis;
+            return this;
+        }
+
+        public Builder setRandomizationFactor(double randomizationFactor) {
+            this.randomizationFactor = randomizationFactor;
+            return this;
+        }
+
+        public Builder setMultiplier(double multiplier) {
+            this.multiplier = multiplier;
+            return this;
+        }
+
+        public Builder setMaxIntervalMillis(int maxIntervalMillis) {
+            this.maxIntervalMillis = maxIntervalMillis;
+            return this;
+        }
+
+        public Builder setMaxElapsedTimeMillis(int maxElapsedTimeMillis) {
+            this.maxElapsedTimeMillis = maxElapsedTimeMillis;
+            return this;
         }
 
         /** Builds a new instance of {@link ExponentialBackOff}. */
