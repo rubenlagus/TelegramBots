@@ -150,7 +150,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     public void Async_execute(SendPhoto sendPhoto){
         executor.submit(()->{
             try{
-                new Thread (String.valueOf(execute(sendPhoto)));
+                execute(sendPhoto);
             }catch (Exception e){
                 e.printStackTrace();
             }
