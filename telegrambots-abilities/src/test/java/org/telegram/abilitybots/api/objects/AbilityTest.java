@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.telegram.abilitybots.api.bot.DefaultBot.getDefaultBuilder;
 
 class AbilityTest {
@@ -54,6 +56,18 @@ class AbilityTest {
     assertEquals(ability1, ability2, "Abilities should not be equal");
     assertEquals(ability1, ability4, "Abilities should not be equal");
     assertNotEquals(ability1, ability3, "Abilities should be equal");
+  }
+
+  @Test
+  void abilityBuilderSetStatsEnabledTrueTest() {
+    Ability statsEnabledAbility = getDefaultBuilder().setStatsEnabled(true).build();
+    assertTrue(statsEnabledAbility.statsEnabled());
+  }
+
+  @Test
+  void abilityBuilderSetStatsEnabledFalseTest() {
+    Ability statsDisabledAbility = getDefaultBuilder().setStatsEnabled(false).build();
+    assertFalse(statsDisabledAbility.statsEnabled());
   }
 }
 
