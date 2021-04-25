@@ -185,6 +185,10 @@ public final class TelegramBotsHelper {
         return "{\"ok\": false,\"error_code\": 400,\"description\": \"Error descriptions\",\"parameters\": {\"migrate_to_chat_id\": 12345,\"retry_after\": 12}}";
     }
 
+    public static String getResponseWithError409() {
+        return "{\"ok\": false,\"error_code\": 409,\"description\": \"Conflict: terminated by other getUpdates request; make sure that only one bot instance is running\"}";
+    }
+
     public static String GetSetGameScoreBooleanResponse() {
         return "{\"ok\": true,\"result\": true}";
     }
