@@ -19,6 +19,17 @@ Usage
         <groupId>org.telegram</groupId>
         <artifactId>telegrambots-spring-boot-starter</artifactId>
         <version>5.1.1</version>
+	<exclusions>
+		<!-- To avoid conflicts with higher Spring Boot version and it's dependencies //-->
+		<exclusion>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot</artifactId>
+		</exclusion>
+		<exclusion>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-autoconfigure</artifactId>
+		</exclusion>
+	</exclusions>
     </dependency>
 ```
 
