@@ -16,11 +16,7 @@ import org.telegram.telegrambots.facilities.TelegramHttpClientBuilder;
 import org.telegram.telegrambots.meta.api.methods.updates.GetUpdates;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
-import org.telegram.telegrambots.meta.generics.BotOptions;
-import org.telegram.telegrambots.meta.generics.BotSession;
-import org.telegram.telegrambots.meta.generics.LongPollingBot;
-import org.telegram.telegrambots.meta.generics.UpdatesHandler;
-import org.telegram.telegrambots.meta.generics.UpdatesReader;
+import org.telegram.telegrambots.meta.generics.*;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
@@ -142,7 +138,7 @@ public class DefaultBotSession implements BotSession {
         private final UpdatesSupplier updatesSupplier;
         private final Object lock;
         private CloseableHttpClient httpclient;
-        private ExponentialBackOff exponentialBackOff;
+        private BackOff backOff;
         private RequestConfig requestConfig;
 
         public ReaderThread(UpdatesSupplier updatesSupplier, Object lock) {
@@ -154,10 +150,11 @@ public class DefaultBotSession implements BotSession {
         public synchronized void start() {
             httpclient = TelegramHttpClientBuilder.build(options);
             requestConfig = options.getRequestConfig();
-            exponentialBackOff = options.getExponentialBackOff();
+            backOff = options.getBackOff();
 
-            if (exponentialBackOff == null) {
-                exponentialBackOff = new ExponentialBackOff();
+            // fall back to default exponential backoff strategy if no backoff specified
+            if (backOff == null) {
+                backOff = new ExponentialBackOff();
             }
 
             if (requestConfig == null) {
@@ -215,7 +212,7 @@ public class DefaultBotSession implements BotSession {
                             log.error(global.getLocalizedMessage(), global);
                             try {
                                 synchronized (lock) {
-                                    lock.wait(exponentialBackOff.nextBackOffMillis());
+                                    lock.wait(backOff.nextBackOffMillis());
                                 }
                             } catch (InterruptedException e) {
                                 if (!running.get()) {
@@ -261,7 +258,7 @@ public class DefaultBotSession implements BotSession {
                 } else {
                     try {
                         List<Update> updates = request.deserializeResponse(responseContent);
-                        exponentialBackOff.reset();
+                        backOff.reset();
                         return updates;
                     } catch (JSONException e) {
                         log.error("Error deserializing update: " + responseContent, e);

@@ -87,7 +87,7 @@ public class Message implements BotApiObject {
     private static final String VIABOT_FIELD = "via_bot";
     private static final String SENDERCHAT_FIELD = "sender_chat";
     private static final String PROXIMITYALERTTRIGGERED_FIELD = "proximity_alert_triggered";
-    private static final String MESSAGEAUTODELETETIMERCHANGED_FIELD = "message_auto_delete_timer_changed\t";
+    private static final String MESSAGEAUTODELETETIMERCHANGED_FIELD = "message_auto_delete_timer_changed";
     private static final String VOICECHATSTARTED_FIELD = "voice_chat_started";
     private static final String VOICECHATENDED_FIELD = "voice_chat_ended";
     private static final String VOICECHATPARTICIPANTSINVITED_FIELD = "voice_chat_participants_invited";

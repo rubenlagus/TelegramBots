@@ -15,9 +15,11 @@ import org.mockito.Mockito;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.generics.BackOff;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 import org.telegram.telegrambots.test.Fakes.FakeLongPollingBot;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+import org.telegram.telegrambots.updatesreceivers.ExponentialBackOff;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -139,6 +141,30 @@ public class TestDefaultBotSession {
         session.stop();
     }
 
+    @Test
+    public void testDefaultBotSessionWithCustomExponentialBackOff() {
+        ExponentialBackOff ex = new ExponentialBackOff.Builder()
+                .setInitialIntervalMillis(500)
+                .setRandomizationFactor(0.5)
+                .setMultiplier(1.5)
+                .setMaxIntervalMillis(900000)
+                .setMaxElapsedTimeMillis(3600000)
+                .build();
+        DefaultBotOptions options = new DefaultBotOptions();
+        options.setBackOff(ex);
+        DefaultBotSession session = new DefaultBotSession();
+        session.setOptions(options);
+    }
+
+    @Test
+    public void testDefaultBotSessionWithCustomConstantBackOff() {
+        DefaultBotOptions options = new DefaultBotOptions();
+        ConstantBackOff backOff = new ConstantBackOff(3000);
+        options.setBackOff(backOff);
+        DefaultBotSession session = new DefaultBotSession();
+        session.setOptions(options);
+    }
+
     private Update[] createFakeUpdates(int count) {
         return IntStream.range(0, count).mapToObj(x -> {
             Update mock = Mockito.mock(Update.class);
@@ -177,5 +203,27 @@ public class TestDefaultBotSession {
         session.setCallback(bot);
         session.setOptions(new DefaultBotOptions());
         return session;
+    }
+
+    private static class ConstantBackOff implements BackOff {
+
+        private long backOffMillis;
+
+        ConstantBackOff() {
+            new ConstantBackOff(3000);
+        }
+
+        ConstantBackOff(long millis) {
+            this.backOffMillis = millis;
+        }
+
+        @Override
+        public void reset() {
+        }
+
+        @Override
+        public long nextBackOffMillis() {
+            return backOffMillis;
+        }
     }
 }
