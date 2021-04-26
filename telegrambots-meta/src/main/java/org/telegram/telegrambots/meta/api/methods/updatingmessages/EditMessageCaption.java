@@ -106,7 +106,7 @@ public class EditMessageCaption extends BotApiMethod<Serializable> {
     @Override
     public void validate() throws TelegramApiValidationException {
         if (inlineMessageId == null) {
-            if (chatId == null) {
+            if (chatId == null || chatId.isEmpty()) {
                 throw new TelegramApiValidationException("ChatId parameter can't be empty if inlineMessageId is not present", this);
             }
             if (messageId == null) {

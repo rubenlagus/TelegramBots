@@ -22,7 +22,9 @@ public class TelegramLongPollingBotTest {
         TelegramLongPollingBot bot = Mockito.mock(TelegramLongPollingBot.class);
         Mockito.doCallRealMethod().when(bot).onUpdatesReceived(any());
         Update update1 = new Update();
+        update1.setUpdateId(1);
         Update update2 = new Update();
+        update2.setUpdateId(2);
         bot.onUpdatesReceived(asList(update1, update2));
         Mockito.verify(bot).onUpdateReceived(update1);
         Mockito.verify(bot).onUpdateReceived(update2);

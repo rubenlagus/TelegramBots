@@ -113,7 +113,8 @@ public class TestRestApi extends JerseyTest {
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, AnswerInlineQuery.class);
 
-        assertEquals("{\"personal\":true,\"inline_query_id\":\"id\",\"results\":[{\"type\":\"article\",\"id\":\"0\",\"title\":\"Title\",\"input_message_content\":{\"message_text\":\"Text\",\"parse_mode\":\"Markdown\"},\"reply_markup\":{\"inline_keyboard\":[[{\"text\":\"Button1\",\"callback_data\":\"Callback\"}]]},\"url\":\"Url\",\"hide_url\":false,\"description\":\"Description\",\"thumb_url\":\"ThumbUrl\",\"thumb_width\":10,\"thumb_height\":20},{\"type\":\"photo\",\"id\":\"1\",\"photo_url\":\"PhotoUrl\",\"mime_type\":\"image/jpg\",\"photo_width\":10,\"photo_height\":20,\"thumb_url\":\"ThumbUrl\",\"title\":\"Title\",\"description\":\"Description\",\"caption\":\"Caption\",\"input_message_content\":{\"message_text\":\"Text\",\"parse_mode\":\"Markdown\"},\"reply_markup\":{\"inline_keyboard\":[[{\"text\":\"Button1\",\"callback_data\":\"Callback\"}]]}}],\"cache_time\":100,\"is_personal\":true,\"next_offset\":\"3\",\"switch_pm_text\":\"pmText\",\"switch_pm_parameter\":\"PmParameter\",\"method\":\"answerInlineQuery\"}", map(result));
+        assertEquals("{\"inline_query_id\":\"id\",\"results\":[{\"type\":\"article\",\"id\":\"0\",\"title\":\"Title\",\"input_message_content\":{\"message_text\":\"Text\",\"parse_mode\":\"Markdown\"},\"reply_markup\":{\"inline_keyboard\":[[{\"text\":\"Button1\",\"callback_data\":\"Callback\"}]]},\"url\":\"Url\",\"hide_url\":false,\"description\":\"Description\",\"thumb_url\":\"ThumbUrl\",\"thumb_width\":10,\"thumb_height\":20},{\"type\":\"photo\",\"id\":\"1\",\"photo_url\":\"PhotoUrl\",\"mime_type\":\"image/jpg\",\"photo_width\":10,\"photo_height\":20,\"thumb_url\":\"ThumbUrl\",\"title\":\"Title\",\"description\":\"Description\",\"caption\":\"Caption\",\"input_message_content\":{\"message_text\":\"Text\",\"parse_mode\":\"Markdown\"},\"reply_markup\":{\"inline_keyboard\":[[{\"text\":\"Button1\",\"callback_data\":\"Callback\"}]]},\"caption_entities\":[]}],\"cache_time\":100,\"is_personal\":true,\"next_offset\":\"3\",\"switch_pm_text\":\"pmText\",\"switch_pm_parameter\":\"PmParameter\",\"method\":\"answerInlineQuery\"}",
+                map(result));
     }
 
     @Test
@@ -127,9 +128,8 @@ public class TestRestApi extends JerseyTest {
                         .post(entity, EditMessageCaption.class);
 
         assertEquals("{\"chat_id\":\"ChatId\",\"message_id\":1,\"caption\":\"Caption\"," +
-                "\"reply_markup\":{\"inline_keyboard\":[[{" +
-                "\"text\":\"Button1\",\"callback_data\":\"Callback\"}]]},\"method\":" +
-                "\"editmessagecaption\"}", map(result));
+                "\"reply_markup\":{\"inline_keyboard\":[[{\"text\":\"Button1\",\"callback_data\":\"Callback\"}]]}," +
+                "\"caption_entities\":[],\"method\":\"editmessagecaption\"}", map(result));
     }
 
     @Test
@@ -422,10 +422,10 @@ public class TestRestApi extends JerseyTest {
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, SendInvoice.class);
 
-        assertEquals("{\"chat_id\":12345,\"title\":\"Random title\",\"description\":\"Random description\"" +
-                ",\"payload\":\"Random Payload\",\"provider_token\":\"Random provider token\",\"start_parameter\":" +
-                "\"STARTPARAM\",\"currency\":\"EUR\",\"prices\":[{\"label\":\"LABEL\"," +
-                "\"amount\":1000}],\"method\":\"sendinvoice\"}", map(result));
+        assertEquals("{\"chat_id\":\"12345\",\"title\":\"Random title\",\"description\":\"Random description\"," +
+                "\"payload\":\"Random Payload\",\"provider_token\":\"Random provider token\",\"start_parameter\":\"STARTPARAM\"," +
+                "\"currency\":\"EUR\",\"prices\":[{\"label\":\"LABEL\",\"amount\":1000}],\"max_tip_amount\":100," +
+                "\"suggested_tip_amounts\":[10,50,75],\"method\":\"sendinvoice\"}", map(result));
     }
 
     private Update getUpdate() {

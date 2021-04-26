@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.updatesreceivers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -24,9 +23,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * Rest api to for webhook callback function
  */
 @Path(Constants.WEBHOOK_URL_PATH)
+@Slf4j
 public class RestApi {
-    private static final Logger log = LoggerFactory.getLogger(RestApi.class);
-
     private final ConcurrentHashMap<String, WebhookBot> callbacks = new ConcurrentHashMap<>();
 
     public RestApi() {

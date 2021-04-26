@@ -67,7 +67,7 @@ public class StopPoll extends BotApiMethod<Poll> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null) {
+        if (chatId == null || chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
         if (messageId == null || messageId == 0) {

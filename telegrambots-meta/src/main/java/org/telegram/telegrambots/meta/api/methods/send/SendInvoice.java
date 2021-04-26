@@ -2,6 +2,7 @@ package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.base.Strings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.Singular;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
@@ -62,10 +64,12 @@ public class SendInvoice extends BotApiMethod<Message> {
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String PROVIDER_DATA_FIELD = "provider_data";
     private static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
+    private static final String MAXTIPAMOUNT_FIELD = "max_tip_amount";
+    private static final String SUGGESTEDTIPAMOUNTS_FIELD = "suggested_tip_amounts";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
-    private Integer chatId; ///< Unique identifier for the target private chat
+    private String chatId; ///< Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     @JsonProperty(TITLE_FIELD)
     @NonNull
     private String title; ///< Product name
@@ -78,14 +82,22 @@ public class SendInvoice extends BotApiMethod<Message> {
     @JsonProperty(PROVIDER_TOKEN_FIELD)
     @NonNull
     private String providerToken; ///< Payments provider token, obtained via Botfather
+    /**
+     * Optional
+     * Unique deep-linking parameter. If left empty, forwarded copies of the sent message will have a Pay button,
+     * allowing multiple users to pay directly from the forwarded message, using the same invoice.
+     * If non-empty, forwarded copies of the sent message will have a URL button with a deep link to the bot (instead of a Pay button),
+     * with the value used as the start parameter
+     */
     @JsonProperty(START_PARAMETER_FIELD)
     @NonNull
-    private String startParameter; ///< Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter.
+    private String startParameter;
     @JsonProperty(CURRENCY_FIELD)
     @NonNull
     private String currency; ///< 3-letter ISO 4217 currency code
     @JsonProperty(PRICES_FIELD)
     @NonNull
+    @Singular
     private List<LabeledPrice> prices; ///< Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
     /**
      * Optional. URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service.
@@ -134,6 +146,21 @@ public class SendInvoice extends BotApiMethod<Message> {
     private String providerData;
     @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
+    /**
+     * The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double).
+     * For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145.
+     * Defaults to 0
+     */
+    @JsonProperty(MAXTIPAMOUNT_FIELD)
+    private Integer maxTipAmount;
+    /**
+     * A JSON-serialized array of suggested amounts of tips in the smallest units of the currency (integer, not float/double).
+     * At most 4 suggested tip amounts can be specified.
+     * The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount.
+     */
+    @JsonProperty(SUGGESTEDTIPAMOUNTS_FIELD)
+    @Singular
+    private List<Integer> suggestedTipAmounts;
 
     @Override
     public String getMethod() {
@@ -157,25 +184,25 @@ public class SendInvoice extends BotApiMethod<Message> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null) {
+        if (Strings.isNullOrEmpty(chatId)) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
-        if (title == null || title.isEmpty()) {
+        if (Strings.isNullOrEmpty(title)) {
             throw new TelegramApiValidationException("Title parameter can't be empty", this);
         }
-        if (description == null || description.isEmpty()) {
+        if (Strings.isNullOrEmpty(description)) {
             throw new TelegramApiValidationException("Description parameter can't be empty", this);
         }
-        if (payload == null || payload.isEmpty()) {
+        if (Strings.isNullOrEmpty(payload)) {
             throw new TelegramApiValidationException("Payload parameter can't be empty", this);
         }
-        if (providerToken == null || providerToken.isEmpty()) {
+        if (Strings.isNullOrEmpty(providerToken)) {
             throw new TelegramApiValidationException("ProviderToken parameter can't be empty", this);
         }
-        if (startParameter == null || startParameter.isEmpty()) {
+        if (Strings.isNullOrEmpty(startParameter)) {
             throw new TelegramApiValidationException("StartParameter parameter can't be empty", this);
         }
-        if (currency == null || currency.isEmpty()) {
+        if (Strings.isNullOrEmpty(currency)) {
             throw new TelegramApiValidationException("Currency parameter can't be empty", this);
         }
         if (prices == null || prices.isEmpty()) {
@@ -184,6 +211,9 @@ public class SendInvoice extends BotApiMethod<Message> {
             for (LabeledPrice price : prices) {
                 price.validate();
             }
+        }
+        if (suggestedTipAmounts != null && !suggestedTipAmounts.isEmpty() && suggestedTipAmounts.size() > 4) {
+            throw new TelegramApiValidationException("No more that 4 suggested tips allowed", this);
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
