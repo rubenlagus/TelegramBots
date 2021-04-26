@@ -51,7 +51,7 @@ class TestDeserialization {
     }
 
     @Test
-    void TestListUpdates() throws Exception {
+    void testListUpdates() throws Exception {
         String updateText = "{\"ok\":true,\"result\":[{\"update_id\":79995144,\n" +
                 "\"message\":{\"message_id\":90,\"from\":{\"id\":1234567,\"is_bot\":false,\"first_name\":\"MyFirstName\",\"username\":\"MyUsername\",\"language_code\":\"en\"},\"chat\":{\"id\":1234567,\"first_name\":\"MyFirstName\",\"username\":\"MyUsername\",\"type\":\"private\"},\"date\":1604154223,\"text\":\"/start\",\"entities\":[{\"offset\":0,\"length\":6,\"type\":\"bot_command\"}]}},{\"update_id\":79995145,\n" +
                 "\"message\":{\"message_id\":91,\"from\":{\"id\":12345678,\"is_bot\":false,\"first_name\":\"MyFirstName\",\"username\":\"MyUsername\",\"language_code\":\"it\"},\"chat\":{\"id\":12345678,\"first_name\":\"MyFirstName\",\"username\":\"MyUsername\",\"type\":\"private\"},\"date\":1604154306,\"text\":\"/start\",\"entities\":[{\"offset\":0,\"length\":6,\"type\":\"bot_command\"}]}},{\"update_id\":79995146,\n" +
@@ -89,7 +89,7 @@ class TestDeserialization {
     }
 
     @Test
-    void TestListUpdates2() throws Exception {
+    void testListUpdates2() throws Exception {
         String updateText = "{\"ok\":true,\"result\":[{\"update_id\":259894298,\n" +
                 "\"message\":{\"message_id\":101,\"from\":{\"id\":12345678,\"is_bot\":false,\"first_name\":\"FistName\",\"last_name\":\"LastName\",\"username\":\"username\"},\"chat\":{\"id\":12345678,\"first_name\":\"FistName\",\"last_name\":\"LastName\",\"username\":\"username\",\"type\":\"private\"},\"date\":1604171814,\"text\":\"/start\",\"entities\":[{\"offset\":0,\"length\":6,\"type\":\"bot_command\"}]}},{\"update_id\":259894299,\n" +
                 "\"message\":{\"message_id\":102,\"from\":{\"id\":12345678,\"is_bot\":false,\"first_name\":\"FistName\",\"last_name\":\"LastName\",\"username\":\"username\",\"language_code\":\"en\"},\"chat\":{\"id\":12345678,\"first_name\":\"FistName\",\"last_name\":\"LastName\",\"username\":\"username\",\"type\":\"private\"},\"date\":1604188661,\"text\":\"/start\",\"entities\":[{\"offset\":0,\"length\":6,\"type\":\"bot_command\"}]}},{\"update_id\":259894300,\n" +
@@ -106,7 +106,7 @@ class TestDeserialization {
     }
 
     @Test
-    void TestListUpdates3() throws Exception {
+    void testListUpdates3() throws Exception {
         String updateText = "{\"ok\":true,\"result\":[{\"update_id\":259894302,\n" +
                 "\"message\":{\"message_id\":105,\"from\":{\"id\":12345678,\"is_bot\":false,\"first_name\":\"FirstName\",\"username\":\"Username\"},\"chat\":{\"id\":12345678,\"first_name\":\"FirstName\",\"username\":\"Username\",\"type\":\"private\"},\"date\":1604226451,\"text\":\"/start\",\"entities\":[{\"offset\":0,\"length\":6,\"type\":\"bot_command\"}]}},{\"update_id\":259894303,\n" +
                 "\"message\":{\"message_id\":106,\"from\":{\"id\":12345678,\"is_bot\":false,\"first_name\":\"FirstName\",\"username\":\"Username\",\"language_code\":\"en\"},\"chat\":{\"id\":12345678,\"first_name\":\"FirstName\",\"username\":\"Username\",\"type\":\"private\"},\"date\":1604226480,\"document\":{\"file_name\":\"aaa.txt\",\"mime_type\":\"text/plain\",\"file_id\":\"FILEID\",\"file_unique_id\":\"AgADiQEAAjTe-VQ\",\"file_size\":2}}},{\"update_id\":259894304,\n" +
@@ -165,7 +165,7 @@ class TestDeserialization {
     }
 
     @Test
-    void TestListUpdatesVoiceChat() throws Exception {
+    void testListUpdatesVoiceChat() throws Exception {
         String updateText = "{\n" +
                 "    \"ok\": true,\n" +
                 "    \"result\": [\n" +
@@ -289,7 +289,7 @@ class TestDeserialization {
     }
 
     @Test
-    void TestDeserializationCloseMethod() throws Exception {
+    void testDeserializationCloseMethod() throws Exception {
         String updateText = "{\"ok\":true,\"result\": true}";
 
         Boolean response = new Close().deserializeResponse(updateText);
@@ -298,7 +298,7 @@ class TestDeserialization {
     }
 
     @Test
-    void TestDeserializationChatMember() throws Exception {
+    void testDeserializationChatMember() throws Exception {
         String updateText = "{\n" +
                 "    \"ok\": true,\n" +
                 "    \"result\": {\n" +
@@ -344,7 +344,50 @@ class TestDeserialization {
     }
 
     @Test
-    void TestDeserializationLogoutMethod() throws Exception {
+    void testDeserializationMessageAutodeleteChanged() throws Exception {
+        String updateText = "{\n" +
+                "    \"ok\": true,\n" +
+                "    \"result\": [\n" +
+                "        {\n" +
+                "            \"update_id\": 259894298,\n" +
+                "            \"message\": {\n" +
+                "                \"message_id\": 101,\n" +
+                "                \"from\": {\n" +
+                "                    \"id\": 12345678,\n" +
+                "                    \"is_bot\": false,\n" +
+                "                    \"first_name\": \"FistName\",\n" +
+                "                    \"last_name\": \"LastName\",\n" +
+                "                    \"username\": \"username\"\n" +
+                "                },\n" +
+                "                \"chat\": {\n" +
+                "                    \"id\": 12345678,\n" +
+                "                    \"first_name\": \"FistName\",\n" +
+                "                    \"last_name\": \"LastName\",\n" +
+                "                    \"username\": \"username\",\n" +
+                "                    \"type\": \"private\"\n" +
+                "                },\n" +
+                "                \"date\": 1604171814,\n" +
+                "                \"message_auto_delete_timer_changed\": {\n" +
+                "                    \"message_auto_delete_time\": 100\n" +
+                "                }\n" +
+                "            \n" +
+                "            }\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}";
+
+        ArrayList<Update> response = new GetUpdates().deserializeResponse(updateText);
+
+        assertNotNull(response);
+        assertEquals(1, response.size());
+        assertNotNull(response.get(0));
+        assertNotNull(response.get(0).getMessage());
+        assertNotNull(response.get(0).getMessage().getMessageAutoDeleteTimerChanged());
+        assertEquals(100, response.get(0).getMessage().getMessageAutoDeleteTimerChanged().getMessageAutoDeleteTime());
+    }
+
+    @Test
+    void testDeserializationLogoutMethod() throws Exception {
         String updateText = "{\"ok\":true,\"result\": true}";
 
         Boolean response = new LogOut().deserializeResponse(updateText);
@@ -353,7 +396,7 @@ class TestDeserialization {
     }
 
     @Test
-    void TestDeserializationGetMyCommandsMethod() throws Exception {
+    void testDeserializationGetMyCommandsMethod() throws Exception {
         String updateText = "{\n" +
                 "    \"ok\": true,\n" +
                 "    \"result\": [\n" +

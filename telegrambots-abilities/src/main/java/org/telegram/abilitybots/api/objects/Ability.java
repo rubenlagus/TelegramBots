@@ -200,6 +200,11 @@ public final class Ability {
       return this;
     }
 
+    public AbilityBuilder setStatsEnabled(boolean statsEnabled) {
+      this.statsEnabled = statsEnabled;
+      return this;
+    }
+
     public AbilityBuilder privacy(Privacy privacy) {
       this.privacy = privacy;
       return this;

@@ -1,3 +1,9 @@
+### <a id="5.2.0"></a>5.2.0 ###
+1. Update Api version [5.2](https://core.telegram.org/bots/api#april-26-2021)
+2. Allow custom BackOff implementations
+3. Spring version 2.4.5 in spring module
+4. Bug fixing: #869, #888 and #892
+
 ### <a id="5.1.1"></a>5.1.1 ###
 1.  Bug fixing: #874
 

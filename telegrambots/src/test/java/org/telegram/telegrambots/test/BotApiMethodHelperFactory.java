@@ -71,7 +71,7 @@ public final class BotApiMethodHelperFactory {
                 .text("Hithere")
                 .replyToMessageId(12)
                 .parseMode(ParseMode.HTML)
-                .replyMarkup(new ForceReplyKeyboard())
+                .replyMarkup(ForceReplyKeyboard.builder().forceReply(true).build())
                 .build();
     }
 
@@ -362,12 +362,16 @@ public final class BotApiMethodHelperFactory {
 
         return SendInvoice
                 .builder()
-                .chatId(12345)
+                .chatId("12345")
                 .title("Random title")
                 .description("Random description")
                 .payload("Random Payload")
                 .providerToken("Random provider token")
                 .startParameter("STARTPARAM")
+                .maxTipAmount(100)
+                .suggestedTipAmount(10)
+                .suggestedTipAmount(50)
+                .suggestedTipAmount(75)
                 .currency("EUR")
                 .prices(prices)
                 .build();

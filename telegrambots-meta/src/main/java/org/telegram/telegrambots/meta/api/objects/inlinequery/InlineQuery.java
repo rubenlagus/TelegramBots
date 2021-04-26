@@ -34,6 +34,7 @@ public class InlineQuery implements BotApiObject {
     private static final String LOCATION_FIELD = "location";
     private static final String QUERY_FIELD = "query";
     private static final String OFFSET_FIELD = "offset";
+    private static final String CHATTYPE_FIELD = "chat_type";
 
     @JsonProperty(ID_FIELD)
     @NonNull
@@ -49,5 +50,13 @@ public class InlineQuery implements BotApiObject {
     @JsonProperty(OFFSET_FIELD)
     @NonNull
     private String offset; ///< Offset of the results to be returned, can be controlled by the bot
+    /**
+     * Optional. Type of the chat, from which the inline query was sent.
+     * Can be either “sender” for a private chat with the inline query sender, “private”, “group”, “supergroup”, or “channel”.
+     * The chat type should be always known for requests sent from official clients and most third-party clients,
+     * unless the request was sent from a secret chat
+     */
+    @JsonProperty(CHATTYPE_FIELD)
+    private String chatType;
 }
 

@@ -25,8 +25,10 @@ import java.util.List;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * Use this method to copy messages of any kind. The method is analogous to the method forwardMessages,
- * but the copied message doesn't have a link to the original message.
+ * Use this method to copy messages of any kind.
+ * Service messages and invoice messages can't be copied.
+ *
+ * The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message.
  * Returns the MessageId of the sent message on success.
  */
 @SuppressWarnings("unused")
@@ -138,7 +140,7 @@ public class CopyMessage extends BotApiMethod<MessageId> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null) {
+        if (chatId == null || chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
         if (fromChatId == null) {

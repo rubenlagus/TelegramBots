@@ -5,7 +5,7 @@ import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.protocol.HttpContext;
 import org.telegram.telegrambots.meta.ApiConstants;
 import org.telegram.telegrambots.meta.generics.BotOptions;
-import org.telegram.telegrambots.updatesreceivers.ExponentialBackOff;
+import org.telegram.telegrambots.meta.generics.BackOff;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class DefaultBotOptions implements BotOptions {
     private int maxThreads; ///< Max number of threads used for async methods executions (default 1)
     private RequestConfig requestConfig;
     private volatile HttpContext httpContext;
-    private ExponentialBackOff exponentialBackOff;
+    private BackOff backOff;
     private Integer maxWebhookConnections;
     private String baseUrl;
     private List<String> allowedUpdates;
@@ -91,23 +91,23 @@ public class DefaultBotOptions implements BotOptions {
     }
 
     /**
-     * @implSpec Default implementation assumes no proxy is needed and sets a 75secs timoute
      * @param requestConfig Request config to be used in all Http requests
+     * @implSpec Default implementation assumes no proxy is needed and sets a 75secs timoute
      */
     public void setRequestConfig(RequestConfig requestConfig) {
         this.requestConfig = requestConfig;
     }
 
-    public ExponentialBackOff getExponentialBackOff() {
-        return exponentialBackOff;
+    public BackOff getBackOff() {
+        return backOff;
     }
 
     /**
+     * @param BackOff backOff to be used when long polling fails
      * @implSpec Default implementation assumes starting at 500ms and max time of 60 minutes
-     * @param exponentialBackOff ExponentialBackOff to be used when long polling fails
      */
-    public void setExponentialBackOff(ExponentialBackOff exponentialBackOff) {
-        this.exponentialBackOff = exponentialBackOff;
+    public void setBackOff(BackOff BackOff) {
+        this.backOff = BackOff;
     }
 
     public ProxyType getProxyType() {

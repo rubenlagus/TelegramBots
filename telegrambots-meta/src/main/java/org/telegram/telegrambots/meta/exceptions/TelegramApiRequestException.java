@@ -84,14 +84,30 @@ public class TelegramApiRequestException extends TelegramApiException {
         return parameters;
     }
 
+    /**
+     * More detailed error description.
+     * 
+     * @return assembled response code and reason
+     */
     @Override
-    public String toString() {
+    public String getMessage() {
         if (apiResponse == null) {
-            return super.toString();
+            return super.getMessage();
         } else if (errorCode == null) {
-            return super.toString() + ": " + apiResponse;
+            return super.getMessage() + ": " + apiResponse;
         } else {
-            return super.toString() + ": [" + errorCode + "] " + apiResponse;
+            return super.getMessage() + ": [" + errorCode + "] " + apiResponse;
         }
     }
+    
+    /**
+     * Just left as backward compatibility if anybody used this in version 5.2.0 or older.
+     *
+     * @return the getMessage string
+     */
+    @Override
+    public String toString() {
+        return getMessage();
+    }
+    
 }
