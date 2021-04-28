@@ -3,22 +3,31 @@ package org.telegram.telegrambots.meta.api.methods;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Types of actions for SendChatAction method.
- * @date 20 of June of 2016
+ * Types of actions for SendChatAction method.
  */
 public enum ActionType {
     TYPING("typing"),
     RECORDVIDEO("record_video"),
     RECORDVIDEONOTE("record_video_note"),
+    /**
+     * @deprecated Use  {@link #RECORDVOICE} instead
+     */
+    @Deprecated
     RECORDAUDIO("record_audio"),
+    RECORDVOICE("record_voice"),
     UPLOADPHOTO("upload_photo"),
     UPLOADVIDEO("upload_video"),
     UPLOADVIDEONOTE("upload_video_note"),
+    /**
+     * @deprecated Use  {@link #UPLOADVOICE} instead
+     */
+    @Deprecated
     UPLOADAUDIO("upload_audio"),
+    UPLOADVOICE("upload_voice"),
     UPLOADDOCUMENT("upload_document"),
     FINDLOCATION("find_location");
 
-    private String text;
+    private final String text;
 
     ActionType(String text) {
         this.text = text;
@@ -41,7 +50,8 @@ public enum ActionType {
             case "record_video_note":
                 return RECORDVIDEONOTE;
             case "record_audio":
-                return RECORDAUDIO;
+            case "record_voice":
+                return RECORDVOICE;
             case "upload_photo":
                 return UPLOADPHOTO;
             case "upload_video":
@@ -49,7 +59,8 @@ public enum ActionType {
             case "upload_video_note":
                 return UPLOADVIDEONOTE;
             case "upload_audio":
-                return UPLOADAUDIO;
+            case "upload_voice":
+                return UPLOADVOICE;
             case "upload_document":
                 return UPLOADDOCUMENT;
             case "find_location":

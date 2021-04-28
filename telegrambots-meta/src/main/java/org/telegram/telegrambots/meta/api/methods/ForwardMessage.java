@@ -21,7 +21,10 @@ import java.io.IOException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * Use this method to send text messages. On success, the sent Message is returned.
+ * Use this method to forward messages of any kind.
+ * Service messages can't be forwarded.
+ *
+ * On success, the sent Message is returned.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter

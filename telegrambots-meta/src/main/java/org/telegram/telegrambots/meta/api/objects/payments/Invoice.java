@@ -34,8 +34,11 @@ public class Invoice implements BotApiObject {
     private String title; ///< Product name
     @JsonProperty(DESCRIPTION_FIELD)
     private String description; ///< Product description
+    /**
+     * 	Unique bot deep-linking parameter that can be used to generate this invoice; may be empty
+     */
     @JsonProperty(START_PARAMETER_FIELD)
-    private String startParameter; ///< Unique bot deep-linking parameter for generation of this invoice
+    private String startParameter;
     @JsonProperty(CURRENCY_FIELD)
     private String currency; ///< Three-letter ISO 4217 currency code
     /**
