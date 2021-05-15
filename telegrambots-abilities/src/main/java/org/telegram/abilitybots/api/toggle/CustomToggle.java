@@ -3,12 +3,11 @@ package org.telegram.abilitybots.api.toggle;
 import org.telegram.abilitybots.api.objects.Ability;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
 /**
- * This custom toggle can be used to customize default abilities supplied by the library. Users can call {@link CustomToggle#config} to
+ * This custom toggle can be used to customize default abilities supplied by the library. Users can call {@link CustomToggle#toggle} to
  * rename the default abilities or {@link CustomToggle#turnOff} to simply turn off the said ability.
  */
 public class CustomToggle implements AbilityToggle {
