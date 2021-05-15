@@ -7,7 +7,9 @@ import org.telegram.abilitybots.api.bot.DefaultAbilities;
 import org.telegram.abilitybots.api.bot.DefaultBot;
 import org.telegram.abilitybots.api.db.DBContext;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Properties;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,10 +19,12 @@ class CustomToggleTest {
   private DBContext db;
   private AbilityToggle toggle;
   private DefaultBot customBot;
+  private String filename;
 
   @BeforeEach
   void setUp() {
     db = offlineInstance("db");
+    filename = "src/test/resources/toggle.properties";
   }
 
   @AfterEach
@@ -44,6 +48,39 @@ class CustomToggleTest {
     customBot = new DefaultBot(EMPTY, EMPTY, db, toggle);
     customBot.onRegister();
 
+    assertTrue(customBot.abilities().containsKey(targetName));
+  }
+
+  @Test
+  public void canTurnOffAbilitiesThroughProperties() {
+    Properties properties = new Properties();
+    try {
+      properties.load(new FileInputStream(filename));
+      toggle = new CustomToggle().config(properties);
+    } catch (IOException e) {
+      System.out.println("No such file");
+    }
+
+    customBot = new DefaultBot(EMPTY, EMPTY, db, toggle);
+    customBot.onRegister();
+
+    assertFalse(customBot.abilities().containsKey(DefaultAbilities.CLAIM));
+  }
+
+  @Test
+  public void canProcessAbilitiesThroughProperties() {
+    Properties properties = new Properties();
+    try {
+      properties.load(new FileInputStream(filename));
+      toggle = new CustomToggle().config(properties);
+    } catch (IOException e) {
+      System.out.println("No such file");
+    }
+
+    customBot = new DefaultBot(EMPTY, EMPTY, db, toggle);
+    customBot.onRegister();
+
+    String targetName = "restrict";
     assertTrue(customBot.abilities().containsKey(targetName));
   }
 
