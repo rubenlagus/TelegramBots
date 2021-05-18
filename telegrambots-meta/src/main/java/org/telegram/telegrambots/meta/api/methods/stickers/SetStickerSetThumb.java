@@ -31,7 +31,7 @@ import java.io.IOException;
 @AllArgsConstructor
 @Builder
 public class SetStickerSetThumb extends BotApiMethod<Boolean> {
-    private static final String PATH = "setStickerSetThumb";
+    public static final String PATH = "setStickerSetThumb";
 
     public static final String NAME_FIELD = "name";
     public static final String USERID_FIELD = "user_id";

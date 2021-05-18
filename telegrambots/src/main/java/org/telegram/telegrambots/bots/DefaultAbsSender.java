@@ -610,7 +610,7 @@ public abstract class DefaultAbsSender extends AbsSender {
         assertParamNotNull(setStickerSetThumb, "setStickerSetThumb");
         setStickerSetThumb.validate();
         try {
-            String url = getBaseUrl() + AddStickerToSet.PATH;
+            String url = getBaseUrl() + SetStickerSetThumb.PATH;
             HttpPost httppost = configuredHttpPost(url);
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.setLaxMode();
