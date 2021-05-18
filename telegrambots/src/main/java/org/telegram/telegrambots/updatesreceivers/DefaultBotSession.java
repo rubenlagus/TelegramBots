@@ -276,7 +276,7 @@ public class DefaultBotSession implements BotSession {
                 NumberOfContinuousInterError = 0;
             } catch (InvalidObjectException | TelegramApiRequestException e) {
                 log.error(e.getLocalizedMessage(), e);
-            } catch (SocketException | SocketTimeoutException | UnknownHostException e) {
+            } catch (SocketException | SocketTimeoutException) {
                 log.info(e.getLocalizedMessage(), e);
                 NumberOfContinuousNetworkError++;
             } catch (InterruptedException e) {
