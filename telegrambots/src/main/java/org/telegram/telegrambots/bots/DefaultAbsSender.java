@@ -623,7 +623,7 @@ public abstract class DefaultAbsSender extends AbsSender {
 
             return setStickerSetThumb.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
-            throw new TelegramApiException("Unable to add sticker to set", e);
+            throw new TelegramApiException("Unable to set sticker set thumb", e);
         }
     }
 
