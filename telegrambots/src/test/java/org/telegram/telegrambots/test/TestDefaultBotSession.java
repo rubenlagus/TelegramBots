@@ -155,7 +155,15 @@ public class TestDefaultBotSession {
         DefaultBotSession session = new DefaultBotSession();
         session.setOptions(options);
     }
-
+    
+    @Test
+    public void testDefaultBotSessionIsConnectFine() throws IOException {
+        session = getDefaultBotSession();
+        session.start();
+        Assert.assertFalse(session.isConnectFine());
+        session.stop();
+    }
+    
     @Test
     public void testDefaultBotSessionWithCustomConstantBackOff() {
         DefaultBotOptions options = new DefaultBotOptions();
