@@ -56,9 +56,17 @@ public class DefaultBotSession implements BotSession {
     private DefaultBotOptions options;
     private UpdatesSupplier updatesSupplier;
 
+    private int NumberOfContinuousNetworkError = 0;
+
+    private int NumberOfContinuousInterError = 0;
+    
     public DefaultBotSession() {
     }
 
+    public boolean isConnectFine(){
+        return NumberOfContinuousInterError >= 5 || NumberOfContinuousNetworkError >= 5;
+    }
+    
     @Override
     public synchronized void start() {
         if (running.get()) {
@@ -264,14 +272,18 @@ public class DefaultBotSession implements BotSession {
                         log.error("Error deserializing update: " + responseContent, e);
                     }
                 }
-            } catch (SocketException | InvalidObjectException | TelegramApiRequestException e) {
+                NumberOfContinuousNetworkError = 0;
+                NumberOfContinuousInterError = 0;
+            } catch (InvalidObjectException | TelegramApiRequestException e) {
                 log.error(e.getLocalizedMessage(), e);
-            } catch (SocketTimeoutException e) {
+            } catch (SocketException | SocketTimeoutException | UnknownHostException e) {
                 log.info(e.getLocalizedMessage(), e);
+                NumberOfContinuousNetworkError++;
             } catch (InterruptedException e) {
                 log.info(e.getLocalizedMessage(), e);
                 interrupt();
             } catch (InternalError e) {
+                NumberOfContinuousInterError++;
                 // handle InternalError to workaround OpenJDK bug (resolved since 13.0)
                 // https://bugs.openjdk.java.net/browse/JDK-8173620
                 if (e.getCause() instanceof InvocationTargetException) {
