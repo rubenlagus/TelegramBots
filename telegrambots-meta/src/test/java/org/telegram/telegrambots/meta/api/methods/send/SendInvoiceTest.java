@@ -68,14 +68,6 @@ public class SendInvoiceTest {
     }
 
     @Test
-    public void startParameterCantBeEmpty() {
-        SendInvoice sendInvoice = createSendInvoiceObject();
-        sendInvoice.setStartParameter("");
-        Throwable thrown = assertThrows(TelegramApiValidationException.class, sendInvoice::validate);
-        assertEquals("StartParameter parameter can't be empty", thrown.getMessage());
-    }
-
-    @Test
     public void currencyCantBeEmpty() {
         SendInvoice sendInvoice = createSendInvoiceObject();
         sendInvoice.setCurrency("");

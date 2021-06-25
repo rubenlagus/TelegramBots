@@ -199,9 +199,6 @@ public class SendInvoice extends BotApiMethod<Message> {
         if (Strings.isNullOrEmpty(providerToken)) {
             throw new TelegramApiValidationException("ProviderToken parameter can't be empty", this);
         }
-        if (Strings.isNullOrEmpty(startParameter)) {
-            throw new TelegramApiValidationException("StartParameter parameter can't be empty", this);
-        }
         if (Strings.isNullOrEmpty(currency)) {
             throw new TelegramApiValidationException("Currency parameter can't be empty", this);
         }
