@@ -24,7 +24,7 @@ import java.time.ZonedDateTime;
 
 /**
  * @author Ruben Bermudez
- * @version 1.0
+ * @version 5.3
  * Use this method to kick a user from a group, a supergroup or a channel. In the case of supergroups,
  * the user will not be able to return to the group on their own using invite links, etc., unless
  * unbanned first. The bot must be an administrator in the group for this to work. Returns True on
@@ -32,8 +32,6 @@ import java.time.ZonedDateTime;
  * @apiNote  This will method only work if the ‘All Members Are Admins’ setting is off in the target
  * group. Otherwise members may only be removed by the group's creator or by the member that added
  * them.
- *
- * @deprecated Use {@link BanChatMember#BanChatMember()} instead
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -43,9 +41,8 @@ import java.time.ZonedDateTime;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-@Deprecated
-public class KickChatMember extends BotApiMethod<Boolean> {
-    public static final String PATH = "kickchatmember";
+public class BanChatMember extends BotApiMethod<Boolean> {
+    public static final String PATH = "banChatMember";
 
     private static final String CHATID_FIELD = "chat_id";
     private static final String USER_ID_FIELD = "user_id";
@@ -113,8 +110,8 @@ public class KickChatMember extends BotApiMethod<Boolean> {
         if (chatId == null || chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
-        if (userId == null) {
-            throw new TelegramApiValidationException("UserId can't be null", this);
+        if (userId == null || userId == 0) {
+            throw new TelegramApiValidationException("UserId can't be null or 0", this);
         }
     }
 }

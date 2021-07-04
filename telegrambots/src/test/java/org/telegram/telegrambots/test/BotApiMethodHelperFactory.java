@@ -11,11 +11,11 @@ import org.telegram.telegrambots.meta.api.methods.GetUserProfilePhotos;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.games.GetGameHighScores;
 import org.telegram.telegrambots.meta.api.methods.games.SetGameScore;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.BanChatMember;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChat;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdministrators;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMember;
-import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMembersCount;
-import org.telegram.telegrambots.meta.api.methods.groupadministration.KickChatMember;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMemberCount;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.LeaveChat;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.UnbanChatMember;
 import org.telegram.telegrambots.meta.api.methods.send.SendChatAction;
@@ -30,12 +30,12 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageCa
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Chat;
-import org.telegram.telegrambots.meta.api.objects.ChatMember;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.UserProfilePhotos;
 import org.telegram.telegrambots.meta.api.objects.WebhookInfo;
+import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 import org.telegram.telegrambots.meta.api.objects.games.GameHighScore;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputTextMessageContent;
@@ -159,8 +159,8 @@ public final class BotApiMethodHelperFactory {
                 .build();
     }
 
-    public static BotApiMethod<Integer> getChatMembersCount() {
-        return GetChatMembersCount
+    public static BotApiMethod<Integer> getChatMemberCount() {
+        return GetChatMemberCount
                 .builder()
                 .chatId("12345")
                 .build();
@@ -199,8 +199,8 @@ public final class BotApiMethodHelperFactory {
         return new GetWebhookInfo();
     }
 
-    public static BotApiMethod<Boolean> getKickChatMember() {
-        return KickChatMember
+    public static BotApiMethod<Boolean> getBanChatMember() {
+        return BanChatMember
                 .builder()
                 .chatId("12345")
                 .userId(98765L)

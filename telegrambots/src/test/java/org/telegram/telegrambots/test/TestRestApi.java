@@ -16,11 +16,11 @@ import org.telegram.telegrambots.meta.api.methods.GetMe;
 import org.telegram.telegrambots.meta.api.methods.GetUserProfilePhotos;
 import org.telegram.telegrambots.meta.api.methods.games.GetGameHighScores;
 import org.telegram.telegrambots.meta.api.methods.games.SetGameScore;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.BanChatMember;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChat;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdministrators;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMember;
-import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMembersCount;
-import org.telegram.telegrambots.meta.api.methods.groupadministration.KickChatMember;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMemberCount;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.LeaveChat;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.UnbanChatMember;
 import org.telegram.telegrambots.meta.api.methods.send.SendChatAction;
@@ -35,13 +35,13 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageCa
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Chat;
-import org.telegram.telegrambots.meta.api.objects.ChatMember;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.UserProfilePhotos;
 import org.telegram.telegrambots.meta.api.objects.WebhookInfo;
+import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 import org.telegram.telegrambots.meta.api.objects.games.GameHighScore;
 import org.telegram.telegrambots.test.Fakes.FakeWebhook;
 import org.telegram.telegrambots.updatesreceivers.RestApi;
@@ -219,13 +219,13 @@ public class TestRestApi extends JerseyTest {
 
     @Test
     public void TestGetChatMembersCount() {
-        webhookBot.setReturnValue(BotApiMethodHelperFactory.getChatMembersCount());
+        webhookBot.setReturnValue(BotApiMethodHelperFactory.getChatMemberCount());
 
         Entity<Update> entity = Entity.json(getUpdate());
         BotApiMethod<Integer> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
-                        .post(entity, GetChatMembersCount.class);
+                        .post(entity, GetChatMemberCount.class);
 
         assertEquals("{\"chat_id\":\"12345\",\"method\":\"getChatMembersCount\"}", map(result));
     }
@@ -297,13 +297,13 @@ public class TestRestApi extends JerseyTest {
 
     @Test
     public void TestKickChatMember() {
-        webhookBot.setReturnValue(BotApiMethodHelperFactory.getKickChatMember());
+        webhookBot.setReturnValue(BotApiMethodHelperFactory.getBanChatMember());
 
         Entity<Update> entity = Entity.json(getUpdate());
         BotApiMethod<Boolean> result =
                 target("callback/testbot")
                         .request(MediaType.APPLICATION_JSON)
-                        .post(entity, KickChatMember.class);
+                        .post(entity, BanChatMember.class);
 
         assertEquals("{\"chat_id\":\"12345\",\"user_id\":98765,\"method\":\"kickchatmember\"}", map(result));
     }

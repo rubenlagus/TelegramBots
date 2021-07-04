@@ -37,6 +37,7 @@ public class ReplyKeyboardMarkup implements ReplyKeyboard {
     private static final String RESIZEKEYBOARD_FIELD = "resize_keyboard";
     private static final String ONETIMEKEYBOARD_FIELD = "one_time_keyboard";
     private static final String SELECTIVE_FIELD = "selective";
+    private static final String INPUTFIELDPLACEHOLDER_FIELD = "input_field_placeholder";
 
     @JsonProperty(KEYBOARD_FIELD)
     @NonNull
@@ -55,11 +56,20 @@ public class ReplyKeyboardMarkup implements ReplyKeyboard {
      */
     @JsonProperty(SELECTIVE_FIELD)
     private Boolean selective;
+    /**
+     * Optional.
+     * The placeholder to be shown in the input field when the keyboard is active; 1-64 characters
+     */
+    @JsonProperty(INPUTFIELDPLACEHOLDER_FIELD)
+    private String inputFieldPlaceholder;
 
     @Override
     public void validate() throws TelegramApiValidationException {
         if (keyboard == null) {
             throw new TelegramApiValidationException("Keyboard parameter can't be null", this);
+        }
+        if (inputFieldPlaceholder != null && (inputFieldPlaceholder.length() < 1 || inputFieldPlaceholder.length() > 64)) {
+            throw new TelegramApiValidationException("InputFieldPlaceholder must be between 1 and 64 characters", this);
         }
         for (KeyboardRow keyboardButtons : keyboard) {
             keyboardButtons.validate();

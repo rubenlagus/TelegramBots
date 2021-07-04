@@ -12,21 +12,15 @@ import lombok.Setter;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
-import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * @author Ruben Bermudez
- * @version 1.0
- * Use this method to get a list of administrators in a chat.
- * An Array of ChatMember objects is returned on success,
- * containing information about all chat administrators except other bots.
- * If the chat is a group or a supergroup and no administrators were appointed,
- * only the creator will be returned.
+ * @version 5.3
+ * Use this method to get the number of members in a chat. Returns Int on success.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -35,8 +29,8 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GetChatAdministrators extends BotApiMethod<ArrayList<ChatMember>> {
-    public static final String PATH = "getChatAdministrators";
+public class GetChatMemberCount extends BotApiMethod<Integer> {
+    public static final String PATH = "getChatMemberCount";
 
     private static final String CHATID_FIELD = "chat_id";
 
@@ -50,14 +44,14 @@ public class GetChatAdministrators extends BotApiMethod<ArrayList<ChatMember>> {
     }
 
     @Override
-    public ArrayList<ChatMember> deserializeResponse(String answer) throws TelegramApiRequestException {
+    public Integer deserializeResponse(String answer) throws TelegramApiRequestException {
         try {
-            ApiResponse<ArrayList<ChatMember>> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<ArrayList<ChatMember>>>(){});
+            ApiResponse<Integer> result = OBJECT_MAPPER.readValue(answer,
+                    new TypeReference<ApiResponse<Integer>>(){});
             if (result.getOk()) {
                 return result.getResult();
             } else {
-                throw new TelegramApiRequestException("Error getting chat administrators", result);
+                throw new TelegramApiRequestException("Error getting chat members count", result);
             }
         } catch (IOException e) {
             throw new TelegramApiRequestException("Unable to deserialize response", e);
