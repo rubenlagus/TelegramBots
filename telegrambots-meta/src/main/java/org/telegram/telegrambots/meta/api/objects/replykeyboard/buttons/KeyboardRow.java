@@ -4,6 +4,7 @@ import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -12,6 +13,17 @@ import java.util.List;
  * Row for ReplyKeyBoardMarkup
  */
 public class KeyboardRow extends ArrayList<KeyboardButton> implements Validable {
+    public KeyboardRow(int initialCapacity) {
+        super(initialCapacity);
+    }
+
+    public KeyboardRow() {
+    }
+
+    public KeyboardRow(Collection<? extends KeyboardButton> c) {
+        super(c);
+    }
+
     public boolean add(String text) {
         return super.add(new KeyboardButton(text));
     }

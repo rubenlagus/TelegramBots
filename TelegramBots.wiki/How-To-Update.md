@@ -1,3 +1,18 @@
+### <a id="5.3.0"></a>To version 5.3.0 ###
+1. As per API guidelines, ChatMember method has been divided in different classed. 
+   Where used in your code, replace old import with new one 
+   (GetChatAdministrators.java, GetChatMember.java, ChatMemberUpdated.java):
+   
+   `import org.telegram.telegrambots.meta.api.objects.ChatMember;`
+   
+   to
+   
+   `import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;`
+2. ChatMember is an interface now, you'll need to cast it to the corresponding implementation when using it.
+3. `GetChatMembersCount` renamed to `GetChatMemberCount`, old version will still work until next major version.
+4. `KickChatMember` renamed to `BanChatMember`, old version will still work until next major version.
+   
+
 ### <a id="5.1.0"></a>To version 5.1.0 ###
 1. All users IDs fields are now Long type as per API guidelines.
 

@@ -21,6 +21,8 @@ import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdm
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberAdministrator;
+import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberOwner;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -260,8 +262,17 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     public boolean isGroupAdmin(long chatId, long id) {
         GetChatAdministrators admins = GetChatAdministrators.builder().chatId(Long.toString(chatId)).build();
         return silent.execute(admins)
-            .orElse(new ArrayList<>()).stream()
-            .anyMatch(member -> member.getUser().getId() == id);
+                .orElse(new ArrayList<>())
+                .stream()
+                .map(member -> {
+                    if (member instanceof ChatMemberAdministrator) {
+                        return ((ChatMemberAdministrator) member).getUser().getId();
+                    } else if (member instanceof ChatMemberOwner) {
+                        return ((ChatMemberOwner) member).getUser().getId();
+                    }
+                    return 0L;
+                })
+                .anyMatch(member -> member == id);
     }
 
     public boolean isCreator(long id) {

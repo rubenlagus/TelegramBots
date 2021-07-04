@@ -1,5 +1,12 @@
+### <a id="5.3.0"></a>5.3.0 ###
+1. Update Api version [5.3](https://core.telegram.org/bots/api-changelog#june-25-2021)
+2. `KeyboardRow` now support creation from a collection of buttons.
+3. Bug fixing: #920, #931 and #937
+
+**[[How to update to version 5.3.0|How-To-Update#5.3.0]]**
+
 ### <a id="5.2.0"></a>5.2.0 ###
-1. Update Api version [5.2](https://core.telegram.org/bots/api#april-26-2021)
+1. Update Api version [5.2](https://core.telegram.org/bots/api-changelog#april-26-2021)
 2. Allow custom BackOff implementations
 3. Spring version 2.4.5 in spring module
 4. Bug fixing: #869, #888 and #892
