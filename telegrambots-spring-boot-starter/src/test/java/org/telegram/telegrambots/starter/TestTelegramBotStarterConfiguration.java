@@ -5,16 +5,19 @@ import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
+import org.telegram.telegrambots.meta.api.objects.Chat;
+import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
+import org.telegram.telegrambots.starter.Annotation.TelegramCommand;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.*;
 
 class TestTelegramBotStarterConfiguration {
 
@@ -46,6 +49,19 @@ class TestTelegramBotStarterConfiguration {
                     verify(telegramBotsApi,
                            times(1)).registerBot(context.getBean(LongPollingBot.class));
                     verifyNoMoreInteractions(telegramBotsApi);
+                });
+    }
+
+    @Test
+    void createTelegramLongPollingCommandBotAndOneBotCommand(){
+        this.contextRunner.withUserConfiguration(TelegramCommandLongPollingBot.class, TelegramCommandConfig.class)
+                .run(context -> {
+                    assertThat(context).hasSingleBean(TelegramLongPollingCommandBot.class);
+
+                    TelegramLongPollingCommandBot telegramLongPollingCommandBot = context.getBean(TelegramLongPollingCommandBot.class);
+
+                    verify(telegramLongPollingCommandBot, times(1)).register(context.getBean(BotCommand.class));
+                    verifyNoMoreInteractions(telegramLongPollingCommandBot);
                 });
     }
 
@@ -97,6 +113,47 @@ class TestTelegramBotStarterConfiguration {
         public LongPollingBot longPollingBot() {
             return mock(LongPollingBot.class);
         }
+    }
+
+    @Configuration
+    static class TelegramCommandLongPollingBot {
+        @Bean
+        public MyBot telegramLongPollingCommandBot(){
+            return mock(MyBot.class);
+        }
+    }
+
+    @Configuration
+    static class TelegramCommandConfig {
+        @Bean
+        @Primary
+        public MyBotCommand botCommand(){
+            return new MyBotCommand("foo", "bar");
+        }
+
+        @Bean OtherBotCommand otherBotCommand(){
+            return new OtherBotCommand("foo", "bar");
+        }
+    }
+
+    @TelegramCommand(commandBot = MyBot.class)
+    static class MyBotCommand extends BotCommand{
+        public MyBotCommand(String commandIdentifier, String description) {
+            super(commandIdentifier, description);
+        }
+
+        @Override
+        public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) { }
+    }
+
+    @TelegramCommand(commandBot = TelegramLongPollingCommandBot.class)
+    static class OtherBotCommand extends BotCommand{
+        public OtherBotCommand(String commandIdentifier, String description) {
+            super(commandIdentifier, description);
+        }
+
+        @Override
+        public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) { }
     }
 
     @Configuration
