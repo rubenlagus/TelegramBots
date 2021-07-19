@@ -26,6 +26,7 @@ import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberAdministrator;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -453,8 +454,8 @@ public class AbilityBotTest {
     mockUser(update, message, user);
     when(message.isGroupMessage()).thenReturn(true);
 
-    ChatMemberAdministrator member = mock(ChatMemberAdministrator.class);
-    when(member.getUser()).thenReturn(user);
+    ChatMember member = mock(ChatMember.class);
+    when(member.getStatus()).thenReturn(ChatMemberAdministrator.STATUS);
     when(member.getUser()).thenReturn(user);
 
     when(silent.execute(any(GetChatAdministrators.class))).thenReturn(Optional.of(newArrayList(member)));

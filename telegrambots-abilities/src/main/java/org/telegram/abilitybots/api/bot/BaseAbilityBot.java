@@ -265,10 +265,10 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
                 .orElse(new ArrayList<>())
                 .stream()
                 .map(member -> {
-                    if (member instanceof ChatMemberAdministrator) {
-                        return ((ChatMemberAdministrator) member).getUser().getId();
-                    } else if (member instanceof ChatMemberOwner) {
-                        return ((ChatMemberOwner) member).getUser().getId();
+                    final String status = member.getStatus();
+                    if (status.equals(ChatMemberOwner.STATUS)
+                            || status.equals(ChatMemberAdministrator.STATUS)) {
+                        return member.getUser().getId();
                     }
                     return 0L;
                 })

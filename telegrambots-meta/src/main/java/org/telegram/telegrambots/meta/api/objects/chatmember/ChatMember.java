@@ -2,6 +2,7 @@ package org.telegram.telegrambots.meta.api.objects.chatmember;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
+import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.chatmember.serialization.ChatMemberDeserializer;
 
 /**
@@ -14,4 +15,5 @@ import org.telegram.telegrambots.meta.api.objects.chatmember.serialization.ChatM
 @JsonDeserialize(using = ChatMemberDeserializer.class)
 public interface ChatMember extends BotApiObject {
     String getStatus();
+    User getUser();
 }
