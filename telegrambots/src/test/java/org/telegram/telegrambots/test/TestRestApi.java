@@ -2,8 +2,10 @@ package org.telegram.telegrambots.test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.wadl.WadlFeature;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,6 +46,7 @@ import org.telegram.telegrambots.meta.api.objects.WebhookInfo;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 import org.telegram.telegrambots.meta.api.objects.games.GameHighScore;
 import org.telegram.telegrambots.test.Fakes.FakeWebhook;
+import org.telegram.telegrambots.updatesreceivers.CallbacksProxy;
 import org.telegram.telegrambots.updatesreceivers.RestApi;
 
 import javax.ws.rs.client.Entity;
@@ -63,18 +66,26 @@ import static org.junit.Assert.fail;
 public class TestRestApi extends JerseyTest {
 
     private FakeWebhook webhookBot = new FakeWebhook();
-    private RestApi restApi;
+    private final CallbacksProxy callbacksProxy = new CallbacksProxy();
 
     @Override
     protected Application configure() {
-        restApi = new RestApi();
-        return new ResourceConfig().register(restApi).register(JacksonFeature.class);
+        return new ResourceConfig()
+                .register(RestApi.class)
+                .register(WadlFeature.class)
+                .register(JacksonFeature.class)
+                .register(new AbstractBinder() {
+                    @Override
+                    protected void configure() {
+                        bind(callbacksProxy).to(CallbacksProxy.class);
+                    }
+                });
     }
 
     @Override
     @Before
     public void setUp() throws Exception {
-        restApi.registerCallback(webhookBot);
+        callbacksProxy.registerCallback(webhookBot);
         super.setUp();
     }
 
@@ -227,7 +238,7 @@ public class TestRestApi extends JerseyTest {
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, GetChatMemberCount.class);
 
-        assertEquals("{\"chat_id\":\"12345\",\"method\":\"getChatMembersCount\"}", map(result));
+        assertEquals("{\"chat_id\":\"12345\",\"method\":\"getChatMemberCount\"}", map(result));
     }
 
     @Test
@@ -305,7 +316,7 @@ public class TestRestApi extends JerseyTest {
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, BanChatMember.class);
 
-        assertEquals("{\"chat_id\":\"12345\",\"user_id\":98765,\"method\":\"kickchatmember\"}", map(result));
+        assertEquals("{\"chat_id\":\"12345\",\"user_id\":98765,\"method\":\"banChatMember\"}", map(result));
     }
 
     @Test

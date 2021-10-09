@@ -3,9 +3,11 @@ package org.telegram.telegrambots.updatesreceivers;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.ssl.SSLContextConfigurator;
 import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.wadl.WadlFeature;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.Webhook;
 import org.telegram.telegrambots.meta.generics.WebhookBot;
@@ -23,15 +25,20 @@ public class DefaultWebhook implements Webhook {
     private String keystoreServerFile;
     private String keystoreServerPwd;
     private String internalUrl;
+    private boolean wadlFeatureEnabled = false;
 
-    private final RestApi restApi;
+    private final CallbacksProxy callbacksProxy;
 
     public DefaultWebhook() {
-        this.restApi = new RestApi();
+        callbacksProxy = new CallbacksProxy();
     }
 
     public void setInternalUrl(String internalUrl) {
         this.internalUrl = internalUrl;
+    }
+
+    public void enableWadlFeature() {
+        this.wadlFeatureEnabled = true;
     }
 
     public void setKeyStore(String keyStore, String keyStorePassword) throws TelegramApiException {
@@ -41,14 +48,23 @@ public class DefaultWebhook implements Webhook {
     }
 
     public void registerWebhook(WebhookBot callback) {
-        restApi.registerCallback(callback);
+        callbacksProxy.registerCallback(callback);
     }
 
     public void startServer() throws TelegramApiException {
         ResourceConfig rc = new ResourceConfig();
-        rc.register(restApi);
+        rc.register(RestApi.class);
         rc.register(JacksonFeature.class);
+        if (wadlFeatureEnabled) {
+            rc.register(WadlFeature.class);
+        }
         rc.register(DefaultExceptionMapper.class);
+        rc.register(new AbstractBinder() {
+            @Override
+            protected void configure() {
+                bind(callbacksProxy).to(CallbacksProxy.class);
+            }
+        });
 
         final HttpServer grizzlyServer;
         if (keystoreServerFile != null && keystoreServerPwd != null) {
