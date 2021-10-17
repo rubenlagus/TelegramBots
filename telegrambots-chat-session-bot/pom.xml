@@ -76,7 +76,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <shiro.version>1.7.0</shiro.version>
+        <shiro.version>1.8.0</shiro.version>
     </properties>
 
     <dependencies>
