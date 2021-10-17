@@ -48,7 +48,7 @@ public class Main {
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSessioin.class);
 
             // Set up Http proxy
-            DefaultBotOptions botOptions = new DefaultBotOptions());            
+            DefaultBotOptions botOptions = new DefaultBotOptions();            
 
             botOptions.setProxyHost(PROXY_HOST);
             botOptions.setProxyPort(PROXY_PORT);
