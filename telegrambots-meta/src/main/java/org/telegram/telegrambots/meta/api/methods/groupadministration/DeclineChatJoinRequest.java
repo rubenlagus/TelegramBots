@@ -23,7 +23,6 @@ import java.io.IOException;
 @ToString
 @NoArgsConstructor
 @RequiredArgsConstructor
-@AllArgsConstructor
 @Builder
 public class DeclineChatJoinRequest extends BotApiMethod<Boolean> {
     public static final String PATH = "declineChatJoinRequest";
