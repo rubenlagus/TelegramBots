@@ -28,7 +28,7 @@ public class ChatInviteLink implements BotApiObject {
     private static final String ISREVOKED_FIELD = "is_revoked";
     private static final String EXPIREDATE_FIELD = "expire_date";
     private static final String MEMBERLIMIT_FIELD = "member_limit";
-    private static final String NAME_FIELD = "member_limit";
+    private static final String NAME_FIELD = "name";
     private static final String PENDINGJOINREQUESTCOUNT_FIELD = "pending_join_request_count";
     private static final String CREATESJOINREQUEST_FIELD = "creates_join_request";
 
