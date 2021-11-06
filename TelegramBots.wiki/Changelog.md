@@ -1,3 +1,7 @@
+### <a id="5.4.0"></a>5.3.0 ###
+1. Update Api version [5.4](https://core.telegram.org/bots/api-changelog#november-4-2021)
+2. Bug fixing: #968, #958, #942
+
 ### <a id="5.3.0"></a>5.3.0 ###
 1. Update Api version [5.3](https://core.telegram.org/bots/api-changelog#june-25-2021)
 2. `KeyboardRow` now support creation from a collection of buttons.

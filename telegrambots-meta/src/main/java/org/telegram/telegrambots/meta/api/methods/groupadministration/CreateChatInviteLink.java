@@ -43,6 +43,8 @@ public class CreateChatInviteLink extends BotApiMethod<ChatInviteLink> {
     private static final String CHATID_FIELD = "chat_id";
     private static final String EXPIREDATE_FIELD = "expire_date";
     private static final String MEMBERLIMIT_FIELD = "member_limit";
+    private static final String NAME_FIELD = "name";
+    private static final String CREATESJOINREQUEST_FIELD = "creates_join_request";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -55,7 +57,17 @@ public class CreateChatInviteLink extends BotApiMethod<ChatInviteLink> {
      * Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
      */
     @JsonProperty(MEMBERLIMIT_FIELD)
-    private Integer memberLimit;
+    private Integer memberLimit; ///< Optional.	Invite link name; 0-32 characters
+    @JsonProperty(NAME_FIELD)
+    private String name; ///< Optional.	Invite link name; 0-32 characters
+    /**
+     * Optional.
+     *
+     * True, if users joining the chat via the link need to be approved by chat administrators.
+     * If True, member_limit can't be specified
+     */
+    @JsonProperty(CREATESJOINREQUEST_FIELD)
+    private Boolean createsJoinRequest;
 
 
     @Override
@@ -80,8 +92,14 @@ public class CreateChatInviteLink extends BotApiMethod<ChatInviteLink> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
+        if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId can't be empty", this);
+        }
+        if (name != null && name.length() > 32) {
+            throw new TelegramApiValidationException("Name must be between 0 and 32 characters", this);
+        }
+        if (createsJoinRequest != null && memberLimit != null) {
+            throw new TelegramApiValidationException("MemberLimit can not be used with CreatesJoinRequest field", this);
         }
         if (memberLimit != null && (memberLimit < 1 || memberLimit > 99999)) {
             throw new TelegramApiValidationException("MemberLimit must be between 1 and 99999", this);

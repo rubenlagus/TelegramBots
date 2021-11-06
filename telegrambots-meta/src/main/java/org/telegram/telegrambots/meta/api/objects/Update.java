@@ -44,6 +44,7 @@ public class Update implements BotApiObject {
     private static final String POLLANSWER_FIELD = "poll_answer";
     private static final String MYCHATMEMBER_FIELD = "my_chat_member";
     private static final String CHATMEMBER_FIELD = "chat_member";
+    private static final String CHATJOINREQUEST_FIELD = "chat_join_request";
 
     @JsonProperty(UPDATEID_FIELD)
     private Integer updateId;
@@ -91,6 +92,8 @@ public class Update implements BotApiObject {
      */
     @JsonProperty(CHATMEMBER_FIELD)
     private ChatMemberUpdated chatMember;
+    @JsonProperty(CHATJOINREQUEST_FIELD)
+    private ChatJoinRequest chatJoinRequest;
 
     public boolean hasMessage() {
         return message != null;
@@ -142,5 +145,9 @@ public class Update implements BotApiObject {
 
     public boolean hasChatMember() {
         return chatMember != null;
+    }
+
+    public boolean hasChatJoinRequest() {
+        return chatJoinRequest != null;
     }
 }

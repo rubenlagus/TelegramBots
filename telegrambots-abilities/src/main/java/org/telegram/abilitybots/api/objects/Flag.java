@@ -31,6 +31,7 @@ public enum Flag implements Predicate<Update> {
   POLL_ANSWER(Update::hasPollAnswer),
   MY_CHAT_MEMBER(Update::hasMyChatMember),
   CHAT_MEMBER(Update::hasChatMember),
+  HAS_CHAT_JOIN_REQUEST(Update::hasChatJoinRequest),
 
 
   // Message Flags
