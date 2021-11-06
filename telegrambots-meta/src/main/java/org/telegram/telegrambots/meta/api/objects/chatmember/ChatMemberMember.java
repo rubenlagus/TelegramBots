@@ -26,6 +26,8 @@ import org.telegram.telegrambots.meta.api.objects.User;
 @AllArgsConstructor
 @Builder
 public class ChatMemberMember implements ChatMember {
+    public static final String STATUS = "member";
+
     private static final String STATUS_FIELD = "status";
     private static final String USER_FIELD = "user";
 
@@ -33,7 +35,7 @@ public class ChatMemberMember implements ChatMember {
      * The member's status in the chat, always “member”
      */
     @JsonProperty(STATUS_FIELD)
-    private final String status = "member";
+    private final String status = STATUS;
     /**
      * Information about the user
      */

@@ -45,6 +45,8 @@ public class EditChatInviteLink extends BotApiMethod<ChatInviteLink> {
     private static final String INVITELINK_FIELD = "invite_link";
     private static final String EXPIREDATE_FIELD = "expire_date";
     private static final String MEMBERLIMIT_FIELD = "member_limit";
+    private static final String NAME_FIELD = "name";
+    private static final String CREATESJOINREQUEST_FIELD = "creates_join_request";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -61,6 +63,16 @@ public class EditChatInviteLink extends BotApiMethod<ChatInviteLink> {
      */
     @JsonProperty(MEMBERLIMIT_FIELD)
     private Integer memberLimit;
+    @JsonProperty(NAME_FIELD)
+    private String name; ///< Optional.	Invite link name; 0-32 characters
+    /**
+     * Optional.
+     *
+     * True, if users joining the chat via the link need to be approved by chat administrators.
+     * If True, member_limit can't be specified
+     */
+    @JsonProperty(CREATESJOINREQUEST_FIELD)
+    private Boolean createsJoinRequest;
 
 
     @Override
@@ -90,6 +102,12 @@ public class EditChatInviteLink extends BotApiMethod<ChatInviteLink> {
         }
         if (Strings.isNullOrEmpty(inviteLink)) {
             throw new TelegramApiValidationException("InviteLink can't be empty", this);
+        }
+        if (name != null && name.length() > 32) {
+            throw new TelegramApiValidationException("Name must be between 0 and 32 characters", this);
+        }
+        if (createsJoinRequest != null && memberLimit != null) {
+            throw new TelegramApiValidationException("MemberLimit can not be used with CreatesJoinRequest field", this);
         }
         if (memberLimit != null && (memberLimit < 1 || memberLimit > 99999)) {
             throw new TelegramApiValidationException("MemberLimit must be between 1 and 99999", this);

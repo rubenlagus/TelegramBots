@@ -44,10 +44,16 @@ public class SendChatAction extends BotApiMethod<Boolean> {
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     /**
-     * Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages,
-     * upload_photo for photos, record_video or upload_video for videos, record_audio or upload_audio for audio files,
-     * upload_document for general files, find_location for location data,
-     * record_video_note or upload_video_note for video notes.
+     * Type of action to broadcast. Choose one, depending on what the user is about to receive:
+     * typing for text messages
+     * upload_photo for photos
+     * record_video or upload_video for videos
+     * record_voice or upload_voice for voice notes
+     * upload_document for general files
+     * choose_sticker for stickers
+     * find_location for location data
+     * record_video_note
+     * upload_video_note for video notes
      */
     @JsonProperty(ACTION_FIELD)
     @NonNull
@@ -85,10 +91,10 @@ public class SendChatAction extends BotApiMethod<Boolean> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
+        if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
-        if (action == null) {
+        if (action.isEmpty()) {
             throw new TelegramApiValidationException("Action parameter can't be empty", this);
         }
     }
