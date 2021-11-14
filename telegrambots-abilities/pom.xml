@@ -76,7 +76,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <commonslang.version>3.12.0</commonslang.version>
+        <commonslang.version>3.11</commonslang.version>
         <mapdb.version>3.0.8</mapdb.version>
     </properties>
 
