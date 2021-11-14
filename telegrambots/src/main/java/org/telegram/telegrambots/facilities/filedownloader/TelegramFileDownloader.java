@@ -56,7 +56,7 @@ public class TelegramFileDownloader {
 
     public final java.io.File downloadFile(String filePath, java.io.File outputFile) throws TelegramApiException {
         if (filePath == null || filePath.isEmpty()) {
-            throw new TelegramApiException("Parameter file can not be null");
+            throw new TelegramApiException("Parameter file can not be null or empty");
         }
         String url = File.getFileUrl(botTokenSupplier.get(), filePath);
         return downloadToFile(url, outputFile);
@@ -84,7 +84,7 @@ public class TelegramFileDownloader {
 
     public final void downloadFileAsync(String filePath, DownloadFileCallback<String> callback) throws TelegramApiException {
         if (filePath == null || filePath.isEmpty()) {
-            throw new TelegramApiException("Parameter filePath can not be null");
+            throw new TelegramApiException("Parameter filePath can not be null or empty");
         }
         if (callback == null) {
             throw new TelegramApiException("Parameter callback can not be null");
