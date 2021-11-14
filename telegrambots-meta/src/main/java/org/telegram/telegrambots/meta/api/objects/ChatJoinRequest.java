@@ -33,5 +33,5 @@ public class ChatJoinRequest implements BotApiObject {
     @JsonProperty(BIO_FIELD)
     private String bio; ///< Optional. Bio of the user.
     @JsonProperty(INVITELINK_FIELD)
-    private String inviteLink; ///< Optional. Chat invite link that was used by the user to send the join request
+    private ChatInviteLink inviteLink; ///< Optional. Chat invite link that was used by the user to send the join request
 }
