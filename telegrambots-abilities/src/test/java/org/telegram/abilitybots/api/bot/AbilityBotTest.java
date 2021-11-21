@@ -201,6 +201,18 @@ public class AbilityBotTest {
   }
 
   @Test
+  void canCancel() {
+    MessageContext context = defaultContext();
+
+    Map<Long, Integer> replies = db.getMap("user_state_replies");
+    replies.put(context.chatId(),1);
+
+    defaultAbs.cancel().action().accept(context);
+
+    assertEquals(db.<Long, Integer>getMap("user_state_replies").get(context.chatId()), null);
+  }
+
+  @Test
   void canReportStatistics() {
     MessageContext context = defaultContext();
 

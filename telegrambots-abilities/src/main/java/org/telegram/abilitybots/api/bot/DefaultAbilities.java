@@ -75,6 +75,7 @@ public final class DefaultAbilities implements AbilityExtension {
   public static final String DEMOTE = "demote";
   public static final String UNBAN = "unban";
   public static final String BACKUP = "backup";
+  public static final String CANCEL = "cancel";
   public static final String RECOVER = "recover";
   public static final String COMMANDS = "commands";
   public static final String REPORT = "report";
@@ -236,6 +237,24 @@ public final class DefaultAbilities implements AbilityExtension {
         .build();
   }
 
+    /**
+     * The ability to cancel operation.
+     * Usage: <code>/cancel</code>
+     *
+     * @return the ability to cancel operation
+     */
+    public Ability cancel() {
+        return builder()
+                .name(CANCEL)
+                .info("Cancel current operation.")
+                .privacy(PUBLIC)
+                .locality(ALL)
+                .action(ctx -> {
+                    bot.db.<Long, Integer>getMap("user_state_replies").remove(ctx.chatId());
+                    bot.silent.send("Operation cancelled.", ctx.chatId());
+                })
+                .build();
+    }
 
   /**
    * Recovers the bot database using {@link DBContext#recover(Object)}.
