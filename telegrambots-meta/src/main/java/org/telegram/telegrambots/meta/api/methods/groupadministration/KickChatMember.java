@@ -32,6 +32,8 @@ import java.time.ZonedDateTime;
  * @apiNote  This will method only work if the ‘All Members Are Admins’ setting is off in the target
  * group. Otherwise members may only be removed by the group's creator or by the member that added
  * them.
+ *
+ * @deprecated Use {@link BanChatMember#BanChatMember()} instead
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -41,6 +43,7 @@ import java.time.ZonedDateTime;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
+@Deprecated
 public class KickChatMember extends BotApiMethod<Boolean> {
     public static final String PATH = "kickchatmember";
 

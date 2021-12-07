@@ -86,6 +86,8 @@ public final class AbilityUtils {
       return update.getMyChatMember().getFrom();
     } else if (CHAT_MEMBER.test(update)) {
       return update.getChatMember().getFrom();
+    } else if (CHAT_JOIN_REQUEST.test(update)) {
+      return update.getChatJoinRequest().getUser();
     } else if (POLL.test(update)) {
       return EMPTY_USER;
     } else {
@@ -171,6 +173,8 @@ public final class AbilityUtils {
       return update.getMyChatMember().getChat().getId();
     } else if (CHAT_MEMBER.test(update)) {
       return update.getChatMember().getChat().getId();
+    } else if (CHAT_JOIN_REQUEST.test(update)) {
+      return update.getChatJoinRequest().getChat().getId();
     } else {
       throw new IllegalStateException("Could not retrieve originating chat ID from update");
     }

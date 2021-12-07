@@ -610,7 +610,7 @@ public abstract class DefaultAbsSender extends AbsSender {
         assertParamNotNull(setStickerSetThumb, "setStickerSetThumb");
         setStickerSetThumb.validate();
         try {
-            String url = getBaseUrl() + AddStickerToSet.PATH;
+            String url = getBaseUrl() + SetStickerSetThumb.PATH;
             HttpPost httppost = configuredHttpPost(url);
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.setLaxMode();
@@ -623,7 +623,7 @@ public abstract class DefaultAbsSender extends AbsSender {
 
             return setStickerSetThumb.deserializeResponse(sendHttpPostRequest(httppost));
         } catch (IOException e) {
-            throw new TelegramApiException("Unable to add sticker to set", e);
+            throw new TelegramApiException("Unable to set sticker set thumb", e);
         }
     }
 

@@ -33,6 +33,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 public class ForceReplyKeyboard implements ReplyKeyboard {
     private static final String FORCEREPLY_FIELD = "force_reply";
     private static final String SELECTIVE_FIELD = "selective";
+    private static final String INPUTFIELDPLACEHOLDER_FIELD = "input_field_placeholder";
 
     /**
      * Shows reply interface to the user, as if they manually selected the bot‘s message and tapped
@@ -40,7 +41,8 @@ public class ForceReplyKeyboard implements ReplyKeyboard {
      */
     @JsonProperty(FORCEREPLY_FIELD)
     @NonNull
-    private Boolean forceReply;
+    @Builder.Default
+    private Boolean forceReply = true;
     /**
      * Optional.
      *
@@ -50,11 +52,20 @@ public class ForceReplyKeyboard implements ReplyKeyboard {
      */
     @JsonProperty(SELECTIVE_FIELD)
     private Boolean selective;
+    /**
+     * Optional.
+     * The placeholder to be shown in the input field when the keyboard is active; 1-64 characters
+     */
+    @JsonProperty(INPUTFIELDPLACEHOLDER_FIELD)
+    private String inputFieldPlaceholder;
 
     @Override
     public void validate() throws TelegramApiValidationException {
         if (forceReply == null) {
             throw new TelegramApiValidationException("ForceReply parameter can't not be null", this);
+        }
+        if (inputFieldPlaceholder != null && (inputFieldPlaceholder.length() < 1 || inputFieldPlaceholder.length() > 64)) {
+            throw new TelegramApiValidationException("InputFieldPlaceholder must be between 1 and 64 characters", this);
         }
     }
 }

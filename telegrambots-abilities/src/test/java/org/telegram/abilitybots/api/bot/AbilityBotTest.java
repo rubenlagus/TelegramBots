@@ -10,14 +10,24 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.telegram.abilitybots.api.db.DBContext;
-import org.telegram.abilitybots.api.objects.*;
+import org.telegram.abilitybots.api.objects.Ability;
+import org.telegram.abilitybots.api.objects.Flag;
+import org.telegram.abilitybots.api.objects.Locality;
+import org.telegram.abilitybots.api.objects.MessageContext;
+import org.telegram.abilitybots.api.objects.Privacy;
 import org.telegram.abilitybots.api.sender.MessageSender;
 import org.telegram.abilitybots.api.sender.SilentSender;
 import org.telegram.abilitybots.api.util.AbilityUtils;
 import org.telegram.abilitybots.api.util.Pair;
 import org.telegram.abilitybots.api.util.Trio;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdministrators;
-import org.telegram.telegrambots.meta.api.objects.*;
+import org.telegram.telegrambots.meta.api.objects.Document;
+import org.telegram.telegrambots.meta.api.objects.File;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
+import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberAdministrator;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.BufferedWriter;
@@ -37,19 +47,32 @@ import static java.util.Optional.empty;
 import static org.apache.commons.io.FileUtils.deleteQuietly;
 import static org.apache.commons.lang3.ArrayUtils.addAll;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
-import static org.telegram.abilitybots.api.bot.DefaultBot.*;
+import static org.telegram.abilitybots.api.bot.DefaultBot.FIRST_REPLY_KEY_MESSAGE;
+import static org.telegram.abilitybots.api.bot.DefaultBot.SECOND_REPLY_KEY_MESSAGE;
+import static org.telegram.abilitybots.api.bot.DefaultBot.getDefaultBuilder;
 import static org.telegram.abilitybots.api.bot.TestUtils.CREATOR;
-import static org.telegram.abilitybots.api.bot.TestUtils.*;
+import static org.telegram.abilitybots.api.bot.TestUtils.USER;
+import static org.telegram.abilitybots.api.bot.TestUtils.mockContext;
+import static org.telegram.abilitybots.api.bot.TestUtils.mockFullUpdate;
 import static org.telegram.abilitybots.api.db.MapDBContext.offlineInstance;
 import static org.telegram.abilitybots.api.objects.Flag.DOCUMENT;
 import static org.telegram.abilitybots.api.objects.Flag.MESSAGE;
 import static org.telegram.abilitybots.api.objects.Locality.ALL;
 import static org.telegram.abilitybots.api.objects.Locality.GROUP;
 import static org.telegram.abilitybots.api.objects.MessageContext.newContext;
-import static org.telegram.abilitybots.api.objects.Privacy.*;
+import static org.telegram.abilitybots.api.objects.Privacy.ADMIN;
+import static org.telegram.abilitybots.api.objects.Privacy.GROUP_ADMIN;
+import static org.telegram.abilitybots.api.objects.Privacy.PUBLIC;
 
 public class AbilityBotTest {
   // Messages
@@ -432,7 +455,7 @@ public class AbilityBotTest {
     when(message.isGroupMessage()).thenReturn(true);
 
     ChatMember member = mock(ChatMember.class);
-    when(member.getUser()).thenReturn(user);
+    when(member.getStatus()).thenReturn(ChatMemberAdministrator.STATUS);
     when(member.getUser()).thenReturn(user);
 
     when(silent.execute(any(GetChatAdministrators.class))).thenReturn(Optional.of(newArrayList(member)));

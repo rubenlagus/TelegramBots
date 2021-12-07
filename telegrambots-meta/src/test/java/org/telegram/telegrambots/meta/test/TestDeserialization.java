@@ -15,7 +15,6 @@ import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.Audio;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Chat;
-import org.telegram.telegrambots.meta.api.objects.ChatMember;
 import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.EntityType;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -23,6 +22,8 @@ import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.Voice;
+import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
+import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberRestricted;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.ChosenInlineQuery;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
@@ -322,25 +323,27 @@ class TestDeserialization {
                 "    }\n" +
                 "}";
 
-        ChatMember response = new GetChatMember().deserializeResponse(updateText);
+        ChatMember chatMember = new GetChatMember().deserializeResponse(updateText);
 
-        assertNotNull(response);
-        assertNotNull(response.getUser());
-        assertEquals(1111111, response.getUser().getId());
-        assertTrue(response.getUser().getIsBot());
-        assertEquals("MyTesting", response.getUser().getFirstName());
-        assertEquals("MyTestingUsername", response.getUser().getUserName());
-        assertEquals("restricted", response.getStatus());
-        assertEquals(0, response.getUntilDate());
-        assertFalse(response.getCanSendMessages());
-        assertFalse(response.getCanSendMediaMessages());
-        assertFalse(response.getCanSendPolls());
-        assertFalse(response.getCanSendOtherMessages());
-        assertFalse(response.getCanAddWebPagePreviews());
-        assertFalse(response.getCanChangeInfo());
-        assertFalse(response.getCanInviteUsers());
-        assertFalse(response.getCanPinMessages());
-        assertTrue(response.getIsMember());
+        assertNotNull(chatMember);
+        assertTrue(chatMember instanceof ChatMemberRestricted);
+        ChatMemberRestricted chatMemberRestricted = (ChatMemberRestricted) chatMember;
+        assertNotNull(chatMemberRestricted.getUser());
+        assertEquals(1111111, chatMemberRestricted.getUser().getId());
+        assertTrue(chatMemberRestricted.getUser().getIsBot());
+        assertEquals("MyTesting", chatMemberRestricted.getUser().getFirstName());
+        assertEquals("MyTestingUsername", chatMemberRestricted.getUser().getUserName());
+        assertEquals("restricted", chatMemberRestricted.getStatus());
+        assertEquals(0, chatMemberRestricted.getUntilDate());
+        assertFalse(chatMemberRestricted.getCanSendMessages());
+        assertFalse(chatMemberRestricted.getCanSendMediaMessages());
+        assertFalse(chatMemberRestricted.getCanSendPolls());
+        assertFalse(chatMemberRestricted.getCanSendOtherMessages());
+        assertFalse(chatMemberRestricted.getCanAddWebpagePreviews());
+        assertFalse(chatMemberRestricted.getCanChangeInfo());
+        assertFalse(chatMemberRestricted.getCanInviteUsers());
+        assertFalse(chatMemberRestricted.getCanPinMessages());
+        assertTrue(chatMemberRestricted.getIsMember());
     }
 
     @Test

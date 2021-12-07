@@ -39,7 +39,10 @@ public class SilentSender {
     SendMessage msg = new SendMessage();
     msg.setText(message);
     msg.setChatId(Long.toString(id));
-    msg.setReplyMarkup(new ForceReplyKeyboard());
+    ForceReplyKeyboard kb = new ForceReplyKeyboard();
+    kb.setForceReply(true);
+    kb.setSelective(true);
+    msg.setReplyMarkup(kb);
 
     return execute(msg);
   }

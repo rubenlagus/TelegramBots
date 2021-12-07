@@ -225,6 +225,46 @@ Custom keyboards can be appended to messages using the `setReplyMarkup`. In this
     }
 ```
 
+[InlineKeyboardMarkup](https://core.telegram.org/bots/api#inlinekeyboardmarkup) use list to capture the buttons instead of KeyboardRow.
+
+```java
+   public void sendInlineKeyboard(String chatId) {
+        SendMessage message = new SendMessage();
+        message.setChatId(chatId);
+        message.setText("Inline model below.");
+
+        // Create InlineKeyboardMarkup object
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        // Create the keyboard (list of InlineKeyboardButton list)
+        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
+        // Create a list for buttons
+        List<InlineKeyboardButton> Buttons = new ArrayList<InlineKeyboardButton>();
+        // Initialize each button, the text must be written
+        InlineKeyboardButton youtube= new InlineKeyboardButton("youtube");
+        // Also must use exactly one of the optional fields,it can edit  by set method
+        youtube.setUrl("https://www.youtube.com");
+        // Add button to the list
+        Buttons.add(youtube);
+        // Initialize each button, the text must be written
+        InlineKeyboardButton github= new InlineKeyboardButton("github");
+        // Also must use exactly one of the optional fields,it can edit  by set method
+        github.setUrl("https://github.com");
+        // Add button to the list
+        Buttons.add(github);
+        keyboard.add(Buttons);
+        inlineKeyboardMarkup.setKeyboard(keyboard);
+        // Add it to the message
+        message.setReplyMarkup(inlineKeyboardMarkup);
+
+        try {
+        // Send the message
+        execute(message);
+        } catch (TelegramApiException e) {
+        e.printStackTrace();
+        }
+        }
+```
+
 ## <a id="how_to_host"></a>How can I run my bot? ##
 
 You don't need to spend a lot of money into hosting your own telegram bot. Basically, there are two options around how to host:

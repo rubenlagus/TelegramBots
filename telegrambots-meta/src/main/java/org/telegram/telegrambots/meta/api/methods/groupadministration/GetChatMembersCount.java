@@ -21,6 +21,8 @@ import java.io.IOException;
  * @author Ruben Bermudez
  * @version 1.0
  * Use this method to get the number of members in a chat. Returns Int on success.
+ *
+ * @deprecated Use {{@link GetChatMemberCount#GetChatMemberCount()}
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -29,6 +31,7 @@ import java.io.IOException;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Deprecated
 public class GetChatMembersCount extends BotApiMethod<Integer> {
     public static final String PATH = "getChatMembersCount";
 
