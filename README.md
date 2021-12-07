@@ -27,18 +27,18 @@ Just import add the library to your project with one of these options:
     <dependency>
         <groupId>org.telegram</groupId>
         <artifactId>telegrambots</artifactId>
-        <version>5.4.0.1</version>
+        <version>5.5.0</version>
     </dependency>
 ```
 
   2. Using Gradle: 
 
 ```gradle
-    implementation 'org.telegram:telegrambots:5.4.0.1'
+    implementation 'org.telegram:telegrambots:5.5.0'
 ```
 
-  3. Using Jitpack from [here](https://jitpack.io/#rubenlagus/TelegramBots/5.4.0.1)
-  4. Download the jar(including all dependencies) from [here](https://mvnrepository.com/artifact/org.telegram/telegrambots/5.4.0.1)
+  3. Using Jitpack from [here](https://jitpack.io/#rubenlagus/TelegramBots/5.5.0)
+  4. Download the jar(including all dependencies) from [here](https://mvnrepository.com/artifact/org.telegram/telegrambots/5.5.0)
 
 In order to use Long Polling mode, just create your own bot extending `org.telegram.telegrambots.bots.TelegramLongPollingBot`.
 

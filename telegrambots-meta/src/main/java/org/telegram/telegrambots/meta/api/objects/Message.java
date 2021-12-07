@@ -93,6 +93,8 @@ public class Message implements BotApiObject {
     private static final String VOICECHATENDED_FIELD = "voice_chat_ended";
     private static final String VOICECHATPARTICIPANTSINVITED_FIELD = "voice_chat_participants_invited";
     private static final String VOICECHATSCHEDULED_FIELD = "voice_chat_scheduled";
+    private static final String ISAUTOMATICFORWARD_FIELD = "is_automatic_forward";
+    private static final String CANBEFORWARDED_FIELD = "can_be_forwarded";
 
     @JsonProperty(MESSAGEID_FIELD)
     private Integer messageId; ///< Integer	Unique message identifier
@@ -270,6 +272,15 @@ public class Message implements BotApiObject {
     private VoiceChatParticipantsInvited voiceChatParticipantsInvited; ///< Optional. Service message: new members invited to a voice chat
     @JsonProperty(VOICECHATSCHEDULED_FIELD)
     private VoiceChatScheduled voiceChatScheduled; ///< Optional. Service message: voice chat scheduled
+    @JsonProperty(ISAUTOMATICFORWARD_FIELD)
+    /**
+     * Optional.
+     * True, if the message is a channel post that was automatically forwarded to the connected discussion group
+     */
+    private Boolean isAutomaticForward;
+    @JsonProperty(CANBEFORWARDED_FIELD)
+    private Boolean canBeForwarded; ///< Optional. True, if the message can be forwarded
+
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {

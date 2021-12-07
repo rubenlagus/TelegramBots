@@ -46,6 +46,8 @@ public class Chat implements BotApiObject {
     private static final String LINKEDCHATID_FIELD = "linked_chat_id";
     private static final String LOCATION_FIELD = "location";
     private static final String MESSAGEAUTODELETETIME_FIELD = "message_auto_delete_time";
+    private static final String ALLOWSAVINGCONTENT_FIELD = "allow_saving_content";
+    private static final String HASPRIVATEFORWARDS_FIELD = "has_private_forwards";
 
     private static final String USERCHATTYPE = "private";
     private static final String GROUPCHATTYPE = "group";
@@ -116,7 +118,21 @@ public class Chat implements BotApiObject {
     private ChatLocation location; ///< Optional. For supergroups, the location to which the supergroup is connected. Returned only in getChat.
     @JsonProperty(MESSAGEAUTODELETETIME_FIELD)
     private Integer messageAutoDeleteTime; ///< Optional. The time after which all messages sent to the chat will be automatically deleted; in seconds. Returned only in getChat.
-
+    /**
+     * Optional.
+     * True, if messages from the chat can be forwarded to other chats.
+     * Returned only in getChat.
+     */
+    @JsonProperty(ALLOWSAVINGCONTENT_FIELD)
+    private Boolean allowSavingContent;
+    /**
+     * Optional.
+     * True, if privacy settings of the other party in the private chat allows to use tg://user?id=<user_id>
+     * links only in chats with the user.
+     * Returned only in getChat.
+     */
+    @JsonProperty(HASPRIVATEFORWARDS_FIELD)
+    private Boolean hasPrivateForwards;
 
     @JsonIgnore
     public Boolean isGroupChat() {
