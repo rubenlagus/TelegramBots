@@ -43,7 +43,7 @@ class ExtensionTest {
   public static class ExtensionUsingBot extends AbilityBot {
     ExtensionUsingBot() {
       super("", "", offlineInstance("testing"));
-      addExtension(new AbilityBotExtension("addedInConstructor"));
+      addExtension(new AbilityBotExtension("addedInConstructor", this));
     }
 
     @Override
@@ -52,41 +52,44 @@ class ExtensionTest {
     }
 
     public AbilityBotExtension methodReturningExtensionSubClass() {
-      return new AbilityBotExtension("returningSubClass");
+      return new AbilityBotExtension("returningSubClass", this);
     }
 
     public AbilityExtension methodReturningExtensionSuperClass() {
-      return new AbilityBotExtension("returningSuperClass");
+      return new AbilityBotExtension("returningSuperClass", this);
     }
 
     public Ability methodReturningAbility() {
       return Ability.builder()
-          .name("direct")
-          .info("Test ability")
-          .locality(ALL)
-          .privacy(PUBLIC)
-          .action(messageContext -> {
-          })
-          .build();
+              .name("direct")
+              .info("Test ability")
+              .locality(ALL)
+              .privacy(PUBLIC)
+              .action(messageContext -> {
+              })
+              .build();
     }
   }
 
   public static class AbilityBotExtension implements AbilityExtension {
     private String name;
+    private AbilityBot extensionUser;
 
-    AbilityBotExtension(String name) {
+    AbilityBotExtension(String name, AbilityBot extensionUser) {
       this.name = name;
+      this.extensionUser = extensionUser;
     }
 
     public Ability abc() {
       return Ability.builder()
-          .name(name + "0abc")
-          .info("Test ability")
-          .locality(ALL)
-          .privacy(PUBLIC)
-          .action(ctx -> {
-          })
-          .build();
+              .name(name + "0abc")
+              .info("Test ability")
+              .locality(ALL)
+              .privacy(PUBLIC)
+              .action(ctx -> {
+                extensionUser.silent().send("This is a test message.", ctx.chatId());
+              })
+              .build();
     }
   }
 }
