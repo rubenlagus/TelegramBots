@@ -40,7 +40,7 @@ class ExtensionTest {
   @Test
   void abilityExtensionGetDefault() {
     AbilityExtension ext = new AbilityBotExtension("test");
-    assertEquals("default", ext.getDefault());
+    assertEquals("default", ext.getDefault(), "Did not return 'default'");
   }
 
   private boolean hasAbilityNamed(String name) {
