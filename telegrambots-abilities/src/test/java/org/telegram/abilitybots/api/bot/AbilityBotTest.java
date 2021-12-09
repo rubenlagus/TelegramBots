@@ -200,6 +200,11 @@ public class AbilityBotTest {
     verify(sender, times(1)).sendDocument(any());
   }
 
+
+  /**
+   * This is for TelegramBots Issue 935 test
+   * this test shows that TelegramLongPollingBot can cancel the session by removing map of chatID.
+   */
   @Test
   void canCancel() {
     MessageContext context = defaultContext();

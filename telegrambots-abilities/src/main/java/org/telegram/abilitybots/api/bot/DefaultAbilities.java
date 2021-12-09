@@ -239,6 +239,7 @@ public final class DefaultAbilities implements AbilityExtension {
 
     /**
      * The ability to cancel operation.
+     * User can use this method to cancel the current session and delete related chat.
      * Usage: <code>/cancel</code>
      *
      * @return the ability to cancel operation
