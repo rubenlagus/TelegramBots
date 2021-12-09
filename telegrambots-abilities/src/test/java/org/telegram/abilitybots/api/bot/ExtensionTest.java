@@ -8,6 +8,7 @@ import org.telegram.abilitybots.api.util.AbilityExtension;
 
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.telegram.abilitybots.api.db.MapDBContext.offlineInstance;
 import static org.telegram.abilitybots.api.objects.Locality.ALL;
@@ -34,6 +35,12 @@ class ExtensionTest {
     assertTrue(hasAbilityNamed("returningSuperClass0abc"), "Failed to find Ability in directly declared in extension returned by method returning the AbilityExtension class");
     assertTrue(hasAbilityNamed("returningSubClass0abc"), "Failed to find Ability in directly declared in extension returned by method returning the AbilityExtension subclass");
     assertTrue(hasAbilityNamed("addedInConstructor0abc"), "Failed to find Ability in directly declared in extension added in the constructor");
+  }
+
+  @Test
+  void abilityExtensionGetDefault() {
+    AbilityExtension ext = new AbilityBotExtension("test");
+    assertEquals("default", ext.getDefault());
   }
 
   private boolean hasAbilityNamed(String name) {
@@ -88,5 +95,6 @@ class ExtensionTest {
           })
           .build();
     }
+
   }
 }
