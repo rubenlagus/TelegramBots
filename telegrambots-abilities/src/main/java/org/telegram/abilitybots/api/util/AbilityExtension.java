@@ -5,8 +5,14 @@ package org.telegram.abilitybots.api.util;
  */
 public interface AbilityExtension {
 
+    // https://github.com/rubenlagus/TelegramBots/issues/834
     String DEFAULT = "default";
 
+    /**
+     * https://github.com/rubenlagus/TelegramBots/issues/834
+     * Method for accessing AbilityExtension.DEFAULT
+     * @return String "default"
+     */
     default String getDefault() {
         return AbilityExtension.DEFAULT;
     }

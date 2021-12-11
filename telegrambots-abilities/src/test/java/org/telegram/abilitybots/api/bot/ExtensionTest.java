@@ -37,6 +37,7 @@ class ExtensionTest {
     assertTrue(hasAbilityNamed("addedInConstructor0abc"), "Failed to find Ability in directly declared in extension added in the constructor");
   }
 
+  // https://github.com/rubenlagus/TelegramBots/issues/834
   @Test
   void abilityExtensionGetDefault() {
     AbilityExtension ext = new AbilityBotExtension("test");
