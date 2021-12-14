@@ -46,8 +46,14 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
     @JsonProperty(TEXT_FIELD)
     @NonNull
     private String text; ///< Label text on the button
+    /**
+     * Optional.
+     * HTTP or tg:// url to be opened when the button is pressed.
+     * Links tg://user?id=<user_id> can be used to mention a user by their ID without using a username,
+     * if this is allowed by their privacy settings.
+     */
     @JsonProperty(URL_FIELD)
-    private String url; ///< Optional. HTTP or tg:// url to be opened when button is pressed
+    private String url;
     @JsonProperty(CALLBACK_DATA_FIELD)
     private String callbackData; ///< Optional. Data to be sent in a callback query to the bot when button is pressed
     /**
