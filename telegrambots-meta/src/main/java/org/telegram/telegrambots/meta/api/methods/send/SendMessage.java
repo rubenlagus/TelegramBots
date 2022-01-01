@@ -50,6 +50,7 @@ public class SendMessage extends BotApiMethod<Message> {
     private static final String REPLYMARKUP_FIELD = "reply_markup";
     private static final String ENTITIES_FIELD = "entities";
     private static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
+    private static final String PROTECTCONTENT_FIELD = "protect_content";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -72,6 +73,8 @@ public class SendMessage extends BotApiMethod<Message> {
     private List<MessageEntity> entities; ///< Optional. List of special entities that appear in message text, which can be specified instead of parse_mode
     @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
+    @JsonProperty(PROTECTCONTENT_FIELD)
+    private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
     public void disableWebPagePreview() {
         disableWebPagePreview = true;

@@ -66,6 +66,7 @@ public class SendInvoice extends BotApiMethod<Message> {
     private static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
     private static final String MAXTIPAMOUNT_FIELD = "max_tip_amount";
     private static final String SUGGESTEDTIPAMOUNTS_FIELD = "suggested_tip_amounts";
+    private static final String PROTECTCONTENT_FIELD = "protect_content";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -161,6 +162,8 @@ public class SendInvoice extends BotApiMethod<Message> {
     @JsonProperty(SUGGESTEDTIPAMOUNTS_FIELD)
     @Singular
     private List<Integer> suggestedTipAmounts;
+    @JsonProperty(PROTECTCONTENT_FIELD)
+    private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
     @Override
     public String getMethod() {

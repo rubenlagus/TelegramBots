@@ -60,6 +60,7 @@ public class SendPoll extends BotApiMethod<Message> {
     private static final String EXPLANATIONPARSEMODE_FIELD = "explanation_parse_mode";
     private static final String EXPLANATION_ENTITIES_FIELD = "explanation_entities";
     private static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
+    private static final String PROTECTCONTENT_FIELD = "protect_content";
 
     /**
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername).
@@ -105,6 +106,8 @@ public class SendPoll extends BotApiMethod<Message> {
     private List<MessageEntity> explanationEntities; ///< Optional. List of special entities that appear in the poll explanation, which can be specified instead of parse_mode
     @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
+    @JsonProperty(PROTECTCONTENT_FIELD)
+    private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
     public void enableNotification() {
         this.disableNotification = null;

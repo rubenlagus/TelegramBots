@@ -42,6 +42,7 @@ public class SendSticker extends PartialBotApiMethod<Message> {
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     public static final String REPLYMARKUP_FIELD = "reply_markup";
     public static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
+    public static final String PROTECTCONTENT_FIELD = "protect_content";
 
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
@@ -51,6 +52,7 @@ public class SendSticker extends PartialBotApiMethod<Message> {
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
+    private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
     public Boolean getDisableNotification() {
         return disableNotification;

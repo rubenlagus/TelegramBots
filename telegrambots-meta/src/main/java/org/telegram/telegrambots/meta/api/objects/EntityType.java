@@ -20,6 +20,7 @@ public class EntityType {
     public static final String PRE = "pre"; ///< Monowidth block
     public static final String TEXTLINK = "text_link"; ///< Clickable urls
     public static final String TEXTMENTION = "text_mention"; ///< for users without usernames
+    public static final String SPOILER = "spoiler"; ///< spoiler message
 
     private EntityType() {
     }

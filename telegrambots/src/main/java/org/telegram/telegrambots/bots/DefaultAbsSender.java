@@ -176,6 +176,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendDocument.getDisableNotification() != null) {
                 builder.addTextBody(SendDocument.DISABLENOTIFICATION_FIELD, sendDocument.getDisableNotification().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
+            if (sendDocument.getProtectContent() != null) {
+                builder.addTextBody(SendDocument.PROTECTCONTENT_FIELD, sendDocument.getProtectContent().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            }
 
             if (sendDocument.getAllowSendingWithoutReply() != null) {
                 builder.addTextBody(SendDocument.ALLOWSENDINGWITHOUTREPLY_FIELD, sendDocument.getAllowSendingWithoutReply().toString(), TEXT_PLAIN_CONTENT_TYPE);
@@ -234,6 +237,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendPhoto.getAllowSendingWithoutReply() != null) {
                 builder.addTextBody(SendPhoto.ALLOWSENDINGWITHOUTREPLY_FIELD, sendPhoto.getAllowSendingWithoutReply().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
+            if (sendPhoto.getProtectContent() != null) {
+                builder.addTextBody(SendPhoto.PROTECTCONTENT_FIELD, sendPhoto.getProtectContent().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            }
             if (sendPhoto.getCaptionEntities() != null) {
                 builder.addTextBody(SendPhoto.CAPTION_ENTITIES_FIELD, objectMapper.writeValueAsString(sendPhoto.getCaptionEntities()), TEXT_PLAIN_CONTENT_TYPE);
             }
@@ -288,6 +294,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendVideo.getDisableNotification() != null) {
                 builder.addTextBody(SendVideo.DISABLENOTIFICATION_FIELD, sendVideo.getDisableNotification().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
+            if (sendVideo.getProtectContent() != null) {
+                builder.addTextBody(SendVideo.PROTECTCONTENT_FIELD, sendVideo.getProtectContent().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            }
             if (sendVideo.getThumb() != null) {
                 addInputFile(builder, sendVideo.getThumb(), SendVideo.THUMB_FIELD, false);
                 builder.addTextBody(SendVideo.THUMB_FIELD, sendVideo.getThumb().getAttachName(), TEXT_PLAIN_CONTENT_TYPE);
@@ -338,6 +347,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendVideoNote.getDisableNotification() != null) {
                 builder.addTextBody(SendVideoNote.DISABLENOTIFICATION_FIELD, sendVideoNote.getDisableNotification().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
+            if (sendVideoNote.getProtectContent() != null) {
+                builder.addTextBody(SendVideoNote.PROTECTCONTENT_FIELD, sendVideoNote.getProtectContent().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            }
             if (sendVideoNote.getThumb() != null) {
                 addInputFile(builder, sendVideoNote.getThumb(), SendVideoNote.THUMB_FIELD, false);
                 builder.addTextBody(SendVideoNote.THUMB_FIELD, sendVideoNote.getThumb().getAttachName(), TEXT_PLAIN_CONTENT_TYPE);
@@ -378,6 +390,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             }
             if (sendSticker.getDisableNotification() != null) {
                 builder.addTextBody(SendSticker.DISABLENOTIFICATION_FIELD, sendSticker.getDisableNotification().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendSticker.getProtectContent() != null) {
+                builder.addTextBody(SendSticker.PROTECTCONTENT_FIELD, sendSticker.getProtectContent().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendSticker.getAllowSendingWithoutReply() != null) {
                 builder.addTextBody(SendSticker.ALLOWSENDINGWITHOUTREPLY_FIELD, sendSticker.getAllowSendingWithoutReply().toString(), TEXT_PLAIN_CONTENT_TYPE);
@@ -441,6 +456,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendAudio.getAllowSendingWithoutReply() != null) {
                 builder.addTextBody(SendAudio.ALLOWSENDINGWITHOUTREPLY_FIELD, sendAudio.getAllowSendingWithoutReply().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
+            if (sendAudio.getProtectContent() != null) {
+                builder.addTextBody(SendAudio.PROTECTCONTENT_FIELD, sendAudio.getProtectContent().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            }
             if (sendAudio.getCaptionEntities() != null) {
                 builder.addTextBody(SendAudio.CAPTION_ENTITIES_FIELD, objectMapper.writeValueAsString(sendAudio.getCaptionEntities()), TEXT_PLAIN_CONTENT_TYPE);
             }
@@ -495,6 +513,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             }
             if (sendVoice.getAllowSendingWithoutReply() != null) {
                 builder.addTextBody(SendVoice.ALLOWSENDINGWITHOUTREPLY_FIELD, sendVoice.getAllowSendingWithoutReply().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendVoice.getProtectContent() != null) {
+                builder.addTextBody(SendVoice.PROTECTCONTENT_FIELD, sendVoice.getProtectContent().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendVoice.getCaptionEntities() != null) {
                 builder.addTextBody(SendVoice.CAPTION_ENTITIES_FIELD, objectMapper.writeValueAsString(sendVoice.getCaptionEntities()), TEXT_PLAIN_CONTENT_TYPE);
@@ -562,6 +583,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             }
             if (sendMediaGroup.getAllowSendingWithoutReply() != null) {
                 builder.addTextBody(SendMediaGroup.ALLOWSENDINGWITHOUTREPLY_FIELD, sendMediaGroup.getAllowSendingWithoutReply().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendMediaGroup.getProtectContent() != null) {
+                builder.addTextBody(SendMediaGroup.PROTECTCONTENT_FIELD, sendMediaGroup.getProtectContent().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
 
 
@@ -757,6 +781,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             }
             if (sendAnimation.getAllowSendingWithoutReply() != null) {
                 builder.addTextBody(SendAnimation.ALLOWSENDINGWITHOUTREPLY_FIELD, sendAnimation.getAllowSendingWithoutReply().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendAnimation.getProtectContent() != null) {
+                builder.addTextBody(SendAnimation.PROTECTCONTENT_FIELD, sendAnimation.getProtectContent().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendAnimation.getCaptionEntities() != null) {
                 builder.addTextBody(SendAnimation.CAPTION_ENTITIES_FIELD, objectMapper.writeValueAsString(sendAnimation.getCaptionEntities()), TEXT_PLAIN_CONTENT_TYPE);

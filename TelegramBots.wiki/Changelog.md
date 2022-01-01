@@ -1,5 +1,8 @@
+### <a id="5.6.0"></a>5.6.0 ###
+1. Update Api version [5.6](https://core.telegram.org/bots/api-changelog#december-30-2021)
+
 ### <a id="5.5.0"></a>5.5.0 ###
-1. Update Api version [5.5](https://core.telegram.org/bots/api#december-7-2021)
+1. Update Api version [5.5](https://core.telegram.org/bots/api-changelog#december-7-2021)
 
 ### <a id="5.4.0.1"></a>5.4.0.1 ###
 1. Bug fixing: #999, #1000
