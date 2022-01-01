@@ -43,7 +43,7 @@ public abstract class InputMedia implements Validable, BotApiObject {
     public static final String MEDIA_FIELD = "media";
     public static final String CAPTION_FIELD = "caption";
     public static final String PARSEMODE_FIELD = "parse_mode";
-    public static final String ENTITIES_FIELD = "entities";
+    public static final String ENTITIES_FIELD = "caption_entities";
 
     /**
      * File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended),
