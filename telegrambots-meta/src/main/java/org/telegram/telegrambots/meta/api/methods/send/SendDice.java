@@ -47,6 +47,7 @@ public class SendDice extends BotApiMethod<Message> {
     private static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
     private static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
+    private static final String PROTECTCONTENT_FIELD = "protect_content";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -72,6 +73,8 @@ public class SendDice extends BotApiMethod<Message> {
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
     @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
     private Boolean allowSendingWithoutReply; ///< Optional. Pass True, if the message should be sent even if the specified replied-to message is not found
+    @JsonProperty(PROTECTCONTENT_FIELD)
+    private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
     public void enableNotification() {
         this.disableNotification = false;

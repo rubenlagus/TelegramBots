@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,6 +48,7 @@ public class SendVideoNote extends PartialBotApiMethod<Message> {
     public static final String REPLYMARKUP_FIELD = "reply_markup";
     public static final String THUMB_FIELD = "thumb";
     public static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
+    public static final String PROTECTCONTENT_FIELD = "protect_content";
 
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
@@ -66,6 +68,7 @@ public class SendVideoNote extends PartialBotApiMethod<Message> {
      */
     private InputFile thumb;
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
+    private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
     public void enableNotification() {
         this.disableNotification = false;

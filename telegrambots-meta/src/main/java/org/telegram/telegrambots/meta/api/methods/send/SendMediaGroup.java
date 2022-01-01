@@ -50,6 +50,7 @@ public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     public static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
+    public static final String PROTECTCONTENT_FIELD = "protect_content";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -63,6 +64,7 @@ public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
     private Boolean disableNotification; ///< Optional. Sends the messages silently. Users will receive a notification with no sound.
     @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
+    private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
     public void enableNotification() {
         this.disableNotification = false;

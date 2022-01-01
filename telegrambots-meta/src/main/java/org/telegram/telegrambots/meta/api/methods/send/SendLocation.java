@@ -47,6 +47,7 @@ public class SendLocation extends BotApiMethod<Message> {
     private static final String HORIZONTALACCURACY_FIELD = "horizontal_accuracy";
     private static final String HEADING_FIELD = "heading";
     private static final String PROXIMITYALERTRADIUS_FIELD = "proximity_alert_radius";
+    private static final String PROTECTCONTENT_FIELD = "protect_content";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -87,6 +88,8 @@ public class SendLocation extends BotApiMethod<Message> {
      */
     @JsonProperty(PROXIMITYALERTRADIUS_FIELD)
     private Integer proximityAlertRadius;
+    @JsonProperty(PROTECTCONTENT_FIELD)
+    private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
     public void enableNotification() {
         this.disableNotification = false;

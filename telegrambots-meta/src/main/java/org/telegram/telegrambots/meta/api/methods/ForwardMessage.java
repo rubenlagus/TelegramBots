@@ -41,6 +41,7 @@ public class ForwardMessage extends BotApiMethod<Message> {
     private static final String FROMCHATID_FIELD = "from_chat_id";
     private static final String MESSAGEID_FIELD = "message_id";
     private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
+    private static final String PROTECTCONTENT_FIELD = "protect_content";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -59,6 +60,8 @@ public class ForwardMessage extends BotApiMethod<Message> {
      */
     @JsonProperty(DISABLENOTIFICATION_FIELD)
     private Boolean disableNotification;
+    @JsonProperty(PROTECTCONTENT_FIELD)
+    private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
     @Override
     public void validate() throws TelegramApiValidationException {

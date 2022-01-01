@@ -43,7 +43,7 @@ public abstract class InputMedia implements Validable, BotApiObject {
     public static final String MEDIA_FIELD = "media";
     public static final String CAPTION_FIELD = "caption";
     public static final String PARSEMODE_FIELD = "parse_mode";
-    public static final String ENTITIES_FIELD = "entities";
+    public static final String CAPTIONENTITIES_FIELD = "caption_entities";
 
     /**
      * File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended),
@@ -57,9 +57,9 @@ public abstract class InputMedia implements Validable, BotApiObject {
     private String caption; ///< Optional. Caption of the media to be sent, 0-200 characters
     @JsonProperty(PARSEMODE_FIELD)
     private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
-    @JsonProperty(ENTITIES_FIELD)
+    @JsonProperty(CAPTIONENTITIES_FIELD)
     @Singular
-    private List<MessageEntity> entities; ///< Optional. List of special entities that appear in message text, which can be specified instead of parse_mode
+    private List<MessageEntity> captionEntities; ///< Optional. List of special entities that appear in message text, which can be specified instead of parse_mode
     @JsonIgnore
     private boolean isNewMedia; ///< True to upload a new media, false to use a fileId or URL
     @JsonIgnore
@@ -117,7 +117,7 @@ public abstract class InputMedia implements Validable, BotApiObject {
         } else if (media == null || media.isEmpty()) {
             throw new TelegramApiValidationException("Media can't be empty", this);
         }
-        if (parseMode != null && (entities != null && !entities.isEmpty()) ) {
+        if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
             throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
         }
     }

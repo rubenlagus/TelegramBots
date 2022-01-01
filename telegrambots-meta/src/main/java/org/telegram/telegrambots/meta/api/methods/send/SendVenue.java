@@ -50,6 +50,7 @@ public class SendVenue extends BotApiMethod<Message> {
     private static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
     private static final String GOOGLEPLACEID_FIELD = "google_place_id";
     private static final String GOOGLEPLACETYPE_FIELD = "google_place_type";
+    private static final String PROTECTCONTENT_FIELD = "protect_content";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -82,6 +83,8 @@ public class SendVenue extends BotApiMethod<Message> {
     private String googlePlaceId; ///< Optional. Google Places identifier of the venue
     @JsonProperty(GOOGLEPLACETYPE_FIELD)
     private String googlePlaceType; ///< Optional. Google Places type of the venue. (See supported types.)
+    @JsonProperty(PROTECTCONTENT_FIELD)
+    private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
     public void enableNotification() {
         this.disableNotification = false;
