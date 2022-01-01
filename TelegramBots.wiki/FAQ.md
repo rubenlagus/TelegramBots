@@ -2,6 +2,7 @@
 * [How to display ChatActions like "typing" or "recording a voice message"?](#how_to_sendchataction)
 * [How to send photos?](#how_to_send_photos)
 * [How do I send photos by file_id?](#how_to_send_photos_file_id)
+* [How to send stickers?](#how_to_send_stickers)
 * [How to use custom keyboards?](#how_to_use_custom_keyboards)
 * [How can I run my bot?](#how_to_host)
 * [How can I compile my project?](#how_to_compile)
@@ -107,7 +108,7 @@ if (update.hasMessage() && update.getMessage().hasText()) {
 
 ## <a id="how_to_send_photos"></a>How to send photos? ##
 
-There are several method to send a photo to an user using `sendPhoto` method: With a `file_id`, with an `url` or uploading the file. In this example, we assume that we already have the *chat_id* where we want to send the photo:
+There are several methods to send a photo to an user using `sendPhoto` method: With a `file_id`, with an `url` or uploading the file. In this example, we assume that we already have the *chat_id* where we want to send the photo:
 
 ```java
     public void sendImageFromUrl(String url, String chatId) {
@@ -155,7 +156,34 @@ There are several method to send a photo to an user using `sendPhoto` method: Wi
         }
     }
 ```
+## <a id="how_to_send_stickers"></a>How to send stickers? ##
 
+There are several ways to send a sticker, but now we will use `file_id` and `url`.
+
+`file_id`: To get the *file_id*, you have to send your sticker to the [**Get Sticker ID**](https://t.me/idstickerbot?do=open_link) bot and then you will receive a string.
+`url`: All you need to have is an link to the sticker in `.webp` format, like [**This**](https://www.gstatic.com/webp/gallery/5.webp).
+#### Implementation
+Just call the method below in your `onUpdateReceived(Update update)` method.
+```java
+// Sticker_file_id is received from @idstickerbot bot  
+	private void StickerSender(Update update, String Sticker_file_id) { 
+ //the ChatId that  we received form Update class  
+	String ChatId = update.getMessage().getChatId().toString();  
+  // Create an InputFile containing Sticker's file_id or URL  
+	InputFile StickerFile = new InputFile(Sticker_file_id);  
+  // Create a SendSticker object using the ChatId and StickerFile  
+	SendSticker TheSticker = new SendSticker(ChatId, StickerFile); 
+	 
+  // Will reply the sticker to the message sent  
+   //TheSticker.setReplyToMessageId(update.getMessage().getMessageId());  
+   
+  try {  // Execute the method
+        execute(TheSticker);  
+  } catch (TelegramApiException e) {  
+        e.printStackTrace();  
+  }  
+}
+```
 ## <a id="how_to_send_photos_file_id"></a>How to send photo by its file_id? ##
 
 In this example we will check if user sends to bot a photo, if it is, get Photo's file_id and send this photo by file_id to user.
