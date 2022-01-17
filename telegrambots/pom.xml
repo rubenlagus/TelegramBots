@@ -73,7 +73,7 @@
         <glassfish.version>2.32</glassfish.version>
         <jerseybundle.version>1.19.3</jerseybundle.version>
         <httpcompontents.version>4.5.13</httpcompontents.version>
-        <commonio.version>2.8.0</commonio.version>
+        <commonio.version>2.11.0</commonio.version>
     </properties>
 
     <dependencyManagement>
@@ -307,7 +307,7 @@
                 </executions>
                 <configuration>
                     <rules>
-                        <DependencyConvergence />
+                        <DependencyConvergence/>
                     </rules>
                 </configuration>
             </plugin>
