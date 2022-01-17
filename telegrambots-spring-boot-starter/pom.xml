@@ -70,8 +70,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <telegrambots.version>5.5.0</telegrambots.version>
-        <spring-boot.version>2.4.5</spring-boot.version>
+        <telegrambots.version>5.6.0</telegrambots.version>
+        <spring-boot.version>2.5.8</spring-boot.version>
 
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
