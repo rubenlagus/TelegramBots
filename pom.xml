@@ -70,7 +70,7 @@
         <junit.version>5.7.2</junit.version>
         <mockito.version>3.6.0</mockito.version>
         <mockitojupiter.version>3.6.0</mockitojupiter.version>
-        <jacksonanotation.version>2.11.3</jacksonanotation.version>
+        <jacksonanotation.version>2.13.0</jacksonanotation.version>
         <jackson.version>2.13.0</jackson.version>
         <json.version>20180813</json.version>
         <slf4j.version>1.7.32</slf4j.version>
