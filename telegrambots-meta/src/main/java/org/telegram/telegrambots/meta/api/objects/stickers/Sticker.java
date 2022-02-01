@@ -33,6 +33,7 @@ public class Sticker implements BotApiObject {
     private static final String SETNAME_FIELD = "set_name";
     private static final String MASKPOSITON_FIELD = "mask_position";
     private static final String ISANIMATED_FIELD = "is_animated";
+    private static final String ISVIDEO_FIELD = "is_video";
 
     @JsonProperty(FILEID_FIELD)
     private String fileId; ///< Identifier for this file, which can be used to download or reuse the file
@@ -58,4 +59,6 @@ public class Sticker implements BotApiObject {
     private MaskPosition maskPosition; ///< Optional. For mask stickers, the position where the mask should be placed
     @JsonProperty(ISANIMATED_FIELD)
     private Boolean isAnimated; ///< True, if the sticker is animated
+    @JsonProperty(ISVIDEO_FIELD)
+    private Boolean isVideo; ///< True, if the sticker is a video sticker
 }

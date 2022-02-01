@@ -29,6 +29,7 @@ public class StickerSet implements BotApiObject {
     private static final String CONTAINSMASKS_FIELD = "contains_masks";
     private static final String STICKERS_FIELD = "stickers";
     private static final String ISANIMATED_FIELD = "is_animated";
+    private static final String ISVIDEO_FIELD = "is_video";
     private static final String THUMB_FIELD = "thumb";
 
     @JsonProperty(NAME_FIELD)
@@ -41,6 +42,8 @@ public class StickerSet implements BotApiObject {
     private List<Sticker> stickers; ///< True, if the sticker set contains masks
     @JsonProperty(ISANIMATED_FIELD)
     private Boolean isAnimated; ///< List of all set stickers
+    @JsonProperty(ISVIDEO_FIELD)
+    private Boolean isVideo; ///< True, if the sticker set contains video stickers
     @JsonProperty(THUMB_FIELD)
-    private PhotoSize thumb; ///< Optional. Sticker set thumbnail in the .WEBP or .TGS format
+    private PhotoSize thumb; ///< Optional. Sticker set thumbnail in the .WEBP, .TGS, or .WEBM format
 }
