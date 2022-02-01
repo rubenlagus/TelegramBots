@@ -23,7 +23,8 @@ import java.io.IOException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * Use this method to send .webp stickers. On success, the sent Message is returned.
+ * Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers.
+ * On success, the sent Message is returned.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -83,12 +84,8 @@ public class SendSticker extends PartialBotApiMethod<Message> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
+        if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
-        }
-
-        if (sticker == null) {
-            throw new TelegramApiValidationException("Sticker parameter can't be empty", this);
         }
 
         sticker.validate();

@@ -22,11 +22,9 @@ import java.io.IOException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * Use this method to add a new sticker to a set created by the bot.
- * You must use exactly one of the fields png_sticker or tgs_sticker.
- * Animated stickers can be added to animated sticker sets and only to them.
- * Animated sticker sets can have up to 50 stickers.
- * Static sticker sets can have up to 120 stickers.
+ * Use this method to create a new sticker set owned by a user.
+ * The bot will be able to edit the sticker set thus created.
+ * You must use exactly one of the fields png_sticker, tgs_sticker, or webm_sticker.
  * Returns True on success.
  */
 @EqualsAndHashCode(callSuper = false)
@@ -44,6 +42,7 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
     public static final String NAME_FIELD = "name";
     public static final String PNGSTICKER_FIELD = "png_sticker";
     public static final String TGSSTICKER_FIELD = "tgs_sticker";
+    public static final String WEBMSTICKER_FIELD = "webm_sticker";
     public static final String EMOJIS_FIELD = "emojis";
     public static final String MASKPOSITION_FIELD = "mask_position";
 
@@ -69,6 +68,13 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
      */
     private InputFile tgsSticker;
 
+    /**
+     * Optional.
+     * WEBM video with the sticker, uploaded using multipart/form-data.
+     * See https://core.telegram.org/stickers#video-stickers for technical requirements
+     */
+    private InputFile webmSticker;
+
     @Override
     public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
         try {
@@ -86,29 +92,35 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (userId == null || userId <= 0) {
+        if (userId <= 0) {
             throw new TelegramApiValidationException("userId can't be empty", this);
         }
-        if (name == null || name.isEmpty()) {
+        if (name.isEmpty()) {
             throw new TelegramApiValidationException("name can't be empty", this);
         }
-        if (emojis == null || emojis.isEmpty()) {
+        if (emojis.isEmpty()) {
             throw new TelegramApiValidationException("emojis can't be empty", this);
         }
 
-        if (pngSticker == null && tgsSticker == null) {
-            throw new TelegramApiValidationException("One of pngSticker or tgsSticker is needed", this);
+        if (pngSticker == null && tgsSticker == null && webmSticker == null) {
+            throw new TelegramApiValidationException("One of pngSticker, tgsSticker or webmSticker is needed", this);
         }
 
-        if (pngSticker != null && tgsSticker != null) {
-            throw new TelegramApiValidationException("Only one of pngSticker or tgsSticker are allowed", this);
+        if ((pngSticker != null && tgsSticker != null) || (pngSticker != null && webmSticker != null) ||
+                (tgsSticker != null && webmSticker != null)) {
+            throw new TelegramApiValidationException("Only one of pngSticker, tgsSticker or webmSticker are allowed", this);
         }
 
         if (pngSticker != null) {
             pngSticker.validate();
         }
+
         if (tgsSticker != null) {
             tgsSticker.validate();
+        }
+
+        if (webmSticker != null) {
+            webmSticker.validate();
         }
 
         if (maskPosition != null) {

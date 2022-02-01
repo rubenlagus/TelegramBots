@@ -613,8 +613,10 @@ public abstract class DefaultAbsSender extends AbsSender {
             builder.addTextBody(AddStickerToSet.EMOJIS_FIELD, addStickerToSet.getEmojis(), TEXT_PLAIN_CONTENT_TYPE);
             if (addStickerToSet.getPngSticker() != null) {
                 addInputFile(builder, addStickerToSet.getPngSticker(), AddStickerToSet.PNGSTICKER_FIELD, true);
-            } else {
+            } else if (addStickerToSet.getTgsSticker() != null) {
                 addInputFile(builder, addStickerToSet.getTgsSticker(), AddStickerToSet.TGSSTICKER_FIELD, true);
+            } else {
+                addInputFile(builder, addStickerToSet.getWebmSticker(), AddStickerToSet.WEBMSTICKER_FIELD, true);
             }
 
             if (addStickerToSet.getMaskPosition() != null) {
@@ -641,7 +643,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(SetStickerSetThumb.USERID_FIELD, setStickerSetThumb.getUserId().toString(), TEXT_PLAIN_CONTENT_TYPE);
             builder.addTextBody(SetStickerSetThumb.NAME_FIELD, setStickerSetThumb.getName(), TEXT_PLAIN_CONTENT_TYPE);
-            addInputFile(builder, setStickerSetThumb.getThumb(), SetStickerSetThumb.THUMB_FIELD, true);
+            if (setStickerSetThumb.getThumb() != null) {
+                addInputFile(builder, setStickerSetThumb.getThumb(), SetStickerSetThumb.THUMB_FIELD, true);
+            }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
@@ -668,8 +672,10 @@ public abstract class DefaultAbsSender extends AbsSender {
             builder.addTextBody(CreateNewStickerSet.CONTAINSMASKS_FIELD, createNewStickerSet.getContainsMasks().toString(), TEXT_PLAIN_CONTENT_TYPE);
             if (createNewStickerSet.getPngSticker() != null) {
                 addInputFile(builder, createNewStickerSet.getPngSticker(), CreateNewStickerSet.PNGSTICKER_FIELD, true);
-            } else {
+            } else if (createNewStickerSet.getTgsSticker() != null)  {
                 addInputFile(builder, createNewStickerSet.getTgsSticker(), CreateNewStickerSet.TGSSTICKER_FIELD, true);
+            } else {
+                addInputFile(builder, createNewStickerSet.getWebmSticker(), CreateNewStickerSet.WEBMSTICKER_FIELD, true);
             }
 
             if (createNewStickerSet.getMaskPosition() != null) {

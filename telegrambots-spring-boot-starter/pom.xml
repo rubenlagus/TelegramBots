@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.telegram</groupId>
         <artifactId>Bots</artifactId>
-        <version>5.6.0</version>
+        <version>5.7.1</version>
     </parent>
 
     <artifactId>telegrambots-spring-boot-starter</artifactId>
@@ -70,7 +70,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <telegrambots.version>5.6.0</telegrambots.version>
+        <telegrambots.version>5.7.1</telegrambots.version>
         <spring-boot.version>2.5.8</spring-boot.version>
 
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
