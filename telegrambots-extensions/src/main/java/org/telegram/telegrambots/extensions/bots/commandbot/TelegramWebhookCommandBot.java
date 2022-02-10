@@ -73,16 +73,6 @@ public abstract class TelegramWebhookCommandBot extends TelegramWebhookBot imple
     }
 
     @Override
-    public void processInvalidCommandUpdate(Update update) {
-        processNonCommandUpdate(update);
-    }
-
-    @Override
-    public boolean filter(Message message) {
-        return false;
-    }
-
-    @Override
     public final boolean register(IBotCommand botCommand) {
         return commandRegistry.register(botCommand);
     }
@@ -116,10 +106,4 @@ public abstract class TelegramWebhookCommandBot extends TelegramWebhookBot imple
     public final IBotCommand getRegisteredCommand(String commandIdentifier) {
         return commandRegistry.getRegisteredCommand(commandIdentifier);
     }
-
-    /**
-     * @return Bot username
-     */
-    @Override
-    public abstract String getBotUsername();
 }

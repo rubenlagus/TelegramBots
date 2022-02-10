@@ -24,7 +24,9 @@ public interface CommandBot {
      *
      * @param update Received update from Telegram
      */
-    void processInvalidCommandUpdate(Update update);
+    default void processInvalidCommandUpdate(Update update) {
+        processNonCommandUpdate(update);
+    }
 
     /**
      * Override this function in your bot implementation to filter messages with commands
@@ -39,5 +41,7 @@ public interface CommandBot {
      * false otherwise
      * @note Default implementation doesn't filter anything
      */
-    boolean filter(Message message);
+    default boolean filter(Message message) {
+        return false;
+    }
 }

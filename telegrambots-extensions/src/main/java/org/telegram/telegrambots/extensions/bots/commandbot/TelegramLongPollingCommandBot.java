@@ -71,16 +71,6 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
     }
 
     @Override
-    public void processInvalidCommandUpdate(Update update) {
-        processNonCommandUpdate(update);
-    }
-
-    @Override
-    public boolean filter(Message message) {
-        return false;
-    }
-
-    @Override
     public final boolean register(IBotCommand botCommand) {
         return commandRegistry.register(botCommand);
     }
