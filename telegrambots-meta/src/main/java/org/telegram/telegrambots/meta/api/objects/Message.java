@@ -94,7 +94,7 @@ public class Message implements BotApiObject {
     private static final String VOICECHATPARTICIPANTSINVITED_FIELD = "voice_chat_participants_invited";
     private static final String VOICECHATSCHEDULED_FIELD = "voice_chat_scheduled";
     private static final String ISAUTOMATICFORWARD_FIELD = "is_automatic_forward";
-    private static final String CANBEFORWARDED_FIELD = "can_be_forwarded";
+    private static final String HASPROTECTEDCONTENT_FIELD = "has_protected_content";
 
     @JsonProperty(MESSAGEID_FIELD)
     private Integer messageId; ///< Integer	Unique message identifier
@@ -278,8 +278,8 @@ public class Message implements BotApiObject {
      * True, if the message is a channel post that was automatically forwarded to the connected discussion group
      */
     private Boolean isAutomaticForward;
-    @JsonProperty(CANBEFORWARDED_FIELD)
-    private Boolean canBeForwarded; ///< Optional. True, if the message can be forwarded
+    @JsonProperty(HASPROTECTEDCONTENT_FIELD)
+    private Boolean hasProtectedContent; ///< Optional. True, if the message can't be forwarded
 
 
     public List<MessageEntity> getEntities() {
