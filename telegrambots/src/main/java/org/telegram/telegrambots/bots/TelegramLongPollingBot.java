@@ -26,6 +26,6 @@ public abstract class TelegramLongPollingBot extends DefaultAbsSender implements
 
     @Override
     public void onClosing() {
-        exe.shutdown();
+        executor.shutdown();
     }
 }

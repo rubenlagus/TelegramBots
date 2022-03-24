@@ -67,7 +67,7 @@ import static org.telegram.telegrambots.Constants.SOCKET_TIMEOUT;
 public abstract class DefaultAbsSender extends AbsSender {
     private static final ContentType TEXT_PLAIN_CONTENT_TYPE = ContentType.create("text/plain", StandardCharsets.UTF_8);
 
-    protected final ExecutorService exe;
+    protected final ExecutorService executor;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final DefaultBotOptions options;
     private final CloseableHttpClient httpClient;
@@ -77,7 +77,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     protected DefaultAbsSender(DefaultBotOptions options) {
         super();
 
-        this.exe = Executors.newFixedThreadPool(options.getMaxThreads());
+        this.executor = Executors.newFixedThreadPool(options.getMaxThreads());
         this.options = options;
 
         httpClient = TelegramHttpClientBuilder.build(options);
@@ -808,7 +808,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     @Override
     public CompletableFuture<Message> executeAsync(SendDocument sendDocument) {
         CompletableFuture<Message> completableFuture = new CompletableFuture<>();
-        exe.submit(() -> {
+        executor.submit(() -> {
             try {
                 completableFuture.complete(execute(sendDocument));
             } catch (TelegramApiException e) {
@@ -821,7 +821,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     @Override
     public CompletableFuture<Message> executeAsync(SendPhoto sendPhoto) {
         CompletableFuture<Message> completableFuture = new CompletableFuture<>();
-        exe.submit(() -> {
+        executor.submit(() -> {
             try {
                 completableFuture.complete(execute(sendPhoto));
             } catch (TelegramApiException e) {
@@ -834,7 +834,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     @Override
     public CompletableFuture<Message> executeAsync(SendVideo sendVideo) {
         CompletableFuture<Message> completableFuture = new CompletableFuture<>();
-        exe.submit(() -> {
+        executor.submit(() -> {
             try {
                 completableFuture.complete(execute(sendVideo));
             } catch (TelegramApiException e) {
@@ -847,7 +847,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     @Override
     public CompletableFuture<Message> executeAsync(SendVideoNote sendVideoNote) {
         CompletableFuture<Message> completableFuture = new CompletableFuture<>();
-        exe.submit(() -> {
+        executor.submit(() -> {
             try {
                 completableFuture.complete(execute(sendVideoNote));
             } catch (TelegramApiException e) {
@@ -860,7 +860,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     @Override
     public CompletableFuture<Message> executeAsync(SendSticker sendSticker) {
         CompletableFuture<Message> completableFuture = new CompletableFuture<>();
-        exe.submit(() -> {
+        executor.submit(() -> {
             try {
                 completableFuture.complete(execute(sendSticker));
             } catch (TelegramApiException e) {
@@ -873,7 +873,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     @Override
     public CompletableFuture<Message> executeAsync(SendAudio sendAudio) {
         CompletableFuture<Message> completableFuture = new CompletableFuture<>();
-        exe.submit(() -> {
+        executor.submit(() -> {
             try {
                 completableFuture.complete(execute(sendAudio));
             } catch (TelegramApiException e) {
@@ -886,7 +886,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     @Override
     public CompletableFuture<Message> executeAsync(SendVoice sendVoice) {
         CompletableFuture<Message> completableFuture = new CompletableFuture<>();
-        exe.submit(() -> {
+        executor.submit(() -> {
             try {
                 completableFuture.complete(execute(sendVoice));
             } catch (TelegramApiException e) {
@@ -899,7 +899,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     @Override
     public CompletableFuture<List<Message>> executeAsync(SendMediaGroup sendMediaGroup) {
         CompletableFuture<List<Message>> completableFuture = new CompletableFuture<>();
-        exe.submit(() -> {
+        executor.submit(() -> {
             try {
                 completableFuture.complete(execute(sendMediaGroup));
             } catch (TelegramApiException e) {
@@ -912,7 +912,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     @Override
     public CompletableFuture<Boolean> executeAsync(SetChatPhoto setChatPhoto) {
         CompletableFuture<Boolean> completableFuture = new CompletableFuture<>();
-        exe.submit(() -> {
+        executor.submit(() -> {
             try {
                 completableFuture.complete(execute(setChatPhoto));
             } catch (TelegramApiException e) {
@@ -925,7 +925,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     @Override
     public CompletableFuture<Boolean> executeAsync(AddStickerToSet addStickerToSet) {
         CompletableFuture<Boolean> completableFuture = new CompletableFuture<>();
-        exe.submit(() -> {
+        executor.submit(() -> {
             try {
                 completableFuture.complete(execute(addStickerToSet));
             } catch (TelegramApiException e) {
@@ -938,7 +938,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     @Override
     public CompletableFuture<Boolean> executeAsync(SetStickerSetThumb setStickerSetThumb) {
         CompletableFuture<Boolean> completableFuture = new CompletableFuture<>();
-        exe.submit(() -> {
+        executor.submit(() -> {
             try {
                 completableFuture.complete(execute(setStickerSetThumb));
             } catch (TelegramApiException e) {
@@ -951,7 +951,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     @Override
     public CompletableFuture<Boolean> executeAsync(CreateNewStickerSet createNewStickerSet) {
         CompletableFuture<Boolean> completableFuture = new CompletableFuture<>();
-        exe.submit(() -> {
+        executor.submit(() -> {
             try {
                 completableFuture.complete(execute(createNewStickerSet));
             } catch (TelegramApiException e) {
@@ -964,7 +964,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     @Override
     public CompletableFuture<File> executeAsync(UploadStickerFile uploadStickerFile) {
         CompletableFuture<File> completableFuture = new CompletableFuture<>();
-        exe.submit(() -> {
+        executor.submit(() -> {
             try {
                 completableFuture.complete(execute(uploadStickerFile));
             } catch (TelegramApiException e) {
@@ -977,7 +977,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     @Override
     public CompletableFuture<Serializable> executeAsync(EditMessageMedia editMessageMedia) {
         CompletableFuture<Serializable> completableFuture = new CompletableFuture<>();
-        exe.submit(() -> {
+        executor.submit(() -> {
             try {
                 completableFuture.complete(execute(editMessageMedia));
             } catch (TelegramApiException e) {
@@ -990,7 +990,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     @Override
     public CompletableFuture<Message> executeAsync(SendAnimation sendAnimation) {
         CompletableFuture<Message> completableFuture = new CompletableFuture<>();
-        exe.submit(() -> {
+        executor.submit(() -> {
             try {
                 completableFuture.complete(execute(sendAnimation));
             } catch (TelegramApiException e) {
@@ -1006,7 +1006,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     @Override
     protected final <T extends Serializable, Method extends BotApiMethod<T>, Callback extends SentCallback<T>> void sendApiMethodAsync(Method method, Callback callback) {
         //noinspection Convert2Lambda
-        exe.submit(new Runnable() {
+        executor.submit(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -1027,7 +1027,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     @Override
     protected <T extends Serializable, Method extends BotApiMethod<T>> CompletableFuture<T> sendApiMethodAsync(Method method) {
         CompletableFuture<T> completableFuture = new CompletableFuture<>();
-        exe.submit(() -> {
+        executor.submit(() -> {
             try {
                 String responseContent = sendMethodRequest(method);
                 completableFuture.complete(method.deserializeResponse(responseContent));

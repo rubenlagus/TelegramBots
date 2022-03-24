@@ -52,7 +52,7 @@ public class TelegramLongPollingBotTest {
         }
 
         ExecutorService getExecutor() {
-            return exe;
+            return executor;
         }
 
         @Override

@@ -190,17 +190,7 @@ public class DefaultBotSession implements BotSession {
                             if (updates.isEmpty()) {
                                 lock.wait(500);
                             } else {
-                                updates.removeIf(x -> x.getUpdateId() < lastReceivedUpdate);
-                                lastReceivedUpdate = updates.parallelStream()
-                                        .map(
-                                                Update::getUpdateId)
-                                        .max(Integer::compareTo)
-                                        .orElse(0);
-                                receivedUpdates.addAll(updates);
-
-                                synchronized (receivedUpdates) {
-                                    receivedUpdates.notifyAll();
-                                }
+                                notifyReceivedUpdates(updates);
                             }
                         } catch (InterruptedException e) {
                             if (!running.get()) {
@@ -281,6 +271,20 @@ public class DefaultBotSession implements BotSession {
             }
 
             return Collections.emptyList();
+        }
+    }
+
+    private void notifyReceivedUpdates(List<Update> updates) {
+        updates.removeIf(x -> x.getUpdateId() < lastReceivedUpdate);
+        lastReceivedUpdate = updates.parallelStream()
+                .map(
+                        Update::getUpdateId)
+                .max(Integer::compareTo)
+                .orElse(0);
+        receivedUpdates.addAll(updates);
+
+        synchronized (receivedUpdates) {
+            receivedUpdates.notifyAll();
         }
     }
 
