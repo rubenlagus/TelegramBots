@@ -54,6 +54,7 @@ public class CopyMessage extends BotApiMethod<MessageId> {
     private static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
     private static final String PROTECTCONTENT_FIELD = "protect_content";
+    private static CopyMessageOptions copyMessageOptions = new CopyMessageOptions();
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -98,27 +99,15 @@ public class CopyMessage extends BotApiMethod<MessageId> {
     }
 
     public void enableMarkdown(boolean enable) {
-        if (enable) {
-            this.parseMode = ParseMode.MARKDOWN;
-        } else {
-            this.parseMode = null;
-        }
+        this.parseMode = copyMessageOptions.enableMarkdown(enable);
     }
 
     public void enableHtml(boolean enable) {
-        if (enable) {
-            this.parseMode = ParseMode.HTML;
-        } else {
-            this.parseMode = null;
-        }
+        this.parseMode = copyMessageOptions.enableHtml(enable);
     }
 
     public void enableMarkdownV2(boolean enable) {
-        if (enable) {
-            this.parseMode = ParseMode.MARKDOWNV2;
-        } else {
-            this.parseMode = null;
-        }
+        this.parseMode = copyMessageOptions.enableMarkdownV2(enable);
     }
 
     @Override
