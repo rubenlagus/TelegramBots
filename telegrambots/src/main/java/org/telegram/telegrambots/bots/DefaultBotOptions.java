@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.ApiConstants;
 import org.telegram.telegrambots.meta.generics.BotOptions;
 import org.telegram.telegrambots.meta.generics.BackOff;
 
+import java.net.InetSocketAddress;
 import java.util.List;
 
 /**
@@ -28,6 +29,22 @@ public class DefaultBotOptions implements BotOptions {
     private int proxyPort;
     private int getUpdatesTimeout;
     private int getUpdatesLimit;
+
+    void configureHttpContext() {
+
+        if (getProxyType() != ProxyType.NO_PROXY) {
+            InetSocketAddress socksaddr = new InetSocketAddress(getProxyHost(), getProxyPort());
+            getHttpContext().setAttribute("socketAddress", socksaddr);
+        }
+
+        if (getProxyType() == ProxyType.SOCKS4) {
+            getHttpContext().setAttribute("socksVersion", 4);
+        }
+        if (getProxyType() == ProxyType.SOCKS5) {
+            getHttpContext().setAttribute("socksVersion", 5);
+        }
+
+    }
 
     public enum ProxyType {
         NO_PROXY,

@@ -48,7 +48,6 @@ import org.telegram.telegrambots.meta.updateshandlers.SentCallback;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -82,7 +81,7 @@ public abstract class DefaultAbsSender extends AbsSender {
 
         httpClient = TelegramHttpClientBuilder.build(options);
         this.telegramFileDownloader = new TelegramFileDownloader(httpClient, this::getBotToken);
-        configureHttpContext();
+        options.configureHttpContext();
 
         final RequestConfig configFromOptions = options.getRequestConfig();
         if (configFromOptions != null) {
@@ -1049,22 +1048,6 @@ public abstract class DefaultAbsSender extends AbsSender {
     }
 
     // Private methods
-
-    private void configureHttpContext() {
-
-        if (options.getProxyType() != DefaultBotOptions.ProxyType.NO_PROXY) {
-            InetSocketAddress socksaddr = new InetSocketAddress(options.getProxyHost(), options.getProxyPort());
-            options.getHttpContext().setAttribute("socketAddress", socksaddr);
-        }
-
-        if (options.getProxyType() == DefaultBotOptions.ProxyType.SOCKS4) {
-            options.getHttpContext().setAttribute("socksVersion", 4);
-        }
-        if (options.getProxyType() == DefaultBotOptions.ProxyType.SOCKS5) {
-            options.getHttpContext().setAttribute("socksVersion", 5);
-        }
-
-    }
 
     private <T extends Serializable, Method extends BotApiMethod<T>> String sendMethodRequest(Method method) throws TelegramApiValidationException, IOException {
         method.validate();
