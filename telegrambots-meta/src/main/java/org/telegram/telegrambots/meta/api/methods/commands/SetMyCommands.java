@@ -11,6 +11,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
+import org.telegram.telegrambots.meta.api.methods.BooleanBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
@@ -35,7 +36,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SetMyCommands extends BotApiMethod<Boolean> {
+public class SetMyCommands extends BooleanBotApiMethod {
     public static final String PATH = "setMyCommands";
 
     private static final String COMMANDS_FIELD = "commands";
@@ -68,21 +69,6 @@ public class SetMyCommands extends BotApiMethod<Boolean> {
     @Override
     public String getMethod() {
         return PATH;
-    }
-
-    @Override
-    public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Boolean>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error sending commands", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
     }
 
     @Override
