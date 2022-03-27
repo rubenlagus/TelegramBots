@@ -7,7 +7,7 @@ public class MrGoodGuy implements AbilityExtension {
            .name("nice")
            .privacy(PUBLIC)
            .locality(ALL)
-           .action(ctx -> silent.send("You're awesome!", ctx.chatId())
+           .action(ctx -> ctx.bot().silent().send("You're awesome!", ctx.chatId())
           );
   }
 }
@@ -18,7 +18,7 @@ public class MrBadGuy implements AbilityExtension {
            .name("notnice")
            .privacy(PUBLIC)
            .locality(ALL)
-           .action(ctx -> silent.send("You're horrible!", ctx.chatId())
+           .action(ctx -> ctx.bot().silent().send("You're horrible!", ctx.chatId())
           );
   }
  }
