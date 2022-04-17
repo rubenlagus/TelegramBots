@@ -7,7 +7,7 @@
     <groupId>org.telegram</groupId>
     <artifactId>Bots</artifactId>
     <packaging>pom</packaging>
-    <version>6.0.0</version>
+    <version>6.0.1</version>
 
     <modules>
         <module>telegrambots</module>
@@ -70,7 +70,7 @@
         <junit.version>5.7.2</junit.version>
         <mockito.version>3.6.0</mockito.version>
         <mockitojupiter.version>3.6.0</mockitojupiter.version>
-        <jacksonanotation.version>2.13.0</jacksonanotation.version>
+        <jacksonanotation.version>2.13.2</jacksonanotation.version>
         <jackson.version>2.13.2.1</jackson.version>
         <json.version>20180813</json.version>
         <slf4j.version>1.7.32</slf4j.version>
