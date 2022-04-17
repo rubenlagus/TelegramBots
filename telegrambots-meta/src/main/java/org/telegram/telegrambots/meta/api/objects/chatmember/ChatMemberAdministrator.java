@@ -37,12 +37,12 @@ public class ChatMemberAdministrator implements ChatMember {
     private static final String CANPOSTMESSAGES_FIELD = "can_post_messages";
     private static final String CANEDITMESSAGES_FIELD = "can_edit_messages";
     private static final String CANDELETEMESSAGES_FIELD = "can_delete_messages";
-    private static final String CANMANAGEVOICECHATS_FIELD = "can_manage_voice_chats";
     private static final String CANRESTRICTMEMBERS_FIELD = "can_restrict_members";
     private static final String CANPROMOTEMEMBERS_FIELD = "can_promote_members";
     private static final String CANCHANGEINFO_FIELD = "can_change_info";
     private static final String CANINVITEUSERS_FIELD = "can_invite_users";
     private static final String CANPINMESSAGES_FIELD = "can_pin_messages";
+    private static final String CANMANAGEVIDEOCHATS_FIELD = "can_manage_video_chats";
 
     /**
      * The member's status in the chat, always “administrator”
@@ -93,11 +93,6 @@ public class ChatMemberAdministrator implements ChatMember {
     @JsonProperty(CANDELETEMESSAGES_FIELD)
     private Boolean canDeleteMessages;
     /**
-     * True, if the administrator can manage voice chats
-     */
-    @JsonProperty(CANMANAGEVOICECHATS_FIELD)
-    private Boolean canManageVoiceChats;
-    /**
      * True, if the administrator can restrict, ban or unban chat members
      */
     @JsonProperty(CANRESTRICTMEMBERS_FIELD)
@@ -124,4 +119,9 @@ public class ChatMemberAdministrator implements ChatMember {
      */
     @JsonProperty(CANPINMESSAGES_FIELD)
     private Boolean canPinMessages;
+    /**
+     * True, if the administrator can manage video chats
+     */
+    @JsonProperty(CANMANAGEVIDEOCHATS_FIELD)
+    private Boolean canManageVideoChats;
 }

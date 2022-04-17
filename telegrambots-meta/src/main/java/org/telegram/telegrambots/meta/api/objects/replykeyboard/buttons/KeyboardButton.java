@@ -12,6 +12,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
+import org.telegram.telegrambots.meta.api.objects.webapp.WebAppInfo;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
@@ -40,6 +41,7 @@ public class KeyboardButton implements Validable, BotApiObject {
     private static final String REQUEST_CONTACT_FIELD = "request_contact";
     private static final String REQUEST_LOCATION_FIELD = "request_location";
     private static final String REQUEST_POLL_FIELD = "request_poll";
+    private static final String WEBAPP_FIELD = "web_app";
     /**
      * Text of the button.
      * If none of the optional fields are used, it will be sent to the bot as a message when the button is pressed
@@ -69,9 +71,17 @@ public class KeyboardButton implements Validable, BotApiObject {
     @JsonProperty(REQUEST_POLL_FIELD)
     private KeyboardButtonPollType requestPoll;
 
+    /**
+     * Optional. Description of the web app that will be launched when the user presses the button.
+     * The web app will be able to send a “web_app_data” service message.
+     * Available in private chats only.
+     */
+    @JsonProperty(WEBAPP_FIELD)
+    private WebAppInfo webApp;
+
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (text == null || text.isEmpty()) {
+        if (text.isEmpty()) {
             throw new TelegramApiValidationException("Text parameter can't be empty", this);
         }
         if (requestContact != null && requestLocation != null && requestContact && requestLocation) {
@@ -82,6 +92,9 @@ public class KeyboardButton implements Validable, BotApiObject {
         }
         if (requestLocation != null && requestPoll != null && requestLocation) {
             throw new TelegramApiValidationException("Cant request location and poll at the same time", this);
+        }
+        if (webApp != null) {
+            webApp.validate();
         }
     }
 }

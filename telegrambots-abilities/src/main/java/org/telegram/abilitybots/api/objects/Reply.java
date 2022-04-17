@@ -43,52 +43,12 @@ public class Reply {
     }
   }
 
-  /**
-   * @deprecated Please use {@link #Reply(List, BiConsumer)}
-   */
-  @Deprecated
-  Reply(List<Predicate<Update>> conditions, Consumer<Update> action) {
-    this.conditions = ImmutableList.<Predicate<Update>>builder()
-        .addAll(conditions)
-        .build();
-    this.action = ((baseAbilityBot, update) -> action.accept(update));
-    statsEnabled = false;
-  }
-
-  /**
-   * @deprecated Please use {@link #Reply(List, BiConsumer, String)}
-   */
-  @Deprecated
-  Reply(List<Predicate<Update>> conditions, Consumer<Update> action, String name) {
-    this(conditions, action);
-    if (Objects.nonNull(name)) {
-      enableStats(name);
-    }
-  }
-
   public static Reply of(BiConsumer<BaseAbilityBot, Update> action, List<Predicate<Update>> conditions) {
     return new Reply(conditions, action);
   }
 
   @SafeVarargs
   public static Reply of(BiConsumer<BaseAbilityBot, Update> action, Predicate<Update>... conditions) {
-    return Reply.of(action, newArrayList(conditions));
-  }
-
-  /**
-   * @deprecated Please use {@link #of(BiConsumer, List)}
-   */
-  @Deprecated
-  public static Reply of(Consumer<Update> action, List<Predicate<Update>> conditions) {
-    return new Reply(conditions, action);
-  }
-
-  /**
-   * @deprecated Please use {@link #of(BiConsumer, Predicate[])}
-   */
-  @Deprecated
-  @SafeVarargs
-  public static Reply of(Consumer<Update> action, Predicate<Update>... conditions) {
     return Reply.of(action, newArrayList(conditions));
   }
 

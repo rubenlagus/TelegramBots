@@ -34,7 +34,6 @@ public class Chat implements BotApiObject {
     private static final String FIRSTNAME_FIELD = "first_name";
     private static final String LASTNAME_FIELD = "last_name";
     private static final String BIO_FIELD = "bio";
-    private static final String ALL_MEMBERS_ARE_ADMINISTRATORS_FIELD = "all_members_are_administrators";
     private static final String PHOTO_FIELD = "photo";
     private static final String DESCRIPTION_FIELD = "description";
     private static final String INVITELINK_FIELD = "invite_link";
@@ -46,8 +45,8 @@ public class Chat implements BotApiObject {
     private static final String LINKEDCHATID_FIELD = "linked_chat_id";
     private static final String LOCATION_FIELD = "location";
     private static final String MESSAGEAUTODELETETIME_FIELD = "message_auto_delete_time";
-    private static final String ALLOWSAVINGCONTENT_FIELD = "allow_saving_content";
     private static final String HASPRIVATEFORWARDS_FIELD = "has_private_forwards";
+    private static final String HASPROTECTEDCONTENT_FIELD = "has_protected_content";
 
     private static final String USERCHATTYPE = "private";
     private static final String GROUPCHATTYPE = "group";
@@ -74,11 +73,6 @@ public class Chat implements BotApiObject {
     private String lastName; ///< Optional. Interlocutor's first name for private chats
     @JsonProperty(USERNAME_FIELD)
     private String userName; ///< Optional. Interlocutor's last name for private chats
-    /**
-     * Optional. True if a group has ‘All Members Are Admins’ enabled.
-     */
-    @JsonProperty(ALL_MEMBERS_ARE_ADMINISTRATORS_FIELD)
-    private Boolean allMembersAreAdministrators;
     @JsonProperty(PHOTO_FIELD)
     private ChatPhoto photo; ///< Optional. Chat photo. Returned only in getChat.
     @JsonProperty(DESCRIPTION_FIELD)
@@ -120,19 +114,18 @@ public class Chat implements BotApiObject {
     private Integer messageAutoDeleteTime; ///< Optional. The time after which all messages sent to the chat will be automatically deleted; in seconds. Returned only in getChat.
     /**
      * Optional.
-     * True, if messages from the chat can be forwarded to other chats.
-     * Returned only in getChat.
-     */
-    @JsonProperty(ALLOWSAVINGCONTENT_FIELD)
-    private Boolean allowSavingContent;
-    /**
-     * Optional.
-     * True, if privacy settings of the other party in the private chat allows to use tg://user?id=<user_id>
-     * links only in chats with the user.
+     * True, if privacy settings of the other party in the private chat allows to use tg://user?id=<user_id> links only in chats with the user.
      * Returned only in getChat.
      */
     @JsonProperty(HASPRIVATEFORWARDS_FIELD)
     private Boolean hasPrivateForwards;
+    /**
+     * Optional.
+     * True, if messages from the chat can't be forwarded to other chats.
+     * Returned only in getChat.
+     */
+    @JsonProperty(HASPROTECTEDCONTENT_FIELD)
+    private Boolean HasProtectedContent;
 
     @JsonIgnore
     public Boolean isGroupChat() {

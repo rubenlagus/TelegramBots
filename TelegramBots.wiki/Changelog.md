@@ -1,6 +1,11 @@
+### <a id="6.0.0"></a>6.0.0 ###
+1. Update Api version [6.0](https://core.telegram.org/bots/api-changelog#april-16-2022)
+2. Removed all deprectated methods/classes with this major upgrade
+
 ### <a id="5.7.1"></a>5.7.1 ###
 1. Update Api version [5.7](https://core.telegram.org/bots/api-changelog#january-31-2022)
-2. Bug Fixing: #1023
+2. Spring boot 2.5.8
+3. Bug Fixing: #1023
 
 ### <a id="5.6.0"></a>5.6.0 ###
 1. Update Api version [5.6](https://core.telegram.org/bots/api-changelog#december-30-2021)

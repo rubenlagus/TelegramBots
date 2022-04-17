@@ -78,19 +78,20 @@ public class DefaultBot extends AbilityBot {
 
   public Reply channelPostReply() {
     return Reply.of(
-            (bot, upd) -> silent.send("test channel post", upd.getChannelPost().getChatId()), Flag.CHANNEL_POST
+            (bot, upd) -> silent.send("test channel post", upd.getChannelPost().getChatId()),
+            Flag.CHANNEL_POST
     );
   }
 
   public ReplyCollection createReplyCollection() {
     return ReplyCollection.of(
         Reply.of(
-            upd -> silent.send("first reply answer", upd.getMessage().getChatId()),
-            update -> update.getMessage().getText().equalsIgnoreCase(FIRST_REPLY_KEY_MESSAGE)
+                (bot, upd) -> silent.send("first reply answer", upd.getMessage().getChatId()),
+                update -> update.getMessage().getText().equalsIgnoreCase(FIRST_REPLY_KEY_MESSAGE)
         ),
         Reply.of(
-            upd -> silent.send("second reply answer", upd.getMessage().getChatId()),
-            update -> update.getMessage().getText().equalsIgnoreCase(SECOND_REPLY_KEY_MESSAGE)
+                (bot, upd) -> silent.send("second reply answer", upd.getMessage().getChatId()),
+                update -> update.getMessage().getText().equalsIgnoreCase(SECOND_REPLY_KEY_MESSAGE)
         )
     );
   }

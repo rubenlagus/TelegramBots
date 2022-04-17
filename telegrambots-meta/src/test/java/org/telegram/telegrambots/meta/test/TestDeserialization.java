@@ -85,7 +85,7 @@ class TestDeserialization {
             Integer updateId = update.getUpdateId();
             JsonNode realUpdate = updateMap.get(updateId);
             JsonNode handledUpdate = mapper.readTree(mapper.writeValueAsString(update));
-            assertEquals(realUpdate, handledUpdate);
+            assertEquals(realUpdate, handledUpdate, String.format("Error with update %d", updateId));
         }
     }
 
@@ -111,10 +111,10 @@ class TestDeserialization {
         String updateText = "{\"ok\":true,\"result\":[{\"update_id\":259894302,\n" +
                 "\"message\":{\"message_id\":105,\"from\":{\"id\":12345678,\"is_bot\":false,\"first_name\":\"FirstName\",\"username\":\"Username\"},\"chat\":{\"id\":12345678,\"first_name\":\"FirstName\",\"username\":\"Username\",\"type\":\"private\"},\"date\":1604226451,\"text\":\"/start\",\"entities\":[{\"offset\":0,\"length\":6,\"type\":\"bot_command\"}]}},{\"update_id\":259894303,\n" +
                 "\"message\":{\"message_id\":106,\"from\":{\"id\":12345678,\"is_bot\":false,\"first_name\":\"FirstName\",\"username\":\"Username\",\"language_code\":\"en\"},\"chat\":{\"id\":12345678,\"first_name\":\"FirstName\",\"username\":\"Username\",\"type\":\"private\"},\"date\":1604226480,\"document\":{\"file_name\":\"aaa.txt\",\"mime_type\":\"text/plain\",\"file_id\":\"FILEID\",\"file_unique_id\":\"AgADiQEAAjTe-VQ\",\"file_size\":2}}},{\"update_id\":259894304,\n" +
-                "\"message\":{\"message_id\":107,\"from\":{\"id\":12345678,\"is_bot\":false,\"first_name\":\"FirstName\",\"username\":\"FirstName\",\"language_code\":\"en\"},\"chat\":{\"id\":-10011869112345,\"title\":\"My new test group\",\"type\":\"group\",\"all_members_are_administrators\":true},\"date\":1604281682,\"new_chat_members\":[{\"id\":123455678,\"is_bot\":true,\"first_name\":\"Testing Telegram Bots\",\"username\":\"TestingRanBot\"}]}},{\"update_id\":259894305,\n" +
-                "\"message\":{\"message_id\":108,\"from\":{\"id\":12345678,\"is_bot\":false,\"first_name\":\"FirstName\",\"username\":\"FirstName\",\"language_code\":\"en\"},\"chat\":{\"id\":-10011869112345,\"title\":\"My new test group\",\"type\":\"group\",\"all_members_are_administrators\":true},\"date\":1604281713,\"left_chat_member\":{\"id\":123455678,\"is_bot\":true,\"first_name\":\"Testing Telegram Bots\",\"username\":\"TestingRanBot\"}}},{\"update_id\":259894306,\n" +
-                "\"message\":{\"message_id\":109,\"from\":{\"id\":12345678,\"is_bot\":false,\"first_name\":\"FirstName\",\"username\":\"FirstName\",\"language_code\":\"en\"},\"chat\":{\"id\":-10011869112345,\"title\":\"My new test group\",\"type\":\"group\",\"all_members_are_administrators\":true},\"date\":1604281720,\"new_chat_members\":[{\"id\":123455678,\"is_bot\":true,\"first_name\":\"Testing Telegram Bots\",\"username\":\"TestingRanBot\"}]}},{\"update_id\":259894307,\n" +
-                "\"message\":{\"message_id\":110,\"from\":{\"id\":12345678,\"is_bot\":false,\"first_name\":\"FirstName\",\"username\":\"FirstName\",\"language_code\":\"en\"},\"chat\":{\"id\":-10011869112345,\"title\":\"My new test group\",\"type\":\"group\",\"all_members_are_administrators\":false},\"date\":1604281763,\"migrate_to_chat_id\":-10011869112345}},{\"update_id\":259894308,\n" +
+                "\"message\":{\"message_id\":107,\"from\":{\"id\":12345678,\"is_bot\":false,\"first_name\":\"FirstName\",\"username\":\"FirstName\",\"language_code\":\"en\"},\"chat\":{\"id\":-10011869112345,\"title\":\"My new test group\",\"type\":\"group\"},\"date\":1604281682,\"new_chat_members\":[{\"id\":123455678,\"is_bot\":true,\"first_name\":\"Testing Telegram Bots\",\"username\":\"TestingRanBot\"}]}},{\"update_id\":259894305,\n" +
+                "\"message\":{\"message_id\":108,\"from\":{\"id\":12345678,\"is_bot\":false,\"first_name\":\"FirstName\",\"username\":\"FirstName\",\"language_code\":\"en\"},\"chat\":{\"id\":-10011869112345,\"title\":\"My new test group\",\"type\":\"group\"},\"date\":1604281713,\"left_chat_member\":{\"id\":123455678,\"is_bot\":true,\"first_name\":\"Testing Telegram Bots\",\"username\":\"TestingRanBot\"}}},{\"update_id\":259894306,\n" +
+                "\"message\":{\"message_id\":109,\"from\":{\"id\":12345678,\"is_bot\":false,\"first_name\":\"FirstName\",\"username\":\"FirstName\",\"language_code\":\"en\"},\"chat\":{\"id\":-10011869112345,\"title\":\"My new test group\",\"type\":\"group\"},\"date\":1604281720,\"new_chat_members\":[{\"id\":123455678,\"is_bot\":true,\"first_name\":\"Testing Telegram Bots\",\"username\":\"TestingRanBot\"}]}},{\"update_id\":259894307,\n" +
+                "\"message\":{\"message_id\":110,\"from\":{\"id\":12345678,\"is_bot\":false,\"first_name\":\"FirstName\",\"username\":\"FirstName\",\"language_code\":\"en\"},\"chat\":{\"id\":-10011869112345,\"title\":\"My new test group\",\"type\":\"group\"},\"date\":1604281763,\"migrate_to_chat_id\":-10011869112345}},{\"update_id\":259894308,\n" +
                 "\"message\":{\"message_id\":1,\"from\":{\"id\":12345678,\"is_bot\":true,\"first_name\":\"Group\",\"username\":\"GroupAnonymousBot\"},\"sender_chat\":{\"id\":-10011869112345,\"title\":\"My new test group\",\"type\":\"supergroup\"},\"chat\":{\"id\":-10011869112345,\"title\":\"My new test group\",\"type\":\"supergroup\"},\"date\":1604281763,\"migrate_from_chat_id\":-10011869112345}},{\"update_id\":259894309,\n" +
                 "\"message\":{\"message_id\":2,\"from\":{\"id\":12345678,\"is_bot\":false,\"first_name\":\"FirstName\",\"username\":\"FirstName\",\"language_code\":\"en\"},\"chat\":{\"id\":-10011869112345,\"title\":\"My new test group\",\"type\":\"supergroup\"},\"date\":1604281985,\"sticker\":{\"width\":512,\"height\":512,\"emoji\":\"\\ud83e\\udd2c\",\"set_name\":\"ShadowKitty\",\"is_animated\":true,\"thumb\":{\"file_id\":\"FILEID\",\"file_unique_id\":\"FILEID\",\"file_size\":7546,\"width\":128,\"height\":128},\"file_id\":\"FILEID\",\"file_unique_id\":\"FILEID\",\"file_size\":13187}}},{\"update_id\":259894310,\n" +
                 "\"message\":{\"message_id\":3,\"from\":{\"id\":12345678,\"is_bot\":false,\"first_name\":\"FirstName\",\"username\":\"FirstName\",\"language_code\":\"en\"},\"chat\":{\"id\":-10011869112345,\"title\":\"My new test group\",\"type\":\"supergroup\"},\"date\":1604281993,\"photo\":[{\"file_id\":\"FILEID\",\"file_unique_id\":\"AQADL3I6J10AAzbcAQAB\",\"file_size\":15207,\"width\":148,\"height\":320},{\"file_id\":\"FILEID\",\"file_unique_id\":\"FILEID\",\"file_size\":64579,\"width\":369,\"height\":800},{\"file_id\":\"FILEID\",\"file_unique_id\":\"FILEID\",\"file_size\":93424,\"width\":591,\"height\":1280}]}},{\"update_id\":259894311,\n" +
@@ -183,8 +183,7 @@ class TestDeserialization {
                 "                \"chat\": {\n" +
                 "                    \"id\": -552721116,\n" +
                 "                    \"title\": \"Random test\",\n" +
-                "                    \"type\": \"group\",\n" +
-                "                    \"all_members_are_administrators\": false\n" +
+                "                    \"type\": \"group\"\n" +
                 "                },\n" +
                 "                \"date\": 1615072605,\n" +
                 "                \"group_chat_created\": true\n" +
@@ -203,8 +202,7 @@ class TestDeserialization {
                 "                \"chat\": {\n" +
                 "                    \"id\": -552721116,\n" +
                 "                    \"title\": \"Random test\",\n" +
-                "                    \"type\": \"group\",\n" +
-                "                    \"all_members_are_administrators\": false\n" +
+                "                    \"type\": \"group\"\n" +
                 "                },\n" +
                 "                \"date\": 1615072631,\n" +
                 "                \"migrate_to_chat_id\": -1001308316775\n" +
@@ -226,7 +224,7 @@ class TestDeserialization {
                 "                    \"type\": \"supergroup\"\n" +
                 "                },\n" +
                 "                \"date\": 1615072662,\n" +
-                "                \"voice_chat_started\": {}\n" +
+                "                \"video_chat_started\": {}\n" +
                 "            }\n" +
                 "        },\n" +
                 "        {\n" +
@@ -245,7 +243,7 @@ class TestDeserialization {
                 "                    \"type\": \"supergroup\"\n" +
                 "                },\n" +
                 "                \"date\": 1615072671,\n" +
-                "                \"voice_chat_participants_invited\": {\n" +
+                "                \"video_chat_participants_invited\": {\n" +
                 "                    \"users\": [\n" +
                 "                        {\n" +
                 "                            \"id\": 222222222222222,\n" +
@@ -274,7 +272,7 @@ class TestDeserialization {
                 "                    \"type\": \"supergroup\"\n" +
                 "                },\n" +
                 "                \"date\": 1615072919,\n" +
-                "                \"voice_chat_ended\": {\n" +
+                "                \"video_chat_ended\": {\n" +
                 "                    \"duration\": 257\n" +
                 "                }\n" +
                 "            }\n" +

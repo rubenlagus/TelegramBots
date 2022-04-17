@@ -14,6 +14,7 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.api.objects.LoginUrl;
 import org.telegram.telegrambots.meta.api.objects.games.CallbackGame;
+import org.telegram.telegrambots.meta.api.objects.webapp.WebAppInfo;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
@@ -42,6 +43,7 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
     private static final String SWITCH_INLINE_QUERY_CURRENT_CHAT_FIELD = "switch_inline_query_current_chat";
     private static final String PAY_FIELD = "pay";
     private static final String LOGIN_URL_FIELD = "login_url";
+    private static final String WEBAPP_FIELD = "web_app";
 
     @JsonProperty(TEXT_FIELD)
     @NonNull
@@ -98,13 +100,25 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
     @JsonProperty(LOGIN_URL_FIELD)
     private LoginUrl loginUrl;
 
+    /**
+     * Optional.
+     * Description of the web app that will be launched when the user presses the button.
+     * The web app will be able to send an arbitrary message on behalf of the user using the method answerWebAppQuery.
+     * Available only in private chats between users and the bot.
+     */
+    @JsonProperty(WEBAPP_FIELD)
+    private WebAppInfo webApp;
+
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (text == null || text.isEmpty()) {
+        if (text.isEmpty()) {
             throw new TelegramApiValidationException("Text parameter can't be empty", this);
         }
         if (loginUrl != null) {
             loginUrl.validate();
+        }
+        if (webApp != null) {
+            webApp.validate();
         }
     }
 }

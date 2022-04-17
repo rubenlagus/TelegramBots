@@ -1,19 +1,14 @@
-package org.telegram.telegrambots.meta.api.objects.voicechat;
+package org.telegram.telegrambots.meta.api.objects.videochat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
  * @author Ruben Bermudez
- * @version 5.1
+ * @version 6.0
  *
- * This object represents a service message about a voice chat ended in the chat.
+ * This object represents a service message about a video chat ended in the chat.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -21,7 +16,7 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class VoiceChatEnded implements BotApiObject {
+public class VideoChatEnded implements BotApiObject {
     private static final String DURATION_FIELD = "duration";
 
     @JsonProperty(DURATION_FIELD)

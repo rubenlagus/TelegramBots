@@ -32,6 +32,7 @@ public class WebhookInfo implements BotApiObject {
     private static final String LASTERRORDATE_FIELD = "last_error_date";
     private static final String LASTERRORMESSAGE_FIELD = "last_error_message";
     private static final String IPADDRESS_FIELD = "ip_address";
+    private static final String LASTSYNCHRONIZATIONERRORDATE_FIELD = "last_synchronization_error_date";
 
     @JsonProperty(URL_FIELD)
     private String url; ///< Webhook URL, may be empty if webhook is not set up
@@ -49,4 +50,10 @@ public class WebhookInfo implements BotApiObject {
     private List<String> allowedUpdates; ///< Optional. A list of update types the bot is subscribed to. Defaults to all update types
     @JsonProperty(IPADDRESS_FIELD)
     private String ipAddress; ///< Optional. Currently used webhook IP address
+    /**
+     * Optional.
+     * Unix time of the most recent error that happened when trying to synchronize available updates with Telegram datacenters
+     */
+    @JsonProperty(LASTSYNCHRONIZATIONERRORDATE_FIELD)
+    private Integer lastSynchronizationErrorDate;
 }
