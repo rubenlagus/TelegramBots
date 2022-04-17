@@ -1,4 +1,4 @@
-### <a id="6.0.0"></a>6.0.0 ###
+### <a id="6.0.1"></a>6.0.1 ###
 1. Update Api version [6.0](https://core.telegram.org/bots/api-changelog#april-16-2022)
 2. Removed all deprectated methods/classes with this major upgrade
 
