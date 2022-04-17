@@ -11,13 +11,13 @@ First you need ot get the library and add it to your project. There are few poss
            <dependency>
               <groupId>org.telegram</groupId>
               <artifactId>telegrambots</artifactId>
-              <version>5.7.1</version>
+              <version>6.0.0</version>
            </dependency>
         ```
     * With **Gradle**:
     
         ```gradle
-          implementation 'org.telegram:telegrambots:5.7.1'
+          implementation 'org.telegram:telegrambots:6.0.0'
         ```
  
 2. Don't like **Maven Central Repository**? It can also be taken from [Jitpack](https://jitpack.io/#rubenlagus/TelegramBots).

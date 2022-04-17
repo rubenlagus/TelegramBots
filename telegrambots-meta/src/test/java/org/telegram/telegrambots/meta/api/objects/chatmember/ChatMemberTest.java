@@ -122,7 +122,7 @@ public class ChatMemberTest {
                 "        \"can_post_messages\": true,\n" +
                 "        \"can_edit_messages\": true,\n" +
                 "        \"can_delete_messages\": true,\n" +
-                "        \"can_manage_voice_chats\": true,\n" +
+                "        \"can_manage_video_chats\": true,\n" +
                 "        \"can_restrict_members\": true,\n" +
                 "        \"can_promote_members\": true,\n" +
                 "        \"can_change_info\": true,\n" +
@@ -141,7 +141,7 @@ public class ChatMemberTest {
         assertEquals(true, chatMemberAdministrator.getCanPostMessages());
         assertEquals(true, chatMemberAdministrator.getCanEditMessages());
         assertEquals(true, chatMemberAdministrator.getCanDeleteMessages());
-        assertEquals(true, chatMemberAdministrator.getCanManageVoiceChats());
+        assertEquals(true, chatMemberAdministrator.getCanManageVideoChats());
         assertEquals(true, chatMemberAdministrator.getCanRestrictMembers());
         assertEquals(true, chatMemberAdministrator.getCanPromoteMembers());
         assertEquals(true, chatMemberAdministrator.getCanChangeInfo());

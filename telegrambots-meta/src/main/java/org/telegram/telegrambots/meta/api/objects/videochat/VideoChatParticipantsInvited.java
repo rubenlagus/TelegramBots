@@ -1,12 +1,7 @@
-package org.telegram.telegrambots.meta.api.objects.voicechat;
+package org.telegram.telegrambots.meta.api.objects.videochat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.User;
 
@@ -14,9 +9,9 @@ import java.util.List;
 
 /**
  * @author Ruben Bermudez
- * @version 5.1
+ * @version 6.0
  *
- * This object represents a service message about new members invited to a voice chat.
+ * This object represents a service message about new members invited to a video chat.
  *
  */
 @EqualsAndHashCode(callSuper = false)
@@ -25,7 +20,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class VoiceChatParticipantsInvited implements BotApiObject {
+public class VideoChatParticipantsInvited implements BotApiObject {
     private static final String USERS_FIELD = "users";
 
     @JsonProperty(USERS_FIELD)

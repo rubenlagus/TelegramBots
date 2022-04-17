@@ -1,20 +1,14 @@
-package org.telegram.telegrambots.meta.api.objects.voicechat;
+package org.telegram.telegrambots.meta.api.objects.videochat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
  * @author Ruben Bermudez
- * @version 5.2
+ * @version 6.0
  *
- * This object represents a service message about a voice chat scheduled in the chat.
+ * This object represents a service message about a video chat scheduled in the chat.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -22,7 +16,7 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class VoiceChatScheduled implements BotApiObject {
+public class VideoChatScheduled implements BotApiObject {
     private static final String STARTDATE_FIELD = "start_date";
 
     @JsonProperty(STARTDATE_FIELD)

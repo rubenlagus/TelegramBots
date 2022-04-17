@@ -215,16 +215,6 @@ public final class Ability {
       return this;
     }
 
-    /**
-     * @deprecated Please use {@link #reply(BiConsumer, Predicate[])}
-     */
-    @Deprecated
-    @SafeVarargs
-    public final AbilityBuilder reply(Consumer<Update> action, Predicate<Update>... conditions) {
-      replies.add(Reply.of(action, conditions));
-      return this;
-    }
-
     @SafeVarargs
     public final AbilityBuilder reply(BiConsumer<BaseAbilityBot, Update> action, Predicate<Update>... conditions) {
       replies.add(Reply.of(action, conditions));

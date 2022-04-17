@@ -65,15 +65,6 @@ public class ReplyFlow extends Reply {
       this(db, replyCounter.getAndIncrement());
     }
 
-    /**
-     * @deprecated Please use {@link #action(BiConsumer)}
-     */
-    @Deprecated
-    public ReplyFlowBuilder action(Consumer<Update> action) {
-      this.action = (bot, update) -> action.accept(update);
-      return this;
-    }
-
     public ReplyFlowBuilder action(BiConsumer<BaseAbilityBot, Update> action) {
       this.action = action;
       return this;
