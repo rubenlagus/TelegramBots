@@ -17,10 +17,11 @@ import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
-import org.telegram.telegrambots.meta.api.objects.voicechat.VoiceChatEnded;
-import org.telegram.telegrambots.meta.api.objects.voicechat.VoiceChatParticipantsInvited;
-import org.telegram.telegrambots.meta.api.objects.voicechat.VoiceChatScheduled;
-import org.telegram.telegrambots.meta.api.objects.voicechat.VoiceChatStarted;
+import org.telegram.telegrambots.meta.api.objects.videochat.VideoChatEnded;
+import org.telegram.telegrambots.meta.api.objects.videochat.VideoChatParticipantsInvited;
+import org.telegram.telegrambots.meta.api.objects.videochat.VideoChatScheduled;
+import org.telegram.telegrambots.meta.api.objects.videochat.VideoChatStarted;
+import org.telegram.telegrambots.meta.api.objects.webapp.WebAppData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,12 +90,13 @@ public class Message implements BotApiObject {
     private static final String SENDERCHAT_FIELD = "sender_chat";
     private static final String PROXIMITYALERTTRIGGERED_FIELD = "proximity_alert_triggered";
     private static final String MESSAGEAUTODELETETIMERCHANGED_FIELD = "message_auto_delete_timer_changed";
-    private static final String VOICECHATSTARTED_FIELD = "voice_chat_started";
-    private static final String VOICECHATENDED_FIELD = "voice_chat_ended";
-    private static final String VOICECHATPARTICIPANTSINVITED_FIELD = "voice_chat_participants_invited";
-    private static final String VOICECHATSCHEDULED_FIELD = "voice_chat_scheduled";
     private static final String ISAUTOMATICFORWARD_FIELD = "is_automatic_forward";
     private static final String HASPROTECTEDCONTENT_FIELD = "has_protected_content";
+    private static final String WEBAPPDATA_FIELD = "web_app_data";
+    private static final String VIDEOCHATSCHEDULED_FIELD = "video_chat_scheduled";
+    private static final String VIDEOCHATSTARTED_FIELD = "video_chat_started";
+    private static final String VIDEOCHATENDED_FIELD = "video_chat_ended";
+    private static final String VIDEOCHATPARTICIPANTSINVITED_FIELD = "video_chat_participants_invited";
 
     @JsonProperty(MESSAGEID_FIELD)
     private Integer messageId; ///< Integer	Unique message identifier
@@ -264,14 +266,6 @@ public class Message implements BotApiObject {
     private ProximityAlertTriggered proximityAlertTriggered;
     @JsonProperty(MESSAGEAUTODELETETIMERCHANGED_FIELD)
     private MessageAutoDeleteTimerChanged messageAutoDeleteTimerChanged; ///< Optional. Service message: auto-delete timer settings changed in the chat
-    @JsonProperty(VOICECHATSTARTED_FIELD)
-    private VoiceChatStarted voiceChatStarted; ///< Optional. Service message: voice chat started
-    @JsonProperty(VOICECHATENDED_FIELD)
-    private VoiceChatEnded voiceChatEnded; ///< Optional. Service message: voice chat ended
-    @JsonProperty(VOICECHATPARTICIPANTSINVITED_FIELD)
-    private VoiceChatParticipantsInvited voiceChatParticipantsInvited; ///< Optional. Service message: new members invited to a voice chat
-    @JsonProperty(VOICECHATSCHEDULED_FIELD)
-    private VoiceChatScheduled voiceChatScheduled; ///< Optional. Service message: voice chat scheduled
     @JsonProperty(ISAUTOMATICFORWARD_FIELD)
     /**
      * Optional.
@@ -280,7 +274,16 @@ public class Message implements BotApiObject {
     private Boolean isAutomaticForward;
     @JsonProperty(HASPROTECTEDCONTENT_FIELD)
     private Boolean hasProtectedContent; ///< Optional. True, if the message can't be forwarded
-
+    @JsonProperty(WEBAPPDATA_FIELD)
+    private WebAppData webAppData; ///< Optional. Service message: data sent by a web app
+    @JsonProperty(VIDEOCHATSTARTED_FIELD)
+    private VideoChatStarted videoChatStarted; ///< Optional. Service message: video chat started
+    @JsonProperty(VIDEOCHATENDED_FIELD)
+    private VideoChatEnded videoChatEnded; ///< Optional. Service message: video chat ended
+    @JsonProperty(VIDEOCHATPARTICIPANTSINVITED_FIELD)
+    private VideoChatParticipantsInvited videoChatParticipantsInvited; ///< Optional. Service message: new participants invited to a video chat
+    @JsonProperty(VIDEOCHATSCHEDULED_FIELD)
+    private VideoChatScheduled videoChatScheduled; ///< Optional. Service message: video chat scheduled
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {
@@ -450,22 +453,27 @@ public class Message implements BotApiObject {
     }
 
     @JsonIgnore
-    private boolean hasVoiceChatStarted() {
-        return voiceChatStarted != null;
+    private boolean hasWebAppData() {
+        return webAppData != null;
     }
 
     @JsonIgnore
-    private boolean hasVoiceChatEnded() {
-        return voiceChatEnded != null;
+    private boolean hasVideoChatStarted() {
+        return videoChatStarted != null;
     }
 
     @JsonIgnore
-    private boolean hasVoiceChatScheduled() {
-        return voiceChatScheduled != null;
+    private boolean hasVideoChatEnded() {
+        return videoChatEnded != null;
     }
 
     @JsonIgnore
-    private boolean hasVoiceChatParticipantsInvited() {
-        return voiceChatParticipantsInvited != null;
+    private boolean hasVideoChatScheduled() {
+        return videoChatScheduled != null;
+    }
+
+    @JsonIgnore
+    private boolean hasVideoChatParticipantsInvited() {
+        return videoChatParticipantsInvited != null;
     }
 }

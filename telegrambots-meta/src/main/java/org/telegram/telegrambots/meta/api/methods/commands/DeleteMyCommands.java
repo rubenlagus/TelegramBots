@@ -66,7 +66,7 @@ public class DeleteMyCommands extends BotApiMethod<Boolean> {
             if (result.getOk()) {
                 return result.getResult();
             } else {
-                throw new TelegramApiRequestException("Error sending commands", result);
+                throw new TelegramApiRequestException("Error deleting commands", result);
             }
         } catch (IOException e) {
             throw new TelegramApiRequestException("Unable to deserialize response", e);

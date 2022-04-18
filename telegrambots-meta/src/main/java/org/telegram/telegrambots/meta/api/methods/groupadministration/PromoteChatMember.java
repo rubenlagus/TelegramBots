@@ -49,7 +49,7 @@ public class PromoteChatMember extends BotApiMethod<Boolean> {
     private static final String CANPROMOTEMEMBERS_FIELD = "can_promote_members";
     private static final String ISANONYMOUS_FIELD = "is_anonymous";
     private static final String CANMANAGECHAT_FIELD = "can_manage_chat";
-    private static final String CANMANAGEVOICECHATS_FIELD = "can_manage_voice_chats";
+    private static final String CANMANAGEVIDEOCHATS_FIELD = "can_manage_video_chats";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -86,12 +86,11 @@ public class PromoteChatMember extends BotApiMethod<Boolean> {
     @JsonProperty(CANMANAGECHAT_FIELD)
     private Boolean canManageChat;
     /**
-     * Optional.
-     *
-     * Pass True, if the administrator can manage voice chats, supergroups only
+     * Optional
+     * Pass True, if the administrator can manage video chats
      */
-    @JsonProperty(CANMANAGEVOICECHATS_FIELD)
-    private Boolean canManageVoiceChats;
+    @JsonProperty(CANMANAGEVIDEOCHATS_FIELD)
+    private Boolean canManageVideoChats;
 
     @Override
     public String getMethod() {
@@ -116,11 +115,11 @@ public class PromoteChatMember extends BotApiMethod<Boolean> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
+        if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
-        if (userId == null) {
-            throw new TelegramApiValidationException("UserId can't be null", this);
+        if (userId == 0L) {
+            throw new TelegramApiValidationException("UserId can't be empty", this);
         }
     }
 }
