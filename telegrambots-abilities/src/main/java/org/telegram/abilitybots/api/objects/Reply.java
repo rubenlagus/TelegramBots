@@ -18,7 +18,7 @@ import static com.google.common.collect.Lists.newArrayList;
 /**
  * A reply consists of update conditionals and an action to be applied on the update.
  * <p>
- * If an update satisfies the {@link Reply#conditions} set by the reply, then it's safe to .
+ * If an update satisfies the {@link Reply#conditions} set by the reply, then it's safe to {@link Reply#actOn(Update)}.
  *
  * @author Abbas Abou Daya
  */
