@@ -18,7 +18,7 @@ import static com.google.common.collect.Lists.newArrayList;
 /**
  * A reply consists of update conditionals and an action to be applied on the update.
  * <p>
- * If an update satisfies the {@link Reply#conditions} set by the reply, then it's safe to {@link Reply#actOn(Update)}.
+ * If an update satisfies the {@link Reply#conditions} set by the reply, then it's safe to .
  *
  * @author Abbas Abou Daya
  */
@@ -50,6 +50,18 @@ public class Reply {
   @SafeVarargs
   public static Reply of(BiConsumer<BaseAbilityBot, Update> action, Predicate<Update>... conditions) {
     return Reply.of(action, newArrayList(conditions));
+  }
+
+  public static BiConsumer<BaseAbilityBot, Update> ToBiConsumer(Consumer<Update> consumer) {
+    return (baseAbilityBot, update) -> consumer.accept(update);
+  }
+
+  public static Reply of(Consumer<Update> action, List<Predicate<Update>> conditions) {
+    return new Reply(conditions, ToBiConsumer(action));
+  }
+
+  public static Reply of(Consumer<Update> action, Predicate<Update>... conditions) {
+    return Reply.of(ToBiConsumer(action), newArrayList(conditions));
   }
 
   public boolean isOkFor(Update update) {
