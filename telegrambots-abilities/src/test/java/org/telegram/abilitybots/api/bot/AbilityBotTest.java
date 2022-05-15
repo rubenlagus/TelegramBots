@@ -383,7 +383,7 @@ public class AbilityBotTest {
     Map<String, Long> expectedUserIds = ImmutableMap.of(changedUser.getUserName(), changedUser.getId());
     Map<Long, User> expectedUsers = ImmutableMap.of(changedUser.getId(), changedUser);
     assertEquals(bot.userIds(), expectedUserIds, "User was not properly edited");
-    assertEquals(expectedUsers, expectedUsers, "User was not properly edited");
+    assertEquals(bot.users(), expectedUsers, "User was not properly edited");
   }
 
   @Test
