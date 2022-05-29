@@ -62,12 +62,12 @@ public class SilentSender {
         italic = false;
       if (valid && message.charAt(i) == '[' )
         inline_URL = false;
-      if (valid && (i < message.length() - 1 && message.charAt(i) == '`' && message.charAt(i+1) != '`'))
-        inline = false;
-      if (valid && (i < message.length() - 5 && message.charAt(i) == '`' && message.charAt(i+1) == '`' && message.charAt(i+2) == '`')) {
+      if (valid && (i < message.length() - 2 && message.charAt(i) == '`' && message.charAt(i+1) == '`' && message.charAt(i+2) == '`')) {
         language = false;
         i +=2;
       }
+      if (valid && message.charAt(i) == '`' && language))
+        inline = false;
       //skips the escape character
       if (valid & message.charAt(i) == '\\')
         i++;
