@@ -27,6 +27,7 @@ public abstract class PartialBotApiMethod<T extends Serializable> implements Val
     public abstract T deserializeResponse(String answer) throws TelegramApiRequestException;
 
     /**
+     * @author Timur Sergeevich
      * Deserialize a json answer to the response type to a method
      * @param answer Json answer received
      * @param exceptionMessage message to exception if result false
