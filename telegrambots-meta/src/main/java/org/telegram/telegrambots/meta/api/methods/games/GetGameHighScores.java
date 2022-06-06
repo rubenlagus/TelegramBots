@@ -83,17 +83,7 @@ public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
 
     @Override
     public ArrayList<GameHighScore> deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<ArrayList<GameHighScore>> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<ArrayList<GameHighScore>>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error getting game high scores", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+        return deserializeResponseDefault(answer,"Error getting game high scores");
     }
 
     @Override

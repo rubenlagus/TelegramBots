@@ -77,17 +77,7 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
 
     @Override
     public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Boolean>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error creating new sticker set", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+        return deserializeResponseDefault(answer, "Error creating new sticker set");
     }
 
     @Override

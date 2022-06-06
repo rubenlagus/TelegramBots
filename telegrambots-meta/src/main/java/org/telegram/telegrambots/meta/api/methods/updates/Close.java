@@ -39,18 +39,7 @@ public class Close extends BotApiMethod<Boolean> {
 
     @Override
     public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Boolean>>() {
-                    });
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error closing", result);
-            }
-        } catch (IOException e2) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e2);
-        }
+        return deserializeResponseDefault(answer, "Error closing");
     }
 
     @Override

@@ -48,17 +48,7 @@ public class UploadStickerFile extends PartialBotApiMethod<File> {
 
     @Override
     public File deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<File> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<File>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error uploading sticker set", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+        return deserializeResponseDefault(answer, "Error uploading sticker set");
     }
 
     @Override

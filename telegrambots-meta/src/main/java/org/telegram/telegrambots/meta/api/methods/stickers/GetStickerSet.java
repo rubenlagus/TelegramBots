@@ -46,17 +46,7 @@ public class GetStickerSet extends BotApiMethod<StickerSet> {
 
     @Override
     public StickerSet deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<StickerSet> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<StickerSet>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error getting sticker set", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+        return deserializeResponseDefault(answer, "Error getting sticker set");
     }
 
     @Override

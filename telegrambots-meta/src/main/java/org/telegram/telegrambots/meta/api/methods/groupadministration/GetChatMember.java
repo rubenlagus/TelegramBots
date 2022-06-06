@@ -51,17 +51,7 @@ public class GetChatMember extends BotApiMethod<ChatMember> {
 
     @Override
     public ChatMember deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<ChatMember> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<ChatMember>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error getting chat member", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+        return deserializeResponseDefault(answer, "Error getting chat member");
     }
 
     @Override

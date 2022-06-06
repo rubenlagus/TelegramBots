@@ -60,17 +60,7 @@ public class GetUserProfilePhotos extends BotApiMethod<UserProfilePhotos> {
 
     @Override
     public UserProfilePhotos deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<UserProfilePhotos> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<UserProfilePhotos>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error getting user profile photos", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+        return deserializeResponseDefault(answer, "Error getting user profile photos");
     }
 
     @Override

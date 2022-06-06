@@ -46,17 +46,7 @@ public class GetChat extends BotApiMethod<Chat> {
 
     @Override
     public Chat deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Chat> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Chat>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error getting chat", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+        return deserializeResponseDefault(answer,"Error getting chat");
     }
 
     @Override

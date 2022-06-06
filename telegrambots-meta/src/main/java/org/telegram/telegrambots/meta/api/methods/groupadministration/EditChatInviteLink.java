@@ -82,17 +82,7 @@ public class EditChatInviteLink extends BotApiMethod<ChatInviteLink> {
 
     @Override
     public ChatInviteLink deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<ChatInviteLink> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<ChatInviteLink>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error creating invite link", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+        return deserializeResponseDefault(answer,"Error creating invite link");
     }
 
     @Override

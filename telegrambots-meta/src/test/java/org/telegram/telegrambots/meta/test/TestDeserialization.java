@@ -27,6 +27,7 @@ import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberRestricte
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.ChosenInlineQuery;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -456,6 +457,18 @@ class TestDeserialization {
         assertNotNull(result.getParameters());
         assertEquals(Long.valueOf(12345), result.getParameters().getMigrateToChatId());
         assertEquals(Integer.valueOf(12), result.getParameters().getRetryAfter());
+    }
+
+    @Test
+    void TestDeserializeResponseDefault() {
+        try {
+            ArrayList<Update> updates = new GetUpdates().deserializeResponseDefault(TelegramBotsHelper.GetResponseWithError(), "Error getting updates");
+        } catch (TelegramApiRequestException exception) {
+            assertEquals("Error getting updates: [400] Error descriptions",exception.getMessage());
+        }
+
+
+
     }
 
     private void assertUpdate(Update update) {

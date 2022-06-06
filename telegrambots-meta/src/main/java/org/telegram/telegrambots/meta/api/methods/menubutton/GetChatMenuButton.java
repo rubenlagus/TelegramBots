@@ -51,16 +51,6 @@ public class GetChatMenuButton extends BotApiMethod<MenuButton> {
 
     @Override
     public MenuButton deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<MenuButton> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<MenuButton>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error getting chat menu button query", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+        return deserializeResponseDefault(answer,"Error getting chat menu button query");
     }
 }

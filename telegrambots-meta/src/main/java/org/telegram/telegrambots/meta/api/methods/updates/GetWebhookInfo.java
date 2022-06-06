@@ -39,18 +39,7 @@ public class GetWebhookInfo extends BotApiMethod<WebhookInfo> {
 
     @Override
     public WebhookInfo deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<WebhookInfo> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<WebhookInfo>>() {
-                    });
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error getting webhook info", result);
-            }
-        } catch (IOException e2) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e2);
-        }
+        return deserializeResponseDefault(answer, "Error getting webhook info");
     }
 
     @Override

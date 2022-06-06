@@ -82,19 +82,8 @@ public class GetUpdates extends BotApiMethod<ArrayList<Update>>{
     }
 
     @Override
-    public ArrayList<Update> deserializeResponse(String answer) throws
-            TelegramApiRequestException {
-        try {
-            ApiResponse<ArrayList<Update>> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<ArrayList<Update>>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error getting updates", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+    public ArrayList<Update> deserializeResponse(String answer) throws TelegramApiRequestException {
+        return deserializeResponseDefault(answer, "Error getting updates");
     }
 
     @Override

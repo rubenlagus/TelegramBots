@@ -76,18 +76,7 @@ public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
 
     @Override
     public ArrayList<Message> deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<ArrayList<Message>> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<ArrayList<Message>>>() {
-                    });
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error sending media group", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+        return deserializeResponseDefault(answer,"Error sending media group");
     }
 
     @Override

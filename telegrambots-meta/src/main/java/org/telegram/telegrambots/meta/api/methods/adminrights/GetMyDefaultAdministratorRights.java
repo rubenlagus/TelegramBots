@@ -46,17 +46,7 @@ public class GetMyDefaultAdministratorRights extends BotApiMethod<ChatAdministra
 
     @Override
     public ChatAdministratorRights deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<ChatAdministratorRights> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<ChatAdministratorRights>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error getting default administrator rights", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+        return deserializeResponseDefault(answer,"Error getting default administrator rights");
     }
 
     @Override

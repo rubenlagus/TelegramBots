@@ -36,18 +36,7 @@ public class GetMe extends BotApiMethod<User> {
 
     @Override
     public User deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<User> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<User>>() {
-                    });
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error getting me", result);
-            }
-        } catch (IOException e2) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e2);
-        }
+        return deserializeResponseDefault(answer, "Error getting me");
     }
 
     @Override

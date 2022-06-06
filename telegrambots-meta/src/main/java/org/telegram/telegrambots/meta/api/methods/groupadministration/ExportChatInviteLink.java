@@ -54,17 +54,7 @@ public class ExportChatInviteLink extends BotApiMethod<String> {
 
     @Override
     public String deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<String> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<String>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error exporting invite link", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+        return deserializeResponseDefault(answer,"Error exporting invite link");
     }
 
     @Override

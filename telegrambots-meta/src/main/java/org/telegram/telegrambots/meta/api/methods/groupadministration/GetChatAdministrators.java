@@ -51,17 +51,7 @@ public class GetChatAdministrators extends BotApiMethod<ArrayList<ChatMember>> {
 
     @Override
     public ArrayList<ChatMember> deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<ArrayList<ChatMember>> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<ArrayList<ChatMember>>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error getting chat administrators", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+        return deserializeResponseDefault(answer,"Error getting chat administrators");
     }
 
     @Override

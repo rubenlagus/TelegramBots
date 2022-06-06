@@ -128,17 +128,7 @@ public class CopyMessage extends BotApiMethod<MessageId> {
 
     @Override
     public MessageId deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<MessageId> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<MessageId>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error copying message", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+        return deserializeResponseDefault(answer, "Error copying message");
     }
 
     @Override

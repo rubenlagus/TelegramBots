@@ -45,17 +45,7 @@ public class GetChatMemberCount extends BotApiMethod<Integer> {
 
     @Override
     public Integer deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Integer> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Integer>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error getting chat members count", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+        return deserializeResponseDefault(answer,"Error getting chat members count");
     }
 
     @Override

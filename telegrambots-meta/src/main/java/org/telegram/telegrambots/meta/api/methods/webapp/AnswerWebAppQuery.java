@@ -59,16 +59,6 @@ public class AnswerWebAppQuery  extends BotApiMethod<SentWebAppMessage> {
 
     @Override
     public SentWebAppMessage deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<SentWebAppMessage> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<SentWebAppMessage>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error answering web app query query", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+        return deserializeResponseDefault(answer, "Error answering web app query query");
     }
 }
