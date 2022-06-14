@@ -143,4 +143,17 @@ class MapDBContextTest {
     Var<User> changedVar = db.getVar(varName);
     assertEquals(changedVar.get(), USER);
   }
+
+  @Test
+  void testToString() throws Exception {
+    String varName = "somevar";
+    Var<User> var = db.getVar(varName);
+    var.set(CREATOR);
+    db.commit();
+    var = db.getVar(varName);
+    var.set(USER);
+    db.commit();
+    Var<User> changedVar = db.getVar(varName);
+    Assertions.assertEquals("MapDBVar{var=User(id=1, firstName=first, isBot=false, lastName=last, userName=username, languageCode=null, canJoinGroups=false, canReadAllGroupMessages=false, supportInlineQueries=false)}", ((MapDBVar) (changedVar)).toString());
+  }
 }
