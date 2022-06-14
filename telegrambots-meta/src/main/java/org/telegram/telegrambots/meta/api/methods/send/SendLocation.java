@@ -11,6 +11,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -91,6 +92,11 @@ public class SendLocation extends BotApiMethod<Message> {
     @JsonProperty(PROTECTCONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     public void enableNotification() {
         this.disableNotification = false;
     }
@@ -121,14 +127,8 @@ public class SendLocation extends BotApiMethod<Message> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
+        if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
-        }
-        if (latitude == null) {
-            throw new TelegramApiValidationException("Latitude parameter can't be empty", this);
-        }
-        if (longitude == null) {
-            throw new TelegramApiValidationException("Longitude parameter can't be empty", this);
         }
         if (horizontalAccuracy != null && (horizontalAccuracy < 0 || horizontalAccuracy > 1500)) {
             throw new TelegramApiValidationException("Horizontal Accuracy parameter must be between 0 and 1500", this);
@@ -144,6 +144,15 @@ public class SendLocation extends BotApiMethod<Message> {
         }
         if (livePeriod != null && (livePeriod < 60 || livePeriod > 86400)) {
             throw new TelegramApiValidationException("Live period parameter must be between 60 and 86400", this);
+        }
+    }
+
+    public static class SendLocationBuilder {
+
+        @Tolerate
+        public SendLocationBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

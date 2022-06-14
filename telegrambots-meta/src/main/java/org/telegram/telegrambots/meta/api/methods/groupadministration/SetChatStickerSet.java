@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -45,6 +46,11 @@ public class SetChatStickerSet extends BotApiMethod<Boolean> {
     @NonNull
     private String stickerSetName; ///< Name of the sticker set to be set as the group sticker set
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -67,11 +73,20 @@ public class SetChatStickerSet extends BotApiMethod<Boolean> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
+        if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
-        if (stickerSetName == null || stickerSetName.isEmpty()) {
+        if (stickerSetName.isEmpty()) {
             throw new TelegramApiValidationException("StickerSetName can't be empty", this);
+        }
+    }
+
+    public static class SetChatStickerSetBuilder {
+
+        @Tolerate
+        public SetChatStickerSetBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

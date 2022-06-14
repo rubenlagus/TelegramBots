@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -93,6 +94,11 @@ public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
     @JsonProperty(PROXIMITYALERTRADIUS_FIELD)
     private Integer proximityAlertRadius;
 
+    @Tolerate
+    public void setChatId(Long chatId) {
+        this.chatId = chatId == null ? null : chatId.toString();
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -141,12 +147,6 @@ public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
                 throw new TelegramApiValidationException("MessageId parameter must be empty if inlineMessageId is provided", this);
             }
         }
-        if (latitude == null) {
-            throw new TelegramApiValidationException("Latitude parameter can't be empty", this);
-        }
-        if (longitude == null) {
-            throw new TelegramApiValidationException("Longitude parameter can't be empty", this);
-        }
         if (horizontalAccuracy != null && (horizontalAccuracy < 0 || horizontalAccuracy > 1500)) {
             throw new TelegramApiValidationException("Horizontal Accuracy parameter must be between 0 and 1500", this);
         }
@@ -158,6 +158,15 @@ public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+    }
+
+    public static class EditMessageLiveLocationBuilder {
+
+        @Tolerate
+        public EditMessageLiveLocationBuilder chatId(Long chatId) {
+            this.chatId = chatId == null ? null : chatId.toString();
+            return this;
         }
     }
 }

@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.test.apimethods;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.games.SetGameScore;
@@ -26,7 +25,7 @@ class TestSetGameScore {
     @BeforeEach
     void setUp() {
         setGameScore = new SetGameScore();
-        setGameScore.setChatId("12345");
+        setGameScore.setChatId(12345L);
         setGameScore.setDisableEditMessage(true);
         setGameScore.setMessageId(54321);
         setGameScore.setScore(12);

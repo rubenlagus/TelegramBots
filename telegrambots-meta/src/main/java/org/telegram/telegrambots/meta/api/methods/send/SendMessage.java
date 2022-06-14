@@ -12,6 +12,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
@@ -76,6 +77,11 @@ public class SendMessage extends BotApiMethod<Message> {
     @JsonProperty(PROTECTCONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     public void disableWebPagePreview() {
         disableWebPagePreview = true;
     }
@@ -138,10 +144,10 @@ public class SendMessage extends BotApiMethod<Message> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
+        if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
-        if (text == null || text.isEmpty()) {
+        if (text.isEmpty()) {
             throw new TelegramApiValidationException("Text parameter can't be empty", this);
         }
         if (parseMode != null && (entities != null && !entities.isEmpty()) ) {
@@ -149,6 +155,15 @@ public class SendMessage extends BotApiMethod<Message> {
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+    }
+
+    public static class SendMessageBuilder {
+
+        @Tolerate
+        public SendMessageBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -165,6 +166,11 @@ public class SendInvoice extends BotApiMethod<Message> {
     @JsonProperty(PROTECTCONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -205,7 +211,7 @@ public class SendInvoice extends BotApiMethod<Message> {
         if (Strings.isNullOrEmpty(currency)) {
             throw new TelegramApiValidationException("Currency parameter can't be empty", this);
         }
-        if (prices == null || prices.isEmpty()) {
+        if (prices.isEmpty()) {
             throw new TelegramApiValidationException("Prices parameter can't be empty", this);
         } else {
             for (LabeledPrice price : prices) {
@@ -217,6 +223,15 @@ public class SendInvoice extends BotApiMethod<Message> {
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+    }
+
+    public static class SendInvoiceBuilder {
+
+        @Tolerate
+        public SendInvoiceBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -44,6 +45,11 @@ public class SetChatPhoto extends PartialBotApiMethod<Boolean> {
     @NonNull
     private InputFile photo; ///< New chat photo as InputStream, uploaded using multipart/form-data
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     @Override
     public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
         try {
@@ -61,11 +67,20 @@ public class SetChatPhoto extends PartialBotApiMethod<Boolean> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
+        if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
-        if (photo == null || !photo.isNew()) {
+        if (!photo.isNew()) {
             throw new TelegramApiValidationException("Photo parameter is required and must be a new file to upload", this);
+        }
+    }
+
+    public static class SetChatPhotoBuilder {
+
+        @Tolerate
+        public SetChatPhotoBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -72,6 +73,11 @@ public class EditMessageCaption extends BotApiMethod<Serializable> {
     @Singular
     private List<MessageEntity> captionEntities; ///< Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
 
+    @Tolerate
+    public void setChatId(Long chatId) {
+        this.chatId = chatId == null ? null : chatId.toString();
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -125,6 +131,15 @@ public class EditMessageCaption extends BotApiMethod<Serializable> {
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+    }
+
+    public static class EditMessageCaptionBuilder {
+
+        @Tolerate
+        public EditMessageCaptionBuilder chatId(Long chatId) {
+            this.chatId = chatId == null ? null : chatId.toString();
+            return this;
         }
     }
 }

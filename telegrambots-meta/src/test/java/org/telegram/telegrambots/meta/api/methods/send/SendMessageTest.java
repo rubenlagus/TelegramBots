@@ -11,7 +11,7 @@ class SendMessageTest {
     void comparison() {
         SendMessage sm1 = SendMessage
                 .builder()
-                .chatId("1")
+                .chatId(1L)
                 .text("Hello World")
                 .build();
         SendMessage sm2 = SendMessage
@@ -26,7 +26,6 @@ class SendMessageTest {
                 .disableNotification(true)
                 .build();
 
-        sm1.equals(sm2);
         assertEquals(sm1, sm2);
         assertNotEquals(sm1, disabledNotification);
 

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
@@ -44,6 +45,11 @@ public class GetChatMember extends BotApiMethod<ChatMember> {
     @NonNull
     private Long userId; ///< Unique identifier of the target user
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -66,11 +72,17 @@ public class GetChatMember extends BotApiMethod<ChatMember> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
+        if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
-        if (userId == null) {
-            throw new TelegramApiValidationException("UserId can't be null", this);
+    }
+
+    public static class GetChatMemberBuilder {
+
+        @Tolerate
+        public GetChatMemberBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

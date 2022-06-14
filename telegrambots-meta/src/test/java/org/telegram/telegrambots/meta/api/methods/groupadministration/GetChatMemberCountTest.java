@@ -16,7 +16,7 @@ public class GetChatMemberCountTest {
     public void testGetChatMemberCountWithAllSet() {
         GetChatMemberCount getChatMemberCount = GetChatMemberCount
                 .builder()
-                .chatId("12345")
+                .chatId(12345L)
                 .build();
         assertEquals("getChatMemberCount", getChatMemberCount.getMethod());
         assertDoesNotThrow(getChatMemberCount::validate);

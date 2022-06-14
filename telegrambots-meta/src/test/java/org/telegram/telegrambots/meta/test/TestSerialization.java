@@ -27,7 +27,7 @@ public class TestSerialization {
     @Test
     void testSendLocation() throws JsonProcessingException {
         SendLocation location = SendLocation.builder()
-                .chatId("12345")
+                .chatId(12345L)
                 .latitude(20.758069)
                 .longitude(-0.005702)
                 .horizontalAccuracy(65.00000)

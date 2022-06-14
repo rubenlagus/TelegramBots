@@ -3,7 +3,16 @@ package org.telegram.telegrambots.meta.api.methods.groupadministration;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -51,6 +60,11 @@ public class BanChatSenderChat extends BotApiMethod<Boolean> {
     @JsonProperty(UNTILDATE_FIELD)
     private Integer untilDate;
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     @JsonIgnore
     public void setUntilDateInstant(Instant instant) {
         setUntilDate((int) instant.getEpochSecond());
@@ -93,6 +107,15 @@ public class BanChatSenderChat extends BotApiMethod<Boolean> {
         }
         if (senderChatId == 0) {
             throw new TelegramApiValidationException("SenderChatId can't be null or 0", this);
+        }
+    }
+
+    public static class BanChatSenderChatBuilder {
+
+        @Tolerate
+        public BanChatSenderChatBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

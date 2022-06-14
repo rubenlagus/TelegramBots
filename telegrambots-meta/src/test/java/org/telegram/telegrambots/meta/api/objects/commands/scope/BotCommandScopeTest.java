@@ -44,7 +44,7 @@ public class BotCommandScopeTest {
     public void testBotCommandScopeChatWithValidChatIId() {
         BotCommandScopeChat botCommandScope = BotCommandScopeChat
                 .builder()
-                .chatId("12345")
+                .chatId(12345L)
                 .build();
         assertEquals("chat", botCommandScope.getType());
         assertDoesNotThrow(botCommandScope::validate);
@@ -87,7 +87,7 @@ public class BotCommandScopeTest {
     public void testBotCommandScopeChatMemberWithValidSetUp() {
         BotCommandScopeChatMember botCommandScope = BotCommandScopeChatMember
                 .builder()
-                .chatId("12345")
+                .chatId(12345L)
                 .userId(12345L)
                 .build();
         assertEquals("chat_member", botCommandScope.getType());

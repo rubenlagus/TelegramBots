@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -109,6 +110,11 @@ public class SendPoll extends BotApiMethod<Message> {
     @JsonProperty(PROTECTCONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     public void enableNotification() {
         this.disableNotification = null;
     }
@@ -140,13 +146,13 @@ public class SendPoll extends BotApiMethod<Message> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
+        if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
-        if (question == null || question.isEmpty()) {
+        if (question.isEmpty()) {
             throw new TelegramApiValidationException("Question parameter can't be empty", this);
         }
-        if (options == null || options.size() < 2 || options.size() > 10) {
+        if (options.size() < 2 || options.size() > 10) {
             throw new TelegramApiValidationException("Options parameter must be between 2 and 10 item", this);
         }
         if (openPeriod != null && closeDate != null) {
@@ -166,6 +172,16 @@ public class SendPoll extends BotApiMethod<Message> {
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+    }
+
+
+    public static class SendPollBuilder {
+
+        @Tolerate
+        public SendPollBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

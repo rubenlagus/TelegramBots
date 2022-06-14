@@ -11,6 +11,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
@@ -110,6 +111,11 @@ public class EditMessageText extends BotApiMethod<Serializable> {
         }
     }
 
+    @Tolerate
+    public void setChatId(Long chatId) {
+        this.chatId = chatId == null ? null : chatId.toString();
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -158,7 +164,7 @@ public class EditMessageText extends BotApiMethod<Serializable> {
                 throw new TelegramApiValidationException("MessageId parameter must be empty if inlineMessageId is provided", this);
             }
         }
-        if (text == null || text.isEmpty()) {
+        if (text.isEmpty()) {
             throw new TelegramApiValidationException("Text parameter can't be empty", this);
         }
         if (parseMode != null && (entities != null && !entities.isEmpty()) ) {
@@ -166,6 +172,15 @@ public class EditMessageText extends BotApiMethod<Serializable> {
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+    }
+
+    public static class EditMessageTextBuilder {
+
+        @Tolerate
+        public EditMessageTextBuilder chatId(Long chatId) {
+            this.chatId = chatId == null ? null : chatId.toString();
+            return this;
         }
     }
 }

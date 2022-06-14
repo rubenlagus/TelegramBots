@@ -2,7 +2,15 @@ package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -25,7 +33,7 @@ import java.io.IOException;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class unbanChatSenderChat extends BotApiMethod<Boolean> {
+public class UnbanChatSenderChat extends BotApiMethod<Boolean> {
     public static final String PATH = "unbanChatSenderChat";
 
     private static final String CHATID_FIELD = "chat_id";
@@ -37,6 +45,11 @@ public class unbanChatSenderChat extends BotApiMethod<Boolean> {
     @JsonProperty(SENDER_CHAT_ID_FIELD)
     @NonNull
     private Long senderChatId; ///< Required. Unique identifier of the target sender chat
+
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
 
     @Override
     public String getMethod() {
@@ -65,6 +78,15 @@ public class unbanChatSenderChat extends BotApiMethod<Boolean> {
         }
         if (senderChatId == 0) {
             throw new TelegramApiValidationException("SenderChatId can't be null or 0", this);
+        }
+    }
+
+    public static class UnbanChatSenderChatBuilder {
+
+        @Tolerate
+        public UnbanChatSenderChatBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

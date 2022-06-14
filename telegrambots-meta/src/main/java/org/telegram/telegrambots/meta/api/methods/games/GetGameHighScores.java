@@ -18,7 +18,6 @@ package org.telegram.telegrambots.meta.api.methods.games;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -28,9 +27,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.games.GameHighScore;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.games.GameHighScore;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -76,6 +76,11 @@ public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
     @NonNull
     private Long userId; ///<Target user id
 
+    @Tolerate
+    public void setChatId(Long chatId) {
+        this.chatId = chatId == null ? null : chatId.toString();
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -98,9 +103,6 @@ public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (userId == null) {
-            throw new TelegramApiValidationException("UserId parameter can't be empty", this);
-        }
         if (inlineMessageId == null) {
             if (chatId == null || chatId.isEmpty()) {
                 throw new TelegramApiValidationException("ChatId parameter can't be empty if inlineMessageId is not present", this);
@@ -115,6 +117,15 @@ public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
             if (messageId != null) {
                 throw new TelegramApiValidationException("MessageId parameter must be empty if inlineMessageId is provided", this);
             }
+        }
+    }
+
+    public static class GetGameHighScoresBuilder {
+
+        @Tolerate
+        public GetGameHighScoresBuilder chatId(Long chatId) {
+            this.chatId = chatId == null ? null : chatId.toString();
+            return this;
         }
     }
 }

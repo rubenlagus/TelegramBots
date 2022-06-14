@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
@@ -45,6 +46,11 @@ public class StopPoll extends BotApiMethod<Poll> {
     @NonNull
     private Integer messageId; ///< Identifier of the original message with the poll
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -67,11 +73,21 @@ public class StopPoll extends BotApiMethod<Poll> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
+        if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
-        if (messageId == null || messageId == 0) {
+        if (messageId == 0) {
             throw new TelegramApiValidationException("Message Id parameter can't be empty", this);
+        }
+    }
+
+
+    public static class StopPollBuilder {
+
+        @Tolerate
+        public StopPollBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

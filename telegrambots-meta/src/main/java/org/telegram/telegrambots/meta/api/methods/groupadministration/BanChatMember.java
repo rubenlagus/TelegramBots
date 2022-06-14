@@ -12,6 +12,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -69,6 +70,10 @@ public class BanChatMember extends BotApiMethod<Boolean> {
     @JsonProperty(REVOKEMESSAGES_FIELD)
     private Boolean revokeMessages;
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
 
     @JsonIgnore
     public void setUntilDateInstant(Instant instant) {
@@ -107,11 +112,21 @@ public class BanChatMember extends BotApiMethod<Boolean> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
+        if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
-        if (userId == null || userId == 0) {
+        if (userId == 0) {
             throw new TelegramApiValidationException("UserId can't be null or 0", this);
         }
+    }
+
+    public static class BanChatMemberBuilder {
+
+        @Tolerate
+        public BanChatMemberBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
+        }
+
     }
 }

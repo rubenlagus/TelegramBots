@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
@@ -59,6 +60,11 @@ public class SendChatAction extends BotApiMethod<Boolean> {
     @NonNull
     private String action;
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     @JsonIgnore
     public ActionType getActionType() {
         return ActionType.get(action);
@@ -96,6 +102,15 @@ public class SendChatAction extends BotApiMethod<Boolean> {
         }
         if (action.isEmpty()) {
             throw new TelegramApiValidationException("Action parameter can't be empty", this);
+        }
+    }
+
+    public static class SendChatActionBuilder {
+
+        @Tolerate
+        public SendChatActionBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

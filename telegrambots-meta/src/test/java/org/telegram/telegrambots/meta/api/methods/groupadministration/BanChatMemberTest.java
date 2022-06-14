@@ -16,7 +16,7 @@ public class BanChatMemberTest {
     public void testBanChatMemberWithAllSet() {
         BanChatMember banChatMember = BanChatMember
                 .builder()
-                .chatId("12345")
+                .chatId(12345L)
                 .userId(12345L)
                 .untilDate(1000)
                 .revokeMessages(true)

@@ -12,6 +12,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.ChatInviteLink;
@@ -74,6 +75,10 @@ public class EditChatInviteLink extends BotApiMethod<ChatInviteLink> {
     @JsonProperty(CREATESJOINREQUEST_FIELD)
     private Boolean createsJoinRequest;
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
 
     @Override
     public String getMethod() {
@@ -111,6 +116,15 @@ public class EditChatInviteLink extends BotApiMethod<ChatInviteLink> {
         }
         if (memberLimit != null && (memberLimit < 1 || memberLimit > 99999)) {
             throw new TelegramApiValidationException("MemberLimit must be between 1 and 99999", this);
+        }
+    }
+
+    public static class EditChatInviteLinkBuilder {
+
+        @Tolerate
+        public EditChatInviteLinkBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

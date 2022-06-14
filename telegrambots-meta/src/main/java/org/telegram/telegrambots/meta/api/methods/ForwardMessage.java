@@ -11,6 +11,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -63,16 +64,23 @@ public class ForwardMessage extends BotApiMethod<Message> {
     @JsonProperty(PROTECTCONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
+    @Tolerate
+    public void setFromChatId(@NonNull Long fromChatId) {
+        this.fromChatId = fromChatId.toString();
+    }
+
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
+        if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
-        if (fromChatId == null || fromChatId.isEmpty()) {
+        if (fromChatId.isEmpty()) {
             throw new TelegramApiValidationException("FromChatId can't be empty", this);
-        }
-        if (messageId == null) {
-            throw new TelegramApiValidationException("MessageId can't be empty", this);
         }
     }
 
@@ -93,6 +101,21 @@ public class ForwardMessage extends BotApiMethod<Message> {
             }
         } catch (IOException e) {
             throw new TelegramApiRequestException("Unable to deserialize response", e);
+        }
+    }
+
+    public static class ForwardMessageBuilder {
+
+        @Tolerate
+        public ForwardMessageBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
+        }
+
+        @Tolerate
+        public ForwardMessageBuilder fromChatId(@NonNull Long fromChatId) {
+            this.fromChatId = fromChatId.toString();
+            return this;
         }
     }
 }

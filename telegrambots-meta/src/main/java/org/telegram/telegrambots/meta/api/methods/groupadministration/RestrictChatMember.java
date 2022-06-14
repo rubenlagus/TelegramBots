@@ -12,6 +12,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.ChatPermissions;
@@ -70,6 +71,11 @@ public class RestrictChatMember extends BotApiMethod<Boolean> {
     @JsonProperty(UNTILDATE_FIELD)
     private Integer untilDate; ///< Optional. Date when restrictions will be lifted for the user, unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be banned forever
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     @JsonIgnore
     public void setUntilDateInstant(Instant instant) {
         setUntilDate((int) instant.getEpochSecond());
@@ -107,14 +113,17 @@ public class RestrictChatMember extends BotApiMethod<Boolean> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
+        if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
-        if (userId == null) {
-            throw new TelegramApiValidationException("UserId can't be empty", this);
-        }
-        if (permissions == null) {
-            throw new TelegramApiValidationException("Permissions can't be empty", this);
+    }
+
+    public static class RestrictChatMemberBuilder {
+
+        @Tolerate
+        public RestrictChatMemberBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

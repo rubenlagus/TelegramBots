@@ -112,7 +112,7 @@ public class SendInvoiceTest {
 
     private SendInvoice createSendInvoiceObject() {
         return SendInvoice.builder()
-                .chatId("123456")
+                .chatId(123456L)
                 .title("Title")
                 .description("Description")
                 .payload("Payload")

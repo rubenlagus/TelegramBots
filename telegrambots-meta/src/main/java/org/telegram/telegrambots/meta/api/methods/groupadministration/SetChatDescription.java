@@ -11,6 +11,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -45,6 +46,11 @@ public class SetChatDescription extends BotApiMethod<Boolean> {
     @JsonProperty(DESCRIPTION_FIELD)
     private String description; ///< Optional. New chat description, 0-255 characters
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -67,11 +73,20 @@ public class SetChatDescription extends BotApiMethod<Boolean> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
+        if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
         if (description == null) {
             throw new TelegramApiValidationException("Description can't be null", this);
+        }
+    }
+
+    public static class SetChatDescriptionBuilder {
+
+        @Tolerate
+        public SetChatDescriptionBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

@@ -4,7 +4,11 @@ import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author Ruben Bermudez
@@ -15,7 +19,7 @@ public class PromoteChatMemberTest {
     public void testPromoteChatMemberWithAllSet() {
         PromoteChatMember promoteChatMember = PromoteChatMember
                 .builder()
-                .chatId("12345")
+                .chatId(12345L)
                 .userId(12345L)
                 .build();
         assertEquals("promoteChatMember", promoteChatMember.getMethod());

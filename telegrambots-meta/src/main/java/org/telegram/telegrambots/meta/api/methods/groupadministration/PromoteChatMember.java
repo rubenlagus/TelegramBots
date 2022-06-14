@@ -11,6 +11,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -92,6 +93,11 @@ public class PromoteChatMember extends BotApiMethod<Boolean> {
     @JsonProperty(CANMANAGEVIDEOCHATS_FIELD)
     private Boolean canManageVideoChats;
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -121,5 +127,15 @@ public class PromoteChatMember extends BotApiMethod<Boolean> {
         if (userId == 0L) {
             throw new TelegramApiValidationException("UserId can't be empty", this);
         }
+    }
+
+    public static class PromoteChatMemberBuilder {
+
+        @Tolerate
+        public PromoteChatMemberBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
+        }
+
     }
 }

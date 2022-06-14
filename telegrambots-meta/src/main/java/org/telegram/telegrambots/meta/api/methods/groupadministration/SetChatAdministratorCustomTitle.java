@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -47,6 +48,11 @@ public class SetChatAdministratorCustomTitle extends BotApiMethod<Boolean> {
     @NonNull
     private String customTitle; ///< New custom title for the administrator; 0-16 characters, emoji are not allowed
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -69,14 +75,20 @@ public class SetChatAdministratorCustomTitle extends BotApiMethod<Boolean> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
+        if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
-        if (userId == null || userId == 0) {
+        if (userId == 0) {
             throw new TelegramApiValidationException("UserId can't be empty", this);
         }
-        if (customTitle == null) {
-            throw new TelegramApiValidationException("CustomTitle can't be null", this);
+    }
+
+    public static class SetChatAdministratorCustomTitleBuilder {
+
+        @Tolerate
+        public SetChatAdministratorCustomTitleBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

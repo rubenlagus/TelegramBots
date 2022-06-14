@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.ChatInviteLink;
@@ -51,6 +52,11 @@ public class RevokeChatInviteLink extends BotApiMethod<ChatInviteLink> {
     @NonNull
     private String inviteLink; ///< The invite link to revoke
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -78,6 +84,15 @@ public class RevokeChatInviteLink extends BotApiMethod<ChatInviteLink> {
         }
         if (Strings.isNullOrEmpty(inviteLink)) {
             throw new TelegramApiValidationException("InviteLink can't be empty", this);
+        }
+    }
+
+    public static class RevokeChatInviteLinkBuilder {
+
+        @Tolerate
+        public RevokeChatInviteLinkBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

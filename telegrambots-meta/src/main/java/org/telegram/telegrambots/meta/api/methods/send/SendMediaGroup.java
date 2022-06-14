@@ -11,6 +11,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -66,6 +67,11 @@ public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     public void enableNotification() {
         this.disableNotification = false;
     }
@@ -92,11 +98,11 @@ public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
+        if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
 
-        if (medias == null || medias.isEmpty()) {
+        if (medias.isEmpty()) {
             throw new TelegramApiValidationException("Media parameter can't be empty", this);
         } else if (medias.size() < 2 || medias.size() > 10) {
             throw new TelegramApiValidationException("Number of media should be between 2 and 10", this);
@@ -120,6 +126,15 @@ public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
             if (!medias.stream().allMatch(x -> x instanceof InputMediaDocument)) {
                 throw new TelegramApiValidationException("Media parameter containing Document can not have other types", this);
             }
+        }
+    }
+
+    public static class SendMediaGroupBuilder {
+
+        @Tolerate
+        public SendMediaGroupBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

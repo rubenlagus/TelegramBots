@@ -10,6 +10,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -55,6 +56,11 @@ public class SendSticker extends PartialBotApiMethod<Message> {
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     public Boolean getDisableNotification() {
         return disableNotification;
     }
@@ -92,6 +98,15 @@ public class SendSticker extends PartialBotApiMethod<Message> {
 
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+    }
+
+    public static class SendStickerBuilder {
+
+        @Tolerate
+        public SendStickerBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

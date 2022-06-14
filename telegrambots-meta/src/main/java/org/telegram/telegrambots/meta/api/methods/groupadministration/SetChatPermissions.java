@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.ChatPermissions;
@@ -45,6 +46,11 @@ public class SetChatPermissions extends BotApiMethod<Boolean> {
     @NonNull
     private ChatPermissions permissions; ///< New default chat permissions
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -67,11 +73,17 @@ public class SetChatPermissions extends BotApiMethod<Boolean> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
+        if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
-        if (permissions == null) {
-            throw new TelegramApiValidationException("Permissions can't be null", this);
+    }
+
+    public static class SetChatPermissionsBuilder {
+
+        @Tolerate
+        public SetChatPermissionsBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }
