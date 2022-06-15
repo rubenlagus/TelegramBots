@@ -41,9 +41,13 @@ class ExtensionTest {
   }
 
   public static class ExtensionUsingBot extends AbilityBot {
+    /**
+     * Constructor for ExtensionUsingBot
+     */
     ExtensionUsingBot() {
+      // https://github.com/rubenlagus/TelegramBots/issues/834
       super("", "", offlineInstance("testing"));
-      addExtension(new AbilityBotExtension("addedInConstructor"));
+      addExtension(new AbilityBotExtension("addedInConstructor", this));
     }
 
     @Override
@@ -51,42 +55,63 @@ class ExtensionTest {
       return 0;
     }
 
+    /**
+     * Method for returning AbiltyExtension
+     * @return AbilityBotExtension instance
+     */
     public AbilityBotExtension methodReturningExtensionSubClass() {
-      return new AbilityBotExtension("returningSubClass");
+      // https://github.com/rubenlagus/TelegramBots/issues/834
+      return new AbilityBotExtension("returningSubClass", this);
     }
 
+    /**
+     * Method for returning AbilityExtension
+     * @return AbiltyBotExtension instance
+     */
     public AbilityExtension methodReturningExtensionSuperClass() {
-      return new AbilityBotExtension("returningSuperClass");
+      // https://github.com/rubenlagus/TelegramBots/issues/834
+      return new AbilityBotExtension("returningSuperClass", this);
     }
 
     public Ability methodReturningAbility() {
       return Ability.builder()
-          .name("direct")
-          .info("Test ability")
-          .locality(ALL)
-          .privacy(PUBLIC)
-          .action(messageContext -> {
-          })
-          .build();
+              .name("direct")
+              .info("Test ability")
+              .locality(ALL)
+              .privacy(PUBLIC)
+              .action(messageContext -> {
+              })
+              .build();
     }
   }
 
   public static class AbilityBotExtension implements AbilityExtension {
     private String name;
+    private AbilityBot extensionUser;
 
-    AbilityBotExtension(String name) {
+    /**
+     * https://github.com/rubenlagus/TelegramBots/issues/721
+     * Constructor for AbilityBotExtension
+     * @param name Name of the ability extension
+     * @param extensionUser The AbilityBot that uses this AbilityExtension
+     */
+    AbilityBotExtension(String name, AbilityBot extensionUser) {
       this.name = name;
+      // https://github.com/rubenlagus/TelegramBots/issues/834
+      this.extensionUser = extensionUser;
     }
 
     public Ability abc() {
       return Ability.builder()
-          .name(name + "0abc")
-          .info("Test ability")
-          .locality(ALL)
-          .privacy(PUBLIC)
-          .action(ctx -> {
-          })
-          .build();
+              .name(name + "0abc")
+              .info("Test ability")
+              .locality(ALL)
+              .privacy(PUBLIC)
+              .action(ctx -> {
+                // https://github.com/rubenlagus/TelegramBots/issues/834
+                extensionUser.silent().send("This is a test message.", ctx.chatId());
+              })
+              .build();
     }
   }
 }
