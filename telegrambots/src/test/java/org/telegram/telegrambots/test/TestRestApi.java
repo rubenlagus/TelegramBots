@@ -227,7 +227,7 @@ public class TestRestApi extends JerseyTest {
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, GetChatMemberCount.class);
 
-        assertEquals("{\"chat_id\":\"12345\",\"method\":\"getChatMembersCount\"}", map(result));
+        assertEquals("{\"chat_id\":\"12345\",\"method\":\"getChatMemberCount\"}", map(result));
     }
 
     @Test
@@ -305,7 +305,7 @@ public class TestRestApi extends JerseyTest {
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, BanChatMember.class);
 
-        assertEquals("{\"chat_id\":\"12345\",\"user_id\":98765,\"method\":\"kickchatmember\"}", map(result));
+        assertEquals("{\"chat_id\":\"12345\",\"user_id\":98765,\"method\":\"banChatMember\"}", map(result));
     }
 
     @Test
