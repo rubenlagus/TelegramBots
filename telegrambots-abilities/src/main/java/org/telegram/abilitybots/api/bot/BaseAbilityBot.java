@@ -697,8 +697,13 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
         try {
             return callable.call();
         } catch(Exception ex) {
-            log.error(format("Reply [%s] failed to check for conditions. " +
-                "Make sure you're safeguarding against all possible updates.", name));
+            String msg = format("Reply [%s] failed to check for conditions. " +
+                    "Make sure you're safeguarding against all possible updates.", name);
+            if (log.isDebugEnabled()) {
+                log.error(msg, ex);
+            } else {
+                log.error(msg);
+            }
         }
         return false;
     }
