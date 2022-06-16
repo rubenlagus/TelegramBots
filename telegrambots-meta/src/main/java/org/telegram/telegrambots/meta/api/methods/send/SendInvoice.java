@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Strings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,15 +13,11 @@ import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
 import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethodMessage;
 import org.telegram.telegrambots.meta.api.objects.payments.LabeledPrice;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -38,7 +33,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SendInvoice extends BotApiMethod<Message> {
+public class SendInvoice extends BotApiMethodMessage {
     public static final String PATH = "sendinvoice";
 
     private static final String CHATID_FIELD = "chat_id";
@@ -174,21 +169,6 @@ public class SendInvoice extends BotApiMethod<Message> {
     @Override
     public String getMethod() {
         return PATH;
-    }
-
-    @Override
-    public Message deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Message> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Message>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error sending invoice", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
     }
 
     @Override

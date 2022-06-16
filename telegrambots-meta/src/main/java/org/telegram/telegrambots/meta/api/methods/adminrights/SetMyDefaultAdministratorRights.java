@@ -1,16 +1,15 @@
 package org.telegram.telegrambots.meta.api.methods.adminrights;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
-import lombok.*;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.api.objects.adminrights.ChatAdministratorRights;
-import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScope;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-
-import java.io.IOException;
 
 /**
  * @author Ruben Bermudez
@@ -26,7 +25,7 @@ import java.io.IOException;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SetMyDefaultAdministratorRights extends BotApiMethod<Boolean> {
+public class SetMyDefaultAdministratorRights extends BotApiMethodBoolean {
     public static final String PATH = "setMyDefaultAdministratorRights";
 
     private static final String RIGHTS_FIELD = "rights";
@@ -50,25 +49,5 @@ public class SetMyDefaultAdministratorRights extends BotApiMethod<Boolean> {
     @Override
     public String getMethod() {
         return PATH;
-    }
-
-    @Override
-    public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Boolean>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error setting default administrator rights", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
-    }
-
-    @Override
-    public void validate() throws TelegramApiValidationException {
-
     }
 }

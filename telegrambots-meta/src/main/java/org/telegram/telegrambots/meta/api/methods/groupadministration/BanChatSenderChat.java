@@ -2,7 +2,6 @@ package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -13,12 +12,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZonedDateTime;
@@ -40,7 +36,7 @@ import java.time.ZonedDateTime;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BanChatSenderChat extends BotApiMethod<Boolean> {
+public class BanChatSenderChat extends BotApiMethodBoolean {
     public static final String PATH = "banChatSenderChat";
 
     private static final String CHATID_FIELD = "chat_id";
@@ -83,21 +79,6 @@ public class BanChatSenderChat extends BotApiMethod<Boolean> {
     @Override
     public String getMethod() {
         return PATH;
-    }
-
-    @Override
-    public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Boolean>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error banning chat sender", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
     }
 
     @Override

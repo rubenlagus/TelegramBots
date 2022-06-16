@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.updatingmessages;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -11,14 +10,11 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethodSerializable;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -36,7 +32,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
+public class EditMessageLiveLocation extends BotApiMethodSerializable {
     public static final String PATH = "editMessageLiveLocation";
 
     private static final String CHATID_FIELD = "chat_id";
@@ -106,28 +102,7 @@ public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
 
     @Override
     public Serializable deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Message> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Message>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error editing message live location", result);
-            }
-        } catch (IOException e) {
-            try {
-                ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
-                        new TypeReference<ApiResponse<Boolean>>() {
-                        });
-                if (result.getOk()) {
-                    return result.getResult();
-                } else {
-                    throw new TelegramApiRequestException("Error editing message live location", result);
-                }
-            } catch (IOException e2) {
-                throw new TelegramApiRequestException("Unable to deserialize response", e);
-            }
-        }
+        return deserializeResponseMessageOrBoolean(answer);
     }
 
     @Override

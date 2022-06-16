@@ -33,7 +33,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StopMessageLiveLocation extends BotApiMethod<Serializable> {
+public class StopMessageLiveLocation extends BotApiMethodSerializable {
     public static final String PATH = "stopMessageLiveLocation";
 
     private static final String CHATID_FIELD = "chat_id";

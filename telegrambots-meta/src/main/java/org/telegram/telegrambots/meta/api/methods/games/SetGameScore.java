@@ -18,7 +18,6 @@
 package org.telegram.telegrambots.meta.api.methods.games;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -29,13 +28,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethodSerializable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -56,7 +52,7 @@ import java.io.Serializable;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SetGameScore extends BotApiMethod<Serializable> {
+public class SetGameScore extends BotApiMethodSerializable {
     public static final String PATH = "setGameScore";
 
     private static final String USER_ID_FIELD = "user_id";
@@ -96,29 +92,10 @@ public class SetGameScore extends BotApiMethod<Serializable> {
 
     @Override
     public Serializable deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Boolean>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error setting game score", result);
-            }
-        } catch (IOException e) {
-            try {
-                ApiResponse<Message> result = OBJECT_MAPPER.readValue(answer,
-                        new TypeReference<ApiResponse<Message>>() {
-                        });
-                if (result.getOk()) {
-                    return result.getResult();
-                } else {
-                    throw new TelegramApiRequestException("Error setting game score", result);
-                }
-            } catch (IOException e2) {
-                throw new TelegramApiRequestException("Unable to deserialize response", e2);
-            }
-        }
+        return deserializeResponseMessageOrBoolean(answer);
     }
+
+
 
     @Override
     public void validate() throws TelegramApiValidationException {

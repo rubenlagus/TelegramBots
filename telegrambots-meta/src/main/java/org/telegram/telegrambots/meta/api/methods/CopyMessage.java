@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,14 +12,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.MessageId;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -139,17 +136,7 @@ public class CopyMessage extends BotApiMethod<MessageId> {
 
     @Override
     public MessageId deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<MessageId> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<MessageId>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error copying message", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+        return deserializeResponse(answer, MessageId.class);
     }
 
     @Override

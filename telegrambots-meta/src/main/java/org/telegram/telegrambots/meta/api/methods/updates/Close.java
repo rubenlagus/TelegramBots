@@ -1,18 +1,12 @@
 package org.telegram.telegrambots.meta.api.methods.updates;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-
-import java.io.IOException;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethodBoolean;
 
 /**
  * @author Ruben Bermudez
@@ -29,31 +23,11 @@ import java.io.IOException;
 @ToString
 @AllArgsConstructor
 @Builder
-public class Close extends BotApiMethod<Boolean> {
+public class Close extends BotApiMethodBoolean {
     public static final String PATH = "close";
 
     @Override
     public String getMethod() {
         return PATH;
-    }
-
-    @Override
-    public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Boolean>>() {
-                    });
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error closing", result);
-            }
-        } catch (IOException e2) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e2);
-        }
-    }
-
-    @Override
-    public void validate() throws TelegramApiValidationException {
     }
 }

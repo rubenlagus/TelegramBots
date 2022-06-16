@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -13,7 +12,6 @@ import lombok.Singular;
 import lombok.ToString;
 import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
@@ -21,7 +19,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -84,17 +81,7 @@ public class SendVoice extends PartialBotApiMethod<Message> {
 
     @Override
     public Message deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Message> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Message>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error sending voice", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+        return deserializeResponse(answer, Message.class);
     }
 
     @Override

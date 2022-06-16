@@ -17,7 +17,6 @@
 package org.telegram.telegrambots.meta.api.methods.games;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -29,12 +28,10 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.games.GameHighScore;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -88,17 +85,7 @@ public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
 
     @Override
     public ArrayList<GameHighScore> deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<ArrayList<GameHighScore>> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<ArrayList<GameHighScore>>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error getting game high scores", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+        return deserializeResponseArray(answer, GameHighScore.class);
     }
 
     @Override

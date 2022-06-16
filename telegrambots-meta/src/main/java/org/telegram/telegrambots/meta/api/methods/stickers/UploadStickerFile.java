@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.methods.stickers;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -10,13 +9,10 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-
-import java.io.IOException;
 
 /**
  * @author Ruben Bermudez
@@ -48,27 +44,13 @@ public class UploadStickerFile extends PartialBotApiMethod<File> {
 
     @Override
     public File deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<File> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<File>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error uploading sticker set", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+        return deserializeResponse(answer, File.class);
     }
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (userId == null || userId <= 0) {
+        if (userId <= 0) {
             throw new TelegramApiValidationException("userId can't be empty", this);
-        }
-
-        if (pngSticker == null) {
-            throw new TelegramApiValidationException("PngSticker parameter can't be empty", this);
         }
 
         pngSticker.validate();

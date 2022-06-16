@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.methods.updates;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -8,12 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.WebhookInfo;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-
-import java.io.IOException;
 
 /**
  * @author Ruben Bermudez
@@ -37,23 +32,9 @@ public class GetWebhookInfo extends BotApiMethod<WebhookInfo> {
         return PATH;
     }
 
-    @Override
-    public WebhookInfo deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<WebhookInfo> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<WebhookInfo>>() {
-                    });
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error getting webhook info", result);
-            }
-        } catch (IOException e2) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e2);
-        }
-    }
 
     @Override
-    public void validate() throws TelegramApiValidationException {
+    public WebhookInfo deserializeResponse(String answer) throws TelegramApiRequestException {
+        return deserializeResponse(answer, WebhookInfo.class);
     }
 }
