@@ -29,7 +29,7 @@ As an example, if you want to restrict the updates to photos only, then you may 
 ```java
   @Override
   public boolean checkGlobalFlags(Update update) {
-    return Flag.PHOTO;
+    return Flag.PHOTO.test(update);
   }
 ```
 
