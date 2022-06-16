@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethodBoolean;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 
 /**
  * @author Ruben Bermudez

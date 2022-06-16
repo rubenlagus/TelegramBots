@@ -1,7 +1,8 @@
-package org.telegram.telegrambots.meta.api.methods;
+package org.telegram.telegrambots.meta.api.methods.botapimethods;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 /**

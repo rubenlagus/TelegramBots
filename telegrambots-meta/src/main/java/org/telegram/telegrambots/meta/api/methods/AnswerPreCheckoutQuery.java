@@ -10,6 +10,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
@@ -31,7 +32,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AnswerPreCheckoutQuery extends BotApiMethodBoolean{
+public class AnswerPreCheckoutQuery extends BotApiMethodBoolean {
     public static final String PATH = "answerPreCheckoutQuery";
 
     private static final String PRE_CHECKOUT_QUERY_ID_FIELD = "pre_checkout_query_id";

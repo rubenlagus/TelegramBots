@@ -10,6 +10,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.api.objects.passport.dataerror.PassportElementError;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -29,7 +30,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SetPassportDataErrors extends BotApiMethodBoolean{
+public class SetPassportDataErrors extends BotApiMethodBoolean {
     public static final String PATH = "setPassportDataErrors";
 
     private static final String USERID_FIELD = "user_id";

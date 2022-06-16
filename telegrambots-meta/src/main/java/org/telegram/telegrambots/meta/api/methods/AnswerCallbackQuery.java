@@ -10,6 +10,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 
 /**
  * @author Ruben Bermudez
@@ -30,7 +31,7 @@ import lombok.ToString;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AnswerCallbackQuery extends BotApiMethodBoolean{
+public class AnswerCallbackQuery extends BotApiMethodBoolean {
     public static final String PATH = "answercallbackquery";
 
     private static final String CALLBACKQUERYID_FIELD = "callback_query_id";

@@ -10,6 +10,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.api.objects.payments.ShippingOption;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -33,7 +34,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AnswerShippingQuery extends BotApiMethodBoolean{
+public class AnswerShippingQuery extends BotApiMethodBoolean {
     public static final String PATH = "answerShippingQuery";
 
     private static final String SHIPPING_QUERY_ID_FIELD = "shipping_query_id";

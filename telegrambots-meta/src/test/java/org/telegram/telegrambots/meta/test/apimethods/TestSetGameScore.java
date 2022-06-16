@@ -40,7 +40,7 @@ class TestSetGameScore {
     }
 
     @Test
-    void TestGetUpdatesMustDeserializeCorrectResponse() throws Exception {
+    void TestGetUpdatesMustDeserializeCorrectBooleanResponse() throws Exception {
         Serializable result =
                 setGameScore.deserializeResponse(TelegramBotsHelper.GetSetGameScoreBooleanResponse());
         assertNotNull(result);
@@ -49,7 +49,7 @@ class TestSetGameScore {
     }
 
     @Test
-    void TestGetUpdatesMustThrowAnExceptionForInCorrectResponse() throws Exception {
+    void TestGetUpdatesMustDeserializeCorrectMessageResponse() throws Exception {
         Serializable result = setGameScore.deserializeResponse(TelegramBotsHelper.GetSetGameScoreMessageResponse());
         assertNotNull(result);
         assertTrue(result instanceof Message);

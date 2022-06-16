@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResult;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -30,7 +31,7 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AnswerInlineQuery extends BotApiMethodBoolean{
+public class AnswerInlineQuery extends BotApiMethodBoolean {
     public static final String PATH = "answerInlineQuery";
 
     private static final String INLINEQUERYID_FIELD = "inline_query_id";
