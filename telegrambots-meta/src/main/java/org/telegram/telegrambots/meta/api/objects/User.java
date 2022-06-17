@@ -13,7 +13,7 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
  * @author Ruben Bermudez
- * @version 3.0
+ * @version 6.1
  * This object represents a Telegram user or bot.
  */
 @EqualsAndHashCode(callSuper = false)
@@ -24,7 +24,6 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class User implements BotApiObject {
-
     private static final String ID_FIELD = "id";
     private static final String FIRSTNAME_FIELD = "first_name";
     private static final String ISBOT_FIELD = "is_bot";
@@ -34,6 +33,8 @@ public class User implements BotApiObject {
     private static final String CANJOINGROUPS_FIELD = "can_join_groups";
     private static final String CANREADALLGROUPMESSAGES_FIELD = "can_read_all_group_messages";
     private static final String SUPPORTINLINEQUERIES_FIELD = "supports_inline_queries";
+    private static final String ISPREMIUM_FIELD = "is_premium";
+    private static final String ADDEDTOATTACHMENTMENU_FIELD = "added_to_attachment_menu";
 
     /**
      * Unique identifier for this user or bot.
@@ -62,4 +63,8 @@ public class User implements BotApiObject {
     private Boolean canReadAllGroupMessages; ///< Optional. True, if privacy mode is disabled for the bot. Returned only in getMe.
     @JsonProperty(SUPPORTINLINEQUERIES_FIELD)
     private Boolean supportInlineQueries; ///< Optional. True, if the bot supports inline queries. Returned only in getMe.
+    @JsonProperty(ISPREMIUM_FIELD)
+    private Boolean isPremium; ///< Optional. True, if this user is a Telegram Premium user
+    @JsonProperty(ADDEDTOATTACHMENTMENU_FIELD)
+    private Boolean addedToAttachmentMenu; ///< Optional. True, if this user added the bot to the attachment menu
 }

@@ -10,7 +10,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
@@ -55,11 +54,6 @@ public class SetStickerSetThumb extends BotApiMethodBoolean {
     @Override
     public String getMethod() {
         return PATH;
-    }
-
-    @Override
-    public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
-        return deserializeResponse(answer, Boolean.class);
     }
 
     @Override

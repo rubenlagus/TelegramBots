@@ -489,7 +489,7 @@ class TestDeserialization {
         assertEquals("AwADBAADbXXXXXXXXXXXGBdhD2l6_XX", document.getFileId());
         assertEquals("Testfile.pdf", document.getFileName());
         assertEquals("application/pdf", document.getMimeType());
-        assertEquals(Integer.valueOf(536392), document.getFileSize());
+        assertEquals(Long.valueOf(536392), document.getFileSize());
     }
 
     private void assertVoice(Voice voice) {
@@ -497,7 +497,7 @@ class TestDeserialization {
         assertEquals("AwADBAADbXXXXXXXXXXXGBdhD2l6_XX", voice.getFileId());
         assertEquals(Integer.valueOf(5), voice.getDuration());
         assertEquals("audio/ogg", voice.getMimeType());
-        assertEquals(Integer.valueOf(23000), voice.getFileSize());
+        assertEquals(Long.valueOf(23000), voice.getFileSize());
     }
 
     private void assertAudio(Audio audio) {
@@ -505,7 +505,7 @@ class TestDeserialization {
         assertEquals("AwADBAADbXXXXXXXXXXXGBdhD2l6_XX", audio.getFileId());
         assertEquals(Integer.valueOf(243), audio.getDuration());
         assertEquals("audio/mpeg", audio.getMimeType());
-        assertEquals(Integer.valueOf(3897500), audio.getFileSize());
+        assertEquals(Long.valueOf(3897500), audio.getFileSize());
         assertEquals("Testmusicfile", audio.getTitle());
     }
 

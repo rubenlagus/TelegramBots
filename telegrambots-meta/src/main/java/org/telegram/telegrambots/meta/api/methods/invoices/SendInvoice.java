@@ -1,6 +1,7 @@
-package org.telegram.telegrambots.meta.api.methods.send;
+package org.telegram.telegrambots.meta.api.methods.invoices;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Strings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,19 +14,21 @@ import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
 import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMessage;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.payments.LabeledPrice;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
  * Use this method to send an invoice. On success, the sent Message is returned.
- *
- * @deprecated Use {@link org.telegram.telegrambots.meta.api.methods.invoices.SendInvoice}
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -35,8 +38,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Deprecated
-public class SendInvoice extends BotApiMethodMessage {
+public class SendInvoice extends BotApiMethod<Message> {
     public static final String PATH = "sendinvoice";
 
     private static final String CHATID_FIELD = "chat_id";
@@ -175,15 +177,30 @@ public class SendInvoice extends BotApiMethodMessage {
     }
 
     @Override
+    public Message deserializeResponse(String answer) throws TelegramApiRequestException {
+        try {
+            ApiResponse<Message> result = OBJECT_MAPPER.readValue(answer,
+                    new TypeReference<ApiResponse<Message>>(){});
+            if (result.getOk()) {
+                return result.getResult();
+            } else {
+                throw new TelegramApiRequestException("Error sending invoice", result);
+            }
+        } catch (IOException e) {
+            throw new TelegramApiRequestException("Unable to deserialize response", e);
+        }
+    }
+
+    @Override
     public void validate() throws TelegramApiValidationException {
         if (Strings.isNullOrEmpty(chatId)) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
-        if (Strings.isNullOrEmpty(title)) {
-            throw new TelegramApiValidationException("Title parameter can't be empty", this);
+        if (Strings.isNullOrEmpty(title) || title.length() > 32) {
+            throw new TelegramApiValidationException("Title parameter can't be empty or longer than 32 chars", this);
         }
-        if (Strings.isNullOrEmpty(description)) {
-            throw new TelegramApiValidationException("Description parameter can't be empty", this);
+        if (Strings.isNullOrEmpty(description) || description.length() > 255) {
+            throw new TelegramApiValidationException("Description parameter can't be empty or longer than 255 chars", this);
         }
         if (Strings.isNullOrEmpty(payload)) {
             throw new TelegramApiValidationException("Payload parameter can't be empty", this);

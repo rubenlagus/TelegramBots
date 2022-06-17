@@ -14,7 +14,7 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
  * @author Ruben Bermudez
- * @version 1.0
+ * @version 6.1
  * This object represents a Telegram chat with an user or a group
  */
 @SuppressWarnings("WeakerAccess")
@@ -47,6 +47,8 @@ public class Chat implements BotApiObject {
     private static final String MESSAGEAUTODELETETIME_FIELD = "message_auto_delete_time";
     private static final String HASPRIVATEFORWARDS_FIELD = "has_private_forwards";
     private static final String HASPROTECTEDCONTENT_FIELD = "has_protected_content";
+    private static final String JOINTOSENDMESSAGES_FIELD  = "join_to_send_messages";
+    private static final String JOINBYREQUEST_FIELD  = "join_by_request";
 
     private static final String USERCHATTYPE = "private";
     private static final String GROUPCHATTYPE = "group";
@@ -126,6 +128,20 @@ public class Chat implements BotApiObject {
      */
     @JsonProperty(HASPROTECTEDCONTENT_FIELD)
     private Boolean HasProtectedContent;
+    /**
+     * Optional.
+     * True, if users need to join the supergroup before they can send messages.
+     * Returned only in getChat.
+     */
+    @JsonProperty(JOINTOSENDMESSAGES_FIELD)
+    private Boolean joinToSendMessages;
+    /**
+     * Optional.
+     * True, if all users directly joining the supergroup need to be approved by supergroup administrators.
+     * Returned only in getChat.
+     */
+    @JsonProperty(JOINBYREQUEST_FIELD)
+    private Boolean joinByRequest;
 
     @JsonIgnore
     public Boolean isGroupChat() {
