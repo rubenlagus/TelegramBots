@@ -1,3 +1,7 @@
+### <a id="6.1.0"></a>To version 6.1.0 ###
+1. As per API guidelines, FileSize can now have 64 bits size, hence they are now using Long datatype instead of Integer.
+2. Methods accept chatId as Long or String.
+
 ### <a id="5.3.0"></a>To version 5.3.0 ###
 1. As per API guidelines, ChatMember method has been divided in different classed. 
    Where used in your code, replace old import with new one 
