@@ -18,8 +18,6 @@
 package org.telegram.telegrambots.meta.api.methods.games;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -29,13 +27,11 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import lombok.experimental.Tolerate;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodSerializable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -56,7 +52,7 @@ import java.io.Serializable;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SetGameScore extends BotApiMethod<Serializable> {
+public class SetGameScore extends BotApiMethodSerializable {
     public static final String PATH = "setGameScore";
 
     private static final String USER_ID_FIELD = "user_id";
@@ -84,6 +80,11 @@ public class SetGameScore extends BotApiMethod<Serializable> {
     @JsonProperty(FORCE_FIELD)
     private Boolean force; ///< Optional. Pass True, if the high score is allowed to decrease. This can be useful when fixing mistakes or banning cheaters
 
+    @Tolerate
+    public void setChatId(Long chatId) {
+        this.chatId = chatId == null ? null : chatId.toString();
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -91,38 +92,13 @@ public class SetGameScore extends BotApiMethod<Serializable> {
 
     @Override
     public Serializable deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Boolean>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error setting game score", result);
-            }
-        } catch (IOException e) {
-            try {
-                ApiResponse<Message> result = OBJECT_MAPPER.readValue(answer,
-                        new TypeReference<ApiResponse<Message>>() {
-                        });
-                if (result.getOk()) {
-                    return result.getResult();
-                } else {
-                    throw new TelegramApiRequestException("Error setting game score", result);
-                }
-            } catch (IOException e2) {
-                throw new TelegramApiRequestException("Unable to deserialize response", e2);
-            }
-        }
+        return deserializeResponseMessageOrBoolean(answer);
     }
+
+
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (userId == null) {
-            throw new TelegramApiValidationException("UserId parameter can't be empty", this);
-        }
-        if (score == null) {
-            throw new TelegramApiValidationException("Score parameter can't be empty", this);
-        }
         if (inlineMessageId == null) {
             if (chatId == null || chatId.isEmpty()) {
                 throw new TelegramApiValidationException("ChatId parameter can't be empty if inlineMessageId is not present", this);
@@ -137,6 +113,15 @@ public class SetGameScore extends BotApiMethod<Serializable> {
             if (messageId != null) {
                 throw new TelegramApiValidationException("MessageId parameter must be empty if inlineMessageId is provided", this);
             }
+        }
+    }
+
+    public static class SetGameScoreBuilder {
+
+        @Tolerate
+        public SetGameScoreBuilder chatId(Long chatId) {
+            this.chatId = chatId == null ? null : chatId.toString();
+            return this;
         }
     }
 }

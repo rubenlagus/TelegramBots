@@ -2,7 +2,6 @@ package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -11,13 +10,10 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-
-import java.io.IOException;
 
 /**
  * @author Ruben Bermudez
@@ -33,7 +29,7 @@ import java.io.IOException;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SendChatAction extends BotApiMethod<Boolean> {
+public class SendChatAction extends BotApiMethodBoolean {
 
     public static final String PATH = "sendChatAction";
 
@@ -59,6 +55,11 @@ public class SendChatAction extends BotApiMethod<Boolean> {
     @NonNull
     private String action;
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     @JsonIgnore
     public ActionType getActionType() {
         return ActionType.get(action);
@@ -75,27 +76,21 @@ public class SendChatAction extends BotApiMethod<Boolean> {
     }
 
     @Override
-    public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Boolean>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error sending chat action", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
-    }
-
-    @Override
     public void validate() throws TelegramApiValidationException {
         if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
         if (action.isEmpty()) {
             throw new TelegramApiValidationException("Action parameter can't be empty", this);
+        }
+    }
+
+    public static class SendChatActionBuilder {
+
+        @Tolerate
+        public SendChatActionBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

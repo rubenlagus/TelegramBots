@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,14 +11,13 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.MessageId;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -89,6 +87,16 @@ public class CopyMessage extends BotApiMethod<MessageId> {
     @JsonProperty(PROTECTCONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
+    @Tolerate
+    public void setFromChatId(@NonNull Long fromChatId) {
+        this.fromChatId = fromChatId.toString();
+    }
+
     public void enableNotification() {
         this.disableNotification = null;
     }
@@ -128,29 +136,13 @@ public class CopyMessage extends BotApiMethod<MessageId> {
 
     @Override
     public MessageId deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<MessageId> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<MessageId>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error copying message", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+        return deserializeResponse(answer, MessageId.class);
     }
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
+        if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
-        }
-        if (fromChatId == null) {
-            throw new TelegramApiValidationException("FromChatId parameter can't be empty", this);
-        }
-        if (messageId == null) {
-            throw new TelegramApiValidationException("MessageId parameter can't be empty", this);
         }
 
         if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
@@ -158,6 +150,21 @@ public class CopyMessage extends BotApiMethod<MessageId> {
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+    }
+
+    public static class CopyMessageBuilder {
+
+        @Tolerate
+        public CopyMessageBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
+        }
+
+        @Tolerate
+        public CopyMessageBuilder fromChatId(@NonNull Long fromChatId) {
+            this.fromChatId = fromChatId.toString();
+            return this;
         }
     }
 }

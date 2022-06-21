@@ -1,4 +1,4 @@
-package org.telegram.telegrambots.meta.api.methods.send;
+package org.telegram.telegrambots.meta.api.methods.invoices;
 
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.payments.LabeledPrice;
@@ -40,7 +40,15 @@ public class SendInvoiceTest {
         SendInvoice sendInvoice = createSendInvoiceObject();
         sendInvoice.setTitle("");
         Throwable thrown = assertThrows(TelegramApiValidationException.class, sendInvoice::validate);
-        assertEquals("Title parameter can't be empty", thrown.getMessage());
+        assertEquals("Title parameter can't be empty or longer than 32 chars", thrown.getMessage());
+    }
+
+    @Test
+    public void titleCantBeOver32Chars() {
+        SendInvoice sendInvoice = createSendInvoiceObject();
+        sendInvoice.setTitle("1234567890123456789012345678901234");
+        Throwable thrown = assertThrows(TelegramApiValidationException.class, sendInvoice::validate);
+        assertEquals("Title parameter can't be empty or longer than 32 chars", thrown.getMessage());
     }
 
     @Test
@@ -48,7 +56,18 @@ public class SendInvoiceTest {
         SendInvoice sendInvoice = createSendInvoiceObject();
         sendInvoice.setDescription("");
         Throwable thrown = assertThrows(TelegramApiValidationException.class, sendInvoice::validate);
-        assertEquals("Description parameter can't be empty", thrown.getMessage());
+        assertEquals("Description parameter can't be empty or longer than 255 chars", thrown.getMessage());
+    }
+
+    @Test
+    public void descriptionCantBeOver255() {
+        SendInvoice sendInvoice = createSendInvoiceObject();
+        sendInvoice.setDescription("1234567890123456789012345678901234567890123456789012345678901234567890" +
+                "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890" +
+                "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345" +
+                "1234567890123456789012345678901234567890123456789012345678901234567890");
+        Throwable thrown = assertThrows(TelegramApiValidationException.class, sendInvoice::validate);
+        assertEquals("Description parameter can't be empty or longer than 255 chars", thrown.getMessage());
     }
 
     @Test
@@ -112,7 +131,7 @@ public class SendInvoiceTest {
 
     private SendInvoice createSendInvoiceObject() {
         return SendInvoice.builder()
-                .chatId("123456")
+                .chatId(123456L)
                 .title("Title")
                 .description("Description")
                 .payload("Payload")

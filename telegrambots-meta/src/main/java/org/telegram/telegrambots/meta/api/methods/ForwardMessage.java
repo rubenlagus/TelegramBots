@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -11,12 +10,9 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import lombok.experimental.Tolerate;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-
-import java.io.IOException;
 
 /**
  * @author Ruben Bermudez
@@ -34,7 +30,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ForwardMessage extends BotApiMethod<Message> {
+public class ForwardMessage extends BotApiMethodMessage {
     public static final String PATH = "forwardmessage";
 
     private static final String CHATID_FIELD = "chat_id";
@@ -63,16 +59,23 @@ public class ForwardMessage extends BotApiMethod<Message> {
     @JsonProperty(PROTECTCONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
+    @Tolerate
+    public void setFromChatId(@NonNull Long fromChatId) {
+        this.fromChatId = fromChatId.toString();
+    }
+
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
+        if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
-        if (fromChatId == null || fromChatId.isEmpty()) {
+        if (fromChatId.isEmpty()) {
             throw new TelegramApiValidationException("FromChatId can't be empty", this);
-        }
-        if (messageId == null) {
-            throw new TelegramApiValidationException("MessageId can't be empty", this);
         }
     }
 
@@ -81,18 +84,18 @@ public class ForwardMessage extends BotApiMethod<Message> {
         return PATH;
     }
 
-    @Override
-    public Message deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Message> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Message>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error forwarding message", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
+    public static class ForwardMessageBuilder {
+
+        @Tolerate
+        public ForwardMessageBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
+        }
+
+        @Tolerate
+        public ForwardMessageBuilder fromChatId(@NonNull Long fromChatId) {
+            this.fromChatId = fromChatId.toString();
+            return this;
         }
     }
 }

@@ -1,7 +1,5 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -12,8 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
@@ -21,7 +19,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -77,6 +74,11 @@ public class SendDocument extends PartialBotApiMethod<Message> {
     private Boolean disableContentTypeDetection; ///< Optional	Disables automatic server-side content type detection for files uploaded using multipart/form-data
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     public void enableNotification() {
         this.disableNotification = false;
     }
@@ -87,27 +89,12 @@ public class SendDocument extends PartialBotApiMethod<Message> {
 
     @Override
     public Message deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Message> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Message>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error sending document", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+        return deserializeResponse(answer, Message.class);
     }
-
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
+        if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
-        }
-
-        if (document == null) {
-            throw new TelegramApiValidationException("Document parameter can't be empty", this);
         }
 
         if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
@@ -122,6 +109,15 @@ public class SendDocument extends PartialBotApiMethod<Message> {
 
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+    }
+
+    public static class SendDocumentBuilder {
+
+        @Tolerate
+        public SendDocumentBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

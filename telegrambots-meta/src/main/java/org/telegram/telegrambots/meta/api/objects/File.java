@@ -37,8 +37,14 @@ public class File implements BotApiObject {
      */
     @JsonProperty(FILEUNIQUEID_FIELD)
     private String fileUniqueId;
+    /**
+     * Optional.
+     * File size in bytes.
+     * It can be bigger than 2^31 and some programming languages may have difficulty/silent defects in interpreting it.
+     * But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this value.
+     */
     @JsonProperty(FILE_SIZE_FIELD)
-    private Integer fileSize; ///< Optional. File size, if known
+    private Long fileSize;
     @JsonProperty(FILE_PATH_FIELD)
     private String filePath; ///< Optional. File path. Use https://api.telegram.org/file/bot<token>/<file_path> to get the file.
 

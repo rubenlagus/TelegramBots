@@ -11,12 +11,10 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.facilities.TelegramHttpClientBuilder;
-import org.telegram.telegrambots.meta.ApiConstants;
 import org.telegram.telegrambots.meta.api.methods.updates.DeleteWebhook;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -24,7 +22,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.generics.WebhookBot;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
@@ -76,6 +73,9 @@ public final class WebhookUtils {
       }
       if (setWebhook.getDropPendingUpdates() != null) {
         builder.addTextBody(SetWebhook.DROPPENDINGUPDATES_FIELD, setWebhook.getDropPendingUpdates().toString(), TEXT_PLAIN_CONTENT_TYPE);
+      }
+      if (setWebhook.getSecretToken() != null) {
+        builder.addTextBody(SetWebhook.SECRETTOKEN_FIELD, setWebhook.getSecretToken(), TEXT_PLAIN_CONTENT_TYPE);
       }
       if (setWebhook.getCertificate() != null) {
         InputFile webhookFile = setWebhook.getCertificate();

@@ -8,11 +8,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
+import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 
 /**
  * @author Ruben Bermudez
- * @version 1.0
+ * @version 6.1
  * This object represents a sticker.
  */
 @EqualsAndHashCode(callSuper = false)
@@ -34,6 +35,7 @@ public class Sticker implements BotApiObject {
     private static final String MASKPOSITON_FIELD = "mask_position";
     private static final String ISANIMATED_FIELD = "is_animated";
     private static final String ISVIDEO_FIELD = "is_video";
+    private static final String PREMIUMANIMATION_FIELD = "premium_animation";
 
     @JsonProperty(FILEID_FIELD)
     private String fileId; ///< Identifier for this file, which can be used to download or reuse the file
@@ -61,4 +63,6 @@ public class Sticker implements BotApiObject {
     private Boolean isAnimated; ///< True, if the sticker is animated
     @JsonProperty(ISVIDEO_FIELD)
     private Boolean isVideo; ///< True, if the sticker is a video sticker
+    @JsonProperty(PREMIUMANIMATION_FIELD)
+    private File premiumAnimation; ///< Optional. Premium animation for the sticker, if the sticker is premium
 }

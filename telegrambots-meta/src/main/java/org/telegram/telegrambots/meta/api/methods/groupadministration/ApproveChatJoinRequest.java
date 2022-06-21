@@ -1,14 +1,17 @@
 package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
-import lombok.*;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.Tolerate;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-
-import java.io.IOException;
 
 /**
  * @author Ruben Bermudez
@@ -24,7 +27,7 @@ import java.io.IOException;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Builder
-public class ApproveChatJoinRequest extends BotApiMethod<Boolean> {
+public class ApproveChatJoinRequest extends BotApiMethodBoolean {
     public static final String PATH = "approveChatJoinRequest";
 
     private static final String CHATID_FIELD = "chat_id";
@@ -37,24 +40,14 @@ public class ApproveChatJoinRequest extends BotApiMethod<Boolean> {
     @NonNull
     private Long userId; ///< Required. Unique identifier of the target user
 
-    @Override
-    public String getMethod() {
-        return PATH;
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
     }
 
     @Override
-    public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Boolean>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error approving chat join request", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
+    public String getMethod() {
+        return PATH;
     }
 
     @Override
@@ -64,6 +57,15 @@ public class ApproveChatJoinRequest extends BotApiMethod<Boolean> {
         }
         if (userId == 0) {
             throw new TelegramApiValidationException("UserId can't be null or 0", this);
+        }
+    }
+
+    public static class ApproveChatJoinRequestBuilder {
+
+        @Tolerate
+        public ApproveChatJoinRequestBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

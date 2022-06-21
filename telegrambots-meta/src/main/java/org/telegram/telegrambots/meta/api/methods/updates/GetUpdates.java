@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.updates;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -11,12 +10,9 @@ import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,23 +77,9 @@ public class GetUpdates extends BotApiMethod<ArrayList<Update>>{
         return PATH;
     }
 
-    @Override
-    public ArrayList<Update> deserializeResponse(String answer) throws
-            TelegramApiRequestException {
-        try {
-            ApiResponse<ArrayList<Update>> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<ArrayList<Update>>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error getting updates", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
-    }
 
     @Override
-    public void validate() throws TelegramApiValidationException {
+    public ArrayList<Update> deserializeResponse(String answer) throws TelegramApiRequestException {
+        return deserializeResponseArray(answer, Update.class);
     }
 }

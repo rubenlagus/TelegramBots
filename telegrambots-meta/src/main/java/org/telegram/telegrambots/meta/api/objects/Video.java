@@ -50,8 +50,14 @@ public class Video implements BotApiObject {
     private PhotoSize thumb; ///< Video thumbnail
     @JsonProperty(MIMETYPE_FIELD)
     private String mimeType; ///< Optional. Mime type of a file as defined by sender
+    /**
+     * Optional.
+     * File size in bytes.
+     * It can be bigger than 2^31 and some programming languages may have difficulty/silent defects in interpreting it.
+     * But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this value.
+     */
     @JsonProperty(FILESIZE_FIELD)
-    private Integer fileSize; ///< Optional. File size
+    private Long fileSize;
     @JsonProperty(FILENAME_FIELD)
     private String fileName; ///< Optional. Original filename as defined by sender
 }

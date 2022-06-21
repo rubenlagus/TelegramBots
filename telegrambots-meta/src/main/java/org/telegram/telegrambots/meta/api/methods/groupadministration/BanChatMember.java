@@ -2,7 +2,6 @@ package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -12,12 +11,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import lombok.experimental.Tolerate;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZonedDateTime;
@@ -41,7 +38,7 @@ import java.time.ZonedDateTime;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BanChatMember extends BotApiMethod<Boolean> {
+public class BanChatMember extends BotApiMethodBoolean {
     public static final String PATH = "banChatMember";
 
     private static final String CHATID_FIELD = "chat_id";
@@ -69,6 +66,10 @@ public class BanChatMember extends BotApiMethod<Boolean> {
     @JsonProperty(REVOKEMESSAGES_FIELD)
     private Boolean revokeMessages;
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
 
     @JsonIgnore
     public void setUntilDateInstant(Instant instant) {
@@ -91,27 +92,22 @@ public class BanChatMember extends BotApiMethod<Boolean> {
     }
 
     @Override
-    public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Boolean>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error kicking chat member", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
+    public void validate() throws TelegramApiValidationException {
+        if (chatId.isEmpty()) {
+            throw new TelegramApiValidationException("ChatId can't be empty", this);
+        }
+        if (userId == 0) {
+            throw new TelegramApiValidationException("UserId can't be null or 0", this);
         }
     }
 
-    @Override
-    public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
-            throw new TelegramApiValidationException("ChatId can't be empty", this);
+    public static class BanChatMemberBuilder {
+
+        @Tolerate
+        public BanChatMemberBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
-        if (userId == null || userId == 0) {
-            throw new TelegramApiValidationException("UserId can't be null or 0", this);
-        }
+
     }
 }

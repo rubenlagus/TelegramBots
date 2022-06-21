@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -10,12 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import lombok.experimental.Tolerate;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-
-import java.io.IOException;
 
 /**
  * @author Ruben Bermudez
@@ -30,7 +26,7 @@ import java.io.IOException;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SetChatAdministratorCustomTitle extends BotApiMethod<Boolean> {
+public class SetChatAdministratorCustomTitle extends BotApiMethodBoolean {
     public static final String PATH = "setChatAdministratorCustomTitle";
 
     private static final String CHATID_FIELD = "chat_id";
@@ -47,36 +43,32 @@ public class SetChatAdministratorCustomTitle extends BotApiMethod<Boolean> {
     @NonNull
     private String customTitle; ///< New custom title for the administrator; 0-16 characters, emoji are not allowed
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     @Override
     public String getMethod() {
         return PATH;
     }
 
     @Override
-    public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Boolean>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error setting chat description", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
+    public void validate() throws TelegramApiValidationException {
+        if (chatId.isEmpty()) {
+            throw new TelegramApiValidationException("ChatId can't be empty", this);
+        }
+        if (userId == 0) {
+            throw new TelegramApiValidationException("UserId can't be empty", this);
         }
     }
 
-    @Override
-    public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
-            throw new TelegramApiValidationException("ChatId can't be empty", this);
-        }
-        if (userId == null || userId == 0) {
-            throw new TelegramApiValidationException("UserId can't be empty", this);
-        }
-        if (customTitle == null) {
-            throw new TelegramApiValidationException("CustomTitle can't be null", this);
+    public static class SetChatAdministratorCustomTitleBuilder {
+
+        @Tolerate
+        public SetChatAdministratorCustomTitleBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

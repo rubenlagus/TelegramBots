@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.updatingmessages;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -9,14 +8,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import lombok.experimental.Tolerate;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodSerializable;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -33,7 +30,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EditMessageReplyMarkup extends BotApiMethod<Serializable> {
+public class EditMessageReplyMarkup extends BotApiMethodSerializable {
     public static final String PATH = "editmessagereplymarkup";
 
     private static final String CHATID_FIELD = "chat_id";
@@ -60,6 +57,11 @@ public class EditMessageReplyMarkup extends BotApiMethod<Serializable> {
     @JsonProperty(REPLYMARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. A JSON-serialized object for an inline keyboard.
 
+    @Tolerate
+    public void setChatId(Long chatId) {
+        this.chatId = chatId == null ? null : chatId.toString();
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -67,28 +69,7 @@ public class EditMessageReplyMarkup extends BotApiMethod<Serializable> {
 
     @Override
     public Serializable deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Message> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Message>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error editing message reply markup", result);
-            }
-        } catch (IOException e) {
-            try {
-                ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
-                        new TypeReference<ApiResponse<Boolean>>() {
-                        });
-                if (result.getOk()) {
-                    return result.getResult();
-                } else {
-                    throw new TelegramApiRequestException("Error editing message reply markup", result);
-                }
-            } catch (IOException e2) {
-                throw new TelegramApiRequestException("Unable to deserialize response", e);
-            }
-        }
+        return deserializeResponseMessageOrBoolean(answer);
     }
 
     @Override
@@ -110,6 +91,15 @@ public class EditMessageReplyMarkup extends BotApiMethod<Serializable> {
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+    }
+
+    public static class EditMessageReplyMarkupBuilder {
+
+        @Tolerate
+        public EditMessageReplyMarkupBuilder chatId(Long chatId) {
+            this.chatId = chatId == null ? null : chatId.toString();
+            return this;
         }
     }
 }

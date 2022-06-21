@@ -9,12 +9,12 @@ As with any Java project, you will need to set your dependencies.
    <dependency>
       <groupId>org.telegram</groupId>
       <artifactId>telegrambots-abilities</artifactId>
-      <version>6.0.1</version>
+      <version>6.1.0</version>
    </dependency>
 ```
 * **Gradle**
 ```gradle
-  implementation 'org.telegram:telegrambots-abilities:6.0.1'
+  implementation 'org.telegram:telegrambots-abilities:6.1.0'
 ```
 * [JitPack](https://jitpack.io/#rubenlagus/TelegramBots)
     
@@ -109,6 +109,8 @@ Since you've implemented an AbilityBot, you get **factory abilities** as well. T
 * /demote @username - demotes bot admin to user
 * /ban @username - bans the user from accessing your bot commands and features
 * /unban @username - lifts the ban from the user
+* /stats - displays how many times were your abilities called
+  * **This command returns empty String by default.** To use this command, add  ```.setStatsEnabled(true)``` to your abilities. You'll then be able to view how many times each of them was called. 
 
 ## Conclusion
 Congratulation on creating your first AbilityBot. What's next? So far we've only considered the case of commands, but what about images and inline replies? AbilityBots can also handle that! Oh and, did you know that all ability bots have an embedded database that you can use?

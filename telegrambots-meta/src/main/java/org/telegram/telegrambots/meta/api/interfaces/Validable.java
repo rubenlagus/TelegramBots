@@ -30,5 +30,7 @@ public interface Validable {
      * Validates that mandatory fields are filled and optional objects
      * @throws TelegramApiValidationException If any mandatory field is empty
      */
-    void validate() throws TelegramApiValidationException;
+    default void validate() throws TelegramApiValidationException {
+        
+    }
 }

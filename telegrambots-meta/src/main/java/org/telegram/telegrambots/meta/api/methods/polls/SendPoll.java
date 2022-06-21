@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.polls;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,15 +12,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import lombok.experimental.Tolerate;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMessage;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -40,7 +36,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SendPoll extends BotApiMethod<Message> {
+public class SendPoll extends BotApiMethodMessage {
     public static final String PATH = "sendPoll";
 
     private static final String CHATID_FIELD = "chat_id";
@@ -109,6 +105,11 @@ public class SendPoll extends BotApiMethod<Message> {
     @JsonProperty(PROTECTCONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     public void enableNotification() {
         this.disableNotification = null;
     }
@@ -123,30 +124,14 @@ public class SendPoll extends BotApiMethod<Message> {
     }
 
     @Override
-    public Message deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Message> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Message>>() {
-                    });
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error sending poll", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
-    }
-
-    @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
+        if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
-        if (question == null || question.isEmpty()) {
+        if (question.isEmpty()) {
             throw new TelegramApiValidationException("Question parameter can't be empty", this);
         }
-        if (options == null || options.size() < 2 || options.size() > 10) {
+        if (options.size() < 2 || options.size() > 10) {
             throw new TelegramApiValidationException("Options parameter must be between 2 and 10 item", this);
         }
         if (openPeriod != null && closeDate != null) {
@@ -166,6 +151,16 @@ public class SendPoll extends BotApiMethod<Message> {
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+    }
+
+
+    public static class SendPollBuilder {
+
+        @Tolerate
+        public SendPollBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

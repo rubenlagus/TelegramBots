@@ -1,18 +1,13 @@
 package org.telegram.telegrambots.meta.api.methods;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-
-import java.io.IOException;
 
 /**
  * @author Ruben Bermudez
@@ -36,21 +31,6 @@ public class GetMe extends BotApiMethod<User> {
 
     @Override
     public User deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<User> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<User>>() {
-                    });
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error getting me", result);
-            }
-        } catch (IOException e2) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e2);
-        }
-    }
-
-    @Override
-    public void validate() throws TelegramApiValidationException {
+        return deserializeResponse(answer, User.class);
     }
 }

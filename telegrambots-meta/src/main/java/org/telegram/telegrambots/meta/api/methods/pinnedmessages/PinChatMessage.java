@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.pinnedmessages;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -11,12 +10,9 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import lombok.experimental.Tolerate;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-
-import java.io.IOException;
 
 /**
  * @author Ruben Bermudez
@@ -35,7 +31,7 @@ import java.io.IOException;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PinChatMessage extends BotApiMethod<Boolean> {
+public class PinChatMessage extends BotApiMethodBoolean {
     public static final String PATH = "pinChatMessage";
 
     private static final String CHATID_FIELD = "chat_id";
@@ -55,33 +51,29 @@ public class PinChatMessage extends BotApiMethod<Boolean> {
     @JsonProperty(DISABLENOTIFICATION_FIELD)
     private Boolean disableNotification;
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     @Override
     public String getMethod() {
         return PATH;
     }
 
     @Override
-    public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Boolean>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error pinning chat message", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
+    public void validate() throws TelegramApiValidationException {
+        if (chatId.isEmpty()) {
+            throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
     }
 
-    @Override
-    public void validate() throws TelegramApiValidationException {
-        if (chatId == null || chatId.isEmpty()) {
-            throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
-        }
-        if (messageId == null) {
-            throw new TelegramApiValidationException("MessageId parameter can't be null", this);
+    public static class PinChatMessageBuilder {
+
+        @Tolerate
+        public PinChatMessageBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

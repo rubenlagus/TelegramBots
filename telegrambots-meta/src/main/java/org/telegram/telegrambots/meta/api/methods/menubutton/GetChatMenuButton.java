@@ -1,15 +1,18 @@
 package org.telegram.telegrambots.meta.api.methods.menubutton;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.menubutton.MenuButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-
-import java.io.IOException;
 
 /**
  * @author Ruben Bermudez
@@ -23,8 +26,8 @@ import java.io.IOException;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class GetChatMenuButton extends BotApiMethod<MenuButton> {
     public static final String PATH = "getChatMenuButton";
@@ -39,9 +42,9 @@ public class GetChatMenuButton extends BotApiMethod<MenuButton> {
     @JsonProperty(CHATID_FIELD)
     private String chatId;
 
-    @Override
-    public void validate() throws TelegramApiValidationException {
-
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
     }
 
     @Override
@@ -51,16 +54,15 @@ public class GetChatMenuButton extends BotApiMethod<MenuButton> {
 
     @Override
     public MenuButton deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<MenuButton> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<MenuButton>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error getting chat menu button query", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
+        return deserializeResponse(answer, MenuButton.class);
+    }
+
+    public static class GetChatMenuButtonBuilder {
+
+        @Tolerate
+        public GetChatMenuButtonBuilder chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
         }
     }
 }

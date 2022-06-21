@@ -19,7 +19,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
  * @author Ruben Bermudez
- * @version 1.0
+ * @version 6.1
  * This object represents one button of an inline keyboard. You must use exactly one of the
  * optional fields.
  * @apiNote This will only work in Telegram versions released after 9 April, 2016. Older clients will
@@ -94,7 +94,8 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
     @JsonProperty(PAY_FIELD)
     private Boolean pay;
     /**
-     * Optional. An HTTP URL used to automatically authorize the user.
+     * Optional.
+     * An HTTPS URL used to automatically authorize the user.
      * Can be used as a replacement for the Telegram Login Widget.
      */
     @JsonProperty(LOGIN_URL_FIELD)

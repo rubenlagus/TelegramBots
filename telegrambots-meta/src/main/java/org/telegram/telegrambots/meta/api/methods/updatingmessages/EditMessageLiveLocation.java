@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.updatingmessages;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -10,14 +9,12 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import lombok.experimental.Tolerate;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodSerializable;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -35,7 +32,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
+public class EditMessageLiveLocation extends BotApiMethodSerializable {
     public static final String PATH = "editMessageLiveLocation";
 
     private static final String CHATID_FIELD = "chat_id";
@@ -93,6 +90,11 @@ public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
     @JsonProperty(PROXIMITYALERTRADIUS_FIELD)
     private Integer proximityAlertRadius;
 
+    @Tolerate
+    public void setChatId(Long chatId) {
+        this.chatId = chatId == null ? null : chatId.toString();
+    }
+
     @Override
     public String getMethod() {
         return PATH;
@@ -100,28 +102,7 @@ public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
 
     @Override
     public Serializable deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Message> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Message>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error editing message live location", result);
-            }
-        } catch (IOException e) {
-            try {
-                ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
-                        new TypeReference<ApiResponse<Boolean>>() {
-                        });
-                if (result.getOk()) {
-                    return result.getResult();
-                } else {
-                    throw new TelegramApiRequestException("Error editing message live location", result);
-                }
-            } catch (IOException e2) {
-                throw new TelegramApiRequestException("Unable to deserialize response", e);
-            }
-        }
+        return deserializeResponseMessageOrBoolean(answer);
     }
 
     @Override
@@ -141,12 +122,6 @@ public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
                 throw new TelegramApiValidationException("MessageId parameter must be empty if inlineMessageId is provided", this);
             }
         }
-        if (latitude == null) {
-            throw new TelegramApiValidationException("Latitude parameter can't be empty", this);
-        }
-        if (longitude == null) {
-            throw new TelegramApiValidationException("Longitude parameter can't be empty", this);
-        }
         if (horizontalAccuracy != null && (horizontalAccuracy < 0 || horizontalAccuracy > 1500)) {
             throw new TelegramApiValidationException("Horizontal Accuracy parameter must be between 0 and 1500", this);
         }
@@ -158,6 +133,15 @@ public class EditMessageLiveLocation extends BotApiMethod<Serializable> {
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+    }
+
+    public static class EditMessageLiveLocationBuilder {
+
+        @Tolerate
+        public EditMessageLiveLocationBuilder chatId(Long chatId) {
+            this.chatId = chatId == null ? null : chatId.toString();
+            return this;
         }
     }
 }
