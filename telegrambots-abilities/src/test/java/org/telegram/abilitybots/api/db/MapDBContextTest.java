@@ -154,6 +154,6 @@ class MapDBContextTest {
     var.set(USER);
     db.commit();
     Var<User> changedVar = db.getVar(varName);
-    Assertions.assertEquals("MapDBVar{var=User(id=1, firstName=first, isBot=false, lastName=last, userName=username, languageCode=null, canJoinGroups=false, canReadAllGroupMessages=false, supportInlineQueries=false)}", ((MapDBVar) (changedVar)).toString());
+    Assertions.assertEquals("MapDBVar{var=User(id=1, firstName=first, isBot=false, lastName=last, userName=username, languageCode=null, canJoinGroups=false, canReadAllGroupMessages=false, supportInlineQueries=false, isPremium=false, addedToAttachmentMenu=false)}", ((MapDBVar) (changedVar)).toString());
   }
 }

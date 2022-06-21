@@ -374,7 +374,7 @@ public class AbilityBotTest {
     String newFirstName = USER.getFirstName() + "-test";
     String newLastName = USER.getLastName() + "-test";
     long sameId = USER.getId();
-    User changedUser = new User(sameId, newFirstName, false, newLastName, newUsername, "en", false, false, false);
+    User changedUser = new User(sameId, newFirstName, false, newLastName, newUsername, "en", false, false, false, false, false);
 
     mockAlternateUser(update, message, changedUser);
 
