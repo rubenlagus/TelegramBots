@@ -14,6 +14,7 @@ import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMessage;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.payments.LabeledPrice;
@@ -36,7 +37,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateInvoiceLink extends BotApiMethod<Message> {
+public class CreateInvoiceLink extends BotApiMethodMessage {
     public static final String PATH = "createInvoiceLink";
 
     public static final String TITLE_FIELD = "title";
@@ -133,21 +134,6 @@ public class CreateInvoiceLink extends BotApiMethod<Message> {
     @Override
     public String getMethod() {
         return PATH;
-    }
-
-    @Override
-    public Message deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Message> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Message>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error sending invoice", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
     }
 
     @Override
