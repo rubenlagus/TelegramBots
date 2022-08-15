@@ -669,7 +669,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             builder.addTextBody(CreateNewStickerSet.NAME_FIELD, createNewStickerSet.getName(), TEXT_PLAIN_CONTENT_TYPE);
             builder.addTextBody(CreateNewStickerSet.TITLE_FIELD, createNewStickerSet.getTitle(), TEXT_PLAIN_CONTENT_TYPE);
             builder.addTextBody(CreateNewStickerSet.EMOJIS_FIELD, createNewStickerSet.getEmojis(), TEXT_PLAIN_CONTENT_TYPE);
-            builder.addTextBody(CreateNewStickerSet.CONTAINSMASKS_FIELD, createNewStickerSet.getContainsMasks().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            builder.addTextBody(CreateNewStickerSet.STICKERTYPE_FIELD, createNewStickerSet.getStickerType(), TEXT_PLAIN_CONTENT_TYPE);
             if (createNewStickerSet.getPngSticker() != null) {
                 addInputFile(builder, createNewStickerSet.getPngSticker(), CreateNewStickerSet.PNGSTICKER_FIELD, true);
             } else if (createNewStickerSet.getTgsSticker() != null)  {

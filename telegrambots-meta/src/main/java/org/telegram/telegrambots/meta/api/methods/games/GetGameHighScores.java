@@ -64,11 +64,11 @@ public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
     private static final String USER_ID_FIELD = "user_id";
 
     @JsonProperty(CHATID_FIELD)
-    private String chatId; ///< Optional	Required if inline_message_id is not specified. Unique identifier for the target chat (or username of the target channel in the format @channelusername)
+    private String chatId; ///< Optional. Required if inline_message_id is not specified. Unique identifier for the target chat (or username of the target channel in the format @channelusername)
     @JsonProperty(MESSAGEID_FIELD)
-    private Integer messageId; ///< Optional	Required if inline_message_id is not specified. Unique identifier of the sent message
+    private Integer messageId; ///< Optional. Required if inline_message_id is not specified. Unique identifier of the sent message
     @JsonProperty(INLINE_MESSAGE_ID_FIELD)
-    private String inlineMessageId; ///< Optional	Required if chat_id and message_id are not specified. Identifier of the inline message
+    private String inlineMessageId; ///< Optional. Required if chat_id and message_id are not specified. Identifier of the inline message
     @JsonProperty(USER_ID_FIELD)
     @NonNull
     private Long userId; ///<Target user id

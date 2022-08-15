@@ -49,6 +49,7 @@ public class Chat implements BotApiObject {
     private static final String HASPROTECTEDCONTENT_FIELD = "has_protected_content";
     private static final String JOINTOSENDMESSAGES_FIELD  = "join_to_send_messages";
     private static final String JOINBYREQUEST_FIELD  = "join_by_request";
+    private static final String HASRESTRICTEDVOICEANDVIDEOMESSAGES_FIELD  = "has_restricted_voice_and_video_messages";
 
     private static final String USERCHATTYPE = "private";
     private static final String GROUPCHATTYPE = "group";
@@ -142,6 +143,13 @@ public class Chat implements BotApiObject {
      */
     @JsonProperty(JOINBYREQUEST_FIELD)
     private Boolean joinByRequest;
+    /**
+     * Optional.
+     * True, if the privacy settings of the other party restrict sending voice and video note messages in the private chat.
+     * Returned only in getChat.
+     */
+    @JsonProperty(HASRESTRICTEDVOICEANDVIDEOMESSAGES_FIELD)
+    private Boolean hasRestrictedVoiceAndVideoMessages;
 
     @JsonIgnore
     public Boolean isGroupChat() {

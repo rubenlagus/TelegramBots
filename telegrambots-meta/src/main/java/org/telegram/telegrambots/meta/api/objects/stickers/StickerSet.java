@@ -24,6 +24,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StickerSet implements BotApiObject {
+    private static final String STICKERTYPE_FIELD = "sticker_type";
     private static final String NAME_FIELD = "name";
     private static final String TITLE_FIELD = "title";
     private static final String CONTAINSMASKS_FIELD = "contains_masks";
@@ -32,12 +33,20 @@ public class StickerSet implements BotApiObject {
     private static final String ISVIDEO_FIELD = "is_video";
     private static final String THUMB_FIELD = "thumb";
 
+    @JsonProperty(STICKERS_FIELD)
+    private String stickerType; ///< Type of stickers in the set, currently one of “regular”, “mask”, “custom_emoji”
     @JsonProperty(NAME_FIELD)
     private String name; ///< Sticker set name
     @JsonProperty(TITLE_FIELD)
     private String title; ///< Sticker set title
+    /**
+     * True, if the sticker set contains animated stickers
+     *
+     * @deprecated Use {@link #getStickerType()} or {@link #isMask()}
+     */
     @JsonProperty(CONTAINSMASKS_FIELD)
-    private Boolean containsMasks; ///< True, if the sticker set contains animated stickers
+    @Deprecated
+    private Boolean containsMasks;
     @JsonProperty(STICKERS_FIELD)
     private List<Sticker> stickers; ///< True, if the sticker set contains masks
     @JsonProperty(ISANIMATED_FIELD)
@@ -46,4 +55,15 @@ public class StickerSet implements BotApiObject {
     private Boolean isVideo; ///< True, if the sticker set contains video stickers
     @JsonProperty(THUMB_FIELD)
     private PhotoSize thumb; ///< Optional. Sticker set thumbnail in the .WEBP, .TGS, or .WEBM format
+
+    public boolean isRegularSticker() {
+        return "regular".equals(stickerType);
+    }
+    public boolean isMask() {
+        return "mask".equals(stickerType);
+    }
+
+    public boolean isCustomEmoji() {
+        return "custom_emoji".equals(stickerType);
+    }
 }

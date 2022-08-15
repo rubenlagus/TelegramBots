@@ -9,11 +9,16 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
+import org.telegram.telegrambots.meta.api.methods.CopyMessage;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.stickers.MaskPosition;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Ruben Bermudez
@@ -36,6 +41,8 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
 
     public static final String USERID_FIELD = "user_id";
     public static final String NAME_FIELD = "name";
+    public static final String STICKERTYPE_FIELD = "sticker_type";
+
     public static final String TITLE_FIELD = "title";
     public static final String PNGSTICKER_FIELD = "png_sticker";
     public static final String TGSSTICKER_FIELD = "tgs_sticker";
@@ -46,6 +53,13 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
 
     @NonNull
     private Long userId; ///< User identifier of created sticker set owner
+    /**
+     * Type of stickers in the set, pass “regular” or “mask”.
+     * Custom emoji sticker sets can't be created via the Bot API at the moment.
+     * By default, a regular sticker set is created.
+     */
+    @Builder.Default
+    private String stickerType = "regular";
     /**
      * Name of sticker set, to be used in t.me/addstickers/<name> URLs.
      * Can contain only english letters, digits and underscores.
@@ -58,7 +72,6 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
     private String title; ///< User identifier of created sticker set owner
     @NonNull
     private String emojis; ///< One or more emoji corresponding to the sticker
-    private Boolean containsMasks; ///< Optional. Pass True, if a set of mask stickers should be created
     private MaskPosition maskPosition; ///< Optional. Position where the mask should be placed on faces
     /**
      * Optional.
@@ -84,6 +97,33 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
      */
     private InputFile webmSticker;
 
+    /**
+     * @deprecated Use {@link #setStickerType(String)}
+     */
+    @Deprecated
+    public void setContainsMasks(boolean containsMasks) {
+        if (containsMasks) {
+            this.stickerType = "mask";
+        } else {
+            this.stickerType = "regular";
+        }
+    }
+
+    /**
+     * @deprecated Use {@link #getStickerType()} or {@link #isMask()}
+     */
+    @Deprecated
+    public Boolean getContainsMasks() {
+        return isMask();
+    }
+
+    public boolean isRegularSticker() {
+        return "regular".equals(stickerType);
+    }
+    public boolean isMask() {
+        return "mask".equals(stickerType);
+    }
+
     @Override
     public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
         return deserializeResponse(answer, Boolean.class);
@@ -93,6 +133,9 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
     public void validate() throws TelegramApiValidationException {
         if (userId <= 0) {
             throw new TelegramApiValidationException("userId can't be empty", this);
+        }
+        if (!Arrays.asList("regular", "mask").contains(stickerType)) {
+            throw new TelegramApiValidationException("Stickertype must be 'regular' or 'mask'", this);
         }
         if (name.isEmpty()) {
             throw new TelegramApiValidationException("name can't be empty", this);
@@ -127,6 +170,22 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
 
         if (maskPosition != null) {
             maskPosition.validate();
+        }
+    }
+
+    public static class CreateNewStickerSetBuilder {
+        /**
+         * @deprecated Use {@link #stickerType(String)} or {@link #setStickerType(String)}
+         */
+        @Tolerate
+        @Deprecated
+        public CreateNewStickerSet.CreateNewStickerSetBuilder containsMasks(@NonNull Boolean containsMasks) {
+            if (containsMasks) {
+                this.stickerType("mask");
+            } else {
+                this.stickerType("regular");
+            }
+            return this;
         }
     }
 }

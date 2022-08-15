@@ -26,6 +26,7 @@ public class Sticker implements BotApiObject {
 
     private static final String FILEID_FIELD = "file_id";
     private static final String FILEUNIQUEID_FIELD = "file_unique_id";
+    private static final String TYPE_FIELD = "type";
     private static final String WIDTH_FIELD = "width";
     private static final String HEIGHT_FIELD = "height";
     private static final String THUMB_FIELD = "thumb";
@@ -36,6 +37,7 @@ public class Sticker implements BotApiObject {
     private static final String ISANIMATED_FIELD = "is_animated";
     private static final String ISVIDEO_FIELD = "is_video";
     private static final String PREMIUMANIMATION_FIELD = "premium_animation";
+    private static final String CUSTOMEMOJIID_FIELD = "custom_emoji_id";
 
     @JsonProperty(FILEID_FIELD)
     private String fileId; ///< Identifier for this file, which can be used to download or reuse the file
@@ -45,6 +47,12 @@ public class Sticker implements BotApiObject {
      */
     @JsonProperty(FILEUNIQUEID_FIELD)
     private String fileUniqueId;
+    /**
+     * Type of the sticker, currently one of “regular”, “mask”, “custom_emoji”.
+     * The type of the sticker is independent of its format, which is determined by the fields is_animated and is_video.
+     */
+    @JsonProperty(TYPE_FIELD)
+    private String type;
     @JsonProperty(WIDTH_FIELD)
     private Integer width; ///< Sticker width
     @JsonProperty(HEIGHT_FIELD)
@@ -65,4 +73,7 @@ public class Sticker implements BotApiObject {
     private Boolean isVideo; ///< True, if the sticker is a video sticker
     @JsonProperty(PREMIUMANIMATION_FIELD)
     private File premiumAnimation; ///< Optional. Premium animation for the sticker, if the sticker is premium
+    @JsonProperty(CUSTOMEMOJIID_FIELD)
+    private String customEmojiId; ///< Optional. For custom emoji stickers, unique identifier of the custom emoji
+
 }

@@ -35,6 +35,7 @@ public class MessageEntity implements BotApiObject {
     private static final String URL_FIELD = "url";
     private static final String USER_FIELD = "user";
     private static final String LANGUAGE_FIELD = "language";
+    private static final String CUSTOMEMOJI_FIELD = "custom_emoji_id";
     /**
      * Type of the entity.
      * Currently, can be:
@@ -54,6 +55,7 @@ public class MessageEntity implements BotApiObject {
      * - “pre” (monowidth block)
      * - “text_link” (for clickable text URLs)
      * - “text_mention” (for users without usernames)
+     * - "custom_emoji"  (for inline custom emoji stickers)
      */
     @JsonProperty(TYPE_FIELD)
     @NonNull
@@ -70,6 +72,13 @@ public class MessageEntity implements BotApiObject {
     private User user; ///< Optional. For “text_mention” only, the mentioned user
     @JsonProperty(LANGUAGE_FIELD)
     private String language; ///< Optional. For “pre” only, the programming language of the entity text
+    /**
+     * Optional.
+     * For “custom_emoji” only, unique identifier of the custom emoji.
+     * Use getCustomEmojiStickers to get full information about the sticker
+     */
+    @JsonProperty(CUSTOMEMOJI_FIELD)
+    private String customEmojiId;
     @JsonIgnore
     private String text; ///< Text present in the entity. Computed from offset and length
 
