@@ -12,8 +12,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
-import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMessage;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.payments.LabeledPrice;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.util.List;
@@ -31,7 +32,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateInvoiceLink extends BotApiMethodMessage {
+public class CreateInvoiceLink extends BotApiMethod<String> {
     public static final String PATH = "createInvoiceLink";
 
     public static final String TITLE_FIELD = "title";
@@ -60,7 +61,7 @@ public class CreateInvoiceLink extends BotApiMethodMessage {
     private String title; ///< Product name, 1-32 characters
     @JsonProperty(DESCRIPTION_FIELD)
     @NonNull
-    private String description; ///< 	Product description, 1-255 characters
+    private String description; ///< Product description, 1-255 characters
     @JsonProperty(PAYLOAD_FIELD)
     @NonNull
     private String payload; ///< Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
@@ -157,5 +158,10 @@ public class CreateInvoiceLink extends BotApiMethodMessage {
         if (suggestedTipAmounts != null && !suggestedTipAmounts.isEmpty() && suggestedTipAmounts.size() > 4) {
             throw new TelegramApiValidationException("No more that 4 suggested tips allowed", this);
         }
+    }
+
+    @Override
+    public String deserializeResponse(String answer) throws TelegramApiRequestException {
+        return deserializeResponse(answer, String.class);
     }
 }
