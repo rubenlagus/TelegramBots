@@ -121,7 +121,6 @@ public class CreateInvoiceLinkTest {
 
         try {
             String link = createInvoiceLink.deserializeResponse(responseText);
-            System.out.println(link);
             assertEquals("https://t.me/testlink",link);
         } catch (TelegramApiRequestException e) {
             fail(e.getMessage());
