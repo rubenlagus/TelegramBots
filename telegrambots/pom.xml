@@ -63,14 +63,14 @@
 
     <properties>
         <java.version>11</java.version>
-        <maven.compiler.release>8</maven.compiler.release>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <glassfish.version>2.35</glassfish.version>
+        <jersey.version>3.0.8</jersey.version>
         <httpcompontents.version>4.5.13</httpcompontents.version>
         <commonio.version>2.11.0</commonio.version>
     </properties>
@@ -80,7 +80,7 @@
             <dependency>
                 <groupId>org.glassfish.jersey</groupId>
                 <artifactId>jersey-bom</artifactId>
-                <version>${glassfish.version}</version>
+                <version>${jersey.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
