@@ -1,5 +1,7 @@
 package org.telegram.telegrambots.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
@@ -9,8 +11,6 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
@@ -29,6 +29,7 @@ import static org.telegram.telegrambots.Constants.SOCKET_TIMEOUT;
 
 public final class WebhookUtils {
   private static final ContentType TEXT_PLAIN_CONTENT_TYPE = ContentType.create("text/plain", StandardCharsets.UTF_8);
+  private static final ObjectMapper objectMapper = new ObjectMapper();
 
   private WebhookUtils() {
 
@@ -66,7 +67,7 @@ public final class WebhookUtils {
         builder.addTextBody(SetWebhook.MAXCONNECTIONS_FIELD, setWebhook.getMaxConnections().toString(), TEXT_PLAIN_CONTENT_TYPE);
       }
       if (setWebhook.getAllowedUpdates() != null) {
-        builder.addTextBody(SetWebhook.ALLOWEDUPDATES_FIELD, new JSONArray(setWebhook.getAllowedUpdates()).toString(), TEXT_PLAIN_CONTENT_TYPE);
+        builder.addTextBody(SetWebhook.ALLOWEDUPDATES_FIELD, objectMapper.writeValueAsString(setWebhook.getAllowedUpdates()), TEXT_PLAIN_CONTENT_TYPE);
       }
       if (setWebhook.getIpAddress() != null) {
         builder.addTextBody(SetWebhook.IPADDRESS_FIELD, setWebhook.getIpAddress(), TEXT_PLAIN_CONTENT_TYPE);
@@ -95,7 +96,7 @@ public final class WebhookUtils {
           throw new TelegramApiRequestException("Error setting webhook:" + responseContent);
         }
       }
-    } catch (JSONException e) {
+    } catch (JsonProcessingException e) {
       throw new TelegramApiRequestException("Error deserializing setWebhook method response", e);
     } catch (IOException e) {
       throw new TelegramApiRequestException("Error executing setWebook method", e);
