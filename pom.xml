@@ -21,7 +21,7 @@
     <licenses>
         <license>
             <name>MIT License</name>
-            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <url>https://opensource.org/licenses/mit-license.php</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -67,13 +67,13 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
-        <junit.version>5.8.2</junit.version>
-        <mockito.version>4.6.1</mockito.version>
-        <mockitojupiter.version>4.6.1</mockitojupiter.version>
-        <jacksonanotation.version>2.13.2</jacksonanotation.version>
-        <jackson.version>2.13.2.2</jackson.version>
+        <junit.version>5.9.0</junit.version>
+        <mockito.version>4.8.0</mockito.version>
+        <mockitojupiter.version>4.8.0</mockitojupiter.version>
+        <jacksonanotation.version>2.13.4</jacksonanotation.version>
+        <jackson.version>2.13.4</jackson.version>
         <json.version>20220320</json.version>
-        <slf4j.version>1.7.36</slf4j.version>
+        <slf4j.version>2.0.3</slf4j.version>
         <jakarta.annotation.version>2.1.1</jakarta.annotation.version>
         <lombok.version>1.18.24</lombok.version>
         <guava.version>31.1-jre</guava.version>
