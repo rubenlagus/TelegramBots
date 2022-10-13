@@ -55,4 +55,4 @@ After that your bot will look like:
     //Bot body.
   }
 ```
-Also you could just implement LongPollingBot or WebHookBot interfaces. All this bots will be registered in context and connected to Telegram api.
+Also you could just implement LongPollingBot or WebHookBot interfaces. All these bots will be registered in context and connected to Telegram api.
