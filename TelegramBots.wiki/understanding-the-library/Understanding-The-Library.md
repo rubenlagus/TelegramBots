@@ -6,8 +6,8 @@ This little handy guide will not teach you how to do a particular thing in the l
 It will also not teach you how to create bots or anything in the liking of that. 
 For that take a look at the [Getting Started] guide
 
-This guide will give you a general understanding on how the library function and will answer a lot of frequently 
-asked questions. I recommend everyone who wants to work with this library more to read this guide.
+This guide will give you a general understanding on how the library functions and will answer a lot of frequently 
+asked questions. I recommend everyone who wants to work with this library more deeply to read this guide.
 
 ## Topics
 * The library and the bot API
@@ -18,11 +18,11 @@ asked questions. I recommend everyone who wants to work with this library more t
 Often in Conversations about the library they talk about the API or Application Programming Interface. Sometimes these 
 terms are used interchangeably, which is not correct.
 
-To understand the differences between those two things lets take a look at this diagram
+To understand the differences between those two lets take a look at this diagram
 
 ![](Telegram-Diagram.png)
 
-As you might have noticed. Our bot never actually talks to the user directly. Actually, Every communication between user 
+As you might have noticed our bot never actually talks to the user directly. Actually, every communication between user 
 and bot happens on the Telegram Servers (A little disclaimer. I actually don't know the entire infrastructure of telegram. 
 So take everything between Bot API and Telegram Client with a grain of salt)
 
@@ -48,7 +48,7 @@ User bot = ourBot.execute(getMe);
 If we do this for one of our bots this is what theBot will look like:<br>
 ![](Bot_intellij.png)
 
-(you better be grateful for that picture. Spend an eternity trying to find a username)
+(you better be grateful for that picture. Spent an eternity trying to find a username)
 
 We can also go ahead and just call the bot api directly:<br>
 ![](Bot_curl.png)
@@ -86,7 +86,7 @@ One of them sticks out to us. *sendPoll* looks promising, and when we take a loo
 That looks like the thing we need. So let's see what we need to send it
 ![](poll_params.png)
 
-So as we can see, we need to set 3 things. The id of the chat we want to send it to, a question as a string and an Array of Strings.
+As we can see, we need to set 3 things. The id of the chat we want to send it to, a question as a string and an Array of Strings.
 This will result in an anonymous regular type poll without mutliselection looking like this when sent:
 
 ![](poll_example.png)
@@ -125,7 +125,7 @@ private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a c
 
 This is a lot at first glance, but if we remember back at the table from the documentation, everything is there. We have the 3 required fields on top (chatId, question and the list of options and everything) else below
 
-Let's reproduce our poll from earlier. We create the Method object and set all required fields. This particular class already allows us to set everything in a constructor, this is normally the case for required fields. All other fields can be set by using the setter method (**Attention** Calling a setter overrides the last value in a field. You can call setter multiple times on a method object, but it's normally not correct to do so)
+Let's reproduce our poll from earlier. We create the Method object and set all required fields. This particular class already allows us to set everything in a constructor, this is normally the case for required fields. All other fields can be set by using the setter method (**Attention** Calling a setter overrides the last value in a field. You can call setter multiple times on a method object, but normally it's not correct to do so)
 
 ```java
 AbsSender ourBot = getOurBot();
