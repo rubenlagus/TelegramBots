@@ -71,7 +71,7 @@
         <mockito.version>4.6.1</mockito.version>
         <mockitojupiter.version>4.6.1</mockitojupiter.version>
         <jacksonanotation.version>2.13.2</jacksonanotation.version>
-        <jackson.version>2.13.2.2</jackson.version>
+        <jackson.version>2.13.4.1</jackson.version>
         <json.version>20220320</json.version>
         <slf4j.version>1.7.36</slf4j.version>
         <jakarta.annotation.version>2.1.1</jakarta.annotation.version>
