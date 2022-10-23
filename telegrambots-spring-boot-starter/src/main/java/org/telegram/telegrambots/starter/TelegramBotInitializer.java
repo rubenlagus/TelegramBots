@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 import static java.lang.String.format;
 
 /**
- * Receives all beand which are #LongPollingBot and #WebhookBot and register them in #TelegramBotsApi.
+ * Receives all beans which are #LongPollingBot and #WebhookBot and register them in #TelegramBotsApi.
  */
 public class TelegramBotInitializer implements InitializingBean {
     private static final Logger log = LoggerFactory.getLogger(TelegramBotInitializer.class);

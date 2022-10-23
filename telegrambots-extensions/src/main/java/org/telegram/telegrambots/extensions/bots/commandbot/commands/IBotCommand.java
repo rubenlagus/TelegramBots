@@ -4,7 +4,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
 /**
- * This Interface represents the a Command that can be executed
+ * This Interface represents the Command that can be executed
  *
  * @author Timo Schulz (Mit0x2)
  */

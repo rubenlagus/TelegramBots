@@ -92,7 +92,7 @@ public class DefaultBotOptions implements BotOptions {
 
     /**
      * @param requestConfig Request config to be used in all Http requests
-     * @implSpec Default implementation assumes no proxy is needed and sets a 75secs timoute
+     * @implSpec Default implementation assumes no proxy is needed and sets a 75secs timeout
      */
     public void setRequestConfig(RequestConfig requestConfig) {
         this.requestConfig = requestConfig;
