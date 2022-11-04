@@ -15,9 +15,9 @@ import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
+ * This object describes the position on faces where a mask should be placed by default.
  * @author Ruben Bermudez
  * @version 3.2
- * This object describes the position on faces where a mask should be placed by default.
  */
 @JsonTypeInfo(use=JsonTypeInfo.Id.NONE)
 @EqualsAndHashCode(callSuper = false)
@@ -33,18 +33,30 @@ public class MaskPosition implements Validable, BotApiObject {
     private static final String YSHIFT_FIELD = "y_shift";
     private static final String SCALE_FIELD = "scale";
 
+    /**
+     * The part of the face relative to which the mask should be placed. One of “forehead”, “eyes”, “mouth”, or “chin”.
+     */
     @JsonProperty(POINT_FIELD)
     @NonNull
-    private String point; ///< The part of the face relative to which the mask should be placed. One of “forehead”, “eyes”, “mouth”, or “chin”.
+    private String point;
+    /**
+     * Shift by X-axis measured in widths of the mask scaled to the face size, from left to right. For example, choosing -1.0 will place mask just to the left of the default mask position.
+     */
     @JsonProperty(XSHIFT_FIELD)
     @NonNull
-    private Float xShift; ///< Shift by X-axis measured in widths of the mask scaled to the face size, from left to right. For example, choosing -1.0 will place mask just to the left of the default mask position.
+    private Float xShift;
+    /**
+     * Shift by Y-axis measured in heights of the mask scaled to the face size, from top to bottom. For example, 1.0 will place the mask just below the default mask position.
+     */
     @JsonProperty(YSHIFT_FIELD)
     @NonNull
-    private Float yShift; ///< Shift by Y-axis measured in heights of the mask scaled to the face size, from top to bottom. For example, 1.0 will place the mask just below the default mask position.
+    private Float yShift;
+    /**
+     * Mask scaling coefficient. For example, 2.0 means double size.
+     */
     @JsonProperty(SCALE_FIELD)
     @NonNull
-    private Float scale; ///< Mask scaling coefficient. For example, 2.0 means double size.
+    private Float scale;
 
     @Override
     public void validate() throws TelegramApiValidationException {

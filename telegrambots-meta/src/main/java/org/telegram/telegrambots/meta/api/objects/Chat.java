@@ -13,9 +13,9 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
+ * This object represents a Telegram chat with an user or a group
  * @author Ruben Bermudez
  * @version 6.1
- * This object represents a Telegram chat with an user or a group
  */
 @SuppressWarnings("WeakerAccess")
 @EqualsAndHashCode(callSuper = false)
@@ -64,32 +64,79 @@ public class Chat implements BotApiObject {
      */
     @JsonProperty(ID_FIELD)
     @NonNull
-    private Long id; ///< Unique identifier for this chat, not exceeding 1e13 by absolute value
+    private Long id;
+    /**
+     * Type of the chat, one of “private”, “group” or “channel” or "supergroup"
+     */
     @JsonProperty(TYPE_FIELD)
     @NonNull
-    private String type; ///< Type of the chat, one of “private”, “group” or “channel” or "supergroup"
+    private String type;
+    /**
+     * Optional.
+     * Title of the chat, only for channels and group chat
+     */
     @JsonProperty(TITLE_FIELD)
-    private String title; ///< Optional. Title of the chat, only for channels and group chat
+    private String title;
+    /**
+     * Optional
+     * Username of the chat, only for private chats and channels if available
+     */
     @JsonProperty(FIRSTNAME_FIELD)
-    private String firstName; ///< Optional. Username of the chat, only for private chats and channels if available
+    private String firstName;
+    /**
+     * Optional.
+     * Interlocutor's first name for private chats
+     */
     @JsonProperty(LASTNAME_FIELD)
-    private String lastName; ///< Optional. Interlocutor's first name for private chats
+    private String lastName;
+    /**
+     * Optional.
+     * Interlocutor's last name for private chats
+     */
     @JsonProperty(USERNAME_FIELD)
-    private String userName; ///< Optional. Interlocutor's last name for private chats
+    private String userName;
+    /**
+     * Optional.
+     * Chat photo. Returned only in getChat.
+     */
     @JsonProperty(PHOTO_FIELD)
-    private ChatPhoto photo; ///< Optional. Chat photo. Returned only in getChat.
+    private ChatPhoto photo;
+    /**
+     * Optional.
+     * Description, for groups, supergroups and channel chats. Returned only in getChat.
+     */
     @JsonProperty(DESCRIPTION_FIELD)
-    private String description; ///< Optional. Description, for groups, supergroups and channel chats. Returned only in getChat.
+    private String description;
+    /**
+     * Optional.
+     * Primary invite link, for groups, supergroups and channel chats. Returned only in getChat.
+     */
     @JsonProperty(INVITELINK_FIELD)
-    private String inviteLink; ///< Optional. Primary invite link, for groups, supergroups and channel chats. Returned only in getChat.
+    private String inviteLink;
+    /**
+     * Optional.
+     * The most recent pinned message (by sending date). Returned only in getChat.
+     */
     @JsonProperty(PINNEDMESSAGE_FIELD)
-    private Message pinnedMessage; ///< Optional. The most recent pinned message (by sending date). Returned only in getChat.
+    private Message pinnedMessage;
+    /**
+     * Optional.
+     * For supergroups, name of Group sticker set. Returned only in getChat.
+     */
     @JsonProperty(STICKERSETNAME_FIELD)
-    private String stickerSetName; ///< Optional. For supergroups, name of Group sticker set. Returned only in getChat.
+    private String stickerSetName;
+    /**
+     * Optional.
+     * True, if the bot can change group the sticker set. Returned only in getChat.
+     */
     @JsonProperty(CANSETSTICKERSET_FIELD)
-    private Boolean canSetStickerSet; ///< Optional. True, if the bot can change group the sticker set. Returned only in getChat.
+    private Boolean canSetStickerSet;
+    /**
+     * Optional.
+     * Default chat member permissions, for groups and supergroups. Returned only in getChat.
+     */
     @JsonProperty(PERMISSIONS_FIELD)
-    private ChatPermissions permissions; ///< Optional. Default chat member permissions, for groups and supergroups. Returned only in getChat.
+    private ChatPermissions permissions;
     /**
      * Optional.
      * For supergroups, the minimum allowed delay between consecutive messages sent by each unpriviledged user.
@@ -97,8 +144,12 @@ public class Chat implements BotApiObject {
      */
     @JsonProperty(SLOWMODEDELAY_FIELD)
     private Integer slowModeDelay;
+    /**
+     * Optional.
+     * Bio of the other party in a private chat. Returned only in getChat.
+     */
     @JsonProperty(BIO_FIELD)
-    private String bio; ///< Optional. Bio of the other party in a private chat. Returned only in getChat.
+    private String bio;
     /**
      * Optional.
      * Unique identifier for the linked chat,
@@ -111,10 +162,16 @@ public class Chat implements BotApiObject {
      */
     @JsonProperty(LINKEDCHATID_FIELD)
     private Long linkedChatId;
+    /**
+     * Optional. For supergroups, the location to which the supergroup is connected. Returned only in getChat.
+     */
     @JsonProperty(LOCATION_FIELD)
-    private ChatLocation location; ///< Optional. For supergroups, the location to which the supergroup is connected. Returned only in getChat.
+    private ChatLocation location;
+    /**
+     * Optional. The time after which all messages sent to the chat will be automatically deleted; in seconds. Returned only in getChat.
+     */
     @JsonProperty(MESSAGEAUTODELETETIME_FIELD)
-    private Integer messageAutoDeleteTime; ///< Optional. The time after which all messages sent to the chat will be automatically deleted; in seconds. Returned only in getChat.
+    private Integer messageAutoDeleteTime;
     /**
      * Optional.
      * True, if privacy settings of the other party in the private chat allows to use tg://user?id=<user_id> links only in chats with the user.

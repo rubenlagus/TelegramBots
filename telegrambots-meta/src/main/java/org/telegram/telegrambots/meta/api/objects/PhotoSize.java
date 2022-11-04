@@ -10,9 +10,9 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
+ * This object represents one size of a photo or a file / sticker thumbnail.
  * @author Ruben Bermudez
  * @version 1.0
- * This object represents one size of a photo or a file / sticker thumbnail.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -29,20 +29,36 @@ public class PhotoSize implements BotApiObject {
     private static final String FILESIZE_FIELD = "file_size";
     private static final String FILEPATH_FIELD = "file_path";
 
+    /**
+     * Identifier for this file, which can be used to download or reuse the file
+     */
     @JsonProperty(FILEID_FIELD)
-    private String fileId; ///< Identifier for this file, which can be used to download or reuse the file
+    private String fileId;
     /**
      * Unique identifier for this file, which is supposed to be the same over time and for different bots.
      * Can't be used to download or reuse the file.
      */
     @JsonProperty(FILEUNIQUEID_FIELD)
     private String fileUniqueId;
+    /**
+     * Photo width
+     */
     @JsonProperty(WIDTH_FIELD)
-    private Integer width; ///< Photo width
+    private Integer width;
+    /**
+     * Photo height
+     */
     @JsonProperty(HEIGHT_FIELD)
-    private Integer height; ///< Photo height
+    private Integer height;
+    /**
+     * Optional.
+     * File size
+     */
     @JsonProperty(FILESIZE_FIELD)
-    private Integer fileSize; ///< Optional. File size
+    private Integer fileSize;
+    /**
+     * Undocumented field. Optional. Can contain the path to download the file directly without calling to getFile
+     */
     @JsonProperty(FILEPATH_FIELD)
-    private String filePath; ///< Undocumented field. Optional. Can contain the path to download the file directly without calling to getFile
+    private String filePath;
 }

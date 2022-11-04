@@ -16,7 +16,10 @@ import java.util.List;
  * @date 21 of July of 2016
  */
 public class DefaultBotOptions implements BotOptions {
-    private int maxThreads; ///< Max number of threads used for async methods executions (default 1)
+    /**
+     * Max number of threads used for async methods executions (default 1)
+     */
+    private int maxThreads;
     private RequestConfig requestConfig;
     private volatile HttpContext httpContext;
     private BackOff backOff;

@@ -12,9 +12,9 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
+ * This object represents a Telegram user or bot.
  * @author Ruben Bermudez
  * @version 6.1
- * This object represents a Telegram user or bot.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -44,27 +44,57 @@ public class User implements BotApiObject {
      */
     @JsonProperty(ID_FIELD)
     @NonNull
-    private Long id; ///< Unique identifier for this user or bot
+    private Long id;
+    /**
+     * User‘s or bot’s first name
+     */
     @JsonProperty(FIRSTNAME_FIELD)
     @NonNull
-    private String firstName; ///< User‘s or bot’s first name
+    private String firstName;
+    /**
+     * True, if this user is a bot
+     */
     @JsonProperty(ISBOT_FIELD)
     @NonNull
-    private Boolean isBot; ///< True, if this user is a bot
+    private Boolean isBot;
+    /**
+     * Optional. User‘s or bot’s last name
+     */
     @JsonProperty(LASTNAME_FIELD)
-    private String lastName; ///< Optional. User‘s or bot’s last name
+    private String lastName;
+    /**
+     * Optional. User‘s or bot’s username
+     */
     @JsonProperty(USERNAME_FIELD)
-    private String userName; ///< Optional. User‘s or bot’s username
+    private String userName;
+    /**
+     * Optional. IETF language tag of the user's language
+     */
     @JsonProperty(LANGUAGECODE_FIELD)
-    private String languageCode; ///< Optional. IETF language tag of the user's language
+    private String languageCode;
+    /**
+     * Optional. True, if the bot can be invited to groups. Returned only in getMe.
+     */
     @JsonProperty(CANJOINGROUPS_FIELD)
-    private Boolean canJoinGroups; ///< Optional. True, if the bot can be invited to groups. Returned only in getMe.
+    private Boolean canJoinGroups;
+    /**
+     * Optional. True, if privacy mode is disabled for the bot. Returned only in getMe.
+     */
     @JsonProperty(CANREADALLGROUPMESSAGES_FIELD)
-    private Boolean canReadAllGroupMessages; ///< Optional. True, if privacy mode is disabled for the bot. Returned only in getMe.
+    private Boolean canReadAllGroupMessages;
+    /**
+     * Optional. True, if the bot supports inline queries. Returned only in getMe.
+     */
     @JsonProperty(SUPPORTINLINEQUERIES_FIELD)
-    private Boolean supportInlineQueries; ///< Optional. True, if the bot supports inline queries. Returned only in getMe.
+    private Boolean supportInlineQueries;
+    /**
+     * Optional. True, if this user is a Telegram Premium user
+     */
     @JsonProperty(ISPREMIUM_FIELD)
-    private Boolean isPremium; ///< Optional. True, if this user is a Telegram Premium user
+    private Boolean isPremium;
+    /**
+     * Optional. True, if this user added the bot to the attachment menu
+     */
     @JsonProperty(ADDEDTOATTACHMENTMENU_FIELD)
-    private Boolean addedToAttachmentMenu; ///< Optional. True, if this user added the bot to the attachment menu
+    private Boolean addedToAttachmentMenu;
 }

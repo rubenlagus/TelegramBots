@@ -10,10 +10,10 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
- * @author Ruben Bermudez
- * @version 5.0
  * This object represents the content of a service message,
  * sent whenever a user in the chat triggers a proximity alert set by another user.
+ * @author Ruben Bermudez
+ * @version 5.0
  */
 @SuppressWarnings("WeakerAccess")
 @EqualsAndHashCode(callSuper = false)
@@ -28,10 +28,19 @@ public class ProximityAlertTriggered implements BotApiObject {
     private static final String WATCHER_FIELD = "watcher";
     private static final String DISTANCE_FIELD = "distance";
 
+    /**
+     * User that triggered the alert
+     */
     @JsonProperty(TRAVELER_FIELD)
-    private User traveler; ///< User that triggered the alert
+    private User traveler;
+    /**
+     * User that set the alert
+     */
     @JsonProperty(WATCHER_FIELD)
-    private User watcher; ///< User that set the alert
+    private User watcher;
+    /**
+     * The distance between the users
+     */
     @JsonProperty(DISTANCE_FIELD)
-    private Integer distance; ///< The distance between the users
+    private Integer distance;
 }

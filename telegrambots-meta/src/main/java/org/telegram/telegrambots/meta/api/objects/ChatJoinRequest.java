@@ -5,10 +5,9 @@ import lombok.*;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
+ * Represents a join request sent to a chat.
  * @author Ruben Bermudez
  * @version 5.4
- *
- * Represents a join request sent to a chat.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -23,15 +22,31 @@ public class ChatJoinRequest implements BotApiObject {
     private static final String BIO_FIELD = "bio";
     private static final String INVITELINK_FIELD = "invite_link";
 
-
+    /**
+     * Chat to which the request was sent
+     */
     @JsonProperty(CHAT_FIELD)
-    private Chat chat; ///< Chat to which the request was sent
+    private Chat chat;
+    /**
+     * User that sent the join request
+     */
     @JsonProperty(FROM_FIELD)
-    private User user; ///< User that sent the join request
+    private User user;
+    /**
+     * Date the request was sent in Unix time
+     */
     @JsonProperty(DATE_FIELD)
-    private Integer date; ///< Date the request was sent in Unix time
+    private Integer date;
+    /**
+     * Optional.
+     * Bio of the user.
+     */
     @JsonProperty(BIO_FIELD)
-    private String bio; ///< Optional. Bio of the user.
+    private String bio;
+    /**
+     * Optional.
+     * Chat invite link that was used by the user to send the join request
+     */
     @JsonProperty(INVITELINK_FIELD)
-    private ChatInviteLink inviteLink; ///< Optional. Chat invite link that was used by the user to send the join request
+    private ChatInviteLink inviteLink;
 }
