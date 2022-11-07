@@ -45,9 +45,12 @@ public class SendDice extends BotApiMethodMessage {
     private static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
     private static final String PROTECTCONTENT_FIELD = "protect_content";
 
+    /**
+     * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     */
     @JsonProperty(CHATID_FIELD)
     @NonNull
-    private String chatId; ///< Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+    private String chatId;
     /**
      * Optional.
      *

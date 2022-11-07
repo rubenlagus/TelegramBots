@@ -8,11 +8,9 @@ import org.telegram.telegrambots.meta.api.objects.User;
 import java.util.List;
 
 /**
+ * This object represents a service message about new members invited to a video chat.
  * @author Ruben Bermudez
  * @version 6.0
- *
- * This object represents a service message about new members invited to a video chat.
- *
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -23,6 +21,10 @@ import java.util.List;
 public class VideoChatParticipantsInvited implements BotApiObject {
     private static final String USERS_FIELD = "users";
 
+    /**
+     * Optional.
+     * New members that were invited to the voice chat
+     */
     @JsonProperty(USERS_FIELD)
-    private List<User> users; ///< Optional. New members that were invited to the voice chat
+    private List<User> users;
 }

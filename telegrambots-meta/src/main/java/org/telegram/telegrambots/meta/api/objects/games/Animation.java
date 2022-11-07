@@ -29,9 +29,9 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 
 /**
+ * This object represents an animation file (GIF or H.264/MPEG-4 AVC video without sound).
  * @author Ruben Bermudez
  * @version 2.4
- * This object represents an animation file (GIF or H.264/MPEG-4 AVC video without sound).
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -51,9 +51,12 @@ public class Animation implements BotApiObject {
     private static final String MIMETYPE_FIELD = "mime_type";
     private static final String FILESIZE_FIELD = "file_size";
 
+    /**
+     * Identifier for this file, which can be used to download or reuse the file
+     */
     @JsonProperty(FILEID_FIELD)
     @NonNull
-    private String fileId; ///< Identifier for this file, which can be used to download or reuse the file
+    private String fileId;
     /**
      * Unique identifier for this file, which is supposed to be the same over time and for different bots.
      * Can't be used to download or reuse the file.
@@ -61,21 +64,42 @@ public class Animation implements BotApiObject {
     @JsonProperty(FILEUNIQUEID_FIELD)
     @NonNull
     private String fileUniqueId;
+    /**
+     * Video width as defined by sender
+     */
     @JsonProperty(WIDTH_FIELD)
     @NonNull
-    private Integer width; ///< Video width as defined by sender
+    private Integer width;
+    /**
+     * Video height as defined by sender
+     */
     @JsonProperty(HEIGHT_FIELD)
     @NonNull
-    private Integer height; ///< Video height as defined by sender
+    private Integer height;
+    /**
+     * Duration of the video in seconds as defined by sender
+     */
     @JsonProperty(DURATION_FIELD)
     @NonNull
-    private Integer duration; ///< Duration of the video in seconds as defined by sender
+    private Integer duration;
+    /**
+     * Optional.
+     * Animation thumbnail as defined by sender
+     */
     @JsonProperty(THUMB_FIELD)
-    private PhotoSize thumb; ///< Optional. Animation thumbnail as defined by sender
+    private PhotoSize thumb;
+    /**
+     * Optional.
+     * Original animation filename as defined by sender
+     */
     @JsonProperty(FILENAME_FIELD)
-    private String fileName; ///< Optional. Original animation filename as defined by sender
+    private String fileName;
+    /**
+     * Optional.
+     * MIME type of the file as defined by sender
+     */
     @JsonProperty(MIMETYPE_FIELD)
-    private String mimetype; ///< Optional. MIME type of the file as defined by sender
+    private String mimetype;
     /**
      * Optional.
      * File size in bytes.

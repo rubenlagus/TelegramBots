@@ -10,9 +10,9 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
+ * This object represents a voice note
  * @author Ruben Bermudez
  * @version 1.0
- * This object represents a voice note
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -27,18 +27,28 @@ public class Voice implements BotApiObject {
     private static final String MIMETYPE_FIELD = "mime_type";
     private static final String FILESIZE_FIELD = "file_size";
 
+    /**
+     * Identifier for this file, which can be used to download or reuse the file
+     */
     @JsonProperty(FILEID_FIELD)
-    private String fileId; ///< Identifier for this file, which can be used to download or reuse the file
+    private String fileId; 
     /**
      * Unique identifier for this file, which is supposed to be the same over time and for different bots.
      * Can't be used to download or reuse the file.
      */
     @JsonProperty(FILEUNIQUEID_FIELD)
     private String fileUniqueId;
+    /**
+     * Integer	Duration of the audio in seconds as defined by sender
+     */
     @JsonProperty(DURATION_FIELD)
-    private Integer duration; ///< Integer	Duration of the audio in seconds as defined by sender
+    private Integer duration; 
+    /**
+     * Optional.
+     * MIME type of the file as defined by sender
+     */
     @JsonProperty(MIMETYPE_FIELD)
-    private String mimeType; ///< Optional. MIME type of the file as defined by sender
+    private String mimeType; 
     /**
      * Optional.
      * File size in bytes.

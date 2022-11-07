@@ -37,15 +37,30 @@ public class InputTextMessageContent implements InputMessageContent {
     private static final String DISABLEWEBPAGEPREVIEW_FIELD = "disable_web_page_preview";
     private static final String ENTITIES_FIELD = "entities";
 
+    /**
+     * Text of a message to be sent, 1-4096 characters
+     */
     @JsonProperty(MESSAGETEXT_FIELD)
     @NonNull
-    private String messageText; ///< Text of a message to be sent, 1-4096 characters
+    private String messageText;
+    /**
+     * Optional.
+     * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
+     */
     @JsonProperty(PARSEMODE_FIELD)
-    private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
+    private String parseMode;
+    /**
+     * Optional.
+     * Disables link previews for links in the sent message
+     */
     @JsonProperty(DISABLEWEBPAGEPREVIEW_FIELD)
-    private Boolean disableWebPagePreview; ///< Optional. Disables link previews for links in the sent message
+    private Boolean disableWebPagePreview;
+    /**
+     * Optional.
+     * List of special entities that appear in message text, which can be specified instead of parse_mode
+     */
     @JsonProperty(ENTITIES_FIELD)
-    private List<MessageEntity> entities; ///< Optional. List of special entities that appear in message text, which can be specified instead of parse_mode
+    private List<MessageEntity> entities;
 
     @Override
     public void validate() throws TelegramApiValidationException {

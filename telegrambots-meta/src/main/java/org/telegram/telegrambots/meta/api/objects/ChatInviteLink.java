@@ -10,10 +10,9 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
+ * Represents an invite link for a chat.
  * @author Ruben Bermudez
  * @version 5.1
- *
- * Represents an invite link for a chat.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -38,25 +37,45 @@ public class ChatInviteLink implements BotApiObject {
      */
     @JsonProperty(INVITELINK_FIELD)
     private String inviteLink;
+    /**
+     * Creator of the link
+     */
     @JsonProperty(CREATOR_FIELD)
-    private User creator; ///< Creator of the link
+    private User creator;
+    /**
+     * True, if the link is primary
+     */
     @JsonProperty(ISPRIMARY_FIELD)
-    private Boolean isPrimary; ///< True, if the link is primary
+    private Boolean isPrimary;
+    /**
+     * True, if the link is revoked
+     */
     @JsonProperty(ISREVOKED_FIELD)
-    private Boolean isRevoked; ///< True, if the link is revoked
-    @JsonProperty(EXPIREDATE_FIELD)
-    private Integer expireDate; ///< Optional. Point in time (Unix timestamp) when the link will expire or has been expired
+    private Boolean isRevoked;
     /**
      * Optional.
-     *
+     * Point in time (Unix timestamp) when the link will expire or has been expired
+     */
+    @JsonProperty(EXPIREDATE_FIELD)
+    private Integer expireDate;
+    /**
+     * Optional.
      * Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
      */
     @JsonProperty(MEMBERLIMIT_FIELD)
     private Integer memberLimit;
+    /**
+     * Optional.
+     * Invite link name
+     */
     @JsonProperty(NAME_FIELD)
-    private String name; ///< Optional. Invite link name
+    private String name;
+    /**
+     * Optional.
+     * Number of pending join requests created using this link
+     */
     @JsonProperty(PENDINGJOINREQUESTCOUNT_FIELD)
-    private Integer pendingJoinRequestCount; ///< Optional. Number of pending join requests created using this link
+    private Integer pendingJoinRequestCount;
     /**
      * True, if users joining the chat via the link need to be approved by chat administrators
      */

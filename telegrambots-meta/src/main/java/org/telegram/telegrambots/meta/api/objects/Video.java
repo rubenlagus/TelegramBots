@@ -10,9 +10,9 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
+ * This object represents a video file.
  * @author Ruben Bermudez
  * @version 1.0
- * This object represents a video file.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -32,24 +32,43 @@ public class Video implements BotApiObject {
     private static final String FILESIZE_FIELD = "file_size";
     private static final String FILENAME_FIELD = "file_name";
 
+    /**
+     * Identifier for this file, which can be used to download or reuse the file
+     */
     @JsonProperty(FILEID_FIELD)
-    private String fileId; ///< Identifier for this file, which can be used to download or reuse the file
+    private String fileId;
     /**
      * Unique identifier for this file, which is supposed to be the same over time and for different bots.
      * Can't be used to download or reuse the file.
      */
     @JsonProperty(FILEUNIQUEID_FIELD)
     private String fileUniqueId;
+    /**
+     * Video width as defined by sender
+     */
     @JsonProperty(WIDTH_FIELD)
-    private Integer width; ///< Video width as defined by sender
+    private Integer width;
+    /**
+     * Video height as defined by sender
+     */
     @JsonProperty(HEIGHT_FIELD)
-    private Integer height; ///< Video height as defined by sender
+    private Integer height;
+    /**
+     * Duration of the video in seconds as defined by sender
+     */
     @JsonProperty(DURATION_FIELD)
-    private Integer duration; ///< Duration of the video in seconds as defined by sender
+    private Integer duration;
+    /**
+     * Video thumbnail
+     */
     @JsonProperty(THUMB_FIELD)
-    private PhotoSize thumb; ///< Video thumbnail
+    private PhotoSize thumb;
+    /**
+     * Optional.
+     * Mime type of file as defined by sender
+     */
     @JsonProperty(MIMETYPE_FIELD)
-    private String mimeType; ///< Optional. Mime type of a file as defined by sender
+    private String mimeType;
     /**
      * Optional.
      * File size in bytes.
@@ -58,6 +77,10 @@ public class Video implements BotApiObject {
      */
     @JsonProperty(FILESIZE_FIELD)
     private Long fileSize;
+    /**
+     * Optional.
+     * Original filename as defined by sender
+     */
     @JsonProperty(FILENAME_FIELD)
-    private String fileName; ///< Optional. Original filename as defined by sender
+    private String fileName;
 }

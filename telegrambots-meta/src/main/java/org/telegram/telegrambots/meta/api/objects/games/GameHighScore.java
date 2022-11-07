@@ -29,9 +29,9 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 /**
+ * This object represents one row of a game high scores table
  * @author Ruben Bermudez
  * @version 1.0
- * This object represents one row of a game high scores table
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -44,13 +44,22 @@ public class GameHighScore implements BotApiObject {
     private static final String USER_FIELD = "user";
     private static final String SCORE_FIELD = "score";
 
+    /**
+     * Position in the game high score table
+     */
     @JsonProperty(POSITION_FIELD)
     @NonNull
-    private Integer position; ///< Position in the game high score table
+    private Integer position;
+    /**
+     * User
+     */
     @JsonProperty(USER_FIELD)
     @NonNull
-    private User user; ///< User
+    private User user;
+    /**
+     * Score
+     */
     @JsonProperty(SCORE_FIELD)
     @NonNull
-    private Integer score; ///< Score
+    private Integer score;
 }

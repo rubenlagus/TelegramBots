@@ -14,9 +14,9 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
+ * Represents the content of a location message to be sent as the result of an inline query.
  * @author Ruben Bermudez
  * @version 1.0
- * Represents the content of a location message to be sent as the result of an inline query.
  * @apiNote This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * ignore them.
  */
@@ -38,14 +38,24 @@ public class InputLocationMessageContent implements InputMessageContent {
     private static final String HEADING_FIELD = "heading";
     private static final String PROXIMITYALERTRADIUS_FIELD = "proximity_alert_radius";
 
+    /**
+     * Latitude of the location in degrees
+     */
     @JsonProperty(LATITUDE_FIELD)
     @NonNull
-    private Double latitude; ///< Latitude of the location in degrees
+    private Double latitude;
+    /**
+     * Longitude of the location in degrees
+     */
     @JsonProperty(LONGITUDE_FIELD)
     @NonNull
-    private Double longitude; ///< Longitude of the location in degrees
+    private Double longitude;
+    /**
+     * Optional.
+     * Period in seconds for which the location can be updated, should be between 60 and 86400.
+     */
     @JsonProperty(LIVEPERIOD_FIELD)
-    private Integer livePeriod; ///< Optional. Period in seconds for which the location can be updated, should be between 60 and 86400.
+    private Integer livePeriod;
     /**
      * Optional.
      * The radius of uncertainty for the location, measured in meters; 0-1500

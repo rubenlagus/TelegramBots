@@ -19,9 +19,9 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 import java.util.List;
 
 /**
+ * Represents the content of a text message to be sent as the result of an inline query.
  * @author Ruben Bermudez
  * @version 1.0
- * Represents the content of a text message to be sent as the result of an inline query.
  */
 @JsonDeserialize
 @EqualsAndHashCode(callSuper = false)
@@ -55,12 +55,18 @@ public class InputInvoiceMessageContent implements InputMessageContent {
     private static final String SENDEMAILTOPROVIDER_FIELD = "send_email_to_provider";
     private static final String ISFLEXIBLE_FIELD = "is_flexible";
 
+    /**
+     * Product name, 1-32 characters
+     */
     @JsonProperty(TITLE_FIELD)
     @NonNull
-    private String title; ///< Product name, 1-32 characters
+    private String title;
+    /**
+     * Product description, 1-255 characters
+     */
     @JsonProperty(DESCRIPTION_FIELD)
     @NonNull
-    private String description; ///< Product description, 1-255 characters
+    private String description;
     /**
      * Bot-defined invoice payload, 1-128 bytes.
      * This will not be displayed to the user, use for your internal processes.
@@ -68,12 +74,18 @@ public class InputInvoiceMessageContent implements InputMessageContent {
     @JsonProperty(PAYLOAD_FIELD)
     @NonNull
     private String payload;
+    /**
+     * Payment provider token, obtained via Botfather
+     */
     @JsonProperty(PROVIDERTOKEN_FIELD)
     @NonNull
-    private String providerToken; ///< Payment provider token, obtained via Botfather
+    private String providerToken;
+    /**
+     * Three-letter ISO 4217 currency code, see more on currencies
+     */
     @JsonProperty(CURRENCY_FIELD)
     @NonNull
-    private String currency; ///< Three-letter ISO 4217 currency code, see more on currencies
+    private String currency;
     /**
      * Price breakdown, a JSON-serialized list of components
      * (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
@@ -114,26 +126,66 @@ public class InputInvoiceMessageContent implements InputMessageContent {
      */
     @JsonProperty(PHOTOURL_FIELD)
     private String photoUrl;
+    /**
+     * Optional.
+     * Photo size
+     */
     @JsonProperty(PHOTOSIZE_FIELD)
-    private Integer photoSize; ///< Optional. Photo size
+    private Integer photoSize;
+    /**
+     * Optional.
+     * Photo width
+     */
     @JsonProperty(PHOTOWIDTH_FIELD)
-    private Integer photoWidth; ///< Optional. Photo width
+    private Integer photoWidth;
+    /**
+     * Optional.
+     * Photo height
+     */
     @JsonProperty(PHOTOHEIGHT_FIELD)
-    private Integer photoHeight; ///< Optional. Photo height
+    private Integer photoHeight;
+    /**
+     * Optional.
+     * Pass True, if you require the user's full name to complete the order
+     */
     @JsonProperty(NEEDNAME_FIELD)
-    private Boolean needName; ///< Optional. Pass True, if you require the user's full name to complete the order
+    private Boolean needName;
+    /**
+     * Optional.
+     * Pass True, if you require the user's phone number to complete the order
+     */
     @JsonProperty(NEEDPHONENUMBER_FIELD)
-    private Boolean needPhoneNumber; ///< Optional. Pass True, if you require the user's phone number to complete the order
+    private Boolean needPhoneNumber;
+    /**
+     * Optional.
+     * Pass True, if you require the user's email address to complete the order
+     */
     @JsonProperty(NEEDEMAIL_FIELD)
-    private Boolean needEmail; ///< Optional. Pass True, if you require the user's email address to complete the order
+    private Boolean needEmail;
+    /**
+     * Optional.
+     * Pass True, if you require the user's shipping address to complete the order
+     */
     @JsonProperty(NEEDSHIPPINGADDRESS_FIELD)
-    private Boolean needShippingAddress; ///< Optional. Pass True, if you require the user's shipping address to complete the order
+    private Boolean needShippingAddress;
+    /**
+     * Optional.
+     * Pass True, if user's phone number should be sent to provider
+     */
     @JsonProperty(SENDPHONENUMBERTOPROVIDER_FIELD)
-    private Boolean sendPhoneNumberToProvider; ///< Optional. Pass True, if user's phone number should be sent to provider
+    private Boolean sendPhoneNumberToProvider;
+    /**
+     * Optional.
+     * Pass True, if user's email address should be sent to provider
+     */
     @JsonProperty(SENDEMAILTOPROVIDER_FIELD)
-    private Boolean sendEmailToProvider; ///< Optional. Pass True, if user's email address should be sent to provider
+    private Boolean sendEmailToProvider;
+    /**
+     * Optional.
+     * Pass True, if the final price depends on the shipping method
+     */
     @JsonProperty(ISFLEXIBLE_FIELD)
-    private Boolean isFlexible; ///< Optional. Pass True, if the final price depends on the shipping method
+    private Boolean isFlexible;
 
     @Override
     public void validate() throws TelegramApiValidationException {

@@ -14,10 +14,10 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
- * @author Ruben Bermudez
- * @version 1.0
  * This object represents one special entity in a text message. For example, hashtags,
  * usernames, URL.
+ * @author Ruben Bermudez
+ * @version 1.0
  */
 @SuppressWarnings("WeakerAccess")
 @EqualsAndHashCode(callSuper = false)
@@ -60,18 +60,36 @@ public class MessageEntity implements BotApiObject {
     @JsonProperty(TYPE_FIELD)
     @NonNull
     private String type;
+    /**
+     * Offset in UTF-16 code units to the start of the entity
+     */
     @JsonProperty(OFFSET_FIELD)
     @NonNull
-    private Integer offset; ///< Offset in UTF-16 code units to the start of the entity
+    private Integer offset;
+    /**
+     * Length of the entity in UTF-16 code units
+     */
     @JsonProperty(LENGTH_FIELD)
     @NonNull
-    private Integer length; ///< Length of the entity in UTF-16 code units
+    private Integer length;
+    /**
+     * Optional.
+     * For “text_link” only, url that will be opened after user taps on the text
+     */
     @JsonProperty(URL_FIELD)
-    private String url; ///< Optional. For “text_link” only, url that will be opened after user taps on the text
+    private String url;
+    /**
+     * Optional.
+     * For “text_mention” only, the mentioned user
+     */
     @JsonProperty(USER_FIELD)
-    private User user; ///< Optional. For “text_mention” only, the mentioned user
+    private User user;
+    /**
+     * Optional.
+     * For “pre” only, the programming language of the entity text
+     */
     @JsonProperty(LANGUAGE_FIELD)
-    private String language; ///< Optional. For “pre” only, the programming language of the entity text
+    private String language;
     /**
      * Optional.
      * For “custom_emoji” only, unique identifier of the custom emoji.
@@ -79,8 +97,11 @@ public class MessageEntity implements BotApiObject {
      */
     @JsonProperty(CUSTOMEMOJI_FIELD)
     private String customEmojiId;
+    /**
+     * Text present in the entity. Computed from offset and length
+     */
     @JsonIgnore
-    private String text; ///< Text present in the entity. Computed from offset and length
+    private String text;
 
     protected void computeText(String message) {
         if (message != null) {

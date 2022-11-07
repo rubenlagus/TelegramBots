@@ -12,9 +12,9 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import java.util.List;
 
 /**
+ * Contains information about the current status of a webhook.
  * @author Ruben Bermudez
  * @version 2.4
- * Contains information about the current status of a webhook.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -34,22 +34,51 @@ public class WebhookInfo implements BotApiObject {
     private static final String IPADDRESS_FIELD = "ip_address";
     private static final String LASTSYNCHRONIZATIONERRORDATE_FIELD = "last_synchronization_error_date";
 
+    /**
+     * Webhook URL, may be empty if webhook is not set up
+     */
     @JsonProperty(URL_FIELD)
-    private String url; ///< Webhook URL, may be empty if webhook is not set up
+    private String url;
+    /**
+     * True, if a custom certificate was provided for webhook certificate checks
+     */
     @JsonProperty(HASCUSTOMCERTIFICATE_FIELD)
-    private Boolean hasCustomCertificate; ///< True, if a custom certificate was provided for webhook certificate checks
+    private Boolean hasCustomCertificate;
+    /**
+     * Number updates awaiting delivery
+     */
     @JsonProperty(PENDINGUPDATECOUNT_FIELD)
-    private Integer pendingUpdatesCount; ///< Number updates awaiting delivery
+    private Integer pendingUpdatesCount;
+    /**
+     * Optional.
+     * Unix time for the most recent error that happened when trying to deliver an update via webhook
+     */
     @JsonProperty(LASTERRORDATE_FIELD)
-    private Integer lastErrorDate; ///< Optional. Unix time for the most recent error that happened when trying to deliver an update via webhook
+    private Integer lastErrorDate;
+    /**
+     * Optional.
+     * Error message in human-readable format for the most recent error that happened when trying to deliver an update via webhook
+     */
     @JsonProperty(LASTERRORMESSAGE_FIELD)
-    private String lastErrorMessage; ///< Optional. Error message in human-readable format for the most recent error that happened when trying to deliver an update via webhook
+    private String lastErrorMessage;
+    /**
+     * Optional.
+     * Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery
+     */
     @JsonProperty(MAXCONNECTIONS_FIELD)
-    private Integer maxConnections; ///< Optional. Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery
+    private Integer maxConnections;
+    /**
+     * Optional.
+     * A list of update types the bot is subscribed to. Defaults to all update types
+     */
     @JsonProperty(ALLOWEDUPDATES_FIELD)
-    private List<String> allowedUpdates; ///< Optional. A list of update types the bot is subscribed to. Defaults to all update types
+    private List<String> allowedUpdates;
+    /**
+     * Optional.
+     * Currently used webhook IP address
+     */
     @JsonProperty(IPADDRESS_FIELD)
-    private String ipAddress; ///< Optional. Currently used webhook IP address
+    private String ipAddress;
     /**
      * Optional.
      * Unix time of the most recent error that happened when trying to synchronize available updates with Telegram datacenters

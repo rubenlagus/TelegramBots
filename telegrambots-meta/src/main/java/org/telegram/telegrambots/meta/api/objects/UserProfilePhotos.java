@@ -13,9 +13,9 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import java.util.List;
 
 /**
+ * This object represent a user's profile pictures.
  * @author Ruben Bermudez
  * @version 1.0
- * This object represent a user's profile pictures.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -28,8 +28,14 @@ public class UserProfilePhotos implements BotApiObject {
     private static final String TOTALCOUNT_FIELD = "total_count";
     private static final String PHOTOS_FIELD = "photos";
 
+    /**
+     * Total number of profile pictures the target user has
+     */
     @JsonProperty(TOTALCOUNT_FIELD)
-    private Integer totalCount; ///< Total number of profile pictures the target user has
+    private Integer totalCount;
+    /**
+     * Requested profile pictures (in up to 4 sizes each)
+     */
     @JsonProperty(PHOTOS_FIELD)
-    private List<List<PhotoSize>> photos; ///< Requested profile pictures (in up to 4 sizes each)
+    private List<List<PhotoSize>> photos;
 }
