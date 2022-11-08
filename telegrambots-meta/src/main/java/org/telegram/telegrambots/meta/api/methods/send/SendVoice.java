@@ -40,6 +40,7 @@ public class SendVoice extends PartialBotApiMethod<Message> {
     public static final String PATH = "sendvoice";
 
     public static final String CHATID_FIELD = "chat_id";
+    public static final String MESSAGETHREADID_FIELD = "message_thread_id";
     public static final String VOICE_FIELD = "voice";
     public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
@@ -53,6 +54,11 @@ public class SendVoice extends PartialBotApiMethod<Message> {
 
     @NonNull
     private String chatId; ///< Unique identifier for the chat sent message to (Or username for channels)
+    /**
+     * Unique identifier for the target message thread (topic) of the forum;
+     * for forum supergroups only
+     */
+    private Integer messageThreadId;
     @NonNull
     private InputFile voice; ///< Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.

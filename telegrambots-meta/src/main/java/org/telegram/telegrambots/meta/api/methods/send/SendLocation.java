@@ -32,6 +32,8 @@ public class SendLocation extends BotApiMethodMessage {
     public static final String PATH = "sendlocation";
 
     private static final String CHATID_FIELD = "chat_id";
+    private static final String MESSAGETHREADID_FIELD = "message_thread_id";
+
     private static final String LATITUDE_FIELD = "latitude";
     private static final String LONGITUDE_FIELD = "longitude";
     private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
@@ -47,6 +49,12 @@ public class SendLocation extends BotApiMethodMessage {
     @JsonProperty(CHATID_FIELD)
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
+    /**
+     * Unique identifier for the target message thread (topic) of the forum;
+     * for forum supergroups only
+     */
+    @JsonProperty(MESSAGETHREADID_FIELD)
+    private Integer messageThreadId;
     @JsonProperty(LATITUDE_FIELD)
     @NonNull
     private Double latitude; ///< Latitude of location

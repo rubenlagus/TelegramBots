@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.telegram</groupId>
         <artifactId>Bots</artifactId>
-        <version>6.1.0</version>
+        <version>6.3.0</version>
     </parent>
 
     <artifactId>telegrambots-spring-boot-starter</artifactId>
@@ -70,8 +70,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <telegrambots.version>6.1.0</telegrambots.version>
-        <spring-boot.version>2.7.0</spring-boot.version>
+        <telegrambots.version>6.3.0</telegrambots.version>
+        <spring-boot.version>2.7.5</spring-boot.version>
 
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
@@ -110,7 +110,18 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<version>${spring-boot.version}</version>
 			<scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.jupiter</groupId>
+                    <artifactId>junit-jupiter-engine</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

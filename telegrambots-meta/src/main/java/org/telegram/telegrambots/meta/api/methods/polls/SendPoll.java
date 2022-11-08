@@ -40,6 +40,7 @@ public class SendPoll extends BotApiMethodMessage {
     public static final String PATH = "sendPoll";
 
     private static final String CHATID_FIELD = "chat_id";
+    private static final String MESSAGETHREADID_FIELD = "message_thread_id";
     private static final String QUESTION_FIELD = "question";
     private static final String OPTIONS_FIELD = "options";
     private static final String ISANONYMOUS_FIELD = "is_anonymous";
@@ -65,6 +66,12 @@ public class SendPoll extends BotApiMethodMessage {
     @JsonProperty(CHATID_FIELD)
     @NonNull
     private String chatId; ///< Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+    /**
+     * Unique identifier for the target message thread (topic) of the forum;
+     * for forum supergroups only
+     */
+    @JsonProperty(MESSAGETHREADID_FIELD)
+    private Integer messageThreadId;
     @JsonProperty(QUESTION_FIELD)
     @NonNull
     private String question; ///< Poll question, 1-300 characters

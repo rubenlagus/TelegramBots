@@ -49,6 +49,8 @@ public class SendGame extends BotApiMethodMessage {
     public static final String PATH = "sendGame";
 
     private static final String CHATID_FIELD = "chat_id";
+    private static final String MESSAGETHREADID_FIELD = "message_thread_id";
+
     private static final String GAMESHORTNAME_FIELD = "game_short_name";
     private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     private static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
@@ -59,6 +61,12 @@ public class SendGame extends BotApiMethodMessage {
     @JsonProperty(CHATID_FIELD)
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
+    /**
+     * Unique identifier for the target message thread (topic) of the forum;
+     * for forum supergroups only
+     */
+    @JsonProperty(MESSAGETHREADID_FIELD)
+    private Integer messageThreadId;
     @JsonProperty(GAMESHORTNAME_FIELD)
     @NonNull
     private String gameShortName; ///< Short name of the game

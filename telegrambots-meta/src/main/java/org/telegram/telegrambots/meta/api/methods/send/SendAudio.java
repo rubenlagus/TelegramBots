@@ -43,6 +43,7 @@ public class SendAudio extends PartialBotApiMethod<Message> {
 
     public static final String DURATION_FIELD = "duration";
     public static final String CHATID_FIELD = "chat_id";
+    public static final String MESSAGETHREADID_FIELD = "message_thread_id";
     public static final String AUDIO_FIELD = "audio";
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
@@ -58,6 +59,11 @@ public class SendAudio extends PartialBotApiMethod<Message> {
 
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (or Username fro channels)
+    /**
+     * Unique identifier for the target message thread (topic) of the forum;
+     * for forum supergroups only
+     */
+    private Integer messageThreadId;
     @NonNull
     private InputFile audio; ///< Audio file to send. file_id as String to resend an audio that is already on the Telegram servers or Url to upload it
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message

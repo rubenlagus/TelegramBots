@@ -12,6 +12,8 @@ import lombok.Setter;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
+import java.util.List;
+
 /**
  * This object represents a Telegram chat with an user or a group
  * @author Ruben Bermudez
@@ -50,6 +52,9 @@ public class Chat implements BotApiObject {
     private static final String JOINTOSENDMESSAGES_FIELD  = "join_to_send_messages";
     private static final String JOINBYREQUEST_FIELD  = "join_by_request";
     private static final String HASRESTRICTEDVOICEANDVIDEOMESSAGES_FIELD  = "has_restricted_voice_and_video_messages";
+    private static final String ISFORUM_FIELD  = "is_forum";
+    private static final String ACTIVEUSERNAMES_FIELD  = "active_usernames";
+    private static final String EMOJISTATUSCUSTOMEMOJIID_FIELD  = "emoji_status_custom_emoji_id";
 
     private static final String USERCHATTYPE = "private";
     private static final String GROUPCHATTYPE = "group";
@@ -207,6 +212,29 @@ public class Chat implements BotApiObject {
      */
     @JsonProperty(HASRESTRICTEDVOICEANDVIDEOMESSAGES_FIELD)
     private Boolean hasRestrictedVoiceAndVideoMessages;
+
+    /**
+     * Optional.
+     * True, if the supergroup chat is a forum (has topics enabled)
+     */
+    @JsonProperty(ISFORUM_FIELD)
+    private Boolean isForum;
+
+    /**
+     * Optional.
+     * If non-empty, the list of all active chat usernames; for private chats, supergroups and channels.
+     * Returned only in getChat.
+     */
+    @JsonProperty(ACTIVEUSERNAMES_FIELD)
+    private List<String> activeUsernames;
+
+    /**
+     * Optional.
+     * Custom emoji identifier of emoji status of the other party in a private chat.
+     * Returned only in getChat.
+     */
+    @JsonProperty(EMOJISTATUSCUSTOMEMOJIID_FIELD)
+    private String emojiStatusCustomEmojiId;
 
     @JsonIgnore
     public Boolean isGroupChat() {

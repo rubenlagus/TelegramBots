@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
+import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicClosed;
+import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicCreated;
+import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicReopened;
 import org.telegram.telegrambots.meta.api.objects.games.Animation;
 import org.telegram.telegrambots.meta.api.objects.games.Game;
 import org.telegram.telegrambots.meta.api.objects.passport.PassportData;
@@ -39,6 +42,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Message implements BotApiObject {
     private static final String MESSAGEID_FIELD = "message_id";
+    private static final String MESSAGETHREADID_FIELD = "message_thread_id";
     private static final String FROM_FIELD = "from";
     private static final String DATE_FIELD = "date";
     private static final String CHAT_FIELD = "chat";
@@ -97,12 +101,23 @@ public class Message implements BotApiObject {
     private static final String VIDEOCHATSTARTED_FIELD = "video_chat_started";
     private static final String VIDEOCHATENDED_FIELD = "video_chat_ended";
     private static final String VIDEOCHATPARTICIPANTSINVITED_FIELD = "video_chat_participants_invited";
+    private static final String ISTOPICMESSAGE_FIELD = "is_topic_message";
+    private static final String FORUMTOPICCREATED_FIELD = "forum_topic_created";
+    private static final String FORUMTOPICCLOSED_FIELD = "forum_topic_closed";
+    private static final String FORUMTOPICREOPENED_FIELD = "forum_topic_reopened";
 
     /**
      * Integer	Unique message identifier
      */
     @JsonProperty(MESSAGEID_FIELD)
     private Integer messageId;
+    /**
+     * Optional.
+     * Unique identifier of a message thread or a forum topic to which the message belongs;
+     * for supergroups only
+     */
+    @JsonProperty(MESSAGETHREADID_FIELD)
+    private Integer messageThreadId;
     /**
      * Optional.
      * Sender, can be empty for messages sent to channels
@@ -463,7 +478,31 @@ public class Message implements BotApiObject {
      * Service message: video chat scheduled
      */
     @JsonProperty(VIDEOCHATSCHEDULED_FIELD)
-    private VideoChatScheduled videoChatScheduled;  
+    private VideoChatScheduled videoChatScheduled;
+    /**
+     * Optional.
+     * True, if the message is sent to a forum topic
+     */
+    @JsonProperty(ISTOPICMESSAGE_FIELD)
+    private Boolean isTopicMessage;
+    /**
+     * Optional.
+     * Service message: forum topic created
+     */
+    @JsonProperty(FORUMTOPICCREATED_FIELD)
+    private ForumTopicCreated forumTopicCreated;
+    /**
+     * Optional.
+     * Service message: forum topic closed
+     */
+    @JsonProperty(FORUMTOPICCLOSED_FIELD)
+    private ForumTopicClosed forumTopicClosed;
+    /**
+     * Optional.
+     * Service message: forum topic reopened
+     */
+    @JsonProperty(FORUMTOPICREOPENED_FIELD)
+    private ForumTopicReopened forumTopicReopened;
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {
@@ -487,6 +526,11 @@ public class Message implements BotApiObject {
     @JsonIgnore
     public boolean hasSticker() {
         return sticker != null;
+    }
+
+    @JsonIgnore
+    public boolean isTopicMessage() {
+        return isTopicMessage != null && isTopicMessage;
     }
 
     @JsonIgnore
@@ -655,5 +699,20 @@ public class Message implements BotApiObject {
     @JsonIgnore
     private boolean hasVideoChatParticipantsInvited() {
         return videoChatParticipantsInvited != null;
+    }
+
+    @JsonIgnore
+    private boolean hasForumTopicCreated() {
+        return forumTopicCreated != null;
+    }
+
+    @JsonIgnore
+    private boolean hasForumTopicClosed() {
+        return forumTopicClosed != null;
+    }
+
+    @JsonIgnore
+    private boolean hasForumTopicReopened() {
+        return forumTopicReopened != null;
     }
 }

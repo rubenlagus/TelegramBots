@@ -34,6 +34,7 @@ public class ForwardMessage extends BotApiMethodMessage {
     public static final String PATH = "forwardmessage";
 
     private static final String CHATID_FIELD = "chat_id";
+    private static final String MESSAGETHREADID_FIELD = "message_thread_id";
     private static final String FROMCHATID_FIELD = "from_chat_id";
     private static final String MESSAGEID_FIELD = "message_id";
     private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
@@ -42,6 +43,12 @@ public class ForwardMessage extends BotApiMethodMessage {
     @JsonProperty(CHATID_FIELD)
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (or username for channels)
+    /**
+     * Unique identifier for the target message thread (topic) of the forum;
+     * for forum supergroups only
+     */
+    @JsonProperty(MESSAGETHREADID_FIELD)
+    private Integer messageThreadId;
     @JsonProperty(FROMCHATID_FIELD)
     @NonNull
     private String fromChatId; ///< Unique identifier for the chat where the original message was sent — User or GroupChat id

@@ -38,6 +38,7 @@ public class SendDice extends BotApiMethodMessage {
     public static final String PATH = "sendDice";
 
     private static final String CHATID_FIELD = "chat_id";
+    private static final String MESSAGETHREADID_FIELD = "message_thread_id";
     private static final String EMOJI_FIELD = "emoji";
     private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     private static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
@@ -51,6 +52,12 @@ public class SendDice extends BotApiMethodMessage {
     @JsonProperty(CHATID_FIELD)
     @NonNull
     private String chatId;
+    /**
+     * Unique identifier for the target message thread (topic) of the forum;
+     * for forum supergroups only
+     */
+    @JsonProperty(MESSAGETHREADID_FIELD)
+    private Integer messageThreadId;
     /**
      * Optional.
      *

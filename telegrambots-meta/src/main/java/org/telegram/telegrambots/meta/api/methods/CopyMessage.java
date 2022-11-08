@@ -42,6 +42,7 @@ public class CopyMessage extends BotApiMethod<MessageId> {
     public static final String PATH = "copyMessage";
 
     private static final String CHATID_FIELD = "chat_id";
+    private static final String MESSAGETHREADID_FIELD = "message_thread_id";
     private static final String FROMCHATID_FIELD = "from_chat_id";
     private static final String MESSAGEID_FIELD = "message_id";
     private static final String CAPTION_FIELD = "caption";
@@ -56,6 +57,12 @@ public class CopyMessage extends BotApiMethod<MessageId> {
     @JsonProperty(CHATID_FIELD)
     @NonNull
     private String chatId; ///< Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+    /**
+     * Unique identifier for the target message thread (topic) of the forum;
+     * for forum supergroups only
+     */
+    @JsonProperty(MESSAGETHREADID_FIELD)
+    private Integer messageThreadId;
     @JsonProperty(FROMCHATID_FIELD)
     @NonNull
     private String fromChatId; ///< Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)

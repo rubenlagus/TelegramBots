@@ -24,6 +24,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * - Bots granted can_post_messages permissions can delete outgoing messages in channels.
  * - If the bot is an administrator of a group, it can delete any message there.
  * - If the bot has can_delete_messages permission in a supergroup or a channel, it can delete any message there.
+ * - Service messages about a supergroup, channel, or forum topic creation can't be deleted
  * Returns True on success.
  */
 @EqualsAndHashCode(callSuper = false)

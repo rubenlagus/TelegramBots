@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.invoices;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Strings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,20 +13,17 @@ import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMessage;
-import org.telegram.telegrambots.meta.api.objects.ApiResponse;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.payments.LabeledPrice;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
  * @author Ruben Bermudez
  * @version 6.1
- * Use this method to create a link for an invoice. On success, the created link is returned.
+ * Use this method to create a link for an invoice.
+ * Retruns the created invoice link as String on success
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -37,7 +33,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateInvoiceLink extends BotApiMethodMessage {
+public class CreateInvoiceLink extends BotApiMethod<String> {
     public static final String PATH = "createInvoiceLink";
 
     public static final String TITLE_FIELD = "title";
@@ -163,5 +159,10 @@ public class CreateInvoiceLink extends BotApiMethodMessage {
         if (suggestedTipAmounts != null && !suggestedTipAmounts.isEmpty() && suggestedTipAmounts.size() > 4) {
             throw new TelegramApiValidationException("No more that 4 suggested tips allowed", this);
         }
+    }
+
+    @Override
+    public String deserializeResponse(String answer) throws TelegramApiRequestException {
+        return deserializeResponse(answer, String.class);
     }
 }

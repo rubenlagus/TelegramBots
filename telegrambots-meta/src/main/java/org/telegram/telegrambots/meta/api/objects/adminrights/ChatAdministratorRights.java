@@ -29,6 +29,7 @@ public class ChatAdministratorRights implements BotApiObject {
     private static final String CANPOSTMESSAGES_FIELD = "can_post_messages";
     private static final String CANEDITMESSAGES_FIELD = "can_edit_messages";
     private static final String CANPINMESSAGES_FIELD = "can_pin_messages";
+    private static final String CANMANAGETOPICS_FIELD = "can_manage_topics";
 
     /**
      * True, if the user's presence in the chat is hidden
@@ -93,5 +94,10 @@ public class ChatAdministratorRights implements BotApiObject {
      */
     @JsonProperty(CANPINMESSAGES_FIELD)
     private Boolean canPinMessages;
-
+    /**
+     * Optional.
+     * True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only
+     */
+    @JsonProperty(CANMANAGETOPICS_FIELD)
+    private Boolean canManageTopics;
 }

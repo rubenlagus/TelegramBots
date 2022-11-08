@@ -33,6 +33,7 @@ public class SendContact extends BotApiMethodMessage {
     public static final String PATH = "sendContact";
 
     private static final String CHATID_FIELD = "chat_id";
+    private static final String MESSAGETHREADID_FIELD = "message_thread_id";
     private static final String PHONE_NUMBER_FIELD = "phone_number";
     private static final String FIRST_NAME_FIELD = "first_name";
     private static final String LAST_NAME_FIELD = "last_name";
@@ -46,6 +47,12 @@ public class SendContact extends BotApiMethodMessage {
     @JsonProperty(CHATID_FIELD)
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
+    /**
+     * Unique identifier for the target message thread (topic) of the forum;
+     * for forum supergroups only
+     */
+    @JsonProperty(MESSAGETHREADID_FIELD)
+    private Integer messageThreadId;
     @JsonProperty(PHONE_NUMBER_FIELD)
     @NonNull
     private String phoneNumber; ///< User's phone number
