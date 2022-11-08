@@ -1,3 +1,7 @@
+### <a id="6.3.0"></a>6.3.0 ###
+1. Update Api version [6.3](https://core.telegram.org/bots/api-changelog#November-5-2022)
+2. Bug fixing: #1116
+
 ### <a id="6.1.0"></a>6.1.0 ###
 1. Update Api version [6.1](https://core.telegram.org/bots/api-changelog#june-20-2022)
 2. Add support for Long when setting the chatId: #1065

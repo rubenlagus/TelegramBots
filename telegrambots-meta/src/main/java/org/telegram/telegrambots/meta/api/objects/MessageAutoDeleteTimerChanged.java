@@ -10,10 +10,9 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
+ * This object represents a service message about a change in auto-delete timer settings.
  * @author Ruben Bermudez
  * @version 5.1
- *
- * This object represents a service message about a change in auto-delete timer settings.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -24,6 +23,9 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 public class MessageAutoDeleteTimerChanged implements BotApiObject {
     private static final String MESSAGEAUTODELETETIME_FIELD = "message_auto_delete_time";
 
+    /**
+     * New auto-delete time for messages in the chat
+     */
     @JsonProperty(MESSAGEAUTODELETETIME_FIELD)
-    private Integer messageAutoDeleteTime; ///< New auto-delete time for messages in the chat
+    private Integer messageAutoDeleteTime;
 }

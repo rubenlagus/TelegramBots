@@ -38,6 +38,7 @@ public class SendDocument extends PartialBotApiMethod<Message> {
     public static final String PATH = "senddocument";
 
     public static final String CHATID_FIELD = "chat_id";
+    public static final String MESSAGETHREADID_FIELD = "message_thread_id";
     public static final String DOCUMENT_FIELD = "document";
     public static final String CAPTION_FIELD = "caption";
     public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
@@ -52,6 +53,11 @@ public class SendDocument extends PartialBotApiMethod<Message> {
 
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to or Username for the channel to send the message to
+    /**
+     * Unique identifier for the target message thread (topic) of the forum;
+     * for forum supergroups only
+     */
+    private Integer messageThreadId;
     @NonNull
     private InputFile document; ///< File file to send. file_id as String to resend a file that is already on the Telegram servers or Url to upload it
     private String caption; ///< Optional. Document caption (may also be used when resending documents by file_id), 0-200 characters

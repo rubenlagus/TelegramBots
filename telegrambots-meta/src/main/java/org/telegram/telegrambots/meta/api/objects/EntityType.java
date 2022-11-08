@@ -1,26 +1,68 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 /**
+ * Types of messages entities
  * @author Ruben Bermudez
  * @version 1.0
- *  Types of messages entities
  */
 @SuppressWarnings("WeakerAccess")
 public class EntityType {
-    public static final String MENTION = "mention"; ///< @username
-    public static final String HASHTAG = "hashtag"; ///< #hashtag
-    public static final String CASHTAG = "cashtag"; ///< $USD
-    public static final String BOTCOMMAND = "bot_command"; ///< /botcommand
-    public static final String URL = "url"; ///< http://url.url
-    public static final String EMAIL = "email"; ///< email@email.com
-    public static final String PHONENUMBER = "phone_number"; ///< +4299999999
-    public static final String BOLD = "bold"; ///< Bold text
-    public static final String ITALIC = "italic"; ///< Italic text
-    public static final String CODE = "code"; ///< Monowidth string
-    public static final String PRE = "pre"; ///< Monowidth block
-    public static final String TEXTLINK = "text_link"; ///< Clickable urls
-    public static final String TEXTMENTION = "text_mention"; ///< for users without usernames
-    public static final String SPOILER = "spoiler"; ///< spoiler message
+    /**
+     * @username
+     */
+    public static final String MENTION = "mention";
+    /**
+     * #hashtag
+     */
+    public static final String HASHTAG = "hashtag";
+    /**
+     * $USD
+     */
+    public static final String CASHTAG = "cashtag";
+    /**
+     * /botcommand
+     */
+    public static final String BOTCOMMAND = "bot_command";
+    /**
+     * http://url.url
+     */
+    public static final String URL = "url";
+    /**
+     * email@email.com
+     */
+    public static final String EMAIL = "email";
+    /**
+     * +4299999999
+     */
+    public static final String PHONENUMBER = "phone_number";
+    /**
+     * Bold text
+     */
+    public static final String BOLD = "bold";
+    /**
+     * Italic text
+     */
+    public static final String ITALIC = "italic";
+    /**
+     * Monowidth string
+     */
+    public static final String CODE = "code";
+    /**
+     * Monowidth block
+     */
+    public static final String PRE = "pre";
+    /**
+     * Clickable urls
+     */
+    public static final String TEXTLINK = "text_link";
+    /**
+     * for users without usernames
+     */
+    public static final String TEXTMENTION = "text_mention";
+    /**
+     * spoiler message
+     */
+    public static final String SPOILER = "spoiler"; 
 
     private EntityType() {
     }

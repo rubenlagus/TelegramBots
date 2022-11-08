@@ -10,9 +10,9 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
+ * This object represents a unique message identifier.
  * @author Ruben Bermudez
  * @version 5.0
- * This object represents a unique message identifier.
  */
 @SuppressWarnings("WeakerAccess")
 @EqualsAndHashCode(callSuper = false)
@@ -25,7 +25,10 @@ public class MessageId implements BotApiObject {
 
     private static final String MESSAGEID_FIELD = "message_id";
 
+    /**
+     * Unique message identifier
+     */
     @JsonProperty(MESSAGEID_FIELD)
-    private Long messageId; ///< Unique message identifier
+    private Long messageId;
 
 }

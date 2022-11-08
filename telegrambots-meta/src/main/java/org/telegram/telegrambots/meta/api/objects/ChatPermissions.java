@@ -11,11 +11,11 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
- * @author Ruben Bermudez
- * @version 4.4
  * Use this method to change the description of a group, supergroup or channel.
  * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
  * Returns True on success.
+ * @author Ruben Bermudez
+ * @version 4.4
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -34,20 +34,52 @@ public class ChatPermissions implements BotApiObject {
     private static final String CAN_INVITE_USERS_FIELD = "can_invite_users";
     private static final String CAN_PIN_MESSAGES_FIELD = "can_pin_messages";
 
+    /**
+     * Optional.
+     * True, if the user is allowed to send text messages, contacts, locations and venues
+     */
     @JsonProperty(CAN_SEND_MESSAGES_FIELD)
-    private Boolean canSendMessages; ///< Optional. True, if the user is allowed to send text messages, contacts, locations and venues
+    private Boolean canSendMessages;
+    /**
+     * Optional.
+     * True, if the user is allowed to send audios, documents, photos, videos, video notes and voice notes, implies can_send_messages
+     */
     @JsonProperty(CAN_SEND_MEDIA_MESSAGES_FIELD)
-    private Boolean canSendMediaMessages; ///< Optional. True, if the user is allowed to send audios, documents, photos, videos, video notes and voice notes, implies can_send_messages
+    private Boolean canSendMediaMessages;
+    /**
+     * Optional.
+     * True, if the user is allowed to send polls, implies can_send_messages
+     */
     @JsonProperty(CAN_SEND_POLLS_FIELD)
-    private Boolean canSendPolls; ///< Optional. True, if the user is allowed to send polls, implies can_send_messages
+    private Boolean canSendPolls;
+    /**
+     * Optional.
+     * True, if the user is allowed to send animations, games, stickers and use inline bots, implies can_send_media_messages
+     */
     @JsonProperty(CAN_SEND_OTHER_MESSAGES_FIELD)
-    private Boolean canSendOtherMessages; ///< Optional. True, if the user is allowed to send animations, games, stickers and use inline bots, implies can_send_media_messages
+    private Boolean canSendOtherMessages;
+    /**
+     * Optional.
+     * True, if the user is allowed to add web page previews to their messages, implies can_send_media_messages
+     */
     @JsonProperty(CAN_ADD_WEB_PAGE_PREVIEWS_FIELD)
-    private Boolean canAddWebPagePreviews; ///< Optional. True, if the user is allowed to add web page previews to their messages, implies can_send_media_messages
+    private Boolean canAddWebPagePreviews;
+    /**
+     * Optional.
+     * True, if the user is allowed to change the chat title, photo and other settings. Ignored in public supergroups
+     */
     @JsonProperty(CAN_CHANGE_INFO_FIELD)
-    private Boolean canChangeInfo; ///< Optional. True, if the user is allowed to change the chat title, photo and other settings. Ignored in public supergroups
+    private Boolean canChangeInfo;
+    /**
+     * Optional.
+     * True, if the user is allowed to invite new users to the chat
+     */
     @JsonProperty(CAN_INVITE_USERS_FIELD)
-    private Boolean canInviteUsers; ///< Optional. True, if the user is allowed to invite new users to the chat
+    private Boolean canInviteUsers;
+    /**
+     * Optional.
+     * True, if the user is allowed to pin messages. Ignored in public supergroups
+     */
     @JsonProperty(CAN_PIN_MESSAGES_FIELD)
-    private Boolean canPinMessages; ///< Optional. True, if the user is allowed to pin messages. Ignored in public supergroups
+    private Boolean canPinMessages;
 }

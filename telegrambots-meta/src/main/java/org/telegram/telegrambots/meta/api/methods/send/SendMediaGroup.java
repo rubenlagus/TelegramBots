@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -44,23 +43,24 @@ public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
     public static final String PATH = "sendMediaGroup";
 
     public static final String CHATID_FIELD = "chat_id";
+    public static final String MESSAGETHREADID_FIELD = "message_thread_id";
     public static final String MEDIA_FIELD = "media";
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     public static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
     public static final String PROTECTCONTENT_FIELD = "protect_content";
 
-    @JsonProperty(CHATID_FIELD)
     @NonNull
     private String chatId; ///<  	Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-    @JsonProperty(MEDIA_FIELD)
+    /**
+     * Unique identifier for the target message thread (topic) of the forum;
+     * for forum supergroups only
+     */
+    private Integer messageThreadId;
     @NonNull
     private List<InputMedia> medias; ///< A JSON-serialized array describing photos and videos to be sent, must include 2–10 items
-    @JsonProperty(REPLYTOMESSAGEID_FIELD)
     private Integer replyToMessageId; ///< Optional. If the messages are a reply, ID of the original message
-    @JsonProperty(DISABLENOTIFICATION_FIELD)
     private Boolean disableNotification; ///< Optional. Sends the messages silently. Users will receive a notification with no sound.
-    @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 

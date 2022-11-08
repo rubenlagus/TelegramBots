@@ -11,9 +11,9 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
+ * This object represents a point on the map.
  * @author Ruben Bermudez
  * @version 1.0
- * This object represents a point on the map.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -30,12 +30,18 @@ public class Location implements BotApiObject {
     private static final String HEADING_FIELD = "heading";
     private static final String PROXMITYALERTRADIUS_FIELD = "proximity_alert_radius";
 
+    /**
+     * Longitude as defined by sender
+     */
     @JsonProperty(LONGITUDE_FIELD)
     @NonNull
-    private Double longitude; ///< Longitude as defined by sender
+    private Double longitude;
+    /**
+     * Latitude as defined by sender
+     */
     @JsonProperty(LATITUDE_FIELD)
     @NonNull
-    private Double latitude; ///< Latitude as defined by sender
+    private Double latitude;
     /**
      * Optional.
      * The radius of uncertainty for the location, measured in meters; 0-1500

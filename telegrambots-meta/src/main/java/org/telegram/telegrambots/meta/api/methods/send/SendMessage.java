@@ -38,6 +38,7 @@ public class SendMessage extends BotApiMethodMessage {
     public static final String PATH = "sendmessage";
 
     private static final String CHATID_FIELD = "chat_id";
+    private static final String MESSAGETHREADID_FIELD = "message_thread_id";
     private static final String TEXT_FIELD = "text";
     private static final String PARSEMODE_FIELD = "parse_mode";
     private static final String DISABLEWEBPAGEPREVIEW_FIELD = "disable_web_page_preview";
@@ -51,6 +52,12 @@ public class SendMessage extends BotApiMethodMessage {
     @JsonProperty(CHATID_FIELD)
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
+    /**
+     * Unique identifier for the target message thread (topic) of the forum;
+     * for forum supergroups only
+     */
+    @JsonProperty(MESSAGETHREADID_FIELD)
+    private Integer messageThreadId;
     @JsonProperty(TEXT_FIELD)
     @NonNull
     private String text; ///< Text of the message to be sent

@@ -36,6 +36,7 @@ public class SendVideoNote extends PartialBotApiMethod<Message> {
     public static final String PATH = "sendvideonote";
 
     public static final String CHATID_FIELD = "chat_id";
+    public static final String MESSAGETHREADID_FIELD = "message_thread_id";
     public static final String VIDEONOTE_FIELD = "video_note";
     public static final String DURATION_FIELD = "duration";
     public static final String LENGTH_FIELD = "length";
@@ -48,6 +49,11 @@ public class SendVideoNote extends PartialBotApiMethod<Message> {
 
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
+    /**
+     * Unique identifier for the target message thread (topic) of the forum;
+     * for forum supergroups only
+     */
+    private Integer messageThreadId;
     @NonNull
     private InputFile videoNote; ///< Videonote to send. file_id as String to resend a video that is already on the Telegram servers.
     private Integer duration; ///< Optional. Duration of sent video in seconds

@@ -11,9 +11,9 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
+ * This object represents a venue.
  * @author Ruben Bermudez
  * @version 1.0
- * This object represents a venue.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -30,18 +30,43 @@ public class Venue implements BotApiObject {
     private static final String GOOGLEPLACEID_FIELD = "google_place_id";
     private static final String GOOGLEPLACETYPE_FIELD = "google_place_type";
 
+    /**
+     * Venue location
+     */
     @JsonProperty(LOCATION_FIELD)
-    private Location location; ///< Venue location
+    private Location location;
+    /**
+     * Name of the venue
+     */
     @JsonProperty(TITLE_FIELD)
-    private String title; ///< Name of the venue
+    private String title;
+    /**
+     * Address of the venue
+     */
     @JsonProperty(ADDRESS_FIELD)
-    private String address; ///< Address of the venue
+    private String address;
+    /**
+     * Optional.
+     * Foursquare identifier of the venue
+     */
     @JsonProperty(FOURSQUAREID_FIELD)
-    private String foursquareId; ///< Optional. Foursquare identifier of the venue
+    private String foursquareId;
+    /**
+     * Optional.
+     * Foursquare type of the venue.
+     */
     @JsonProperty(FOURSQUARETYPE_FIELD)
-    private String foursquareType; ///< Optional. Foursquare type of the venue.
+    private String foursquareType;
+    /**
+     * Optional.
+     * Google Places identifier of the venue
+     */
     @JsonProperty(GOOGLEPLACEID_FIELD)
-    private String googlePlaceId; ///< Optional. Google Places identifier of the venue
+    private String googlePlaceId;
+    /**
+     * Optional. 
+     * Google Places type of the venue. (See supported types.)
+     */
     @JsonProperty(GOOGLEPLACETYPE_FIELD)
-    private String googlePlaceType; ///< Optional. Google Places type of the venue. (See supported types.)
+    private String googlePlaceType;
 }

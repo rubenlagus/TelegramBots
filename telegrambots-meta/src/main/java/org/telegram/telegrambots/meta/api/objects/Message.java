@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
+import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicClosed;
+import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicCreated;
+import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicReopened;
 import org.telegram.telegrambots.meta.api.objects.games.Animation;
 import org.telegram.telegrambots.meta.api.objects.games.Game;
 import org.telegram.telegrambots.meta.api.objects.passport.PassportData;
@@ -27,9 +30,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * This object represents a message.
  * @author Ruben Bermudez
  * @version 1.0
- * This object represents a message.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -39,6 +42,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Message implements BotApiObject {
     private static final String MESSAGEID_FIELD = "message_id";
+    private static final String MESSAGETHREADID_FIELD = "message_thread_id";
     private static final String FROM_FIELD = "from";
     private static final String DATE_FIELD = "date";
     private static final String CHAT_FIELD = "chat";
@@ -97,81 +101,188 @@ public class Message implements BotApiObject {
     private static final String VIDEOCHATSTARTED_FIELD = "video_chat_started";
     private static final String VIDEOCHATENDED_FIELD = "video_chat_ended";
     private static final String VIDEOCHATPARTICIPANTSINVITED_FIELD = "video_chat_participants_invited";
+    private static final String ISTOPICMESSAGE_FIELD = "is_topic_message";
+    private static final String FORUMTOPICCREATED_FIELD = "forum_topic_created";
+    private static final String FORUMTOPICCLOSED_FIELD = "forum_topic_closed";
+    private static final String FORUMTOPICREOPENED_FIELD = "forum_topic_reopened";
 
+    /**
+     * Integer	Unique message identifier
+     */
     @JsonProperty(MESSAGEID_FIELD)
-    private Integer messageId; ///< Integer	Unique message identifier
+    private Integer messageId;
+    /**
+     * Optional.
+     * Unique identifier of a message thread or a forum topic to which the message belongs;
+     * for supergroups only
+     */
+    @JsonProperty(MESSAGETHREADID_FIELD)
+    private Integer messageThreadId;
+    /**
+     * Optional.
+     * Sender, can be empty for messages sent to channels
+     */
     @JsonProperty(FROM_FIELD)
-    private User from; ///< Optional. Sender, can be empty for messages sent to channels
+    private User from;  
+    /**
+     * Date the message was sent in Unix time
+     */
     @JsonProperty(DATE_FIELD)
-    private Integer date; ///< Date the message was sent in Unix time
+    private Integer date;
+    /**
+     * Conversation the message belongs to
+     */
     @JsonProperty(CHAT_FIELD)
-    private Chat chat; ///< Conversation the message belongs to
+    private Chat chat;  
+    /**
+     * Optional.
+     * For forwarded messages, sender of the original message
+     */
     @JsonProperty(FORWARDFROM_FIELD)
-    private User forwardFrom; ///< Optional. For forwarded messages, sender of the original message
+    private User forwardFrom;  
     /**
      * Optional.
      * For messages forwarded from channels or from anonymous administrators, information about the original sender chat
      */
     @JsonProperty(FORWARDFROMCHAT_FIELD)
     private Chat forwardFromChat;
-    @JsonProperty(FORWARDDATE_FIELD)
-    private Integer forwardDate; ///< Optional. For forwarded messages, date the original message was sent
-    @JsonProperty(TEXT_FIELD)
-    private String text; ///< Optional. For text messages, the actual UTF-8 text of the message
     /**
-     * Optional. For text messages, special entities like usernames, URLs,
+     * Optional.
+     * For forwarded messages, date the original message was sent
+     */
+    @JsonProperty(FORWARDDATE_FIELD)
+    private Integer forwardDate;
+    /**
+     * Optional.
+     * For text messages, the actual UTF-8 text of the message
+     */
+    @JsonProperty(TEXT_FIELD)
+    private String text;  
+    /**
+     * Optional.
+     * For text messages, special entities like usernames, URLs,
      * bot commands, etc. that appear in the text
      */
     @JsonProperty(ENTITIES_FIELD)
     private List<MessageEntity> entities;
     /**
-     * Optional. For messages with a caption, special entities like usernames,
+     * Optional.
+     * For messages with a caption, special entities like usernames,
      * URLs, bot commands, etc. that appear in the caption
      */
     @JsonProperty(CAPTIONENTITIES_FIELD)
     private List<MessageEntity> captionEntities;
-    @JsonProperty(AUDIO_FIELD)
-    private Audio audio; ///< Optional. Message is an audio file, information about the file
-    @JsonProperty(DOCUMENT_FIELD)
-    private Document document; ///< Optional. Message is a general file, information about the file
-    @JsonProperty(PHOTO_FIELD)
-    private List<PhotoSize> photo; ///< Optional. Message is a photo, available sizes of the photo
-    @JsonProperty(STICKER_FIELD)
-    private Sticker sticker; ///< Optional. Message is a sticker, information about the sticker
-    @JsonProperty(VIDEO_FIELD)
-    private Video video; ///< Optional. Message is a video, information about the video
-    @JsonProperty(CONTACT_FIELD)
-    private Contact contact; ///< Optional. Message is a shared contact, information about the contact
-    @JsonProperty(LOCATION_FIELD)
-    private Location location; ///< Optional. Message is a shared location, information about the location
-    @JsonProperty(VENUE_FIELD)
-    private Venue venue; ///< Optional. Message is a venue, information about the venue
     /**
-     * Optional. Message is an animation, information about the animation.
+     * Optional.
+     * Message is an audio file, information about the file
+     */
+    @JsonProperty(AUDIO_FIELD)
+    private Audio audio;  
+    /**
+     * Optional.
+     * Message is a general file, information about the file
+     */
+    @JsonProperty(DOCUMENT_FIELD)
+    private Document document;  
+    /**
+     * Optional.
+     * Message is a photo, available sizes of the photo
+     */
+    @JsonProperty(PHOTO_FIELD)
+    private List<PhotoSize> photo;
+    /**
+     * Optional.
+     * Message is a sticker, information about the sticker
+     */
+    @JsonProperty(STICKER_FIELD)
+    private Sticker sticker;
+    /**
+     * Optional.
+     * Message is a video, information about the video
+     */
+    @JsonProperty(VIDEO_FIELD)
+    private Video video;  
+    /**
+     * Optional.
+     * Message is a shared contact, information about the contact
+     */
+    @JsonProperty(CONTACT_FIELD)
+    private Contact contact;  
+    /**
+     * Optional.
+     * Message is a shared location, information about the location
+     */
+    @JsonProperty(LOCATION_FIELD)
+    private Location location;
+    /**
+     * Optional.
+     * Message is a venue, information about the venue
+     */
+    @JsonProperty(VENUE_FIELD)
+    private Venue venue;  
+    /**
+     * Optional.
+     * Message is an animation, information about the animation.
      * For backward compatibility, when this field is set, the document field will be also set
      */
     @JsonProperty(ANIMATION_FIELD)
     private Animation animation;
+    /**
+     * Optional.
+     * Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply.
+     */
     @JsonProperty(PINNED_MESSAGE_FIELD)
-    private Message pinnedMessage; ///< Optional. Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply.
+    private Message pinnedMessage;  
+    /**
+     * Optional.
+     * New members were added to the group or supergroup, information about them (the bot itself may be one of these members)
+     */
     @JsonProperty(NEWCHATMEMBERS_FIELD)
-    private List<User> newChatMembers; ///< Optional. New members were added to the group or supergroup, information about them (the bot itself may be one of these members)
+    private List<User> newChatMembers;
+    /**
+     * Optional.
+     * A member was removed from the group, information about them (this member may be bot itself)
+     */
     @JsonProperty(LEFTCHATMEMBER_FIELD)
-    private User leftChatMember; ///< Optional. A member was removed from the group, information about them (this member may be bot itself)
+    private User leftChatMember;  
+    /**
+     * Optional.
+     * A chat title was changed to this value
+     */
     @JsonProperty(NEWCHATTITLE_FIELD)
-    private String newChatTitle; ///< Optional. A chat title was changed to this value
+    private String newChatTitle;  
+    /**
+     * Optional.
+     * A chat photo was change to this value
+     */
     @JsonProperty(NEWCHATPHOTO_FIELD)
-    private List<PhotoSize> newChatPhoto; ///< Optional. A chat photo was change to this value
+    private List<PhotoSize> newChatPhoto;
+    /**
+     * Optional.
+     * Informs that the chat photo was deleted
+     */
     @JsonProperty(DELETECHATPHOTO_FIELD)
-    private Boolean deleteChatPhoto; ///< Optional. Informs that the chat photo was deleted
+    private Boolean deleteChatPhoto;  
+    /**
+     * Optional.
+     * Informs that the group has been created
+     */
     @JsonProperty(GROUPCHATCREATED_FIELD)
-    private Boolean groupchatCreated; ///< Optional. Informs that the group has been created
+    private Boolean groupchatCreated;  
     @JsonProperty(REPLYTOMESSAGE_FIELD)
     private Message replyToMessage;
+    /**
+     * Optional.
+     * Message is a voice message, information about the file
+     */
     @JsonProperty(VOICE_FIELD)
-    private Voice voice; ///< Optional. Message is a voice message, information about the file
+    private Voice voice;  
+    /**
+     * Optional.
+     * Caption for the document, photo or video, 0-200 characters
+     */
     @JsonProperty(CAPTION_FIELD)
-    private String caption; ///< Optional. Caption for the document, photo or video, 0-200 characters
+    private String caption;  
     /**
      * Optional. Service message: the supergroup has been created.
      * This field can‘t be received in a message coming through updates,
@@ -198,7 +309,7 @@ public class Message implements BotApiObject {
      * float type are safe for storing this identifier.
      */
     @JsonProperty(MIGRATETOCHAT_FIELD)
-    private Long migrateToChatId; ///< Optional. The chat has been migrated to a chat with specified identifier, not exceeding 1e13 by absolute value
+    private Long migrateToChatId;  
     /**
      * Optional. The supergroup has been migrated from a group with the specified identifier.
      * This number may be greater than 32 bits and some programming languages
@@ -207,37 +318,85 @@ public class Message implements BotApiObject {
      * float type are safe for storing this identifier.
      */
     @JsonProperty(MIGRATEFROMCHAT_FIELD)
-    private Long migrateFromChatId; ///< Optional. The chat has been migrated from a chat with specified identifier, not exceeding 1e13 by absolute value
+    private Long migrateFromChatId;
+    /**
+     * Optional.
+     * Date the message was last edited in Unix time
+     */
     @JsonProperty(EDITDATE_FIELD)
-    private Integer editDate; ///< Optional. Date the message was last edited in Unix time
+    private Integer editDate;
+    /**
+     * Optional.
+     * Message is a game, information about the game
+     */
     @JsonProperty(GAME_FIELD)
-    private Game game; ///< Optional. Message is a game, information about the game
+    private Game game;  
+    /**
+     * Optional.
+     * For forwarded channel posts, identifier of the original message in the channel
+     */
     @JsonProperty(FORWARDFROMMESSAGEID_FIELD)
-    private Integer forwardFromMessageId; ///< Optional. For forwarded channel posts, identifier of the original message in the channel
+    private Integer forwardFromMessageId;
+    /**
+     * Optional.
+     * Message is an invoice for a payment, information about the invoice.
+     */
     @JsonProperty(INVOICE_FIELD)
-    private Invoice invoice; ///< Optional. Message is an invoice for a payment, information about the invoice.
+    private Invoice invoice;  
+    /**
+     * Optional.
+     * Message is a service message about a successful payment, information about the payment.
+     */
     @JsonProperty(SUCCESSFUL_PAYMENT_FIELD)
-    private SuccessfulPayment successfulPayment; ///< Optional. Message is a service message about a successful payment, information about the payment.
+    private SuccessfulPayment successfulPayment;
+    /**
+     * Optional.
+     * Message is a video note, information about the video message
+     */
     @JsonProperty(VIDEO_NOTE_FIELD)
-    private VideoNote videoNote; ///< Optional. Message is a video note, information about the video message
+    private VideoNote videoNote;  
     /**
      * Optional.
      * Signature of the post author for messages in channels, or the custom title of an anonymous group administrator
      */
     @JsonProperty(AUTHORSIGNATURE_FIELD)
     private String authorSignature;
+    /**
+     * Optional.
+     * Post author signature for messages forwarded from channel chats
+     */
     @JsonProperty(FORWARDSIGNATURE_FIELD)
-    private String forwardSignature; ///< Optional. Post author signature for messages forwarded from channel chats
+    private String forwardSignature;
+    /**
+     * Optional.
+     * The unique identifier of a media message group this message belongs to
+     */
     @JsonProperty(MEDIAGROUPID_FIELD)
-    private String mediaGroupId; ///< Optional. The unique identifier of a media message group this message belongs to
+    private String mediaGroupId;  
+    /**
+     * Optional.
+     * The domain name of the website on which the user has logged in
+     */
     @JsonProperty(CONNECTEDWEBSITE_FIELD)
-    private String connectedWebsite; ///< Optional. The domain name of the website on which the user has logged in
+    private String connectedWebsite;  
+    /**
+     * Optional.
+     * Telegram Passport data
+     */
     @JsonProperty(PASSPORTDATA_FIELD)
-    private PassportData passportData; ///< Optional. Telegram Passport data
+    private PassportData passportData; 
+    /**
+     * Optional.
+     * Sender's name for messages forwarded from users who disallow adding a link to their account in forwarded messages.
+     */
     @JsonProperty(FORWARDSENDERNAME_FIELD)
-    private String forwardSenderName; ///< Optional. Sender's name for messages forwarded from users who disallow adding a link to their account in forwarded messages.
+    private String forwardSenderName;
+    /**
+     * Optional.
+     * Message is a native poll, information about the poll
+     */
     @JsonProperty(POLL_FIELD)
-    private Poll poll; ///< Optional. Message is a native poll, information about the poll
+    private Poll poll;  
     /**
      * Inline keyboard attached to the message.
      *
@@ -245,10 +404,18 @@ public class Message implements BotApiObject {
      */
     @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup;
+    /**
+     * Optional.
+     * Message is a dice with random value from 1 to 6
+     */
     @JsonProperty(DICE_FIELD)
-    private Dice dice; // Optional. Message is a dice with random value from 1 to 6
+    private Dice dice;
+    /**
+     * Optional.
+     * Bot through which the message was sent
+     */
     @JsonProperty(VIABOT_FIELD)
-    private User viaBot; // Optional. Bot through which the message was sent
+    private User viaBot;
     /**
      * Optional.
      * Sender of the message, sent on behalf of a chat. The channel itself for channel messages.
@@ -264,26 +431,78 @@ public class Message implements BotApiObject {
      */
     @JsonProperty(PROXIMITYALERTTRIGGERED_FIELD)
     private ProximityAlertTriggered proximityAlertTriggered;
+    /**
+     * Optional.
+     * Service message: auto-delete timer settings changed in the chat
+     */
     @JsonProperty(MESSAGEAUTODELETETIMERCHANGED_FIELD)
-    private MessageAutoDeleteTimerChanged messageAutoDeleteTimerChanged; ///< Optional. Service message: auto-delete timer settings changed in the chat
-    @JsonProperty(ISAUTOMATICFORWARD_FIELD)
+    private MessageAutoDeleteTimerChanged messageAutoDeleteTimerChanged;
     /**
      * Optional.
      * True, if the message is a channel post that was automatically forwarded to the connected discussion group
      */
+    @JsonProperty(ISAUTOMATICFORWARD_FIELD)
     private Boolean isAutomaticForward;
+    /**
+     * Optional.
+     * True, if the message can't be forwarded
+     */
     @JsonProperty(HASPROTECTEDCONTENT_FIELD)
-    private Boolean hasProtectedContent; ///< Optional. True, if the message can't be forwarded
+    private Boolean hasProtectedContent;
+    /**
+     * Optional.
+     * Service message: data sent by a web app
+     */
     @JsonProperty(WEBAPPDATA_FIELD)
-    private WebAppData webAppData; ///< Optional. Service message: data sent by a web app
+    private WebAppData webAppData;  
+    /**
+     * Optional.
+     * Service message: video chat started
+     */
     @JsonProperty(VIDEOCHATSTARTED_FIELD)
-    private VideoChatStarted videoChatStarted; ///< Optional. Service message: video chat started
+    private VideoChatStarted videoChatStarted;
+    /**
+     * Optional.
+     * Service message: video chat ended
+     */
     @JsonProperty(VIDEOCHATENDED_FIELD)
-    private VideoChatEnded videoChatEnded; ///< Optional. Service message: video chat ended
+    private VideoChatEnded videoChatEnded;  
+    /**
+     * Optional.
+     * Service message: new participants invited to a video chat
+     */
     @JsonProperty(VIDEOCHATPARTICIPANTSINVITED_FIELD)
-    private VideoChatParticipantsInvited videoChatParticipantsInvited; ///< Optional. Service message: new participants invited to a video chat
+    private VideoChatParticipantsInvited videoChatParticipantsInvited;
+    /**
+     * Optional.
+     * Service message: video chat scheduled
+     */
     @JsonProperty(VIDEOCHATSCHEDULED_FIELD)
-    private VideoChatScheduled videoChatScheduled; ///< Optional. Service message: video chat scheduled
+    private VideoChatScheduled videoChatScheduled;
+    /**
+     * Optional.
+     * True, if the message is sent to a forum topic
+     */
+    @JsonProperty(ISTOPICMESSAGE_FIELD)
+    private Boolean isTopicMessage;
+    /**
+     * Optional.
+     * Service message: forum topic created
+     */
+    @JsonProperty(FORUMTOPICCREATED_FIELD)
+    private ForumTopicCreated forumTopicCreated;
+    /**
+     * Optional.
+     * Service message: forum topic closed
+     */
+    @JsonProperty(FORUMTOPICCLOSED_FIELD)
+    private ForumTopicClosed forumTopicClosed;
+    /**
+     * Optional.
+     * Service message: forum topic reopened
+     */
+    @JsonProperty(FORUMTOPICREOPENED_FIELD)
+    private ForumTopicReopened forumTopicReopened;
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {
@@ -307,6 +526,11 @@ public class Message implements BotApiObject {
     @JsonIgnore
     public boolean hasSticker() {
         return sticker != null;
+    }
+
+    @JsonIgnore
+    public boolean isTopicMessage() {
+        return isTopicMessage != null && isTopicMessage;
     }
 
     @JsonIgnore
@@ -475,5 +699,20 @@ public class Message implements BotApiObject {
     @JsonIgnore
     private boolean hasVideoChatParticipantsInvited() {
         return videoChatParticipantsInvited != null;
+    }
+
+    @JsonIgnore
+    private boolean hasForumTopicCreated() {
+        return forumTopicCreated != null;
+    }
+
+    @JsonIgnore
+    private boolean hasForumTopicClosed() {
+        return forumTopicClosed != null;
+    }
+
+    @JsonIgnore
+    private boolean hasForumTopicReopened() {
+        return forumTopicReopened != null;
     }
 }

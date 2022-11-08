@@ -16,12 +16,10 @@ import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.api.objects.polls.PollAnswer;
 
 /**
+ * This object represents an incoming update.
+ * @apiNote Only one of the optional parameters can be present in any given update.
  * @author Ruben Bermudez
  * @version 1.0
- *
- * This object represents an incoming update.
- *
- * @apiNote Only one of the optional parameters can be present in any given update.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -48,26 +46,66 @@ public class Update implements BotApiObject {
 
     @JsonProperty(UPDATEID_FIELD)
     private Integer updateId;
+    /**
+     * Optional.
+     * New incoming message of any kind — text, photo, sticker, etc.
+     */
     @JsonProperty(MESSAGE_FIELD)
-    private Message message; ///< Optional. New incoming message of any kind — text, photo, sticker, etc.
+    private Message message;
+    /**
+     * Optional.
+     * New incoming inline query
+     */
     @JsonProperty(INLINEQUERY_FIELD)
-    private InlineQuery inlineQuery; ///< Optional. New incoming inline query
+    private InlineQuery inlineQuery;
+    /**
+     * Optional.
+     * The result of an inline query that was chosen by a user and sent to their chat partner
+     */
     @JsonProperty(CHOSENINLINEQUERY_FIELD)
-    private ChosenInlineQuery chosenInlineQuery; ///< Optional. The result of a inline query that was chosen by a user and sent to their chat partner
+    private ChosenInlineQuery chosenInlineQuery;
+    /**
+     * Optional.
+     * New incoming callback query
+     */
     @JsonProperty(CALLBACKQUERY_FIELD)
-    private CallbackQuery callbackQuery; ///< Optional. New incoming callback query
+    private CallbackQuery callbackQuery;
+    /**
+     * Optional.
+     * New version of a message that is known to the bot and was edited
+     */
     @JsonProperty(EDITEDMESSAGE_FIELD)
-    private Message editedMessage; ///< Optional. New version of a message that is known to the bot and was edited
+    private Message editedMessage;
+    /**
+     * Optional.
+     * New incoming channel post of any kind — text, photo, sticker, etc.
+     */
     @JsonProperty(CHANNELPOST_FIELD)
-    private Message channelPost; ///< Optional. New incoming channel post of any kind — text, photo, sticker, etc.
+    private Message channelPost;
+    /**
+     * Optional.
+     * New version of a channel post that is known to the bot and was edited
+     */
     @JsonProperty(EDITEDCHANNELPOST_FIELD)
-    private Message editedChannelPost; ///< Optional. New version of a channel post that is known to the bot and was edited
+    private Message editedChannelPost;
+    /**
+     * Optional.
+     * New incoming shipping query. Only for invoices with flexible price
+     */
     @JsonProperty(SHIPPING_QUERY_FIELD)
-    private ShippingQuery shippingQuery; ///< Optional. New incoming shipping query. Only for invoices with flexible price
+    private ShippingQuery shippingQuery;
+    /**
+     * Optional.
+     * New incoming pre-checkout query. Contains full information about checkout
+     */
     @JsonProperty(PRE_CHECKOUT_QUERY_FIELD)
-    private PreCheckoutQuery preCheckoutQuery; ///< Optional. New incoming pre-checkout query. Contains full information about checkout
+    private PreCheckoutQuery preCheckoutQuery;
+    /**
+     * Optional.
+     * New poll state. Bots receive only updates about polls, which are sent by the bot.
+     */
     @JsonProperty(POLL_FIELD)
-    private Poll poll; ///< Optional. New poll state. Bots receive only updates about polls, which are sent by the bot.
+    private Poll poll;
     /**
      * Optional.
      * A user changed their answer in a non-anonymous poll.
@@ -78,7 +116,6 @@ public class Update implements BotApiObject {
     private PollAnswer pollAnswer;
     /**
      * Optional.
-     *
      * The bot's chat member status was updated in a chat.
      * For private chats, this update is received only when the bot is blocked or unblocked by the user.
      */
@@ -86,7 +123,6 @@ public class Update implements BotApiObject {
     private ChatMemberUpdated myChatMember;
     /**
      * Optional.
-     *
      * A chat member's status was updated in a chat.
      * The bot must be an administrator in the chat and must explicitly specify “chat_member” in the list of allowed_updates to receive these updates.
      */

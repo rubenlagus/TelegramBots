@@ -40,7 +40,7 @@ public class SetChatTitle extends BotApiMethodBoolean {
     private String chatId; ///< Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     @JsonProperty(TITLE_FIELD)
     @NonNull
-    private String title; ///< Required. New chat title, 1-255 characters
+    private String title; ///< Required. New chat title, 1-128 characters
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

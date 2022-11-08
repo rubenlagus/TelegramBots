@@ -1,7 +1,7 @@
-So, you just wanna program your own Telegram bot with TelegramBots? Let's see the fast version.
+So, you’d like to create your own Telegram bot with TelegramBots? Then Let's get You started quickly.
 
 ## Grab the library
-First you need ot get the library and add it to your project. There are few possibilities for this:
+First you need to acquire the library and add it to your project. There are several ways to do this:
 
 1. If you use [Maven](https://maven.apache.org/), [Gradle](https://gradle.org/), etc; you should be able to import the dependency directly from [Maven Central Repository](http://mvnrepository.com/artifact/org.telegram/telegrambots). For example:
 
@@ -11,23 +11,23 @@ First you need ot get the library and add it to your project. There are few poss
            <dependency>
               <groupId>org.telegram</groupId>
               <artifactId>telegrambots</artifactId>
-              <version>6.1.0</version>
+              <version>6.3.0</version>
            </dependency>
         ```
     * With **Gradle**:
     
         ```gradle
-          implementation 'org.telegram:telegrambots:6.1.0'
+          implementation 'org.telegram:telegrambots:6.3.0'
         ```
  
-2. Don't like **Maven Central Repository**? It can also be taken from [Jitpack](https://jitpack.io/#rubenlagus/TelegramBots).
-3. Import the library *.jar* direclty to your project. You can find it [here](https://github.com/rubenlagus/TelegramBots/releases), don't forget to take last version, it usually is a good idea. Depending on the IDE you are using, the process to add a library is different, here is a video that may help with [Intellij](https://www.youtube.com/watch?v=NZaH4tjwMYg) or [Eclipse](https://www.youtube.com/watch?v=VWnfHkBgO1I)
+2. Don't like the **Maven Central Repository**? It can also be grabbed from [Jitpack](https://jitpack.io/#rubenlagus/TelegramBots).
+3. Import the library *.jar* direclty to your project. You can find it [here](https://github.com/rubenlagus/TelegramBots/releases), don't forget to fetch the latest version, it usually is a good idea. Depending on the IDE you are using, the process to add a library is different, here is a video that may help with [Intellij](https://www.youtube.com/watch?v=NZaH4tjwMYg) or [Eclipse](https://www.youtube.com/watch?v=VWnfHkBgO1I)
 
 
-## Build our first bot
-Now that we have the library, we can start coding. There are few steps to follow, in this tutorial (for the sake of simplicity), we are going to build a [Long Polling Bot](http://en.wikipedia.org/wiki/Push_technology#Long_polling):
+## Building your first bot
+Now that you have the library, you can start coding. There are few steps to follow, in this tutorial (for the sake of simplicity), we are going to build a [Long Polling Bot](http://en.wikipedia.org/wiki/Push_technology#Long_polling):
 
-1. **Create your actual bot:**
+1. **Creating your actual bot:**
     The class must extends `TelegramLongPollingBot` and implement necessary methods:
 
     ```java
@@ -99,7 +99,7 @@ Now that we have the library, we can start coding. There are few steps to follow
         ```
 
 2. **Instantiate `TelegramBotsApi` and register our new bot:**
-    For this part, we need to actually perform 2 steps: _Instantiate Telegram Api_ and _Register our Bot_. In this tutorial, we are going to make it in our `main` method:
+    For this part, we need to actually perform 2 steps: _Instantiate Telegram Api_ and _Register our Bot_. In this tutorial, we are going to do it in our `main` method:
 
     ```java
 

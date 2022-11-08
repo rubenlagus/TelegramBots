@@ -40,6 +40,7 @@ public class ChatMemberRestricted implements ChatMember {
     private static final String CANSENDOTHERMESSAGES_FIELD = "can_send_other_messages";
     private static final String CANADDWEBPAGEPREVIEWS_FIELD = "can_add_web_page_previews";
     private static final String UNTILDATE_FIELD = "until_date";
+    private static final String CANMANAGETOPICS_FIELD = "can_manage_topics";
 
     /**
      * The member's status in the chat, always “restricted”
@@ -101,4 +102,9 @@ public class ChatMemberRestricted implements ChatMember {
      */
     @JsonProperty(UNTILDATE_FIELD)
     private Integer untilDate;
+    /**
+     * True, if the user is allowed to create forum topics
+     */
+    @JsonProperty(CANMANAGETOPICS_FIELD)
+    private Boolean canManageTopics;
 }

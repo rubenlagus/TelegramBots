@@ -14,10 +14,9 @@ import java.io.File;
 import java.io.InputStream;
 
 /**
+ * Input file used to upload a file to Telegram server and use it afterwards
  * @author Ruben Bermudez
  * @version 4.0.0
- *
- * Input file used to upload a file to Telegram server and use it afterwards
  */
 @SuppressWarnings({"WeakerAccess", "UnusedReturnValue"})
 @JsonSerialize(using = InputFileSerializer.class, as = String.class)
@@ -29,14 +28,26 @@ public class InputFile implements Validable, BotApiObject {
 
     private String attachName;
 
+    /**
+     * Name of the media to upload
+     */
     @JsonIgnore
-    private String mediaName; ///< Name of the media to upload
+    private String mediaName;
+    /**
+     * New media file
+     */
     @JsonIgnore
-    private File newMediaFile; ///< New media file
+    private File newMediaFile;
+    /**
+     * New media stream
+     */
     @JsonIgnore
-    private InputStream newMediaStream; ///< New media stream
+    private InputStream newMediaStream;
+    /**
+     * True if the file is new, false if it is a file_id
+     */
     @JsonIgnore
-    private boolean isNew; ///< True if the file is new, false if it is a file_id
+    private boolean isNew;
 
     public InputFile(String attachName) {
         this();

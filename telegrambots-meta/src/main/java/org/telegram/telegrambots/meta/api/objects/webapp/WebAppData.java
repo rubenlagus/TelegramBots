@@ -7,10 +7,9 @@ import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
+ * Contains data sent from a web app to the bot.
  * @author Ruben Bermudez
  * @version 6.0
- *
- * Contains data sent from a web app to the bot.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -22,11 +21,17 @@ public class WebAppData implements BotApiObject {
     private static final String DATA_FIELD = "data";
     private static final String BUTTONTEXT_FIELD = "button_text";
 
+    /**
+     * The data
+     */
     @JsonProperty(DATA_FIELD)
     @NonNull
-    private String data; ///< The data
+    private String data;
+    /**
+     * Text of the web_app keyboard button, from which the web app was opened
+     */
     @JsonProperty(BUTTONTEXT_FIELD)
     @NonNull
-    private String buttonText; ///< Text of the web_app keyboard button, from which the web app was opened
+    private String buttonText;
 
 }
