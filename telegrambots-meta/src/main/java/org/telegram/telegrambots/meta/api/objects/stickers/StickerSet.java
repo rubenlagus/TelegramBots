@@ -36,7 +36,7 @@ public class StickerSet implements BotApiObject {
     /**
      * Type of stickers in the set, currently one of “regular”, “mask”, “custom_emoji”
      */
-    @JsonProperty(STICKERS_FIELD)
+    @JsonProperty(STICKERTYPE_FIELD)
     private String stickerType;
     /**
      * Sticker set name
