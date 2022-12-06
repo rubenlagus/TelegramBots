@@ -39,7 +39,7 @@ public class MapDBContext implements DBContext {
     this.db = db;
 
     objectMapper = new ObjectMapper();
-    objectMapper.enableDefaultTyping();
+    objectMapper.activateDefaultTyping(objectMapper.getPolymorphicTypeValidator());
   }
 
   /**
