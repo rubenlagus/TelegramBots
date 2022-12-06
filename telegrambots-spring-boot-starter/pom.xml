@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.telegram</groupId>
         <artifactId>Bots</artifactId>
-        <version>6.9.7.1</version>
+        <version>7.0.0-rc0</version>
     </parent>
 
     <artifactId>telegrambots-spring-boot-starter</artifactId>
@@ -62,16 +62,16 @@
     </distributionManagement>
 
     <properties>
-        <java.version>11</java.version>
-        <maven.compiler.release>8</maven.compiler.release>
+        <java.version>17</java.version>
+        <maven.compiler.release>17</maven.compiler.release>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <telegrambots.version>6.9.7.1</telegrambots.version>
-        <spring-boot.version>2.7.18</spring-boot.version>
+        <telegrambots.version>7.0.0-rc0</telegrambots.version>
+        <spring-boot.version>2.7.12</spring-boot.version>
 
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
