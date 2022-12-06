@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.telegram</groupId>
         <artifactId>Bots</artifactId>
-        <version>6.9.7.1</version>
+        <version>7.0.0-rc0</version>
     </parent>
 
     <artifactId>telegrambots</artifactId>
@@ -62,8 +62,8 @@
     </distributionManagement>
 
     <properties>
-        <java.version>11</java.version>
-        <maven.compiler.release>8</maven.compiler.release>
+        <java.version>17</java.version>
+        <maven.compiler.release>17</maven.compiler.release>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
@@ -91,7 +91,7 @@
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots-meta</artifactId>
-            <version>6.9.7.1</version>
+            <version>7.0.0-rc0</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

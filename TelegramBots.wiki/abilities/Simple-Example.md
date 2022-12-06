@@ -9,12 +9,12 @@ As with any Java project, you will need to set your dependencies.
    <dependency>
       <groupId>org.telegram</groupId>
       <artifactId>telegrambots-abilities</artifactId>
-      <version>6.9.7.1</version>
+      <version>7.0.0-rc0</version>
    </dependency>
 ```
 * **Gradle**
 ```gradle
-  implementation 'org.telegram:telegrambots-abilities:6.9.7.1'
+  implementation 'org.telegram:telegrambots-abilities:7.0.0-rc0'
 ```
 * [JitPack](https://jitpack.io/#rubenlagus/TelegramBots)
     

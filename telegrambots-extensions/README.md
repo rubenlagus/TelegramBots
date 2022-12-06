@@ -16,12 +16,12 @@ Just import add the library to your project with one of these options:
     <dependency>
         <groupId>org.telegram</groupId>
         <artifactId>telegrambotsextensions</artifactId>
-        <version>6.9.7.1</version>
+        <version>7.0.0-rc0</version>
     </dependency>
 ```
 
    2. Using Gradle:
 
 ```gradle
-    implementation 'org.telegram:telegrambotsextensions:6.9.7.1'
+    implementation 'org.telegram:telegrambotsextensions:7.0.0-rc0'
 ```
