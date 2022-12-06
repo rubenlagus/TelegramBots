@@ -18,19 +18,19 @@ Usage
     <dependency>
         <groupId>org.telegram</groupId>
         <artifactId>telegrambots-abilities</artifactId>
-        <version>6.9.7.1</version>
+        <version>7.0.0-rc0</version>
     </dependency>
 ```
 
 **Gradle**
 
 ```gradle
-    implementation 'org.telegram:telegrambots-abilities:6.9.7.1'
+    implementation 'org.telegram:telegrambots-abilities:7.0.0-rc0'
 ```
 
-**JitPack** - [JitPack](https://jitpack.io/#rubenlagus/TelegramBots/v5.0.1)
+**JitPack** - [JitPack](https://jitpack.io/#rubenlagus/TelegramBots/v7.0.0-rc0)
 
-**Plain imports** - [Here](https://github.com/rubenlagus/TelegramBots/releases/tag/v5.0.1)
+**Plain imports** - [Here](https://github.com/rubenlagus/TelegramBots/releases/tag/v7.0.0-rc0)
 
 Motivation
 ----------
