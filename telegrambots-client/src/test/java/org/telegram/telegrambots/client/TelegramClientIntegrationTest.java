@@ -1,22 +1,23 @@
 package org.telegram.telegrambots.client;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.common.ConsoleNotifier;
+import com.github.tomakehurst.wiremock.http.Body;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 import java.io.Serializable;
 import java.util.concurrent.ExecutionException;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.ok;
-import static com.github.tomakehurst.wiremock.client.WireMock.post;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 
 public class TelegramClientIntegrationTest {
@@ -26,8 +27,19 @@ public class TelegramClientIntegrationTest {
             .options(wireMockConfig().dynamicPort().notifier(new ConsoleNotifier(true)))
             .build();
 
+    private static final String TOKEN = "testToken";
+
+    WireMock wireMock;
+    TelegramClient client;
+
+    @BeforeEach
+    void setup() {
+        wireMock = wm.getRuntimeInfo().getWireMock();
+        client = new TelegramClient(TOKEN, wm.getRuntimeInfo().getHttpBaseUrl());
+    }
+
     @Test
-    void test_send_message() throws TelegramApiException, ExecutionException, InterruptedException, JsonProcessingException, NoSuchFieldException, IllegalAccessException {
+    void test_send_message() throws TelegramApiException, ExecutionException, InterruptedException {
 
         SendMessage method = new SendMessage("someChatId", "someText");
         Message responseMessage = new Message();
@@ -35,23 +47,36 @@ public class TelegramClientIntegrationTest {
         responseMessage.setFrom(TestData.TEST_USER);
         responseMessage.setText("someText");
 
-        String botToken = "TestToken";
+        mockMethod(method, responseMessage);
 
-        WireMock wireMock = wm.getRuntimeInfo().getWireMock();
-        mockMethod(method, botToken, wireMock, responseMessage);
-
-        TelegramClient client = new TelegramClient(botToken, wm.getRuntimeInfo().getHttpBaseUrl());
-
-        Message parsedMessage = client.execute(method).get();
-        Assertions.assertEquals("someText", parsedMessage.getText());
+        Message parsedMessage = client.executeAsync(method).get();
         Assertions.assertEquals(responseMessage, parsedMessage);
-
-        // Do some testing...
     }
 
-    <T extends Serializable, Method extends BotApiMethod<T>> void mockMethod(Method method, String token, WireMock wireMock, T result) throws JsonProcessingException, NoSuchFieldException, IllegalAccessException {
+    @Test
+    void api_error_throws_exception() {
+        SendMessage method = new SendMessage("someChatId", "someText");
+
+        mockErrorMethod(method.getMethod());
+
+        ExecutionException e = Assertions.assertThrows(ExecutionException.class, () -> client.executeAsync(method).get());
+
+        Assertions.assertTrue(e.getCause() instanceof TelegramApiRequestException);
+
+        TelegramApiRequestException exception = (TelegramApiRequestException) e.getCause();
+
+        Assertions.assertEquals(404, exception.getErrorCode());
+    }
+
+    <T extends Serializable, Method extends BotApiMethod<T>> void mockMethod(Method method, T result) {
         String response = new ApiResponseTestBuilder<T>().setOk(true).setResult(result).buildJson();
 
-        wireMock.register(post("/bot" + token + "/" + method.getMethod()).willReturn(ok(response)));
+        wireMock.register(post("/bot" + TOKEN + "/" + method.getMethod()).willReturn(ok(response)));
+    }
+
+    void mockErrorMethod(String path) {
+        String response = new ApiResponseTestBuilder<>().setOk(false).setErrorCode(404).setErrorDescription("Method not found").buildJson();
+
+        wireMock.register(post("/bot" + TOKEN + "/" + path).willReturn(notFound().withResponseBody(Body.fromJsonBytes(response.getBytes()))));
     }
 }
