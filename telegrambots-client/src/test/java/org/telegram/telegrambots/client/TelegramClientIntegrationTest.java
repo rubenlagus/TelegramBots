@@ -30,12 +30,12 @@ public class TelegramClientIntegrationTest {
     private static final String TOKEN = "testToken";
 
     WireMock wireMock;
-    TelegramClient client;
+    OkHttpTelegramClient client;
 
     @BeforeEach
     void setup() {
         wireMock = wm.getRuntimeInfo().getWireMock();
-        client = new TelegramClient(TOKEN, wm.getRuntimeInfo().getHttpBaseUrl());
+        client = new OkHttpTelegramClient(TOKEN, wm.getRuntimeInfo().getHttpBaseUrl());
     }
 
     @Test
@@ -59,7 +59,7 @@ public class TelegramClientIntegrationTest {
 
         mockErrorMethod(method.getMethod());
 
-        ExecutionException e = Assertions.assertThrows(ExecutionException.class, () -> client.executeAsync(method).get());
+        ExecutionException e = Assertions.assertThrows(ExecutionException.class, () -> client.executeBotApiMethodAsync(method).get());
 
         Assertions.assertTrue(e.getCause() instanceof TelegramApiRequestException);
 
