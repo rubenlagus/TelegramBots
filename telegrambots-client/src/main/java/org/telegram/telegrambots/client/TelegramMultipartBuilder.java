@@ -2,10 +2,15 @@ package org.telegram.telegrambots.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import org.jetbrains.annotations.NotNull;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
+import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
 
 import javax.annotation.Nullable;
+import java.io.IOException;
 
 public class TelegramMultipartBuilder {
     public final MultipartBody.Builder internalBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
@@ -55,6 +60,50 @@ public class TelegramMultipartBuilder {
         if (value != null) {
             internalBuilder.addFormDataPart(fieldName, mapper.writeValueAsString(value));
         }
+        return this;
+    }
+
+    public TelegramMultipartBuilder addInputFile(@NotNull InputFile file, @NotNull String fileField, boolean addField) throws IOException {
+        //noinspection ConstantValue
+        if (file == null) return this;
+
+        if (file.isNew()) {
+            RequestBody body = null;
+            if (file.getNewMediaFile() != null) {
+                body = RequestBody.create(file.getNewMediaFile(), MediaType.parse("application/octet-stream"));
+            } else if (file.getNewMediaStream() != null) {
+                body = RequestBody.create(file.getNewMediaStream().readAllBytes(), MediaType.parse("application/octet-stream")
+                );
+            }
+            if (body != null) {
+                internalBuilder.addFormDataPart(file.getMediaName(), file.getMediaName(), body);
+            }
+        }
+
+        if (addField) {
+            internalBuilder.addFormDataPart(fileField, file.getAttachName());
+        }
+
+        return this;
+    }
+
+    public TelegramMultipartBuilder addMedia(@NotNull InputMedia media) throws IOException {
+        //noinspection ConstantValue
+        if (media == null) return this;
+
+        if (media.isNewMedia()) {
+            RequestBody body = null;
+            if (media.getNewMediaFile() != null) {
+                body = RequestBody.create(media.getNewMediaFile(), MediaType.parse("application/octet-stream"));
+            } else if (media.getNewMediaStream() != null) {
+                body = RequestBody.create(media.getNewMediaStream().readAllBytes(), MediaType.parse("application/octet-stream")
+                );
+            }
+            if (body != null) {
+                internalBuilder.addFormDataPart(media.getMediaName(), media.getMediaName(), body);
+            }
+        }
+
         return this;
     }
 }
