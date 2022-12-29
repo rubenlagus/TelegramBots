@@ -1,16 +1,7 @@
 package org.telegram.telegrambots.meta.api.methods.stickers;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.CopyMessage;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.stickers.MaskPosition;
@@ -18,7 +9,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author Ruben Bermudez
@@ -122,6 +112,11 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
     }
     public boolean isMask() {
         return "mask".equals(stickerType);
+    }
+
+    @Override
+    public String getMethod() {
+        return PATH;
     }
 
     @Override

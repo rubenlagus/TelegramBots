@@ -1,14 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.stickers;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.stickers.MaskPosition;
@@ -74,6 +66,11 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
     @Override
     public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
         return deserializeResponse(answer, Boolean.class);
+    }
+
+    @Override
+    public String getMethod() {
+        return PATH;
     }
 
     @Override

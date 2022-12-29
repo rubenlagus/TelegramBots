@@ -1,13 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -44,6 +37,11 @@ public class SetChatPhoto extends PartialBotApiMethod<Boolean> {
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
         this.chatId = chatId.toString();
+    }
+
+    @Override
+    public String getMethod() {
+        return PATH;
     }
 
     @Override

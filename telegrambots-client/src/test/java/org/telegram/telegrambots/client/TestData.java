@@ -26,6 +26,10 @@ public class TestData {
             null,
             null,
             null,
+            null,
+            null,
+            null,
+            null,
             null
     );
 
@@ -49,6 +53,10 @@ public class TestData {
             TEST_USER.getFirstName(),
             TEST_USER.getLastName(),
             TEST_USER.getUserName(),
+            null,
+            null,
+            null,
+            null,
             null,
             null,
             null,

@@ -13,8 +13,8 @@ public abstract class SendMediaBotMethod<T extends Serializable> extends Partial
     public static String PROTECTCONTENT_FIELD = "protect_content";
     public static String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
 
-    public abstract Long getChatId();
-    public abstract Long getMessageThreadId();
+    public abstract String getChatId();
+    public abstract Integer getMessageThreadId();
     public abstract Integer getReplyToMessageId();
     public abstract Boolean getDisableNotification();
     public abstract Boolean getAllowSendingWithoutReply();

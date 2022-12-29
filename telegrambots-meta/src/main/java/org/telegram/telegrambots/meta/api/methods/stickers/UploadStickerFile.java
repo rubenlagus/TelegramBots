@@ -1,13 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.stickers;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -41,6 +34,11 @@ public class UploadStickerFile extends PartialBotApiMethod<File> {
      */
     @NonNull
     private InputFile pngSticker; ///< New sticker file
+
+    @Override
+    public String getMethod() {
+        return PATH;
+    }
 
     @Override
     public File deserializeResponse(String answer) throws TelegramApiRequestException {
