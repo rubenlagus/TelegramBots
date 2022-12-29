@@ -29,17 +29,36 @@ public class ChatMemberUpdated implements BotApiObject {
     private static final String NEWCHATMEMBER_FIELD = "new_chat_member";
     private static final String INVITELINK_FIELD = "invite_link";
 
+    /**
+     * Chat the user belongs to
+     */
     @JsonProperty(CHAT_FIELD)
-    private Chat chat; ///< Chat the user belongs to
+    private Chat chat;
+    /**
+     * Performer of the action, which resulted in the change
+     */
     @JsonProperty(FROM_FIELD)
-    private User from; ///< Performer of the action, which resulted in the change
+    private User from;
+    /**
+     * Date the change was done in Unix time
+     */
     @JsonProperty(DATE_FIELD)
-    private Integer date; ///< Date the change was done in Unix time
+    private Integer date;
+    /**
+     * Previous information about the chat member
+     */
     @JsonProperty(OLDCHATMEMBER_FIELD)
-    private ChatMember oldChatMember; ///< Previous information about the chat member
+    private ChatMember oldChatMember;
+    /**
+     * New information about the chat member
+     */
     @JsonProperty(NEWCHATMEMBER_FIELD)
-    private ChatMember newChatMember; ///< New information about the chat member
+    private ChatMember newChatMember;
+    /**
+     * Optional.
+     * Chat invite link, which was used by the user to join the chat; for joining by invite link events only.
+     */
     @JsonProperty(INVITELINK_FIELD)
-    private ChatInviteLink inviteLink; ///< Optional. Chat invite link, which was used by the user to join the chat; for joining by invite link events only.
+    private ChatInviteLink inviteLink;
 
 }

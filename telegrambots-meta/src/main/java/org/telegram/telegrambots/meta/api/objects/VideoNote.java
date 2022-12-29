@@ -10,10 +10,9 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
+ * This object represents a video message (available in Telegram apps as of v.4.0).
  * @author Ruben Bermudez
  * @version 1.0
- *
- * This object represents a video message (available in Telegram apps as of v.4.0).
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -29,20 +28,37 @@ public class VideoNote implements BotApiObject {
     private static final String THUMB_FIELD = "thumb";
     private static final String FILESIZE_FIELD = "file_size";
 
+    /**
+     * Identifier for this file, which can be used to download or reuse the file
+     */
     @JsonProperty(FILEID_FIELD)
-    private String fileId; ///< Identifier for this file, which can be used to download or reuse the file
+    private String fileId;
     /**
      * Unique identifier for this file, which is supposed to be the same over time and for different bots.
      * Can't be used to download or reuse the file.
      */
     @JsonProperty(FILEUNIQUEID_FIELD)
     private String fileUniqueId;
+    /**
+     * Video width and height as defined by sender
+     */
     @JsonProperty(LENGTH_FIELD)
-    private Integer length; ///< Video width and height as defined by sender
+    private Integer length;
+    /**
+     * Duration of the video in seconds as defined by sender
+     */
     @JsonProperty(DURATION_FIELD)
-    private Integer duration; ///< Duration of the video in seconds as defined by sender
+    private Integer duration;
+    /**
+     * Optional.
+     * Video thumbnail
+     */
     @JsonProperty(THUMB_FIELD)
-    private PhotoSize thumb; ///< Optional. Video thumbnail
+    private PhotoSize thumb;
+    /**
+     * Optional.
+     * File size
+     */
     @JsonProperty(FILESIZE_FIELD)
-    private Integer fileSize; ///< Optional. File size
+    private Integer fileSize;
 }

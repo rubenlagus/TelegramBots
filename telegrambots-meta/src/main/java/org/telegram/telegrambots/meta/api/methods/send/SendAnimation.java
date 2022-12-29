@@ -41,6 +41,7 @@ public class SendAnimation extends PartialBotApiMethod<Message> {
     public static final String PATH = "sendAnimation";
 
     public static final String CHATID_FIELD = "chat_id";
+    public static final String MESSAGETHREADID_FIELD = "message_thread_id";
     public static final String ANIMATION_FIELD = "animation";
     public static final String DURATION_FIELD = "duration";
     public static final String WIDTH_FIELD = "width";
@@ -62,6 +63,11 @@ public class SendAnimation extends PartialBotApiMethod<Message> {
      * Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an animation
      * from the Internet, or upload a new animation using multipart/form-data.
      */
+    /**
+     * Unique identifier for the target message thread (topic) of the forum;
+     * for forum supergroups only
+     */
+    private Integer messageThreadId;
     @NonNull
     private InputFile animation;
     private Integer duration; ///< Optional. Duration of sent animation in seconds

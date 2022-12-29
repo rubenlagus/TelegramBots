@@ -14,9 +14,9 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
+ * Represents the content of a venue message to be sent as the result of an inline query.
  * @author Ruben Bermudez
  * @version 1.0
- * Represents the content of a venue message to be sent as the result of an inline query.
  * @apiNote  This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * ignore them.
  */
@@ -40,26 +40,50 @@ public class InputVenueMessageContent implements InputMessageContent {
     private static final String GOOGLEPLACEID_FIELD = "google_place_id";
     private static final String GOOGLEPLACETYPE_FIELD = "google_place_type";
 
+    /**
+     * Latitude of the venue in degrees
+     */
     @JsonProperty(LATITUDE_FIELD)
     @NonNull
-    private Float latitude; ///< Latitude of the venue in degrees
+    private Float latitude;
+    /**
+     * Longitude of the venue in degrees
+     */
     @JsonProperty(LONGITUDE_FIELD)
     @NonNull
-    private Float longitude; ///< Longitude of the venue in degrees
+    private Float longitude;
+    /**
+     * Name of the venue
+     */
     @JsonProperty(TITLE_FIELD)
     @NonNull
-    private String title; ///< Name of the venue
+    private String title;
+    /**
+     * Address of the venue
+     */
     @JsonProperty(ADDRESS_FIELD)
     @NonNull
-    private String address; ///< Address of the venue
+    private String address;
+    /**
+     * Optional. Foursquare identifier of the venue, if known
+     */
     @JsonProperty(FOURSQUAREID_FIELD)
-    private String foursquareId; ///< Optional. Foursquare identifier of the venue, if known
+    private String foursquareId;
+    /**
+     * Optional. Foursquare type of the venue, if known.
+     */
     @JsonProperty(FOURSQUARETYPE_FIELD)
-    private String foursquareType; ///< Optional. Foursquare type of the venue, if known.
+    private String foursquareType;
+    /**
+     * Optional. Google Places identifier of the venue
+     */
     @JsonProperty(GOOGLEPLACEID_FIELD)
-    private String googlePlaceId; ///< Optional. Google Places identifier of the venue
+    private String googlePlaceId;
+    /**
+     * Optional. Google Places type of the venue. (See supported types.)
+     */
     @JsonProperty(GOOGLEPLACETYPE_FIELD)
-    private String googlePlaceType; ///< Optional. Google Places type of the venue. (See supported types.)
+    private String googlePlaceType;
 
     @Override
     public void validate() throws TelegramApiValidationException {

@@ -5,10 +5,9 @@ import lombok.*;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
+ * Represents rights of an administrator in a chat.
  * @author Ruben Bermudez
  * @version 6.0
- *
- * Represents rights of an administrator in a chat.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -30,9 +29,13 @@ public class ChatAdministratorRights implements BotApiObject {
     private static final String CANPOSTMESSAGES_FIELD = "can_post_messages";
     private static final String CANEDITMESSAGES_FIELD = "can_edit_messages";
     private static final String CANPINMESSAGES_FIELD = "can_pin_messages";
+    private static final String CANMANAGETOPICS_FIELD = "can_manage_topics";
 
+    /**
+     * True, if the user's presence in the chat is hidden
+     */
     @JsonProperty(ISANONYMOUS_FIELD)
-    private Boolean isAnonymous; ///< True, if the user's presence in the chat is hidden
+    private Boolean isAnonymous;
     /**
      * True, if the administrator can access the chat event log, chat statistics,
      * message statistics in channels, see channel members, see anonymous administrators
@@ -41,12 +44,21 @@ public class ChatAdministratorRights implements BotApiObject {
      */
     @JsonProperty(CANMANAGECHAT_FIELD)
     private Boolean canManageChat;
+    /**
+     * True, if the administrator can delete messages of other users
+     */
     @JsonProperty(CANDELETEMESSAGES_FIELD)
-    private Boolean canDeleteMessages; ///< True, if the administrator can delete messages of other users
+    private Boolean canDeleteMessages;
+    /**
+     * True, if the administrator can manage video chats
+     */
     @JsonProperty(CANMANAGEVIDEOCHATS_FIELD)
-    private Boolean canManageVideoChats; ///< True, if the administrator can manage video chats
+    private Boolean canManageVideoChats;
+    /**
+     * True, if the administrator can restrict, ban or unban chat members
+     */
     @JsonProperty(CANRESTRICTMEMBERS_FIELD)
-    private Boolean canRestrictMembers; ///< True, if the administrator can restrict, ban or unban chat members
+    private Boolean canRestrictMembers;
     /**
      * True, if the administrator can add new administrators with a subset of
      * their own privileges or demote administrators that he has promoted,
@@ -54,15 +66,38 @@ public class ChatAdministratorRights implements BotApiObject {
      */
     @JsonProperty(CANPROMOTEMEMBERS_FIELD)
     private Boolean canPromoteMembers;
+    /**
+     * True, if the user is allowed to change the chat title, photo and other settings
+     */
     @JsonProperty(CANCHANGEINFO_FIELD)
-    private Boolean canChangeInfo; ///< True, if the user is allowed to change the chat title, photo and other settings
+    private Boolean canChangeInfo;
+    /**
+     * True, if the user is allowed to invite new users to the chat
+     */
     @JsonProperty(CANINVITEUSERS_FIELD)
-    private Boolean canInviteUsers; ///< True, if the user is allowed to invite new users to the chat
+    private Boolean canInviteUsers;
+    /**
+     * Optional.
+     * True, if the administrator can post in the channel; channels only
+     */
     @JsonProperty(CANPOSTMESSAGES_FIELD)
-    private Boolean canPostMessages; ///< Optional. True, if the administrator can post in the channel; channels only
+    private Boolean canPostMessages;
+    /**
+     * Optional.
+     * True, if the administrator can edit messages of other users and can pin messages; channels only
+     */
     @JsonProperty(CANEDITMESSAGES_FIELD)
-    private Boolean canEditMessages; ///< Optional. True, if the administrator can edit messages of other users and can pin messages; channels only
+    private Boolean canEditMessages;
+    /**
+     * Optional.
+     * True, if the user is allowed to pin messages; groups and supergroups only
+     */
     @JsonProperty(CANPINMESSAGES_FIELD)
-    private Boolean canPinMessages; ///< Optional. True, if the user is allowed to pin messages; groups and supergroups only
-
+    private Boolean canPinMessages;
+    /**
+     * Optional.
+     * True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only
+     */
+    @JsonProperty(CANMANAGETOPICS_FIELD)
+    private Boolean canManageTopics;
 }

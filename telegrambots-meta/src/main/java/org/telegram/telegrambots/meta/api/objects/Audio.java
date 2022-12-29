@@ -10,9 +10,9 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
+ * This object represents an audio file
  * @author Ruben Bermudez
  * @version 1.0
- * This object represents an audio file
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -32,18 +32,28 @@ public class Audio implements BotApiObject {
     private static final String THUMB_FIELD = "thumb";
     private static final String FILENAME_FIELD = "file_name";
 
+    /**
+     * Identifier for this file, which can be used to download or reuse the file
+     */
     @JsonProperty(FILEID_FIELD)
-    private String fileId; ///< Identifier for this file, which can be used to download or reuse the file
+    private String fileId;
     /**
      * Unique identifier for this file, which is supposed to be the same over time and for different bots.
      * Can't be used to download or reuse the file.
      */
     @JsonProperty(FILEUNIQUEID_FIELD)
     private String fileUniqueId;
+    /**
+     * Integer Duration of the audio in seconds as defined by sender
+     */
     @JsonProperty(DURATION_FIELD)
-    private Integer duration; ///< Integer	Duration of the audio in seconds as defined by sender
+    private Integer duration;
+    /**
+     * Optional.
+     * MIME type of the file as defined by sender
+     */
     @JsonProperty(MIMETYPE_FIELD)
-    private String mimeType; ///< Optional. MIME type of the file as defined by sender
+    private String mimeType;
     /**
      * Optional.
      * File size in bytes.
@@ -52,12 +62,28 @@ public class Audio implements BotApiObject {
      */
     @JsonProperty(FILESIZE_FIELD)
     private Long fileSize;
+    /**
+     * Optional.
+     * Title of the audio as defined by sender or by audio tags
+     */
     @JsonProperty(TITLE_FIELD)
-    private String title; ///< Optional. Title of the audio as defined by sender or by audio tags
+    private String title;
+    /**
+     * Optional.
+     * Performer of the audio as defined by sender or by audio tags
+     */
     @JsonProperty(PERFORMER_FIELD)
-    private String performer; ///< Optional. Performer of the audio as defined by sender or by audio tags
+    private String performer;
+    /**
+     * Optional.
+     * Thumbnail of the album cover to which the music file belongs
+     */
     @JsonProperty(THUMB_FIELD)
-    private PhotoSize thumb; ///< Optional. Thumbnail of the album cover to which the music file belongs
+    private PhotoSize thumb;
+    /**
+     * Optional.
+     * Original filename as defined by sender
+     */
     @JsonProperty(FILENAME_FIELD)
-    private String fileName; ///< Optional. Original filename as defined by sender
+    private String fileName;
 }

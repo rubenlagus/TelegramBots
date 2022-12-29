@@ -32,9 +32,9 @@ import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import java.util.List;
 
 /**
+ * This object represents a game.
  * @author Ruben Bermudez
  * @version 2.4
- * This object represents a game.
  * @apiNote Use BotFather to create and edit games, their short names will act as unique identifiers.
  */
 @EqualsAndHashCode(callSuper = false)
@@ -53,15 +53,24 @@ public class Game implements BotApiObject {
     private static final String TEXT_FIELD = "text";
     private static final String TEXTENTITIES_FIELD = "text_entities";
 
+    /**
+     * Title of the game
+     */
     @JsonProperty(TITLE_FIELD)
     @NonNull
-    private String title; ///< Title of the game
+    private String title;
+    /**
+     * Description of the game
+     */
     @JsonProperty(DESCRIPTION_FIELD)
     @NonNull
-    private String description; ///< Description of the game
+    private String description;
+    /**
+     * Photo
+     */
     @JsonProperty(PHOTO_FIELD)
     @NonNull
-    private List<PhotoSize> photo; ///< Photo
+    private List<PhotoSize> photo;
     /**
      * Optional. Brief description of the game or high scores included in the game message.
      * Can be automatically edited to include current high scores for the game
@@ -76,8 +85,12 @@ public class Game implements BotApiObject {
      */
     @JsonProperty(TEXTENTITIES_FIELD)
     private List<MessageEntity> entities;
+    /**
+     * Optional.
+     * Animation
+     */
     @JsonProperty(ANIMATION_FIELD)
-    private Animation animation; ///< Optional. Animation
+    private Animation animation;
 
     public boolean hasEntities() {
         return entities != null && !entities.isEmpty();

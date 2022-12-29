@@ -43,6 +43,7 @@ public class ChatMemberAdministrator implements ChatMember {
     private static final String CANINVITEUSERS_FIELD = "can_invite_users";
     private static final String CANPINMESSAGES_FIELD = "can_pin_messages";
     private static final String CANMANAGEVIDEOCHATS_FIELD = "can_manage_video_chats";
+    private static final String CANMANAGETOPICS_FIELD = "can_manage_topics";
 
     /**
      * The member's status in the chat, always “administrator”
@@ -124,4 +125,10 @@ public class ChatMemberAdministrator implements ChatMember {
      */
     @JsonProperty(CANMANAGEVIDEOCHATS_FIELD)
     private Boolean canManageVideoChats;
+    /**
+     * Optional.
+     * True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only
+     */
+    @JsonProperty(CANMANAGETOPICS_FIELD)
+    private Boolean canManageTopics;
 }

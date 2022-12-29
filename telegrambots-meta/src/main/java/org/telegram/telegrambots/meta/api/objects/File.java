@@ -13,9 +13,9 @@ import java.security.InvalidParameterException;
 import java.text.MessageFormat;
 
 /**
+ * This object represents a file ready to be downloaded
  * @author Ruben Bermudez
  * @version 1.0
- * This object represents a file ready to be downloaded
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -29,8 +29,11 @@ public class File implements BotApiObject {
     private static final String FILE_SIZE_FIELD = "file_size";
     private static final String FILE_PATH_FIELD = "file_path";
 
+    /**
+     * Identifier for this file, which can be used to download or reuse the file
+     */
     @JsonProperty(FILEID_FIELD)
-    private String fileId; ///< Identifier for this file, which can be used to download or reuse the file
+    private String fileId;
     /**
      * Unique identifier for this file, which is supposed to be the same over time and for different bots.
      * Can't be used to download or reuse the file.
@@ -45,8 +48,11 @@ public class File implements BotApiObject {
      */
     @JsonProperty(FILE_SIZE_FIELD)
     private Long fileSize;
+    /**
+     * Optional. File path. Use https://api.telegram.org/file/bot<token>/<file_path> to get the file.
+     */
     @JsonProperty(FILE_PATH_FIELD)
-    private String filePath; ///< Optional. File path. Use https://api.telegram.org/file/bot<token>/<file_path> to get the file.
+    private String filePath;
 
     public String getFileUrl(String botToken) {
         return getFileUrl(botToken, filePath);

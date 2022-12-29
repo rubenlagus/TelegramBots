@@ -14,9 +14,9 @@ import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
+ * This object represents a bot command.
  * @author Ruben Bermudez
  * @version 4.7
- * This object represents a bot command.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -34,10 +34,13 @@ public class BotCommand implements BotApiObject, Validable {
      */
     @JsonProperty(COMMAND_FIELD)
     @NonNull
-    private String command; ///< Value of the dice, 1-6
+    private String command;
+    /**
+     * Description of the command, 3-256 characters.
+     */
     @JsonProperty(DESCRIPTION_FIELD)
     @NonNull
-    private String description; ///< Description of the command, 3-256 characters.
+    private String description;
 
     @Override
     public void validate() throws TelegramApiValidationException {

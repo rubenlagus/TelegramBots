@@ -25,7 +25,7 @@ import java.util.List;
  * @version 1.0
  * Use this method to copy messages of any kind.
  * Service messages and invoice messages can't be copied.
- *
+ * A quiz poll can be copied only if the value of the field correct_option_id is known to the bot.
  * The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message.
  * Returns the MessageId of the sent message on success.
  */
@@ -42,6 +42,7 @@ public class CopyMessage extends BotApiMethod<MessageId> {
     public static final String PATH = "copyMessage";
 
     private static final String CHATID_FIELD = "chat_id";
+    private static final String MESSAGETHREADID_FIELD = "message_thread_id";
     private static final String FROMCHATID_FIELD = "from_chat_id";
     private static final String MESSAGEID_FIELD = "message_id";
     private static final String CAPTION_FIELD = "caption";
@@ -56,6 +57,12 @@ public class CopyMessage extends BotApiMethod<MessageId> {
     @JsonProperty(CHATID_FIELD)
     @NonNull
     private String chatId; ///< Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+    /**
+     * Unique identifier for the target message thread (topic) of the forum;
+     * for forum supergroups only
+     */
+    @JsonProperty(MESSAGETHREADID_FIELD)
+    private Integer messageThreadId;
     @JsonProperty(FROMCHATID_FIELD)
     @NonNull
     private String fromChatId; ///< Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)

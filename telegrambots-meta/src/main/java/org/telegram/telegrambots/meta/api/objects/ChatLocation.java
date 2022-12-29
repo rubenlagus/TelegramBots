@@ -10,9 +10,9 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
+ * Represents a location to which a chat is connected.
  * @author Ruben Bermudez
  * @version 5.0
- * Represents a location to which a chat is connected.
  */
 @SuppressWarnings("WeakerAccess")
 @EqualsAndHashCode(callSuper = false)
@@ -26,8 +26,14 @@ public class ChatLocation implements BotApiObject {
     private static final String LOCATION_FIELD = "location";
     private static final String ADDRESS_FIELD = "address";
 
+    /**
+     * The location to which the supergroup is connected
+     */
     @JsonProperty(LOCATION_FIELD)
-    private Location location; ///< The location to which the supergroup is connected
+    private Location location;
+    /**
+     * Location address; 1-64 characters, as defined by the chat owner
+     */
     @JsonProperty(ADDRESS_FIELD)
-    private String address; ///< Location address; 1-64 characters, as defined by the chat owner
+    private String address;
 }

@@ -10,8 +10,6 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
- * @author Ruben Bermudez
- * @version 1.0
  * This object represents an incoming callback query from a
  * callback button in an inline keyboard.
  * If the button that originated the query was attached to a message sent by the bot,
@@ -22,6 +20,8 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
  * until you call answerCallbackQuery. It is, therefore, necessary to react by
  * calling answerCallbackQuery even if no notification to the user is needed
  * (e.g., without specifying any of the optional parameters).
+ * @author Ruben Bermudez
+ * @version 1.0
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -39,10 +39,16 @@ public class CallbackQuery implements BotApiObject {
     private static final String GAMESHORTNAME_FIELD = "game_short_name";
     private static final String CHAT_INSTANCE_FIELD = "chat_instance";
 
+    /**
+     * Unique identifier for this query
+     */
     @JsonProperty(ID_FIELD)
-    private String id; ///< Unique identifier for this query
+    private String id;
+    /**
+     * Sender
+     */
     @JsonProperty(FROM_FIELD)
-    private User from; ///< Sender
+    private User from;
     /**
      * Optional.
      * Message with the callback button that originated the query.
@@ -51,8 +57,12 @@ public class CallbackQuery implements BotApiObject {
      */
     @JsonProperty(MESSAGE_FIELD)
     private Message message;
+    /**
+     * Optional.
+     * Identifier of the message sent via the bot in inline mode, that originated the query
+     */
     @JsonProperty(INLINE_MESSAGE_ID_FIELD)
-    private String inlineMessageId; ///< Optional. Identifier of the message sent via the bot in inline mode, that originated the query
+    private String inlineMessageId;
     /**
      *
      * Optional. Data associated with the callback button.

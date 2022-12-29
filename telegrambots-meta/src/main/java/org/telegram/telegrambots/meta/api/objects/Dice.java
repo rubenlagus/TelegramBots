@@ -10,9 +10,9 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
+ * This object represents an animated emoji that displays a random value.
  * @author Ruben Bermudez
  * @version 4.7
- * This object represents an animated emoji that displays a random value.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -32,6 +32,9 @@ public class Dice implements BotApiObject {
      */
     @JsonProperty(VALUE_FIELD)
     private Integer value;
+    /**
+     * Emoji on which the dice throw animation is based
+     */
     @JsonProperty(EMOJI_FIELD)
-    private String emoji; ///< Emoji on which the dice throw animation is based
+    private String emoji;
 }

@@ -46,6 +46,7 @@ public class PromoteChatMember extends BotApiMethodBoolean {
     private static final String ISANONYMOUS_FIELD = "is_anonymous";
     private static final String CANMANAGECHAT_FIELD = "can_manage_chat";
     private static final String CANMANAGEVIDEOCHATS_FIELD = "can_manage_video_chats";
+    private static final String CANMANAGETOPICS_FIELD = "can_manage_topics";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -87,6 +88,12 @@ public class PromoteChatMember extends BotApiMethodBoolean {
      */
     @JsonProperty(CANMANAGEVIDEOCHATS_FIELD)
     private Boolean canManageVideoChats;
+    /**
+     * Optional.
+     * True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only
+     */
+    @JsonProperty(CANMANAGETOPICS_FIELD)
+    private Boolean canManageTopics;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

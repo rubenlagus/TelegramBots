@@ -28,9 +28,9 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
+ * Contains information about why a request was unsuccessfull.
  * @author Ruben Bermudez
  * @version 1.0
- * Contains information about why a request was unsuccessfull.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
