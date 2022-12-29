@@ -40,7 +40,11 @@ public abstract class AbstractTelegramClient implements TelegramClient {
 
     @Override
     public Message execute(SendPhoto sendPhoto) throws TelegramApiException {
-        return null;
+        try {
+            return executeAsync(sendPhoto).get();
+        } catch (Exception e) {
+            throw mapException(e, sendPhoto.getMethod());
+        }
     }
 
     @Override
