@@ -59,7 +59,7 @@ public class TelegramClientIntegrationTest {
 
         mockErrorMethod(method.getMethod());
 
-        ExecutionException e = Assertions.assertThrows(ExecutionException.class, () -> client.executeBotApiMethodAsync(method).get());
+        ExecutionException e = Assertions.assertThrows(ExecutionException.class, () -> client.executeAsync(method).get());
 
         Assertions.assertTrue(e.getCause() instanceof TelegramApiRequestException);
 
