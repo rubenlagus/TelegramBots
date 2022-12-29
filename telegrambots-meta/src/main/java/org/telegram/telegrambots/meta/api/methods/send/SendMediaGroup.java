@@ -1,14 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -113,6 +105,11 @@ public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
                 throw new TelegramApiValidationException("Media parameter containing Document can not have other types", this);
             }
         }
+    }
+
+    @Override
+    public String getMethod() {
+        return PATH;
     }
 
     public static class SendMediaGroupBuilder {

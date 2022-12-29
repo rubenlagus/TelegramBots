@@ -1,17 +1,7 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.Singular;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
@@ -34,7 +24,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SendDocument extends PartialBotApiMethod<Message> {
+public class SendDocument extends SendMediaBotMethod<Message> {
     public static final String PATH = "senddocument";
 
     public static final String CHATID_FIELD = "chat_id";
@@ -97,6 +87,7 @@ public class SendDocument extends PartialBotApiMethod<Message> {
     public Message deserializeResponse(String answer) throws TelegramApiRequestException {
         return deserializeResponse(answer, Message.class);
     }
+
     @Override
     public void validate() throws TelegramApiValidationException {
         if (chatId.isEmpty()) {
@@ -116,6 +107,21 @@ public class SendDocument extends PartialBotApiMethod<Message> {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
+    }
+
+    @Override
+    public InputFile getFile() {
+        return document;
+    }
+
+    @Override
+    public String getFileField() {
+        return DOCUMENT_FIELD;
+    }
+
+    @Override
+    public String getMethod() {
+        return PATH;
     }
 
     public static class SendDocumentBuilder {

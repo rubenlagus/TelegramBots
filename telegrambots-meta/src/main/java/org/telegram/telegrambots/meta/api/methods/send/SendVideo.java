@@ -1,17 +1,7 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.Singular;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
@@ -35,7 +25,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SendVideo extends PartialBotApiMethod<Message> {
+public class SendVideo extends SendMediaBotMethod<Message> {
     public static final String PATH = "sendvideo";
 
     public static final String CHATID_FIELD = "chat_id";
@@ -123,6 +113,21 @@ public class SendVideo extends PartialBotApiMethod<Message> {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
+    }
+
+    @Override
+    public InputFile getFile() {
+        return video;
+    }
+
+    @Override
+    public String getFileField() {
+        return VIDEO_FIELD;
+    }
+
+    @Override
+    public String getMethod() {
+        return PATH;
     }
 
     public static class SendVideoBuilder {

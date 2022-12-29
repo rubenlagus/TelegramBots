@@ -1,17 +1,7 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.Singular;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
@@ -36,7 +26,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SendVoice extends PartialBotApiMethod<Message> {
+public class SendVoice extends SendMediaBotMethod<Message> {
     public static final String PATH = "sendvoice";
 
     public static final String CHATID_FIELD = "chat_id";
@@ -104,6 +94,21 @@ public class SendVoice extends PartialBotApiMethod<Message> {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
+    }
+
+    @Override
+    public String getMethod() {
+        return PATH;
+    }
+
+    @Override
+    public InputFile getFile() {
+        return voice;
+    }
+
+    @Override
+    public String getFileField() {
+        return VOICE_FIELD;
     }
 
     public static class SendVoiceBuilder {

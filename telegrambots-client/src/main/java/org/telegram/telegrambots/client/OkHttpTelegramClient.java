@@ -50,32 +50,42 @@ public class OkHttpTelegramClient implements TelegramClient {
     }
 
 
+    //There are warnings due to "unchecked casts" to CompletableFuture<T> since it uses a generic type.
+    // The cast is checked to succeed since the type of Method is checked at runtime
     @SuppressWarnings("unchecked")
     @Override
     public <T extends Serializable, Method extends PartialBotApiMethod<T>> CompletableFuture<T> executeAsync(Method method) throws TelegramApiException {
         if (method instanceof BotApiMethod)
             return executeBotApiMethodAsync((BotApiMethod<T>) method);
 
-        if(method instanceof SendDocument)
+        if (method instanceof SendDocument)
             return (CompletableFuture<T>) executeAsync((SendDocument) method);
 
+        if (method instanceof SendPhoto)
+            return (CompletableFuture<T>) executeAsync((SendPhoto) method);
 
+        if (method instanceof SendVideo)
+            return (CompletableFuture<T>) executeAsync((SendVideo) method);
 
-        throw new TelegramApiException("Unsupported");
+        if (method instanceof SendVideoNote)
+            return (CompletableFuture<T>) executeAsync((SendVideoNote) method);
+
+        if (method instanceof SendSticker)
+            return (CompletableFuture<T>) executeAsync((SendSticker) method);
+
+        if (method instanceof SendAudio)
+            return (CompletableFuture<T>) executeAsync((SendAudio) method);
+
+        if (method instanceof SendVoice)
+            return (CompletableFuture<T>) executeAsync((SendVoice) method);
+
+        throw new TelegramApiException("Unsupported Method" + method.getMethod());
     }
 
     @Override
     public <T extends Serializable, Method extends PartialBotApiMethod<T>> T execute(Method method) throws TelegramApiException {
         try {
             return executeAsync(method).get();
-        } catch (Exception e) {
-            throw mapException(e, method.toString());
-        }
-    }
-
-    public <T extends Serializable, Method extends BotApiMethod<T>> T execute(@Nonnull Method method) throws TelegramApiException {
-        try {
-            return executeBotApiMethodAsync(method).get();
         } catch (Exception e) {
             throw mapException(e, method.getMethod());
         }
@@ -93,7 +103,7 @@ public class OkHttpTelegramClient implements TelegramClient {
         }
     }
 
-    public <T extends Serializable, Method extends BotApiMethod<T>> CompletableFuture<T> executeBotApiMethodAsync(@Nonnull Method method) throws TelegramApiException {
+    protected <T extends Serializable, Method extends BotApiMethod<T>> CompletableFuture<T> executeBotApiMethodAsync(@Nonnull Method method) throws TelegramApiException {
         //Intellij is a bit too optimistic with @NonNull here
         //noinspection ConstantConditions
         if (method == null) {
@@ -121,39 +131,57 @@ public class OkHttpTelegramClient implements TelegramClient {
         }
     }
 
-    public CompletableFuture<Message> executeAsync(SendDocument sendDocument) throws TelegramApiException {
-        assertParamNotNull(sendDocument, "sendDocument");
+    private TelegramMultipartBuilder mapSendMediaBotMethod(TelegramMultipartBuilder builder, SendMediaBotMethod<?> method) throws IOException {
+        addInputFile(builder, method.getFile(), method.getFileField(), true);
 
-        sendDocument.validate();
+        builder.addPart(SendMediaBotMethod.CHATID_FIELD, method.getChatId())
+                .addPart(SendMediaBotMethod.MESSAGETHREADID_FIELD, method.getMessageThreadId())
+                .addPart(SendMediaBotMethod.REPLYTOMESSAGEID_FIELD, method.getReplyToMessageId())
+                .addPart(SendMediaBotMethod.DISABLENOTIFICATION_FIELD, method.getDisableNotification())
+                .addPart(SendMediaBotMethod.PROTECTCONTENT_FIELD, method.getProtectContent())
+                .addPart(SendMediaBotMethod.ALLOWSENDINGWITHOUTREPLY_FIELD, method.getAllowSendingWithoutReply());
+
+        return builder;
+    }
+
+    private <T extends Serializable, Method extends SendMediaBotMethod<T>> CompletableFuture<T> executeMediaMethod(
+            Method method,
+            ThrowingConsumer<TelegramMultipartBuilder, IOException> setup
+    ) throws TelegramApiException {
+        assertParamNotNull(method, "method");
+        assertParamNotNull(setup, "setup");
+
+        method.validate();
+
         try {
             String url = buildUrl(SendDocument.PATH);
 
             TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
 
-            addInputFile(builder, sendDocument.getDocument(), SendDocument.DOCUMENT_FIELD, true);
+            mapSendMediaBotMethod(builder, method);
+            setup.accept(builder);
 
-            builder.addPart(SendDocument.CHATID_FIELD, sendDocument.getChatId())
-                    .addPart(SendDocument.REPLYMARKUP_FIELD, sendDocument.getReplyMarkup())
-                    .addPart(SendDocument.REPLYTOMESSAGEID_FIELD, sendDocument.getReplyToMessageId())
+            Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
+
+            return sendRequest(method, httpPost);
+        } catch (IOException e) {
+            throw new TelegramApiException("Unable to send document", e);
+        }
+    }
+
+    public CompletableFuture<Message> executeAsync(SendDocument sendDocument) throws TelegramApiException {
+        return executeMediaMethod(sendDocument, builder -> {
+            builder.addPart(SendDocument.REPLYMARKUP_FIELD, sendDocument.getReplyMarkup())
                     .addPart(SendDocument.CAPTION_FIELD, sendDocument.getCaption())
                     .addPart(SendDocument.PARSEMODE_FIELD, sendDocument.getParseMode())
-                    .addPart(SendDocument.DISABLENOTIFICATION_FIELD, sendDocument.getDisableNotification())
-                    .addPart(SendDocument.PROTECTCONTENT_FIELD, sendDocument.getProtectContent())
-                    .addPart(SendDocument.ALLOWSENDINGWITHOUTREPLY_FIELD, sendDocument.getAllowSendingWithoutReply())
                     .addPart(SendDocument.DISABLECONTENTTYPEDETECTION_FIELD, sendDocument.getDisableContentTypeDetection())
-                    .addPart(SendDocument.CAPTION_ENTITIES_FIELD, sendDocument.getCaptionEntities());
+                    .addJsonPart(SendDocument.CAPTION_ENTITIES_FIELD, sendDocument.getCaptionEntities());
 
             if (sendDocument.getThumb() != null) {
                 addInputFile(builder, sendDocument.getThumb(), SendDocument.THUMB_FIELD, false);
                 builder.addPart(SendDocument.THUMB_FIELD, sendDocument.getThumb().getAttachName());
             }
-
-            Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
-
-            return sendRequest(sendDocument, httpPost);
-        } catch (IOException e) {
-            throw new TelegramApiException("Unable to send document", e);
-        }
+        });
     }
 
     public CompletableFuture<Message> executeAsync(SendPhoto sendPhoto) throws TelegramApiException {
@@ -165,16 +193,10 @@ public class OkHttpTelegramClient implements TelegramClient {
 
             TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
 
-            addInputFile(builder, sendPhoto.getPhoto(), SendPhoto.PHOTO_FIELD, true);
-
-            builder.addPart(SendDocument.CHATID_FIELD, sendPhoto.getChatId())
+            mapSendMediaBotMethod(builder, sendPhoto)
                     .addJsonPart(SendPhoto.REPLYMARKUP_FIELD, sendPhoto.getReplyMarkup())
-                    .addPart(SendPhoto.REPLYTOMESSAGEID_FIELD, sendPhoto.getReplyToMessageId())
                     .addPart(SendPhoto.CAPTION_FIELD, sendPhoto.getCaption())
                     .addPart(SendPhoto.PARSEMODE_FIELD, sendPhoto.getParseMode())
-                    .addPart(SendPhoto.DISABLENOTIFICATION_FIELD, sendPhoto.getDisableNotification())
-                    .addPart(SendPhoto.ALLOWSENDINGWITHOUTREPLY_FIELD, sendPhoto.getAllowSendingWithoutReply())
-                    .addPart(SendPhoto.PROTECTCONTENT_FIELD, sendPhoto.getProtectContent())
                     .addJsonPart(SendPhoto.CAPTION_ENTITIES_FIELD, sendPhoto.getCaptionEntities());
 
             Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
@@ -194,20 +216,14 @@ public class OkHttpTelegramClient implements TelegramClient {
 
             TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
 
-            addInputFile(builder, sendVideo.getVideo(), SendVideo.VIDEO_FIELD, true);
-
-            builder.addPart(SendVideo.CHATID_FIELD, sendVideo.getChatId())
+            mapSendMediaBotMethod(builder, sendVideo)
                     .addJsonPart(SendVideo.REPLYMARKUP_FIELD, sendVideo.getReplyMarkup())
-                    .addPart(SendVideo.REPLYTOMESSAGEID_FIELD, sendVideo.getReplyToMessageId())
                     .addPart(SendVideo.CAPTION_FIELD, sendVideo.getCaption())
                     .addPart(SendVideo.PARSEMODE_FIELD, sendVideo.getParseMode())
                     .addPart(SendVideo.SUPPORTSSTREAMING_FIELD, sendVideo.getSupportsStreaming())
                     .addPart(SendVideo.DURATION_FIELD, sendVideo.getDuration())
                     .addPart(SendVideo.WIDTH_FIELD, sendVideo.getWidth())
                     .addPart(SendVideo.HEIGHT_FIELD, sendVideo.getHeight())
-                    .addPart(SendVideo.DISABLENOTIFICATION_FIELD, sendVideo.getDisableNotification())
-                    .addPart(SendVideo.PROTECTCONTENT_FIELD, sendVideo.getProtectContent())
-                    .addPart(SendVideo.ALLOWSENDINGWITHOUTREPLY_FIELD, sendVideo.getAllowSendingWithoutReply())
                     .addJsonPart(SendVideo.CAPTION_ENTITIES_FIELD, sendVideo.getCaptionEntities());
 
             if (sendVideo.getThumb() != null) {
@@ -222,7 +238,7 @@ public class OkHttpTelegramClient implements TelegramClient {
         }
     }
 
-    public final CompletableFuture<Message> executeAsync(SendVideoNote sendVideoNote) throws TelegramApiException {
+    public CompletableFuture<Message> executeAsync(SendVideoNote sendVideoNote) throws TelegramApiException {
         assertParamNotNull(sendVideoNote, "sendVideoNote");
 
         sendVideoNote.validate();
@@ -231,16 +247,10 @@ public class OkHttpTelegramClient implements TelegramClient {
 
             TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
 
-            addInputFile(builder, sendVideoNote.getVideoNote(), SendVideoNote.VIDEONOTE_FIELD, true);
-
-            builder.addPart(SendVideoNote.CHATID_FIELD, sendVideoNote.getChatId())
+            mapSendMediaBotMethod(builder, sendVideoNote)
                     .addJsonPart(SendVideoNote.REPLYMARKUP_FIELD, sendVideoNote.getReplyMarkup())
-                    .addPart(SendVideoNote.REPLYTOMESSAGEID_FIELD, sendVideoNote.getReplyToMessageId())
                     .addPart(SendVideoNote.DURATION_FIELD, sendVideoNote.getDuration())
-                    .addPart(SendVideoNote.LENGTH_FIELD, sendVideoNote.getLength())
-                    .addPart(SendVideoNote.DISABLENOTIFICATION_FIELD, sendVideoNote.getDisableNotification())
-                    .addPart(SendVideoNote.PROTECTCONTENT_FIELD, sendVideoNote.getProtectContent())
-                    .addPart(SendVideoNote.ALLOWSENDINGWITHOUTREPLY_FIELD, sendVideoNote.getAllowSendingWithoutReply());
+                    .addPart(SendVideoNote.LENGTH_FIELD, sendVideoNote.getLength());
 
             if (sendVideoNote.getThumb() != null) {
                 addInputFile(builder, sendVideoNote.getThumb(), SendVideoNote.THUMB_FIELD, false);
@@ -254,7 +264,7 @@ public class OkHttpTelegramClient implements TelegramClient {
         }
     }
 
-    public CompletableFuture<Message> executeAsync(SendSticker sendSticker) throws TelegramApiException {
+    protected CompletableFuture<Message> executeAsync(SendSticker sendSticker) throws TelegramApiException {
         assertParamNotNull(sendSticker, "sendSticker");
 
         sendSticker.validate();
@@ -263,15 +273,8 @@ public class OkHttpTelegramClient implements TelegramClient {
 
             TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
 
-            addInputFile(builder, sendSticker.getSticker(), SendSticker.STICKER_FIELD, true);
-
-            builder.addPart(SendSticker.CHATID_FIELD, sendSticker.getChatId())
-                    .addJsonPart(SendSticker.REPLYMARKUP_FIELD, sendSticker.getReplyMarkup())
-                    .addPart(SendSticker.REPLYTOMESSAGEID_FIELD, sendSticker.getReplyToMessageId())
-                    .addPart(SendSticker.DISABLENOTIFICATION_FIELD, sendSticker.getDisableNotification())
-                    .addPart(SendSticker.PROTECTCONTENT_FIELD, sendSticker.getProtectContent())
-                    .addPart(SendSticker.ALLOWSENDINGWITHOUTREPLY_FIELD, sendSticker.getAllowSendingWithoutReply());
-
+            mapSendMediaBotMethod(builder, sendSticker)
+                    .addJsonPart(SendSticker.REPLYMARKUP_FIELD, sendSticker.getReplyMarkup());
 
             Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
             return sendRequest(sendSticker, httpPost);
@@ -280,7 +283,7 @@ public class OkHttpTelegramClient implements TelegramClient {
         }
     }
 
-    public final CompletableFuture<Message> executeAsync(SendAudio sendAudio) throws TelegramApiException {
+    protected CompletableFuture<Message> executeAsync(SendAudio sendAudio) throws TelegramApiException {
         assertParamNotNull(sendAudio, "sendAudio");
         sendAudio.validate();
         try {
@@ -288,19 +291,13 @@ public class OkHttpTelegramClient implements TelegramClient {
 
             TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
 
-            addInputFile(builder, sendAudio.getAudio(), SendAudio.AUDIO_FIELD, true);
-
-            builder.addPart(SendAudio.CHATID_FIELD, sendAudio.getChatId())
+            mapSendMediaBotMethod(builder, sendAudio)
                     .addJsonPart(SendAudio.REPLYMARKUP_FIELD, sendAudio.getReplyMarkup())
-                    .addPart(SendAudio.REPLYTOMESSAGEID_FIELD, sendAudio.getReplyToMessageId())
                     .addPart(SendAudio.PERFOMER_FIELD, sendAudio.getPerformer())
                     .addPart(SendAudio.TITLE_FIELD, sendAudio.getTitle())
                     .addPart(SendAudio.DURATION_FIELD, sendAudio.getDuration())
-                    .addPart(SendAudio.DISABLENOTIFICATION_FIELD, sendAudio.getDisableNotification())
                     .addPart(SendAudio.CAPTION_FIELD, sendAudio.getCaption())
                     .addPart(SendAudio.PARSEMODE_FIELD, sendAudio.getParseMode())
-                    .addPart(SendAudio.ALLOWSENDINGWITHOUTREPLY_FIELD, sendAudio.getAllowSendingWithoutReply())
-                    .addPart(SendAudio.PROTECTCONTENT_FIELD, sendAudio.getProtectContent())
                     .addJsonPart(SendAudio.CAPTION_ENTITIES_FIELD, sendAudio.getCaptionEntities());
 
             if (sendAudio.getThumb() != null) {
@@ -314,7 +311,7 @@ public class OkHttpTelegramClient implements TelegramClient {
         }
     }
 
-    public final CompletableFuture<Message> executeAsync(SendVoice sendVoice) throws TelegramApiException {
+    protected CompletableFuture<Message> executeAsync(SendVoice sendVoice) throws TelegramApiException {
         assertParamNotNull(sendVoice, "sendVoice");
         sendVoice.validate();
         try {
@@ -322,17 +319,11 @@ public class OkHttpTelegramClient implements TelegramClient {
 
             TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
 
-            addInputFile(builder, sendVoice.getVoice(), SendVoice.VOICE_FIELD, true);
-
-            builder.addPart(SendVoice.CHATID_FIELD, sendVoice.getChatId())
+            mapSendMediaBotMethod(builder, sendVoice)
                     .addJsonPart(SendVoice.REPLYMARKUP_FIELD, sendVoice.getReplyMarkup())
-                    .addPart(SendVoice.REPLYTOMESSAGEID_FIELD, sendVoice.getReplyToMessageId())
-                    .addPart(SendVoice.DISABLENOTIFICATION_FIELD, sendVoice.getDisableNotification())
                     .addPart(SendVoice.DURATION_FIELD, sendVoice.getDuration())
                     .addPart(SendVoice.CAPTION_FIELD, sendVoice.getCaption())
                     .addPart(SendVoice.PARSEMODE_FIELD, sendVoice.getParseMode())
-                    .addPart(SendVoice.ALLOWSENDINGWITHOUTREPLY_FIELD, sendVoice.getAllowSendingWithoutReply())
-                    .addPart(SendVoice.PROTECTCONTENT_FIELD, sendVoice.getProtectContent())
                     .addJsonPart(SendVoice.CAPTION_ENTITIES_FIELD, sendVoice.getCaptionEntities());
 
             Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
@@ -342,7 +333,7 @@ public class OkHttpTelegramClient implements TelegramClient {
         }
     }
 
-    public CompletableFuture<Boolean> executeAsync(SetChatPhoto setChatPhoto) throws TelegramApiException {
+    protected CompletableFuture<Boolean> executeAsync(SetChatPhoto setChatPhoto) throws TelegramApiException {
         assertParamNotNull(setChatPhoto, "setChatPhoto");
         setChatPhoto.validate();
 
