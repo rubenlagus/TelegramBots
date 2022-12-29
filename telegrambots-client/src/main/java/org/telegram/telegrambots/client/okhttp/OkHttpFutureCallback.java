@@ -1,4 +1,4 @@
-package org.telegram.telegrambots.client;
+package org.telegram.telegrambots.client.okhttp;
 
 import okhttp3.Call;
 import okhttp3.Callback;

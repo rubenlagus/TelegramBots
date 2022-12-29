@@ -1,8 +1,11 @@
-package org.telegram.telegrambots.client;
+package org.telegram.telegrambots.client.okhttp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
+import org.telegram.telegrambots.client.AbstractTelegramClient;
+import org.telegram.telegrambots.client.TelegramMultipartBuilder;
+import org.telegram.telegrambots.client.ThrowingConsumer;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
@@ -36,21 +39,21 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
     @Nonnull
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    OkHttpTelegramClient(@Nonnull OkHttpClient client, @Nonnull String botToken, @Nonnull String baseUrl) {
+    public OkHttpTelegramClient(@Nonnull OkHttpClient client, @Nonnull String botToken, @Nonnull String baseUrl) {
         this.client = Objects.requireNonNull(client);
         this.botToken = Objects.requireNonNull(botToken);
         this.baseUrl = Objects.requireNonNull(baseUrl);
     }
 
-    OkHttpTelegramClient(@Nonnull OkHttpClient client, @Nonnull String botToken) {
+    public OkHttpTelegramClient(@Nonnull OkHttpClient client, @Nonnull String botToken) {
         this(client, botToken, "https://api.telegram.org");
     }
 
-    OkHttpTelegramClient(@Nonnull String botToken, @Nonnull String baseUrl) {
+    public OkHttpTelegramClient(@Nonnull String botToken, @Nonnull String baseUrl) {
         this(new OkHttpClient.Builder().build(), botToken, baseUrl);
     }
 
-    OkHttpTelegramClient(@Nonnull String botToken) {
+    public OkHttpTelegramClient(@Nonnull String botToken) {
         this(new OkHttpClient.Builder().build(), botToken);
     }
 
