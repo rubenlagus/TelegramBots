@@ -6,13 +6,7 @@ import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.abilitybots.api.db.DBContext;
-import org.telegram.abilitybots.api.objects.Ability;
-import org.telegram.abilitybots.api.objects.Locality;
-import org.telegram.abilitybots.api.objects.MessageContext;
-import org.telegram.abilitybots.api.objects.Privacy;
-import org.telegram.abilitybots.api.objects.Reply;
-import org.telegram.abilitybots.api.objects.ReplyCollection;
-import org.telegram.abilitybots.api.objects.Stats;
+import org.telegram.abilitybots.api.objects.*;
 import org.telegram.abilitybots.api.sender.DefaultSender;
 import org.telegram.abilitybots.api.sender.MessageSender;
 import org.telegram.abilitybots.api.sender.SilentSender;
@@ -32,12 +26,7 @@ import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberOwner;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -55,25 +44,12 @@ import static java.util.Optional.ofNullable;
 import static java.util.regex.Pattern.CASE_INSENSITIVE;
 import static java.util.regex.Pattern.compile;
 import static java.util.stream.Collectors.toSet;
-import static org.telegram.abilitybots.api.objects.Locality.ALL;
-import static org.telegram.abilitybots.api.objects.Locality.GROUP;
-import static org.telegram.abilitybots.api.objects.Locality.USER;
+import static org.telegram.abilitybots.api.objects.Locality.*;
 import static org.telegram.abilitybots.api.objects.MessageContext.newContext;
-import static org.telegram.abilitybots.api.objects.Privacy.ADMIN;
-import static org.telegram.abilitybots.api.objects.Privacy.CREATOR;
-import static org.telegram.abilitybots.api.objects.Privacy.GROUP_ADMIN;
-import static org.telegram.abilitybots.api.objects.Privacy.PUBLIC;
+import static org.telegram.abilitybots.api.objects.Privacy.*;
 import static org.telegram.abilitybots.api.objects.Stats.createStats;
-import static org.telegram.abilitybots.api.util.AbilityMessageCodes.CHECK_INPUT_FAIL;
-import static org.telegram.abilitybots.api.util.AbilityMessageCodes.CHECK_LOCALITY_FAIL;
-import static org.telegram.abilitybots.api.util.AbilityMessageCodes.CHECK_PRIVACY_FAIL;
-import static org.telegram.abilitybots.api.util.AbilityUtils.EMPTY_USER;
-import static org.telegram.abilitybots.api.util.AbilityUtils.getChatId;
-import static org.telegram.abilitybots.api.util.AbilityUtils.getLocalizedMessage;
-import static org.telegram.abilitybots.api.util.AbilityUtils.getUser;
-import static org.telegram.abilitybots.api.util.AbilityUtils.isGroupUpdate;
-import static org.telegram.abilitybots.api.util.AbilityUtils.isSuperGroupUpdate;
-import static org.telegram.abilitybots.api.util.AbilityUtils.isUserMessage;
+import static org.telegram.abilitybots.api.util.AbilityMessageCodes.*;
+import static org.telegram.abilitybots.api.util.AbilityUtils.*;
 
 /**
  * The <b>father</b> of all ability bots. Bots that need to utilize abilities need to extend this bot.
@@ -127,8 +103,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     // Ability toggle
     private final AbilityToggle toggle;
 
-    // Bot token and username
-    private final String botToken;
+    // Bot username
     private final String botUsername;
 
     // Ability registry
@@ -142,9 +117,8 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     public abstract long creatorId();
 
     protected BaseAbilityBot(String botToken, String botUsername, DBContext db, AbilityToggle toggle, DefaultBotOptions botOptions) {
-        super(botOptions);
+        super(botOptions, botToken);
 
-        this.botToken = botToken;
         this.botUsername = botUsername;
         this.db = db;
         this.toggle = toggle;
@@ -262,10 +236,6 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
 
         long processingTime = System.currentTimeMillis() - millisStarted;
         log.info(format("[%s] Processing of update [%s] ended at %s%n---> Processing time: [%d ms] <---%n", botUsername, update.getUpdateId(), now(), processingTime));
-    }
-
-    public String getBotToken() {
-        return botToken;
     }
 
     public String getBotUsername() {

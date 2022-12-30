@@ -14,12 +14,7 @@ import org.telegram.telegrambots.meta.generics.LongPollingBot;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class TestTelegramBotStarterRegistrationHooks {
 
@@ -72,6 +67,9 @@ class TestTelegramBotStarterRegistrationHooks {
     }
 
     static class AnnotatedLongPollingBot extends TelegramLongPollingBot {
+        public AnnotatedLongPollingBot() {
+            super((String) null);
+        }
 
         @Override
         public void onUpdateReceived(final Update update) {
@@ -79,11 +77,6 @@ class TestTelegramBotStarterRegistrationHooks {
 
         @Override
         public String getBotUsername() {
-            return null;
-        }
-
-        @Override
-        public String getBotToken() {
             return null;
         }
 

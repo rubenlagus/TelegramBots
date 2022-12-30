@@ -16,15 +16,7 @@ import org.telegram.telegrambots.facilities.TelegramHttpClientBuilder;
 import org.telegram.telegrambots.facilities.filedownloader.TelegramFileDownloader;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
-import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
-import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
-import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
-import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
-import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
-import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
-import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
-import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
-import org.telegram.telegrambots.meta.api.methods.send.SendVoice;
+import org.telegram.telegrambots.meta.api.methods.send.*;
 import org.telegram.telegrambots.meta.api.methods.stickers.AddStickerToSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.CreateNewStickerSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumb;
@@ -33,11 +25,7 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMe
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
-import org.telegram.telegrambots.meta.api.objects.media.InputMediaAnimation;
-import org.telegram.telegrambots.meta.api.objects.media.InputMediaAudio;
-import org.telegram.telegrambots.meta.api.objects.media.InputMediaDocument;
-import org.telegram.telegrambots.meta.api.objects.media.InputMediaVideo;
+import org.telegram.telegrambots.meta.api.objects.media.*;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -73,9 +61,20 @@ public abstract class DefaultAbsSender extends AbsSender {
     private final CloseableHttpClient httpClient;
     private final RequestConfig requestConfig;
     private final TelegramFileDownloader telegramFileDownloader;
+    private final String botToken;
 
+    /**
+     * If this is used getBotToken has to be overridden in order to return the bot token!
+     * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
+     */
+    @Deprecated
     protected DefaultAbsSender(DefaultBotOptions options) {
+        this(options, null);
+    }
+
+    protected DefaultAbsSender(DefaultBotOptions options, String botToken) {
         super();
+        this.botToken = botToken;
 
         this.exe = Executors.newFixedThreadPool(options.getMaxThreads());
         this.options = options;
@@ -98,8 +97,12 @@ public abstract class DefaultAbsSender extends AbsSender {
     /**
      * Returns the token of the bot to be able to perform Telegram Api Requests
      * @return Token of the bot
+     * @deprecated Overriding this method is deprecated. Pass to constructor instead
      */
-    public abstract String getBotToken();
+    @Deprecated
+    public String getBotToken() {
+        return botToken;
+    }
 
     public final DefaultBotOptions getOptions() {
         return options;
