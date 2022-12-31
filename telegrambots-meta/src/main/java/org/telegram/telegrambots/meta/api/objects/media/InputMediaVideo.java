@@ -36,6 +36,7 @@ public class InputMediaVideo extends InputMedia {
     public static final String DURATION_FIELD = "duration";
     public static final String SUPPORTSSTREAMING_FIELD = "supports_streaming";
     public static final String THUMB_FIELD = "thumb";
+    public static final String HASSPOILER_FIELD = "has_spoiler";
 
     @JsonProperty(WIDTH_FIELD)
     private Integer width; ///< Optional. Video width
@@ -54,6 +55,12 @@ public class InputMediaVideo extends InputMedia {
      */
     @JsonProperty(THUMB_FIELD)
     private InputFile thumb;
+    /**
+     * Optional.
+     * Pass True if the video must be covered with a spoiler animation
+     */
+    @JsonProperty(HASSPOILER_FIELD)
+    private Boolean hasSpoiler;
 
     public InputMediaVideo() {
     }
@@ -63,13 +70,17 @@ public class InputMediaVideo extends InputMedia {
     }
 
     @Builder
-    public InputMediaVideo(@NonNull String media, String caption, String parseMode, List<MessageEntity> entities, boolean isNewMedia, String mediaName, File newMediaFile, InputStream newMediaStream, Integer width, Integer height, Integer duration, Boolean supportsStreaming, InputFile thumb) {
+    public InputMediaVideo(@NonNull String media, String caption, String parseMode, List<MessageEntity> entities,
+                           boolean isNewMedia, String mediaName, File newMediaFile, InputStream newMediaStream,
+                           Integer width, Integer height, Integer duration, Boolean supportsStreaming, InputFile thumb,
+                           Boolean hasSpoiler) {
         super(media, caption, parseMode, entities, isNewMedia, mediaName, newMediaFile, newMediaStream);
         this.width = width;
         this.height = height;
         this.duration = duration;
         this.supportsStreaming = supportsStreaming;
         this.thumb = thumb;
+        this.hasSpoiler = hasSpoiler;
     }
 
     @Override

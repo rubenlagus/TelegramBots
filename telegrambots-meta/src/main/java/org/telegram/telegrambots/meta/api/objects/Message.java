@@ -11,7 +11,10 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicClosed;
 import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicCreated;
+import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicEdited;
 import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicReopened;
+import org.telegram.telegrambots.meta.api.objects.forum.GeneralForumTopicHidden;
+import org.telegram.telegrambots.meta.api.objects.forum.GeneralForumTopicUnhidden;
 import org.telegram.telegrambots.meta.api.objects.games.Animation;
 import org.telegram.telegrambots.meta.api.objects.games.Game;
 import org.telegram.telegrambots.meta.api.objects.passport.PassportData;
@@ -105,6 +108,11 @@ public class Message implements BotApiObject {
     private static final String FORUMTOPICCREATED_FIELD = "forum_topic_created";
     private static final String FORUMTOPICCLOSED_FIELD = "forum_topic_closed";
     private static final String FORUMTOPICREOPENED_FIELD = "forum_topic_reopened";
+    private static final String FORUMTOPICEDITED_FIELD = "forum_topic_edited";
+    private static final String GENERALFORUMTOPICHIDDEN_FIELD = "general_forum_topic_hidden";
+    private static final String GENERALFORUMTOPICUNHIDDEN_FIELD = "general_forum_topic_unhidden";
+    private static final String WRITEACCESSALLOWED_FIELD = "write_access_allowed";
+    private static final String HASMEDIASPOILER_FIELD = "has_media_spoiler";
 
     /**
      * Integer	Unique message identifier
@@ -503,6 +511,36 @@ public class Message implements BotApiObject {
      */
     @JsonProperty(FORUMTOPICREOPENED_FIELD)
     private ForumTopicReopened forumTopicReopened;
+    /**
+     * Optional.
+     * Service message: forum topic edited
+     */
+    @JsonProperty(FORUMTOPICEDITED_FIELD)
+    private ForumTopicEdited forumTopicEdited;
+    /**
+     * Optional.
+     * Service message: General forum topic hidden
+     */
+    @JsonProperty(GENERALFORUMTOPICHIDDEN_FIELD)
+    private GeneralForumTopicHidden generalForumTopicHidden;
+    /**
+     * Optional.
+     * Service message: General forum topic unhidden
+     */
+    @JsonProperty(GENERALFORUMTOPICUNHIDDEN_FIELD)
+    private GeneralForumTopicUnhidden generalForumTopicUnhidden;
+    /**
+     * Optional.
+     * Service message: the user allowed the bot added to the attachment menu to write messages
+     */
+    @JsonProperty(WRITEACCESSALLOWED_FIELD)
+    private WriteAccessAllowed writeAccessAllowed;
+    /**
+     * Optional.
+     * True, if the message media is covered by a spoiler animation
+     */
+    @JsonProperty(HASMEDIASPOILER_FIELD)
+    private Boolean hasMediaSpoiler;
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {

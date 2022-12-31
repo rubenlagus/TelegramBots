@@ -51,18 +51,20 @@ public class EditForumTopic extends BotApiMethodBoolean {
     @NonNull
     private Integer messageThreadId;
     /**
-     * Topic name, 1-128 characters
+     * Optional.
+     * New topic name, 0-128 characters.
+     * If not specified or empty, the current name of the topic will be kept
      */
     @JsonProperty(NAME_FIELD)
-    @NonNull
     private String name;
     /**
      * Optional.
-     * Unique identifier of the custom emoji shown as the topic icon.
-     * Use getForumTopicIconStickers to get all allowed custom emoji identifiers
+     * New unique identifier of the custom emoji shown as the topic icon.
+     * Use getForumTopicIconStickers to get all allowed custom emoji identifiers.
+     * Pass an empty string to remove the icon.
+     * If not specified, the current icon will be kept
      */
     @JsonProperty(ICONCUSTOMEMOJIID_FIELD)
-    @NonNull
     private String iconCustomEmojiId;
 
     @Tolerate
@@ -75,8 +77,10 @@ public class EditForumTopic extends BotApiMethodBoolean {
         if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
-        if (name.isEmpty() || name.length() > 128) {
-            throw new TelegramApiValidationException("Name must be between 1 and 128 characters", this);
+        if (name != null && !name.isEmpty()) {
+            if (name.length() > 128) {
+                throw new TelegramApiValidationException("Name must be less than 128 characters", this);
+            }
         }
         if (messageThreadId <= 0) {
             throw new TelegramApiValidationException("Message Thread Id can't be empty", this);
