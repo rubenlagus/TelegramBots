@@ -43,6 +43,11 @@ public class UploadStickerFile extends PartialBotApiMethod<File> {
     private InputFile pngSticker; ///< New sticker file
 
     @Override
+    public String getMethod() {
+        return PATH;
+    }
+
+    @Override
     public File deserializeResponse(String answer) throws TelegramApiRequestException {
         return deserializeResponse(answer, File.class);
     }

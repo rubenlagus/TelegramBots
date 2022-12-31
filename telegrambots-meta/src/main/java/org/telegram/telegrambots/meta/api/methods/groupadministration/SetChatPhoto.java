@@ -47,6 +47,11 @@ public class SetChatPhoto extends PartialBotApiMethod<Boolean> {
     }
 
     @Override
+    public String getMethod() {
+        return PATH;
+    }
+
+    @Override
     public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
         return deserializeResponse(answer, Boolean.class);
     }

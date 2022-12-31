@@ -77,6 +77,11 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
     }
 
     @Override
+    public String getMethod() {
+        return PATH;
+    }
+
+    @Override
     public void validate() throws TelegramApiValidationException {
         if (userId <= 0) {
             throw new TelegramApiValidationException("userId can't be empty", this);

@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.meta.api.methods;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
@@ -56,4 +57,11 @@ public abstract class PartialBotApiMethod<T extends Serializable> implements Val
             throw new TelegramApiRequestException("Unable to deserialize response", e);
         }
     }
+
+    /**
+     * Getter for method path (that is the same as method name)
+     * @return Method path
+     */
+    @JsonProperty(BotApiMethod.METHOD_FIELD)
+    public abstract String getMethod();
 }
