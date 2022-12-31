@@ -25,6 +25,7 @@ import static org.apache.http.HttpStatus.SC_OK;
  */
 public class TelegramFileDownloader {
     private final HttpClient httpClient;
+    //TODO Replace with concrete token once deprecations are removed
     private final Supplier<String> botTokenSupplier;
 
     public TelegramFileDownloader(final Supplier<String> botTokenSupplier) {
