@@ -35,6 +35,7 @@ public class SendChatAction extends BotApiMethodBoolean {
 
     public static final String CHATID_FIELD = "chat_id";
     private static final String ACTION_FIELD = "action";
+    private static final String MESSAGETHREADID_FIELD = "message_thread_id";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -54,6 +55,12 @@ public class SendChatAction extends BotApiMethodBoolean {
     @JsonProperty(ACTION_FIELD)
     @NonNull
     private String action;
+    /**
+     * Optional
+     * Unique identifier for the target message thread; supergroups only
+     */
+    @JsonProperty(MESSAGETHREADID_FIELD)
+    private Integer messageThreadId;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

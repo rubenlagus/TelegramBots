@@ -249,6 +249,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendPhoto.getCaptionEntities() != null) {
                 builder.addTextBody(SendPhoto.CAPTION_ENTITIES_FIELD, objectMapper.writeValueAsString(sendPhoto.getCaptionEntities()), TEXT_PLAIN_CONTENT_TYPE);
             }
+            if (sendPhoto.getHasSpoiler() != null) {
+                builder.addTextBody(SendPhoto.HASSPOILER_FIELD, objectMapper.writeValueAsString(sendPhoto.getHasSpoiler()), TEXT_PLAIN_CONTENT_TYPE);
+            }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
@@ -315,6 +318,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             }
             if (sendVideo.getCaptionEntities() != null) {
                 builder.addTextBody(SendVideo.CAPTION_ENTITIES_FIELD, objectMapper.writeValueAsString(sendVideo.getCaptionEntities()), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendVideo.getHasSpoiler() != null) {
+                builder.addTextBody(SendVideo.HASSPOILER_FIELD, objectMapper.writeValueAsString(sendVideo.getHasSpoiler()), TEXT_PLAIN_CONTENT_TYPE);
             }
 
             HttpEntity multipart = builder.build();
@@ -820,6 +826,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             }
             if (sendAnimation.getCaptionEntities() != null) {
                 builder.addTextBody(SendAnimation.CAPTION_ENTITIES_FIELD, objectMapper.writeValueAsString(sendAnimation.getCaptionEntities()), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendAnimation.getHasSpoiler() != null) {
+                builder.addTextBody(SendAnimation.HASSPOILER_FIELD, objectMapper.writeValueAsString(sendAnimation.getHasSpoiler()), TEXT_PLAIN_CONTENT_TYPE);
             }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);

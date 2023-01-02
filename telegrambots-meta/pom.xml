@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.telegram</groupId>
         <artifactId>Bots</artifactId>
-        <version>6.3.0</version>
+        <version>6.4.0</version>
     </parent>
 
     <artifactId>telegrambots-meta</artifactId>
@@ -89,10 +89,6 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

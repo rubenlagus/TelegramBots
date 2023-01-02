@@ -54,6 +54,7 @@ public class SendVideo extends PartialBotApiMethod<Message> {
     public static final String CAPTION_ENTITIES_FIELD = "caption_entities";
     public static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
     public static final String PROTECTCONTENT_FIELD = "protect_content";
+    public static final String HASSPOILER_FIELD = "has_spoiler";
 
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
@@ -86,6 +87,11 @@ public class SendVideo extends PartialBotApiMethod<Message> {
     private List<MessageEntity> captionEntities; ///< Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
+    /**
+     * Optional.
+     * Pass True if the video must be covered with a spoiler animation
+     */
+    private Boolean hasSpoiler;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

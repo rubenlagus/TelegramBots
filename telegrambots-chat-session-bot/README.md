@@ -15,14 +15,14 @@ Usage
     <dependency>
         <groupId>org.telegram</groupId>
         <artifactId>telegrambots-chat-session-bot</artifactId>
-        <version>6.3.0</version>
+        <version>6.4.0</version>
     </dependency>
 ```
 
 **Gradle**
 
 ```gradle
-    implementation 'org.telegram:telegrambots-chat-session-bot:6.3.0'
+    implementation 'org.telegram:telegrambots-chat-session-bot:6.4.0'
 ```
 
 Motivation
