@@ -1,7 +1,7 @@
 # Telegram Bot Java Library
 [![Telegram](/TelegramBots.svg)](https://telegram.me/JavaBotsApi)
 
-[![Build Status](https://telegrambots.teamcity.com/app/rest/builds/buildType:(id:TelegramBots_TelegramBotsBuild)/statusIcon.svg)](https://telegrambots.teamcity.com/viewType.html?buildTypeId=TelegramBots_TelegramBotsBuild)
+[![Build Status](<https://telegrambots.teamcity.com/app/rest/builds/buildType:(id:TelegramBots_TelegramBotsBuild)/statusIcon.svg>)](https://telegrambots.teamcity.com/viewType.html?buildTypeId=TelegramBots_TelegramBotsBuild)
 [![Build Status](https://travis-ci.org/rubenlagus/TelegramBots.svg?branch=master)](https://travis-ci.org/rubenlagus/TelegramBots)
 [![Jitpack](https://jitpack.io/v/rubenlagus/TelegramBots.svg)](https://jitpack.io/#rubenlagus/TelegramBots)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.telegram/telegrambots/badge.svg)](http://mvnrepository.com/artifact/org.telegram/telegrambots)
@@ -21,7 +21,7 @@ Both ways are supported, but I recommend long polling method.
 
 Just import add the library to your project with one of these options:
 
-  1. Using Maven Central Repository:
+1. Using Maven Central Repository:
 
 ```xml
     <dependency>
@@ -31,19 +31,18 @@ Just import add the library to your project with one of these options:
     </dependency>
 ```
 
-  2. Using Gradle: 
+2. Using Gradle:
 
 ```gradle
     implementation 'org.telegram:telegrambots:6.3.0'
 ```
 
-  3. Using Jitpack from [here](https://jitpack.io/#rubenlagus/TelegramBots/6.3.0)
-  4. Download the jar(including all dependencies) from [here](https://mvnrepository.com/artifact/org.telegram/telegrambots/6.3.0)
+3. Using Jitpack from [here](https://jitpack.io/#rubenlagus/TelegramBots/6.3.0)
+4. Download the jar(including all dependencies) from [here](https://mvnrepository.com/artifact/org.telegram/telegrambots/6.3.0)
 
 In order to use Long Polling mode, just create your own bot extending `org.telegram.telegrambots.bots.TelegramLongPollingBot`.
 
 If you like to use Webhook, extend `org.telegram.telegrambots.bots.TelegramWebhookBot`
-
 
 Once done, you just need to create a `org.telegram.telegrambots.meta.TelegramBotsApi`and register your bots:
 
@@ -70,9 +69,9 @@ Once done, you just need to create a `org.telegram.telegrambots.meta.TelegramBot
 
 For detailed explanation, visite our [How To](https://github.com/rubenlagus/TelegramBots/wiki/Getting-Started) (thanks Clevero)
 
-
 ## Example bots
-Open them and send them */help* command to get some information about their capabilities:
+
+Open them and send them _/help_ command to get some information about their capabilities:
 
 https://telegram.me/weatherbot (**Use custom keyboards**)
 
@@ -80,7 +79,7 @@ https://telegram.me/directionsbot (**Basic messages**)
 
 https://telegram.me/filesbot (**Send files by file_id**)
 
-https://telegram.me/TGlanguagesbot (**Send files uploding them**)
+https://telegram.me/TGlanguagesbot (**Send files uploading them**)
 
 https://telegram.me/RaeBot (**Inline support**)
 
@@ -99,8 +98,7 @@ Feel free to create issues [here](https://github.com/rubenlagus/TelegramBots/iss
    <a href="https://www.jetbrains.com/?from=TelegramBots"><img src="jetbrains.png" width="75"></a>
 </p>
 
-
-## License 
+## License
 MIT License
 
 Copyright (c) 2016 Ruben Bermudez
