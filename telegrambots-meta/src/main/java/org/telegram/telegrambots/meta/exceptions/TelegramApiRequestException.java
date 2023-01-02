@@ -18,6 +18,7 @@
 package org.telegram.telegrambots.meta.exceptions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
@@ -47,7 +48,20 @@ public class TelegramApiRequestException extends TelegramApiException {
         super(message);
     }
 
-    public TelegramApiRequestException(String message, ApiResponse<?> response) {
+    public TelegramApiRequestException(String message, JSONObject object) {
+        super(message);
+        apiResponse = object.getString(ERRORDESCRIPTIONFIELD);
+        errorCode = object.getInt(ERRORCODEFIELD);
+        if (object.has(PARAMETERSFIELD)) {
+            try {
+                parameters = OBJECT_MAPPER.readValue(object.getJSONObject(PARAMETERSFIELD).toString(), ResponseParameters.class);
+            } catch (IOException e) {
+                log.error(e.getLocalizedMessage(), e);
+            }
+        }
+    }
+
+    public TelegramApiRequestException(String message, ApiResponse response) {
         super(message);
         apiResponse = response.getErrorDescription();
         errorCode = response.getErrorCode();

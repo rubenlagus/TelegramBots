@@ -8,6 +8,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
@@ -255,9 +256,13 @@ public class DefaultBotSession implements BotSession {
                         lock.wait(500);
                     }
                 } else {
-                    List<Update> updates = request.deserializeResponse(responseContent);
-                    backOff.reset();
-                    return updates;
+                    try {
+                        List<Update> updates = request.deserializeResponse(responseContent);
+                        backOff.reset();
+                        return updates;
+                    } catch (JSONException e) {
+                        log.error("Error deserializing update: " + responseContent, e);
+                    }
                 }
             } catch (SocketException | InvalidObjectException | TelegramApiRequestException e) {
                 log.error(e.getLocalizedMessage(), e);
