@@ -3,7 +3,6 @@ package org.telegram.abilitybots.api.objects;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
-import org.json.JSONPropertyIgnore;
 
 import java.io.Serializable;
 import java.util.Objects;
