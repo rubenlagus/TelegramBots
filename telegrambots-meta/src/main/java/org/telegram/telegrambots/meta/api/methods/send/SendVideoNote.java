@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -32,7 +31,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SendVideoNote extends PartialBotApiMethod<Message> {
+public class SendVideoNote extends SendMediaBotMethod<Message> {
     public static final String PATH = "sendvideonote";
 
     public static final String CHATID_FIELD = "chat_id";
@@ -104,6 +103,21 @@ public class SendVideoNote extends PartialBotApiMethod<Message> {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
+    }
+
+    @Override
+    public String getMethod() {
+        return PATH;
+    }
+
+    @Override
+    public InputFile getFile() {
+        return videoNote;
+    }
+
+    @Override
+    public String getFileField() {
+        return VIDEONOTE_FIELD;
     }
 
     public static class SendVideoNoteBuilder {
