@@ -153,11 +153,21 @@ public class ExponentialBackOff implements BackOff {
         multiplier = builder.multiplier;
         maxIntervalMillis = builder.maxIntervalMillis;
         maxElapsedTimeMillis = builder.maxElapsedTimeMillis;
-        Preconditions.checkArgument(initialIntervalMillis > 0);
-        Preconditions.checkArgument(0 <= randomizationFactor && randomizationFactor < 1);
-        Preconditions.checkArgument(multiplier >= 1);
-        Preconditions.checkArgument(maxIntervalMillis >= initialIntervalMillis);
-        Preconditions.checkArgument(maxElapsedTimeMillis > 0);
+        if (initialIntervalMillis <= 0) {
+            throw new IllegalArgumentException("InitialIntervalMillis must not be negative");
+        }
+        if (maxElapsedTimeMillis <= 0) {
+            throw new IllegalArgumentException("MaxElapsedTimeMillis must not be negative");
+        }
+        if (multiplier < 1) {
+            throw new IllegalArgumentException("Multiplier must be bigger than 0");
+        }
+        if (maxIntervalMillis < initialIntervalMillis) {
+            throw new IllegalArgumentException("InitialIntervalMillis must be smaller or equal maxIntervalMillis");
+        }
+        if (randomizationFactor < 0 || randomizationFactor >= 1) {
+            throw new IllegalArgumentException("RandomizationFactor must be between 0 and 1");
+        }
         reset();
     }
 
