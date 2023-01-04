@@ -62,7 +62,7 @@
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots-meta</artifactId>
-            <version>7.0.0-rc0</version>
+            <version>${parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

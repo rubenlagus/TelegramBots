@@ -61,8 +61,8 @@
     <dependencies>
         <dependency>
             <groupId>org.telegram</groupId>
-            <artifactId>telegrambots-meta</artifactId>
-            <version>7.0.0-rc0</version>
+            <artifactId>telegrambots-common</artifactId>
+            <version>${parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
