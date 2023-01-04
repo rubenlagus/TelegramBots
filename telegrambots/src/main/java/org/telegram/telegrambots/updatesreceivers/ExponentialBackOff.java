@@ -13,7 +13,6 @@
  */
 package org.telegram.telegrambots.updatesreceivers;
 
-import com.google.common.base.Preconditions;
 import org.telegram.telegrambots.meta.generics.BackOff;
 
 /**
