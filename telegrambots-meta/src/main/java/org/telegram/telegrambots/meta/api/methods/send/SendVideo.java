@@ -131,6 +131,11 @@ public class SendVideo extends SendMediaBotMethod<Message> {
     }
 
     @Override
+    public String getMethod() {
+        return PATH;
+    }
+
+    @Override
     public InputFile getFile() {
         return video;
     }
@@ -138,11 +143,6 @@ public class SendVideo extends SendMediaBotMethod<Message> {
     @Override
     public String getFileField() {
         return VIDEO_FIELD;
-    }
-
-    @Override
-    public String getMethod() {
-        return PATH;
     }
 
     public static class SendVideoBuilder {

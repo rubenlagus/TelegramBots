@@ -94,7 +94,7 @@ public class SendSticker extends SendMediaBotMethod<Message> {
 
     @Override
     public String getMethod() {
-        return null;
+        return PATH;
     }
 
     @Override
