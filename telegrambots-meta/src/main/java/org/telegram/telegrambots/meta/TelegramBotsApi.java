@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.meta;
 
-import com.google.common.base.Strings;
+import org.apache.commons.lang3.StringUtils;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.BotSession;
@@ -106,7 +106,7 @@ public class TelegramBotsApi {
      * @return False if username or token are empty or null, true otherwise
      */
     private boolean validateBotUsernameAndToken(TelegramBot telegramBot) {
-        return !Strings.isNullOrEmpty(telegramBot.getBotToken()) &&
-                !Strings.isNullOrEmpty(telegramBot.getBotUsername());
+        return StringUtils.isNotEmpty(telegramBot.getBotToken()) &&
+                StringUtils.isNotEmpty(telegramBot.getBotUsername());
     }
 }
