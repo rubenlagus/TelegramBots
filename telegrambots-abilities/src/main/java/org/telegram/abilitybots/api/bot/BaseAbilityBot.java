@@ -127,8 +127,7 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     // Ability toggle
     private final AbilityToggle toggle;
 
-    // Bot token and username
-    private final String botToken;
+    // Bot username
     private final String botUsername;
 
     // Ability registry
@@ -142,9 +141,8 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
     public abstract long creatorId();
 
     protected BaseAbilityBot(String botToken, String botUsername, DBContext db, AbilityToggle toggle, DefaultBotOptions botOptions) {
-        super(botOptions);
+        super(botOptions, botToken);
 
-        this.botToken = botToken;
         this.botUsername = botUsername;
         this.db = db;
         this.toggle = toggle;
@@ -262,10 +260,6 @@ public abstract class BaseAbilityBot extends DefaultAbsSender implements Ability
 
         long processingTime = System.currentTimeMillis() - millisStarted;
         log.info(format("[%s] Processing of update [%s] ended at %s%n---> Processing time: [%d ms] <---%n", botUsername, update.getUpdateId(), now(), processingTime));
-    }
-
-    public String getBotToken() {
-        return botToken;
     }
 
     public String getBotUsername() {

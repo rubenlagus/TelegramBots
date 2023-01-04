@@ -47,6 +47,10 @@ public class TelegramLongPollingBotTest {
 
     private static class TestBot extends TelegramLongPollingBot {
 
+        public TestBot() {
+            super("");
+        }
+
         @Override
         public void onUpdateReceived(Update update) {
         }
@@ -60,10 +64,6 @@ public class TelegramLongPollingBotTest {
             return "";
         }
 
-        @Override
-        public String getBotToken() {
-            return "";
-        }
     }
 
 }

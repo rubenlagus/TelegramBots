@@ -11,15 +11,35 @@ import org.telegram.telegrambots.meta.api.objects.Update;
  * @version 1.0
  */
 public abstract class SpringWebhookBot extends TelegramWebhookBot {
-    private SetWebhook setWebhook;
+    private final SetWebhook setWebhook;
 
+    /**
+     * If this is used getBotToken has to be overridden in order to return the bot token!
+     * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
+     */
+    @Deprecated
     public SpringWebhookBot(SetWebhook setWebhook) {
         super();
         this.setWebhook = setWebhook;
     }
 
+    /**
+     * If this is used getBotToken has to be overridden in order to return the bot token!
+     * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
+     */
+    @Deprecated
     public SpringWebhookBot(DefaultBotOptions options, SetWebhook setWebhook) {
         super(options);
+        this.setWebhook = setWebhook;
+    }
+
+    public SpringWebhookBot(SetWebhook setWebhook, String botToken) {
+        super(botToken);
+        this.setWebhook = setWebhook;
+    }
+
+    public SpringWebhookBot(DefaultBotOptions options, SetWebhook setWebhook, String botToken) {
+        super(options, botToken);
         this.setWebhook = setWebhook;
     }
 
@@ -30,20 +50,15 @@ public abstract class SpringWebhookBot extends TelegramWebhookBot {
     public class TestSpringWebhookBot extends SpringWebhookBot {
 
         public TestSpringWebhookBot(SetWebhook setWebhook) {
-            super(setWebhook);
+            super(setWebhook, null);
         }
 
         public TestSpringWebhookBot(DefaultBotOptions options, SetWebhook setWebhook) {
-            super(options, setWebhook);
+            super(options, setWebhook, null);
         }
 
         @Override
         public String getBotUsername() {
-            return null;
-        }
-
-        @Override
-        public String getBotToken() {
             return null;
         }
 

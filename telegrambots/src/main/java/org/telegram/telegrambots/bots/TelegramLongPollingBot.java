@@ -11,12 +11,29 @@ import org.telegram.telegrambots.util.WebhookUtils;
  * <a href="https://core.telegram.org/bots/api#getupdates">long-polling</a> method
  */
 public abstract class TelegramLongPollingBot extends DefaultAbsSender implements LongPollingBot {
+    /**
+     * If this is used getBotToken has to be overridden in order to return the bot token!
+     * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
+     */
+    @Deprecated()
     public TelegramLongPollingBot() {
         this(new DefaultBotOptions());
     }
 
+    /**
+     * If this is used getBotToken has to be overridden in order to return the bot token!
+     * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
+     */
+    @Deprecated()
     public TelegramLongPollingBot(DefaultBotOptions options) {
         super(options);
+    }
+
+    public TelegramLongPollingBot(String botToken) {
+        this(new DefaultBotOptions(), botToken);
+    }
+    public TelegramLongPollingBot(DefaultBotOptions options, String botToken) {
+        super(options, botToken);
     }
 
     @Override
