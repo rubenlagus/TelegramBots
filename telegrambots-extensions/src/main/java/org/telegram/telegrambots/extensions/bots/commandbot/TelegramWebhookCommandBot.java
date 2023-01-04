@@ -27,7 +27,9 @@ public abstract class TelegramWebhookCommandBot extends TelegramWebhookBot imple
      * Creates a TelegramWebhookCommandBot using default options
      * Use ICommandRegistry's methods on this bot to register commands
      *
+     * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
      */
+    @Deprecated
     public TelegramWebhookCommandBot() {
         this(new DefaultBotOptions());
     }
@@ -37,10 +39,51 @@ public abstract class TelegramWebhookCommandBot extends TelegramWebhookBot imple
      * usernames
      * Use ICommandRegistry's methods on this bot to register commands
      *
+     * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
+     *
      * @param options     Bot options
      */
+    @Deprecated
     public TelegramWebhookCommandBot(DefaultBotOptions options) {
         this(options, true);
+    }
+
+    /**
+     * Creates a TelegramWebhookCommandBot
+     * Use ICommandRegistry's methods on this bot to register commands
+     *
+     * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
+     *
+     * @param options                   Bot options
+     * @param allowCommandsWithUsername true to allow commands with parameters (default),
+     *                                  false otherwise
+     */
+    @Deprecated
+    public TelegramWebhookCommandBot(DefaultBotOptions options, boolean allowCommandsWithUsername) {
+        super(options);
+        this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, this::getBotUsername);
+    }
+
+    /**
+     * Creates a TelegramWebhookCommandBot using default options
+     * Use ICommandRegistry's methods on this bot to register commands
+     *
+     * @param botToken the telegram api token
+     */
+    public TelegramWebhookCommandBot(String botToken) {
+        this(new DefaultBotOptions(), botToken);
+    }
+
+    /**
+     * Creates a TelegramWebhookCommandBot with custom options and allowing commands with
+     * usernames
+     * Use ICommandRegistry's methods on this bot to register commands
+     *
+     * @param options     Bot options
+     * @param botToken the telegram api token
+     */
+    public TelegramWebhookCommandBot(DefaultBotOptions options, String botToken) {
+        this(options, true, botToken);
     }
 
     /**
@@ -50,9 +93,10 @@ public abstract class TelegramWebhookCommandBot extends TelegramWebhookBot imple
      * @param options                   Bot options
      * @param allowCommandsWithUsername true to allow commands with parameters (default),
      *                                  false otherwise
+     * @param botToken the telegram api token
      */
-    public TelegramWebhookCommandBot(DefaultBotOptions options, boolean allowCommandsWithUsername) {
-        super(options);
+    public TelegramWebhookCommandBot(DefaultBotOptions options, boolean allowCommandsWithUsername, String botToken) {
+        super(options, botToken);
         this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, this::getBotUsername);
     }
 
