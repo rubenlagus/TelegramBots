@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Strings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -11,6 +10,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Tolerate;
+import org.apache.commons.lang3.StringUtils;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ChatInviteLink;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -65,10 +65,10 @@ public class RevokeChatInviteLink extends BotApiMethod<ChatInviteLink> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (Strings.isNullOrEmpty(chatId)) {
+        if (StringUtils.isEmpty(chatId)) {
             throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
-        if (Strings.isNullOrEmpty(inviteLink)) {
+        if (StringUtils.isEmpty(inviteLink)) {
             throw new TelegramApiValidationException("InviteLink can't be empty", this);
         }
     }

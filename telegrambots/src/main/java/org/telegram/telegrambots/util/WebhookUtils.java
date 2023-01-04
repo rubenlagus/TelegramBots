@@ -2,7 +2,7 @@ package org.telegram.telegrambots.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Strings;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -124,7 +124,7 @@ public final class WebhookUtils {
       externalUrl += "/";
     }
     externalUrl += Constants.WEBHOOK_URL_PATH;
-    if (!Strings.isNullOrEmpty(botPath)) {
+    if (StringUtils.isNotEmpty(botPath)) {
       if (!botPath.startsWith("/")) {
         externalUrl += "/";
       }
