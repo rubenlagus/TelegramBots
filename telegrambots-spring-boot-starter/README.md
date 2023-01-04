@@ -18,7 +18,7 @@ Usage
     <dependency>
         <groupId>org.telegram</groupId>
         <artifactId>telegrambots-spring-boot-starter</artifactId>
-        <version>6.4.0</version>
+        <version>7.0.0-rc0</version>
     </dependency>
 ```
 

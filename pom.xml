@@ -7,7 +7,7 @@
     <groupId>org.telegram</groupId>
     <artifactId>Bots</artifactId>
     <packaging>pom</packaging>
-    <version>6.4.0</version>
+    <version>7.0.0-rc0</version>
 
     <modules>
         <module>telegrambots</module>
@@ -16,6 +16,9 @@
         <module>telegrambots-abilities</module>
         <module>telegrambots-spring-boot-starter</module>
         <module>telegrambots-chat-session-bot</module>
+        <module>telegrambots-longpolling</module>
+        <module>telegrambots-common</module>
+        <module>telegrambots-webhook</module>
     </modules>
 
     <licenses>
@@ -62,8 +65,8 @@
     </distributionManagement>
 
     <properties>
-        <java.version>11</java.version>
-        <maven.compiler.release>8</maven.compiler.release>
+        <java.version>17</java.version>
+        <maven.compiler.release>17</maven.compiler.release>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 

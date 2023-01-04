@@ -3,35 +3,24 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>org.telegram</groupId>
         <artifactId>Bots</artifactId>
         <version>7.0.0-rc0</version>
     </parent>
 
-    <artifactId>telegrambots-meta</artifactId>
+    <artifactId>telegrambots-webhook</artifactId>
     <packaging>jar</packaging>
 
-    <name>Telegram Bots Meta</name>
+    <name>Telegram Bots Webhook</name>
     <url>https://github.com/rubenlagus/TelegramBots</url>
     <description>Easy to use library to create Telegram Bots</description>
-
-    <issueManagement>
-        <url>https://github.com/rubenlagus/TelegramBots/issues</url>
-        <system>GitHub Issues</system>
-    </issueManagement>
 
     <scm>
         <url>https://github.com/rubenlagus/TelegramBots</url>
         <connection>scm:git:git://github.com/rubenlagus/TelegramBots.git</connection>
         <developerConnection>scm:git:git@github.com:rubenlagus/TelegramBots.git</developerConnection>
     </scm>
-
-    <ciManagement>
-        <url>https://travis-ci.org/rubenlagus/TelegramBots</url>
-        <system>Travis</system>
-    </ciManagement>
 
     <developers>
         <developer>
@@ -62,10 +51,8 @@
     </distributionManagement>
 
     <properties>
-        <java.version>17</java.version>
-        <maven.compiler.release>17</maven.compiler.release>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -73,22 +60,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                    <artifactId>jackson-annotations</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots-meta</artifactId>
+            <version>7.0.0-rc0</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -106,8 +80,13 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M6</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.6</version>
+                <version>3.0.1</version>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
@@ -209,10 +188,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.0.0-M3</version>
                 <executions>
                     <execution>
-                        <id>enforce</id>
+                        <id>enforce-versions</id>
                         <goals>
                             <goal>enforce</goal>
                         </goals>
@@ -220,7 +199,7 @@
                 </executions>
                 <configuration>
                     <rules>
-                        <DependencyConvergence />
+                        <DependencyConvergence/>
                     </rules>
                 </configuration>
             </plugin>
@@ -234,11 +213,6 @@
                         <phase>package</phase>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M6</version>
             </plugin>
         </plugins>
         <pluginManagement>
