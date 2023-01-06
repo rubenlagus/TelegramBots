@@ -80,6 +80,63 @@ public class TestTelegramBotsWebhookApplication {
     }
 
     @Test
+    public void testAfterRestartServerExistingBotsAreRegistered() throws IOException {
+        application.registerBot(telegramWebhookBot);
+
+        application.stop();
+        assertFalse(application.isRunning());
+        application.start();
+        assertTrue(application.isRunning());
+
+        Request request = new Request.Builder()
+                .url("http://127.0.0.1:" + webhookOptions.getPort() + "/test")
+                .headers(Headers.of(headers))
+                .post(RequestBody.create(objectMapper.writeValueAsString(update), MediaType.parse("application/json")))
+                .build();
+
+        httpClient.newCall(request).execute();
+
+        assertNotNull(telegramWebhookBot.updateReceived);
+        assertEquals(update.getUpdateId(), telegramWebhookBot.updateReceived.getUpdateId());
+    }
+
+    @Test
+    public void testUnregisterBotRemoveHandler() throws IOException {
+        application.registerBot(telegramWebhookBot);
+        application.unregisterBot(telegramWebhookBot);
+
+        Request request = new Request.Builder()
+                .url("http://127.0.0.1:" + webhookOptions.getPort() + "/test")
+                .headers(Headers.of(headers))
+                .post(RequestBody.create(objectMapper.writeValueAsString(update), MediaType.parse("application/json")))
+                .build();
+
+        httpClient.newCall(request).execute();
+
+        assertNull(telegramWebhookBot.updateReceived);
+    }
+
+    @Test
+    public void testRegisterBotWithSamePathOverridePreviousOne() throws IOException {
+        TestTelegramWebhookBot secondBot = new TestTelegramWebhookBot("/test");
+        application.registerBot(telegramWebhookBot);
+        application.registerBot(secondBot);
+
+        Request request = new Request.Builder()
+                .url("http://127.0.0.1:" + webhookOptions.getPort() + "/test")
+                .headers(Headers.of(headers))
+                .post(RequestBody.create(objectMapper.writeValueAsString(update), MediaType.parse("application/json")))
+                .build();
+
+        httpClient.newCall(request).execute();
+
+        assertNull(telegramWebhookBot.updateReceived);
+        assertNotNull(secondBot.updateReceived);
+        assertEquals(update.getUpdateId(), secondBot.updateReceived.getUpdateId());
+
+    }
+
+    @Test
     public void testWhenUpdateIsReceivedOnWebhookUpdateReceivedIsCalledOnCorrectBot() throws TelegramApiException, IOException {
         application.registerBot(telegramWebhookBot);
         TestTelegramWebhookBot telegramWebhookBot2 = new TestTelegramWebhookBot("/test2");
