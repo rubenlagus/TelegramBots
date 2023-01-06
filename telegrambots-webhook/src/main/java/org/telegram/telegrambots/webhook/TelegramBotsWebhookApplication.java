@@ -78,6 +78,7 @@ public class TelegramBotsWebhookApplication implements TelegramBotsWebhook {
     public void unregisterBot(TelegramWebhookBot telegramWebhookBot) {
         if (isRunning()) {
             if (registeredBots.remove(telegramWebhookBot.getBotPath()) != null) {
+                // TODO Call delete webhook
                 stop();
                 start();
             }
