@@ -12,5 +12,5 @@ public class WebhookUtils {
     private static final int SOCKET_TIMEOUT = 75 * 1000;
     private static final String TEXT_PLAIN_CONTENT_TYPE = "text/plain";
 
-
+    // TODO Add setWebhook request using telegram-client module
 }
