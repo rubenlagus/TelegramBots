@@ -70,7 +70,7 @@
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots-common</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>jakarta.ws.rs</groupId>

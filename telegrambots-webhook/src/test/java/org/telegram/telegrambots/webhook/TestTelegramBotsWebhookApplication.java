@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class TestTelegramBotsWebhookApplication {
     // TODO Add test exceptions
     // TODO Add Tests HTTPS
-    
+
     private final ObjectMapper objectMapper = new ObjectMapper();
     private TestTelegramWebhookBot telegramWebhookBot;
     private WebhookOptions webhookOptions;
