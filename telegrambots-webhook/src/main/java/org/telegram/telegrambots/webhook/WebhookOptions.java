@@ -21,9 +21,6 @@ public class WebhookOptions {
     private Integer port = 9091;
 
     @Builder.Default
-    private Boolean enableDevLogging = false;
-
-    @Builder.Default
     private Boolean enableRequestLogging = false;
 
     @Builder.Default

@@ -1,11 +1,6 @@
 package org.telegram.telegrambots.webhook;
 
 import io.javalin.Javalin;
-import io.javalin.event.EventHandler;
-import io.javalin.http.Context;
-import io.javalin.http.Handler;
-import io.javalin.http.RequestLogger;
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.alpn.server.ALPNServerConnectionFactory;
 import org.eclipse.jetty.http2.HTTP2Cipher;
@@ -104,42 +99,16 @@ public class TelegramBotsWebhookApplication implements AutoCloseable {
                         javalinConfig.jetty.server(this::createHttp2Server);
                     }
                     javalinConfig.http.defaultContentType = MediaType.APPLICATION_JSON;
-                    javalinConfig.requestLogger.http(new RequestLogger() {
-                        @Override
-                        public void handle(@NonNull Context ctx, @NonNull Float executionTimeMs) throws Exception {
-                            // TODO Request Logger setup
+                    javalinConfig.requestLogger.http((ctx, executionTimeMs) -> {
+                        if (webhookOptions.getEnableRequestLogging()) {
+                            log.info("Webhook {} request received from {}", ctx.method(), ctx.req().getRemoteAddr());
                         }
                     });
 
                 })
                 .events(events -> {
-                    // TODO Validate events to listen
-                    events.serverStarted(new EventHandler() {
-                        @Override
-                        public void handleEvent() throws Exception {
-                            log.info("Server started");
-                        }
-                    });
-                    events.serverStopped(new EventHandler() {
-                        @Override
-                        public void handleEvent() throws Exception {
-                            log.info("Server Stopped");
-                        }
-                    });
-                })
-                .before(new Handler() {
-                    // TODO Validate before request logging
-                    @Override
-                    public void handle(@NonNull Context ctx) throws Exception {
-                        log.info("Request Received");
-                    }
-                })
-                .after(new Handler() {
-                    // TODO Validate after request logging
-                    @Override
-                    public void handle(@NonNull Context ctx) throws Exception {
-                        log.info("Request Received");
-                    }
+                    events.serverStarted(() -> log.info("Webhook server started"));
+                    events.serverStopped(() -> log.info("Webhook server stopped"));
                 })
                 .start(webhookOptions.getPort());
     }

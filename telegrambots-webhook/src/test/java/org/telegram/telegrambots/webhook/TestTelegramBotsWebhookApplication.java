@@ -44,7 +44,7 @@ public class TestTelegramBotsWebhookApplication {
     @BeforeEach
     public void setUp() throws TelegramApiException {
         httpClient = new OkHttpClient.Builder().build();
-        webhookOptions = WebhookOptions.builder().build();
+        webhookOptions = WebhookOptions.builder().enableRequestLogging(true).build();
 
         headers = Map.ofEntries(
                 Map.entry("charset", StandardCharsets.UTF_8.name()),
