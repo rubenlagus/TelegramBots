@@ -132,8 +132,20 @@ public abstract class TimedSendLongPollingBot extends TelegramLongPollingBot
 	}
 
 	//Constructor
+
+	/**
+	 * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
+	 */
+	@Deprecated
 	protected TimedSendLongPollingBot()
 	{
+		super();
+		mSendTimer.schedule(new MessageSenderTask(), MANY_CHATS_SEND_INTERVAL, MANY_CHATS_SEND_INTERVAL);
+	}
+
+	protected TimedSendLongPollingBot(String botToken)
+	{
+		super(botToken);
 		mSendTimer.schedule(new MessageSenderTask(), MANY_CHATS_SEND_INTERVAL, MANY_CHATS_SEND_INTERVAL);
 	}
 

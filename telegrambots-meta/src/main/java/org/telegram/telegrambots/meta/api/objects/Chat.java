@@ -55,6 +55,8 @@ public class Chat implements BotApiObject {
     private static final String ISFORUM_FIELD  = "is_forum";
     private static final String ACTIVEUSERNAMES_FIELD  = "active_usernames";
     private static final String EMOJISTATUSCUSTOMEMOJIID_FIELD  = "emoji_status_custom_emoji_id";
+    private static final String HASAGGRESSIVEANTISPAMENABLED_FIELD  = "has_aggressive_anti_spam_enabled";
+    private static final String HASHIDDENMEMBERS_FIELD  = "has_hidden_members";
 
     private static final String USERCHATTYPE = "private";
     private static final String GROUPCHATTYPE = "group";
@@ -235,6 +237,21 @@ public class Chat implements BotApiObject {
      */
     @JsonProperty(EMOJISTATUSCUSTOMEMOJIID_FIELD)
     private String emojiStatusCustomEmojiId;
+    /**
+     * Optional.
+     * True, if aggressive anti-spam checks are enabled in the supergroup.
+     * The field is only available to chat administrators.
+     * Returned only in getChat.
+     */
+    @JsonProperty(HASAGGRESSIVEANTISPAMENABLED_FIELD)
+    private Boolean hasAggressiveAntiSpamEnabled;
+    /**
+     * Optional.
+     * True, if non-administrators can only get the list of bots and administrators in the chat.
+     * Returned only in getChat.
+     */
+    @JsonProperty(HASHIDDENMEMBERS_FIELD)
+    private Boolean hasHiddenMembers;
 
     @JsonIgnore
     public Boolean isGroupChat() {

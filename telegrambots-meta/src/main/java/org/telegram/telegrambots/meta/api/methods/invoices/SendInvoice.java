@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.invoices;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Strings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -13,6 +12,7 @@ import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
 import lombok.experimental.Tolerate;
+import org.apache.commons.lang3.StringUtils;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMessage;
 import org.telegram.telegrambots.meta.api.objects.payments.LabeledPrice;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -180,22 +180,22 @@ public class SendInvoice extends BotApiMethodMessage {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (Strings.isNullOrEmpty(chatId)) {
+        if (StringUtils.isEmpty(chatId)) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
-        if (Strings.isNullOrEmpty(title) || title.length() > 32) {
+        if (StringUtils.isEmpty(title) || title.length() > 32) {
             throw new TelegramApiValidationException("Title parameter can't be empty or longer than 32 chars", this);
         }
-        if (Strings.isNullOrEmpty(description) || description.length() > 255) {
+        if (StringUtils.isEmpty(description) || description.length() > 255) {
             throw new TelegramApiValidationException("Description parameter can't be empty or longer than 255 chars", this);
         }
-        if (Strings.isNullOrEmpty(payload)) {
+        if (StringUtils.isEmpty(payload)) {
             throw new TelegramApiValidationException("Payload parameter can't be empty", this);
         }
-        if (Strings.isNullOrEmpty(providerToken)) {
+        if (StringUtils.isEmpty(providerToken)) {
             throw new TelegramApiValidationException("ProviderToken parameter can't be empty", this);
         }
-        if (Strings.isNullOrEmpty(currency)) {
+        if (StringUtils.isEmpty(currency)) {
             throw new TelegramApiValidationException("Currency parameter can't be empty", this);
         }
         if (prices.isEmpty()) {

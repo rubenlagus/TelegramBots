@@ -1,6 +1,14 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -86,7 +94,7 @@ public class SendSticker extends SendMediaBotMethod<Message> {
 
     @Override
     public String getMethod() {
-        return null;
+        return PATH;
     }
 
     @Override

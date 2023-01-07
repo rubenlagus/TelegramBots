@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaAnimation;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaAudio;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaDocument;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaVideo;
 
 import java.io.IOException;
@@ -67,10 +68,18 @@ public class InputMediaSerializer extends JsonSerializer<InputMedia> {
             if (animation.getWidth() != null) {
                 gen.writeNumberField(InputMediaAnimation.WIDTH_FIELD, animation.getWidth());
             }
+            if (animation.getHasSpoiler() != null) {
+                gen.writeBooleanField(InputMediaAnimation.HASSPOILER_FIELD, animation.getHasSpoiler());
+            }
         } else if (value instanceof InputMediaDocument) {
             InputMediaDocument document = (InputMediaDocument) value;
             if (document.getThumb() != null) {
                 gen.writeStringField(InputMediaDocument.THUMB_FIELD, document.getThumb().getAttachName());
+            }
+        } else if (value instanceof InputMediaPhoto) {
+            InputMediaPhoto photo = (InputMediaPhoto) value;
+            if (photo.getHasSpoiler() != null) {
+                gen.writeBooleanField(InputMediaPhoto.HASSPOILER_FIELD, photo.getHasSpoiler());
             }
         } else if (value instanceof InputMediaVideo) {
             InputMediaVideo video = (InputMediaVideo) value;
@@ -88,6 +97,9 @@ public class InputMediaSerializer extends JsonSerializer<InputMedia> {
             }
             if (video.getSupportsStreaming() != null) {
                 gen.writeBooleanField(InputMediaVideo.SUPPORTSSTREAMING_FIELD, video.getSupportsStreaming());
+            }
+            if (video.getHasSpoiler() != null) {
+                gen.writeBooleanField(InputMediaVideo.HASSPOILER_FIELD, video.getHasSpoiler());
             }
         }
 

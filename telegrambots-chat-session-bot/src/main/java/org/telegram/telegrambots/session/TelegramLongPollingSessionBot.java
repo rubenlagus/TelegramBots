@@ -6,9 +6,9 @@ import org.apache.shiro.session.mgt.DefaultSessionManager;
 import org.apache.shiro.session.mgt.SessionContext;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
 import java.util.Optional;
 
@@ -17,22 +17,49 @@ public abstract class TelegramLongPollingSessionBot extends TelegramLongPollingB
     DefaultSessionManager sessionManager;
 
     ChatIdConverter chatIdConverter;
-
+    /**
+     * If this is used getBotToken has to be overridden in order to return the bot token!
+     * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
+     */
+    @Deprecated
     public TelegramLongPollingSessionBot(){
         this(new DefaultChatIdConverter());
     }
 
+    /**
+     * If this is used getBotToken has to be overridden in order to return the bot token!
+     * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
+     */
+    @Deprecated
     public TelegramLongPollingSessionBot(ChatIdConverter chatIdConverter){
         this(chatIdConverter, new DefaultBotOptions());
     }
 
+    /**
+     * If this is used getBotToken has to be overridden in order to return the bot token!
+     * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
+     */
+    @Deprecated
     public TelegramLongPollingSessionBot(ChatIdConverter chatIdConverter, DefaultBotOptions defaultBotOptions){
-        super(defaultBotOptions);
+        this(chatIdConverter, defaultBotOptions, null);
+    }
+
+    public TelegramLongPollingSessionBot(String botToken){
+        this(new DefaultChatIdConverter(), botToken);
+    }
+
+    public TelegramLongPollingSessionBot(ChatIdConverter chatIdConverter, String botToken){
+        this(chatIdConverter, new DefaultBotOptions(), botToken);
+    }
+
+    public TelegramLongPollingSessionBot(ChatIdConverter chatIdConverter, DefaultBotOptions defaultBotOptions, String botToken){
+        super(defaultBotOptions, botToken);
         this.setSessionManager(new DefaultSessionManager());
         this.setChatIdConverter(chatIdConverter);
         AbstractSessionDAO sessionDAO = (AbstractSessionDAO) sessionManager.getSessionDAO();
         sessionDAO.setSessionIdGenerator(chatIdConverter);
     }
+
 
     public void setSessionManager(DefaultSessionManager sessionManager) {
         this.sessionManager = sessionManager;

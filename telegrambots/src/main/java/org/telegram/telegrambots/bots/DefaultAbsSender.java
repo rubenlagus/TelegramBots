@@ -73,9 +73,20 @@ public abstract class DefaultAbsSender extends AbsSender {
     private final CloseableHttpClient httpClient;
     private final RequestConfig requestConfig;
     private final TelegramFileDownloader telegramFileDownloader;
+    private final String botToken;
 
+    /**
+     * If this is used getBotToken has to be overridden in order to return the bot token!
+     * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
+     */
+    @Deprecated
     protected DefaultAbsSender(DefaultBotOptions options) {
+        this(options, null);
+    }
+
+    protected DefaultAbsSender(DefaultBotOptions options, String botToken) {
         super();
+        this.botToken = botToken;
 
         this.exe = Executors.newFixedThreadPool(options.getMaxThreads());
         this.options = options;
@@ -98,8 +109,12 @@ public abstract class DefaultAbsSender extends AbsSender {
     /**
      * Returns the token of the bot to be able to perform Telegram Api Requests
      * @return Token of the bot
+     * @deprecated Overriding this method is deprecated. Pass to constructor instead
      */
-    public abstract String getBotToken();
+    @Deprecated
+    public String getBotToken() {
+        return botToken;
+    }
 
     public final DefaultBotOptions getOptions() {
         return options;
@@ -249,6 +264,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendPhoto.getCaptionEntities() != null) {
                 builder.addTextBody(SendPhoto.CAPTION_ENTITIES_FIELD, objectMapper.writeValueAsString(sendPhoto.getCaptionEntities()), TEXT_PLAIN_CONTENT_TYPE);
             }
+            if (sendPhoto.getHasSpoiler() != null) {
+                builder.addTextBody(SendPhoto.HASSPOILER_FIELD, objectMapper.writeValueAsString(sendPhoto.getHasSpoiler()), TEXT_PLAIN_CONTENT_TYPE);
+            }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
@@ -315,6 +333,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             }
             if (sendVideo.getCaptionEntities() != null) {
                 builder.addTextBody(SendVideo.CAPTION_ENTITIES_FIELD, objectMapper.writeValueAsString(sendVideo.getCaptionEntities()), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendVideo.getHasSpoiler() != null) {
+                builder.addTextBody(SendVideo.HASSPOILER_FIELD, objectMapper.writeValueAsString(sendVideo.getHasSpoiler()), TEXT_PLAIN_CONTENT_TYPE);
             }
 
             HttpEntity multipart = builder.build();
@@ -820,6 +841,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             }
             if (sendAnimation.getCaptionEntities() != null) {
                 builder.addTextBody(SendAnimation.CAPTION_ENTITIES_FIELD, objectMapper.writeValueAsString(sendAnimation.getCaptionEntities()), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendAnimation.getHasSpoiler() != null) {
+                builder.addTextBody(SendAnimation.HASSPOILER_FIELD, objectMapper.writeValueAsString(sendAnimation.getHasSpoiler()), TEXT_PLAIN_CONTENT_TYPE);
             }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
