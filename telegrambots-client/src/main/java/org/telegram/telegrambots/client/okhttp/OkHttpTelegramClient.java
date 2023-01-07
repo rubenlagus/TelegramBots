@@ -1,7 +1,11 @@
 package org.telegram.telegrambots.client.okhttp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import okhttp3.*;
+import okhttp3.Headers;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import org.jetbrains.annotations.NotNull;
 import org.telegram.telegrambots.client.AbstractTelegramClient;
 import org.telegram.telegrambots.client.TelegramMultipartBuilder;
@@ -9,7 +13,16 @@ import org.telegram.telegrambots.client.ThrowingConsumer;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
-import org.telegram.telegrambots.meta.api.methods.send.*;
+import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
+import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
+import org.telegram.telegrambots.meta.api.methods.send.SendMediaBotMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
+import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
+import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
+import org.telegram.telegrambots.meta.api.methods.send.SendVoice;
 import org.telegram.telegrambots.meta.api.methods.stickers.AddStickerToSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.CreateNewStickerSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumb;
@@ -17,10 +30,13 @@ import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.media.*;
+import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaAnimation;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaAudio;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaDocument;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaVideo;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
@@ -30,36 +46,36 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 public class OkHttpTelegramClient extends AbstractTelegramClient {
-    @Nonnull
+    @NotNull
     private final OkHttpClient client;
-    @Nonnull
+    @NotNull
     private final String botToken;
-    @Nonnull
+    @NotNull
     private final String baseUrl;
-    @Nonnull
+    @NotNull
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public OkHttpTelegramClient(@Nonnull OkHttpClient client, @Nonnull String botToken, @Nonnull String baseUrl) {
+    public OkHttpTelegramClient(@NotNull OkHttpClient client, @NotNull String botToken, @NotNull String baseUrl) {
         this.client = Objects.requireNonNull(client);
         this.botToken = Objects.requireNonNull(botToken);
         this.baseUrl = Objects.requireNonNull(baseUrl);
     }
 
-    public OkHttpTelegramClient(@Nonnull OkHttpClient client, @Nonnull String botToken) {
+    public OkHttpTelegramClient(@NotNull OkHttpClient client, @NotNull String botToken) {
         this(client, botToken, "https://api.telegram.org");
     }
 
-    public OkHttpTelegramClient(@Nonnull String botToken, @Nonnull String baseUrl) {
+    public OkHttpTelegramClient(@NotNull String botToken, @NotNull String baseUrl) {
         this(new OkHttpClient.Builder().build(), botToken, baseUrl);
     }
 
-    public OkHttpTelegramClient(@Nonnull String botToken) {
+    public OkHttpTelegramClient(@NotNull String botToken) {
         this(new OkHttpClient.Builder().build(), botToken);
     }
 
     @Override
-    public <T extends Serializable, Method extends BotApiMethod<T>> CompletableFuture<T> executeAsync(@Nonnull Method method) throws TelegramApiException {
-        //Intellij is a bit too optimistic with @NonNull here
+    public <T extends Serializable, Method extends BotApiMethod<T>> CompletableFuture<T> executeAsync(@NotNull Method method) throws TelegramApiException {
+        //Intellij is a bit too optimistic with @NotNull here
         //noinspection ConstantConditions
         if (method == null) {
             throw new TelegramApiException("Parameter method can not be null");
@@ -121,6 +137,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                 .addPart(SendVideo.DURATION_FIELD, sendVideo.getDuration())
                 .addPart(SendVideo.WIDTH_FIELD, sendVideo.getWidth())
                 .addPart(SendVideo.HEIGHT_FIELD, sendVideo.getHeight())
+                .addPart(SendVideo.HASSPOILER_FIELD, sendVideo.getHasSpoiler())
                 .addJsonPart(SendVideo.CAPTION_ENTITIES_FIELD, sendVideo.getCaptionEntities()));
     }
 
@@ -421,8 +438,8 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
         }
     }
 
-    @Nonnull
-    private String buildUrl(@Nonnull String methodName) {
+    @NotNull
+    private String buildUrl(@NotNull String methodName) {
         return baseUrl + "/bot" + botToken + "/" + methodName;
     }
 

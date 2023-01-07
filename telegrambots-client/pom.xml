@@ -27,7 +27,7 @@
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots-meta</artifactId>
-            <version>6.1.0</version>
+            <version>7.0.0-rc0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents.client5</groupId>
