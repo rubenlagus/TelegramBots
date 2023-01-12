@@ -32,6 +32,7 @@ public abstract class TelegramLongPollingBot extends DefaultAbsSender implements
     public TelegramLongPollingBot(String botToken) {
         this(new DefaultBotOptions(), botToken);
     }
+
     public TelegramLongPollingBot(DefaultBotOptions options, String botToken) {
         super(options, botToken);
     }
