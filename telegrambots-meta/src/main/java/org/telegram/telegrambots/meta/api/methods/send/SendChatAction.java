@@ -73,7 +73,7 @@ public class SendChatAction extends BotApiMethodBoolean {
     }
 
     @JsonIgnore
-    public void setAction(ActionType action) {
+    public void setAction(@NonNull ActionType action) {
         this.action = action.toString();
     }
 
@@ -97,6 +97,12 @@ public class SendChatAction extends BotApiMethodBoolean {
         @Tolerate
         public SendChatActionBuilder chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
+            return this;
+        }
+
+        @Tolerate
+        public SendChatActionBuilder action(@NonNull ActionType action) {
+            this.action = action.toString();
             return this;
         }
     }
