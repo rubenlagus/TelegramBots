@@ -37,7 +37,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SendAudio extends SendMediaBotMethod<Message> {
+public class SendAudio extends SendMediaBotMethod {
     public static final String PATH = "sendaudio";
 
     public static final String DURATION_FIELD = "duration";
@@ -98,11 +98,6 @@ public class SendAudio extends SendMediaBotMethod<Message> {
 
     public void disableNotification() {
         this.disableNotification = true;
-    }
-
-    @Override
-    public Message deserializeResponse(String answer) throws TelegramApiRequestException {
-        return deserializeResponse(answer, Message.class);
     }
 
     @Override

@@ -34,7 +34,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SendPhoto extends SendMediaBotMethod<Message> {
+public class SendPhoto extends SendMediaBotMethod {
     public static final String PATH = "sendphoto";
 
     public static final String CHATID_FIELD = "chat_id";
@@ -89,11 +89,6 @@ public class SendPhoto extends SendMediaBotMethod<Message> {
     public void setPhoto(InputFile photo) {
         Objects.requireNonNull(photo, "photo cannot be null!");
         this.photo = photo;
-    }
-
-    @Override
-    public Message deserializeResponse(String answer) throws TelegramApiRequestException {
-        return deserializeResponse(answer, Message.class);
     }
 
     @Override

@@ -30,7 +30,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SendSticker extends SendMediaBotMethod<Message> {
+public class SendSticker extends SendMediaBotMethod {
     public static final String PATH = "sendsticker";
 
     public static final String CHATID_FIELD = "chat_id";
@@ -72,11 +72,6 @@ public class SendSticker extends SendMediaBotMethod<Message> {
 
     public void disableNotification() {
         this.disableNotification = true;
-    }
-
-    @Override
-    public Message deserializeResponse(String answer) throws TelegramApiRequestException {
-        return deserializeResponse(answer, Message.class);
     }
 
     @Override

@@ -31,7 +31,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SendVideoNote extends SendMediaBotMethod<Message> {
+public class SendVideoNote extends SendMediaBotMethod {
     public static final String PATH = "sendvideonote";
 
     public static final String CHATID_FIELD = "chat_id";
@@ -82,11 +82,6 @@ public class SendVideoNote extends SendMediaBotMethod<Message> {
 
     public void disableNotification() {
         this.disableNotification = true;
-    }
-
-    @Override
-    public Message deserializeResponse(String answer) throws TelegramApiRequestException {
-        return deserializeResponse(answer, Message.class);
     }
 
     @Override

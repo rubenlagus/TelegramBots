@@ -33,7 +33,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SendDocument extends SendMediaBotMethod<Message> {
+public class SendDocument extends SendMediaBotMethod {
     public static final String PATH = "senddocument";
 
     public static final String CHATID_FIELD = "chat_id";
@@ -90,11 +90,6 @@ public class SendDocument extends SendMediaBotMethod<Message> {
 
     public void disableNotification() {
         this.disableNotification = true;
-    }
-
-    @Override
-    public Message deserializeResponse(String answer) throws TelegramApiRequestException {
-        return deserializeResponse(answer, Message.class);
     }
 
     @Override
