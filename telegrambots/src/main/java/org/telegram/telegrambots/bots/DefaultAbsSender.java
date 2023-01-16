@@ -91,7 +91,7 @@ public abstract class DefaultAbsSender extends AbsSender {
         this.exe = Executors.newFixedThreadPool(options.getMaxThreads());
         this.options = options;
 
-        httpClient = TelegramHttpClientBuilder.build(options);
+        this.httpClient = TelegramHttpClientBuilder.build(options);
         this.telegramFileDownloader = new TelegramFileDownloader(httpClient, this::getBotToken);
         configureHttpContext();
 
@@ -584,13 +584,11 @@ public abstract class DefaultAbsSender extends AbsSender {
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(SetChatPhoto.CHATID_FIELD, setChatPhoto.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
-            if (setChatPhoto.getPhoto() != null) {
-                InputFile photo = setChatPhoto.getPhoto();
-                if (photo.getNewMediaFile() != null) {
-                    builder.addBinaryBody(SetChatPhoto.PHOTO_FIELD, photo.getNewMediaFile());
-                } else if (photo.getNewMediaStream() != null) {
-                    builder.addBinaryBody(SetChatPhoto.PHOTO_FIELD, photo.getNewMediaStream(), ContentType.APPLICATION_OCTET_STREAM, photo.getMediaName());
-                }
+            InputFile photo = setChatPhoto.getPhoto();
+            if (photo.getNewMediaFile() != null) {
+                builder.addBinaryBody(SetChatPhoto.PHOTO_FIELD, photo.getNewMediaFile());
+            } else if (photo.getNewMediaStream() != null) {
+                builder.addBinaryBody(SetChatPhoto.PHOTO_FIELD, photo.getNewMediaStream(), ContentType.APPLICATION_OCTET_STREAM, photo.getMediaName());
             }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);

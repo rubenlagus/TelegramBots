@@ -58,16 +58,16 @@ public class SendAnimation extends SendMediaBotMethod {
 
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
+    /**
+     * Unique identifier for the target message thread (topic) of the forum;
+     * for forum supergroups only
+     */
     private Integer messageThreadId;
 
     /**
      * Animation to send. Pass a file_id as String to send an animation that exists on the
      * Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an animation
      * from the Internet, or upload a new animation using multipart/form-data.
-     */
-    /**
-     * Unique identifier for the target message thread (topic) of the forum;
-     * for forum supergroups only
      */
     @NonNull
     private InputFile animation;
