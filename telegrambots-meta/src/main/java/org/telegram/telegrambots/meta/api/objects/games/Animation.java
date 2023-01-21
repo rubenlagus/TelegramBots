@@ -99,7 +99,7 @@ public class Animation implements BotApiObject {
      * MIME type of the file as defined by sender
      */
     @JsonProperty(MIMETYPE_FIELD)
-    private String mimetype;
+    private String mimeType;
     /**
      * Optional.
      * File size in bytes.
