@@ -44,10 +44,10 @@ public class BotCommand implements BotApiObject, Validable {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (command == null || command.isEmpty()) {
+        if (command.isEmpty()) {
             throw new TelegramApiValidationException("Command parameter can't be empty", this);
         }
-        if (description == null || description.isEmpty()) {
+        if (description.isEmpty()) {
             throw new TelegramApiValidationException("Description parameter can't be empty", this);
         }
     }
