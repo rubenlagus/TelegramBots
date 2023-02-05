@@ -3,6 +3,7 @@ package org.telegram.telegrambots.meta.api.objects.adminrights;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
+import org.telegram.telegrambots.meta.api.interfaces.Validable;
 
 /**
  * Represents rights of an administrator in a chat.
@@ -16,7 +17,7 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChatAdministratorRights implements BotApiObject {
+public class ChatAdministratorRights implements BotApiObject, Validable {
 
     private static final String ISANONYMOUS_FIELD = "is_anonymous";
     private static final String CANMANAGECHAT_FIELD = "can_manage_chat";
@@ -35,6 +36,7 @@ public class ChatAdministratorRights implements BotApiObject {
      * True, if the user's presence in the chat is hidden
      */
     @JsonProperty(ISANONYMOUS_FIELD)
+    @NonNull
     private Boolean isAnonymous;
     /**
      * True, if the administrator can access the chat event log, chat statistics,
@@ -43,21 +45,25 @@ public class ChatAdministratorRights implements BotApiObject {
      * Implied by any other administrator privilege
      */
     @JsonProperty(CANMANAGECHAT_FIELD)
+    @NonNull
     private Boolean canManageChat;
     /**
      * True, if the administrator can delete messages of other users
      */
     @JsonProperty(CANDELETEMESSAGES_FIELD)
+    @NonNull
     private Boolean canDeleteMessages;
     /**
      * True, if the administrator can manage video chats
      */
     @JsonProperty(CANMANAGEVIDEOCHATS_FIELD)
+    @NonNull
     private Boolean canManageVideoChats;
     /**
      * True, if the administrator can restrict, ban or unban chat members
      */
     @JsonProperty(CANRESTRICTMEMBERS_FIELD)
+    @NonNull
     private Boolean canRestrictMembers;
     /**
      * True, if the administrator can add new administrators with a subset of
@@ -65,16 +71,19 @@ public class ChatAdministratorRights implements BotApiObject {
      * directly or indirectly (promoted by administrators that were appointed by the user)
      */
     @JsonProperty(CANPROMOTEMEMBERS_FIELD)
+    @NonNull
     private Boolean canPromoteMembers;
     /**
      * True, if the user is allowed to change the chat title, photo and other settings
      */
     @JsonProperty(CANCHANGEINFO_FIELD)
+    @NonNull
     private Boolean canChangeInfo;
     /**
      * True, if the user is allowed to invite new users to the chat
      */
     @JsonProperty(CANINVITEUSERS_FIELD)
+    @NonNull
     private Boolean canInviteUsers;
     /**
      * Optional.

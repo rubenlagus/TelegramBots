@@ -26,6 +26,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * after 9 April, 2016. Older clients will ignore them.
  * @apiNote request_poll option will only work in Telegram versions released after 1X January, 2020.
  * Older clients will receive unsupported message.
+ * @apiNote The optional fields web_app, request_user, request_chat, request_contact, request_location,
+ * and request_poll are mutually exclusive
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -42,6 +44,8 @@ public class KeyboardButton implements Validable, BotApiObject {
     private static final String REQUEST_LOCATION_FIELD = "request_location";
     private static final String REQUEST_POLL_FIELD = "request_poll";
     private static final String WEBAPP_FIELD = "web_app";
+    private static final String REQUESTUSER_FIELD = "request_user";
+    private static final String REQUESTCHAT_FIELD = "request_chat";
     /**
      * Text of the button.
      * If none of the optional fields are used, it will be sent to the bot as a message when the button is pressed
@@ -79,22 +83,51 @@ public class KeyboardButton implements Validable, BotApiObject {
     @JsonProperty(WEBAPP_FIELD)
     private WebAppInfo webApp;
 
+    /**
+     * Optional.
+     * If specified, pressing the button will open a list of suitable users.
+     * Tapping on any user will send their identifier to the bot in a “user_shared” service message.
+     * Available in private chats only.
+     */
+    @JsonProperty(REQUESTUSER_FIELD)
+    private KeyboardButtonRequestUser requestUser;
+
+    /**
+     * Optional.
+     * If specified, pressing the button will open a list of suitable chats.
+     * Tapping on a chat will send its identifier to the bot in a “chat_shared” service message.
+     * Available in private chats only.
+     */
+    @JsonProperty(REQUESTCHAT_FIELD)
+    private KeyboardButtonRequestChat requestChat;
+
     @Override
     public void validate() throws TelegramApiValidationException {
         if (text.isEmpty()) {
             throw new TelegramApiValidationException("Text parameter can't be empty", this);
         }
-        if (requestContact != null && requestLocation != null && requestContact && requestLocation) {
-            throw new TelegramApiValidationException("Cant request contact and location at the same time", this);
-        }
-        if (requestContact != null && requestPoll != null && requestContact) {
-            throw new TelegramApiValidationException("Cant request contact and poll at the same time", this);
-        }
-        if (requestLocation != null && requestPoll != null && requestLocation) {
-            throw new TelegramApiValidationException("Cant request location and poll at the same time", this);
+
+        int requestsProvided = 0;
+        requestsProvided += (requestContact == null ? 0 : 1);
+        requestsProvided += (requestLocation == null ? 0 : 1);
+        requestsProvided += (requestPoll == null ? 0 : 1);
+        requestsProvided += (webApp == null ? 0 : 1);
+        requestsProvided += (requestUser == null ? 0 : 1);
+        requestsProvided += (requestChat == null ? 0 : 1);
+        if (requestsProvided > 1) {
+            throw new TelegramApiValidationException("The optional fields web_app, request_user, request_chat, request_contact, request_location, and request_poll are mutually exclusive", this);
         }
         if (webApp != null) {
             webApp.validate();
+        }
+        if (requestPoll != null) {
+            requestPoll.validate();
+        }
+        if (requestUser != null) {
+            requestUser.validate();
+        }
+        if (requestChat != null) {
+            requestChat.validate();
         }
     }
 }
