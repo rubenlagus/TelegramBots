@@ -11,7 +11,6 @@ import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
 import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
@@ -35,7 +34,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SendPhoto extends PartialBotApiMethod<Message> {
+public class SendPhoto extends SendMediaBotMethod<Message> {
     public static final String PATH = "sendphoto";
 
     public static final String CHATID_FIELD = "chat_id";
@@ -113,7 +112,21 @@ public class SendPhoto extends PartialBotApiMethod<Message> {
         }
     }
 
+    @Override
+    public InputFile getFile() {
+        return photo;
+    }
+
+    @Override
+    public String getFileField() {
+        return PHOTO_FIELD;
+    }
+    @Override
+    public String getMethod() {
+        return PATH;
+    }
     public static class SendPhotoBuilder {
+
 
         @Tolerate
         public SendPhotoBuilder chatId(@NonNull Long chatId) {

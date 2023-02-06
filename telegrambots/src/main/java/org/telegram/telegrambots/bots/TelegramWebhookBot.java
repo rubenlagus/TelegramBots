@@ -13,12 +13,30 @@ import org.telegram.telegrambots.util.WebhookUtils;
  */
 @SuppressWarnings("WeakerAccess")
 public abstract class TelegramWebhookBot extends DefaultAbsSender implements WebhookBot {
+  /**
+   * If this is used getBotToken has to be overridden in order to return the bot token!
+   * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
+   */
+  @Deprecated
   public TelegramWebhookBot() {
     this(new DefaultBotOptions());
   }
 
+  /**
+   * If this is used getBotToken has to be overridden in order to return the bot token!
+   * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
+   */
+  @Deprecated
   public TelegramWebhookBot(DefaultBotOptions options) {
     super(options);
+  }
+
+  public TelegramWebhookBot(String botToken) {
+    this(new DefaultBotOptions(), botToken);
+  }
+
+  public TelegramWebhookBot(DefaultBotOptions options, String botToken) {
+    super(options, botToken);
   }
 
   @Override

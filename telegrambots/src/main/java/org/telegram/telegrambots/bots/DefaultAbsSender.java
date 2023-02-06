@@ -73,9 +73,20 @@ public abstract class DefaultAbsSender extends AbsSender {
     private final CloseableHttpClient httpClient;
     private final RequestConfig requestConfig;
     private final TelegramFileDownloader telegramFileDownloader;
+    private final String botToken;
 
+    /**
+     * If this is used getBotToken has to be overridden in order to return the bot token!
+     * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
+     */
+    @Deprecated
     protected DefaultAbsSender(DefaultBotOptions options) {
+        this(options, null);
+    }
+
+    protected DefaultAbsSender(DefaultBotOptions options, String botToken) {
         super();
+        this.botToken = botToken;
 
         this.exe = Executors.newFixedThreadPool(options.getMaxThreads());
         this.options = options;
@@ -98,8 +109,12 @@ public abstract class DefaultAbsSender extends AbsSender {
     /**
      * Returns the token of the bot to be able to perform Telegram Api Requests
      * @return Token of the bot
+     * @deprecated Overriding this method is deprecated. Pass to constructor instead
      */
-    public abstract String getBotToken();
+    @Deprecated
+    public String getBotToken() {
+        return botToken;
+    }
 
     public final DefaultBotOptions getOptions() {
         return options;

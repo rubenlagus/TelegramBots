@@ -2,7 +2,6 @@ package org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessageconte
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.google.common.base.Strings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -13,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
+import org.apache.commons.lang3.StringUtils;
 import org.telegram.telegrambots.meta.api.objects.payments.LabeledPrice;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -189,19 +189,19 @@ public class InputInvoiceMessageContent implements InputMessageContent {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (Strings.isNullOrEmpty(title) || title.length() > 32) {
+        if (StringUtils.isEmpty(title) || title.length() > 32) {
             throw new TelegramApiValidationException("Title parameter must be between 1 and 32 characters", this);
         }
-        if (Strings.isNullOrEmpty(description) || description.length() > 32) {
+        if (StringUtils.isEmpty(description) || description.length() > 32) {
             throw new TelegramApiValidationException("Description parameter must be between 1 and 255 characters", this);
         }
-        if (Strings.isNullOrEmpty(payload) || payload.length() > 32) {
+        if (StringUtils.isEmpty(payload) || payload.length() > 32) {
             throw new TelegramApiValidationException("Payload parameter must be between 1 and 128 characters", this);
         }
-        if (Strings.isNullOrEmpty(providerToken)) {
+        if (StringUtils.isEmpty(providerToken)) {
             throw new TelegramApiValidationException("ProviderToken parameter must not be empty", this);
         }
-        if (Strings.isNullOrEmpty(currency)) {
+        if (StringUtils.isEmpty(currency)) {
             throw new TelegramApiValidationException("Currency parameter must not be empty", this);
         }
         if (prices == null || prices.isEmpty()) {

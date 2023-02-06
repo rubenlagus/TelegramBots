@@ -48,13 +48,20 @@ public class RestrictChatMember extends BotApiMethodBoolean {
     private static final String CANSENDOTHERMESSAGES_FIELD = "can_send_other_messages";
     private static final String CANADDWEBPAGEPREVIEWS_FIELD = "can_add_web_page_previews";
     private static final String PERMISSIONS_FIELD = "permissions";
+    private static final String USEINDEPENDENTCHATPERMISSIONS_FIELD = "use_independent_chat_permissions";
 
+    /**
+     * Required. Unique identifier for the chat to send the message to (Or username for channels)
+     */
     @JsonProperty(CHATID_FIELD)
     @NonNull
-    private String chatId; ///< Required. Unique identifier for the chat to send the message to (Or username for channels)
+    private String chatId;
+    /**
+     * Required. Unique identifier of the target user
+     */
     @JsonProperty(USER_ID_FIELD)
     @NonNull
-    private Long userId; ///< Required. Unique identifier of the target user
+    private Long userId;
     /**
      * Optional
      * Date when restrictions will be lifted for the user, unix time.
@@ -64,8 +71,22 @@ public class RestrictChatMember extends BotApiMethodBoolean {
     @JsonProperty(PERMISSIONS_FIELD)
     @NonNull
     private ChatPermissions permissions;
+    /**
+     * Optional.
+     * Date when restrictions will be lifted for the user, unix time.
+     * If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be banned forever
+     */
     @JsonProperty(UNTILDATE_FIELD)
-    private Integer untilDate; ///< Optional. Date when restrictions will be lifted for the user, unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be banned forever
+    private Integer untilDate;
+    /**
+     * Optional.
+     * Pass True if chat permissions are set independently.
+     * Otherwise, the can_send_other_messages and can_add_web_page_previews permissions
+     * will imply the can_send_messages, can_send_audios, can_send_documents, can_send_photos, can_send_videos, can_send_video_notes,
+     * and can_send_voice_notes permissions; the can_send_polls permission will imply the can_send_messages permission.
+     */
+    @JsonProperty(USEINDEPENDENTCHATPERMISSIONS_FIELD)
+    private Boolean useIndependentChatPermissions;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

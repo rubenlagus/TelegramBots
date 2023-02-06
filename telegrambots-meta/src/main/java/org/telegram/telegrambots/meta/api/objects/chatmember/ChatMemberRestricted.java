@@ -31,16 +31,23 @@ public class ChatMemberRestricted implements ChatMember {
     private static final String STATUS_FIELD = "status";
     private static final String USER_FIELD = "user";
     private static final String ISMEMBER_FIELD = "is_member";
-    private static final String CANCHANGEINFO_FIELD = "can_change_info";
-    private static final String CANINVITEUSERS_FIELD = "can_invite_users";
-    private static final String CANPINMESSAGES_FIELD = "can_pin_messages";
     private static final String CANSENDMESSAGES_FIELD = "can_send_messages";
-    private static final String CANSENDMEDIAMESSAGES_FIELD = "can_send_media_messages";
+    private static final String CANSENDAUDIOS_FIELD = "can_send_audios";
+    private static final String CANSENDDOCUMENTS_FIELD = "can_send_documents";
+    private static final String CANSENDPHOTOS_FIELD = "can_send_photos";
+    private static final String CANSENDVIDEOS_FIELD = "can_send_videos";
+    private static final String CANSENDVIDEONOTES_FIELD = "can_send_video_notes";
+    private static final String CANSENDVOICENOTES_FIELD = "can_send_voice_notes";
     private static final String CANSENDPOLLS_FIELD = "can_send_polls";
     private static final String CANSENDOTHERMESSAGES_FIELD = "can_send_other_messages";
     private static final String CANADDWEBPAGEPREVIEWS_FIELD = "can_add_web_page_previews";
-    private static final String UNTILDATE_FIELD = "until_date";
+    private static final String CANCHANGEINFO_FIELD = "can_change_info";
+    private static final String CANINVITEUSERS_FIELD = "can_invite_users";
+    private static final String CANPINMESSAGES_FIELD = "can_pin_messages";
     private static final String CANMANAGETOPICS_FIELD = "can_manage_topics";
+    private static final String UNTILDATE_FIELD = "until_date";
+
+    private static final String CANSENDMEDIAMESSAGES_FIELD = "can_send_media_messages";
 
     /**
      * The member's status in the chat, always “restricted”
@@ -58,30 +65,40 @@ public class ChatMemberRestricted implements ChatMember {
     @JsonProperty(ISMEMBER_FIELD)
     private Boolean isMember;
     /**
-     * True, if the user is allowed to change the chat title, photo and other settings
-     */
-    @JsonProperty(CANCHANGEINFO_FIELD)
-    private Boolean canChangeInfo;
-    /**
-     * True, if the user is allowed to invite new users to the chat
-     */
-    @JsonProperty(CANINVITEUSERS_FIELD)
-    private Boolean canInviteUsers;
-    /**
-     * True, if the user is allowed to pin messages; groups and supergroups only
-     */
-    @JsonProperty(CANPINMESSAGES_FIELD)
-    private Boolean canPinMessages;
-    /**
      * True, if the user is allowed to send text messages, contacts, locations and venues
      */
     @JsonProperty(CANSENDMESSAGES_FIELD)
     private Boolean canSendMessages;
     /**
-     * True, if the user is allowed to send audios, documents, photos, videos, video notes and voice notes
+     * True, if the user is allowed to send audios
      */
-    @JsonProperty(CANSENDMEDIAMESSAGES_FIELD)
-    private Boolean canSendMediaMessages;
+    @JsonProperty(CANSENDAUDIOS_FIELD)
+    private Boolean canSendAudios;
+    /**
+     * True, if the user is allowed to send documents
+     */
+    @JsonProperty(CANSENDDOCUMENTS_FIELD)
+    private Boolean canSendDocuments;
+    /**
+     * True, if the user is allowed to send photos
+     */
+    @JsonProperty(CANSENDPHOTOS_FIELD)
+    private Boolean canSendPhotos;
+    /**
+     * True, if the user is allowed to send videos
+     */
+    @JsonProperty(CANSENDVIDEOS_FIELD)
+    private Boolean canSendVideos;
+    /**
+     * True, if the user is allowed to send video notes
+     */
+    @JsonProperty(CANSENDVIDEONOTES_FIELD)
+    private Boolean canSendVideoNotes;
+    /**
+     * Optional. True, if the user is allowed to send voice notes
+     */
+    @JsonProperty(CANSENDVOICENOTES_FIELD)
+    private Boolean canSendVoiceNotes;
     /**
      * True, if the user is allowed to send polls
      */
@@ -98,13 +115,36 @@ public class ChatMemberRestricted implements ChatMember {
     @JsonProperty(CANADDWEBPAGEPREVIEWS_FIELD)
     private Boolean canAddWebpagePreviews;
     /**
-     * Date when restrictions will be lifted for this user; unix time
+     * True, if the user is allowed to change the chat title, photo and other settings
      */
-    @JsonProperty(UNTILDATE_FIELD)
-    private Integer untilDate;
+    @JsonProperty(CANCHANGEINFO_FIELD)
+    private Boolean canChangeInfo;
+    /**
+     * True, if the user is allowed to invite new users to the chat
+     */
+    @JsonProperty(CANINVITEUSERS_FIELD)
+    private Boolean canInviteUsers;
+    /**
+     * True, if the user is allowed to pin messages; groups and supergroups only
+     */
+    @JsonProperty(CANPINMESSAGES_FIELD)
+    private Boolean canPinMessages;
     /**
      * True, if the user is allowed to create forum topics
      */
     @JsonProperty(CANMANAGETOPICS_FIELD)
     private Boolean canManageTopics;
+    /**
+     * Date when restrictions will be lifted for this user; unix time
+     */
+    @JsonProperty(UNTILDATE_FIELD)
+    private Integer untilDate;
+
+    /**
+     * True, if the user is allowed to send audios, documents, photos, videos, video notes and voice notes
+     * @deprecated Use individual permissions instead
+     */
+    @JsonProperty(CANSENDMEDIAMESSAGES_FIELD)
+    @Deprecated
+    private Boolean canSendMediaMessages;
 }

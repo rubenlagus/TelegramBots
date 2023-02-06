@@ -82,6 +82,11 @@ public class EditMessageMedia extends PartialBotApiMethod<Serializable> {
     }
 
     @Override
+    public String getMethod() {
+        return PATH;
+    }
+
+    @Override
     public Serializable deserializeResponse(String answer) throws TelegramApiRequestException {
         try {
             ApiResponse<Message> result = OBJECT_MAPPER.readValue(answer,

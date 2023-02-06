@@ -39,6 +39,13 @@ public class SetMyDefaultAdministratorRightsTest {
                 .rights(ChatAdministratorRights
                         .builder()
                         .isAnonymous(true)
+                        .canManageChat(false)
+                        .canDeleteMessages(false)
+                        .canManageVideoChats(false)
+                        .canRestrictMembers(false)
+                        .canPromoteMembers(true)
+                        .canChangeInfo(true)
+                        .canInviteUsers(false)
                         .build())
                 .build();
         assertEquals("setMyDefaultAdministratorRights", setMyDefaultAdministratorRights.getMethod());

@@ -113,6 +113,8 @@ public class Message implements BotApiObject {
     private static final String GENERALFORUMTOPICUNHIDDEN_FIELD = "general_forum_topic_unhidden";
     private static final String WRITEACCESSALLOWED_FIELD = "write_access_allowed";
     private static final String HASMEDIASPOILER_FIELD = "has_media_spoiler";
+    private static final String USERSHARED_FIELD = "user_shared";
+    private static final String CHATSHARED_FIELD = "chat_shared";
 
     /**
      * Integer	Unique message identifier
@@ -541,6 +543,18 @@ public class Message implements BotApiObject {
      */
     @JsonProperty(HASMEDIASPOILER_FIELD)
     private Boolean hasMediaSpoiler;
+    /**
+     * Optional.
+     * Service message: a user was shared with the bot
+     */
+    @JsonProperty(USERSHARED_FIELD)
+    private UserShared userShared;
+    /**
+     * Optional.
+     * Service message: a chat was shared with the bot
+     */
+    @JsonProperty(CHATSHARED_FIELD)
+    private ChatShared chatShared;
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {
@@ -752,5 +766,15 @@ public class Message implements BotApiObject {
     @JsonIgnore
     private boolean hasForumTopicReopened() {
         return forumTopicReopened != null;
+    }
+
+    @JsonIgnore
+    private boolean hasUserShared() {
+        return userShared != null;
+    }
+
+    @JsonIgnore
+    private boolean hasChatShared() {
+        return chatShared != null;
     }
 }
