@@ -30,50 +30,33 @@ Now that you have the library, you can start coding. There are few steps to foll
 1. **Creating your actual bot:**
     The class must extends `TelegramLongPollingBot` and implement necessary methods:
 
-    ```java
+    The constructor must pass your **Bot Token** to the superclass (If you don't know it, you may want to talk with [@BotFather](https://telegram.me/BotFather)).
 
-    public class MyAmazingBot extends TelegramLongPollingBot {
+    ```java
+        public class MyAmazingBot extends TelegramLongPollingBot {
+        public MyAmazingBot() {
+            super("123456789:qwertyuioplkjhgfdsazxcvbnm");
+        }
+        
         @Override
         public void onUpdateReceived(Update update) {
-            // TODO
+            
         }
-
+    
         @Override
         public String getBotUsername() {
-            // TODO
-            return null;
-        }
-
-        @Override
-        public String getBotToken() {
-            // TODO
             return null;
         }
     }
-
     ```
 
     * `getBotUsername()`:  This method must always return your **Bot username**. May look like:
-
-
         ```java
 
             @Override
             public String getBotUsername() {
                 return "myamazingbot";
             }
-
-        ```
-
-    * `getBotToken()`: This method must always return your **Bot Token** (If you don't know it, you may want to talk with [@BotFather](https://telegram.me/BotFather)). May look like:
-
-        ```java
-
-            @Override
-            public String getBotToken() {
-                return "123456789:qwertyuioplkjhgfdsazxcvbnm";
-            }
-
         ```
 
     * `onUpdateReceived`: This method will be called when an [Update](https://core.telegram.org/bots/api#update) is received by your bot. In this example, this method will just read messages and echo the same text:

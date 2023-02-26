@@ -1,3 +1,17 @@
+### <a id="6.5.0"></a>To version 6.5.0 ###
+The bot token is no longer handled by overwriting the getBotToken() method. It is handled via a new constructor that takes in the bot token. 
+Remove your implementation of getBotToken and pass it to the `super()` call in your constructor instead.
+
+The method might become final in the future, preventing overwriting it, it will also break future builds to overwrite the method!
+
+```java
+   public class MyAmazingBot extends TelegramLongPollingBot {
+      public MyAmazingBot() {
+        super("123456789:qwertyuioplkjhgfdsazxcvbnm");
+      }
+   }
+```
+
 ### <a id="6.1.0"></a>To version 6.1.0 ###
 1. As per API guidelines, FileSize can now have 64 bits size, hence they are now using Long datatype instead of Integer.
 2. Methods accept chatId as Long or String.
