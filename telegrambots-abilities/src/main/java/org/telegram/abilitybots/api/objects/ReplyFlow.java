@@ -41,7 +41,7 @@ public class ReplyFlow extends Reply {
 
   @Override
   public Stream<Reply> stream() {
-    return Stream.concat(Stream.of(this), nextReplies.stream().flatMap(Reply::stream));
+    return Stream.concat(nextReplies.stream().flatMap(Reply::stream), Stream.of(this));
   }
 
   public static class ReplyFlowBuilder {
