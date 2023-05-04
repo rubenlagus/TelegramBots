@@ -26,7 +26,9 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      * Creates a TelegramLongPollingCommandBot using default options
      * Use ICommandRegistry's methods on this bot to register commands
      *
+     * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
      */
+    @Deprecated()
     public TelegramLongPollingCommandBot() {
         this(new DefaultBotOptions());
     }
@@ -36,8 +38,10 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      * usernames
      * Use ICommandRegistry's methods on this bot to register commands
      *
-     * @param options     Bot options
+     * @param options Bot options
+     * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
      */
+    @Deprecated()
     public TelegramLongPollingCommandBot(DefaultBotOptions options) {
         this(options, true);
     }
@@ -49,9 +53,26 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      * @param options                   Bot options
      * @param allowCommandsWithUsername true to allow commands with parameters (default),
      *                                  false otherwise
+     * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
      */
+    @Deprecated()
     public TelegramLongPollingCommandBot(DefaultBotOptions options, boolean allowCommandsWithUsername) {
         super(options);
+        this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, this::getBotUsername);
+    }
+
+    public TelegramLongPollingCommandBot(String botToken, boolean allowCommandsWithUsername) {
+        this(new DefaultBotOptions(), botToken, allowCommandsWithUsername);
+    }
+    public TelegramLongPollingCommandBot(String botToken) {
+        this(new DefaultBotOptions(), botToken, true);
+    }
+    public TelegramLongPollingCommandBot(DefaultBotOptions options, String botToken) {
+        this(options, botToken, true);
+    }
+
+    public TelegramLongPollingCommandBot(DefaultBotOptions options, String botToken, boolean allowCommandsWithUsername) {
+        super(options, botToken);
         this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, this::getBotUsername);
     }
 
