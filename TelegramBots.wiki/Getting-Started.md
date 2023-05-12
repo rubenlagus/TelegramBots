@@ -44,11 +44,9 @@ Now that you have the library, you can start coding. There are few steps to foll
             return null;
         }
 
-        @Override
-        public String getBotToken() {
-            // TODO
-            return null;
-        }
+	     public MyAmazingBot() { 
+		      // TODO
+	     }
     }
 
     ```
@@ -65,14 +63,13 @@ Now that you have the library, you can start coding. There are few steps to foll
 
         ```
 
-    * `getBotToken()`: This method must always return your **Bot Token** (If you don't know it, you may want to talk with [@BotFather](https://telegram.me/BotFather)). May look like:
+    * `public MyAmazingBot()`: Create connstructor of your class and call super constructor by passing your **Bot Token** (If you don't know it, you may want to talk with [@BotFather](https://telegram.me/BotFather)). May look like:
 
         ```java
-
-            @Override
-            public String getBotToken() {
-                return "123456789:qwertyuioplkjhgfdsazxcvbnm";
-            }
+        
+            public MyAmazingBot() { 
+		      super("123456789:qwertyuioplkjhgfdsazxcvbnm");
+	       }
 
         ```
 
