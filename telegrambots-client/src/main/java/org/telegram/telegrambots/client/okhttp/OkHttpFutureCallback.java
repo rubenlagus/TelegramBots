@@ -4,7 +4,6 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import org.jetbrains.annotations.NotNull;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -21,12 +20,12 @@ class OkHttpFutureCallback<T extends Serializable, Method extends PartialBotApiM
     }
 
     @Override
-    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+    public void onFailure(Call call, IOException e) {
         completeExceptionally(e);
     }
 
     @Override
-    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+    public void onResponse(Call call, Response response) throws IOException {
         ResponseBody body = response.body();
         if (body == null) {
             completeExceptionally(new TelegramApiException("Telegram api returned empty response"));

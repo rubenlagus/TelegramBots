@@ -6,7 +6,6 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import org.jetbrains.annotations.NotNull;
 import org.telegram.telegrambots.client.AbstractTelegramClient;
 import org.telegram.telegrambots.client.TelegramMultipartBuilder;
 import org.telegram.telegrambots.client.ThrowingConsumer;
@@ -41,41 +40,36 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 public class OkHttpTelegramClient extends AbstractTelegramClient {
-    @NotNull
-    private final OkHttpClient client;
-    @NotNull
+    final OkHttpClient client;
     private final String botToken;
-    @NotNull
     private final String baseUrl;
-    @NotNull
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public OkHttpTelegramClient(@NotNull OkHttpClient client, @NotNull String botToken, @NotNull String baseUrl) {
+    public OkHttpTelegramClient(OkHttpClient client, String botToken, String baseUrl) {
         this.client = Objects.requireNonNull(client);
         this.botToken = Objects.requireNonNull(botToken);
         this.baseUrl = Objects.requireNonNull(baseUrl);
     }
 
-    public OkHttpTelegramClient(@NotNull OkHttpClient client, @NotNull String botToken) {
+    public OkHttpTelegramClient(OkHttpClient client, String botToken) {
         this(client, botToken, "https://api.telegram.org");
     }
 
-    public OkHttpTelegramClient(@NotNull String botToken, @NotNull String baseUrl) {
+    public OkHttpTelegramClient(String botToken, String baseUrl) {
         this(new OkHttpClient.Builder().build(), botToken, baseUrl);
     }
 
-    public OkHttpTelegramClient(@NotNull String botToken) {
+    public OkHttpTelegramClient(String botToken) {
         this(new OkHttpClient.Builder().build(), botToken);
     }
 
     @Override
-    public <T extends Serializable, Method extends BotApiMethod<T>> CompletableFuture<T> executeAsync(@NotNull Method method) throws TelegramApiException {
-        //Intellij is a bit too optimistic with @NotNull here
+    public <T extends Serializable, Method extends BotApiMethod<T>> CompletableFuture<T> executeAsync(Method method) throws TelegramApiException {
+        //Intellij is a bit too optimistic with here
         //noinspection ConstantConditions
         if (method == null) {
             throw new TelegramApiException("Parameter method can not be null");
@@ -85,14 +79,13 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
         try {
             String url = buildUrl(method.getMethod());
             String body = objectMapper.writeValueAsString(method);
-            Map<String, String> headers = Map.ofEntries(
-                    Map.entry("charset", StandardCharsets.UTF_8.name()),
-                    Map.entry("content-type", "application/json")
-            );
+            Headers headers = new Headers.Builder()
+                    .add("charset", StandardCharsets.UTF_8.name())
+                    .add("content-type", "application/json").build();
 
             Request request = new Request.Builder()
                     .url(url)
-                    .headers(Headers.of(headers))
+                    .headers(headers)
                     .post(RequestBody.create(body, MediaType.parse("application/json")))
                     .build();
 
@@ -378,9 +371,8 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
         }
     }
 
-    @NotNull
     private <T extends Serializable, Method extends PartialBotApiMethod<T>> OkHttpFutureCallback<T, Method> sendRequest(
-            @NotNull Method method, @NotNull Request request
+            Method method, Request request
     ) {
         OkHttpFutureCallback<T, Method> callback = new OkHttpFutureCallback<>(method);
         client.newCall(request).enqueue(callback);
@@ -401,7 +393,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
      * </ul>
      *
      * @param method the method so execute
-     * @param setup a lambda to add additional fields to the multipart request
+     * @param setup  a lambda to add additional fields to the multipart request
      */
     private <T extends Serializable, Method extends SendMediaBotMethod<T>> CompletableFuture<T> executeMediaMethod(
             Method method,
@@ -438,8 +430,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
         }
     }
 
-    @NotNull
-    private String buildUrl(@NotNull String methodName) {
+    private String buildUrl(String methodName) {
         return baseUrl + "/bot" + botToken + "/" + methodName;
     }
 

@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
 
@@ -30,7 +28,7 @@ public class TelegramMultipartBuilder {
      * @param value the nullable value to add
      * @return the builder
      */
-    public TelegramMultipartBuilder addPart(@NotNull String fieldName, @Nullable String value) {
+    public TelegramMultipartBuilder addPart(String fieldName, String value) {
         if (value != null) {
             internalBuilder.addFormDataPart(fieldName, value);
         }
@@ -43,7 +41,7 @@ public class TelegramMultipartBuilder {
      * @param value the nullable value to add
      * @return the builder
      */
-    public TelegramMultipartBuilder addPart(@NotNull String fieldName, @Nullable Object value) {
+    public TelegramMultipartBuilder addPart(String fieldName, Object value) {
         if (value != null) {
             this.addPart(fieldName, value.toString());
         }
@@ -56,15 +54,14 @@ public class TelegramMultipartBuilder {
      * @param value the nullable value to add
      * @return the builder
      */
-    public TelegramMultipartBuilder addJsonPart(@NotNull String fieldName, @Nullable Object value) throws JsonProcessingException {
+    public TelegramMultipartBuilder addJsonPart(String fieldName, Object value) throws JsonProcessingException {
         if (value != null) {
             internalBuilder.addFormDataPart(fieldName, mapper.writeValueAsString(value));
         }
         return this;
     }
 
-    public TelegramMultipartBuilder addInputFile(@NotNull InputFile file, @NotNull String fileField, boolean addField) throws IOException {
-        //noinspection ConstantValue
+    public TelegramMultipartBuilder addInputFile(InputFile file, String fileField, boolean addField) throws IOException {
         if (file == null) return this;
 
         if (file.isNew()) {
@@ -87,8 +84,7 @@ public class TelegramMultipartBuilder {
         return this;
     }
 
-    public TelegramMultipartBuilder addMedia(@NotNull InputMedia media) throws IOException {
-        //noinspection ConstantValue
+    public TelegramMultipartBuilder addMedia(InputMedia media) throws IOException {
         if (media == null) return this;
 
         if (media.isNewMedia()) {
