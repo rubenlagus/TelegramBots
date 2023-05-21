@@ -91,7 +91,7 @@ public class User implements BotApiObject {
      * Optional. True, if this user is a Telegram Premium user
      */
     @JsonProperty(ISPREMIUM_FIELD)
-    private Boolean isPremium;
+    private Boolean isPremium = false;
     /**
      * Optional. True, if this user added the bot to the attachment menu
      */
