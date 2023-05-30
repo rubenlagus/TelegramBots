@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -25,7 +26,7 @@ public class VideoNote implements BotApiObject {
     private static final String FILEUNIQUEID_FIELD = "file_unique_id";
     private static final String LENGTH_FIELD = "length";
     private static final String DURATION_FIELD = "duration";
-    private static final String THUMB_FIELD = "thumb";
+    private static final String THUMBNAIL_FIELD = "thumbnail";
     private static final String FILESIZE_FIELD = "file_size";
 
     /**
@@ -53,12 +54,30 @@ public class VideoNote implements BotApiObject {
      * Optional.
      * Video thumbnail
      */
-    @JsonProperty(THUMB_FIELD)
-    private PhotoSize thumb;
+    @JsonProperty(THUMBNAIL_FIELD)
+    private PhotoSize thumbnail;
     /**
      * Optional.
      * File size
      */
     @JsonProperty(FILESIZE_FIELD)
     private Integer fileSize;
+
+    /**
+     * @deprecated Use {{@link #getThumbnail()}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public PhotoSize getThumb() {
+        return thumbnail;
+    }
+
+    /**
+     * @deprecated Use {{@link #setThumbnail(PhotoSize)}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public void setThumb(PhotoSize thumb) {
+        this.thumbnail = thumb;
+    }
 }

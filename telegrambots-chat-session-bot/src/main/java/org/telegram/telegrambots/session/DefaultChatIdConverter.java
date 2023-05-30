@@ -20,7 +20,7 @@ public class DefaultChatIdConverter implements ChatIdConverter {
     @Override
     public void setSessionId(Serializable sessionId){
         this.sessionId = (long) sessionId;
-    };
+    }
 
     @Override
     public Serializable getSessionId() {

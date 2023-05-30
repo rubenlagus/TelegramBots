@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.stickers;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -31,7 +32,7 @@ public class StickerSet implements BotApiObject {
     private static final String STICKERS_FIELD = "stickers";
     private static final String ISANIMATED_FIELD = "is_animated";
     private static final String ISVIDEO_FIELD = "is_video";
-    private static final String THUMB_FIELD = "thumb";
+    public static final String THUMBNAIL_FIELD = "thumbnail";
 
     /**
      * Type of stickers in the set, currently one of “regular”, “mask”, “custom_emoji”
@@ -75,8 +76,8 @@ public class StickerSet implements BotApiObject {
      * Optional.
      * Sticker set thumbnail in the .WEBP, .TGS, or .WEBM format
      */
-    @JsonProperty(THUMB_FIELD)
-    private PhotoSize thumb;
+    @JsonProperty(THUMBNAIL_FIELD)
+    private PhotoSize thumbnail;
 
     public boolean isRegularSticker() {
         return "regular".equals(stickerType);
@@ -87,5 +88,15 @@ public class StickerSet implements BotApiObject {
 
     public boolean isCustomEmoji() {
         return "custom_emoji".equals(stickerType);
+    }
+
+
+    /**
+     * @deprecated Use {{@link #getThumbnail()}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public PhotoSize getThumb() {
+        return thumbnail;
     }
 }

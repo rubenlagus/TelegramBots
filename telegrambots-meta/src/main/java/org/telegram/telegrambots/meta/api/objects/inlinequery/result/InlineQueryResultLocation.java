@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.result;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -12,6 +13,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -31,7 +33,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 public class InlineQueryResultLocation implements InlineQueryResult {
@@ -43,9 +45,9 @@ public class InlineQueryResultLocation implements InlineQueryResult {
     private static final String LONGITUDE_FIELD = "longitude";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
-    private static final String THUMBURL_FIELD = "thumb_url";
-    private static final String THUMBWIDTH_FIELD = "thumb_width";
-    private static final String THUMBHEIGHT_FIELD = "thumb_height";
+    private static final String THUMBNAIL_URL_FIELD = "thumbnail_url";
+    private static final String THUMBNAIL_WIDTH_FIELD = "thumbnail_width";
+    private static final String THUMBNAUK_HEIGHT_FIELD = "thumbnail_height";
     private static final String LIVEPERIOD_FIELD = "live_period";
     private static final String HORIZONTALACCURACY_FIELD = "horizontal_accuracy";
     private static final String HEADING_FIELD = "heading";
@@ -69,12 +71,12 @@ public class InlineQueryResultLocation implements InlineQueryResult {
     private InlineKeyboardMarkup replyMarkup; ///< Optional. Inline keyboard attached to the message
     @JsonProperty(INPUTMESSAGECONTENT_FIELD)
     private InputMessageContent inputMessageContent; ///< Optional. Content of the message to be sent
-    @JsonProperty(THUMBURL_FIELD)
-    private String thumbUrl; ///< Optional. URL of the thumbnail (jpeg only) for the file
-    @JsonProperty(THUMBWIDTH_FIELD)
-    private Integer thumbWidth; ///< Optional. Thumbnail width
-    @JsonProperty(THUMBHEIGHT_FIELD)
-    private Integer thumbHeight; ///< Optional. Thumbnail height
+    @JsonProperty(THUMBNAIL_URL_FIELD)
+    private String thumbnailUrl; ///< Optional. URL of the thumbnail (jpeg only) for the file
+    @JsonProperty(THUMBNAIL_WIDTH_FIELD)
+    private Integer thumbnailWidth; ///< Optional. Thumbnail width
+    @JsonProperty(THUMBNAUK_HEIGHT_FIELD)
+    private Integer thumbnailHeight; ///< Optional. Thumbnail height
     @JsonProperty(LIVEPERIOD_FIELD)
     private Integer livePeriod; ///< Optional. Period in seconds for which the location can be updated, should be between 60 and 86400.
     /**
@@ -100,17 +102,11 @@ public class InlineQueryResultLocation implements InlineQueryResult {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (id == null || id.isEmpty()) {
+        if (id.isEmpty()) {
             throw new TelegramApiValidationException("ID parameter can't be empty", this);
         }
-        if (title == null || title.isEmpty()) {
+        if (title.isEmpty()) {
             throw new TelegramApiValidationException("Title parameter can't be empty", this);
-        }
-        if (latitude == null) {
-            throw new TelegramApiValidationException("Latitude parameter can't be empty", this);
-        }
-        if (longitude == null) {
-            throw new TelegramApiValidationException("Longitude parameter can't be empty", this);
         }
         if (livePeriod != null && (livePeriod < 60 || livePeriod > 86400)) {
             throw new TelegramApiValidationException("Live period parameter must be between 60 and 86400", this);
@@ -129,6 +125,84 @@ public class InlineQueryResultLocation implements InlineQueryResult {
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+    }
+
+    /**
+     * @deprecated Use {{@link #getThumbnailUrl()}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public String getThumbUrl() {
+        return thumbnailUrl;
+    }
+
+    /**
+     * @deprecated Use {{@link #setThumbnailUrl(String)}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public void setThumbUrl(String thumbUrl) {
+        this.thumbnailUrl = thumbUrl;
+    }
+
+    /**
+     * @deprecated Use {{@link #getThumbnailWidth()}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public Integer getThumbWidth() {
+        return thumbnailWidth;
+    }
+
+    /**
+     * @deprecated Use {{@link #setThumbnailWidth(Integer)}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public void setThumbWidth(Integer thumbWidth) {
+        this.thumbnailWidth = thumbWidth;
+    }
+
+    /**
+     * @deprecated Use {{@link #getThumbnailHeight()}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public Integer getThumbHeight() {
+        return thumbnailHeight;
+    }
+
+    /**
+     * @deprecated Use {{@link #setThumbnailHeight(Integer)}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public void setThumbHeight(Integer thumbHeight) {
+        this.thumbnailHeight = thumbHeight;
+    }
+
+    public static class InlineQueryResultLocationBuilder {
+
+        @Tolerate
+        @Deprecated
+        public InlineQueryResultLocationBuilder thumbUrl(String thumbUrl) {
+            this.thumbnailUrl = thumbUrl;
+            return this;
+        }
+
+        @Tolerate
+        @Deprecated
+        public InlineQueryResultLocationBuilder thumbHeight(Integer thumbHeight) {
+            this.thumbnailHeight = thumbHeight;
+            return this;
+        }
+
+        @Tolerate
+        @Deprecated
+        public InlineQueryResultLocationBuilder thumbWidth(Integer thumbWidth) {
+            this.thumbnailWidth = thumbWidth;
+            return this;
         }
     }
 }

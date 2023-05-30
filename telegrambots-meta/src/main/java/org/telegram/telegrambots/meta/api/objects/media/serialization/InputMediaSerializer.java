@@ -42,8 +42,8 @@ public class InputMediaSerializer extends JsonSerializer<InputMedia> {
 
         if (value instanceof InputMediaAudio) {
             InputMediaAudio audio = (InputMediaAudio) value;
-            if (audio.getThumb() != null) {
-                gen.writeStringField(InputMediaAudio.THUMB_FIELD, audio.getThumb().getAttachName());
+            if (audio.getThumbnail() != null) {
+                gen.writeStringField(InputMediaAudio.THUMBNAIL_FIELD, audio.getThumbnail().getAttachName());
             }
             if (audio.getDuration() != null) {
                 gen.writeNumberField(InputMediaAudio.DURATION_FIELD, audio.getDuration());
@@ -56,8 +56,8 @@ public class InputMediaSerializer extends JsonSerializer<InputMedia> {
             }
         } else if (value instanceof InputMediaAnimation) {
             InputMediaAnimation animation = (InputMediaAnimation) value;
-            if (animation.getThumb() != null) {
-                gen.writeStringField(InputMediaAnimation.THUMB_FIELD, animation.getThumb().getAttachName());
+            if (animation.getThumbnail() != null) {
+                gen.writeStringField(InputMediaAnimation.THUMBNAIL_FIELD, animation.getThumbnail().getAttachName());
             }
             if (animation.getDuration() != null) {
                 gen.writeNumberField(InputMediaAnimation.DURATION_FIELD, animation.getDuration());
@@ -73,8 +73,8 @@ public class InputMediaSerializer extends JsonSerializer<InputMedia> {
             }
         } else if (value instanceof InputMediaDocument) {
             InputMediaDocument document = (InputMediaDocument) value;
-            if (document.getThumb() != null) {
-                gen.writeStringField(InputMediaDocument.THUMB_FIELD, document.getThumb().getAttachName());
+            if (document.getThumbnail() != null) {
+                gen.writeStringField(InputMediaDocument.THUMBNAIL_FIELD, document.getThumbnail().getAttachName());
             }
         } else if (value instanceof InputMediaPhoto) {
             InputMediaPhoto photo = (InputMediaPhoto) value;
@@ -83,8 +83,8 @@ public class InputMediaSerializer extends JsonSerializer<InputMedia> {
             }
         } else if (value instanceof InputMediaVideo) {
             InputMediaVideo video = (InputMediaVideo) value;
-            if (video.getThumb() != null) {
-                gen.writeStringField(InputMediaVideo.THUMB_FIELD, video.getThumb().getAttachName());
+            if (video.getThumbnail() != null) {
+                gen.writeStringField(InputMediaVideo.THUMBNAIL_FIELD, video.getThumbnail().getAttachName());
             }
             if (video.getDuration() != null) {
                 gen.writeNumberField(InputMediaVideo.DURATION_FIELD, video.getDuration());

@@ -26,7 +26,9 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      * Creates a TelegramLongPollingCommandBot using default options
      * Use ICommandRegistry's methods on this bot to register commands
      *
+     * @deprecated Use {{@link #TelegramLongPollingBot(String)}
      */
+    @Deprecated
     public TelegramLongPollingCommandBot() {
         this(new DefaultBotOptions());
     }
@@ -37,7 +39,10 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      * Use ICommandRegistry's methods on this bot to register commands
      *
      * @param options     Bot options
+     *
+     * @deprecated Use {{@link #TelegramLongPollingBot(DefaultBotOptions, String)}
      */
+    @Deprecated
     public TelegramLongPollingCommandBot(DefaultBotOptions options) {
         this(options, true);
     }
@@ -49,9 +54,45 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      * @param options                   Bot options
      * @param allowCommandsWithUsername true to allow commands with parameters (default),
      *                                  false otherwise
+     *
+     * @deprecated Use {{@link #TelegramLongPollingBot(DefaultBotOptions, boolean, String)}
      */
+    @Deprecated
     public TelegramLongPollingCommandBot(DefaultBotOptions options, boolean allowCommandsWithUsername) {
         super(options);
+        this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, this::getBotUsername);
+    }
+
+    /**
+     * Creates a TelegramLongPollingCommandBot using default options
+     * Use ICommandRegistry's methods on this bot to register commands
+     *
+     */
+    public TelegramLongPollingCommandBot(String botToken) {
+        this(new DefaultBotOptions(), botToken);
+    }
+
+    /**
+     * Creates a TelegramLongPollingCommandBot with custom options and allowing commands with
+     * usernames
+     * Use ICommandRegistry's methods on this bot to register commands
+     *
+     * @param options     Bot options
+     */
+    public TelegramLongPollingCommandBot(DefaultBotOptions options, String botToken) {
+        this(options, true, botToken);
+    }
+
+    /**
+     * Creates a TelegramLongPollingCommandBot
+     * Use ICommandRegistry's methods on this bot to register commands
+     *
+     * @param options                   Bot options
+     * @param allowCommandsWithUsername true to allow commands with parameters (default),
+     *                                  false otherwise
+     */
+    public TelegramLongPollingCommandBot(DefaultBotOptions options, boolean allowCommandsWithUsername, String botToken) {
+        super(options, botToken);
         this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, this::getBotUsername);
     }
 

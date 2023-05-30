@@ -16,6 +16,7 @@
  */
 package org.telegram.telegrambots.meta.api.objects.games;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -38,7 +39,7 @@ import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 public class Animation implements BotApiObject {
     private static final String FILEID_FIELD = "file_id";
@@ -46,7 +47,7 @@ public class Animation implements BotApiObject {
     private static final String WIDTH_FIELD = "width";
     private static final String HEIGHT_FIELD = "height";
     private static final String DURATION_FIELD = "duration";
-    private static final String THUMB_FIELD = "thumb";
+    private static final String THUMBNAIL_FIELD = "thumbnail";
     private static final String FILENAME_FIELD = "file_name";
     private static final String MIMETYPE_FIELD = "mime_type";
     private static final String FILESIZE_FIELD = "file_size";
@@ -86,8 +87,8 @@ public class Animation implements BotApiObject {
      * Optional.
      * Animation thumbnail as defined by sender
      */
-    @JsonProperty(THUMB_FIELD)
-    private PhotoSize thumb;
+    @JsonProperty(THUMBNAIL_FIELD)
+    private PhotoSize thumbnail;
     /**
      * Optional.
      * Original animation filename as defined by sender
@@ -108,4 +109,22 @@ public class Animation implements BotApiObject {
      */
     @JsonProperty(FILESIZE_FIELD)
     private Long fileSize;
+
+    /**
+     * @deprecated Use {{@link #getThumbnail()}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public PhotoSize getThumb() {
+        return thumbnail;
+    }
+
+    /**
+     * @deprecated Use {{@link #setThumbnail(PhotoSize)}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public void setThumb(PhotoSize thumb) {
+        this.thumbnail = thumb;
+    }
 }

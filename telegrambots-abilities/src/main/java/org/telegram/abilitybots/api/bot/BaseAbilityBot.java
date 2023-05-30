@@ -107,7 +107,7 @@ import static org.telegram.abilitybots.api.util.AbilityUtils.isUserMessage;
  *
  * @author Abbas Abou Daya
  */
-@SuppressWarnings({"ConfusingArgumentToVarargsMethod", "UnusedReturnValue", "WeakerAccess", "unused", "ConstantConditions"})
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess", "unused", "ConstantConditions"})
 public abstract class BaseAbilityBot extends DefaultAbsSender implements AbilityExtension {
     private static final Logger log = LoggerFactory.getLogger(BaseAbilityBot.class);
 
