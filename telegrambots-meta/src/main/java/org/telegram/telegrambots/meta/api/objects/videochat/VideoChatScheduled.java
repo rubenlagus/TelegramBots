@@ -13,15 +13,15 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 public class VideoChatScheduled implements BotApiObject {
-    private static final String STARTDATE_FIELD = "start_date";
+    private static final String START_DATE_FIELD = "start_date";
 
     /**
      * Point in time (Unix timestamp) when the voice chat is supposed to be started by a chat administrator
      */
-    @JsonProperty(STARTDATE_FIELD)
+    @JsonProperty(START_DATE_FIELD)
     @NonNull
     private Integer startDate;
 }

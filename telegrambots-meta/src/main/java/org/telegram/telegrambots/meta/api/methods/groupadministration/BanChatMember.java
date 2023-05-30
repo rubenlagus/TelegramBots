@@ -34,7 +34,7 @@ import java.time.ZonedDateTime;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder

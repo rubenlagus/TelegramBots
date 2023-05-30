@@ -29,7 +29,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 public class EditMessageLiveLocation extends BotApiMethodSerializable {

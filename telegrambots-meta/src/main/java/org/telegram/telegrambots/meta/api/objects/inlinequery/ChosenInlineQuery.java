@@ -25,7 +25,7 @@ import org.telegram.telegrambots.meta.api.objects.User;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 public class ChosenInlineQuery implements BotApiObject {

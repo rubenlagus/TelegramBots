@@ -31,7 +31,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 public class SendPhoto extends SendMediaBotMethod<Message> {

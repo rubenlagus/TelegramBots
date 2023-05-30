@@ -25,9 +25,10 @@ public class ChatMemberUpdated implements BotApiObject {
     private static final String CHAT_FIELD = "chat";
     private static final String FROM_FIELD = "from";
     private static final String DATE_FIELD = "date";
-    private static final String OLDCHATMEMBER_FIELD = "old_chat_member";
-    private static final String NEWCHATMEMBER_FIELD = "new_chat_member";
-    private static final String INVITELINK_FIELD = "invite_link";
+    private static final String OLD_CHAT_MEMBER_FIELD = "old_chat_member";
+    private static final String NEW_CHAT_MEMBER_FIELD = "new_chat_member";
+    private static final String INVITE_LINK_FIELD = "invite_link";
+    private static final String VIA_CHAT_FOLDER_INVITE_LINK_FIELD = "via_chat_folder_invite_link";
 
     /**
      * Chat the user belongs to
@@ -47,18 +48,25 @@ public class ChatMemberUpdated implements BotApiObject {
     /**
      * Previous information about the chat member
      */
-    @JsonProperty(OLDCHATMEMBER_FIELD)
+    @JsonProperty(OLD_CHAT_MEMBER_FIELD)
     private ChatMember oldChatMember;
     /**
      * New information about the chat member
      */
-    @JsonProperty(NEWCHATMEMBER_FIELD)
+    @JsonProperty(NEW_CHAT_MEMBER_FIELD)
     private ChatMember newChatMember;
     /**
      * Optional.
      * Chat invite link, which was used by the user to join the chat; for joining by invite link events only.
      */
-    @JsonProperty(INVITELINK_FIELD)
+    @JsonProperty(INVITE_LINK_FIELD)
     private ChatInviteLink inviteLink;
+
+    /**
+     * Optional.
+     * True, if the user joined the chat via a chat folder invite link
+     */
+    @JsonProperty(VIA_CHAT_FOLDER_INVITE_LINK_FIELD)
+    private Boolean viaChatFolderInviteLink;
 
 }

@@ -38,7 +38,7 @@ import java.io.Serializable;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 public class EditMessageMedia extends PartialBotApiMethod<Serializable> {

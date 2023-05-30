@@ -23,8 +23,6 @@ import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.ResponseParameters;
 
-import java.io.IOException;
-
 
 /**
  * @author Ruben Bermudez

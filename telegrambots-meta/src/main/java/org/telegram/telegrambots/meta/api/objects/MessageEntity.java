@@ -25,7 +25,7 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 public class MessageEntity implements BotApiObject {

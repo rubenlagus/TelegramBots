@@ -27,7 +27,7 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBool
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder

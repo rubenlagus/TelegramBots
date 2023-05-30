@@ -30,7 +30,7 @@ import java.util.ArrayList;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 public class GetChatAdministrators extends BotApiMethod<ArrayList<ChatMember>> {

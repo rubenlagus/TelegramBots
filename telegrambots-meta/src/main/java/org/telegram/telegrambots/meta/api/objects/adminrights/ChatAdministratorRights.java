@@ -14,7 +14,7 @@ import org.telegram.telegrambots.meta.api.interfaces.Validable;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 public class ChatAdministratorRights implements BotApiObject, Validable {
