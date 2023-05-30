@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.result;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -26,7 +28,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 public class InlineQueryResultArticle implements InlineQueryResult {
@@ -39,9 +41,9 @@ public class InlineQueryResultArticle implements InlineQueryResult {
     private static final String URL_FIELD = "url";
     private static final String HIDEURL_FIELD = "hide_url";
     private static final String DESCRIPTION_FIELD = "description";
-    private static final String THUMBURL_FIELD = "thumb_url";
-    private static final String THUMBWIDTH_FIELD = "thumb_width";
-    private static final String THUMBHEIGHT_FIELD = "thumb_height";
+    private static final String THUMBNAIL_URL_FIELD = "thumbnail_url";
+    private static final String THUMBNAIL_WIDTH_FIELD = "thumbnail_width";
+    private static final String THUMBNAUK_HEIGHT_FIELD = "thumbnail_height";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "article"; ///< Type of the result, must be “article”
@@ -62,27 +64,104 @@ public class InlineQueryResultArticle implements InlineQueryResult {
     private Boolean hideUrl; ///< Optional. Pass True, if you don't want the URL to be shown in the message
     @JsonProperty(DESCRIPTION_FIELD)
     private String description; ///< Optional. Short description of the result
-    @JsonProperty(THUMBURL_FIELD)
-    private String thumbUrl; ///< Optional. Url of the thumbnail for the result
-    @JsonProperty(THUMBWIDTH_FIELD)
-    private Integer thumbWidth; ///< Optional. Thumbnail width
-    @JsonProperty(THUMBHEIGHT_FIELD)
-    private Integer thumbHeight; ///< Optional. Thumbnail height
+    @JsonProperty(THUMBNAIL_URL_FIELD)
+    private String thumbnailUrl; ///< Optional. Url of the thumbnail for the result
+    @JsonProperty(THUMBNAIL_WIDTH_FIELD)
+    private Integer thumbnailWidth; ///< Optional. Thumbnail width
+    @JsonProperty(THUMBNAUK_HEIGHT_FIELD)
+    private Integer thumbnailHeight; ///< Optional. Thumbnail height
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (id == null || id.isEmpty()) {
+        if (id.isEmpty()) {
             throw new TelegramApiValidationException("ID parameter can't be empty", this);
         }
-        if (title == null || title.isEmpty()) {
+        if (title.isEmpty()) {
             throw new TelegramApiValidationException("Title parameter can't be empty", this);
         }
-        if (inputMessageContent == null) {
-            throw new TelegramApiValidationException("InputMessageContent parameter can't be null", this);
-        }
+
         inputMessageContent.validate();
+
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+    }
+
+    /**
+     * @deprecated Use {{@link #getThumbnailUrl()}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public String getThumbUrl() {
+        return thumbnailUrl;
+    }
+
+    /**
+     * @deprecated Use {{@link #setThumbnailUrl(String)}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public void setThumbUrl(String thumbUrl) {
+        this.thumbnailUrl = thumbUrl;
+    }
+
+    /**
+     * @deprecated Use {{@link #getThumbnailWidth()}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public Integer getThumbWidth() {
+        return thumbnailWidth;
+    }
+
+    /**
+     * @deprecated Use {{@link #setThumbnailWidth(Integer)}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public void setThumbWidth(Integer thumbWidth) {
+        this.thumbnailWidth = thumbWidth;
+    }
+
+    /**
+     * @deprecated Use {{@link #getThumbnailHeight()}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public Integer getThumbHeight() {
+        return thumbnailHeight;
+    }
+
+    /**
+     * @deprecated Use {{@link #setThumbnailHeight(Integer)}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public void setThumbHeight(Integer thumbHeight) {
+        this.thumbnailHeight = thumbHeight;
+    }
+
+    public static class InlineQueryResultArticleBuilder {
+
+        @Tolerate
+        @Deprecated
+        public InlineQueryResultArticleBuilder thumbUrl(String thumbUrl) {
+            this.thumbnailUrl = thumbUrl;
+            return this;
+        }
+
+        @Tolerate
+        @Deprecated
+        public InlineQueryResultArticleBuilder thumbHeight(Integer thumbHeight) {
+            this.thumbnailHeight = thumbHeight;
+            return this;
+        }
+
+        @Tolerate
+        @Deprecated
+        public InlineQueryResultArticleBuilder thumbWidth(Integer thumbWidth) {
+            this.thumbnailWidth = thumbWidth;
+            return this;
         }
     }
 }

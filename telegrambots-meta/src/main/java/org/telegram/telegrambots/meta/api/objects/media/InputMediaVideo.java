@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.media;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
@@ -8,6 +9,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -35,7 +37,7 @@ public class InputMediaVideo extends InputMedia {
     public static final String HEIGHT_FIELD = "height";
     public static final String DURATION_FIELD = "duration";
     public static final String SUPPORTSSTREAMING_FIELD = "supports_streaming";
-    public static final String THUMB_FIELD = "thumb";
+    public static final String THUMBNAIL_FIELD = "thumbnail";
     public static final String HASSPOILER_FIELD = "has_spoiler";
 
     @JsonProperty(WIDTH_FIELD)
@@ -53,8 +55,8 @@ public class InputMediaVideo extends InputMedia {
      * Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>”
      * if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
      */
-    @JsonProperty(THUMB_FIELD)
-    private InputFile thumb;
+    @JsonProperty(THUMBNAIL_FIELD)
+    private InputFile thumbnail;
     /**
      * Optional.
      * Pass True if the video must be covered with a spoiler animation
@@ -72,14 +74,14 @@ public class InputMediaVideo extends InputMedia {
     @Builder
     public InputMediaVideo(@NonNull String media, String caption, String parseMode, List<MessageEntity> entities,
                            boolean isNewMedia, String mediaName, File newMediaFile, InputStream newMediaStream,
-                           Integer width, Integer height, Integer duration, Boolean supportsStreaming, InputFile thumb,
+                           Integer width, Integer height, Integer duration, Boolean supportsStreaming, InputFile thumbnail,
                            Boolean hasSpoiler) {
         super(media, caption, parseMode, entities, isNewMedia, mediaName, newMediaFile, newMediaStream);
         this.width = width;
         this.height = height;
         this.duration = duration;
         this.supportsStreaming = supportsStreaming;
-        this.thumb = thumb;
+        this.thumbnail = thumbnail;
         this.hasSpoiler = hasSpoiler;
     }
 
@@ -91,5 +93,33 @@ public class InputMediaVideo extends InputMedia {
     @Override
     public void validate() throws TelegramApiValidationException {
         super.validate();
+    }
+
+    /**
+     * @deprecated Use {{@link #getThumbnail()}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public InputFile getThumb() {
+        return thumbnail;
+    }
+
+    /**
+     * @deprecated Use {{@link #setThumbnail(InputFile)}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public void setThumb(InputFile thumb) {
+        this.thumbnail = thumb;
+    }
+
+    public static class InputMediaVideoBuilder {
+
+        @Tolerate
+        @Deprecated
+        public InputMediaVideo.InputMediaVideoBuilder thumb(InputFile thumb) {
+            this.thumbnail = thumb;
+            return this;
+        }
     }
 }

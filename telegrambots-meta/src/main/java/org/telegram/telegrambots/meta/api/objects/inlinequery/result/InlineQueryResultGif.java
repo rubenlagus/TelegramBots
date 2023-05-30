@@ -1,7 +1,7 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.result;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,13 +13,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -35,19 +34,17 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 public class InlineQueryResultGif implements InlineQueryResult {
-    private static final List<String> VALIDTHUMBTYPES = Collections.unmodifiableList(Arrays.asList("image/jpeg", "image/gif", "video/mp4"));
-
     private static final String TYPE_FIELD = "type";
     private static final String ID_FIELD = "id";
     private static final String GIFURL_FIELD = "gif_url";
     private static final String GIFWIDTH_FIELD = "gif_width";
     private static final String GIFHEIGHT_FIELD = "gif_height";
-    private static final String THUMBURL_FIELD = "thumb_url";
-    private static final String THUMBMIMETYPE_FIELD = "thumb_mime_type";
+    private static final String THUMBNAIL_URL_FIELD = "thumbnail_url";
+    private static final String THUMBNAIL_MIMETYPE_FIELD = "thumbnail_mime_type";
     private static final String TITLE_FIELD = "title";
     private static final String CAPTION_FIELD = "caption";
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
@@ -68,10 +65,10 @@ public class InlineQueryResultGif implements InlineQueryResult {
     private Integer gifWidth; ///< Optional. Width of the GIF
     @JsonProperty(GIFHEIGHT_FIELD)
     private Integer gifHeight; ///< Optional. Height of the GIF
-    @JsonProperty(THUMBURL_FIELD)
-    private String thumbUrl; ///< Optional. URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result
-    @JsonProperty(THUMBMIMETYPE_FIELD)
-    private String thumbUrlType; ///< Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”
+    @JsonProperty(THUMBNAIL_URL_FIELD)
+    private String thumbnailUrl; ///< Optional. URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result
+    @JsonProperty(THUMBNAIL_MIMETYPE_FIELD)
+    private String thumbnailMimeType; ///< Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”
     @JsonProperty(TITLE_FIELD)
     private String title; ///< Optional. Title for the result
     @JsonProperty(CAPTION_FIELD)
@@ -90,13 +87,13 @@ public class InlineQueryResultGif implements InlineQueryResult {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (id == null || id.isEmpty()) {
+        if (id.isEmpty()) {
             throw new TelegramApiValidationException("ID parameter can't be empty", this);
         }
-        if (gifUrl == null || gifUrl.isEmpty()) {
+        if (gifUrl.isEmpty()) {
             throw new TelegramApiValidationException("GifUrl parameter can't be empty", this);
         }
-        if (thumbUrlType != null && !VALIDTHUMBTYPES.contains(thumbUrlType)) {
+        if (thumbnailMimeType != null && !VALIDTHUMBTYPES.contains(thumbnailMimeType)) {
             throw new TelegramApiValidationException("ThumbUrlType parameter must be one of “image/jpeg”, “image/gif”, or “video/mp4”", this);
         }
         if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
@@ -108,5 +105,61 @@ public class InlineQueryResultGif implements InlineQueryResult {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
+    }
+
+    /**
+     * @deprecated Use {{@link #getThumbnailUrl()}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public String getThumbUrl() {
+        return thumbnailUrl;
+    }
+
+    /**
+     * @deprecated Use {{@link #setThumbnailUrl(String)}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public void setThumbUrl(String thumbUrl) {
+        this.thumbnailUrl = thumbUrl;
+    }
+
+    /**
+     * @deprecated Use {{@link #getThumbnailUrl()}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public String getThumbUrlType() {
+        return thumbnailMimeType;
+    }
+
+    /**
+     * @deprecated Use {{@link #setThumbnailUrl(String)}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public void setThumbUrlType(String thumbUrlType) {
+        this.thumbnailMimeType = thumbUrlType;
+    }
+
+
+
+    public static class InlineQueryResultGifBuilder {
+
+        @Tolerate
+        @Deprecated
+        public InlineQueryResultGifBuilder thumbUrl(String thumbUrl) {
+            this.thumbnailUrl = thumbUrl;
+            return this;
+        }
+
+        @Tolerate
+        @Deprecated
+        public InlineQueryResultGifBuilder thumbUrlType(String thumbUrlType) {
+            this.thumbnailMimeType = thumbUrlType;
+            return this;
+        }
+
     }
 }

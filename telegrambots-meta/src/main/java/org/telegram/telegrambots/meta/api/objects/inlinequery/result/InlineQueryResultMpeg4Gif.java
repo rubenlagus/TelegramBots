@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.result;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -33,7 +35,7 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
@@ -43,7 +45,8 @@ public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
     private static final String MPEG4URL_FIELD = "mpeg4_url";
     private static final String MPEG4WIDTH_FIELD = "mpeg4_width";
     private static final String MPEG4HEIGHT_FIELD = "mpeg4_height";
-    private static final String THUMBURL_FIELD = "thumb_url";
+    private static final String THUMBNAIL_URL_FIELD = "thumbnail_url";
+    private static final String THUMBNAIL_MIMETYPE_FIELD = "thumbnail_mime_type";
     private static final String TITLE_FIELD = "title";
     private static final String CAPTION_FIELD = "caption";
     private static final String INPUTMESSAGECONTENT_FIELD = "input_message_content";
@@ -64,8 +67,10 @@ public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
     private Integer mpeg4Width; ///< Optional. Video width
     @JsonProperty(MPEG4HEIGHT_FIELD)
     private Integer mpeg4Height; ///< Optional. Video height
-    @JsonProperty(THUMBURL_FIELD)
-    private String thumbUrl; ///< Optional. URL of the static thumbnail (jpeg or gif) for the result
+    @JsonProperty(THUMBNAIL_URL_FIELD)
+    private String thumbnailUrl; ///< Optional. URL of the static thumbnail (jpeg or gif) for the result
+    @JsonProperty(THUMBNAIL_MIMETYPE_FIELD)
+    private String thumbnailMimeType; ///< Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”
     @JsonProperty(TITLE_FIELD)
     private String title; ///< Optional. Title for the result
     @JsonProperty(CAPTION_FIELD)
@@ -84,20 +89,51 @@ public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (id == null || id.isEmpty()) {
+        if (id.isEmpty()) {
             throw new TelegramApiValidationException("ID parameter can't be empty", this);
         }
-        if (mpeg4Url == null || mpeg4Url.isEmpty()) {
+        if (mpeg4Url.isEmpty()) {
             throw new TelegramApiValidationException("Mpeg4Url parameter can't be empty", this);
         }
         if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
             throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
+        }
+        if (thumbnailMimeType != null && !VALIDTHUMBTYPES.contains(thumbnailMimeType)) {
+            throw new TelegramApiValidationException("ThumbUrlType parameter must be one of “image/jpeg”, “image/gif”, or “video/mp4”", this);
         }
         if (inputMessageContent != null) {
             inputMessageContent.validate();
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+    }
+
+    /**
+     * @deprecated Use {{@link #getThumbnailUrl()}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public String getThumbUrl() {
+        return thumbnailUrl;
+    }
+
+    /**
+     * @deprecated Use {{@link #setThumbnailUrl(String)}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public void setThumbUrl(String thumbUrl) {
+        this.thumbnailUrl = thumbUrl;
+    }
+
+    public static class InlineQueryResultMpeg4GifBuilder {
+
+        @Tolerate
+        @Deprecated
+        public InlineQueryResultMpeg4GifBuilder thumbUrl(String thumbUrl) {
+            this.thumbnailUrl = thumbUrl;
+            return this;
         }
     }
 }

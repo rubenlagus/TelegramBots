@@ -2,12 +2,16 @@ package org.telegram.telegrambots.meta.test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.Data;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendLocation;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputLocationMessageContent;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultArticle;
+
+import java.time.OffsetTime;
+import java.time.ZoneOffset;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -17,9 +21,33 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * @version 1.0
  */
 public class TestSerialization {
-    private ObjectMapper mapper;
+    private ObjectMapper mapper = new ObjectMapper();
 
-    @BeforeEach
+    static {
+        System.setProperty("user.timezone", "EST");
+    }
+
+    @Data
+    public static class MyClass {
+        public OffsetTime time;
+    }
+
+    @Test
+    public void test() throws JsonProcessingException {
+        String time = "{\"time\":\"14:30Z\"}";
+
+        mapper.registerModule(new JavaTimeModule());
+
+        OffsetTime now = OffsetTime.now().withHour(9).withMinute(0).withNano(0).withSecond(0);
+        OffsetTime myTime = mapper.readValue(time, MyClass.class).time;
+
+        System.err.println("Time: " + myTime.withOffsetSameInstant(ZoneOffset.UTC));
+        System.err.println("Now: " + now.withOffsetSameInstant(ZoneOffset.UTC));
+        // ahora antes que valor
+        System.err.println(now.isBefore(myTime));
+    }
+
+    //@BeforeEach
     void setUp() {
         mapper = new ObjectMapper();
     }

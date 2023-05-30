@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -33,7 +34,7 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 public class SendAnimation extends SendMediaBotMethod<Message> {
@@ -50,7 +51,7 @@ public class SendAnimation extends SendMediaBotMethod<Message> {
     public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     public static final String REPLYMARKUP_FIELD = "reply_markup";
-    public static final String THUMB_FIELD = "thumb";
+    public static final String THUMBNAIL_FIELD = "thumbnail";
     public static final String CAPTION_ENTITIES_FIELD = "caption_entities";
     public static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
     public static final String PROTECTCONTENT_FIELD = "protect_content";
@@ -87,7 +88,7 @@ public class SendAnimation extends SendMediaBotMethod<Message> {
      * Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>”
      * if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
      */
-    private InputFile thumb;
+    private InputFile thumbnail;
     @Singular
     private List<MessageEntity> captionEntities; ///< Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
@@ -131,8 +132,8 @@ public class SendAnimation extends SendMediaBotMethod<Message> {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-        if (thumb != null) {
-            thumb.validate();
+        if (thumbnail != null) {
+            thumbnail.validate();
         }
     }
 
@@ -151,11 +152,36 @@ public class SendAnimation extends SendMediaBotMethod<Message> {
         return ANIMATION_FIELD;
     }
 
+    /**
+     * @deprecated Use {{@link #getThumbnail()}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public InputFile getThumb() {
+        return thumbnail;
+    }
+
+    /**
+     * @deprecated Use {{@link #setThumbnail(InputFile)}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public void setThumb(InputFile thumb) {
+        this.thumbnail = thumb;
+    }
+
     public static class SendAnimationBuilder {
 
         @Tolerate
         public SendAnimationBuilder chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
+            return this;
+        }
+
+        @Tolerate
+        @Deprecated
+        public SendAnimationBuilder thumb(InputFile thumb) {
+            this.thumbnail = thumb;
             return this;
         }
     }

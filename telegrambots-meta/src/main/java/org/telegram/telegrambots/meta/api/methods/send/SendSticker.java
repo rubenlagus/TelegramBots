@@ -27,7 +27,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 public class SendSticker extends SendMediaBotMethod<Message> {
@@ -41,6 +41,7 @@ public class SendSticker extends SendMediaBotMethod<Message> {
     public static final String REPLYMARKUP_FIELD = "reply_markup";
     public static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
     public static final String PROTECTCONTENT_FIELD = "protect_content";
+    public static final String EMOJI_FIELD = "emoji";
 
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
@@ -49,6 +50,14 @@ public class SendSticker extends SendMediaBotMethod<Message> {
      * for forum supergroups only
      */
     private Integer messageThreadId;
+    /**
+     * Sticker to send.
+     * Pass a file_id as String to send a file that exists on the Telegram servers (recommended),
+     * pass an HTTP URL as a String for Telegram to get a .WEBP sticker from the Internet,
+     * or upload a new .WEBP or .TGS sticker using multipart/form-data.
+     * Video stickers can only be sent by a file_id.
+     * Animated stickers can't be sent via an HTTP URL.
+     */
     @NonNull
     private InputFile sticker; ///< Sticker file to send. file_id as String to resend a sticker that is already on the Telegram servers or URL to upload it
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
@@ -56,6 +65,12 @@ public class SendSticker extends SendMediaBotMethod<Message> {
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
+
+    /**
+     * Optional
+     * Emoji associated with the sticker; only for uploaded stickers
+     */
+    private String emoji;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

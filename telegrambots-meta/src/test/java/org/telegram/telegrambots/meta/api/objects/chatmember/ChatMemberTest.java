@@ -168,7 +168,7 @@ public class ChatMemberTest {
                 "        \"can_pin_messages\": true,\n" +
                 "        \"is_member\": true,\n" +
                 "        \"can_send_messages\": true,\n" +
-                "        \"can_send_media_messages\": true,\n" +
+                "        \"can_send_audios\": true,\n" +
                 "        \"can_send_polls\": true,\n" +
                 "        \"can_send_other_messages\": true,\n" +
                 "        \"can_add_web_page_previews\": true,\n" +
@@ -183,7 +183,7 @@ public class ChatMemberTest {
         assertEquals(true, chatMemberRestricted.getCanInviteUsers());
         assertEquals(true, chatMemberRestricted.getCanPinMessages());
         assertEquals(true, chatMemberRestricted.getCanSendMessages());
-        assertEquals(true, chatMemberRestricted.getCanSendMediaMessages());
+        assertEquals(true, chatMemberRestricted.getCanSendAudios());
         assertEquals(true, chatMemberRestricted.getCanSendPolls());
         assertEquals(true, chatMemberRestricted.getCanSendOtherMessages());
         assertEquals(true, chatMemberRestricted.getCanAddWebpagePreviews());

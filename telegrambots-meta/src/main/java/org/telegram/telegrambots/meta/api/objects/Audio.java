@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -29,7 +30,7 @@ public class Audio implements BotApiObject {
     private static final String FILESIZE_FIELD = "file_size";
     private static final String TITLE_FIELD = "title";
     private static final String PERFORMER_FIELD = "performer";
-    private static final String THUMB_FIELD = "thumb";
+    private static final String THUMBNAIL_FIELD = "thumbnail";
     private static final String FILENAME_FIELD = "file_name";
 
     /**
@@ -78,12 +79,30 @@ public class Audio implements BotApiObject {
      * Optional.
      * Thumbnail of the album cover to which the music file belongs
      */
-    @JsonProperty(THUMB_FIELD)
-    private PhotoSize thumb;
+    @JsonProperty(THUMBNAIL_FIELD)
+    private PhotoSize thumbnail;
     /**
      * Optional.
      * Original filename as defined by sender
      */
     @JsonProperty(FILENAME_FIELD)
     private String fileName;
+
+    /**
+     * @deprecated Use {{@link #getThumbnail()}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public PhotoSize getThumb() {
+        return thumbnail;
+    }
+
+    /**
+     * @deprecated Use {{@link #setThumbnail(PhotoSize)}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public void setThumb(PhotoSize thumb) {
+        this.thumbnail = thumb;
+    }
 }

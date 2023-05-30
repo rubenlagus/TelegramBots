@@ -5,6 +5,10 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.serialization.InlineQueryResultDeserializer;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
@@ -14,4 +18,6 @@ import org.telegram.telegrambots.meta.api.objects.inlinequery.result.serializati
  */
 @JsonDeserialize(using = InlineQueryResultDeserializer.class)
 public interface InlineQueryResult extends Validable, BotApiObject {
+    List<String> VALIDTHUMBTYPES = Collections.unmodifiableList(Arrays.asList("image/jpeg", "image/gif", "video/mp4"));
+
 }

@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.stickers;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -8,11 +9,14 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+
+import java.util.Arrays;
 
 /**
  * @author Ruben Bermudez
@@ -24,23 +28,29 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 public class UploadStickerFile extends PartialBotApiMethod<File> {
     public static final String PATH = "uploadStickerFile";
 
     public static final String USERID_FIELD = "user_id";
-    public static final String PNGSTICKER_FIELD = "png_sticker";
+    public static final String STICKER_FORMAT_FIELD = "sticker_format";
+    public static final String STICKER_FIELD = "sticker";
 
     @NonNull
     private Long userId; ///< User identifier of sticker file owner
     /**
-     * Png image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px,
-     * and either width or height must be exactly 512px. More info on Sending Files »
+     * Format of the sticker, must be one of “static”, “animated”, “video”
      */
     @NonNull
-    private InputFile pngSticker; ///< New sticker file
+    private String stickerFormat;
+    /**
+     * 	A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format.
+     * 	See <a href="https://core.telegram.org/stickers"/a> for technical requirements.
+     */
+    @NonNull
+    private InputFile sticker; ///< New sticker file
 
     @Override
     public String getMethod() {
@@ -52,12 +62,43 @@ public class UploadStickerFile extends PartialBotApiMethod<File> {
         return deserializeResponse(answer, File.class);
     }
 
+    /**
+     * @deprecated Use {{@link #getSticker()}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public InputFile getPngSticker() {
+        return sticker;
+    }
+
+    /**
+     * @deprecated Use {{@link #setSticker(InputFile)}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public void setPngSticker(InputFile pngSticker) {
+        this.sticker = pngSticker;
+    }
+
     @Override
     public void validate() throws TelegramApiValidationException {
         if (userId <= 0) {
             throw new TelegramApiValidationException("userId can't be empty", this);
         }
+        if (stickerFormat.isEmpty() || !Arrays.asList("static", "animated", "video").contains(stickerFormat)) {
+            throw new TelegramApiValidationException("Sticker Format must be one of 'static', 'animated', 'video'", this);
+        }
 
-        pngSticker.validate();
+        sticker.validate();
+    }
+
+    public static class UploadStickerFileBuilder {
+
+        @Tolerate
+        @Deprecated
+        public UploadStickerFileBuilder pngSticker(InputFile pngSticker) {
+            this.sticker = pngSticker;
+            return this;
+        }
     }
 }

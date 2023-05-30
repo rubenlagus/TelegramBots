@@ -15,7 +15,7 @@ public abstract class TelegramLongPollingBot extends DefaultAbsSender implements
      * If this is used getBotToken has to be overridden in order to return the bot token!
      * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
      */
-    @Deprecated()
+    @Deprecated
     public TelegramLongPollingBot() {
         this(new DefaultBotOptions());
     }
@@ -24,7 +24,7 @@ public abstract class TelegramLongPollingBot extends DefaultAbsSender implements
      * If this is used getBotToken has to be overridden in order to return the bot token!
      * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
      */
-    @Deprecated()
+    @Deprecated
     public TelegramLongPollingBot(DefaultBotOptions options) {
         super(options);
     }

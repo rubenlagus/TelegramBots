@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.result;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -33,7 +35,7 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 public class InlineQueryResultVideo implements InlineQueryResult {
@@ -44,7 +46,7 @@ public class InlineQueryResultVideo implements InlineQueryResult {
     private static final String VIDEOWIDTH_FIELD = "video_width";
     private static final String VIDEOHEIGHT_FIELD = "video_height";
     private static final String VIDEODURATION_FIELD = "video_duration";
-    private static final String THUMBURL_FIELD = "thumb_url";
+    private static final String THUMBNAILURL_FIELD = "thumbnail_url";
     private static final String TITLE_FIELD = "title";
     private static final String DESCRIPTION_FIELD = "description";
     private static final String CAPTION_FIELD = "caption";
@@ -70,8 +72,8 @@ public class InlineQueryResultVideo implements InlineQueryResult {
     private Integer videoHeight; ///< Optional. Video height
     @JsonProperty(VIDEODURATION_FIELD)
     private Integer videoDuration; ///< Optional. Video duration in seconds
-    @JsonProperty(THUMBURL_FIELD)
-    private String thumbUrl; ///< Optional. URL of the thumbnail (jpeg only) for the video
+    @JsonProperty(THUMBNAILURL_FIELD)
+    private String thumbnailUrl; ///< Optional. URL of the thumbnail (jpeg only) for the video
     @JsonProperty(TITLE_FIELD)
     private String title; ///< Optional. Title for the result
     @JsonProperty(DESCRIPTION_FIELD)
@@ -90,20 +92,52 @@ public class InlineQueryResultVideo implements InlineQueryResult {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (id == null || id.isEmpty()) {
+        if (id.isEmpty()) {
             throw new TelegramApiValidationException("ID parameter can't be empty", this);
         }
-        if (videoUrl == null || videoUrl.isEmpty()) {
+        if (videoUrl.isEmpty()) {
             throw new TelegramApiValidationException("VideoUrl parameter can't be empty", this);
         }
         if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
             throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
+        }
+        if (thumbnailUrl != null && !"image/jpeg".equalsIgnoreCase(thumbnailUrl)) {
+            throw new TelegramApiValidationException("Thumbnail Url must be JPEG", this);
         }
         if (inputMessageContent != null) {
             inputMessageContent.validate();
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+    }
+
+
+    /**
+     * @deprecated Use {{@link #getThumbnailUrl()}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public String getThumbUrl() {
+        return thumbnailUrl;
+    }
+
+    /**
+     * @deprecated Use {{@link #setThumbnailUrl(String)}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public void setThumbUrl(String thumbUrl) {
+        this.thumbnailUrl = thumbUrl;
+    }
+
+    public static class InlineQueryResultVideoBuilder {
+
+        @Tolerate
+        @Deprecated
+        public InlineQueryResultVideoBuilder thumbUrl(String thumbUrl) {
+            this.thumbnailUrl = thumbUrl;
+            return this;
         }
     }
 }

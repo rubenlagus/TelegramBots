@@ -30,9 +30,9 @@ public interface MessageSender {
 
   Boolean addStickerToSet(AddStickerToSet addStickerToSet) throws TelegramApiException;
 
-  public Boolean createNewStickerSet(CreateNewStickerSet createNewStickerSet) throws TelegramApiException;
+  Boolean createNewStickerSet(CreateNewStickerSet createNewStickerSet) throws TelegramApiException;
 
-  public File uploadStickerFile(UploadStickerFile uploadStickerFile) throws TelegramApiException;
+  File uploadStickerFile(UploadStickerFile uploadStickerFile) throws TelegramApiException;
 
   Boolean setChatPhoto(SetChatPhoto setChatPhoto) throws TelegramApiException;
 
