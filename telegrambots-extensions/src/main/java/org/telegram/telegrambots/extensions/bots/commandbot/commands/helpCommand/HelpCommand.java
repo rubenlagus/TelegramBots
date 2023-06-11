@@ -42,7 +42,7 @@ public class HelpCommand extends ManCommand {
 	 * @return a formatted String containing command and description for all supplied commands
 	 */
 	public static String getHelpText(Collection<IBotCommand> botCommands) {
-		return getHelpText(botCommands.toArray(new IBotCommand[botCommands.size()]));
+		return getHelpText(botCommands.toArray(new IBotCommand[0]));
 	}
 
 	/**

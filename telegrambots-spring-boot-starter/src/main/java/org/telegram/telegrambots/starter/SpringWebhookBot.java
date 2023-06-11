@@ -47,7 +47,7 @@ public abstract class SpringWebhookBot extends TelegramWebhookBot {
         return setWebhook;
     }
 
-    public class TestSpringWebhookBot extends SpringWebhookBot {
+    public static class TestSpringWebhookBot extends SpringWebhookBot {
 
         public TestSpringWebhookBot(SetWebhook setWebhook) {
             super(setWebhook, null);

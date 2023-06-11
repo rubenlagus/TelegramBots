@@ -26,7 +26,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -40,6 +40,7 @@ public class KeyboardButtonRequestChat implements Validable, BotApiObject {
     private static final String USERADMINISTRATORRIGHTS_FIELD = "user_administrator_rights";
     private static final String BOTADMINISTRATORRIGHTS_FIELD = "bot_administrator_rights";
     private static final String BOTISMEMBER_FIELD = "bot_is_member";
+    private static final String SWITCH_INLINE_QUERY_CHOSEN_CHAT_FIELD = "switch_inline_query_chosen_chat";
 
     /**
      * Signed 32-bit identifier of the request
@@ -96,6 +97,13 @@ public class KeyboardButtonRequestChat implements Validable, BotApiObject {
      */
     @JsonProperty(BOTISMEMBER_FIELD)
     private Boolean botIsMember;
+    /**
+     * Optional.
+     * If set, pressing the button will prompt the user to select one of their chats of the specified type,
+     * open that chat and insert the bot's username and the specified inline query in the input field
+     */
+    @JsonProperty(SWITCH_INLINE_QUERY_CHOSEN_CHAT_FIELD)
+    private SwitchInlineQueryChosenChat switchInlineQueryChosenChat;
 
 
     @Override
@@ -108,6 +116,9 @@ public class KeyboardButtonRequestChat implements Validable, BotApiObject {
         }
         if (botAdministratorRights != null) {
             botAdministratorRights.validate();
+        }
+        if (switchInlineQueryChosenChat != null) {
+            switchInlineQueryChosenChat.validate();
         }
     }
 }

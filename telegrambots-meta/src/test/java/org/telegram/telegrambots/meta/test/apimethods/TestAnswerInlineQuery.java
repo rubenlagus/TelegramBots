@@ -18,7 +18,7 @@ class TestAnswerInlineQuery {
 
     @BeforeEach
     void setUp() {
-        answerInlineQuery = new AnswerInlineQuery();
+        answerInlineQuery = new AnswerInlineQuery("", new ArrayList<>());
     }
 
     @Test

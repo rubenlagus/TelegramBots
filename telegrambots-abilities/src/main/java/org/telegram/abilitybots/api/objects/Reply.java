@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -18,7 +17,7 @@ import static com.google.common.collect.Lists.newArrayList;
 /**
  * A reply consists of update conditionals and an action to be applied on the update.
  * <p>
- * If an update satisfies the {@link Reply#conditions} set by the reply, then it's safe to {@link Reply#actOn(Update)}.
+ * If an update satisfies the {@link Reply#conditions} set by the reply, then it's safe to {@link Reply#actOn(BaseAbilityBot, Update)}.
  *
  * @author Abbas Abou Daya
  */

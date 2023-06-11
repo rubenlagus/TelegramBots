@@ -1,11 +1,12 @@
 package org.telegram.telegrambots.meta.api.methods.adminrights;
 
 import org.junit.jupiter.api.Test;
-import org.telegram.telegrambots.meta.api.methods.groupadministration.PromoteChatMember;
 import org.telegram.telegrambots.meta.api.objects.adminrights.ChatAdministratorRights;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
 /**

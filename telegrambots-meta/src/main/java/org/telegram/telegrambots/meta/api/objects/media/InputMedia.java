@@ -36,7 +36,7 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 public abstract class InputMedia implements Validable, BotApiObject {
     public static final String TYPE_FIELD = "type";

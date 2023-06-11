@@ -27,7 +27,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 public class PassportElementErrorTranslationFiles implements PassportElementError {

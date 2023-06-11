@@ -14,7 +14,10 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.only;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class SilentSenderTest {
   private SilentSender silent;
@@ -55,7 +58,7 @@ class SilentSenderTest {
     verify(sender, only()).executeAsync(methodObject, callback);
   }
 
-  private class NoOpCallback implements SentCallback<Message> {
+  private static class NoOpCallback implements SentCallback<Message> {
 
     @Override
     public void onResult(BotApiMethod<Message> method, Message response) {

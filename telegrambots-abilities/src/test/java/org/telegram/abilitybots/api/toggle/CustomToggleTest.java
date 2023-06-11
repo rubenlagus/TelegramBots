@@ -7,12 +7,14 @@ import org.telegram.abilitybots.api.bot.DefaultAbilities;
 import org.telegram.abilitybots.api.bot.DefaultBot;
 import org.telegram.abilitybots.api.db.DBContext;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.telegram.abilitybots.api.db.MapDBContext.offlineInstance;
 
 class CustomToggleTest {
@@ -55,7 +57,7 @@ class CustomToggleTest {
   public void canTurnOffAbilitiesThroughProperties() {
     Properties properties = new Properties();
     try {
-      properties.load(new FileInputStream(filename));
+      properties.load(Files.newInputStream(Paths.get(filename)));
       toggle = new CustomToggle().config(properties);
     } catch (IOException e) {
       System.out.println("No such file");
@@ -71,7 +73,7 @@ class CustomToggleTest {
   public void canProcessAbilitiesThroughProperties() {
     Properties properties = new Properties();
     try {
-      properties.load(new FileInputStream(filename));
+      properties.load(Files.newInputStream(Paths.get(filename)));
       toggle = new CustomToggle().config(properties);
     } catch (IOException e) {
       System.out.println("No such file");

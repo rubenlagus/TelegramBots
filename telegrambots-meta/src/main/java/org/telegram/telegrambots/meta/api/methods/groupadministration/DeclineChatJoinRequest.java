@@ -24,7 +24,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @Builder
 public class DeclineChatJoinRequest extends BotApiMethodBoolean {
