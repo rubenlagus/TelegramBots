@@ -1,3 +1,10 @@
+### <a id="6.7.0"></a>To version 6.7.0 ###
+1. Api methods with thumbnails have changed the field, use getThumbnail()/setThumbnail() instead of getThumb()/setThumb() 
+2. In `AddStickerToSet`/`CreateNewStickerSet`/`UploadStickerFile`/etc, use field `sticker` instead of the deprecated fields.
+3. `ChatMember` has more details permissions, use those instead of the legacy general ones.
+4. All classes with mandatory fields will lose the default no-arg constructor in the future.
+5. In `AnswerInlineQuery`, start using the `button` field instead of deprecated parameters.
+
 ### <a id="6.1.0"></a>To version 6.1.0 ###
 1. As per API guidelines, FileSize can now have 64 bits size, hence they are now using Long datatype instead of Integer.
 2. Methods accept chatId as Long or String.
