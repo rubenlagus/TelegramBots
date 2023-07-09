@@ -123,7 +123,11 @@ public abstract class DefaultAbsSender extends AbsSender {
     }
 
     public String getBaseUrl() {
-        return options.getBaseUrl() + getBotToken() + "/";
+        String baseUrl = options.getBaseUrl() + getBotToken() + "/";
+        if (options.isTestEnvironment()) {
+            baseUrl += "test/";
+        }
+        return baseUrl;
     }
 
     // Send Requests
