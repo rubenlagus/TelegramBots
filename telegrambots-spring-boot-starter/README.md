@@ -38,6 +38,7 @@ How to use
 Your main spring boot class should look like this:
 
 ```java
+@Import({TelegramBotStarterConfiguration.class})
 @SpringBootApplication
 public class YourApplicationMainClass {
 
