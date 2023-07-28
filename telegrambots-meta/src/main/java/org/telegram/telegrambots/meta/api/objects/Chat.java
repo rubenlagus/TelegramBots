@@ -85,20 +85,20 @@ public class Chat implements BotApiObject {
     @JsonProperty(TITLE_FIELD)
     private String title;
     /**
-     * Optional
-     * Username of the chat, only for private chats and channels if available
+     * Optional.
+     * Interlocutor's first name for private chats
      */
     @JsonProperty(FIRSTNAME_FIELD)
     private String firstName;
     /**
      * Optional.
-     * Interlocutor's first name for private chats
+     * Interlocutor's last name for private chats
      */
     @JsonProperty(LASTNAME_FIELD)
     private String lastName;
     /**
-     * Optional.
-     * Interlocutor's last name for private chats
+     * Optional
+     * Username of the chat, only for private chats and channels if available
      */
     @JsonProperty(USERNAME_FIELD)
     private String userName;
