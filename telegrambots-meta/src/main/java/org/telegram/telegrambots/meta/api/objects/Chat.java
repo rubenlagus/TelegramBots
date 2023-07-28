@@ -192,7 +192,7 @@ public class Chat implements BotApiObject {
      * Returned only in getChat.
      */
     @JsonProperty(HASPROTECTEDCONTENT_FIELD)
-    private Boolean HasProtectedContent;
+    private Boolean hasProtectedContent;
     /**
      * Optional.
      * True, if users need to join the supergroup before they can send messages.
