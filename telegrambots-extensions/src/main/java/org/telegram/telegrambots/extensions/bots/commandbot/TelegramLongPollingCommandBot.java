@@ -1,15 +1,20 @@
 package org.telegram.telegrambots.extensions.bots.commandbot;
 
 
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.CommandRegistry;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.ICommandRegistry;
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.activity.CommandState;
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.activity.UserActivity;
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.activity.UserActivityHandler;
+import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.bots.AbsSender;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -20,13 +25,15 @@ import java.util.function.BiConsumer;
  * @author Timo Schulz (Mit0x2)
  */
 public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingBot implements CommandBot, ICommandRegistry {
+
+    private final UserActivityHandler userActivityHandler;
     private final CommandRegistry commandRegistry;
 
     /**
      * Creates a TelegramLongPollingCommandBot using default options
      * Use ICommandRegistry's methods on this bot to register commands
      *
-     * @deprecated Use {{@link #TelegramLongPollingBot(String)}
+     * @deprecated Use {@link #TelegramLongPollingCommandBot(String)}
      */
     @Deprecated
     public TelegramLongPollingCommandBot() {
@@ -40,7 +47,7 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      *
      * @param options     Bot options
      *
-     * @deprecated Use {{@link #TelegramLongPollingBot(DefaultBotOptions, String)}
+     * @deprecated Use {@link #TelegramLongPollingCommandBot(DefaultBotOptions, String)}
      */
     @Deprecated
     public TelegramLongPollingCommandBot(DefaultBotOptions options) {
@@ -55,11 +62,12 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      * @param allowCommandsWithUsername true to allow commands with parameters (default),
      *                                  false otherwise
      *
-     * @deprecated Use {{@link #TelegramLongPollingBot(DefaultBotOptions, boolean, String)}
+     * @deprecated Use {@link #TelegramLongPollingCommandBot(DefaultBotOptions, boolean, String)}
      */
     @Deprecated
     public TelegramLongPollingCommandBot(DefaultBotOptions options, boolean allowCommandsWithUsername) {
         super(options);
+        this.userActivityHandler = null;
         this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, this::getBotUsername);
     }
 
@@ -67,42 +75,105 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      * Creates a TelegramLongPollingCommandBot using default options
      * Use ICommandRegistry's methods on this bot to register commands
      *
+     * @param botToken Bot token
      */
     public TelegramLongPollingCommandBot(String botToken) {
         this(new DefaultBotOptions(), botToken);
     }
 
     /**
-     * Creates a TelegramLongPollingCommandBot with custom options and allowing commands with
-     * usernames
+     * Creates a TelegramLongPollingCommandBot with custom options
+     * and allowing commands with usernames
      * Use ICommandRegistry's methods on this bot to register commands
      *
      * @param options     Bot options
+     * @param botToken    Bot token
      */
     public TelegramLongPollingCommandBot(DefaultBotOptions options, String botToken) {
         this(options, true, botToken);
     }
 
     /**
-     * Creates a TelegramLongPollingCommandBot
+     * Creates a TelegramLongPollingCommandBot with custom options,
+     * allowing commands with usernames and without user activity handler
      * Use ICommandRegistry's methods on this bot to register commands
      *
      * @param options                   Bot options
      * @param allowCommandsWithUsername true to allow commands with parameters (default),
      *                                  false otherwise
+     * @param botToken                  Bot token
      */
     public TelegramLongPollingCommandBot(DefaultBotOptions options, boolean allowCommandsWithUsername, String botToken) {
+        this(options, allowCommandsWithUsername, botToken, null);
+    }
+
+    /**
+     * Creates a TelegramLongPollingCommandBot with custom options,
+     * allowing commands with usernames and user activity handler
+     * Use ICommandRegistry's methods on this bot to register commands
+     *
+     * @param options                   Bot options
+     * @param allowCommandsWithUsername true to allow commands with parameters (default),
+     *                                  false otherwise
+     * @param botToken                  Bot token
+     * @param userActivityHandler       user activity handler implementation
+     *                                  for save command state between messages
+     */
+    public TelegramLongPollingCommandBot(DefaultBotOptions options,
+                                         boolean allowCommandsWithUsername,
+                                         String botToken,
+                                         UserActivityHandler userActivityHandler) {
         super(options, botToken);
+        this.userActivityHandler = userActivityHandler;
         this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, this::getBotUsername);
     }
 
     @Override
     public final void onUpdateReceived(Update update) {
-        if (update.hasMessage()) {
+        // Only one (Message/CallbackQuery) can be present in any given update
+        // https://core.telegram.org/bots/api#update
+        if (update.hasMessage() || update.hasCallbackQuery()) {
             Message message = update.getMessage();
-            if (message.isCommand() && !filter(message)) {
-                if (!commandRegistry.executeCommand(this, message)) {
-                    //we have received a not registered command, handle it as invalid
+            CallbackQuery callbackQuery = update.getCallbackQuery();
+            if (message != null && !filter(message)) {
+                if (message.isCommand()) {
+                    if (userActivityHandler == null) {
+                        if (!commandRegistry.executeCommand(this, message)) {
+                            //we have received a not registered command, handle it as invalid
+                            processInvalidCommandUpdate(update);
+                        }
+                    } else {
+                        long userId = message.getFrom().getId();
+                        UserActivity userActivity = new UserActivity();
+                        userActivityHandler.saveUserActivity(userId, userActivity);
+                        CommandState<?> resultState = commandRegistry.executeCommand(this, message, userActivity.getCommandState());
+                        if (!checkCommandState(resultState, userId, userActivity)) {
+                            processInvalidCommandUpdate(update);
+                        }
+                    }
+                    return;
+                } else if (userActivityHandler != null) {
+                    long userId = message.getFrom().getId();
+                    UserActivity userActivity = userActivityHandler.loadUserActivity(userId);
+                    if (userActivity != null && validateUserActivity(userActivity)) {
+                        CommandState<?> resultState = commandRegistry.executeCommand(this, message, userActivity.getCommandState());
+                        if (!checkCommandState(resultState, userId, userActivity)) {
+                            processInvalidCommandUpdate(update);
+                        }
+                    } else {
+                        processInvalidCommandUpdate(update);
+                    }
+                    return;
+                }
+            } else if (callbackQuery != null && callbackQuery.getMessage() != null && userActivityHandler != null) {
+                long userId = callbackQuery.getMessage().getFrom().getId();
+                UserActivity userActivity = userActivityHandler.loadUserActivity(userId);
+                if (userActivity != null && validateUserActivity(userActivity)) {
+                    CommandState<?> resultState = commandRegistry.executeCommand(this, callbackQuery, userActivity.getCommandState());
+                    if (!checkCommandState(resultState, userId, userActivity)) {
+                        processInvalidCommandUpdate(update);
+                    }
+                } else {
                     processInvalidCommandUpdate(update);
                 }
                 return;
@@ -151,4 +222,28 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      */
     @Override
     public abstract String getBotUsername();
+
+    private boolean checkCommandState(CommandState<?> commandState, long userId, UserActivity userActivity) {
+        if (commandState != null) {
+            if (commandState.getState() != null) {
+                userActivity.setCommandState(commandState);
+                userActivityHandler.saveUserActivity(userId, userActivity);
+            } else {
+                userActivityHandler.removeUserActivity(userId);
+            }
+            return true;
+        } else {
+            userActivityHandler.removeUserActivity(userId);
+            return false;
+        }
+    }
+
+    private boolean validateUserActivity(UserActivity userActivity) {
+        LocalDateTime now = LocalDateTime.now();
+        if (now.minusMinutes(20).isBefore(userActivity.getLastActivity())) {
+            userActivity.setLastActivity(now);
+            return true;
+        }
+        return false;
+    }
 }

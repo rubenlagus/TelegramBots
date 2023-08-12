@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.extensions.bots.commandbot.commands;
 
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.activity.CommandState;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
@@ -11,6 +12,7 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
  * @author Timo Schulz (Mit0x2)
  */
 public abstract class BotCommand implements IBotCommand {
+
     public final static String COMMAND_INIT_CHARACTER = "/";
     public static final String COMMAND_PARAMETER_SEPARATOR_REGEXP = "\\s+";
     private final static int COMMAND_MAX_LENGTH = 32;
@@ -25,6 +27,7 @@ public abstract class BotCommand implements IBotCommand {
      *                          enter into chat)
      * @param description       the description of this command
      */
+
     public BotCommand(String commandIdentifier, String description) {
 
         if (commandIdentifier == null || commandIdentifier.isEmpty()) {
@@ -48,6 +51,8 @@ public abstract class BotCommand implements IBotCommand {
      *
      * @return the identifier
      */
+
+    @Override
     public final String getCommandIdentifier() {
         return commandIdentifier;
     }
@@ -57,6 +62,8 @@ public abstract class BotCommand implements IBotCommand {
      *
      * @return the description as String
      */
+
+    @Override
     public final String getDescription() {
         return description;
     }
@@ -73,7 +80,12 @@ public abstract class BotCommand implements IBotCommand {
      * @param absSender absSender to send messages over
      * @param message   the message to process
      * @param arguments passed arguments
+     *
+     * @apiNote This default implementation may be removed
+     * in future releases.
      */
+
+    @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         execute(absSender, message.getFrom(), message.getChat(), arguments);
     }
@@ -85,6 +97,13 @@ public abstract class BotCommand implements IBotCommand {
      * @param user      the user who sent the command
      * @param chat      the chat, to be able to send replies
      * @param arguments passed arguments
+     *
+     * @deprecated access to the full {@link Message} object is lost,
+     * should override {@link #processMessage(AbsSender, Message, String[])}
+     * or {@link #processMessage(AbsSender, Message, String[], CommandState)}
      */
-    public abstract void execute(AbsSender absSender, User user, Chat chat, String[] arguments);
+
+    @Deprecated
+    public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
+    }
 }
