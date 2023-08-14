@@ -223,14 +223,14 @@ class TelegramWebhookCommandBotTest {
         when(update.hasCallbackQuery()).thenReturn(true);
         when(update.getCallbackQuery()).thenReturn(callbackQuery);
         when(callbackQuery.getMessage()).thenReturn(message);
-        when(message.getFrom()).thenReturn(new User(1L, "TEST", false));
+        when(callbackQuery.getFrom()).thenReturn(new User(1L, "TEST", false));
 
         bot.onWebhookUpdateReceived(update);
 
         verify(update).hasMessage();
         verify(update).hasCallbackQuery();
         verify(update).getCallbackQuery();
-        verify(message).getFrom();
+        verify(callbackQuery).getFrom();
         assertTrue(command.statefulExecute);
     }
 
@@ -244,14 +244,14 @@ class TelegramWebhookCommandBotTest {
         when(update.hasCallbackQuery()).thenReturn(true);
         when(update.getCallbackQuery()).thenReturn(callbackQuery);
         when(callbackQuery.getMessage()).thenReturn(message);
-        when(message.getFrom()).thenReturn(new User(1L, "TEST", false));
+        when(callbackQuery.getFrom()).thenReturn(new User(1L, "TEST", false));
 
         bot.onWebhookUpdateReceived(update);
 
         verify(update).hasMessage();
         verify(update).hasCallbackQuery();
         verify(update).getCallbackQuery();
-        verify(message).getFrom();
+        verify(callbackQuery).getFrom();
         assertFalse(command.statefulExecute);
     }
 
@@ -269,14 +269,14 @@ class TelegramWebhookCommandBotTest {
         when(update.hasCallbackQuery()).thenReturn(true);
         when(update.getCallbackQuery()).thenReturn(callbackQuery);
         when(callbackQuery.getMessage()).thenReturn(message);
-        when(message.getFrom()).thenReturn(new User(1L, "TEST", false));
+        when(callbackQuery.getFrom()).thenReturn(new User(1L, "TEST", false));
 
         bot.onWebhookUpdateReceived(update);
 
         verify(update).hasMessage();
         verify(update).hasCallbackQuery();
         verify(update).getCallbackQuery();
-        verify(message).getFrom();
+        verify(callbackQuery).getFrom();
         assertFalse(command.statefulExecute);
     }
 

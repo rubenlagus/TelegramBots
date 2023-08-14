@@ -204,6 +204,7 @@ class CommandRegistryTest {
     @Test
     void shouldContinueStatefulCommand() {
         final CommandState<?> expectedState = new CommandState<>("test", null);
+        when(callbackQuery.getId()).thenReturn("123123123");
         when(callbackQuery.getMessage()).thenReturn(message);
         when(callbackQuery.getData()).thenReturn("data1 data2");
 
@@ -212,7 +213,7 @@ class CommandRegistryTest {
         assertNotNull(result);
         assertEquals(expectedState, result);
         assertTrue(command.statefulExecute);
-        assertArrayEquals(new String[]{"data1", "data2"}, command.arguments);
+        assertArrayEquals(new String[]{"123123123", "data1", "data2"}, command.arguments);
         verify(callbackQuery).getMessage();
         verify(callbackQuery).getData();
     }
