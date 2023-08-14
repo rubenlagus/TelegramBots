@@ -1,4 +1,4 @@
-package org.telegram.telegrambots.extensions.bots.commandbot.commands.activity;
+package org.telegram.telegrambots.extensions.bots.commandbot.activity;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

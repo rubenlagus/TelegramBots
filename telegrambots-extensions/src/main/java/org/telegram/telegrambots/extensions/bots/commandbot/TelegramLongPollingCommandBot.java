@@ -3,12 +3,12 @@ package org.telegram.telegrambots.extensions.bots.commandbot;
 
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.extensions.bots.commandbot.activity.CommandState;
+import org.telegram.telegrambots.extensions.bots.commandbot.activity.UserActivity;
+import org.telegram.telegrambots.extensions.bots.commandbot.activity.UserActivityHandler;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.CommandRegistry;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.ICommandRegistry;
-import org.telegram.telegrambots.extensions.bots.commandbot.commands.activity.CommandState;
-import org.telegram.telegrambots.extensions.bots.commandbot.commands.activity.UserActivity;
-import org.telegram.telegrambots.extensions.bots.commandbot.commands.activity.UserActivityHandler;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;

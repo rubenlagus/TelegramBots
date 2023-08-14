@@ -1,4 +1,4 @@
-package org.telegram.telegrambots.extensions.bots.commandbot.commands.activity;
+package org.telegram.telegrambots.extensions.bots.commandbot.activity;
 
 import java.util.Objects;
 

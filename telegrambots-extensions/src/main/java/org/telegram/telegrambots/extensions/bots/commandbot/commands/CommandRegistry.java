@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.extensions.bots.commandbot.commands;
 
-import org.telegram.telegrambots.extensions.bots.commandbot.commands.activity.CommandState;
+import org.telegram.telegrambots.extensions.bots.commandbot.activity.CommandState;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
