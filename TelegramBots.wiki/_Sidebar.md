@@ -17,5 +17,7 @@
     * [[Bot Recovery]]
     * [[Advanced]]
     * [[Additional Examples]]
+* CommandBot
+    * [[Simple Example]] 
 * [[Changelog]]
     * [[How To Update]]
