@@ -80,9 +80,9 @@ public abstract class BotCommand implements IBotCommand {
      * @param absSender absSender to send messages over
      * @param message   the message to process
      * @param arguments passed arguments
-     *
      * @apiNote This default implementation may be removed
-     * in future releases.
+     * in future releases because of use
+     * {@link #execute(AbsSender, User, Chat, String[])}
      */
 
     @Override
@@ -97,8 +97,7 @@ public abstract class BotCommand implements IBotCommand {
      * @param user      the user who sent the command
      * @param chat      the chat, to be able to send replies
      * @param arguments passed arguments
-     *
-     * @deprecated access to the full {@link Message} object is lost,
+     * @deprecated because access to the full {@link Message} object is lost,
      * should override {@link #processMessage(AbsSender, Message, String[])}
      * or {@link #processMessage(AbsSender, Message, String[], CommandState)}
      */

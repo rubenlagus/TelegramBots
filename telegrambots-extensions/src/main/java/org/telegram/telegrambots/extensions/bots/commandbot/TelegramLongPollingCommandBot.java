@@ -29,6 +29,8 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
     private final UserActivityHandler userActivityHandler;
     private final CommandRegistry commandRegistry;
 
+    private int userInactivityMaxTime = 20;
+
     /**
      * Creates a TelegramLongPollingCommandBot using default options
      * Use ICommandRegistry's methods on this bot to register commands
@@ -45,8 +47,7 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      * usernames
      * Use ICommandRegistry's methods on this bot to register commands
      *
-     * @param options     Bot options
-     *
+     * @param options Bot options
      * @deprecated Use {@link #TelegramLongPollingCommandBot(DefaultBotOptions, String)}
      */
     @Deprecated
@@ -61,7 +62,6 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      * @param options                   Bot options
      * @param allowCommandsWithUsername true to allow commands with parameters (default),
      *                                  false otherwise
-     *
      * @deprecated Use {@link #TelegramLongPollingCommandBot(DefaultBotOptions, boolean, String)}
      */
     @Deprecated
@@ -86,8 +86,8 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
      * and allowing commands with usernames
      * Use ICommandRegistry's methods on this bot to register commands
      *
-     * @param options     Bot options
-     * @param botToken    Bot token
+     * @param options  Bot options
+     * @param botToken Bot token
      */
     public TelegramLongPollingCommandBot(DefaultBotOptions options, String botToken) {
         this(options, true, botToken);
@@ -138,44 +138,17 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
             if (message != null && !filter(message)) {
                 if (message.isCommand()) {
                     if (userActivityHandler == null) {
-                        if (!commandRegistry.executeCommand(this, message)) {
-                            //we have received a not registered command, handle it as invalid
-                            processInvalidCommandUpdate(update);
-                        }
+                        executeStatelessCommand(update, message);
                     } else {
-                        long userId = message.getFrom().getId();
-                        UserActivity userActivity = new UserActivity();
-                        userActivityHandler.saveUserActivity(userId, userActivity);
-                        CommandState<?> resultState = commandRegistry.executeCommand(this, message, userActivity.getCommandState());
-                        if (!checkCommandState(resultState, userId, userActivity)) {
-                            processInvalidCommandUpdate(update);
-                        }
+                        executeStatefulCommand(update, message);
                     }
                     return;
                 } else if (userActivityHandler != null) {
-                    long userId = message.getFrom().getId();
-                    UserActivity userActivity = userActivityHandler.loadUserActivity(userId);
-                    if (userActivity != null && validateUserActivity(userActivity)) {
-                        CommandState<?> resultState = commandRegistry.executeCommand(this, message, userActivity.getCommandState());
-                        if (!checkCommandState(resultState, userId, userActivity)) {
-                            processInvalidCommandUpdate(update);
-                        }
-                    } else {
-                        processInvalidCommandUpdate(update);
-                    }
+                    continueStatefulCommandWithMessage(update, message);
                     return;
                 }
             } else if (callbackQuery != null && callbackQuery.getMessage() != null && userActivityHandler != null) {
-                long userId = callbackQuery.getMessage().getFrom().getId();
-                UserActivity userActivity = userActivityHandler.loadUserActivity(userId);
-                if (userActivity != null && validateUserActivity(userActivity)) {
-                    CommandState<?> resultState = commandRegistry.executeCommand(this, callbackQuery, userActivity.getCommandState());
-                    if (!checkCommandState(resultState, userId, userActivity)) {
-                        processInvalidCommandUpdate(update);
-                    }
-                } else {
-                    processInvalidCommandUpdate(update);
-                }
+                continueStatefulCommandWithCallbackQuery(update, callbackQuery);
                 return;
             }
         }
@@ -217,11 +190,51 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
         return commandRegistry.getRegisteredCommand(commandIdentifier);
     }
 
-    /**
-     * @return Bot username
-     */
-    @Override
-    public abstract String getBotUsername();
+    public void setUserInactivityMaxTime(int userInactivityMaxTime) {
+        this.userInactivityMaxTime = userInactivityMaxTime;
+    }
+
+    private void executeStatelessCommand(Update update, Message message) {
+        if (!commandRegistry.executeCommand(this, message)) {
+            processInvalidCommandUpdate(update);
+        }
+    }
+
+    private void executeStatefulCommand(Update update, Message message) {
+        long userId = message.getFrom().getId();
+        UserActivity userActivity = new UserActivity();
+        userActivityHandler.saveUserActivity(userId, userActivity);
+        CommandState<?> resultState = commandRegistry.executeCommand(this, message, userActivity.getCommandState());
+        if (!checkCommandState(resultState, userId, userActivity)) {
+            processInvalidCommandUpdate(update);
+        }
+    }
+
+    private void continueStatefulCommandWithMessage(Update update, Message message) {
+        long userId = message.getFrom().getId();
+        UserActivity userActivity = userActivityHandler.loadUserActivity(userId);
+        if (userActivity != null && validateUserActivity(userActivity)) {
+            CommandState<?> resultState = commandRegistry.executeCommand(this, message, userActivity.getCommandState());
+            if (!checkCommandState(resultState, userId, userActivity)) {
+                processInvalidCommandUpdate(update);
+            }
+        } else {
+            processInvalidCommandUpdate(update);
+        }
+    }
+
+    private void continueStatefulCommandWithCallbackQuery(Update update, CallbackQuery callbackQuery) {
+        long userId = callbackQuery.getMessage().getFrom().getId();
+        UserActivity userActivity = userActivityHandler.loadUserActivity(userId);
+        if (userActivity != null && validateUserActivity(userActivity)) {
+            CommandState<?> resultState = commandRegistry.executeCommand(this, callbackQuery, userActivity.getCommandState());
+            if (!checkCommandState(resultState, userId, userActivity)) {
+                processInvalidCommandUpdate(update);
+            }
+        } else {
+            processInvalidCommandUpdate(update);
+        }
+    }
 
     private boolean checkCommandState(CommandState<?> commandState, long userId, UserActivity userActivity) {
         if (commandState != null) {
@@ -240,7 +253,7 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
 
     private boolean validateUserActivity(UserActivity userActivity) {
         LocalDateTime now = LocalDateTime.now();
-        if (now.minusMinutes(20).isBefore(userActivity.getLastActivity())) {
+        if (now.minusMinutes(userInactivityMaxTime).isBefore(userActivity.getLastActivity())) {
             userActivity.setLastActivity(now);
             return true;
         }

@@ -25,6 +25,7 @@ public final class CommandRegistry implements ICommandRegistry {
 
     /**
      * Creates a Command registry
+     *
      * @param allowCommandsWithUsername True to allow commands with username, false otherwise
      * @param botUsernameSupplier       Bot username supplier
      */
@@ -85,14 +86,16 @@ public final class CommandRegistry implements ICommandRegistry {
     }
 
     /**
-     * Executes a stateless command action if the command is registered.
-     *
-     * @apiNote  If the command is not registered and there is a default consumer,
-     * that action will be performed
+     * Executes a stateless command action
+     * if the command is registered.
      *
      * @param absSender absSender
-     * @param message input message
-     * @return True if a command or default action is executed, false otherwise
+     * @param message   input message
+     * @return True if a command or default action is executed,
+     * false otherwise
+     * @apiNote If the command is not registered
+     * and there is a default consumer,
+     * that action will be performed
      */
     public boolean executeCommand(AbsSender absSender, Message message) {
         if (message.hasText()) {
@@ -119,17 +122,16 @@ public final class CommandRegistry implements ICommandRegistry {
     /**
      * Start or continue executes a stateful command action.
      *
-     * @apiNote  If the command is not registered and there is a default consumer,
+     * @param absSender    absSender
+     * @param message      input message
+     * @param commandState state of the current command
+     * @return new state of the command or null if
+     * command not found, or message is empty
+     * @apiNote If the command is not registered
+     * and there is a default consumer,
      * that action will be performed for <b>start command</b>
-     *
      * @implNote {@link CommandState} object also contains name
      * of the command to be continued or started
-     *
-     * @param absSender absSender
-     * @param message input message
-     * @param commandState state of the current command
-     * @return new state of the command or null if command not found,
-     * or message is empty
      */
     public CommandState<?> executeCommand(AbsSender absSender, Message message, CommandState<?> commandState) {
         if (message.hasText()) {
@@ -164,13 +166,12 @@ public final class CommandRegistry implements ICommandRegistry {
      * Continue executes a stateful command action.
      * Callback data can contain parameters for command.
      *
+     * @param absSender     absSender
+     * @param callbackQuery action from chat with callback data
+     * @param commandState  state of the current command
+     * @return new state of the command or null if command not found
      * @implNote {@link CommandState} object also contains name
      * of the command to be continued
-     *
-     * @param absSender absSender
-     * @param callbackQuery action from chat with callback data
-     * @param commandState state of the current command
-     * @return new state of the command or null if command not found
      */
     public CommandState<?> executeCommand(AbsSender absSender, CallbackQuery callbackQuery, CommandState<?> commandState) {
         Message message = callbackQuery.getMessage();
@@ -191,6 +192,7 @@ public final class CommandRegistry implements ICommandRegistry {
     /**
      * if {@link #allowCommandsWithUsername} is enabled, the username of the bot is removed from
      * the command
+     *
      * @param command Command to simplify
      * @return Simplified command
      * @throws java.lang.NullPointerException if {@code allowCommandsWithUsername} is {@code true}
