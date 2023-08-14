@@ -224,7 +224,7 @@ public abstract class TelegramLongPollingCommandBot extends TelegramLongPollingB
     }
 
     private void continueStatefulCommandWithCallbackQuery(Update update, CallbackQuery callbackQuery) {
-        long userId = callbackQuery.getMessage().getFrom().getId();
+        long userId = callbackQuery.getFrom().getId();
         UserActivity userActivity = userActivityHandler.loadUserActivity(userId);
         if (userActivity != null && validateUserActivity(userActivity)) {
             CommandState<?> resultState = commandRegistry.executeCommand(this, callbackQuery, userActivity.getCommandState());

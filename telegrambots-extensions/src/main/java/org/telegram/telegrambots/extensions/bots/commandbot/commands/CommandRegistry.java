@@ -165,6 +165,7 @@ public final class CommandRegistry implements ICommandRegistry {
     /**
      * Continue executes a stateful command action.
      * Callback data can contain parameters for command.
+     * First parameters always callback query id.
      *
      * @param absSender     absSender
      * @param callbackQuery action from chat with callback data
@@ -174,11 +175,14 @@ public final class CommandRegistry implements ICommandRegistry {
      * of the command to be continued
      */
     public CommandState<?> executeCommand(AbsSender absSender, CallbackQuery callbackQuery, CommandState<?> commandState) {
+        String callbackQueryId = callbackQuery.getId();
         Message message = callbackQuery.getMessage();
         String commandMessage = callbackQuery.getData();
-        String[] parameters = new String[0];
+        String[] parameters = new String[]{callbackQueryId};
         if (commandMessage != null) {
-            parameters = commandMessage.split(BotCommand.COMMAND_PARAMETER_SEPARATOR_REGEXP);
+            String[] splitCommandParams = commandMessage.split(BotCommand.COMMAND_PARAMETER_SEPARATOR_REGEXP);
+            parameters = Arrays.copyOf(parameters, 1 + splitCommandParams.length);
+            System.arraycopy(splitCommandParams, 0, parameters, 1, splitCommandParams.length);
         }
 
         String command = commandState.getIdentifier();
