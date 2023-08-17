@@ -99,6 +99,14 @@ public class EditMessageText extends BotApiMethodSerializable {
         }
     }
 
+    public void enableMarkdownV2(boolean enable) {
+        if (enable) {
+            this.parseMode = ParseMode.MARKDOWNV2;
+        } else {
+            this.parseMode = null;
+        }
+    }
+
     public void enableHtml(boolean enable) {
         if (enable) {
             this.parseMode = ParseMode.HTML;
