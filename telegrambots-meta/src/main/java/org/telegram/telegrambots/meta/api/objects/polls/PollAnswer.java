@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
+import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 import java.util.List;
@@ -25,14 +26,31 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PollAnswer implements BotApiObject {
-    private static final String POLLID_FIELD = "poll_id";
+    private static final String POLL_ID_FIELD = "poll_id";
     private static final String USER_FIELD = "user";
-    private static final String OPTIONIDS_FIELD = "option_ids";
+    private static final String OPTION_IDS_FIELD = "option_ids";
+    private static final String VOTER_CHAT_FIELD = "voter_chat";
 
-    @JsonProperty(POLLID_FIELD)
-    private String pollId; ///< Unique poll identifier
+    /**
+     * Unique poll identifier
+     */
+    @JsonProperty(POLL_ID_FIELD)
+    private String pollId;
+    /**
+     * The user, who changed the answer to the poll
+     */
     @JsonProperty(USER_FIELD)
-    private User user; ///< The user, who changed the answer to the poll
-    @JsonProperty(OPTIONIDS_FIELD)
-    private List<Integer> optionIds; ///< 0-based identifiers of answer options, chosen by the user. May be empty if the user retracted their vote.
+    private User user;
+    /**
+     * Optional.
+     * The chat that changed the answer to the poll, if the voter is anonymous
+     */
+    @JsonProperty(OPTION_IDS_FIELD)
+    private List<Integer> optionIds;
+    /**
+     * Optional.
+     * The chat that changed the answer to the poll, if the voter is anonymous
+     */
+    @JsonProperty(VOTER_CHAT_FIELD)
+    private Chat voterChat;
 }
