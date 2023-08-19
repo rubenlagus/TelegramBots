@@ -57,6 +57,7 @@ public class Chat implements BotApiObject {
     private static final String EMOJISTATUSCUSTOMEMOJIID_FIELD  = "emoji_status_custom_emoji_id";
     private static final String HASAGGRESSIVEANTISPAMENABLED_FIELD  = "has_aggressive_anti_spam_enabled";
     private static final String HASHIDDENMEMBERS_FIELD  = "has_hidden_members";
+    private static final String EMOJI_STATUS_EXPIRATION_DATE_FIELD  = "emoji_status_expiration_date";
 
     private static final String USERCHATTYPE = "private";
     private static final String GROUPCHATTYPE = "group";
@@ -252,6 +253,13 @@ public class Chat implements BotApiObject {
      */
     @JsonProperty(HASHIDDENMEMBERS_FIELD)
     private Boolean hasHiddenMembers;
+    /**
+     * Optional.
+     * Expiration date of the emoji status of the other party in a private chat, if any.
+     * Returned only in getChat.
+     */
+    @JsonProperty(EMOJI_STATUS_EXPIRATION_DATE_FIELD)
+    private Boolean emojiStatusExpirationDate;
 
     @JsonIgnore
     public Boolean isGroupChat() {

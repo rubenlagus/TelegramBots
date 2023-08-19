@@ -23,6 +23,7 @@ import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
+import org.telegram.telegrambots.meta.api.objects.stories.Story;
 import org.telegram.telegrambots.meta.api.objects.videochat.VideoChatEnded;
 import org.telegram.telegrambots.meta.api.objects.videochat.VideoChatParticipantsInvited;
 import org.telegram.telegrambots.meta.api.objects.videochat.VideoChatScheduled;
@@ -115,6 +116,7 @@ public class Message implements BotApiObject {
     private static final String HASMEDIASPOILER_FIELD = "has_media_spoiler";
     private static final String USERSHARED_FIELD = "user_shared";
     private static final String CHATSHARED_FIELD = "chat_shared";
+    private static final String STORY_FIELD = "story";
 
     /**
      * Integer	Unique message identifier
@@ -555,6 +557,12 @@ public class Message implements BotApiObject {
      */
     @JsonProperty(CHATSHARED_FIELD)
     private ChatShared chatShared;
+    /**
+     * Optional.
+     * Message is a forwarded story
+     */
+    @JsonProperty(STORY_FIELD)
+    private Story story;
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {
@@ -776,5 +784,10 @@ public class Message implements BotApiObject {
     @JsonIgnore
     private boolean hasChatShared() {
         return chatShared != null;
+    }
+
+    @JsonIgnore
+    private boolean hasStory() {
+        return story != null;
     }
 }

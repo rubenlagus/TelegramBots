@@ -1,4 +1,4 @@
-### <a id="6.7.0"></a>To version 6.7.0 ###
+### <a id="6.8.0"></a>To version 6.8.0 ###
 1. Api methods with thumbnails have changed the field, use getThumbnail()/setThumbnail() instead of getThumb()/setThumb() 
 2. In `AddStickerToSet`/`CreateNewStickerSet`/`UploadStickerFile`/etc, use field `sticker` instead of the deprecated fields.
 3. `ChatMember` has more details permissions, use those instead of the legacy general ones.
