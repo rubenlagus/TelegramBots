@@ -737,7 +737,7 @@ public abstract class DefaultAbsSender extends AbsSender {
                 addInputFile(builder, createNewStickerSet.getPngSticker(), CreateNewStickerSet.PNGSTICKER_FIELD, true);
             } else if (createNewStickerSet.getTgsSticker() != null)  {
                 addInputFile(builder, createNewStickerSet.getTgsSticker(), CreateNewStickerSet.TGSSTICKER_FIELD, true);
-            } else {
+            } else if (createNewStickerSet.getWebmSticker() != null) {
                 addInputFile(builder, createNewStickerSet.getWebmSticker(), CreateNewStickerSet.WEBMSTICKER_FIELD, true);
             }
             if (createNewStickerSet.getMaskPosition() != null) {
