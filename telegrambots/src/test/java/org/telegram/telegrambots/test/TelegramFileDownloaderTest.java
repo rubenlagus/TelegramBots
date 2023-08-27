@@ -1,5 +1,7 @@
 package org.telegram.telegrambots.test;
 
+import java.io.ByteArrayInputStream;
+import java.nio.file.Files;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -22,9 +24,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.function.Supplier;
 
-import static java.nio.charset.Charset.defaultCharset;
-import static org.apache.commons.io.FileUtils.readFileToString;
-import static org.apache.commons.io.IOUtils.toInputStream;
 import static org.apache.http.HttpVersion.HTTP_1_1;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
@@ -59,7 +58,7 @@ class TelegramFileDownloaderTest {
         when(httpResponseMock.getStatusLine()).thenReturn(new BasicStatusLine(HTTP_1_1, 200, "emptyString"));
         when(httpResponseMock.getEntity()).thenReturn(httpEntityMock);
 
-        when(httpEntityMock.getContent()).thenReturn(toInputStream("Some File Content", defaultCharset()));
+        when(httpEntityMock.getContent()).thenReturn(new ByteArrayInputStream("Some File Content".getBytes()));
         when(httpClientMock.execute(any(HttpUriRequest.class))).thenReturn(httpResponseMock);
 
         telegramFileDownloader = new TelegramFileDownloader(httpClientMock, tokenSupplierMock);
@@ -68,7 +67,7 @@ class TelegramFileDownloaderTest {
     @Test
     void testFileDownload() throws TelegramApiException, IOException {
         File returnFile = telegramFileDownloader.downloadFile("someFilePath");
-        String content = readFileToString(returnFile, defaultCharset());
+        String content = String.join("\n", Files.readAllLines(returnFile.toPath()));
 
         assertEquals("Some File Content", content);
     }
@@ -91,7 +90,7 @@ class TelegramFileDownloaderTest {
                 .times(1))
                 .onResult(any(), fileArgumentCaptor.capture());
 
-        String content = readFileToString(fileArgumentCaptor.getValue(), defaultCharset());
+        String content = String.join("\n", Files.readAllLines(fileArgumentCaptor.getValue().toPath()));
         assertEquals("Some File Content", content);
     }
 

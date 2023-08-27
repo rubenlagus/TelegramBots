@@ -77,6 +77,7 @@
         <lombok.version>1.18.28</lombok.version>
         <guava.version>32.0.0-jre</guava.version>
         <commons.version>3.12.0</commons.version>
+        <commonio.version>2.11.0</commonio.version>
     </properties>
 
     <dependencyManagement>

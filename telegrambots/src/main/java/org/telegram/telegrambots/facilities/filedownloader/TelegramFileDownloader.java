@@ -1,5 +1,7 @@
 package org.telegram.telegrambots.facilities.filedownloader;
 
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -15,7 +17,6 @@ import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Supplier;
 
-import static org.apache.commons.io.FileUtils.copyInputStreamToFile;
 import static org.apache.http.HttpStatus.SC_OK;
 
 /**
@@ -146,7 +147,7 @@ public class TelegramFileDownloader {
     private CompletableFuture<java.io.File> getFileDownloadFuture(String url, java.io.File output) {
         return getFileDownloadStreamFuture(url).thenApply(stream -> {
             try {
-                copyInputStreamToFile(stream, output);
+                Files.copy(stream, output.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 return output;
             } catch (IOException e) {
                 throw new DownloadFileException("Error writing downloaded file", e);

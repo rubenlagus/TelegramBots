@@ -72,7 +72,6 @@
 
         <glassfish.version>2.35</glassfish.version>
         <httpcompontents.version>4.5.13</httpcompontents.version>
-        <commonio.version>2.11.0</commonio.version>
     </properties>
 
     <dependencyManagement>
@@ -161,11 +160,6 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>
             <version>${httpcompontents.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>${commonio.version}</version>
         </dependency>
 
         <dependency>
