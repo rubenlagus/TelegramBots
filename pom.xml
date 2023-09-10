@@ -75,7 +75,7 @@
         <slf4j.version>2.0.3</slf4j.version>
         <jakarta.annotation.version>2.1.1</jakarta.annotation.version>
         <lombok.version>1.18.24</lombok.version>
-        <guava.version>31.1-jre</guava.version>
+        <guava.version>32.0.0-jre</guava.version>
         <commons.version>3.12.0</commons.version>
     </properties>
 
