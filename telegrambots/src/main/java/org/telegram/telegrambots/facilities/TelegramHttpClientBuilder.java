@@ -10,7 +10,6 @@ import org.apache.hc.core5.http.config.Registry;
 import org.apache.hc.core5.http.config.RegistryBuilder;
 import org.apache.hc.core5.ssl.SSLContexts;
 import org.apache.hc.core5.util.TimeValue;
-import org.apache.hc.core5.util.Timeout;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.facilities.proxysocketfactorys.HttpConnectionSocketFactory;
 import org.telegram.telegrambots.facilities.proxysocketfactorys.HttpSSLConnectionSocketFactory;
@@ -51,8 +50,8 @@ public class TelegramHttpClientBuilder {
 
         ConnectionConfig connectionConfig = ConnectionConfig.custom()
                 .setTimeToLive(TimeValue.ofSeconds(70))
-                .setSocketTimeout(Timeout.ofSeconds(SOCKET_TIMEOUT))
-                .setConnectTimeout(Timeout.ofSeconds(SOCKET_TIMEOUT))
+                .setSocketTimeout(SOCKET_TIMEOUT)
+                .setConnectTimeout(SOCKET_TIMEOUT)
                 .build();
 
         PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager(registry);

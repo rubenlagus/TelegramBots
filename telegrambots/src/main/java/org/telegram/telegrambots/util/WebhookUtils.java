@@ -10,7 +10,6 @@ import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
-import org.apache.hc.core5.util.Timeout;
 import org.telegram.telegrambots.Constants;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
@@ -54,7 +53,7 @@ public final class WebhookUtils {
             RequestConfig requestConfig = botOptions.getRequestConfig();
             if (requestConfig == null) {
                 requestConfig = RequestConfig.copy(RequestConfig.custom().build())
-                        .setConnectionRequestTimeout(Timeout.ofSeconds(SOCKET_TIMEOUT)).build();
+                        .setConnectionRequestTimeout(SOCKET_TIMEOUT).build();
             }
 
             HttpPost httppost = new HttpPost(requestUrl);

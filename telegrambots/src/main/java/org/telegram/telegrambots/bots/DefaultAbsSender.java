@@ -11,7 +11,6 @@ import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.entity.StringEntity;
-import org.apache.hc.core5.util.Timeout;
 import org.telegram.telegrambots.facilities.TelegramHttpClientBuilder;
 import org.telegram.telegrambots.facilities.filedownloader.TelegramFileDownloader;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -102,7 +101,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             this.requestConfig = configFromOptions;
         } else {
             this.requestConfig = RequestConfig.copy(RequestConfig.custom().build())
-                    .setConnectionRequestTimeout(Timeout.ofSeconds(SOCKET_TIMEOUT)).build();
+                    .setConnectionRequestTimeout(SOCKET_TIMEOUT).build();
         }
     }
 

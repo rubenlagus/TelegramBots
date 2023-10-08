@@ -9,7 +9,6 @@ import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.ParseException;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.entity.StringEntity;
-import org.apache.hc.core5.util.Timeout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
@@ -165,7 +164,7 @@ public class DefaultBotSession implements BotSession {
 
             if (requestConfig == null) {
                 requestConfig = RequestConfig.copy(RequestConfig.custom().build())
-                        .setConnectionRequestTimeout(Timeout.ofSeconds(SOCKET_TIMEOUT)).build();
+                        .setConnectionRequestTimeout(SOCKET_TIMEOUT).build();
             }
 
             super.start();
