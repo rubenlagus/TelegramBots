@@ -1,9 +1,10 @@
 package org.telegram.telegrambots.facilities.proxysocketfactorys;
 
-import org.apache.http.HttpHost;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.protocol.HttpContext;
+import org.apache.hc.client5.http.ssl.NoopHostnameVerifier;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
+import org.apache.hc.core5.http.HttpHost;
+import org.apache.hc.core5.http.protocol.HttpContext;
+import org.apache.hc.core5.util.TimeValue;
 
 import javax.net.ssl.SSLContext;
 import java.io.IOException;
@@ -18,7 +19,7 @@ public class HttpSSLConnectionSocketFactory extends SSLConnectionSocketFactory {
     }
 
     @Override
-    public Socket createSocket(final HttpContext context) throws IOException {
+    public Socket createSocket(final HttpContext context) {
         InetSocketAddress socketAddress = (InetSocketAddress) context.getAttribute("socketAddress");
         Proxy proxy = new Proxy(Proxy.Type.HTTP, socketAddress);
         return new Socket(proxy);
@@ -26,7 +27,7 @@ public class HttpSSLConnectionSocketFactory extends SSLConnectionSocketFactory {
 
     @Override
     public Socket connectSocket(
-            int connectTimeout,
+            TimeValue connectTimeout,
             Socket socket,
             HttpHost host,
             InetSocketAddress remoteAddress,

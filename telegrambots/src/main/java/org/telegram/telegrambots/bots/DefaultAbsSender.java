@@ -3,15 +3,15 @@ package org.telegram.telegrambots.bots;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.apache.hc.core5.util.Timeout;
 import org.telegram.telegrambots.facilities.TelegramHttpClientBuilder;
 import org.telegram.telegrambots.facilities.filedownloader.TelegramFileDownloader;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -102,9 +102,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             this.requestConfig = configFromOptions;
         } else {
             this.requestConfig = RequestConfig.copy(RequestConfig.custom().build())
-                    .setSocketTimeout(SOCKET_TIMEOUT)
-                    .setConnectTimeout(SOCKET_TIMEOUT)
-                    .setConnectionRequestTimeout(SOCKET_TIMEOUT).build();
+                    .setConnectionRequestTimeout(Timeout.ofSeconds(SOCKET_TIMEOUT)).build();
         }
     }
 
@@ -1146,9 +1144,7 @@ public abstract class DefaultAbsSender extends AbsSender {
     }
 
     private String sendHttpPostRequest(HttpPost httppost) throws IOException {
-        try (CloseableHttpResponse response = httpClient.execute(httppost, options.getHttpContext())) {
-            return EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
-        }
+        return httpClient.execute(httppost, options.getHttpContext(), response -> EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8));
     }
 
     private HttpPost configuredHttpPost(String url) {

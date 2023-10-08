@@ -1,13 +1,15 @@
 package org.telegram.telegrambots.updatesreceivers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.ParseException;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.apache.hc.core5.util.Timeout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
@@ -15,7 +17,12 @@ import org.telegram.telegrambots.facilities.TelegramHttpClientBuilder;
 import org.telegram.telegrambots.meta.api.methods.updates.GetUpdates;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
-import org.telegram.telegrambots.meta.generics.*;
+import org.telegram.telegrambots.meta.generics.BackOff;
+import org.telegram.telegrambots.meta.generics.BotOptions;
+import org.telegram.telegrambots.meta.generics.BotSession;
+import org.telegram.telegrambots.meta.generics.LongPollingBot;
+import org.telegram.telegrambots.meta.generics.UpdatesHandler;
+import org.telegram.telegrambots.meta.generics.UpdatesReader;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
@@ -158,9 +165,7 @@ public class DefaultBotSession implements BotSession {
 
             if (requestConfig == null) {
                 requestConfig = RequestConfig.copy(RequestConfig.custom().build())
-                        .setSocketTimeout(SOCKET_TIMEOUT)
-                        .setConnectTimeout(SOCKET_TIMEOUT)
-                        .setConnectionRequestTimeout(SOCKET_TIMEOUT).build();
+                        .setConnectionRequestTimeout(Timeout.ofSeconds(SOCKET_TIMEOUT)).build();
             }
 
             super.start();
@@ -246,10 +251,10 @@ public class DefaultBotSession implements BotSession {
             httpPost.setConfig(requestConfig);
             httpPost.setEntity(new StringEntity(objectMapper.writeValueAsString(request), ContentType.APPLICATION_JSON));
 
-            try (CloseableHttpResponse response = httpclient.execute(httpPost, options.getHttpContext())) {
+            try (ClassicHttpResponse response = httpclient.execute(httpPost, options.getHttpContext(), httpResponse -> httpResponse)) {
                 String responseContent = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
 
-                if (response.getStatusLine().getStatusCode() >= 500) {
+                if (response.getCode() >= 500) {
                     log.warn(responseContent);
                     synchronized (lock) {
                         lock.wait(500);
@@ -259,7 +264,7 @@ public class DefaultBotSession implements BotSession {
                     backOff.reset();
                     return updates;
                 }
-            } catch (SocketException | InvalidObjectException | TelegramApiRequestException e) {
+            } catch (SocketException | InvalidObjectException | TelegramApiRequestException | ParseException e) {
                 log.error(e.getLocalizedMessage(), e);
             } catch (SocketTimeoutException e) {
                 log.info(e.getLocalizedMessage(), e);
@@ -286,7 +291,7 @@ public class DefaultBotSession implements BotSession {
 
     private List<Update> getUpdateList() {
         List<Update> updates = new ArrayList<>();
-        for (Iterator<Update> it = receivedUpdates.iterator(); it.hasNext();) {
+        for (Iterator<Update> it = receivedUpdates.iterator(); it.hasNext(); ) {
             updates.add(it.next());
             it.remove();
         }

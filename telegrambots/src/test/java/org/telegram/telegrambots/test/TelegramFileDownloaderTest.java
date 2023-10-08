@@ -1,10 +1,10 @@
 package org.telegram.telegrambots.test;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.message.BasicStatusLine;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,6 @@ import java.util.function.Supplier;
 import static java.nio.charset.Charset.defaultCharset;
 import static org.apache.commons.io.FileUtils.readFileToString;
 import static org.apache.commons.io.IOUtils.toInputStream;
-import static org.apache.http.HttpVersion.HTTP_1_1;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -47,7 +46,7 @@ class TelegramFileDownloaderTest {
     private HttpClient httpClientMock;
 
     @Mock
-    private HttpResponse httpResponseMock;
+    private ClassicHttpResponse httpResponseMock;
 
     @Mock
     private HttpEntity httpEntityMock;
@@ -56,11 +55,10 @@ class TelegramFileDownloaderTest {
 
     @BeforeEach
     void setup() throws IOException {
-        when(httpResponseMock.getStatusLine()).thenReturn(new BasicStatusLine(HTTP_1_1, 200, "emptyString"));
+        when(httpResponseMock.getCode()).thenReturn(200);
         when(httpResponseMock.getEntity()).thenReturn(httpEntityMock);
-
         when(httpEntityMock.getContent()).thenReturn(toInputStream("Some File Content", defaultCharset()));
-        when(httpClientMock.execute(any(HttpUriRequest.class))).thenReturn(httpResponseMock);
+        when(httpClientMock.execute(any(HttpUriRequest.class), any(HttpClientResponseHandler.class))).thenReturn(httpResponseMock);
 
         telegramFileDownloader = new TelegramFileDownloader(httpClientMock, tokenSupplierMock);
     }
@@ -75,7 +73,7 @@ class TelegramFileDownloaderTest {
 
     @Test
     void testDownloadException() {
-        when(httpResponseMock.getStatusLine()).thenReturn(new BasicStatusLine(HTTP_1_1, 500, "emptyString"));
+        when(httpResponseMock.getCode()).thenReturn(500);
 
         Assertions.assertThrows(TelegramApiException.class,
                 () -> telegramFileDownloader.downloadFile("someFilePath"));
@@ -99,7 +97,7 @@ class TelegramFileDownloaderTest {
     void testAsyncException() throws TelegramApiException {
         final ArgumentCaptor<Exception> exceptionArgumentCaptor = ArgumentCaptor.forClass(Exception.class);
 
-        when(httpResponseMock.getStatusLine()).thenReturn(new BasicStatusLine(HTTP_1_1, 500, "emptyString"));
+        when(httpResponseMock.getCode()).thenReturn(500);
 
         telegramFileDownloader.downloadFileAsync("someFilePath", downloadFileCallbackMock);
 

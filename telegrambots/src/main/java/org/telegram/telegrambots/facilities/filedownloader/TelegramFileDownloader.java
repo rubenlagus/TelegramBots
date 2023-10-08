@@ -1,13 +1,15 @@
 package org.telegram.telegrambots.facilities.filedownloader;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.updateshandlers.DownloadFileCallback;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.CompletableFuture;
@@ -16,10 +18,11 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Supplier;
 
 import static org.apache.commons.io.FileUtils.copyInputStreamToFile;
-import static org.apache.http.HttpStatus.SC_OK;
+import static org.apache.hc.core5.http.HttpStatus.SC_OK;
 
 /**
  * Wraps the file downloading code into one class.
+ *
  * @author Chase22
  * @version 1.0
  */
@@ -156,11 +159,10 @@ public class TelegramFileDownloader {
 
     private CompletableFuture<InputStream> getFileDownloadStreamFuture(final String url) {
         return CompletableFuture.supplyAsync(() -> {
-            try {
-                HttpResponse response = httpClient.execute(new HttpGet(url));
-                final int statusCode = response.getStatusLine().getStatusCode();
+            try (ClassicHttpResponse response = httpClient.execute(new HttpGet(url), httpResponse -> httpResponse)) {
+                final int statusCode = response.getCode();
                 if (statusCode == SC_OK) {
-                    return response.getEntity().getContent();
+                    return new ByteArrayInputStream(EntityUtils.toByteArray(response.getEntity()));
                 } else {
                     throw new TelegramApiException("Unexpected Status code while downloading file. Expected 200 got " + statusCode);
                 }

@@ -1,12 +1,10 @@
 package org.telegram.telegrambots.test;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.ProtocolVersion;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.message.BasicHttpResponse;
-import org.apache.http.message.BasicStatusLine;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.core5.http.io.HttpClientResponseHandler;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.apache.hc.core5.http.message.BasicClassicHttpResponse;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -27,6 +25,7 @@ import java.util.Collections;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
+import static org.apache.hc.core5.http.HttpStatus.SC_OK;
 import static org.mockito.ArgumentMatchers.any;
 
 /**
@@ -191,13 +190,11 @@ public class TestDefaultBotSession {
     }
 
     private DefaultBotSession getDefaultBotSession(LongPollingBot bot) throws IOException {
-        HttpResponse response = new BasicHttpResponse(new BasicStatusLine(
-                new ProtocolVersion("HTTP", 1, 1), 200, ""));
-        response.setStatusCode(200);
+        BasicClassicHttpResponse response = new BasicClassicHttpResponse(SC_OK);
         response.setEntity(new StringEntity("{}"));
 
         HttpClient mockHttpClient = Mockito.mock(HttpClient.class);
-        Mockito.when(mockHttpClient.execute(any(HttpPost.class)))
+        Mockito.when(mockHttpClient.execute(any(HttpPost.class), any(HttpClientResponseHandler.class)))
                 .thenReturn(response);
         DefaultBotSession session = new DefaultBotSession();
         session.setCallback(bot);

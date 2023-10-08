@@ -1,21 +1,23 @@
 package org.telegram.telegrambots.facilities;
 
-import org.apache.http.config.Registry;
-import org.apache.http.config.RegistryBuilder;
-import org.apache.http.conn.HttpClientConnectionManager;
-import org.apache.http.conn.socket.ConnectionSocketFactory;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.apache.http.ssl.SSLContexts;
+import org.apache.hc.client5.http.config.ConnectionConfig;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
+import org.apache.hc.client5.http.io.HttpClientConnectionManager;
+import org.apache.hc.client5.http.socket.ConnectionSocketFactory;
+import org.apache.hc.core5.http.config.Registry;
+import org.apache.hc.core5.http.config.RegistryBuilder;
+import org.apache.hc.core5.ssl.SSLContexts;
+import org.apache.hc.core5.util.TimeValue;
+import org.apache.hc.core5.util.Timeout;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.facilities.proxysocketfactorys.HttpConnectionSocketFactory;
 import org.telegram.telegrambots.facilities.proxysocketfactorys.HttpSSLConnectionSocketFactory;
-import org.telegram.telegrambots.facilities.proxysocketfactorys.SocksSSLConnectionSocketFactory;
 import org.telegram.telegrambots.facilities.proxysocketfactorys.SocksConnectionSocketFactory;
+import org.telegram.telegrambots.facilities.proxysocketfactorys.SocksSSLConnectionSocketFactory;
 
-import java.util.concurrent.TimeUnit;
+import static org.telegram.telegrambots.Constants.SOCKET_TIMEOUT;
 
 /**
  * Created by bvn13 on 17.04.2018.
@@ -24,32 +26,39 @@ public class TelegramHttpClientBuilder {
 
     public static CloseableHttpClient build(DefaultBotOptions options) {
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create()
-                .setSSLHostnameVerifier(new NoopHostnameVerifier())
-                .setConnectionManager(createConnectionManager(options))
-                .setConnectionTimeToLive(70, TimeUnit.SECONDS)
-                .setMaxConnTotal(100);
+                .setConnectionManager(createConnectionManager(options));
         return httpClientBuilder.build();
     }
 
     private static HttpClientConnectionManager createConnectionManager(DefaultBotOptions options) {
         Registry<ConnectionSocketFactory> registry;
         switch (options.getProxyType()) {
-            case NO_PROXY:
-                return null;
             case HTTP:
-                registry = RegistryBuilder.<ConnectionSocketFactory> create()
+                registry = RegistryBuilder.<ConnectionSocketFactory>create()
                         .register("http", new HttpConnectionSocketFactory())
                         .register("https", new HttpSSLConnectionSocketFactory(SSLContexts.createSystemDefault())).build();
-                return new PoolingHttpClientConnectionManager(registry);
+                break;
             case SOCKS4:
             case SOCKS5:
-                registry = RegistryBuilder.<ConnectionSocketFactory> create()
+                registry = RegistryBuilder.<ConnectionSocketFactory>create()
                         .register("http", new SocksConnectionSocketFactory())
                         .register("https", new SocksSSLConnectionSocketFactory(SSLContexts.createSystemDefault()))
                         .build();
-                return new PoolingHttpClientConnectionManager(registry);
+                break;
+            default:
+                return null;
         }
-        return null;
+
+        ConnectionConfig connectionConfig = ConnectionConfig.custom()
+                .setTimeToLive(TimeValue.ofSeconds(70))
+                .setSocketTimeout(Timeout.ofSeconds(SOCKET_TIMEOUT))
+                .setConnectTimeout(Timeout.ofSeconds(SOCKET_TIMEOUT))
+                .build();
+
+        PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager(registry);
+        connectionManager.setDefaultConnectionConfig(connectionConfig);
+        connectionManager.setMaxTotal(100);
+        return connectionManager;
     }
 
 }

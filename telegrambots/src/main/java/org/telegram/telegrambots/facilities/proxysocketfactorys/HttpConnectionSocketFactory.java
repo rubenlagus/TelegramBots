@@ -1,8 +1,9 @@
 package org.telegram.telegrambots.facilities.proxysocketfactorys;
 
-import org.apache.http.HttpHost;
-import org.apache.http.conn.socket.PlainConnectionSocketFactory;
-import org.apache.http.protocol.HttpContext;
+import org.apache.hc.client5.http.socket.PlainConnectionSocketFactory;
+import org.apache.hc.core5.http.HttpHost;
+import org.apache.hc.core5.http.protocol.HttpContext;
+import org.apache.hc.core5.util.TimeValue;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -11,7 +12,7 @@ import java.net.Socket;
 
 public class HttpConnectionSocketFactory extends PlainConnectionSocketFactory {
     @Override
-    public Socket createSocket(final HttpContext context) throws IOException {
+    public Socket createSocket(final HttpContext context) {
         InetSocketAddress socketAddress = (InetSocketAddress) context.getAttribute("socketAddress");
         Proxy proxy = new Proxy(Proxy.Type.HTTP, socketAddress);
         return new Socket(proxy);
@@ -19,7 +20,7 @@ public class HttpConnectionSocketFactory extends PlainConnectionSocketFactory {
 
     @Override
     public Socket connectSocket(
-            int connectTimeout,
+            TimeValue connectTimeout,
             Socket socket,
             HttpHost host,
             InetSocketAddress remoteAddress,

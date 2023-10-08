@@ -71,7 +71,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <glassfish.version>2.35</glassfish.version>
-        <httpcompontents.version>4.5.13</httpcompontents.version>
+        <httpcompontents.version>5.2.1</httpcompontents.version>
         <commonio.version>2.11.0</commonio.version>
     </properties>
 
@@ -153,13 +153,8 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>${httpcompontents.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpmime</artifactId>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
             <version>${httpcompontents.version}</version>
         </dependency>
         <dependency>
