@@ -159,7 +159,7 @@ public class TelegramFileDownloader {
 
     private CompletableFuture<InputStream> getFileDownloadStreamFuture(final String url) {
         return CompletableFuture.supplyAsync(() -> {
-            try (ClassicHttpResponse response = httpClient.execute(new HttpGet(url), httpResponse -> httpResponse)) {
+            try (ClassicHttpResponse response = httpClient.executeOpen(null, new HttpGet(url), null)) {
                 final int statusCode = response.getCode();
                 if (statusCode == SC_OK) {
                     return new ByteArrayInputStream(EntityUtils.toByteArray(response.getEntity()));
