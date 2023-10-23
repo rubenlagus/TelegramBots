@@ -4,12 +4,10 @@ import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.core5.http.ClassicHttpResponse;
-import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.updateshandlers.DownloadFileCallback;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.CompletableFuture;
@@ -159,10 +157,24 @@ public class TelegramFileDownloader {
 
     private CompletableFuture<InputStream> getFileDownloadStreamFuture(final String url) {
         return CompletableFuture.supplyAsync(() -> {
-            try (ClassicHttpResponse response = httpClient.executeOpen(null, new HttpGet(url), null)) {
+            try {
+                @SuppressWarnings("resource") ClassicHttpResponse response = httpClient.executeOpen(null, new HttpGet(url), null);
                 final int statusCode = response.getCode();
                 if (statusCode == SC_OK) {
-                    return new ByteArrayInputStream(EntityUtils.toByteArray(response.getEntity()));
+                    return new InputStream() {
+                        private final InputStream inputStream = response.getEntity().getContent();
+
+                        @Override
+                        public int read() throws IOException {
+                            return inputStream.read();
+                        }
+
+                        @Override
+                        public void close() throws IOException {
+                            response.close();
+                            super.close();
+                        }
+                    };
                 } else {
                     throw new TelegramApiException("Unexpected Status code while downloading file. Expected 200 got " + statusCode);
                 }
