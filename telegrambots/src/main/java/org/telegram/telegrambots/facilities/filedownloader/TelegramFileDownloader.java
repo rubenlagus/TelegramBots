@@ -172,7 +172,6 @@ public class TelegramFileDownloader {
                         @Override
                         public void close() throws IOException {
                             response.close();
-                            super.close();
                         }
                     };
                 } else {
