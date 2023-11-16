@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -47,19 +48,27 @@ public class SendVideoNote extends SendMediaBotMethod<Message> {
     public static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
     public static final String PROTECTCONTENT_FIELD = "protect_content";
 
+    @JsonProperty(CHATID_FIELD)
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     /**
      * Unique identifier for the target message thread (topic) of the forum;
      * for forum supergroups only
      */
+    @JsonProperty(MESSAGETHREADID_FIELD)
     private Integer messageThreadId;
+    @JsonProperty(VIDEONOTE_FIELD)
     @NonNull
     private InputFile videoNote; ///< Videonote to send. file_id as String to resend a video that is already on the Telegram servers.
+    @JsonProperty(DURATION_FIELD)
     private Integer duration; ///< Optional. Duration of sent video in seconds
+    @JsonProperty(LENGTH_FIELD)
     private Integer length; ///< Optional. Video width and height
+    @JsonProperty(DISABLENOTIFICATION_FIELD)
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
+    @JsonProperty(REPLYTOMESSAGEID_FIELD)
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
+    @JsonProperty(REPLYMARKUP_FIELD)
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
     /**
      * Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size.
@@ -68,8 +77,11 @@ public class SendVideoNote extends SendMediaBotMethod<Message> {
      * Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>”
      * if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
      */
+    @JsonProperty(THUMBNAIL_FIELD)
     private InputFile thumbnail;
+    @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
+    @JsonProperty(PROTECTCONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
     @Tolerate

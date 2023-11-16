@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -57,8 +58,10 @@ public class SendAnimation extends SendMediaBotMethod<Message> {
     public static final String PROTECTCONTENT_FIELD = "protect_content";
     public static final String HASSPOILER_FIELD = "has_spoiler";
 
+    @JsonProperty(CHATID_FIELD)
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
+    @JsonProperty(MESSAGETHREADID_FIELD)
     private Integer messageThreadId;
 
     /**
@@ -70,15 +73,24 @@ public class SendAnimation extends SendMediaBotMethod<Message> {
      * Unique identifier for the target message thread (topic) of the forum;
      * for forum supergroups only
      */
+    @JsonProperty(ANIMATION_FIELD)
     @NonNull
     private InputFile animation;
+    @JsonProperty(DURATION_FIELD)
     private Integer duration; ///< Optional. Duration of sent animation in seconds
+    @JsonProperty(CAPTION_FIELD)
     private String caption; ///< Optional. Animation caption (may also be used when resending videos by file_id).
+    @JsonProperty(WIDTH_FIELD)
     private Integer width; ///< Optional. Animation width
+    @JsonProperty(HEIGHT_FIELD)
     private Integer height; ///< Optional. Animation height
+    @JsonProperty(DISABLENOTIFICATION_FIELD)
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
+    @JsonProperty(REPLYTOMESSAGEID_FIELD)
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
+    @JsonProperty(REPLYMARKUP_FIELD)
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    @JsonProperty(PARSEMODE_FIELD)
     private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
     /**
      * Optional.
@@ -88,15 +100,20 @@ public class SendAnimation extends SendMediaBotMethod<Message> {
      * Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>”
      * if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
      */
+    @JsonProperty(THUMBNAIL_FIELD)
     private InputFile thumbnail;
+    @JsonProperty(CAPTION_ENTITIES_FIELD)
     @Singular
     private List<MessageEntity> captionEntities; ///< Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
+    @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
+    @JsonProperty(PROTECTCONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
     /**
      * Optional.
      * Pass True if the animation must be covered with a spoiler animation
      */
+    @JsonProperty(HASSPOILER_FIELD)
     private Boolean hasSpoiler;
 
     @Tolerate

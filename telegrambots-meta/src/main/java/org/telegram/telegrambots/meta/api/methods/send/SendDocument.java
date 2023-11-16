@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -51,19 +52,27 @@ public class SendDocument extends SendMediaBotMethod<Message> {
     public static final String DISABLECONTENTTYPEDETECTION_FIELD = "disable_content_type_detection";
     public static final String PROTECTCONTENT_FIELD = "protect_content";
 
+    @JsonProperty(CHATID_FIELD)
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to or Username for the channel to send the message to
     /**
      * Unique identifier for the target message thread (topic) of the forum;
      * for forum supergroups only
      */
+    @JsonProperty(MESSAGETHREADID_FIELD)
     private Integer messageThreadId;
+    @JsonProperty(DOCUMENT_FIELD)
     @NonNull
     private InputFile document; ///< File file to send. file_id as String to resend a file that is already on the Telegram servers or Url to upload it
+    @JsonProperty(CAPTION_FIELD)
     private String caption; ///< Optional. Document caption (may also be used when resending documents by file_id), 0-200 characters
+    @JsonProperty(DISABLENOTIFICATION_FIELD)
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
+    @JsonProperty(REPLYTOMESSAGEID_FIELD)
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
+    @JsonProperty(REPLYMARKUP_FIELD)
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    @JsonProperty(PARSEMODE_FIELD)
     private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
     /**
      * Optional.
@@ -73,11 +82,16 @@ public class SendDocument extends SendMediaBotMethod<Message> {
      * Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>”
      * if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
      */
+    @JsonProperty(THUMBNAIL_FIELD)
     private InputFile thumbnail;
+    @JsonProperty(CAPTION_ENTITIES_FIELD)
     @Singular
     private List<MessageEntity> captionEntities; ///< Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
+    @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
+    @JsonProperty(DISABLECONTENTTYPEDETECTION_FIELD)
     private Boolean disableContentTypeDetection; ///< Optional	Disables automatic server-side content type detection for files uploaded using multipart/form-data
+    @JsonProperty(PROTECTCONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
 
     @Tolerate
