@@ -140,7 +140,7 @@
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons.version}</version>
             </dependency>
-            
+
             <!-- Included to enforce common version-->
             <dependency>
                 <groupId>jakarta.annotation</groupId>

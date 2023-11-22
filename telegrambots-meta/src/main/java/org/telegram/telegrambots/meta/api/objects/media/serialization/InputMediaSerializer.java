@@ -40,70 +40,94 @@ public class InputMediaSerializer extends JsonSerializer<InputMedia> {
             gen.writeEndArray();
         }
 
-        if (value instanceof InputMediaAudio) {
-            InputMediaAudio audio = (InputMediaAudio) value;
-            if (audio.getThumbnail() != null) {
-                gen.writeStringField(InputMediaAudio.THUMBNAIL_FIELD, audio.getThumbnail().getAttachName());
-            }
-            if (audio.getDuration() != null) {
-                gen.writeNumberField(InputMediaAudio.DURATION_FIELD, audio.getDuration());
-            }
-            if (audio.getPerformer() != null) {
-                gen.writeStringField(InputMediaAudio.PERFORMER_FIELD, audio.getPerformer());
-            }
-            if (audio.getTitle() != null) {
-                gen.writeStringField(InputMediaAudio.TITLE_FIELD, audio.getTitle());
-            }
-        } else if (value instanceof InputMediaAnimation) {
-            InputMediaAnimation animation = (InputMediaAnimation) value;
-            if (animation.getThumbnail() != null) {
-                gen.writeStringField(InputMediaAnimation.THUMBNAIL_FIELD, animation.getThumbnail().getAttachName());
-            }
-            if (animation.getDuration() != null) {
-                gen.writeNumberField(InputMediaAnimation.DURATION_FIELD, animation.getDuration());
-            }
-            if (animation.getHeight() != null) {
-                gen.writeNumberField(InputMediaAnimation.HEIGHT_FIELD, animation.getHeight());
-            }
-            if (animation.getWidth() != null) {
-                gen.writeNumberField(InputMediaAnimation.WIDTH_FIELD, animation.getWidth());
-            }
-            if (animation.getHasSpoiler() != null) {
-                gen.writeBooleanField(InputMediaAnimation.HASSPOILER_FIELD, animation.getHasSpoiler());
-            }
-        } else if (value instanceof InputMediaDocument) {
-            InputMediaDocument document = (InputMediaDocument) value;
-            if (document.getThumbnail() != null) {
-                gen.writeStringField(InputMediaDocument.THUMBNAIL_FIELD, document.getThumbnail().getAttachName());
-            }
-        } else if (value instanceof InputMediaPhoto) {
-            InputMediaPhoto photo = (InputMediaPhoto) value;
-            if (photo.getHasSpoiler() != null) {
-                gen.writeBooleanField(InputMediaPhoto.HASSPOILER_FIELD, photo.getHasSpoiler());
-            }
-        } else if (value instanceof InputMediaVideo) {
-            InputMediaVideo video = (InputMediaVideo) value;
-            if (video.getThumbnail() != null) {
-                gen.writeStringField(InputMediaVideo.THUMBNAIL_FIELD, video.getThumbnail().getAttachName());
-            }
-            if (video.getDuration() != null) {
-                gen.writeNumberField(InputMediaVideo.DURATION_FIELD, video.getDuration());
-            }
-            if (video.getHeight() != null) {
-                gen.writeNumberField(InputMediaVideo.HEIGHT_FIELD, video.getHeight());
-            }
-            if (video.getWidth() != null) {
-                gen.writeNumberField(InputMediaVideo.WIDTH_FIELD, video.getWidth());
-            }
-            if (video.getSupportsStreaming() != null) {
-                gen.writeBooleanField(InputMediaVideo.SUPPORTSSTREAMING_FIELD, video.getSupportsStreaming());
-            }
-            if (video.getHasSpoiler() != null) {
-                gen.writeBooleanField(InputMediaVideo.HASSPOILER_FIELD, video.getHasSpoiler());
-            }
-        }
+        serializeAAInputMedia(value, gen);
 
         gen.writeEndObject();
+    }
+
+    private void  serializeAAInputMedia(InputMedia value, JsonGenerator gen) throws IOException {
+        if (value instanceof InputMediaAudio) {
+            serializeInputMediaAudio(value, gen);
+        } else if (value instanceof InputMediaAnimation) {
+            serializeInputMediaAnimation(value, gen);
+        } else if (value instanceof InputMediaDocument) {
+            serializeInputMediaDocument(value, gen);
+        } else if (value instanceof InputMediaPhoto) {
+            serializeInputMediaPhoto(value, gen);
+        } else if (value instanceof InputMediaVideo) {
+            serializeInputMediaVideo(value, gen);
+        }
+    }
+
+    private void serializeInputMediaAudio(InputMedia value, JsonGenerator gen) throws IOException {
+        InputMediaAudio audio = (InputMediaAudio) value;
+        if (audio.getThumbnail() != null) {
+            gen.writeStringField(InputMediaAudio.THUMBNAIL_FIELD, audio.getThumbnail().getAttachName());
+        }
+        if (audio.getDuration() != null) {
+            gen.writeNumberField(InputMediaAudio.DURATION_FIELD, audio.getDuration());
+        }
+        if (audio.getPerformer() != null) {
+            gen.writeStringField(InputMediaAudio.PERFORMER_FIELD, audio.getPerformer());
+        }
+        if (audio.getTitle() != null) {
+            gen.writeStringField(InputMediaAudio.TITLE_FIELD, audio.getTitle());
+        }
+    }
+
+    private void serializeInputMediaAnimation(InputMedia value, JsonGenerator gen) throws IOException {
+        InputMediaAnimation animation = (InputMediaAnimation) value;
+        if (animation.getThumbnail() != null) {
+            gen.writeStringField(InputMediaAnimation.THUMBNAIL_FIELD, animation.getThumbnail().getAttachName());
+        }
+        if (animation.getDuration() != null) {
+            gen.writeNumberField(InputMediaAnimation.DURATION_FIELD, animation.getDuration());
+        }
+        if (animation.getHeight() != null) {
+            gen.writeNumberField(InputMediaAnimation.HEIGHT_FIELD, animation.getHeight());
+        }
+        if (animation.getWidth() != null) {
+            gen.writeNumberField(InputMediaAnimation.WIDTH_FIELD, animation.getWidth());
+        }
+        if (animation.getHasSpoiler() != null) {
+            gen.writeBooleanField(InputMediaAnimation.HASSPOILER_FIELD, animation.getHasSpoiler());
+        }
+    }
+
+    private void serializeInputMediaDocument(InputMedia value, JsonGenerator gen) throws IOException {
+        InputMediaDocument document = (InputMediaDocument) value;
+        if (document.getThumbnail() != null) {
+            gen.writeStringField(InputMediaDocument.THUMBNAIL_FIELD, document.getThumbnail().getAttachName());
+        }
+    }
+
+    private void serializeInputMediaPhoto(InputMedia value, JsonGenerator gen) throws IOException {
+        InputMediaPhoto photo = (InputMediaPhoto) value;
+        if (photo.getHasSpoiler() != null) {
+            gen.writeBooleanField(InputMediaPhoto.HASSPOILER_FIELD, photo.getHasSpoiler());
+        }
+    }
+
+    private void serializeInputMediaVideo(InputMedia value, JsonGenerator gen) throws IOException {
+        InputMediaVideo video = (InputMediaVideo) value;
+        if (video.getThumbnail() != null) {
+            gen.writeStringField(InputMediaVideo.THUMBNAIL_FIELD, video.getThumbnail().getAttachName());
+        }
+        if (video.getDuration() != null) {
+            gen.writeNumberField(InputMediaVideo.DURATION_FIELD, video.getDuration());
+        }
+        if (video.getHeight() != null) {
+            gen.writeNumberField(InputMediaVideo.HEIGHT_FIELD, video.getHeight());
+        }
+        if (video.getWidth() != null) {
+            gen.writeNumberField(InputMediaVideo.WIDTH_FIELD, video.getWidth());
+        }
+        if (video.getSupportsStreaming() != null) {
+            gen.writeBooleanField(InputMediaVideo.SUPPORTSSTREAMING_FIELD, video.getSupportsStreaming());
+        }
+        if (video.getHasSpoiler() != null) {
+            gen.writeBooleanField(InputMediaVideo.HASSPOILER_FIELD, video.getHasSpoiler());
+        }
     }
 
     @Override
