@@ -16,21 +16,21 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class GetMyDefaultAdministratorRightsTest {
     @Test
     public void testGetMyDefaultAdministratorRightsWithAllSetForChannel() {
-        GetMyDefaultAdministratorRights getMyDefaultAdministratorRights = GetMyDefaultAdministratorRights
+        GetMyDefaultAdministratorRights getMyDefaultAdminRights = GetMyDefaultAdministratorRights
                 .builder()
                 .forChannels(true)
                 .build();
-        assertEquals("getMyDefaultAdministratorRights", getMyDefaultAdministratorRights.getMethod());
-        assertDoesNotThrow(getMyDefaultAdministratorRights::validate);
+        assertEquals("getMyDefaultAdministratorRights", getMyDefaultAdminRights.getMethod());
+        assertDoesNotThrow(getMyDefaultAdminRights::validate);
     }
 
     @Test
     public void testGetMyDefaultAdministratorRightsWithAllSetForGroups() {
-        GetMyDefaultAdministratorRights getMyDefaultAdministratorRights = GetMyDefaultAdministratorRights
+        GetMyDefaultAdministratorRights getMyDefaultAdminRights = GetMyDefaultAdministratorRights
                 .builder()
                 .build();
-        assertEquals("getMyDefaultAdministratorRights", getMyDefaultAdministratorRights.getMethod());
-        assertDoesNotThrow(getMyDefaultAdministratorRights::validate);
+        assertEquals("getMyDefaultAdministratorRights", getMyDefaultAdminRights.getMethod());
+        assertDoesNotThrow(getMyDefaultAdminRights::validate);
     }
 
     @Test
@@ -52,12 +52,12 @@ public class GetMyDefaultAdministratorRightsTest {
                 "    }\n" +
                 "}";
 
-        GetMyDefaultAdministratorRights getMyDefaultAdministratorRights = GetMyDefaultAdministratorRights
+        GetMyDefaultAdministratorRights getMyDefaultAdminRights = GetMyDefaultAdministratorRights
                 .builder()
                 .build();
 
         try {
-            ChatAdministratorRights result = getMyDefaultAdministratorRights.deserializeResponse(responseText);
+            ChatAdministratorRights result = getMyDefaultAdminRights.deserializeResponse(responseText);
             assertNotNull(result);
             assertEquals(true, result.getIsAnonymous());
             assertEquals(true, result.getCanManageChat());

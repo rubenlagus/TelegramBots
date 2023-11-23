@@ -14,26 +14,26 @@ public class SetMyDefaultAdministratorRightsTest {
 
     @Test
     public void testSetMyDefaultAdministratorRightsWithNone() {
-        SetMyDefaultAdministratorRights setMyDefaultAdministratorRights = SetMyDefaultAdministratorRights
+        SetMyDefaultAdministratorRights setMyDefaultAdminRights = SetMyDefaultAdministratorRights
                 .builder()
                 .build();
-        assertEquals("setMyDefaultAdministratorRights", setMyDefaultAdministratorRights.getMethod());
-        assertDoesNotThrow(setMyDefaultAdministratorRights::validate);
+        assertEquals("setMyDefaultAdministratorRights", setMyDefaultAdminRights.getMethod());
+        assertDoesNotThrow(setMyDefaultAdminRights::validate);
     }
 
     @Test
     public void testSetMyDefaultAdministratorRightsForChannels() {
-        SetMyDefaultAdministratorRights setMyDefaultAdministratorRights = SetMyDefaultAdministratorRights
+        SetMyDefaultAdministratorRights setMyDefaultAdminRights = SetMyDefaultAdministratorRights
                 .builder()
                 .forChannels(true)
                 .build();
-        assertEquals("setMyDefaultAdministratorRights", setMyDefaultAdministratorRights.getMethod());
-        assertDoesNotThrow(setMyDefaultAdministratorRights::validate);
+        assertEquals("setMyDefaultAdministratorRights", setMyDefaultAdminRights.getMethod());
+        assertDoesNotThrow(setMyDefaultAdminRights::validate);
     }
 
     @Test
     public void testSetMyDefaultAdministratorRightsWithAllSet() {
-        SetMyDefaultAdministratorRights setMyDefaultAdministratorRights = SetMyDefaultAdministratorRights
+        SetMyDefaultAdministratorRights setMyDefaultAdminRights = SetMyDefaultAdministratorRights
                 .builder()
                 .forChannels(true)
                 .rights(ChatAdministratorRights
@@ -48,20 +48,20 @@ public class SetMyDefaultAdministratorRightsTest {
                         .canInviteUsers(false)
                         .build())
                 .build();
-        assertEquals("setMyDefaultAdministratorRights", setMyDefaultAdministratorRights.getMethod());
-        assertDoesNotThrow(setMyDefaultAdministratorRights::validate);
+        assertEquals("setMyDefaultAdministratorRights", setMyDefaultAdminRights.getMethod());
+        assertDoesNotThrow(setMyDefaultAdminRights::validate);
     }
 
     @Test
     public void testSetMyDefaultAdministratorRightsDeserializeValidResponse() {
         String responseText = "{\"ok\":true,\"result\": true}";
 
-        SetMyDefaultAdministratorRights setMyDefaultAdministratorRights = SetMyDefaultAdministratorRights
+        SetMyDefaultAdministratorRights setMyDefaultAdminRights = SetMyDefaultAdministratorRights
                 .builder()
                 .build();
 
         try {
-            boolean result = setMyDefaultAdministratorRights.deserializeResponse(responseText);
+            boolean result = setMyDefaultAdminRights.deserializeResponse(responseText);
             assertTrue(result);
         } catch (TelegramApiRequestException e) {
             fail(e.getMessage());
@@ -72,12 +72,12 @@ public class SetMyDefaultAdministratorRightsTest {
     public void testSetMyDefaultAdministratorRightsDeserializeErrorResponse() {
         String responseText = "{\"ok\":false,\"error_code\": 404,\"description\": \"Error message\"}";
 
-        SetMyDefaultAdministratorRights setMyDefaultAdministratorRights = SetMyDefaultAdministratorRights
+        SetMyDefaultAdministratorRights setMyDefaultAdminRights = SetMyDefaultAdministratorRights
                 .builder()
                 .build();
 
         try {
-            setMyDefaultAdministratorRights.deserializeResponse(responseText);
+            setMyDefaultAdminRights.deserializeResponse(responseText);
             fail();
         } catch (TelegramApiRequestException e) {
             assertEquals(404, e.getErrorCode());
@@ -89,12 +89,12 @@ public class SetMyDefaultAdministratorRightsTest {
     public void testSetMyDefaultAdministratorRightsDeserializeWithWrongObject() {
         String responseText = "{\"ok\":false\"error_code\": 404,\"description\": \"Error message\"}";
 
-        SetMyDefaultAdministratorRights setMyDefaultAdministratorRights = SetMyDefaultAdministratorRights
+        SetMyDefaultAdministratorRights setMyDefaultAdminRights = SetMyDefaultAdministratorRights
                 .builder()
                 .build();
 
         try {
-            setMyDefaultAdministratorRights.deserializeResponse(responseText);
+            setMyDefaultAdminRights.deserializeResponse(responseText);
             fail();
         } catch (TelegramApiRequestException e) {
             assertEquals("Unable to deserialize response", e.getMessage());
