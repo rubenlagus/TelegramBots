@@ -23,7 +23,8 @@ import static org.mockito.Mockito.*;
 import static org.telegram.abilitybots.api.bot.TestUtils.USER;
 import static org.telegram.abilitybots.api.bot.TestUtils.mockFullUpdate;
 import static org.telegram.abilitybots.api.db.MapDBContext.offlineInstance;
-import static org.telegram.abilitybots.api.objects.ReplyFlow.ReplyFlowBuilder.STATES;
+//import static org.telegram.abilitybots.api.objects.ReplyFlow.ReplyFlowBuilder.STATES;
+import static org.telegram.abilitybots.api.objects.ReplyFlowBuilder.STATES;
 import static org.telegram.abilitybots.api.util.AbilityUtils.getChatId;
 
 public class ReplyFlowTest {
