@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.ApiConstants;
 import org.telegram.telegrambots.meta.generics.BotOptions;
 import org.telegram.telegrambots.meta.generics.BackOff;
 
+import java.net.InetSocketAddress;
 import java.util.List;
 
 /**
@@ -151,5 +152,21 @@ public class DefaultBotOptions implements BotOptions {
 
     public void setGetUpdatesLimit(int getUpdatesLimit) {
         this.getUpdatesLimit = getUpdatesLimit;
+    }
+
+
+    public void configureHttpContext() {
+
+        if (getProxyType() != DefaultBotOptions.ProxyType.NO_PROXY) {
+            InetSocketAddress socketAddress = new InetSocketAddress(getProxyHost(), getProxyPort());
+            getHttpContext().setAttribute("socketAddress", socketAddress);
+        }
+
+        if (getProxyType() == DefaultBotOptions.ProxyType.SOCKS4) {
+            getHttpContext().setAttribute("socksVersion", 4);
+        }
+        if (getProxyType() == DefaultBotOptions.ProxyType.SOCKS5) {
+            getHttpContext().setAttribute("socksVersion", 5);
+        }
     }
 }

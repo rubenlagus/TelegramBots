@@ -95,7 +95,7 @@ public abstract class DefaultAbsSender extends AbsSender {
 
         httpClient = TelegramHttpClientBuilder.build(options);
         this.telegramFileDownloader = new TelegramFileDownloader(httpClient, this::getBotToken);
-        configureHttpContext();
+        options.configureHttpContext();
 
         final RequestConfig configFromOptions = options.getRequestConfig();
         if (configFromOptions != null) {
@@ -1120,21 +1120,7 @@ public abstract class DefaultAbsSender extends AbsSender {
 
     // Private methods
 
-    private void configureHttpContext() {
 
-        if (options.getProxyType() != DefaultBotOptions.ProxyType.NO_PROXY) {
-            InetSocketAddress socketAddress = new InetSocketAddress(options.getProxyHost(), options.getProxyPort());
-            options.getHttpContext().setAttribute("socketAddress", socketAddress);
-        }
-
-        if (options.getProxyType() == DefaultBotOptions.ProxyType.SOCKS4) {
-            options.getHttpContext().setAttribute("socksVersion", 4);
-        }
-        if (options.getProxyType() == DefaultBotOptions.ProxyType.SOCKS5) {
-            options.getHttpContext().setAttribute("socksVersion", 5);
-        }
-
-    }
 
     private <T extends Serializable, Method extends BotApiMethod<T>> String sendMethodRequest(Method method) throws TelegramApiValidationException, IOException {
         method.validate();
