@@ -29,7 +29,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 public class UnpinChatMessage extends BotApiMethodBoolean {

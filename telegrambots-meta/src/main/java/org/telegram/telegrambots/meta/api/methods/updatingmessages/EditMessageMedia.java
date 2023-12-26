@@ -38,7 +38,7 @@ import java.io.Serializable;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 public class EditMessageMedia extends PartialBotApiMethod<Serializable> {
@@ -79,6 +79,11 @@ public class EditMessageMedia extends PartialBotApiMethod<Serializable> {
     @Tolerate
     public void setChatId(Long chatId) {
         this.chatId = chatId == null ? null : chatId.toString();
+    }
+
+    @Override
+    public String getMethod() {
+        return PATH;
     }
 
     @Override

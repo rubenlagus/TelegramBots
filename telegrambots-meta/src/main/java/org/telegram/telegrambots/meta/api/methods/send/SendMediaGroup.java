@@ -36,7 +36,7 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
@@ -113,6 +113,11 @@ public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
                 throw new TelegramApiValidationException("Media parameter containing Document can not have other types", this);
             }
         }
+    }
+
+    @Override
+    public String getMethod() {
+        return PATH;
     }
 
     public static class SendMediaGroupBuilder {

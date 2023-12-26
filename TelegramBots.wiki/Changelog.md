@@ -1,3 +1,18 @@
+### <a id="6.8.0"></a>6.8.0 ###
+1. Update Api version [6.8](https://core.telegram.org/bots/api-changelog#august-18-2023)
+2. Fix #1254
+
+### <a id="6.7.0"></a>6.7.0 ###
+1. Update Api version [6.7](https://core.telegram.org/bots/api-changelog#april-21-2023)
+
+**[[How to update to version 6.7.0|How-To-Update#6.7.0]]**
+
+### <a id="6.6.0"></a>6.6.0 ###
+1. Update Api version [6.6](https://core.telegram.org/bots/api-changelog#march-9-2023)
+
+### <a id="6.5.0"></a>6.5.0 ###
+1. Update Api version [6.5](https://core.telegram.org/bots/api-changelog#february-3-2023)
+
 ### <a id="6.4.0"></a>6.4.0 ###
 1. Update Api version [6.4](https://core.telegram.org/bots/api-changelog#december-30-2022)
 2. Bug fixing: #1159

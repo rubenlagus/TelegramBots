@@ -22,7 +22,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder

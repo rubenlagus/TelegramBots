@@ -20,7 +20,7 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 @Setter
 @ToString
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 public class Location implements BotApiObject {
 
     private static final String LONGITUDE_FIELD = "longitude";

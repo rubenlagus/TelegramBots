@@ -37,7 +37,7 @@ import org.telegram.telegrambots.meta.api.objects.User;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 public class GameHighScore implements BotApiObject {
     private static final String POSITION_FIELD = "position";

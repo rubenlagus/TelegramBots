@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.stickers;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -29,7 +30,7 @@ public class Sticker implements BotApiObject {
     private static final String TYPE_FIELD = "type";
     private static final String WIDTH_FIELD = "width";
     private static final String HEIGHT_FIELD = "height";
-    private static final String THUMB_FIELD = "thumb";
+    private static final String THUMBNAIL_FIELD = "thumbnail";
     private static final String FILESIZE_FIELD = "file_size";
     private static final String EMOJI_FIELD = "emoji";
     private static final String SETNAME_FIELD = "set_name";
@@ -38,6 +39,7 @@ public class Sticker implements BotApiObject {
     private static final String ISVIDEO_FIELD = "is_video";
     private static final String PREMIUMANIMATION_FIELD = "premium_animation";
     private static final String CUSTOMEMOJIID_FIELD = "custom_emoji_id";
+    private static final String NEEDS_REPAINTING_FIELD = "needs_repainting";
 
     /**
      * Identifier for this file, which can be used to download or reuse the file
@@ -70,8 +72,8 @@ public class Sticker implements BotApiObject {
      * Optional.
      * Sticker thumbnail in .webp or .jpg format
      */
-    @JsonProperty(THUMB_FIELD)
-    private PhotoSize thumb;
+    @JsonProperty(THUMBNAIL_FIELD)
+    private PhotoSize thumbnail;
     /**
      * Optional.
      * File size
@@ -119,4 +121,29 @@ public class Sticker implements BotApiObject {
     @JsonProperty(CUSTOMEMOJIID_FIELD)
     private String customEmojiId;
 
+    /**.
+     * Optional.
+     * True, if the sticker must be repainted to a text color in messages, the color of the Telegram Premium badge
+     * in emoji status, white color on chat photos, or another appropriate color in other places
+     */
+    @JsonProperty(NEEDS_REPAINTING_FIELD)
+    private Boolean needsRepainting;
+
+    /**
+     * @deprecated Use {{@link #getThumbnail()}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public PhotoSize getThumb() {
+        return thumbnail;
+    }
+
+    /**
+     * @deprecated Use {{@link #setThumbnail(PhotoSize)}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public void setThumb(PhotoSize thumb) {
+        this.thumbnail = thumb;
+    }
 }

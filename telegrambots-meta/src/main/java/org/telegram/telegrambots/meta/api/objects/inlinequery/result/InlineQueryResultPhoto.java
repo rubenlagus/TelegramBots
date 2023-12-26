@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.result;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -32,7 +34,7 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 public class InlineQueryResultPhoto implements InlineQueryResult {
@@ -42,7 +44,7 @@ public class InlineQueryResultPhoto implements InlineQueryResult {
     private static final String MIMETYPE_FIELD = "mime_type";
     private static final String PHOTOWIDTH_FIELD = "photo_width";
     private static final String PHOTOHEIGHT_FIELD = "photo_height";
-    private static final String THUMBURL_FIELD = "thumb_url";
+    private static final String THUMBNAIL_URL_FIELD = "thumbnail_url";
     private static final String TITLE_FIELD = "title";
     private static final String DESCRIPTION_FIELD = "description";
     private static final String CAPTION_FIELD = "caption";
@@ -65,8 +67,8 @@ public class InlineQueryResultPhoto implements InlineQueryResult {
     private Integer photoWidth; ///< Optional. Width of the photo
     @JsonProperty(PHOTOHEIGHT_FIELD)
     private Integer photoHeight; ///< Optional. Height of the photo
-    @JsonProperty(THUMBURL_FIELD)
-    private String thumbUrl; ///< Optional. URL of the thumbnail for the photo
+    @JsonProperty(THUMBNAIL_URL_FIELD)
+    private String thumbnailUrl; ///< Optional. URL of the thumbnail for the photo
     @JsonProperty(TITLE_FIELD)
     private String title; ///< Optional. Title for the result
     @JsonProperty(DESCRIPTION_FIELD)
@@ -85,10 +87,10 @@ public class InlineQueryResultPhoto implements InlineQueryResult {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (id == null || id.isEmpty()) {
+        if (id.isEmpty()) {
             throw new TelegramApiValidationException("ID parameter can't be empty", this);
         }
-        if (photoUrl == null || photoUrl.isEmpty()) {
+        if (photoUrl.isEmpty()) {
             throw new TelegramApiValidationException("PhotoUrl parameter can't be empty", this);
         }
         if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
@@ -99,6 +101,35 @@ public class InlineQueryResultPhoto implements InlineQueryResult {
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+    }
+
+    /**
+     * @deprecated Use {{@link #getThumbnailUrl()}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public String getThumbUrl() {
+        return thumbnailUrl;
+    }
+
+    /**
+     * @deprecated Use {{@link #setThumbnailUrl(String)}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public void setThumbUrl(String thumbUrl) {
+        this.thumbnailUrl = thumbUrl;
+    }
+
+
+    public static class InlineQueryResultPhotoBuilder {
+
+        @Tolerate
+        @Deprecated
+        public InlineQueryResultPhotoBuilder thumbUrl(String thumbUrl) {
+            this.thumbnailUrl = thumbUrl;
+            return this;
         }
     }
 }

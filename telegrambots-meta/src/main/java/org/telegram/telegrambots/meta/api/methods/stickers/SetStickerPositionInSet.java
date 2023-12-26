@@ -15,13 +15,14 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * Use this method to move a sticker in a set created by the bot to a specific position. Returns True on success.
+ * Use this method to move a sticker in a set created by the bot to a specific position.
+ * Returns True on success.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 public class SetStickerPositionInSet extends BotApiMethodBoolean {

@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -25,7 +26,7 @@ public class Document implements BotApiObject {
 
     private static final String FILEID_FIELD = "file_id";
     private static final String FILEUNIQUEID_FIELD = "file_unique_id";
-    private static final String THUMB_FIELD = "thumb";
+    private static final String THUMBNAIL_FIELD = "thumbnail";
     private static final String FILENAME_FIELD = "file_name";
     private static final String MIMETYPE_FIELD = "mime_type";
     private static final String FILESIZE_FIELD = "file_size";
@@ -44,8 +45,8 @@ public class Document implements BotApiObject {
     /**
      * Document thumbnail as defined by sender
      */
-    @JsonProperty(THUMB_FIELD)
-    private PhotoSize thumb;
+    @JsonProperty(THUMBNAIL_FIELD)
+    private PhotoSize thumbnail;
     /**
      * Optional.
      * Original filename as defined by sender
@@ -66,4 +67,22 @@ public class Document implements BotApiObject {
      */
     @JsonProperty(FILESIZE_FIELD)
     private Long fileSize;
+
+    /**
+     * @deprecated Use {{@link #getThumbnail()}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public PhotoSize getThumb() {
+        return thumbnail;
+    }
+
+    /**
+     * @deprecated Use {{@link #setThumbnail(PhotoSize)}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public void setThumb(PhotoSize thumb) {
+        this.thumbnail = thumb;
+    }
 }

@@ -27,7 +27,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 public class SetChatPhoto extends PartialBotApiMethod<Boolean> {
@@ -44,6 +44,11 @@ public class SetChatPhoto extends PartialBotApiMethod<Boolean> {
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
         this.chatId = chatId.toString();
+    }
+
+    @Override
+    public String getMethod() {
+        return PATH;
     }
 
     @Override

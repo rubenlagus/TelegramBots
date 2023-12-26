@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.media;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
@@ -8,6 +9,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -34,7 +36,7 @@ public class InputMediaAudio extends InputMedia {
     public static final String DURATION_FIELD = "duration";
     public static final String PERFORMER_FIELD = "performer";
     public static final String TITLE_FIELD = "title";
-    public static final String THUMB_FIELD = "thumb";
+    public static final String THUMBNAIL_FIELD = "thumbnail";
 
     @JsonProperty(DURATION_FIELD)
     private Integer duration; ///< Optional. Duration of the audio in seconds
@@ -49,7 +51,7 @@ public class InputMediaAudio extends InputMedia {
      * Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>”
      * if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
      */
-    private InputFile thumb;
+    private InputFile thumbnail;
 
     public InputMediaAudio() {
         super();
@@ -60,12 +62,14 @@ public class InputMediaAudio extends InputMedia {
     }
 
     @Builder
-    public InputMediaAudio(@NonNull String media, String caption, String parseMode, List<MessageEntity> entities, boolean isNewMedia, String mediaName, File newMediaFile, InputStream newMediaStream, Integer duration, String performer, String title, InputFile thumb) {
+    public InputMediaAudio(@NonNull String media, String caption, String parseMode, List<MessageEntity> entities,
+                           boolean isNewMedia, String mediaName, File newMediaFile, InputStream newMediaStream,
+                           Integer duration, String performer, String title, InputFile thumbnail) {
         super(media, caption, parseMode, entities, isNewMedia, mediaName, newMediaFile, newMediaStream);
         this.duration = duration;
         this.performer = performer;
         this.title = title;
-        this.thumb = thumb;
+        this.thumbnail = thumbnail;
     }
 
     @Override
@@ -76,5 +80,33 @@ public class InputMediaAudio extends InputMedia {
     @Override
     public void validate() throws TelegramApiValidationException {
         super.validate();
+    }
+
+    /**
+     * @deprecated Use {{@link #getThumbnail()}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public InputFile getThumb() {
+        return thumbnail;
+    }
+
+    /**
+     * @deprecated Use {{@link #setThumbnail(InputFile)}}
+     */
+    @JsonIgnore
+    @Deprecated
+    public void setThumb(InputFile thumb) {
+        this.thumbnail = thumb;
+    }
+
+    public static class InputMediaAudioBuilder {
+
+        @Tolerate
+        @Deprecated
+        public InputMediaAudio.InputMediaAudioBuilder thumb(InputFile thumb) {
+            this.thumbnail = thumb;
+            return this;
+        }
     }
 }
