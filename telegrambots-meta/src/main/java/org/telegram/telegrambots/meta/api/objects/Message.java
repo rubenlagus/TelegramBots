@@ -117,6 +117,7 @@ public class Message implements BotApiObject {
     private static final String USERSHARED_FIELD = "user_shared";
     private static final String CHATSHARED_FIELD = "chat_shared";
     private static final String STORY_FIELD = "story";
+    private static final String WRITE_ACCESS_ALLOWED_FIELD = "write_access_allowed";
 
     /**
      * Integer	Unique message identifier
@@ -534,8 +535,9 @@ public class Message implements BotApiObject {
     @JsonProperty(GENERALFORUMTOPICUNHIDDEN_FIELD)
     private GeneralForumTopicUnhidden generalForumTopicUnhidden;
     /**
-     * Optional.
-     * Service message: the user allowed the bot added to the attachment menu to write messages
+     * 	Optional.
+     * 	Service message: the user allowed the bot to write messages after adding it to the attachment or side menu,
+     * 	launching a Web App from a link, or accepting an explicit request from a Web App sent by the method requestWriteAccess
      */
     @JsonProperty(WRITEACCESSALLOWED_FIELD)
     private WriteAccessAllowed writeAccessAllowed;
@@ -789,5 +791,10 @@ public class Message implements BotApiObject {
     @JsonIgnore
     private boolean hasStory() {
         return story != null;
+    }
+
+    @JsonIgnore
+    private boolean hasWriteAccessAllowed() {
+        return writeAccessAllowed != null;
     }
 }
