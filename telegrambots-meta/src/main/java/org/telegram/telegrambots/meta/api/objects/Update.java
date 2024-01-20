@@ -8,12 +8,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
+import org.telegram.telegrambots.meta.api.objects.boost.ChatBoostRemoved;
+import org.telegram.telegrambots.meta.api.objects.boost.ChatBoostUpdated;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.ChosenInlineQuery;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
 import org.telegram.telegrambots.meta.api.objects.payments.PreCheckoutQuery;
 import org.telegram.telegrambots.meta.api.objects.payments.ShippingQuery;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.api.objects.polls.PollAnswer;
+import org.telegram.telegrambots.meta.api.objects.reactions.MessageReactionCountUpdated;
+import org.telegram.telegrambots.meta.api.objects.reactions.MessageReactionUpdated;
 
 /**
  * This object represents an incoming update.
@@ -43,6 +47,10 @@ public class Update implements BotApiObject {
     private static final String MYCHATMEMBER_FIELD = "my_chat_member";
     private static final String CHATMEMBER_FIELD = "chat_member";
     private static final String CHATJOINREQUEST_FIELD = "chat_join_request";
+    private static final String MESSAGE_REACTION_FIELD = "message_reaction";
+    private static final String MESSAGE_REACTION_COUNT_FIELD = "message_reaction_count";
+    private static final String CHAT_BOOST_FIELD = "chat_boost";
+    private static final String REMOVED_CHAT_BOOST_FIELD = "removed_chat_boost";
 
     @JsonProperty(UPDATEID_FIELD)
     private Integer updateId;
@@ -130,6 +138,37 @@ public class Update implements BotApiObject {
     private ChatMemberUpdated chatMember;
     @JsonProperty(CHATJOINREQUEST_FIELD)
     private ChatJoinRequest chatJoinRequest;
+    /**
+     * Optional.
+     * A reaction to a message was changed by a user.
+     * The bot must be an administrator in the chat and must explicitly specify "message_reaction" in the list of
+     * allowed_updates to receive these updates.
+     * The update isn't received for reactions set by bots.
+     */
+    @JsonProperty(MESSAGE_REACTION_FIELD)
+    private MessageReactionUpdated messageReaction;
+    /**
+     * Optional.
+     * Reactions to a message with anonymous reactions were changed.
+     * The bot must be an administrator in the chat and must explicitly specify "message_reaction_count" in the
+     * list of allowed_updates to receive these updates.
+     */
+    @JsonProperty(MESSAGE_REACTION_COUNT_FIELD)
+    private MessageReactionCountUpdated messageReactionCount;
+    /**
+     * Optional.
+     * A chat boost was added or changed.
+     * The bot must be an administrator in the chat to receive these updates.
+     */
+    @JsonProperty(CHAT_BOOST_FIELD)
+    private ChatBoostUpdated chatBoost;
+    /**
+     * Optional.
+     * A boost was removed from a chat.
+     * The bot must be an administrator in the chat to receive these updates.
+     */
+    @JsonProperty(REMOVED_CHAT_BOOST_FIELD)
+    private ChatBoostRemoved removedChatBoost;
 
     public boolean hasMessage() {
         return message != null;

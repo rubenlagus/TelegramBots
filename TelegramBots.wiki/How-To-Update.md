@@ -1,3 +1,7 @@
+### <a id="6.9.7.0"></a>To version 6.9.7.0 ###
+1. `CallbackQuery` method `getMessage` now return an instance of `MaybeInaccessibleMessage`. Check type to identify if it is a `Message` or a `InaccessibleMessage`.
+2. `Message` method `getPinnedMessage` now return an instance of `MaybeInaccessibleMessage`. Check type to identify if it is a `Message` or a `InaccessibleMessage`.
+
 ### <a id="6.8.0"></a>To version 6.8.0 ###
 1. Api methods with thumbnails have changed the field, use getThumbnail()/setThumbnail() instead of getThumb()/setThumb() 
 2. In `AddStickerToSet`/`CreateNewStickerSet`/`UploadStickerFile`/etc, use field `sticker` instead of the deprecated fields.

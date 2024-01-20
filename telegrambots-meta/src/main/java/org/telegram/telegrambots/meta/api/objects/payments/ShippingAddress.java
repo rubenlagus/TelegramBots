@@ -29,8 +29,11 @@ public class ShippingAddress implements BotApiObject {
     private static final String STREET_LINE2_FIELD = "street_line2";
     private static final String POST_CODE_FIELD = "post_code";
 
+    /**
+     * Two-letter ISO 3166-1 alpha-2 country code
+     */
     @JsonProperty(COUNTRY_CODE_FIELD)
-    private String countryCode; ///< Two-letter ISO 3166-1 alpha-2 country code
+    private String countryCode;
     @JsonProperty(STATE_FIELD)
     private String state; ///< State, if applicable
     @JsonProperty(CITY_FIELD)

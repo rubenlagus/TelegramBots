@@ -14,6 +14,7 @@ import lombok.ToString;
 import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.MessageId;
+import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -24,10 +25,12 @@ import java.util.List;
  * @author Ruben Bermudez
  * @version 1.0
  * Use this method to copy messages of any kind.
- * Service messages and invoice messages can't be copied.
+ * Service messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied.
  * A quiz poll can be copied only if the value of the field correct_option_id is known to the bot.
- * The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message.
- * Returns the MessageId of the sent message on success.
+ * The method is analogous to the method forwardMessage, but the copied message doesn't have a link
+ * to the original message.
+ *
+ * Returns the MessageId of the message sent on success.
  */
 @SuppressWarnings("unused")
 @EqualsAndHashCode(callSuper = false)
@@ -53,6 +56,7 @@ public class CopyMessage extends BotApiMethod<MessageId> {
     private static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
     private static final String PROTECTCONTENT_FIELD = "protect_content";
+    private static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -93,6 +97,12 @@ public class CopyMessage extends BotApiMethod<MessageId> {
     private ReplyKeyboard replyMarkup;
     @JsonProperty(PROTECTCONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
+    /**
+     * Optional
+     * Description of the message to reply to
+     */
+    @JsonProperty(REPLY_PARAMETERS_FIELD)
+    private ReplyParameters replyParameters;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
@@ -157,6 +167,9 @@ public class CopyMessage extends BotApiMethod<MessageId> {
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+        if (replyParameters != null) {
+            replyParameters.validate();
         }
     }
 
