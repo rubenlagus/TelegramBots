@@ -223,14 +223,12 @@ public class Chat implements BotApiObject {
      */
     @JsonProperty(HASRESTRICTEDVOICEANDVIDEOMESSAGES_FIELD)
     private Boolean hasRestrictedVoiceAndVideoMessages;
-
     /**
      * Optional.
      * True, if the supergroup chat is a forum (has topics enabled)
      */
     @JsonProperty(ISFORUM_FIELD)
     private Boolean isForum;
-
     /**
      * Optional.
      * If non-empty, the list of all active chat usernames; for private chats, supergroups and channels.
@@ -238,10 +236,9 @@ public class Chat implements BotApiObject {
      */
     @JsonProperty(ACTIVEUSERNAMES_FIELD)
     private List<String> activeUsernames;
-
     /**
      * Optional.
-     * Custom emoji identifier of emoji status of the other party in a private chat.
+     * Custom emoji identifier of the emoji status of the chat or the other party in a private chat.
      * Returned only in getChat.
      */
     @JsonProperty(EMOJI_STATUS_CUSTOM_ID_FIELD)
@@ -314,13 +311,6 @@ public class Chat implements BotApiObject {
      */
     @JsonProperty(HAS_VISIBLE_HISTORY_FIELD)
     private Boolean hasVisibleHistory;
-    /**
-     * Optional.
-     * Custom emoji identifier of the emoji status of the chat or the other party in a private chat.
-     * Returned only in getChat.
-     */
-    @JsonProperty(EMOJI_STATUS_CUSTOM_ID_FIELD)
-    private String emojiStatusCustomId;
 
     @JsonIgnore
     public Boolean isGroupChat() {
