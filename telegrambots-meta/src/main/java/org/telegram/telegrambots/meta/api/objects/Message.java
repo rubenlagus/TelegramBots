@@ -2,6 +2,7 @@ package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -26,6 +27,7 @@ import org.telegram.telegrambots.meta.api.objects.payments.Invoice;
 import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.serialization.MaybeInaccessibleMessageDeserializer;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 import org.telegram.telegrambots.meta.api.objects.stories.Story;
 import org.telegram.telegrambots.meta.api.objects.videochat.VideoChatEnded;
@@ -258,6 +260,7 @@ public class Message implements MaybeInaccessibleMessage {
      * Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply.
      */
     @JsonProperty(PINNED_MESSAGE_FIELD)
+    @JsonDeserialize(using = MaybeInaccessibleMessageDeserializer.class)
     private MaybeInaccessibleMessage pinnedMessage;
     /**
      * Optional.
