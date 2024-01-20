@@ -1,3 +1,6 @@
+### <a id="6.9.0"></a>6.9.0 ###
+1. Update Api version [6.9](https://core.telegram.org/bots/api-changelog#september-22-2023)
+
 ### <a id="6.8.0"></a>6.8.0 ###
 1. Update Api version [6.8](https://core.telegram.org/bots/api-changelog#august-18-2023)
 2. Fix #1254
