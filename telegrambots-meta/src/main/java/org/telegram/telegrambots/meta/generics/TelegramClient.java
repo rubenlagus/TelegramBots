@@ -1,4 +1,4 @@
-package org.telegram.telegrambots.client;
+package org.telegram.telegrambots.meta.generics;
 
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;

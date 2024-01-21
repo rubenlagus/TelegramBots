@@ -42,8 +42,8 @@ public abstract class InputMedia implements Validable, BotApiObject {
     public static final String TYPE_FIELD = "type";
     public static final String MEDIA_FIELD = "media";
     public static final String CAPTION_FIELD = "caption";
-    public static final String PARSEMODE_FIELD = "parse_mode";
-    public static final String CAPTIONENTITIES_FIELD = "caption_entities";
+    public static final String PARSE_MODE_FIELD = "parse_mode";
+    public static final String CAPTION_ENTITIES_FIELD = "caption_entities";
 
     /**
      * File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended),
@@ -53,21 +53,45 @@ public abstract class InputMedia implements Validable, BotApiObject {
     @JsonProperty(MEDIA_FIELD)
     @NonNull
     private String media;
+    /**
+     * Optional.
+     * Caption of the media to be sent, 0-200 characters
+     */
     @JsonProperty(CAPTION_FIELD)
-    private String caption; ///< Optional. Caption of the media to be sent, 0-200 characters
-    @JsonProperty(PARSEMODE_FIELD)
-    private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
-    @JsonProperty(CAPTIONENTITIES_FIELD)
+    private String caption;
+    /**
+     * Optional.
+     * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+     */
+    @JsonProperty(PARSE_MODE_FIELD)
+    private String parseMode;
+    /**
+     * Optional.
+     * List of special entities that appear in message text, which can be specified instead of parse_mode
+     */
+    @JsonProperty(CAPTION_ENTITIES_FIELD)
     @Singular
-    private List<MessageEntity> captionEntities; ///< Optional. List of special entities that appear in message text, which can be specified instead of parse_mode
+    private List<MessageEntity> captionEntities;
+    /**
+     * True to upload a new media, false to use a fileId or URL
+     */
     @JsonIgnore
-    private boolean isNewMedia; ///< True to upload a new media, false to use a fileId or URL
+    private boolean isNewMedia;
+    /**
+     * Name of the media to upload
+     */
     @JsonIgnore
-    private String mediaName; ///< Name of the media to upload
+    private String mediaName;
+    /**
+     * New media file
+     */
     @JsonIgnore
-    private File newMediaFile; ///< New media file
+    private File newMediaFile;
+    /**
+     * New media stream
+     */
     @JsonIgnore
-    private InputStream newMediaStream; ///< New media stream
+    private InputStream newMediaStream;
 
     @JsonIgnore
     public boolean isNewMedia() {

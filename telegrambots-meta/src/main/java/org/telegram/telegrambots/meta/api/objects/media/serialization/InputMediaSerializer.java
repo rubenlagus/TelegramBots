@@ -30,10 +30,10 @@ public class InputMediaSerializer extends JsonSerializer<InputMedia> {
             gen.writeStringField(InputMedia.CAPTION_FIELD, value.getCaption());
         }
         if (value.getParseMode() != null) {
-            gen.writeStringField(InputMedia.PARSEMODE_FIELD, value.getParseMode());
+            gen.writeStringField(InputMedia.PARSE_MODE_FIELD, value.getParseMode());
         }
         if (value.getCaptionEntities() != null) {
-            gen.writeArrayFieldStart(InputMedia.CAPTIONENTITIES_FIELD);
+            gen.writeArrayFieldStart(InputMedia.CAPTION_ENTITIES_FIELD);
             for (MessageEntity entity : value.getCaptionEntities()) {
                 gen.writeObject(entity);
             }

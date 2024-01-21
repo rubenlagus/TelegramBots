@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendLocation;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputLocationMessageContent;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultArticle;
+import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultsButton;
 
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
@@ -82,8 +83,11 @@ public class TestSerialization {
                 .cacheTime(1)
                 .isPersonal(true)
                 .nextOffset("2")
-                .switchPmText("switch")
-                .switchPmParameter("parameter")
+                .button(InlineQueryResultsButton
+                        .builder()
+                        .startParameter("parameter")
+                        .text("switch")
+                        .build())
                 .result(InlineQueryResultArticle
                         .builder()
                         .id("1")

@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -43,21 +42,13 @@ public class SendAudio extends SendMediaBotMethod<Message> {
     public static final String PATH = "sendaudio";
 
     public static final String DURATION_FIELD = "duration";
-    public static final String CHATID_FIELD = "chat_id";
-    public static final String MESSAGETHREADID_FIELD = "message_thread_id";
     public static final String AUDIO_FIELD = "audio";
-    public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
-    public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
-    public static final String REPLYMARKUP_FIELD = "reply_markup";
-    public static final String PERFOMER_FIELD = "performer";
+    public static final String PERFORMER_FIELD = "performer";
     public static final String TITLE_FIELD = "title";
     public static final String CAPTION_FIELD = "caption";
-    public static final String PARSEMODE_FIELD = "parse_mode";
+    public static final String PARSE_MODE_FIELD = "parse_mode";
     public static final String THUMBNAIL_FIELD = "thumbnail";
     public static final String CAPTION_ENTITIES_FIELD = "caption_entities";
-    public static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
-    public static final String PROTECTCONTENT_FIELD = "protect_content";
-    public static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
 
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (or Username fro channels)
@@ -152,36 +143,11 @@ public class SendAudio extends SendMediaBotMethod<Message> {
         return AUDIO_FIELD;
     }
 
-    /**
-     * @deprecated Use {{@link #getThumbnail()}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public InputFile getThumb() {
-        return thumbnail;
-    }
-
-    /**
-     * @deprecated Use {{@link #setThumbnail(InputFile)}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public void setThumb(InputFile thumb) {
-        this.thumbnail = thumb;
-    }
-
     public static class SendAudioBuilder {
 
         @Tolerate
         public SendAudioBuilder chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
-            return this;
-        }
-
-        @Tolerate
-        @Deprecated
-        public SendAudioBuilder thumb(InputFile thumb) {
-            this.thumbnail = thumb;
             return this;
         }
     }

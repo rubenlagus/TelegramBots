@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.result;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
@@ -12,7 +11,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -91,84 +89,6 @@ public class InlineQueryResultContact implements InlineQueryResult {
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
-        }
-    }
-
-    /**
-     * @deprecated Use {{@link #getThumbnailUrl()}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public String getThumbUrl() {
-        return thumbnailUrl;
-    }
-
-    /**
-     * @deprecated Use {{@link #setThumbnailUrl(String)}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public void setThumbUrl(String thumbUrl) {
-        this.thumbnailUrl = thumbUrl;
-    }
-
-    /**
-     * @deprecated Use {{@link #getThumbnailWidth()}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public Integer getThumbWidth() {
-        return thumbnailWidth;
-    }
-
-    /**
-     * @deprecated Use {{@link #setThumbnailWidth(Integer)}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public void setThumbWidth(Integer thumbWidth) {
-        this.thumbnailWidth = thumbWidth;
-    }
-
-    /**
-     * @deprecated Use {{@link #getThumbnailHeight()}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public Integer getThumbHeight() {
-        return thumbnailHeight;
-    }
-
-    /**
-     * @deprecated Use {{@link #setThumbnailHeight(Integer)}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public void setThumbHeight(Integer thumbHeight) {
-        this.thumbnailHeight = thumbHeight;
-    }
-
-    public static class InlineQueryResultContactBuilder {
-
-        @Tolerate
-        @Deprecated
-        public InlineQueryResultContactBuilder thumbUrl(String thumbUrl) {
-            this.thumbnailUrl = thumbUrl;
-            return this;
-        }
-
-        @Tolerate
-        @Deprecated
-        public InlineQueryResultContactBuilder thumbHeight(Integer thumbHeight) {
-            this.thumbnailHeight = thumbHeight;
-            return this;
-        }
-
-        @Tolerate
-        @Deprecated
-        public InlineQueryResultContactBuilder thumbWidth(Integer thumbWidth) {
-            this.thumbnailWidth = thumbWidth;
-            return this;
         }
     }
 }

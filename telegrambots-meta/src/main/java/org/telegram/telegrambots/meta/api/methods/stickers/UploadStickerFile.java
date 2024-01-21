@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.methods.stickers;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -9,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -62,24 +60,6 @@ public class UploadStickerFile extends PartialBotApiMethod<File> {
         return deserializeResponse(answer, File.class);
     }
 
-    /**
-     * @deprecated Use {{@link #getSticker()}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public InputFile getPngSticker() {
-        return sticker;
-    }
-
-    /**
-     * @deprecated Use {{@link #setSticker(InputFile)}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public void setPngSticker(InputFile pngSticker) {
-        this.sticker = pngSticker;
-    }
-
     @Override
     public void validate() throws TelegramApiValidationException {
         if (userId <= 0) {
@@ -90,15 +70,5 @@ public class UploadStickerFile extends PartialBotApiMethod<File> {
         }
 
         sticker.validate();
-    }
-
-    public static class UploadStickerFileBuilder {
-
-        @Tolerate
-        @Deprecated
-        public UploadStickerFileBuilder pngSticker(InputFile pngSticker) {
-            this.sticker = pngSticker;
-            return this;
-        }
     }
 }

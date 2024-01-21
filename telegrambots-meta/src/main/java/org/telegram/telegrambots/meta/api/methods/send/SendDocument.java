@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -38,20 +37,12 @@ import java.util.List;
 public class SendDocument extends SendMediaBotMethod<Message> {
     public static final String PATH = "senddocument";
 
-    public static final String CHATID_FIELD = "chat_id";
-    public static final String MESSAGETHREADID_FIELD = "message_thread_id";
     public static final String DOCUMENT_FIELD = "document";
     public static final String CAPTION_FIELD = "caption";
-    public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
-    public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
-    public static final String REPLYMARKUP_FIELD = "reply_markup";
     public static final String PARSEMODE_FIELD = "parse_mode";
     public static final String THUMBNAIL_FIELD = "thumbnail";
     public static final String CAPTION_ENTITIES_FIELD = "caption_entities";
-    public static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
     public static final String DISABLECONTENTTYPEDETECTION_FIELD = "disable_content_type_detection";
-    public static final String PROTECTCONTENT_FIELD = "protect_content";
-    public static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
 
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to or Username for the channel to send the message to
@@ -144,36 +135,11 @@ public class SendDocument extends SendMediaBotMethod<Message> {
         return PATH;
     }
 
-    /**
-     * @deprecated Use {{@link #getThumbnail()}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public InputFile getThumb() {
-        return thumbnail;
-    }
-
-    /**
-     * @deprecated Use {{@link #setThumbnail(InputFile)}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public void setThumb(InputFile thumb) {
-        this.thumbnail = thumb;
-    }
-
     public static class SendDocumentBuilder {
 
         @Tolerate
         public SendDocumentBuilder chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
-            return this;
-        }
-
-        @Tolerate
-        @Deprecated
-        public SendDocumentBuilder thumb(InputFile thumb) {
-            this.thumbnail = thumb;
             return this;
         }
     }

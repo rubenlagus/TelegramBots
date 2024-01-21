@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -36,18 +35,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 public class SendVideoNote extends SendMediaBotMethod<Message> {
     public static final String PATH = "sendvideonote";
 
-    public static final String CHATID_FIELD = "chat_id";
-    public static final String MESSAGETHREADID_FIELD = "message_thread_id";
-    public static final String VIDEONOTE_FIELD = "video_note";
+    public static final String VIDEO_NOTE_FIELD = "video_note";
     public static final String DURATION_FIELD = "duration";
     public static final String LENGTH_FIELD = "length";
-    public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
-    public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
-    public static final String REPLYMARKUP_FIELD = "reply_markup";
     public static final String THUMBNAIL_FIELD = "thumbnail";
-    public static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
-    public static final String PROTECTCONTENT_FIELD = "protect_content";
-    public static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
 
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
@@ -128,40 +119,13 @@ public class SendVideoNote extends SendMediaBotMethod<Message> {
 
     @Override
     public String getFileField() {
-        return VIDEONOTE_FIELD;
-    }
-
-
-    /**
-     * @deprecated Use {{@link #getThumbnail()}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public InputFile getThumb() {
-        return thumbnail;
-    }
-
-    /**
-     * @deprecated Use {{@link #setThumbnail(InputFile)}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public void setThumb(InputFile thumb) {
-        this.thumbnail = thumb;
+        return VIDEO_NOTE_FIELD;
     }
 
     public static class SendVideoNoteBuilder {
-
         @Tolerate
         public SendVideoNoteBuilder chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
-            return this;
-        }
-
-        @Tolerate
-        @Deprecated
-        public SendVideoNoteBuilder thumb(InputFile thumb) {
-            this.thumbnail = thumb;
             return this;
         }
     }

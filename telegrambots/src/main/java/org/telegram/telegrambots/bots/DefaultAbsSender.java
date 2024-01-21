@@ -242,7 +242,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             addInputFile(builder, sendPhoto.getPhoto(), SendPhoto.PHOTO_FIELD, true);
 
             if (sendPhoto.getReplyMarkup() != null) {
-                builder.addTextBody(SendPhoto.REPLYMARKUP_FIELD, objectMapper.writeValueAsString(sendPhoto.getReplyMarkup()), TEXT_PLAIN_CONTENT_TYPE);
+                builder.addTextBody(SendPhoto.REPLY_MARKUP_FIELD, objectMapper.writeValueAsString(sendPhoto.getReplyMarkup()), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendPhoto.getReplyToMessageId() != null) {
                 builder.addTextBody(SendPhoto.REPLYTOMESSAGEID_FIELD, sendPhoto.getReplyToMessageId().toString(), TEXT_PLAIN_CONTENT_TYPE);
@@ -253,7 +253,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendPhoto.getCaption() != null) {
                 builder.addTextBody(SendPhoto.CAPTION_FIELD, sendPhoto.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
                 if (sendPhoto.getParseMode() != null) {
-                    builder.addTextBody(SendPhoto.PARSEMODE_FIELD, sendPhoto.getParseMode(), TEXT_PLAIN_CONTENT_TYPE);
+                    builder.addTextBody(SendPhoto.PARSE_MODE_FIELD, sendPhoto.getParseMode(), TEXT_PLAIN_CONTENT_TYPE);
                 }
             }
             if (sendPhoto.getDisableNotification() != null) {
@@ -269,7 +269,7 @@ public abstract class DefaultAbsSender extends AbsSender {
                 builder.addTextBody(SendPhoto.CAPTION_ENTITIES_FIELD, objectMapper.writeValueAsString(sendPhoto.getCaptionEntities()), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendPhoto.getHasSpoiler() != null) {
-                builder.addTextBody(SendPhoto.HASSPOILER_FIELD, objectMapper.writeValueAsString(sendPhoto.getHasSpoiler()), TEXT_PLAIN_CONTENT_TYPE);
+                builder.addTextBody(SendPhoto.HAS_SPOILER_FIELD, objectMapper.writeValueAsString(sendPhoto.getHasSpoiler()), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendPhoto.getReplyParameters() != null) {
                 builder.addTextBody(SendPhoto.REPLY_PARAMETERS_FIELD, objectMapper.writeValueAsString(sendPhoto.getReplyParameters()), TEXT_PLAIN_CONTENT_TYPE);
@@ -299,7 +299,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             addInputFile(builder, sendVideo.getVideo(), SendVideo.VIDEO_FIELD, true);
 
             if (sendVideo.getReplyMarkup() != null) {
-                builder.addTextBody(SendVideo.REPLYMARKUP_FIELD, objectMapper.writeValueAsString(sendVideo.getReplyMarkup()), TEXT_PLAIN_CONTENT_TYPE);
+                builder.addTextBody(SendVideo.REPLY_MARKUP_FIELD, objectMapper.writeValueAsString(sendVideo.getReplyMarkup()), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendVideo.getReplyToMessageId() != null) {
                 builder.addTextBody(SendVideo.REPLYTOMESSAGEID_FIELD, sendVideo.getReplyToMessageId().toString(), TEXT_PLAIN_CONTENT_TYPE);
@@ -310,11 +310,11 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendVideo.getCaption() != null) {
                 builder.addTextBody(SendVideo.CAPTION_FIELD, sendVideo.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
                 if (sendVideo.getParseMode() != null) {
-                    builder.addTextBody(SendVideo.PARSEMODE_FIELD, sendVideo.getParseMode(), TEXT_PLAIN_CONTENT_TYPE);
+                    builder.addTextBody(SendVideo.PARSE_MODE_FIELD, sendVideo.getParseMode(), TEXT_PLAIN_CONTENT_TYPE);
                 }
             }
             if (sendVideo.getSupportsStreaming() != null) {
-                builder.addTextBody(SendVideo.SUPPORTSSTREAMING_FIELD, sendVideo.getSupportsStreaming().toString(), TEXT_PLAIN_CONTENT_TYPE);
+                builder.addTextBody(SendVideo.SUPPORTS_STREAMING_FIELD, sendVideo.getSupportsStreaming().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendVideo.getDuration() != null) {
                 builder.addTextBody(SendVideo.DURATION_FIELD, sendVideo.getDuration().toString(), TEXT_PLAIN_CONTENT_TYPE);
@@ -342,7 +342,7 @@ public abstract class DefaultAbsSender extends AbsSender {
                 builder.addTextBody(SendVideo.CAPTION_ENTITIES_FIELD, objectMapper.writeValueAsString(sendVideo.getCaptionEntities()), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendVideo.getHasSpoiler() != null) {
-                builder.addTextBody(SendVideo.HASSPOILER_FIELD, objectMapper.writeValueAsString(sendVideo.getHasSpoiler()), TEXT_PLAIN_CONTENT_TYPE);
+                builder.addTextBody(SendVideo.HAS_SPOILER_FIELD, objectMapper.writeValueAsString(sendVideo.getHasSpoiler()), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendVideo.getReplyParameters() != null) {
                 builder.addTextBody(SendVideo.REPLY_PARAMETERS_FIELD, objectMapper.writeValueAsString(sendVideo.getReplyParameters()), TEXT_PLAIN_CONTENT_TYPE);
@@ -369,7 +369,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             builder.addTextBody(SendVideoNote.CHATID_FIELD, sendVideoNote.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
-            addInputFile(builder, sendVideoNote.getVideoNote(), SendVideoNote.VIDEONOTE_FIELD, true);
+            addInputFile(builder, sendVideoNote.getVideoNote(), SendVideoNote.VIDEO_NOTE_FIELD, true);
 
             if (sendVideoNote.getReplyMarkup() != null) {
                 builder.addTextBody(SendVideoNote.REPLYMARKUP_FIELD, objectMapper.writeValueAsString(sendVideoNote.getReplyMarkup()), TEXT_PLAIN_CONTENT_TYPE);
@@ -489,7 +489,7 @@ public abstract class DefaultAbsSender extends AbsSender {
                 builder.addTextBody(SendAudio.MESSAGETHREADID_FIELD, sendAudio.getMessageThreadId().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendAudio.getPerformer() != null) {
-                builder.addTextBody(SendAudio.PERFOMER_FIELD, sendAudio.getPerformer(), TEXT_PLAIN_CONTENT_TYPE);
+                builder.addTextBody(SendAudio.PERFORMER_FIELD, sendAudio.getPerformer(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendAudio.getTitle() != null) {
                 builder.addTextBody(SendAudio.TITLE_FIELD, sendAudio.getTitle(), TEXT_PLAIN_CONTENT_TYPE);
@@ -503,7 +503,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendAudio.getCaption() != null) {
                 builder.addTextBody(SendAudio.CAPTION_FIELD, sendAudio.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
                 if (sendAudio.getParseMode() != null) {
-                    builder.addTextBody(SendAudio.PARSEMODE_FIELD, sendAudio.getParseMode(), TEXT_PLAIN_CONTENT_TYPE);
+                    builder.addTextBody(SendAudio.PARSE_MODE_FIELD, sendAudio.getParseMode(), TEXT_PLAIN_CONTENT_TYPE);
                 }
             }
             if (sendAudio.getThumbnail() != null) {
@@ -570,7 +570,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendVoice.getCaption() != null) {
                 builder.addTextBody(SendVoice.CAPTION_FIELD, sendVoice.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
                 if (sendVoice.getParseMode() != null) {
-                    builder.addTextBody(SendVoice.PARSEMODE_FIELD, sendVoice.getParseMode(), TEXT_PLAIN_CONTENT_TYPE);
+                    builder.addTextBody(SendVoice.PARSE_MODE_FIELD, sendVoice.getParseMode(), TEXT_PLAIN_CONTENT_TYPE);
                 }
             }
             if (sendVoice.getAllowSendingWithoutReply() != null) {
@@ -634,24 +634,24 @@ public abstract class DefaultAbsSender extends AbsSender {
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
-            builder.addTextBody(SendMediaGroup.CHATID_FIELD, sendMediaGroup.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
+            builder.addTextBody(SendMediaGroup.CHAT_ID_FIELD, sendMediaGroup.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
             addInputData(builder, sendMediaGroup.getMedias(), SendMediaGroup.MEDIA_FIELD);
 
             if (sendMediaGroup.getDisableNotification() != null) {
-                builder.addTextBody(SendMediaGroup.DISABLENOTIFICATION_FIELD, sendMediaGroup.getDisableNotification().toString(), TEXT_PLAIN_CONTENT_TYPE);
+                builder.addTextBody(SendMediaGroup.DISABLE_NOTIFICATION_FIELD, sendMediaGroup.getDisableNotification().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
 
             if (sendMediaGroup.getReplyToMessageId() != null) {
-                builder.addTextBody(SendMediaGroup.REPLYTOMESSAGEID_FIELD, sendMediaGroup.getReplyToMessageId().toString(), TEXT_PLAIN_CONTENT_TYPE);
+                builder.addTextBody(SendMediaGroup.REPLY_TO_MESSAGE_ID_FIELD, sendMediaGroup.getReplyToMessageId().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendMediaGroup.getMessageThreadId() != null) {
-                builder.addTextBody(SendMediaGroup.MESSAGETHREADID_FIELD, sendMediaGroup.getMessageThreadId().toString(), TEXT_PLAIN_CONTENT_TYPE);
+                builder.addTextBody(SendMediaGroup.MESSAGE_THREAD_ID_FIELD, sendMediaGroup.getMessageThreadId().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendMediaGroup.getAllowSendingWithoutReply() != null) {
-                builder.addTextBody(SendMediaGroup.ALLOWSENDINGWITHOUTREPLY_FIELD, sendMediaGroup.getAllowSendingWithoutReply().toString(), TEXT_PLAIN_CONTENT_TYPE);
+                builder.addTextBody(SendMediaGroup.ALLOW_SENDING_WITHOUT_REPLY_FIELD, sendMediaGroup.getAllowSendingWithoutReply().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendMediaGroup.getProtectContent() != null) {
-                builder.addTextBody(SendMediaGroup.PROTECTCONTENT_FIELD, sendMediaGroup.getProtectContent().toString(), TEXT_PLAIN_CONTENT_TYPE);
+                builder.addTextBody(SendMediaGroup.PROTECT_CONTENT_FIELD, sendMediaGroup.getProtectContent().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendMediaGroup.getReplyParameters() != null) {
                 builder.addTextBody(SendMediaGroup.REPLY_PARAMETERS_FIELD, objectMapper.writeValueAsString(sendMediaGroup.getReplyParameters()), TEXT_PLAIN_CONTENT_TYPE);
@@ -715,7 +715,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
-            builder.addTextBody(SetStickerSetThumb.USERID_FIELD, setStickerSetThumb.getUserId().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            builder.addTextBody(SetStickerSetThumb.USER_ID_FIELD, setStickerSetThumb.getUserId().toString(), TEXT_PLAIN_CONTENT_TYPE);
             builder.addTextBody(SetStickerSetThumb.NAME_FIELD, setStickerSetThumb.getName(), TEXT_PLAIN_CONTENT_TYPE);
             if (setStickerSetThumb.getThumb() != null) {
                 addInputFile(builder, setStickerSetThumb.getThumb(), SetStickerSetThumb.THUMB_FIELD, true);
@@ -739,11 +739,11 @@ public abstract class DefaultAbsSender extends AbsSender {
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
-            builder.addTextBody(CreateNewStickerSet.USERID_FIELD, createNewStickerSet.getUserId().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            builder.addTextBody(CreateNewStickerSet.USER_ID_FIELD, createNewStickerSet.getUserId().toString(), TEXT_PLAIN_CONTENT_TYPE);
             builder.addTextBody(CreateNewStickerSet.NAME_FIELD, createNewStickerSet.getName(), TEXT_PLAIN_CONTENT_TYPE);
             builder.addTextBody(CreateNewStickerSet.TITLE_FIELD, createNewStickerSet.getTitle(), TEXT_PLAIN_CONTENT_TYPE);
             builder.addTextBody(CreateNewStickerSet.STICKER_FORMAT_FIELD, createNewStickerSet.getStickerFormat(), TEXT_PLAIN_CONTENT_TYPE);
-            builder.addTextBody(CreateNewStickerSet.STICKERTYPE_FIELD, createNewStickerSet.getStickerType(), TEXT_PLAIN_CONTENT_TYPE);
+            builder.addTextBody(CreateNewStickerSet.STICKER_TYPE_FIELD, createNewStickerSet.getStickerType(), TEXT_PLAIN_CONTENT_TYPE);
             if (createNewStickerSet.getNeedsRepainting() != null) {
                 builder.addTextBody(CreateNewStickerSet.NEEDS_REPAINTING_FIELD, createNewStickerSet.getNeedsRepainting().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
@@ -806,14 +806,14 @@ public abstract class DefaultAbsSender extends AbsSender {
             builder.setLaxMode();
             builder.setCharset(StandardCharsets.UTF_8);
             if (editMessageMedia.getInlineMessageId() == null) {
-                builder.addTextBody(EditMessageMedia.CHATID_FIELD, editMessageMedia.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
-                builder.addTextBody(EditMessageMedia.MESSAGEID_FIELD, editMessageMedia.getMessageId().toString(), TEXT_PLAIN_CONTENT_TYPE);
+                builder.addTextBody(EditMessageMedia.CHAT_ID_FIELD, editMessageMedia.getChatId(), TEXT_PLAIN_CONTENT_TYPE);
+                builder.addTextBody(EditMessageMedia.MESSAGE_ID_FIELD, editMessageMedia.getMessageId().toString(), TEXT_PLAIN_CONTENT_TYPE);
 
             } else {
                 builder.addTextBody(EditMessageMedia.INLINE_MESSAGE_ID_FIELD, editMessageMedia.getInlineMessageId(), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (editMessageMedia.getReplyMarkup() != null) {
-                builder.addTextBody(EditMessageMedia.REPLYMARKUP_FIELD, objectMapper.writeValueAsString(editMessageMedia.getReplyMarkup()), TEXT_PLAIN_CONTENT_TYPE);
+                builder.addTextBody(EditMessageMedia.REPLY_MARKUP_FIELD, objectMapper.writeValueAsString(editMessageMedia.getReplyMarkup()), TEXT_PLAIN_CONTENT_TYPE);
             }
 
             addInputData(builder, editMessageMedia.getMedia(), EditMessageMedia.MEDIA_FIELD, true);
@@ -869,7 +869,7 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendAnimation.getCaption() != null) {
                 builder.addTextBody(SendAnimation.CAPTION_FIELD, sendAnimation.getCaption(), TEXT_PLAIN_CONTENT_TYPE);
                 if (sendAnimation.getParseMode() != null) {
-                    builder.addTextBody(SendAnimation.PARSEMODE_FIELD, sendAnimation.getParseMode(), TEXT_PLAIN_CONTENT_TYPE);
+                    builder.addTextBody(SendAnimation.PARSE_MODE_FIELD, sendAnimation.getParseMode(), TEXT_PLAIN_CONTENT_TYPE);
                 }
             }
             if (sendAnimation.getAllowSendingWithoutReply() != null) {
@@ -882,7 +882,7 @@ public abstract class DefaultAbsSender extends AbsSender {
                 builder.addTextBody(SendAnimation.CAPTION_ENTITIES_FIELD, objectMapper.writeValueAsString(sendAnimation.getCaptionEntities()), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendAnimation.getHasSpoiler() != null) {
-                builder.addTextBody(SendAnimation.HASSPOILER_FIELD, objectMapper.writeValueAsString(sendAnimation.getHasSpoiler()), TEXT_PLAIN_CONTENT_TYPE);
+                builder.addTextBody(SendAnimation.HAS_SPOILER_FIELD, objectMapper.writeValueAsString(sendAnimation.getHasSpoiler()), TEXT_PLAIN_CONTENT_TYPE);
             }
             if (sendAnimation.getReplyParameters() != null) {
                 builder.addTextBody(SendAnimation.REPLY_PARAMETERS_FIELD, objectMapper.writeValueAsString(sendAnimation.getReplyParameters()), TEXT_PLAIN_CONTENT_TYPE);
