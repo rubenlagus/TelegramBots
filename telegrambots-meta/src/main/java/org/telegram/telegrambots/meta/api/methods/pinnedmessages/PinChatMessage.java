@@ -2,15 +2,15 @@ package org.telegram.telegrambots.meta.api.methods.pinnedmessages;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -28,9 +28,9 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class PinChatMessage extends BotApiMethodBoolean {
     public static final String PATH = "pinChatMessage";
 
@@ -68,10 +68,9 @@ public class PinChatMessage extends BotApiMethodBoolean {
         }
     }
 
-    public static class PinChatMessageBuilder {
-
+    public static abstract class PinChatMessageBuilder<C extends PinChatMessage, B extends PinChatMessageBuilder<C, B>> extends BotApiMethodBooleanBuilder<C, B> {
         @Tolerate
-        public PinChatMessageBuilder chatId(@NonNull Long chatId) {
+        public PinChatMessageBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }

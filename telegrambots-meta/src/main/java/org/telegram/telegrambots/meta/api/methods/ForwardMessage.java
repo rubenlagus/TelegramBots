@@ -2,15 +2,15 @@ package org.telegram.telegrambots.meta.api.methods;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -27,10 +27,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class ForwardMessage extends BotApiMethodMessage {
     public static final String PATH = "forwardmessage";
 
@@ -92,16 +92,15 @@ public class ForwardMessage extends BotApiMethodMessage {
         return PATH;
     }
 
-    public static class ForwardMessageBuilder {
-
+    public static abstract class ForwardMessageBuilder<C extends ForwardMessage, B extends ForwardMessageBuilder<C, B>> extends BotApiMethodMessageBuilder<C, B> {
         @Tolerate
-        public ForwardMessageBuilder chatId(@NonNull Long chatId) {
+        public ForwardMessageBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }
 
         @Tolerate
-        public ForwardMessageBuilder fromChatId(@NonNull Long fromChatId) {
+        public ForwardMessageBuilder<C, B> fromChatId(@NonNull Long fromChatId) {
             this.fromChatId = fromChatId.toString();
             return this;
         }

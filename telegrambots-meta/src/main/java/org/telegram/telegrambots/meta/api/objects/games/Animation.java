@@ -16,16 +16,16 @@
  */
 package org.telegram.telegrambots.meta.api.objects.games;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 
@@ -39,8 +39,9 @@ import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
+@SuperBuilder
+@Jacksonized
 public class Animation implements BotApiObject {
     private static final String FILEID_FIELD = "file_id";
     private static final String FILEUNIQUEID_FIELD = "file_unique_id";
@@ -110,21 +111,4 @@ public class Animation implements BotApiObject {
     @JsonProperty(FILESIZE_FIELD)
     private Long fileSize;
 
-    /**
-     * @deprecated Use {{@link #getThumbnail()}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public PhotoSize getThumb() {
-        return thumbnail;
-    }
-
-    /**
-     * @deprecated Use {{@link #setThumbnail(PhotoSize)}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public void setThumb(PhotoSize thumb) {
-        this.thumbnail = thumb;
-    }
 }

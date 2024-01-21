@@ -1,15 +1,15 @@
 package org.telegram.telegrambots.meta.api.methods.updatingmessages;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodSerializable;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -29,9 +29,9 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
-@AllArgsConstructor
-@Builder
+@RequiredArgsConstructor
+@SuperBuilder
+@Jacksonized
 public class EditMessageLiveLocation extends BotApiMethodSerializable {
     public static final String PATH = "editMessageLiveLocation";
 
@@ -136,10 +136,9 @@ public class EditMessageLiveLocation extends BotApiMethodSerializable {
         }
     }
 
-    public static class EditMessageLiveLocationBuilder {
-
+    public static abstract class EditMessageLiveLocationBuilder<C extends EditMessageLiveLocation, B extends EditMessageLiveLocationBuilder<C, B>> extends BotApiMethodSerializableBuilder<C, B> {
         @Tolerate
-        public EditMessageLiveLocationBuilder chatId(Long chatId) {
+        public EditMessageLiveLocationBuilder<C, B> chatId(Long chatId) {
             this.chatId = chatId == null ? null : chatId.toString();
             return this;
         }

@@ -1,18 +1,16 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.result.cached;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResult;
@@ -30,15 +28,15 @@ import java.util.List;
  * @apiNote This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * ignore them.
  */
-@JsonDeserialize
+
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class InlineQueryResultCachedVoice implements InlineQueryResult {
     private static final String TYPE_FIELD = "type";
     private static final String ID_FIELD = "id";

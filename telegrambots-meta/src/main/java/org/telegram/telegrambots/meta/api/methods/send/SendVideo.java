@@ -1,21 +1,20 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -33,30 +32,22 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class SendVideo extends SendMediaBotMethod<Message> {
     public static final String PATH = "sendvideo";
 
-    public static final String CHATID_FIELD = "chat_id";
-    public static final String MESSAGETHREADID_FIELD = "message_thread_id";
     public static final String VIDEO_FIELD = "video";
     public static final String DURATION_FIELD = "duration";
     public static final String CAPTION_FIELD = "caption";
     public static final String WIDTH_FIELD = "width";
     public static final String HEIGHT_FIELD = "height";
-    public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
-    public static final String SUPPORTSSTREAMING_FIELD = "supports_streaming";
-    public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
-    public static final String REPLYMARKUP_FIELD = "reply_markup";
-    public static final String PARSEMODE_FIELD = "parse_mode";
+    public static final String SUPPORTS_STREAMING_FIELD = "supports_streaming";
+    public static final String PARSE_MODE_FIELD = "parse_mode";
     public static final String THUMBNAIL_FIELD = "thumbnail";
     public static final String CAPTION_ENTITIES_FIELD = "caption_entities";
-    public static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
-    public static final String PROTECTCONTENT_FIELD = "protect_content";
-    public static final String HASSPOILER_FIELD = "has_spoiler";
-    public static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
+    public static final String HAS_SPOILER_FIELD = "has_spoiler";
 
 
     @NonNull
@@ -157,37 +148,10 @@ public class SendVideo extends SendMediaBotMethod<Message> {
         return VIDEO_FIELD;
     }
 
-    /**
-     * @deprecated Use {{@link #getThumbnail()}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public InputFile getThumb() {
-        return thumbnail;
-    }
-
-    /**
-     * @deprecated Use {{@link #setThumbnail(InputFile)}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public void setThumb(InputFile thumb) {
-        this.thumbnail = thumb;
-    }
-
-
-    public static class SendVideoBuilder {
-
+    public static abstract class SendVideoBuilder<C extends SendVideo, B extends SendVideoBuilder<C, B>> extends SendMediaBotMethodBuilder<Message, C, B> {
         @Tolerate
-        public SendVideoBuilder chatId(@NonNull Long chatId) {
+        public SendVideoBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
-            return this;
-        }
-
-        @Tolerate
-        @Deprecated
-        public SendVideoBuilder thumb(InputFile thumb) {
-            this.thumbnail = thumb;
             return this;
         }
     }

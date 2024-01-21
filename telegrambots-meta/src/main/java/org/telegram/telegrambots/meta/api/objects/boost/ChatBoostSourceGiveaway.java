@@ -1,14 +1,15 @@
 package org.telegram.telegrambots.meta.api.objects.boost;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 /**
@@ -17,14 +18,14 @@ import org.telegram.telegrambots.meta.api.objects.User;
  * The boost was obtained by the creation of a Telegram Premium giveaway.
  * This boosts the chat 4 times for the duration of the corresponding Telegram Premium subscription.
  */
-@JsonDeserialize
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class ChatBoostSourceGiveaway implements ChatBoostSource {
     private static final String SOURCE_FIELD = "source";
     private static final String GIVEAWAY_MESSAGE_ID_FIELD = "giveaway_message_id";
@@ -35,7 +36,8 @@ public class ChatBoostSourceGiveaway implements ChatBoostSource {
      * Source of the boost, always “giveaway”
      */
     @JsonProperty(SOURCE_FIELD)
-    private String source;
+    @Builder.Default
+    private final String source = ChatBoostSource.GIVEAWAY_TYPE;
     /**
      * Identifier of a message in the chat with the giveaway; the message could have been deleted already.
      * May be 0 if the message isn't sent yet.

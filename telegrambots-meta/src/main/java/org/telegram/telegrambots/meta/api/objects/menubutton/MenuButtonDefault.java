@@ -1,7 +1,12 @@
 package org.telegram.telegrambots.meta.api.objects.menubutton;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
@@ -11,12 +16,14 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * Describes that no specific value for the menu button was set.
  */
 @SuppressWarnings({"unused"})
-@JsonDeserialize
+
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
 @ToString
-@Builder
+@NoArgsConstructor
+@SuperBuilder
+@Jacksonized
 public class MenuButtonDefault extends MenuButton {
     private static final String TYPE = "default"; ///< Type of the button, must be default
 

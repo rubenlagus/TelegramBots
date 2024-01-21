@@ -2,16 +2,17 @@ package org.telegram.telegrambots.meta.api.methods;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.MessageId;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -33,10 +34,10 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class ForwardMessages extends BotApiMethod<ArrayList<MessageId>> {
     public static final String PATH = "forwardMessages";
 
@@ -120,16 +121,15 @@ public class ForwardMessages extends BotApiMethod<ArrayList<MessageId>> {
         return PATH;
     }
 
-    public static class ForwardMessagesBuilder {
-
+    public static abstract class ForwardMessagesBuilder<C extends ForwardMessages, B extends ForwardMessagesBuilder<C, B>> extends BotApiMethodBuilder<ArrayList<MessageId>, C, B> {
         @Tolerate
-        public ForwardMessagesBuilder chatId(@NonNull Long chatId) {
+        public ForwardMessagesBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }
 
         @Tolerate
-        public ForwardMessagesBuilder fromChatId(@NonNull Long fromChatId) {
+        public ForwardMessagesBuilder<C, B> fromChatId(@NonNull Long fromChatId) {
             this.fromChatId = fromChatId.toString();
             return this;
         }

@@ -1,16 +1,15 @@
 package org.telegram.telegrambots.meta.api.objects.commands.scope;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
@@ -19,14 +18,13 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  *
  * Represents the scope of bot commands, covering all administrators of a specific group or supergroup chat.
  */
-@JsonDeserialize
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
-@AllArgsConstructor
-@Builder
+@RequiredArgsConstructor
+@SuperBuilder
+@Jacksonized
 public class BotCommandScopeChatAdministrators implements BotCommandScope {
     private static final String TYPE_FIELD = "type";
     private static final String CHATID_FIELD = "chat_id";
@@ -55,10 +53,10 @@ public class BotCommandScopeChatAdministrators implements BotCommandScope {
         }
     }
 
-    public static class BotCommandScopeChatAdministratorsBuilder {
+    public abstract static class BotCommandScopeChatAdministratorsBuilder<C extends BotCommandScopeChatAdministrators, B extends BotCommandScopeChatAdministrators.BotCommandScopeChatAdministratorsBuilder<C, B>> {
 
         @Tolerate
-        public BotCommandScopeChatAdministratorsBuilder chatId(@NonNull Long chatId) {
+        public BotCommandScopeChatAdministratorsBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }

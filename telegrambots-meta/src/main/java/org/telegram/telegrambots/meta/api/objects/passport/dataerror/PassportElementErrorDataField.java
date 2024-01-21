@@ -1,15 +1,15 @@
 package org.telegram.telegrambots.meta.api.objects.passport.dataerror;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
@@ -19,14 +19,14 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * Represents an error in a field of data provided by a user.
  * The error is considered resolved when the field's value changes.
  */
-@JsonDeserialize
+
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
-@AllArgsConstructor
-@Builder
+@RequiredArgsConstructor
+@Jacksonized
+@SuperBuilder
 public class PassportElementErrorDataField implements PassportElementError {
     private static final String SOURCE_FIELD = "source";
     private static final String TYPE_FIELD = "type";
@@ -36,6 +36,7 @@ public class PassportElementErrorDataField implements PassportElementError {
 
     @JsonProperty(SOURCE_FIELD)
     @NonNull
+    @Builder.Default
     private final String source = "data"; ///< Error source, must be data
     /**
      * Type of the Telegram Passport data with the error, one of “personal_details”, “passport”, “driver_license”,
@@ -56,16 +57,16 @@ public class PassportElementErrorDataField implements PassportElementError {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (fieldName == null || fieldName.isEmpty()) {
+        if (fieldName.isEmpty()) {
             throw new TelegramApiValidationException("Field Name parameter can't be empty", this);
         }
-        if (dataHash == null || dataHash.isEmpty()) {
+        if (dataHash.isEmpty()) {
             throw new TelegramApiValidationException("Data hash parameter can't be empty", this);
         }
-        if (message == null || message.isEmpty()) {
+        if (message.isEmpty()) {
             throw new TelegramApiValidationException("Message parameter can't be empty", this);
         }
-        if (type == null || type.isEmpty()) {
+        if (type.isEmpty()) {
             throw new TelegramApiValidationException("Type parameter can't be empty", this);
         }
     }

@@ -2,14 +2,14 @@ package org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -25,10 +25,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class KeyboardButtonRequestUser implements Validable, BotApiObject {
 
     private static final String REQUESTID_FIELD = "request_id";

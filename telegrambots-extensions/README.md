@@ -1,6 +1,6 @@
 # Telegram Bot Extensions
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.telegram/telegrambotsextensions/badge.svg)](http://mvnrepository.com/artifact/org.telegram/telegrambotsextensions)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.telegram/telegrambots-extensions/badge.svg)](http://mvnrepository.com/artifact/org.telegram/telegrambots-extensions)
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/rubenlagus/TelegramBots/blob/master/LICENSE)
 
 Extensions to default bots implementation of Telegram Bots library
@@ -15,13 +15,13 @@ Just import add the library to your project with one of these options:
 ```xml
     <dependency>
         <groupId>org.telegram</groupId>
-        <artifactId>telegrambotsextensions</artifactId>
-        <version>7.0.0-rc0</version>
+        <artifactId>telegrambots-extensions</artifactId>
+        <version>7.0.0</version>
     </dependency>
 ```
 
    2. Using Gradle:
 
 ```gradle
-    implementation 'org.telegram:telegrambotsextensions:7.0.0-rc0'
+    implementation 'org.telegram:telegrambots-extensions:7.0.0'
 ```

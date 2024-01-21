@@ -1,16 +1,15 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.result;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.api.objects.webapp.WebAppInfo;
@@ -25,15 +24,15 @@ import java.util.regex.Pattern;
  *
  * You must use exactly one of the optional fields.
  */
-@JsonDeserialize
+
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class InlineQueryResultsButton implements Validable, BotApiObject  {
 
     private static final String TEXT_FIELD = "text";
@@ -75,7 +74,7 @@ public class InlineQueryResultsButton implements Validable, BotApiObject  {
 
         if (startParameter != null) {
             if (startParameter.isEmpty() || startParameter.length() > 64) {
-                throw new TelegramApiValidationException("SwitchPmParameter can't be longer than 64 chars", this);
+                throw new TelegramApiValidationException("SwitchPmParameter can't be empty or longer than 64 chars", this);
             }
             if (!Pattern.matches("[A-Za-z0-9_\\-]+", startParameter.trim())) {
                 throw new TelegramApiValidationException("SwitchPmParameter only allows A-Z, a-z, 0-9, _ and - characters", this);

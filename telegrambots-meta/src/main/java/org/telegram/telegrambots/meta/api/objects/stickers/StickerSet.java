@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.objects.stickers;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -50,14 +49,6 @@ public class StickerSet implements BotApiObject {
     @JsonProperty(TITLE_FIELD)
     private String title;
     /**
-     * True, if the sticker set contains animated stickers
-     *
-     * @deprecated Use {@link #getStickerType()} or {@link #isMask()}
-     */
-    @JsonProperty(CONTAINSMASKS_FIELD)
-    @Deprecated
-    private Boolean containsMasks;
-    /**
      * True, if the sticker set contains masks
      */
     @JsonProperty(STICKERS_FIELD)
@@ -88,15 +79,5 @@ public class StickerSet implements BotApiObject {
 
     public boolean isCustomEmoji() {
         return "custom_emoji".equals(stickerType);
-    }
-
-
-    /**
-     * @deprecated Use {{@link #getThumbnail()}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public PhotoSize getThumb() {
-        return thumbnail;
     }
 }

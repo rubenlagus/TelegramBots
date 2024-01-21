@@ -1,21 +1,20 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -32,26 +31,18 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class SendDocument extends SendMediaBotMethod<Message> {
     public static final String PATH = "senddocument";
 
-    public static final String CHATID_FIELD = "chat_id";
-    public static final String MESSAGETHREADID_FIELD = "message_thread_id";
     public static final String DOCUMENT_FIELD = "document";
     public static final String CAPTION_FIELD = "caption";
-    public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
-    public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
-    public static final String REPLYMARKUP_FIELD = "reply_markup";
     public static final String PARSEMODE_FIELD = "parse_mode";
     public static final String THUMBNAIL_FIELD = "thumbnail";
     public static final String CAPTION_ENTITIES_FIELD = "caption_entities";
-    public static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
     public static final String DISABLECONTENTTYPEDETECTION_FIELD = "disable_content_type_detection";
-    public static final String PROTECTCONTENT_FIELD = "protect_content";
-    public static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
 
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to or Username for the channel to send the message to
@@ -144,36 +135,10 @@ public class SendDocument extends SendMediaBotMethod<Message> {
         return PATH;
     }
 
-    /**
-     * @deprecated Use {{@link #getThumbnail()}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public InputFile getThumb() {
-        return thumbnail;
-    }
-
-    /**
-     * @deprecated Use {{@link #setThumbnail(InputFile)}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public void setThumb(InputFile thumb) {
-        this.thumbnail = thumb;
-    }
-
-    public static class SendDocumentBuilder {
-
+    public static abstract class SendDocumentBuilder<C extends SendDocument, B extends SendDocumentBuilder<C, B>> extends SendMediaBotMethodBuilder<Message, C, B> {
         @Tolerate
-        public SendDocumentBuilder chatId(@NonNull Long chatId) {
+        public SendDocumentBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
-            return this;
-        }
-
-        @Tolerate
-        @Deprecated
-        public SendDocumentBuilder thumb(InputFile thumb) {
-            this.thumbnail = thumb;
             return this;
         }
     }

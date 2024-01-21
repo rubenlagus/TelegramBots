@@ -1,14 +1,14 @@
 package org.telegram.telegrambots.meta.api.objects.chatmember;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 /**
@@ -17,14 +17,14 @@ import org.telegram.telegrambots.meta.api.objects.User;
  *
  * Represents a chat member that is under certain restrictions in the chat. Supergroups only.
  */
-@JsonDeserialize
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class ChatMemberRestricted implements ChatMember {
     public static final String STATUS = "restricted";
 
@@ -139,12 +139,4 @@ public class ChatMemberRestricted implements ChatMember {
      */
     @JsonProperty(UNTILDATE_FIELD)
     private Integer untilDate;
-
-    /**
-     * True, if the user is allowed to send audios, documents, photos, videos, video notes and voice notes
-     * @deprecated Use individual permissions instead
-     */
-    @JsonProperty(CANSENDMEDIAMESSAGES_FIELD)
-    @Deprecated
-    private Boolean canSendMediaMessages;
 }

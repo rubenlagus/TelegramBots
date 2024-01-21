@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.objects.stickers;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -128,22 +127,4 @@ public class Sticker implements BotApiObject {
      */
     @JsonProperty(NEEDS_REPAINTING_FIELD)
     private Boolean needsRepainting;
-
-    /**
-     * @deprecated Use {{@link #getThumbnail()}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public PhotoSize getThumb() {
-        return thumbnail;
-    }
-
-    /**
-     * @deprecated Use {{@link #setThumbnail(PhotoSize)}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public void setThumb(PhotoSize thumb) {
-        this.thumbnail = thumb;
-    }
 }

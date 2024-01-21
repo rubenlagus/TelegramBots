@@ -1,15 +1,13 @@
 package org.telegram.telegrambots.meta.api.objects.media;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.Tolerate;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -25,11 +23,13 @@ import java.util.List;
  * Represents an audio file to be treated as music to be sent.
  */
 @SuppressWarnings({"unused"})
-@JsonDeserialize
+
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
 @ToString
+@SuperBuilder
+@Jacksonized
 public class InputMediaAudio extends InputMedia {
     private static final String TYPE = "audio";
 
@@ -53,19 +53,24 @@ public class InputMediaAudio extends InputMedia {
      */
     private InputFile thumbnail;
 
-    public InputMediaAudio() {
-        super();
-    }
-
     public InputMediaAudio(@NonNull String media) {
         super(media);
     }
 
-    @Builder
-    public InputMediaAudio(@NonNull String media, String caption, String parseMode, List<MessageEntity> entities,
+    public InputMediaAudio(File mediaFile, String fileName) {
+        super();
+        setMedia(mediaFile, fileName);
+    }
+
+    public InputMediaAudio(InputStream mediaStream, String fileName) {
+        super();
+        setMedia(mediaStream, fileName);
+    }
+
+    public InputMediaAudio(@NonNull String media, String caption, String parseMode, List<MessageEntity> captionEntities,
                            boolean isNewMedia, String mediaName, File newMediaFile, InputStream newMediaStream,
                            Integer duration, String performer, String title, InputFile thumbnail) {
-        super(media, caption, parseMode, entities, isNewMedia, mediaName, newMediaFile, newMediaStream);
+        super(media, caption, parseMode, captionEntities, isNewMedia, mediaName, newMediaFile, newMediaStream);
         this.duration = duration;
         this.performer = performer;
         this.title = title;
@@ -80,33 +85,5 @@ public class InputMediaAudio extends InputMedia {
     @Override
     public void validate() throws TelegramApiValidationException {
         super.validate();
-    }
-
-    /**
-     * @deprecated Use {{@link #getThumbnail()}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public InputFile getThumb() {
-        return thumbnail;
-    }
-
-    /**
-     * @deprecated Use {{@link #setThumbnail(InputFile)}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public void setThumb(InputFile thumb) {
-        this.thumbnail = thumb;
-    }
-
-    public static class InputMediaAudioBuilder {
-
-        @Tolerate
-        @Deprecated
-        public InputMediaAudio.InputMediaAudioBuilder thumb(InputFile thumb) {
-            this.thumbnail = thumb;
-            return this;
-        }
     }
 }

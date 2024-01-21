@@ -1,12 +1,12 @@
 package org.telegram.telegrambots.meta.api.objects.giveaway;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
@@ -16,12 +16,13 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
  *
  * Currently holds no information.
  */
-@JsonDeserialize
+
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
-@Builder
+@RequiredArgsConstructor
+@SuperBuilder
+@Jacksonized
 public class GiveawayCreated implements BotApiObject {
 }

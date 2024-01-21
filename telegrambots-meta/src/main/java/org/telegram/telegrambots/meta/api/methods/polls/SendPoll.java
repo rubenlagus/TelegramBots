@@ -1,18 +1,17 @@
 package org.telegram.telegrambots.meta.api.methods.polls;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMessage;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
@@ -34,9 +33,9 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class SendPoll extends BotApiMethodMessage {
     public static final String PATH = "sendPoll";
 
@@ -96,7 +95,6 @@ public class SendPoll extends BotApiMethodMessage {
     @JsonProperty(REPLYTOMESSAGEID_FIELD)
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     @JsonProperty(REPLYMARKUP_FIELD)
-    @JsonDeserialize()
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
     @JsonProperty(OPENPERIOD_FIELD)
     private Integer openPeriod; ///< Optional. Amount of time in seconds the poll will be active after creation, 5-600. Can't be used together with close_date.
@@ -172,11 +170,9 @@ public class SendPoll extends BotApiMethodMessage {
         }
     }
 
-
-    public static class SendPollBuilder {
-
+    public static abstract class SendPollBuilder<C extends SendPoll, B extends SendPollBuilder<C, B>> extends BotApiMethodMessageBuilder<C, B> {
         @Tolerate
-        public SendPollBuilder chatId(@NonNull Long chatId) {
+        public SendPollBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }

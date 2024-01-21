@@ -18,16 +18,16 @@ package org.telegram.telegrambots.meta.api.methods.games;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import lombok.extern.jackson.Jacksonized;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.games.GameHighScore;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -51,10 +51,10 @@ import java.util.ArrayList;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
     public static final String PATH = "getGameHighScores";
 
@@ -107,10 +107,9 @@ public class GetGameHighScores extends BotApiMethod<ArrayList<GameHighScore>> {
         }
     }
 
-    public static class GetGameHighScoresBuilder {
-
+    public static abstract class GetGameHighScoresBuilder<C extends GetGameHighScores, B extends GetGameHighScoresBuilder<C, B>> extends BotApiMethodBuilder<ArrayList<GameHighScore>, C, B> {
         @Tolerate
-        public GetGameHighScoresBuilder chatId(Long chatId) {
+        public GetGameHighScoresBuilder<C, B> chatId(Long chatId) {
             this.chatId = chatId == null ? null : chatId.toString();
             return this;
         }

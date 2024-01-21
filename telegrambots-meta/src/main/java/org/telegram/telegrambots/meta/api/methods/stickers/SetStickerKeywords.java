@@ -2,6 +2,8 @@ package org.telegram.telegrambots.meta.api.methods.stickers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -20,10 +22,10 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class SetStickerKeywords extends BotApiMethodBoolean {
     public static final String PATH = "setStickerKeywords";
 

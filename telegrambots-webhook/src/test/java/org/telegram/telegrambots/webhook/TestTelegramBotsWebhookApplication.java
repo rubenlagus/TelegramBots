@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.webhook;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
 import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -9,9 +10,7 @@ import okhttp3.RequestBody;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.telegram.telegrambots.common.webhook.TelegramWebhookBot;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -44,7 +43,7 @@ public class TestTelegramBotsWebhookApplication {
     @BeforeEach
     public void setUp() throws TelegramApiException {
         httpClient = new OkHttpClient.Builder().build();
-        webhookOptions = WebhookOptions.builder().enableRequestLogging(true).build();
+        webhookOptions = WebhookOptions.builder().port(15847).enableRequestLogging(true).build();
 
         headers = Map.ofEntries(
                 Map.entry("charset", StandardCharsets.UTF_8.name()),
@@ -59,12 +58,12 @@ public class TestTelegramBotsWebhookApplication {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    public void tearDown() throws TelegramApiException {
         application.close();
     }
 
     @Test
-    public void testWhenUpdateIsReceivedOnWebhookUpdateReceivedIsCalled() throws IOException {
+    public void testWhenUpdateIsReceivedOnWebhookUpdateReceivedIsCalled() throws IOException, TelegramApiException {
         application.registerBot(telegramWebhookBot);
 
         Request request = new Request.Builder()
@@ -76,11 +75,13 @@ public class TestTelegramBotsWebhookApplication {
         httpClient.newCall(request).execute();
 
         assertNotNull(telegramWebhookBot.updateReceived);
+        assertTrue(telegramWebhookBot.isSetWebhookCalled());
+        assertFalse(telegramWebhookBot.isDeleteWebhookCalled());
         assertEquals(update.getUpdateId(), telegramWebhookBot.updateReceived.getUpdateId());
     }
 
     @Test
-    public void testAfterRestartServerExistingBotsAreRegistered() throws IOException {
+    public void testAfterRestartServerExistingBotsAreRegistered() throws IOException, TelegramApiException {
         application.registerBot(telegramWebhookBot);
 
         application.stop();
@@ -101,7 +102,7 @@ public class TestTelegramBotsWebhookApplication {
     }
 
     @Test
-    public void testUnregisterBotRemoveHandler() throws IOException {
+    public void testUnregisterBotRemoveHandler() throws IOException, TelegramApiException {
         application.registerBot(telegramWebhookBot);
         application.unregisterBot(telegramWebhookBot);
 
@@ -114,10 +115,12 @@ public class TestTelegramBotsWebhookApplication {
         httpClient.newCall(request).execute();
 
         assertNull(telegramWebhookBot.updateReceived);
+        assertTrue(telegramWebhookBot.isSetWebhookCalled());
+        assertTrue(telegramWebhookBot.isDeleteWebhookCalled());
     }
 
     @Test
-    public void testRegisterBotWithSamePathOverridePreviousOne() throws IOException {
+    public void testRegisterBotWithSamePathOverridePreviousOne() throws IOException, TelegramApiException {
         TestTelegramWebhookBot secondBot = new TestTelegramWebhookBot("/test");
         application.registerBot(telegramWebhookBot);
         application.registerBot(secondBot);
@@ -133,7 +136,6 @@ public class TestTelegramBotsWebhookApplication {
         assertNull(telegramWebhookBot.updateReceived);
         assertNotNull(secondBot.updateReceived);
         assertEquals(update.getUpdateId(), secondBot.updateReceived.getUpdateId());
-
     }
 
     @Test
@@ -170,13 +172,14 @@ public class TestTelegramBotsWebhookApplication {
         assertNull(telegramWebhookBot.updateReceived);
     }
 
+
     @Test
-    public void testServerStartOnCreation() throws TelegramApiException, IOException {
+    public void testServerStartOnCreation() {
         assertTrue(application.isRunning());
     }
 
     @Test
-    public void testStartAndStopMethodsKillServer() throws TelegramApiException, IOException {
+    public void testStartAndStopMethodsKillServer() throws TelegramApiException {
         application.stop();
 
         assertFalse(application.isRunning());
@@ -187,24 +190,40 @@ public class TestTelegramBotsWebhookApplication {
     }
 
 
-
-    private static class TestTelegramWebhookBot implements TelegramWebhookBot {
-        public Update updateReceived;
-        private String path;
+    @Getter
+    private static class TestTelegramWebhookBot extends DefaultTelegramWebhookBot {
+        private final boolean exceptionWhenSettingWebhook;
+        private final boolean exceptionWhenDeletingWebhook;
+        private final String path;
+        private Update updateReceived;
+        private boolean setWebhookCalled;
+        private boolean deleteWebhookCalled;
 
         public TestTelegramWebhookBot(String path) {
-            this.path = path;
+            this(path, false, false);
+        }
+
+        public TestTelegramWebhookBot(String botPath, boolean exceptionWhenSettingWebhook, boolean exceptionWhenDeletingWebhook) {
+            super(botPath, null, null, null);
+            this.path = botPath;
+            this.exceptionWhenSettingWebhook = exceptionWhenSettingWebhook;
+            this.exceptionWhenDeletingWebhook = exceptionWhenDeletingWebhook;
         }
 
         @Override
-        public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
+        public void runSetWebhook() {
+            setWebhookCalled = true;
+        }
+
+        @Override
+        public void runDeleteWebhook() {
+            deleteWebhookCalled = true;
+        }
+
+        @Override
+        public BotApiMethod<?> consumeUpdate(Update update) {
             updateReceived = update;
             return null;
-        }
-
-        @Override
-        public void setWebhook(SetWebhook setWebhook) throws TelegramApiException {
-
         }
 
         @Override

@@ -3,37 +3,16 @@
 
 [![Build Status](https://travis-ci.org/rubenlagus/TelegramBots.svg?branch=master)](https://travis-ci.org/rubenlagus/TelegramBots)
 [![Jitpack](https://jitpack.io/v/rubenlagus/TelegramBots.svg)](https://jitpack.io/#rubenlagus/TelegramBots)
-[![JavaDoc](http://svgur.com/i/1Ex.svg)](https://addo37.github.io/AbilityBots/)
 [![Telegram](http://trellobot.doomdns.org/telegrambadge.svg)](https://telegram.me/JavaBotsApi)
-[![ghit.me](https://ghit.me/badge.svg?repo=rubenlagus/TelegramBots)](https://ghit.me/repo/rubenlagus/TelegramBots)
 
 </div>
 
-Usage
------
+## Usage
 
-**Maven**
+See our documentation [here](https://rubenlagus.github.io/TelegramBotsDocumentation/abilities.html)
 
-```xml
-    <dependency>
-        <groupId>org.telegram</groupId>
-        <artifactId>telegrambots-abilities</artifactId>
-        <version>7.0.0-rc0</version>
-    </dependency>
-```
+## Motivation
 
-**Gradle**
-
-```gradle
-    implementation 'org.telegram:telegrambots-abilities:7.0.0-rc0'
-```
-
-**JitPack** - [JitPack](https://jitpack.io/#rubenlagus/TelegramBots/v7.0.0-rc0)
-
-**Plain imports** - [Here](https://github.com/rubenlagus/TelegramBots/releases/tag/v7.0.0-rc0)
-
-Motivation
-----------
 Ever since I've started programming bots for Telegram, I've been using the Telegram Bot Java API. It's a basic and nicely done API that is a 1-to-1 translation of the HTTP API exposed by Telegram.
 
 Dealing with a basic API has its advantages and disadvantages. Obviously, there's nothing hidden. If it's there on Telegram, it's here in the Java API.

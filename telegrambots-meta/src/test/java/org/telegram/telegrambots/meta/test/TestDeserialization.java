@@ -17,7 +17,6 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.EntityType;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
@@ -27,6 +26,9 @@ import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberRestricte
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.ChosenInlineQuery;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
+import org.telegram.telegrambots.meta.api.objects.polls.PollAnswer;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,6 +41,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author Ruben Bermudez
@@ -50,6 +53,55 @@ class TestDeserialization {
     @BeforeEach
     void setUp() {
         mapper = new ObjectMapper();
+    }
+
+    @Test
+    void testDeserializationPollAnswer() {
+        String updateText =  "{\n" +
+                "    \"ok\": true,\n" +
+                "    \"result\": [\n" +
+                "        {\n" +
+                "            \"update_id\": 1234,\n" +
+                "            \"poll_answer\": {\n" +
+                "                \"poll_id\": \"548435168132168\",\n" +
+                "                \"user\": {\n" +
+                "                    \"id\": 1234,\n" +
+                "                    \"is_bot\": false,\n" +
+                "                    \"first_name\": \"test name\",\n" +
+                "                    \"username\": \"Testuser\",\n" +
+                "                    \"language_code\": \"en\",\n" +
+                "                    \"is_premium\": true\n" +
+                "                },\n" +
+                "                \"option_ids\": [\n" +
+                "                    0,\n" +
+                "                    1,\n" +
+                "                    2,\n" +
+                "                    4,\n" +
+                "                    5\n" +
+                "                ]\n" +
+                "            }\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}";
+
+        try {
+            ArrayList<Update> result = new GetUpdates().deserializeResponse(updateText);
+            assertNotNull(result);
+            assertEquals(1, result.size());
+            Update update = result.get(0);
+            assertNotNull(update);
+            assertEquals(1234, update.getUpdateId());
+            assertNotNull(update.getPollAnswer());
+            PollAnswer pollAnswer = update.getPollAnswer();
+            assertNotNull(pollAnswer.getOptionIds());
+            assertEquals("548435168132168", pollAnswer.getPollId());
+            assertNotNull(pollAnswer.getUser());
+            assertEquals(1234, pollAnswer.getUser().getId());
+            assertNotNull(pollAnswer.getOptionIds());
+            assertEquals(5, pollAnswer.getOptionIds().size());
+        } catch (TelegramApiRequestException e) {
+            fail(e);
+        }
     }
 
     @Test
@@ -322,7 +374,7 @@ class TestDeserialization {
                 "    }\n" +
                 "}";
 
-        ChatMember chatMember = new GetChatMember().deserializeResponse(updateText);
+        ChatMember chatMember = new GetChatMember("1", 1L).deserializeResponse(updateText);
 
         assertNotNull(chatMember);
         assertTrue(chatMember instanceof ChatMemberRestricted);

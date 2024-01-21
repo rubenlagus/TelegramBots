@@ -1,7 +1,6 @@
 # Telegram Bot Java Library
 [![Telegram](/TelegramBots.svg)](https://telegram.me/JavaBotsApi)
 
-[![Build Status](https://telegrambots.teamcity.com/app/rest/builds/buildType:(id:TelegramBots_TelegramBotsBuild)/statusIcon.svg)](https://telegrambots.teamcity.com/viewType.html?buildTypeId=TelegramBots_TelegramBotsBuild)
 [![Build Status](https://travis-ci.org/rubenlagus/TelegramBots.svg?branch=master)](https://travis-ci.org/rubenlagus/TelegramBots)
 [![Jitpack](https://jitpack.io/v/rubenlagus/TelegramBots.svg)](https://jitpack.io/#rubenlagus/TelegramBots)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.telegram/telegrambots/badge.svg)](http://mvnrepository.com/artifact/org.telegram/telegrambots)
@@ -19,56 +18,7 @@ Both ways are supported, but I recommend long polling method.
 
 ## Usage
 
-Just import add the library to your project with one of these options:
-
-  1. Using Maven Central Repository:
-
-```xml
-    <dependency>
-        <groupId>org.telegram</groupId>
-        <artifactId>telegrambots</artifactId>
-        <version>7.0.0-rc0</version>
-    </dependency>
-```
-
-  2. Using Gradle: 
-
-```gradle
-    implementation 'org.telegram:telegrambots:7.0.0-rc0'
-```
-
-  3. Using Jitpack from [here](https://jitpack.io/#rubenlagus/TelegramBots/7.0.0-rc0)
-  4. Download the jar(including all dependencies) from [here](https://mvnrepository.com/artifact/org.telegram/telegrambots/7.0.0-rc0)
-
-In order to use Long Polling mode, just create your own bot extending `org.telegram.telegrambots.bots.TelegramLongPollingBot`.
-
-If you like to use Webhook, extend `org.telegram.telegrambots.bots.TelegramWebhookBot`
-
-
-Once done, you just need to create a `org.telegram.telegrambots.meta.TelegramBotsApi`and register your bots:
-
-```java
-
-    // Example taken from https://github.com/rubenlagus/TelegramBotsExample
-    public class Main {
-        public static void main(String[] args) {
-            try {
-                TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
-                telegramBotsApi.registerBot(new ChannelHandlers());
-                telegramBotsApi.registerBot(new DirectionsHandlers());
-                telegramBotsApi.registerBot(new RaeHandlers());
-                telegramBotsApi.registerBot(new WeatherHandlers());
-                telegramBotsApi.registerBot(new TransifexHandlers());
-                telegramBotsApi.registerBot(new FilesHandlers());
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-```
-
-For detailed explanation, visite our [How To](https://github.com/rubenlagus/TelegramBots/wiki/Getting-Started) (thanks Clevero)
+For more information, check our [documentation](https://rubenlagus.github.io/TelegramBotsDocumentation/telegram-bots.html)
 
 
 ## Example bots
@@ -94,9 +44,10 @@ This library use [Telegram bot API](https://core.telegram.org/bots), you can fin
 ## Questions or Suggestions
 Feel free to create issues [here](https://github.com/rubenlagus/TelegramBots/issues) as you need or join the [chat](https://telegram.me/JavaBotsApi)
 
-## Powered by Intellij
+## Powered by Intellij and DigitalOcean
 <p align="center">
    <a href="https://www.jetbrains.com/?from=TelegramBots"><img src="jetbrains.png" width="75"></a>
+   <a href="https://www.digitalocean.com/?refcode=42a4fa8c6d00&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge"><img src="https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg" alt="DigitalOcean Referral Badge" /></a>
 </p>
 
 

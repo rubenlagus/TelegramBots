@@ -3,14 +3,14 @@ package org.telegram.telegrambots.meta.api.objects;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
@@ -25,9 +25,9 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class MessageEntity implements BotApiObject {
     private static final String TYPE_FIELD = "type";
     private static final String OFFSET_FIELD = "offset";
@@ -104,7 +104,7 @@ public class MessageEntity implements BotApiObject {
     @JsonIgnore
     private String text;
 
-    protected void computeText(String message) {
+    public void computeText(String message) {
         if (message != null) {
             text = message.substring(offset, offset + length);
         }

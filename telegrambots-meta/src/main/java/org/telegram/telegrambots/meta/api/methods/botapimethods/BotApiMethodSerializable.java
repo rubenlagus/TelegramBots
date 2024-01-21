@@ -2,8 +2,10 @@ package org.telegram.telegrambots.meta.api.methods.botapimethods;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 import java.io.IOException;
@@ -19,6 +21,8 @@ import java.util.List;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SuperBuilder
 public abstract class BotApiMethodSerializable extends BotApiMethod<Serializable> {
     public Serializable deserializeResponseMessageOrBoolean(String answer) throws TelegramApiRequestException {
         return deserializeResponseFromPossibilities(answer, Arrays.asList(Message.class, Boolean.class));
@@ -39,5 +43,9 @@ public abstract class BotApiMethodSerializable extends BotApiMethod<Serializable
         }
 
         throw new TelegramApiRequestException("Unable to deserialize response", lastException);
+    }
+
+    public static abstract class BotApiMethodSerializableBuilder<C extends BotApiMethodSerializable, B extends BotApiMethodSerializable.BotApiMethodSerializableBuilder<C, B>> extends BotApiMethodBuilder<Serializable, C, B> {
+
     }
 }

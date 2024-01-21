@@ -18,17 +18,15 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.result;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -40,15 +38,15 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  *
  * @apiNote  This will only work in Telegram versions released after 1 October, 2016. Older clients will ignore them.
  */
-@JsonDeserialize
+
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class InlineQueryResultGame implements InlineQueryResult {
 
     private static final String TYPE_FIELD = "type";

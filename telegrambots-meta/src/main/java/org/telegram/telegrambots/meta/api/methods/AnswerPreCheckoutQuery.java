@@ -2,14 +2,14 @@ package org.telegram.telegrambots.meta.api.methods;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -19,7 +19,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  *
  * Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation
  * in the form of an Update with the field pre_checkout_query. Use this method to respond to such pre-checkout queries.
- *
  * On success, True is returned
  *
  * @apiNote The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.
@@ -28,10 +27,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class AnswerPreCheckoutQuery extends BotApiMethodBoolean {
     public static final String PATH = "answerPreCheckoutQuery";
 

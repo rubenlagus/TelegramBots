@@ -19,15 +19,15 @@ package org.telegram.telegrambots.meta.api.methods.games;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodSerializable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -48,10 +48,10 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class SetGameScore extends BotApiMethodSerializable {
     public static final String PATH = "setGameScore";
 
@@ -116,10 +116,9 @@ public class SetGameScore extends BotApiMethodSerializable {
         }
     }
 
-    public static class SetGameScoreBuilder {
-
+    public static abstract class SetGameScoreBuilder<C extends SetGameScore, B extends SetGameScoreBuilder<C, B>> extends BotApiMethodSerializableBuilder<C, B> {
         @Tolerate
-        public SetGameScoreBuilder chatId(Long chatId) {
+        public SetGameScoreBuilder<C, B> chatId(Long chatId) {
             this.chatId = chatId == null ? null : chatId.toString();
             return this;
         }

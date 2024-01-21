@@ -2,15 +2,15 @@ package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -25,10 +25,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class SetChatDescription extends BotApiMethodBoolean {
     public static final String PATH = "setChatDescription";
 
@@ -61,10 +61,9 @@ public class SetChatDescription extends BotApiMethodBoolean {
         }
     }
 
-    public static class SetChatDescriptionBuilder {
-
+    public static abstract class SetChatDescriptionBuilder<C extends SetChatDescription, B extends SetChatDescriptionBuilder<C, B>> extends BotApiMethodBooleanBuilder<C, B> {
         @Tolerate
-        public SetChatDescriptionBuilder chatId(@NonNull Long chatId) {
+        public SetChatDescriptionBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }
