@@ -75,7 +75,7 @@ public class InlineQueryResultsButton implements Validable, BotApiObject  {
 
         if (startParameter != null) {
             if (startParameter.isEmpty() || startParameter.length() > 64) {
-                throw new TelegramApiValidationException("SwitchPmParameter can't be longer than 64 chars", this);
+                throw new TelegramApiValidationException("SwitchPmParameter can't be empty or longer than 64 chars", this);
             }
             if (!Pattern.matches("[A-Za-z0-9_\\-]+", startParameter.trim())) {
                 throw new TelegramApiValidationException("SwitchPmParameter only allows A-Z, a-z, 0-9, _ and - characters", this);

@@ -63,7 +63,7 @@ class TestAnswerInlineQuery {
         try {
             answerInlineQuery.validate();
         } catch (TelegramApiValidationException e) {
-            assertEquals("SwitchPmText can't be empty", e.getMessage());
+            assertEquals("Text can't be empty", e.getMessage());
         }
     }
 
@@ -97,7 +97,7 @@ class TestAnswerInlineQuery {
         try {
             answerInlineQuery.validate();
         } catch (TelegramApiValidationException e) {
-            assertEquals("SwitchPmParameter can't be empty if switchPmText is present", e.getMessage());
+            assertEquals("SwitchPmParameter can't be empty or longer than 64 chars", e.getMessage());
         }
     }
 
@@ -114,7 +114,7 @@ class TestAnswerInlineQuery {
         try {
             answerInlineQuery.validate();
         } catch (TelegramApiValidationException e) {
-            assertEquals("SwitchPmParameter can't be longer than 64 chars", e.getMessage());
+            assertEquals("SwitchPmParameter can't be empty or longer than 64 chars", e.getMessage());
         }
     }
 
