@@ -19,15 +19,15 @@ package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMessage;
 import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -43,9 +43,9 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class SendGame extends BotApiMethodMessage {
     public static final String PATH = "sendGame";
 
@@ -123,10 +123,9 @@ public class SendGame extends BotApiMethodMessage {
         }
     }
 
-    public static class SendGameBuilder {
-
+    public static abstract class SendGameBuilder<C extends SendGame, B extends SendGameBuilder<C, B>> extends BotApiMethodMessageBuilder<C, B> {
         @Tolerate
-        public SendGameBuilder chatId(@NonNull Long chatId) {
+        public SendGameBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }

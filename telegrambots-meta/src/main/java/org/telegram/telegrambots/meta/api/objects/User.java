@@ -4,11 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
@@ -20,21 +21,22 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
-@AllArgsConstructor
 @RequiredArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+@Jacksonized
 public class User implements BotApiObject {
     private static final String ID_FIELD = "id";
-    private static final String FIRSTNAME_FIELD = "first_name";
-    private static final String ISBOT_FIELD = "is_bot";
-    private static final String LASTNAME_FIELD = "last_name";
+    private static final String FIRST_NAME_FIELD = "first_name";
+    private static final String IS_BOT_FIELD = "is_bot";
+    private static final String LAST_NAME_FIELD = "last_name";
     private static final String USERNAME_FIELD = "username";
-    private static final String LANGUAGECODE_FIELD = "language_code";
-    private static final String CANJOINGROUPS_FIELD = "can_join_groups";
-    private static final String CANREADALLGROUPMESSAGES_FIELD = "can_read_all_group_messages";
-    private static final String SUPPORTINLINEQUERIES_FIELD = "supports_inline_queries";
-    private static final String ISPREMIUM_FIELD = "is_premium";
-    private static final String ADDEDTOATTACHMENTMENU_FIELD = "added_to_attachment_menu";
+    private static final String LANGUAGE_CODE_FIELD = "language_code";
+    private static final String CAN_JOIN_GROUPS_FIELD = "can_join_groups";
+    private static final String CAN_READ_ALL_GROUP_MESSAGES_FIELD = "can_read_all_group_messages";
+    private static final String SUPPORT_INLINE_QUERIES_FIELD = "supports_inline_queries";
+    private static final String IS_PREMIUM_FIELD = "is_premium";
+    private static final String ADDED_TO_ATTACHMENT_MENU_FIELD = "added_to_attachment_menu";
 
     /**
      * Unique identifier for this user or bot.
@@ -48,19 +50,19 @@ public class User implements BotApiObject {
     /**
      * User‘s or bot’s first name
      */
-    @JsonProperty(FIRSTNAME_FIELD)
+    @JsonProperty(FIRST_NAME_FIELD)
     @NonNull
     private String firstName;
     /**
      * True, if this user is a bot
      */
-    @JsonProperty(ISBOT_FIELD)
+    @JsonProperty(IS_BOT_FIELD)
     @NonNull
     private Boolean isBot;
     /**
      * Optional. User‘s or bot’s last name
      */
-    @JsonProperty(LASTNAME_FIELD)
+    @JsonProperty(LAST_NAME_FIELD)
     private String lastName;
     /**
      * Optional. User‘s or bot’s username
@@ -70,31 +72,31 @@ public class User implements BotApiObject {
     /**
      * Optional. IETF language tag of the user's language
      */
-    @JsonProperty(LANGUAGECODE_FIELD)
+    @JsonProperty(LANGUAGE_CODE_FIELD)
     private String languageCode;
     /**
      * Optional. True, if the bot can be invited to groups. Returned only in getMe.
      */
-    @JsonProperty(CANJOINGROUPS_FIELD)
+    @JsonProperty(CAN_JOIN_GROUPS_FIELD)
     private Boolean canJoinGroups;
     /**
      * Optional. True, if privacy mode is disabled for the bot. Returned only in getMe.
      */
-    @JsonProperty(CANREADALLGROUPMESSAGES_FIELD)
+    @JsonProperty(CAN_READ_ALL_GROUP_MESSAGES_FIELD)
     private Boolean canReadAllGroupMessages;
     /**
      * Optional. True, if the bot supports inline queries. Returned only in getMe.
      */
-    @JsonProperty(SUPPORTINLINEQUERIES_FIELD)
+    @JsonProperty(SUPPORT_INLINE_QUERIES_FIELD)
     private Boolean supportInlineQueries;
     /**
      * Optional. True, if this user is a Telegram Premium user
      */
-    @JsonProperty(ISPREMIUM_FIELD)
+    @JsonProperty(IS_PREMIUM_FIELD)
     private Boolean isPremium;
     /**
      * Optional. True, if this user added the bot to the attachment menu
      */
-    @JsonProperty(ADDEDTOATTACHMENTMENU_FIELD)
+    @JsonProperty(ADDED_TO_ATTACHMENT_MENU_FIELD)
     private Boolean addedToAttachmentMenu;
 }

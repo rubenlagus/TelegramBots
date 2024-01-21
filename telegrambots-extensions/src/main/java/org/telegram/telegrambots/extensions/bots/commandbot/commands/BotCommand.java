@@ -1,9 +1,9 @@
 package org.telegram.telegrambots.extensions.bots.commandbot.commands;
 
 import org.telegram.telegrambots.meta.api.objects.Chat;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
-import org.telegram.telegrambots.meta.bots.AbsSender;
+import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 /**
  * Representation of a command, which can be executed
@@ -70,21 +70,21 @@ public abstract class BotCommand implements IBotCommand {
     /**
      * Process the message and execute the command
      *
-     * @param absSender absSender to send messages over
+     * @param telegramClient Client to send messages over
      * @param message   the message to process
      * @param arguments passed arguments
      */
-    public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-        execute(absSender, message.getFrom(), message.getChat(), arguments);
+    public void processMessage(TelegramClient telegramClient, Message message, String[] arguments) {
+        execute(telegramClient, message.getFrom(), message.getChat(), arguments);
     }
 
     /**
      * Execute the command
      *
-     * @param absSender absSender to send messages over
+     * @param telegramClient Client to send messages over
      * @param user      the user who sent the command
      * @param chat      the chat, to be able to send replies
      * @param arguments passed arguments
      */
-    public abstract void execute(AbsSender absSender, User user, Chat chat, String[] arguments);
+    public abstract void execute(TelegramClient telegramClient, User user, Chat chat, String[] arguments);
 }

@@ -2,6 +2,8 @@ package org.telegram.telegrambots.meta.api.objects.stickers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -19,9 +21,9 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
-@AllArgsConstructor
-@Builder
+@RequiredArgsConstructor
+@SuperBuilder
+@Jacksonized
 public class InputSticker implements BotApiObject, Validable {
 
     private static final String STICKER_FIELD = "sticker";

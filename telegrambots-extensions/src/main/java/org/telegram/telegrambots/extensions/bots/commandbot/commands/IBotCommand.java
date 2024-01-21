@@ -1,7 +1,7 @@
 package org.telegram.telegrambots.extensions.bots.commandbot.commands;
 
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.bots.AbsSender;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
+import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 /**
  * This Interface represents the a Command that can be executed
@@ -26,8 +26,8 @@ public interface IBotCommand {
     /**
      * Process the message and execute the command
      *
-     * @param absSender absSender to send messages over
+     * @param telegramClient client to send requests
      * @param message   the message to process
      */
-    void processMessage(AbsSender absSender, Message message, String[] arguments);
+    void processMessage(TelegramClient telegramClient, Message message, String[] arguments);
 }

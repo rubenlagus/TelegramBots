@@ -1,7 +1,7 @@
 package org.telegram.telegrambots.extensions.bots.commandbot.commands;
 
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.bots.AbsSender;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
+import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -22,25 +22,27 @@ public final class CommandRegistry implements ICommandRegistry {
     private final Map<String, IBotCommand> commandRegistryMap = new HashMap<>();
     private final boolean allowCommandsWithUsername;
     private final Supplier<String> botUsernameSupplier;
-    private BiConsumer<AbsSender, Message> defaultConsumer;
+    private final TelegramClient telegramClient;
+    private BiConsumer<TelegramClient, Message> defaultConsumer;
 
     /**
      * Creates a Command registry
      * @param allowCommandsWithUsername True to allow commands with username, false otherwise
      * @param botUsernameSupplier       Bot username supplier
      */
-    public CommandRegistry(boolean allowCommandsWithUsername, Supplier<String> botUsernameSupplier) {
+    public CommandRegistry(TelegramClient telegramClient, boolean allowCommandsWithUsername, Supplier<String> botUsernameSupplier) {
+        this.telegramClient = telegramClient;
         this.allowCommandsWithUsername = allowCommandsWithUsername;
         this.botUsernameSupplier = botUsernameSupplier;
     }
 
     @Override
-    public void registerDefaultAction(BiConsumer<AbsSender, Message> defaultConsumer) {
+    public void registerDefaultAction(BiConsumer<TelegramClient, Message> defaultConsumer) {
         this.defaultConsumer = defaultConsumer;
     }
 
     @Override
-    public final boolean register(IBotCommand botCommand) {
+    public boolean register(IBotCommand botCommand) {
         if (commandRegistryMap.containsKey(botCommand.getCommandIdentifier())) {
             return false;
         }
@@ -49,7 +51,7 @@ public final class CommandRegistry implements ICommandRegistry {
     }
 
     @Override
-    public final Map<IBotCommand, Boolean> registerAll(IBotCommand... botCommands) {
+    public Map<IBotCommand, Boolean> registerAll(IBotCommand... botCommands) {
         Map<IBotCommand, Boolean> resultMap = new HashMap<>(botCommands.length);
         for (IBotCommand botCommand : botCommands) {
             resultMap.put(botCommand, register(botCommand));
@@ -58,7 +60,7 @@ public final class CommandRegistry implements ICommandRegistry {
     }
 
     @Override
-    public final boolean deregister(IBotCommand botCommand) {
+    public boolean deregister(IBotCommand botCommand) {
         if (commandRegistryMap.containsKey(botCommand.getCommandIdentifier())) {
             commandRegistryMap.remove(botCommand.getCommandIdentifier());
             return true;
@@ -67,7 +69,7 @@ public final class CommandRegistry implements ICommandRegistry {
     }
 
     @Override
-    public final Map<IBotCommand, Boolean> deregisterAll(IBotCommand... botCommands) {
+    public Map<IBotCommand, Boolean> deregisterAll(IBotCommand... botCommands) {
         Map<IBotCommand, Boolean> resultMap = new HashMap<>(botCommands.length);
         for (IBotCommand botCommand : botCommands) {
             resultMap.put(botCommand, deregister(botCommand));
@@ -76,12 +78,12 @@ public final class CommandRegistry implements ICommandRegistry {
     }
 
     @Override
-    public final Collection<IBotCommand> getRegisteredCommands() {
+    public Collection<IBotCommand> getRegisteredCommands() {
         return commandRegistryMap.values();
     }
 
     @Override
-    public final IBotCommand getRegisteredCommand(String commandIdentifier) {
+    public IBotCommand getRegisteredCommand(String commandIdentifier) {
         return commandRegistryMap.get(commandIdentifier);
     }
 
@@ -91,11 +93,10 @@ public final class CommandRegistry implements ICommandRegistry {
      * @apiNote  If the command is not registered and there is a default consumer,
      * that action will be performed
      *
-     * @param absSender absSender
      * @param message input message
      * @return True if a command or default action is executed, false otherwise
      */
-    public final boolean executeCommand(AbsSender absSender, Message message) {
+    public boolean executeCommand(Message message) {
         if (message.hasText()) {
             String text = message.getText();
             if (text.startsWith(BotCommand.COMMAND_INIT_CHARACTER)) {
@@ -106,10 +107,10 @@ public final class CommandRegistry implements ICommandRegistry {
 
                 if (commandRegistryMap.containsKey(command)) {
                     String[] parameters = Arrays.copyOfRange(commandSplit, 1, commandSplit.length);
-                    commandRegistryMap.get(command).processMessage(absSender, message, parameters);
+                    commandRegistryMap.get(command).processMessage(telegramClient, message, parameters);
                     return true;
                 } else if (defaultConsumer != null) {
-                    defaultConsumer.accept(absSender, message);
+                    defaultConsumer.accept(telegramClient, message);
                     return true;
                 }
             }

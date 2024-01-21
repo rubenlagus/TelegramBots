@@ -1,16 +1,18 @@
 package org.telegram.telegrambots.extensions.bots.commandbot;
 
-import org.telegram.telegrambots.meta.api.objects.Message;
+import lombok.Getter;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 
 /**
  * @author Varun Singh
  * This class adds argument functionality to a given message that a user typed, that also counts as a command
  */
+@Getter
 public class CommandMessage {
     /** 
      * The message associated with the command
      */
-    private Message commandMessage;
+    private final Message commandMessage;
 
     /**
      * Constructor for CommandMessage
@@ -23,10 +25,6 @@ public class CommandMessage {
      */
     public CommandMessage(Message msg) {
         commandMessage = msg;
-    }
-
-    public Message getCommandMessage() {
-        return commandMessage;
     }
 
     /**

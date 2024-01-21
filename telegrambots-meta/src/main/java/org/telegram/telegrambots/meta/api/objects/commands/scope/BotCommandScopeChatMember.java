@@ -1,16 +1,15 @@
 package org.telegram.telegrambots.meta.api.objects.commands.scope;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
@@ -19,14 +18,13 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  *
  * Represents the scope of bot commands, covering a specific member of a group or supergroup chat.
  */
-@JsonDeserialize
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
-@AllArgsConstructor
-@Builder
+@RequiredArgsConstructor
+@SuperBuilder
+@Jacksonized
 public class BotCommandScopeChatMember implements BotCommandScope {
     private static final String TYPE_FIELD = "type";
     private static final String CHATID_FIELD = "chat_id";
@@ -64,11 +62,9 @@ public class BotCommandScopeChatMember implements BotCommandScope {
             throw new TelegramApiValidationException("UserId parameter can't be empty", this);
         }
     }
-
-    public static class BotCommandScopeChatMemberBuilder {
-
+    public abstract static class BotCommandScopeChatMemberBuilder<C extends BotCommandScopeChatMember, B extends BotCommandScopeChatMemberBuilder<C, B>> {
         @Tolerate
-        public BotCommandScopeChatMemberBuilder chatId(@NonNull Long chatId) {
+        public BotCommandScopeChatMemberBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }

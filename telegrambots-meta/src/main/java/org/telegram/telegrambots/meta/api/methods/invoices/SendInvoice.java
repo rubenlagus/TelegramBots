@@ -2,16 +2,16 @@ package org.telegram.telegrambots.meta.api.methods.invoices;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.apache.commons.lang3.StringUtils;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMessage;
 import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
@@ -31,9 +31,9 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class SendInvoice extends BotApiMethodMessage {
     public static final String PATH = "sendinvoice";
 
@@ -223,10 +223,9 @@ public class SendInvoice extends BotApiMethodMessage {
         }
     }
 
-    public static class SendInvoiceBuilder {
-
+    public static abstract class SendInvoiceBuilder<C extends SendInvoice, B extends SendInvoiceBuilder<C, B>> extends BotApiMethodMessageBuilder<C, B> {
         @Tolerate
-        public SendInvoiceBuilder chatId(@NonNull Long chatId) {
+        public SendInvoiceBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }

@@ -1,15 +1,15 @@
 package org.telegram.telegrambots.meta.api.objects.passport.dataerror;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
@@ -19,14 +19,14 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * Represents an error in a file with a document‘s front side.
  * The error is considered resolved when the file with the document’s front side changes.
  */
-@JsonDeserialize
+
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
-@AllArgsConstructor
-@Builder
+@RequiredArgsConstructor
+@SuperBuilder
+@Jacksonized
 public class PassportElementErrorFrontSide implements PassportElementError {
     private static final String SOURCE_FIELD = "source";
     private static final String TYPE_FIELD = "type";
@@ -34,6 +34,8 @@ public class PassportElementErrorFrontSide implements PassportElementError {
     private static final String MESSAGE_FIELD = "message";
 
     @JsonProperty(SOURCE_FIELD)
+    @NonNull
+    @Builder.Default
     private final String source = "front_side"; ///< Error source, must be front_side
     /**
      * Type of the Telegram Passport data with the error, one of “passport”,
@@ -51,13 +53,13 @@ public class PassportElementErrorFrontSide implements PassportElementError {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (fileHash == null || fileHash.isEmpty()) {
+        if (fileHash.isEmpty()) {
             throw new TelegramApiValidationException("File hash parameter can't be empty", this);
         }
-        if (message == null || message.isEmpty()) {
+        if (message.isEmpty()) {
             throw new TelegramApiValidationException("Message parameter can't be empty", this);
         }
-        if (type == null || type.isEmpty()) {
+        if (type.isEmpty()) {
             throw new TelegramApiValidationException("Type parameter can't be empty", this);
         }
     }

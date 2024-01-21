@@ -1,34 +1,24 @@
 package org.telegram.telegrambots.webhook;
 
 import io.javalin.Javalin;
+import io.javalin.community.ssl.SslPlugin;
+import io.javalin.http.ContentType;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.jetty.alpn.server.ALPNServerConnectionFactory;
-import org.eclipse.jetty.http2.HTTP2Cipher;
-import org.eclipse.jetty.http2.server.HTTP2ServerConnectionFactory;
-import org.eclipse.jetty.server.HttpConfiguration;
-import org.eclipse.jetty.server.HttpConnectionFactory;
-import org.eclipse.jetty.server.SecureRequestCustomizer;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.server.SslConnectionFactory;
-import org.eclipse.jetty.util.ssl.SslContextFactory;
-import org.telegram.telegrambots.common.webhook.TelegramBotsWebhook;
-import org.telegram.telegrambots.common.webhook.TelegramWebhookBot;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import javax.ws.rs.core.MediaType;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Function;
 
 /**
  * @author Ruben Bermudez
  * @version 1.0
  */
 @Slf4j
-public class TelegramBotsWebhookApplication implements TelegramBotsWebhook {
+public class TelegramBotsWebhookApplication implements AutoCloseable {
     private final AtomicBoolean isRunning = new AtomicBoolean(false);
 
     private final WebhookOptions webhookOptions;
@@ -36,6 +26,10 @@ public class TelegramBotsWebhookApplication implements TelegramBotsWebhook {
     private final ConcurrentHashMap<String, TelegramWebhookBot> registeredBots = new ConcurrentHashMap<>();
 
     private Javalin app;
+
+    public TelegramBotsWebhookApplication() throws TelegramApiException {
+        this(WebhookOptions.builder().build());
+    }
 
     public TelegramBotsWebhookApplication(WebhookOptions webhookOptions) throws TelegramApiException {
         webhookOptions.validate();
@@ -48,13 +42,57 @@ public class TelegramBotsWebhookApplication implements TelegramBotsWebhook {
 
     /**
      * Use this method to register a new bot in the webhook server
+     * @param botPath New Bot to register
+     * @param updateHandler New Bot to register
+     * @param setWebhook New Bot to register
+     * @param deleteWebhook New Bot to register
+     *
+     * @implNote Bots can only be registered while server is running
+     * @implNote This will trigger a restart of the webhook server if the path already exists
+     */
+    public void registerBot(
+            String botPath,
+            Function<Update, BotApiMethod<?>> updateHandler,
+            Runnable setWebhook,
+            Runnable deleteWebhook
+    ) throws TelegramApiException {
+        registerBot(DefaultTelegramWebhookBot
+                .builder()
+                .botPath(botPath)
+                .updateHandler(updateHandler)
+                .setWebhook(setWebhook)
+                .deleteWebhook(deleteWebhook)
+                .build());
+    }
+
+    /**
+     * Use this method to unregister a bot in the webhook server
+     * @param botPath BotPath to unregister
+     *
+     * @implNote Bots can only be unregistered while server is running
+     * @implNote This will trigger a restart of the webhook server
+     */
+    public void unregisterBot(String botPath) throws TelegramApiException {
+        if (isRunning()) {
+            TelegramWebhookBot removedBot = registeredBots.remove(botPath);
+            if (removedBot != null) {
+                removedBot.runDeleteWebhook();
+                stop();
+                start();
+            }
+        } else {
+            throw new TelegramApiException("Server is not running");
+        }
+    }
+
+    /**
+     * Use this method to register a new bot in the webhook server
      * @param telegramWebhookBot New Bot to register
      *
      * @implNote Bots can only be registered while server is running
      * @implNote This will trigger a restart of the webhook server if the path already exists
      */
-    @Override
-    public void registerBot(TelegramWebhookBot telegramWebhookBot) {
+    public void registerBot(TelegramWebhookBot telegramWebhookBot) throws TelegramApiException {
         if (isRunning()) {
             if (registeredBots.put(telegramWebhookBot.getBotPath(), telegramWebhookBot) == null) {
                 setPostHandler(telegramWebhookBot);
@@ -63,7 +101,7 @@ public class TelegramBotsWebhookApplication implements TelegramBotsWebhook {
                 start();
             }
         } else {
-            throw new RuntimeException("Server is not running");
+            throw new TelegramApiException("Server is not running");
         }
     }
 
@@ -74,76 +112,75 @@ public class TelegramBotsWebhookApplication implements TelegramBotsWebhook {
      * @implNote Bots can only be unregistered while server is running
      * @implNote This will trigger a restart of the webhook server
      */
-    @Override
-    public void unregisterBot(TelegramWebhookBot telegramWebhookBot) {
-        if (isRunning()) {
-            if (registeredBots.remove(telegramWebhookBot.getBotPath()) != null) {
-                // TODO Call delete webhook
-                stop();
-                start();
-            }
-        } else {
-            throw new RuntimeException("Server is not running");
-        }
+    public void unregisterBot(TelegramWebhookBot telegramWebhookBot) throws TelegramApiException {
+        this.unregisterBot(telegramWebhookBot.getBotPath());
     }
 
-    @Override
     public boolean isRunning() {
-        synchronized (isRunning) {
-            return isRunning.get();
-        }
+        return isRunning.get();
     }
 
-    @Override
-    public void start() {
+    public void start() throws TelegramApiException {
         if (isRunning.get()) {
-            throw new RuntimeException("Server already running");
+            throw new TelegramApiException("Server already running");
         }
         synchronized (isRunning) {
             if (isRunning.get()) {
-                throw new RuntimeException("Server already running");
+                throw new TelegramApiException("Server already running");
             }
             startServerInternal();
             isRunning.set(true);
         }
     }
 
-    @Override
-    public void stop() {
+    public void stop() throws TelegramApiException {
         if (isRunning.get()) {
             synchronized (isRunning) {
                 if (isRunning.get()) {
-                    app.close();
+                    for (Map.Entry<String, TelegramWebhookBot> bot : registeredBots.entrySet()) {
+                        bot.getValue().runDeleteWebhook();
+                    }
+                    app.stop();
                     app = null;
                     isRunning.set(false);
                 } else {
-                    throw new RuntimeException("Server is not running");
+                    throw new TelegramApiException("Server is not running");
                 }
             }
         } else {
-            throw new RuntimeException("Server is not running");
+            throw new TelegramApiException("Server is not running");
         }
     }
 
-    private void startServerInternal() {
+    private void startServerInternal() throws TelegramApiException {
         app = Javalin
                 .create(javalinConfig -> {
-                    if (webhookOptions.getUseHttps()) {
-                        javalinConfig.jetty.server(this::createHttp2Server);
-                    }
-                    javalinConfig.http.defaultContentType = MediaType.APPLICATION_JSON;
+                    SslPlugin sslPlugin = new SslPlugin(conf -> {
+                        if (webhookOptions.getUseHttps()) {
+                            conf.keystoreFromPath(webhookOptions.getKeyStorePath(), webhookOptions.getKeyStorePassword());
+                            conf.insecure = false;
+                            conf.secure = true;
+                            conf.securePort = webhookOptions.getPort();
+                            javalinConfig.bundledPlugins.enableSslRedirects();
+                        } else {
+                            conf.insecure = true;
+                            conf.secure = false;
+                            conf.insecurePort = webhookOptions.getPort();
+                        }
+                    });
+                    javalinConfig.registerPlugin(sslPlugin);
+                    javalinConfig.http.defaultContentType = ContentType.JSON;
                     javalinConfig.requestLogger.http((ctx, executionTimeMs) -> {
                         if (webhookOptions.getEnableRequestLogging()) {
                             log.info("Webhook {} request received from {}", ctx.method(), ctx.req().getRemoteAddr());
                         }
                     });
-
                 })
                 .events(events -> {
                     events.serverStarted(() -> log.info("Webhook server started"));
                     events.serverStopped(() -> log.info("Webhook server stopped"));
                 })
-                .start(webhookOptions.getPort());
+                .start();
         for (Map.Entry<String, TelegramWebhookBot> bot : registeredBots.entrySet()) {
             setPostHandler(bot.getValue());
         }
@@ -152,54 +189,19 @@ public class TelegramBotsWebhookApplication implements TelegramBotsWebhook {
     private void setPostHandler(TelegramWebhookBot telegramWebhookBot) {
         app.post(telegramWebhookBot.getBotPath(), ctx -> {
             Update update = ctx.bodyStreamAsClass(Update.class);
-            BotApiMethod<?> response = telegramWebhookBot.onWebhookUpdateReceived(update);
+            BotApiMethod<?> response = telegramWebhookBot.consumeUpdate(update);
             if (response != null) {
                 response.validate();
                 ctx.json(response);
             }
             ctx.status(200);
         });
-        // TODO Call SetWebhook method
+        telegramWebhookBot.runSetWebhook();
     }
 
-    private Server createHttp2Server() {
-        Server server = new Server();
-
-        // HTTP Configuration
-        HttpConfiguration httpConfig = new HttpConfiguration();
-        httpConfig.setSendServerVersion(false);
-        httpConfig.setSecureScheme("https");
-        httpConfig.setSecurePort(webhookOptions.getPort());
-
-        // SSL Context Factory for HTTPS and HTTP/2
-        SslContextFactory.Server sslContextFactory = new SslContextFactory.Server.Server();
-        sslContextFactory.setKeyStorePath(webhookOptions.getKeyStorePath());
-        sslContextFactory.setKeyStorePassword(webhookOptions.getKeyStorePassword());
-        sslContextFactory.setCipherComparator(HTTP2Cipher.COMPARATOR);
-        sslContextFactory.setProvider("Conscrypt");
-
-        // HTTPS Configuration
-        HttpConfiguration httpsConfig = new HttpConfiguration(httpConfig);
-        httpsConfig.addCustomizer(new SecureRequestCustomizer());
-
-        // HTTP/2 Connection Factory
-        HTTP2ServerConnectionFactory h2 = new HTTP2ServerConnectionFactory(httpsConfig);
-        ALPNServerConnectionFactory alpn = new ALPNServerConnectionFactory();
-        alpn.setDefaultProtocol("h2");
-
-        // SSL Connection Factory
-        SslConnectionFactory ssl = new SslConnectionFactory(sslContextFactory, alpn.getProtocol());
-
-        // HTTP/2 Connector
-        ServerConnector http2Connector = new ServerConnector(server, ssl, alpn, h2, new HttpConnectionFactory(httpsConfig));
-        http2Connector.setPort(webhookOptions.getPort());
-        server.addConnector(http2Connector);
-
-        return server;
-    }
 
     @Override
-    public void close() throws Exception {
-        app.close();
+    public void close() throws TelegramApiException {
+        this.stop();
     }
 }

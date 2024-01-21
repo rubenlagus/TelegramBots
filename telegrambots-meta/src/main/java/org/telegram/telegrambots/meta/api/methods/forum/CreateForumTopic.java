@@ -2,16 +2,16 @@ package org.telegram.telegrambots.meta.api.methods.forum;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import lombok.extern.jackson.Jacksonized;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.forum.ForumTopic;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -27,10 +27,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class CreateForumTopic extends BotApiMethod<ForumTopic> {
     public static final String PATH = "createForumTopic";
 
@@ -92,10 +92,9 @@ public class CreateForumTopic extends BotApiMethod<ForumTopic> {
         return deserializeResponse(answer, ForumTopic.class);
     }
 
-    public static class CreateForumTopicBuilder {
-
+    public static abstract class CreateForumTopicBuilder<C extends CreateForumTopic, B extends CreateForumTopicBuilder<C, B>> extends BotApiMethodBuilder<ForumTopic, C, B> {
         @Tolerate
-        public CreateForumTopicBuilder chatId(@NonNull Long chatId) {
+        public CreateForumTopicBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }

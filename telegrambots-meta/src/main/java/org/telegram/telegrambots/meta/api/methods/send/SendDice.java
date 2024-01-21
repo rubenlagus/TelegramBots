@@ -2,15 +2,15 @@ package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMessage;
 import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -30,9 +30,9 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class SendDice extends BotApiMethodMessage {
     private static final List<String> VALIDEMOJIS = Collections.unmodifiableList(Arrays.asList("🎲", "🎯", "🏀", "⚽", "🎳", "🎰"));
 
@@ -125,10 +125,9 @@ public class SendDice extends BotApiMethodMessage {
         }
     }
 
-    public static class SendDiceBuilder {
-
+    public static abstract class SendDiceBuilder<C extends SendDice, B extends SendDiceBuilder<C, B>> extends BotApiMethodMessageBuilder<C, B> {
         @Tolerate
-        public SendDiceBuilder chatId(@NonNull Long chatId) {
+        public SendDiceBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }

@@ -1,14 +1,15 @@
 package org.telegram.telegrambots.meta.api.objects.boost;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 /**
@@ -16,14 +17,14 @@ import org.telegram.telegrambots.meta.api.objects.User;
  * @version 7.0
  * The boost was obtained by subscribing to Telegram Premium or by gifting a Telegram Premium subscription to another user.
  */
-@JsonDeserialize
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class ChatBoostSourcePremium implements ChatBoostSource {
     private static final String SOURCE_FIELD = "source";
     private static final String USER_FIELD = "user";
@@ -32,7 +33,8 @@ public class ChatBoostSourcePremium implements ChatBoostSource {
      * Source of the boost, always “premium”
      */
     @JsonProperty(SOURCE_FIELD)
-    private String source;
+    @Builder.Default
+    private final String source = ChatBoostSource.PREMIUM_TYPE;
     /**
      * User that boosted the chat
      */

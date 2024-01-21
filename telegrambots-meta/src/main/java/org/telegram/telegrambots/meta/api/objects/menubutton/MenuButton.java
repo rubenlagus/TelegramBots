@@ -1,13 +1,16 @@
 package org.telegram.telegrambots.meta.api.objects.menubutton;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
-import org.telegram.telegrambots.meta.api.objects.menubutton.serialization.MenuButtonDeserializer;
-import org.telegram.telegrambots.meta.api.objects.menubutton.serialization.MenuButtonSerializer;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
@@ -25,13 +28,21 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  *
  * By default, the menu button opens the list of bot's commands.
  */
-@JsonSerialize(using = MenuButtonSerializer.class)
-@JsonDeserialize(using = MenuButtonDeserializer.class)
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = MenuButtonDefault.class, name = "default"),
+        @JsonSubTypes.Type(value = MenuButtonWebApp.class, name = "web_app"),
+        @JsonSubTypes.Type(value = MenuButtonCommands.class, name = "commands")
+})
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
+@SuperBuilder
 public abstract class MenuButton implements BotApiObject, Validable {
     public static final String TYPE_FIELD = "type";
 

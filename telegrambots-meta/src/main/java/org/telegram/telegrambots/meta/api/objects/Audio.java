@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -87,22 +86,4 @@ public class Audio implements BotApiObject {
      */
     @JsonProperty(FILENAME_FIELD)
     private String fileName;
-
-    /**
-     * @deprecated Use {{@link #getThumbnail()}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public PhotoSize getThumb() {
-        return thumbnail;
-    }
-
-    /**
-     * @deprecated Use {{@link #setThumbnail(PhotoSize)}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public void setThumb(PhotoSize thumb) {
-        this.thumbnail = thumb;
-    }
 }

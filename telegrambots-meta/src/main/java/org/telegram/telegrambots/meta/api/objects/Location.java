@@ -1,13 +1,14 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
@@ -19,8 +20,9 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
-@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
+@SuperBuilder
+@Jacksonized
 public class Location implements BotApiObject {
 
     private static final String LONGITUDE_FIELD = "longitude";

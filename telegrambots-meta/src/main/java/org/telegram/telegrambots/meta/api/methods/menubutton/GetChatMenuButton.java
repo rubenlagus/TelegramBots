@@ -10,7 +10,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.menubutton.MenuButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 

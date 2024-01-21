@@ -2,11 +2,15 @@ package org.telegram.telegrambots.meta.api.objects.giveaway;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
@@ -18,12 +22,15 @@ import java.util.List;
  * @version 7.0
  * This object represents a message about the completion of a giveaway with public winners.
  */
-@JsonDeserialize
+
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+@Jacksonized
 public class GiveawayWinners implements BotApiObject {
     public static final String CHAT_FIELD = "chat";
     public static final String GIVEAWAY_MESSAGE_ID_FIELD = "giveaway_message_id";

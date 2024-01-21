@@ -1,14 +1,14 @@
 package org.telegram.telegrambots.meta.api.objects.boost;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 
@@ -17,14 +17,14 @@ import org.telegram.telegrambots.meta.api.objects.Chat;
  * @version 7.0
  * This object represents a boost removed from a chat.
  */
-@JsonDeserialize
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class ChatBoostRemoved implements BotApiObject {
     private static final String CHAT_FIELD = "chat";
     private static final String BOOST_ID_FIELD = "boost_id";

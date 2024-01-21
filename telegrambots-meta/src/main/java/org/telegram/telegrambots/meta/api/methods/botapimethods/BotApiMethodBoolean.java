@@ -2,7 +2,9 @@ package org.telegram.telegrambots.meta.api.methods.botapimethods;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 /**
@@ -13,9 +15,15 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SuperBuilder
 public abstract class BotApiMethodBoolean extends BotApiMethod<Boolean> {
     @Override
     public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
         return deserializeResponse(answer, Boolean.class);
+    }
+
+    public static abstract class BotApiMethodBooleanBuilder<C extends BotApiMethodBoolean, B extends BotApiMethodBooleanBuilder<C, B>> extends BotApiMethodBuilder<Boolean, C, B> {
+
     }
 }

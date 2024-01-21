@@ -3,15 +3,15 @@ package org.telegram.telegrambots.meta.api.methods.groupadministration;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.api.objects.ChatPermissions;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -33,10 +33,10 @@ import java.time.ZonedDateTime;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class RestrictChatMember extends BotApiMethodBoolean {
     public static final String PATH = "restrictchatmember";
 
@@ -120,10 +120,9 @@ public class RestrictChatMember extends BotApiMethodBoolean {
         }
     }
 
-    public static class RestrictChatMemberBuilder {
-
+    public static abstract class RestrictChatMemberBuilder<C extends RestrictChatMember, B extends RestrictChatMemberBuilder<C, B>> extends BotApiMethodBooleanBuilder<C, B> {
         @Tolerate
-        public RestrictChatMemberBuilder chatId(@NonNull Long chatId) {
+        public RestrictChatMemberBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }
