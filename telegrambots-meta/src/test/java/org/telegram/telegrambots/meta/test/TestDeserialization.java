@@ -36,6 +36,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -434,7 +435,8 @@ class TestDeserialization {
         assertNotNull(update);
         assertNotNull(update.getCallbackQuery());
         assertNotNull(update.getCallbackQuery().getMessage());
-        assertNotNull(update.getCallbackQuery().getMessage().getReplyMarkup());
+        assertInstanceOf(Message.class, update.getCallbackQuery().getMessage());
+        assertNotNull(((Message) update.getCallbackQuery().getMessage()).getReplyMarkup());
     }
 
     @Test

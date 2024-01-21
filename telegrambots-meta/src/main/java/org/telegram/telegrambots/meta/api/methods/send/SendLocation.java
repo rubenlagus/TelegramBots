@@ -12,6 +12,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMessage;
+import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -45,6 +46,7 @@ public class SendLocation extends BotApiMethodMessage {
     private static final String HEADING_FIELD = "heading";
     private static final String PROXIMITYALERTRADIUS_FIELD = "proximity_alert_radius";
     private static final String PROTECTCONTENT_FIELD = "protect_content";
+    private static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -93,6 +95,12 @@ public class SendLocation extends BotApiMethodMessage {
     private Integer proximityAlertRadius;
     @JsonProperty(PROTECTCONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
+    /**
+     * Optional
+     * Description of the message to reply to
+     */
+    @JsonProperty(REPLY_PARAMETERS_FIELD)
+    private ReplyParameters replyParameters;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
@@ -131,6 +139,9 @@ public class SendLocation extends BotApiMethodMessage {
         }
         if (livePeriod != null && (livePeriod < 60 || livePeriod > 86400)) {
             throw new TelegramApiValidationException("Live period parameter must be between 60 and 86400", this);
+        }
+        if (replyParameters != null) {
+            replyParameters.validate();
         }
     }
 
