@@ -105,7 +105,7 @@ public class TestSerialization {
         String json = mapper.writeValueAsString(inlineQuery);
 
         assertNotNull(json);
-        assertEquals("{\"inline_query_id\":\"12345\",\"results\":[{\"type\":\"article\",\"id\":\"1\",\"title\":\"Title\",\"input_message_content\":{\"latitude\":20.758069,\"longitude\":-0.005702,\"horizontal_accuracy\":65.0}}],\"cache_time\":1,\"is_personal\":true,\"next_offset\":\"2\",\"switch_pm_text\":\"switch\",\"switch_pm_parameter\":\"parameter\",\"method\":\"answerInlineQuery\"}",
+        assertEquals("{\"inline_query_id\":\"12345\",\"results\":[{\"type\":\"article\",\"id\":\"1\",\"title\":\"Title\",\"input_message_content\":{\"latitude\":20.758069,\"longitude\":-0.005702,\"horizontal_accuracy\":65.0}}],\"cache_time\":1,\"is_personal\":true,\"next_offset\":\"2\",\"button\":{\"text\":\"switch\",\"start_parameter\":\"parameter\"},\"method\":\"answerInlineQuery\"}",
                 json);
     }
 }
