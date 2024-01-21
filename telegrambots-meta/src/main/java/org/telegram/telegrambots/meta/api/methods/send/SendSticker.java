@@ -34,16 +34,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 public class SendSticker extends SendMediaBotMethod<Message> {
     public static final String PATH = "sendsticker";
 
-    public static final String CHATID_FIELD = "chat_id";
-    public static final String MESSAGETHREADID_FIELD = "message_thread_id";
     public static final String STICKER_FIELD = "sticker";
-    public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
-    public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
-    public static final String REPLYMARKUP_FIELD = "reply_markup";
-    public static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
-    public static final String PROTECTCONTENT_FIELD = "protect_content";
     public static final String EMOJI_FIELD = "emoji";
-    public static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
 
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)

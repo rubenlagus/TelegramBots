@@ -11,14 +11,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
-import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResult;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultsButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * @author Ruben Bermudez
@@ -61,26 +59,6 @@ public class AnswerInlineQuery extends BotApiMethodBoolean {
 
     /**
      * Optional.
-     * If passed, clients will display a button with specified text that switches the user to a private chat with the
-     * bot and sends the bot a start message with the parameter switch_pm_parameter
-     *
-     * @deprecated Use {@link #setButton(InlineQueryResultsButton)}
-     */
-    @JsonProperty(SWITCH_PM_TEXT_FIELD)
-    @Deprecated
-    private String switchPmText;
-    /**
-     * Optional.
-     * Parameter for the start message sent to the bot when user presses the switch button
-     *
-     * @deprecated Use {@link #setButton(InlineQueryResultsButton)}
-     */
-    @JsonProperty(SWITCH_PM_PARAMETER_FIELD)
-    @Deprecated
-    private String switchPmParameter;
-
-    /**
-     * Optional.
      * A JSON serialized object describing a button to be shown above inline query results
      */
     @JsonProperty(BUTTON_FIELD)
@@ -90,20 +68,6 @@ public class AnswerInlineQuery extends BotApiMethodBoolean {
     public void validate() throws TelegramApiValidationException {
         if (inlineQueryId.isEmpty()) {
             throw new TelegramApiValidationException("InlineQueryId can't be empty", this);
-        }
-        if (switchPmText != null) {
-            if (switchPmText.isEmpty()) {
-                throw new TelegramApiValidationException("SwitchPmText can't be empty", this);
-            }
-            if (switchPmParameter == null || switchPmParameter.isEmpty()) {
-                throw new TelegramApiValidationException("SwitchPmParameter can't be empty if switchPmText is present", this);
-            }
-            if (switchPmParameter.length() > 64) {
-                throw new TelegramApiValidationException("SwitchPmParameter can't be longer than 64 chars", this);
-            }
-            if (!Pattern.matches("[A-Za-z0-9_\\-]+", switchPmParameter.trim() )) {
-                throw new TelegramApiValidationException("SwitchPmParameter only allows A-Z, a-z, 0-9, _ and - characters", this);
-            }
         }
         for (InlineQueryResult result : results) {
             result.validate();

@@ -3,6 +3,7 @@ package org.telegram.telegrambots.meta.test.apimethods;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
+import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultsButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.util.ArrayList;
@@ -54,12 +55,15 @@ class TestAnswerInlineQuery {
     void testSwitchPmTextCanNotBeEmpty() {
         answerInlineQuery.setInlineQueryId("RANDOMEID");
         answerInlineQuery.setResults(new ArrayList<>());
-        answerInlineQuery.setSwitchPmText("");
+        answerInlineQuery.setButton(InlineQueryResultsButton
+                .builder()
+                .text("")
+                .build());
 
         try {
             answerInlineQuery.validate();
         } catch (TelegramApiValidationException e) {
-            assertEquals("SwitchPmText can't be empty", e.getMessage());
+            assertEquals("Text can't be empty", e.getMessage());
         }
     }
 
@@ -67,7 +71,10 @@ class TestAnswerInlineQuery {
     void testSwitchPmParameterIsMandatoryIfSwitchPmTextIsPresent() {
         answerInlineQuery.setInlineQueryId("RANDOMEID");
         answerInlineQuery.setResults(new ArrayList<>());
-        answerInlineQuery.setSwitchPmText("Test Text");
+        answerInlineQuery.setButton(InlineQueryResultsButton
+                .builder()
+                .text("Test Text")
+                .build());
 
         try {
             answerInlineQuery.validate();
@@ -80,13 +87,17 @@ class TestAnswerInlineQuery {
     void testSwitchPmParameterCanNotBeEmptyIfSwitchPmTextIsPresent() {
         answerInlineQuery.setInlineQueryId("RANDOMEID");
         answerInlineQuery.setResults(new ArrayList<>());
-        answerInlineQuery.setSwitchPmText("Test Text");
-        answerInlineQuery.setSwitchPmParameter("");
+        answerInlineQuery.setButton(InlineQueryResultsButton
+                .builder()
+                .text("Test Text")
+                .startParameter("")
+                .build());
+
 
         try {
             answerInlineQuery.validate();
         } catch (TelegramApiValidationException e) {
-            assertEquals("SwitchPmParameter can't be empty if switchPmText is present", e.getMessage());
+            assertEquals("SwitchPmParameter can't be empty or longer than 64 chars", e.getMessage());
         }
     }
 
@@ -94,13 +105,16 @@ class TestAnswerInlineQuery {
     void testSwitchPmParameterContainsUpTo64Chars() {
         answerInlineQuery.setInlineQueryId("RANDOMEID");
         answerInlineQuery.setResults(new ArrayList<>());
-        answerInlineQuery.setSwitchPmText("Test Text");
-        answerInlineQuery.setSwitchPmParameter("2AAQlw4BwzXwFNXMk5rReQC3YbhbgNqq4BGqyozjRTtrsok4shsB8u4NXeslfpOsL");
+        answerInlineQuery.setButton(InlineQueryResultsButton
+                .builder()
+                .text("Test Text")
+                .startParameter("2AAQlw4BwzXwFNXMk5rReQC3YbhbgNqq4BGqyozjRTtrsok4shsB8u4NXeslfpOsL")
+                .build());
 
         try {
             answerInlineQuery.validate();
         } catch (TelegramApiValidationException e) {
-            assertEquals("SwitchPmParameter can't be longer than 64 chars", e.getMessage());
+            assertEquals("SwitchPmParameter can't be empty or longer than 64 chars", e.getMessage());
         }
     }
 
@@ -108,8 +122,11 @@ class TestAnswerInlineQuery {
     void testSwitchPmParameterOnlyContainsAcceptedCharacters() {
         answerInlineQuery.setInlineQueryId("RANDOMEID");
         answerInlineQuery.setResults(new ArrayList<>());
-        answerInlineQuery.setSwitchPmText("Test Text");
-        answerInlineQuery.setSwitchPmParameter("*");
+        answerInlineQuery.setButton(InlineQueryResultsButton
+                .builder()
+                .text("Test Text")
+                .startParameter("*")
+                .build());
 
         try {
             answerInlineQuery.validate();

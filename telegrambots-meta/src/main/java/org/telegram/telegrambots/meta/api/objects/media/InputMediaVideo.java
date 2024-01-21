@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.objects.media;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
@@ -9,7 +8,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -95,31 +93,4 @@ public class InputMediaVideo extends InputMedia {
         super.validate();
     }
 
-    /**
-     * @deprecated Use {{@link #getThumbnail()}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public InputFile getThumb() {
-        return thumbnail;
-    }
-
-    /**
-     * @deprecated Use {{@link #setThumbnail(InputFile)}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public void setThumb(InputFile thumb) {
-        this.thumbnail = thumb;
-    }
-
-    public static class InputMediaVideoBuilder {
-
-        @Tolerate
-        @Deprecated
-        public InputMediaVideo.InputMediaVideoBuilder thumb(InputFile thumb) {
-            this.thumbnail = thumb;
-            return this;
-        }
-    }
 }

@@ -26,14 +26,15 @@ class OkHttpFutureCallback<T extends Serializable, Method extends PartialBotApiM
 
     @Override
     public void onResponse(Call call, Response response) throws IOException {
-        ResponseBody body = response.body();
-        if (body == null) {
-            completeExceptionally(new TelegramApiException("Telegram api returned empty response"));
-        } else {
-            try {
-                complete(method.deserializeResponse(body.string()));
-            } catch (TelegramApiRequestException e) {
-                completeExceptionally(e);
+        try(ResponseBody body = response.body()) {
+            if (body == null) {
+                completeExceptionally(new TelegramApiException("Telegram api returned empty response"));
+            } else {
+                try {
+                    complete(method.deserializeResponse(body.string()));
+                } catch (TelegramApiRequestException e) {
+                    completeExceptionally(e);
+                }
             }
         }
     }

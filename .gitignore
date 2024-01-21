@@ -43,3 +43,9 @@ copyright/
 
 #File System specific files
 .DS_Store
+
+# Javadocs
+**/documents/
+**/javadoc/
+
+

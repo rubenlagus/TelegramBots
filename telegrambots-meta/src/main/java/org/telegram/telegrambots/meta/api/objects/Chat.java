@@ -328,7 +328,7 @@ public class Chat implements BotApiObject {
      * Returned only in getChat.
      */
     @JsonProperty(CUSTOM_EMOJI_STICKER_SET_NAME_FIELD)
-    private Boolean customEmojiStickerSetName;
+    private String customEmojiStickerSetName;
 
     @JsonIgnore
     public Boolean isGroupChat() {

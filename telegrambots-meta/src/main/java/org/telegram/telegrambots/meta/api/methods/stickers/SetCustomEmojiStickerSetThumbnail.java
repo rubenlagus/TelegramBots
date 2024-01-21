@@ -30,7 +30,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @AllArgsConstructor
 @Builder
 public class SetCustomEmojiStickerSetThumbnail extends BotApiMethodBoolean {
-    public static final String PATH = "setStickerSetThumb";
+    public static final String PATH = "setCustomEmojiStickerSetThumbnail";
 
     public static final String NAME_FIELD = "name";
     public static final String CUSTOM_EMOJI_ID_FIELD = "custom_emoji_id";

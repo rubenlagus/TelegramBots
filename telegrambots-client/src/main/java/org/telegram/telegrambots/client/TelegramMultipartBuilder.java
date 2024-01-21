@@ -7,8 +7,10 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
+import org.telegram.telegrambots.meta.api.objects.stickers.InputSticker;
 
 import java.io.IOException;
+import java.util.List;
 
 public class TelegramMultipartBuilder {
     public final MultipartBody.Builder internalBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
@@ -61,8 +63,10 @@ public class TelegramMultipartBuilder {
         return this;
     }
 
-    public TelegramMultipartBuilder addInputFile(InputFile file, String fileField, boolean addField) throws IOException {
-        if (file == null) return this;
+    public TelegramMultipartBuilder addInputFile(String fileField, InputFile file, boolean addField) throws IOException {
+        if (file == null) {
+            return this;
+        }
 
         if (file.isNew()) {
             RequestBody body = null;
@@ -85,7 +89,9 @@ public class TelegramMultipartBuilder {
     }
 
     public TelegramMultipartBuilder addMedia(InputMedia media) throws IOException {
-        if (media == null) return this;
+        if (media == null) {
+            return this;
+        }
 
         if (media.isNewMedia()) {
             RequestBody body = null;
@@ -99,6 +105,16 @@ public class TelegramMultipartBuilder {
                 internalBuilder.addFormDataPart(media.getMediaName(), media.getMediaName(), body);
             }
         }
+
+        return this;
+    }
+
+    public TelegramMultipartBuilder addInputStickers(String stickersField, List<InputSticker> stickers) throws IOException {
+        for (InputSticker sticker : stickers) {
+            addInputFile(null, sticker.getSticker(), false);
+        }
+
+        addJsonPart(stickersField, stickers);
 
         return this;
     }
