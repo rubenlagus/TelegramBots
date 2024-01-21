@@ -18,8 +18,12 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import java.io.Serializable;
 import java.util.concurrent.ExecutionException;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.github.tomakehurst.wiremock.client.WireMock.notFound;
+import static com.github.tomakehurst.wiremock.client.WireMock.ok;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 public class TelegramClientIntegrationTest {
 
@@ -51,7 +55,7 @@ public class TelegramClientIntegrationTest {
         mockMethod(method, responseMessage);
 
         Message parsedMessage = client.executeAsync(method).get();
-        Assertions.assertEquals(responseMessage, parsedMessage);
+        assertEquals(responseMessage, parsedMessage);
     }
 
     @Test
@@ -62,11 +66,11 @@ public class TelegramClientIntegrationTest {
 
         ExecutionException e = Assertions.assertThrows(ExecutionException.class, () -> client.executeAsync(method).get());
 
-        Assertions.assertTrue(e.getCause() instanceof TelegramApiRequestException);
+        assertInstanceOf(TelegramApiRequestException.class, e.getCause());
 
         TelegramApiRequestException exception = (TelegramApiRequestException) e.getCause();
 
-        Assertions.assertEquals(404, exception.getErrorCode());
+        assertEquals(404, exception.getErrorCode());
     }
 
     <T extends Serializable, Method extends BotApiMethod<T>> void mockMethod(Method method, T result) {
