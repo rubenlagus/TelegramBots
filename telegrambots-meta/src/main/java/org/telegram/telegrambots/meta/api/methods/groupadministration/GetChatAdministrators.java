@@ -1,16 +1,16 @@
 package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import lombok.extern.jackson.Jacksonized;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -30,9 +30,9 @@ import java.util.ArrayList;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
-@AllArgsConstructor
-@Builder
+@RequiredArgsConstructor
+@SuperBuilder
+@Jacksonized
 public class GetChatAdministrators extends BotApiMethod<ArrayList<ChatMember>> {
     public static final String PATH = "getChatAdministrators";
 
@@ -64,10 +64,9 @@ public class GetChatAdministrators extends BotApiMethod<ArrayList<ChatMember>> {
         }
     }
 
-    public static class GetChatAdministratorsBuilder {
-
+    public static abstract class GetChatAdministratorsBuilder<C extends GetChatAdministrators, B extends GetChatAdministratorsBuilder<C, B>> extends BotApiMethodBuilder<ArrayList<ChatMember>, C, B> {
         @Tolerate
-        public GetChatAdministratorsBuilder chatId(@NonNull Long chatId) {
+        public GetChatAdministratorsBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }

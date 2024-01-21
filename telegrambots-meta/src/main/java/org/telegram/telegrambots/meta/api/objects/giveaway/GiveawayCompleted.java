@@ -1,26 +1,31 @@
 package org.telegram.telegrambots.meta.api.objects.giveaway;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 
 /**
  * @author Ruben Bermudez
  * @version 7.0
  * This object represents a service message about the completion of a giveaway without public winners.
  */
-@JsonDeserialize
+
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+@Jacksonized
 public class GiveawayCompleted implements BotApiObject {
     public static final String WINNER_COUNT_FIELD = "winner_count";
     public static final String UNCLAIMED_PRIZE_COUNT_FIELD = "unclaimed_prize_count";

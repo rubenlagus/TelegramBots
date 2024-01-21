@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.extensions.bots.commandbot;
 
-import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 /**

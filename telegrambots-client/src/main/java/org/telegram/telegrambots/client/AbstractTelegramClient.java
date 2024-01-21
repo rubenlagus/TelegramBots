@@ -1,17 +1,27 @@
 package org.telegram.telegrambots.client;
 
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
-import org.telegram.telegrambots.meta.api.methods.send.*;
+import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
+import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
+import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
+import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
+import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
+import org.telegram.telegrambots.meta.api.methods.send.SendVoice;
 import org.telegram.telegrambots.meta.api.methods.stickers.AddStickerToSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.CreateNewStickerSet;
-import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumb;
+import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumbnail;
 import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.File;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.generics.TelegramClient;
 
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -120,11 +130,11 @@ public abstract class AbstractTelegramClient implements TelegramClient {
     }
 
     @Override
-    public Boolean execute(SetStickerSetThumb setStickerSetThumb) throws TelegramApiException {
+    public Boolean execute(SetStickerSetThumbnail setStickerSetThumbnail) throws TelegramApiException {
         try {
-            return executeAsync(setStickerSetThumb).get();
+            return executeAsync(setStickerSetThumbnail).get();
         } catch (Exception e) {
-            throw mapException(e, setStickerSetThumb.getMethod());
+            throw mapException(e, setStickerSetThumbnail.getMethod());
         }
     }
 
@@ -161,6 +171,24 @@ public abstract class AbstractTelegramClient implements TelegramClient {
             return executeAsync(sendAnimation).get();
         } catch (Exception e) {
             throw mapException(e, sendAnimation.getMethod());
+        }
+    }
+
+    @Override
+    public java.io.File downloadFile(File file) throws TelegramApiException {
+        try {
+            return downloadFileAsync(file).get();
+        } catch (Exception e) {
+            throw mapException(e, " download file ");
+        }
+    }
+
+    @Override
+    public InputStream downloadFileAsStream(File file) throws TelegramApiException {
+        try {
+            return downloadFileAsStreamAsync(file).get();
+        } catch (Exception e) {
+            throw mapException(e, " download file ");
         }
     }
 

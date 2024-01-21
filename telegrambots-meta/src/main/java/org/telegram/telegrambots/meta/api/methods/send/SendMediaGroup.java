@@ -1,22 +1,23 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.Singular;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import lombok.extern.jackson.Jacksonized;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
 import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaAnimation;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaAudio;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaDocument;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -37,39 +38,63 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
     public static final String PATH = "sendMediaGroup";
 
-    public static final String CHATID_FIELD = "chat_id";
-    public static final String MESSAGETHREADID_FIELD = "message_thread_id";
+    public static final String CHAT_ID_FIELD = "chat_id";
+    public static final String MESSAGE_THREAD_ID_FIELD = "message_thread_id";
     public static final String MEDIA_FIELD = "media";
-    public static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
-    public static final String DISABLENOTIFICATION_FIELD = "disable_notification";
-    public static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
-    public static final String PROTECTCONTENT_FIELD = "protect_content";
+    public static final String REPLY_TO_MESSAGE_ID_FIELD = "reply_to_message_id";
+    public static final String DISABLE_NOTIFICATION_FIELD = "disable_notification";
+    public static final String ALLOW_SENDING_WITHOUT_REPLY_FIELD = "allow_sending_without_reply";
+    public static final String PROTECT_CONTENT_FIELD = "protect_content";
     public static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
 
+    /**
+     * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     */
     @NonNull
-    private String chatId; ///<  	Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+    private String chatId;
     /**
      * Unique identifier for the target message thread (topic) of the forum;
      * for forum supergroups only
      */
     private Integer messageThreadId;
+    /**
+     * A JSON-serialized array describing photos and videos to be sent, must include 2–10 items
+     */
     @NonNull
-    private List<InputMedia> medias; ///< A JSON-serialized array describing photos and videos to be sent, must include 2–10 items
-    private Integer replyToMessageId; ///< Optional. If the messages are a reply, ID of the original message
-    private Boolean disableNotification; ///< Optional. Sends the messages silently. Users will receive a notification with no sound.
-    private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
-    private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
+    @Singular
+    private List<InputMedia> medias;
+    /**
+     * Optional.
+     * If the messages are a reply, ID of the original message
+     */
+    private Integer replyToMessageId;
+    /**
+     * Optional.
+     * Sends the messages silently. Users will receive a notification with no sound.
+     */
+    private Boolean disableNotification;
+    /**
+     * Optional
+     * Pass True, if the message should be sent even if the specified replied-to message is not found
+     */
+    private Boolean allowSendingWithoutReply;
+    /**
+     *  Optional.
+     *  Protects the contents of sent messages from forwarding and saving
+     */
+    private Boolean protectContent;
     /**
      * Optional
      * Description of the message to reply to
      */
     private ReplyParameters replyParameters;
+
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
@@ -131,10 +156,9 @@ public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
         return PATH;
     }
 
-    public static class SendMediaGroupBuilder {
-
+    public static abstract class SendMediaGroupBuilder<C extends SendMediaGroup, B extends SendMediaGroupBuilder<C, B>> extends PartialBotApiMethodBuilder<ArrayList<Message>, C, B> {
         @Tolerate
-        public SendMediaGroupBuilder chatId(@NonNull Long chatId) {
+        public SendMediaGroupBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }

@@ -2,6 +2,8 @@ package org.telegram.telegrambots.meta.api.objects.adminrights;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 
@@ -14,9 +16,10 @@ import org.telegram.telegrambots.meta.api.interfaces.Validable;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class ChatAdministratorRights implements BotApiObject, Validable {
 
     private static final String ISANONYMOUS_FIELD = "is_anonymous";

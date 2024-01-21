@@ -18,7 +18,7 @@ public class TestWebhookOptions {
     private File temporaryKeyStoreFile;
 
     @Test
-    public void TestWhenHttpsEnabledKeyStoreFileMustBePresent() {
+    public void testWhenHttpsEnabledKeyStoreFileMustBePresent() {
         WebhookOptions webhookOptions = new WebhookOptions();
         webhookOptions.setUseHttps(true);
         webhookOptions.setKeyStorePath(temporaryKeyStoreFile.getAbsolutePath());
@@ -30,7 +30,7 @@ public class TestWebhookOptions {
     }
 
     @Test
-    public void TestWhenHttpsEnabledAndKeyStoreFileNotPresentExceptionIsRaised() {
+    public void testWhenHttpsEnabledAndKeyStoreFileNotPresentExceptionIsRaised() {
         WebhookOptions webhookOptions = new WebhookOptions();
         webhookOptions.setUseHttps(true);
         webhookOptions.setKeyStorePath("/Random/path");

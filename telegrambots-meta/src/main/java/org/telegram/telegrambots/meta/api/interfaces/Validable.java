@@ -22,9 +22,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * @brief Interface that can be implemented by objects that knows how to validate their fields
- * @date 16 of September of 2016
- */
+ * Interface that can be implemented by objects that knows how to validate their fields */
 public interface Validable {
     /**
      * Validates that mandatory fields are filled and optional objects

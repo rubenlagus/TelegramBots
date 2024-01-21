@@ -1,14 +1,15 @@
 package org.telegram.telegrambots.meta.api.methods;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
@@ -18,7 +19,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
  * Use this method to get basic info about a file and prepare it for downloading.
  * For the moment, bots can download files of up to 20MB in size.
  * On success, a File object is returned.
- * The file can then be downloaded via the link https://api.telegram.org/file/bot<token>/<file_path>,
+ * The file can then be downloaded via the link <a href="https://api.telegram.org/file/bot<token>/<file_path>">https://api.telegram.org/file/bot<token>/<file_path></a>,
  * where <file_path> is taken from the response.
  * It is guaranteed that the link will be valid for at least 1 hour.
  * When the link expires, a new one can be requested by calling getFile again.
@@ -27,9 +28,9 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
-@AllArgsConstructor
-@Builder
+@RequiredArgsConstructor
+@SuperBuilder
+@Jacksonized
 public class GetFile extends BotApiMethod<File> {
     public static final String PATH = "getFile";
 

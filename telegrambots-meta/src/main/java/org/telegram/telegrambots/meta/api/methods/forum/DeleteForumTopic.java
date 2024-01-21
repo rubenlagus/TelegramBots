@@ -2,14 +2,14 @@ package org.telegram.telegrambots.meta.api.methods.forum;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -26,9 +26,9 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class DeleteForumTopic extends BotApiMethodBoolean {
     public static final String PATH = "deleteForumTopic";
 
@@ -69,10 +69,9 @@ public class DeleteForumTopic extends BotApiMethodBoolean {
         return PATH;
     }
 
-    public static class DeleteForumTopicBuilder {
-
+    public static abstract class DeleteForumTopicBuilder<C extends DeleteForumTopic, B extends DeleteForumTopicBuilder<C, B>> extends BotApiMethodBooleanBuilder<C, B> {
         @Tolerate
-        public DeleteForumTopicBuilder chatId(@NonNull Long chatId) {
+        public DeleteForumTopicBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }

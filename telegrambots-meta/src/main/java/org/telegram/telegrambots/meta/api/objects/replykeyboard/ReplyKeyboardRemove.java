@@ -1,17 +1,16 @@
 package org.telegram.telegrambots.meta.api.objects.replykeyboard;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
 /**
  * @author Ruben Bermudez
@@ -21,22 +20,26 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * until a new keyboard is sent by a bot. An exception is made for one-time keyboards that are
  * hidden immediately after the user presses a button (@see ReplyKeyboardMarkup).
  */
-@JsonDeserialize
+
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class ReplyKeyboardRemove implements ReplyKeyboard {
     private static final String REMOVEKEYBOARD_FIELD = "remove_keyboard";
     private static final String SELECTIVE_FIELD = "selective";
 
+    /**
+     * Requests clients to remove the custom keyboard
+     */
     @JsonProperty(REMOVEKEYBOARD_FIELD)
     @NonNull
-    private Boolean removeKeyboard; ///< Requests clients to remove the custom keyboard
+    @Builder.Default
+    private Boolean removeKeyboard = true;
     /**
      * Optional. Use this parameter if you want to show the keyboard to specific users only.
      * Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's
@@ -44,11 +47,4 @@ public class ReplyKeyboardRemove implements ReplyKeyboard {
      */
     @JsonProperty(SELECTIVE_FIELD)
     private Boolean selective;
-
-    @Override
-    public void validate() throws TelegramApiValidationException {
-        if (removeKeyboard == null) {
-            throw new TelegramApiValidationException("RemoveKeyboard parameter can't be null", this);
-        }
-    }
 }

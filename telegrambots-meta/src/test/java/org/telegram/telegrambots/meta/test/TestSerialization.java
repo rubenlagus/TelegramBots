@@ -9,12 +9,13 @@ import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendLocation;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputLocationMessageContent;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultArticle;
+import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultsButton;
 
 import java.time.OffsetTime;
-import java.time.ZoneOffset;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Ruben Bermudez
@@ -41,10 +42,7 @@ public class TestSerialization {
         OffsetTime now = OffsetTime.now().withHour(9).withMinute(0).withNano(0).withSecond(0);
         OffsetTime myTime = mapper.readValue(time, MyClass.class).time;
 
-        System.err.println("Time: " + myTime.withOffsetSameInstant(ZoneOffset.UTC));
-        System.err.println("Now: " + now.withOffsetSameInstant(ZoneOffset.UTC));
-        // ahora antes que valor
-        System.err.println(now.isBefore(myTime));
+        assertTrue(now.isBefore(myTime));
     }
 
     //@BeforeEach
@@ -67,6 +65,7 @@ public class TestSerialization {
                 .proximityAlertRadius(100)
                 .build();
 
+
         String json = mapper.writeValueAsString(location);
 
         assertNotNull(json);
@@ -82,8 +81,11 @@ public class TestSerialization {
                 .cacheTime(1)
                 .isPersonal(true)
                 .nextOffset("2")
-                .switchPmText("switch")
-                .switchPmParameter("parameter")
+                .button(InlineQueryResultsButton
+                        .builder()
+                        .startParameter("parameter")
+                        .text("switch")
+                        .build())
                 .result(InlineQueryResultArticle
                         .builder()
                         .id("1")
@@ -101,7 +103,7 @@ public class TestSerialization {
         String json = mapper.writeValueAsString(inlineQuery);
 
         assertNotNull(json);
-        assertEquals("{\"inline_query_id\":\"12345\",\"results\":[{\"type\":\"article\",\"id\":\"1\",\"title\":\"Title\",\"input_message_content\":{\"latitude\":20.758069,\"longitude\":-0.005702,\"horizontal_accuracy\":65.0}}],\"cache_time\":1,\"is_personal\":true,\"next_offset\":\"2\",\"switch_pm_text\":\"switch\",\"switch_pm_parameter\":\"parameter\",\"method\":\"answerInlineQuery\"}",
+        assertEquals("{\"inline_query_id\":\"12345\",\"results\":[{\"type\":\"article\",\"id\":\"1\",\"title\":\"Title\",\"input_message_content\":{\"latitude\":20.758069,\"longitude\":-0.005702,\"horizontal_accuracy\":65.0}}],\"cache_time\":1,\"is_personal\":true,\"next_offset\":\"2\",\"button\":{\"text\":\"switch\",\"start_parameter\":\"parameter\"},\"method\":\"answerInlineQuery\"}",
                 json);
     }
 }

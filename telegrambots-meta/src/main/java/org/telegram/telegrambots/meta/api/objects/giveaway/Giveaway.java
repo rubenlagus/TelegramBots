@@ -1,12 +1,14 @@
 package org.telegram.telegrambots.meta.api.objects.giveaway;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 
@@ -17,12 +19,14 @@ import java.util.List;
  * @version 7.0
  * This object represents a message about a scheduled giveaway.
  */
-@JsonDeserialize
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+@Jacksonized
 public class Giveaway implements BotApiObject {
     public static final String CHATS_FIELD = "chats";
     public static final String WINNERS_SELECTION_DATE_FIELD = "winners_selection_date";

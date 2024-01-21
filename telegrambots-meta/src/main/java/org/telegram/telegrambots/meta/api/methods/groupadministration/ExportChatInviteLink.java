@@ -1,16 +1,16 @@
 package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import lombok.extern.jackson.Jacksonized;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -18,9 +18,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * @author Ruben Bermudez
  * @version 3.1
  * Use this method to generate a new primary invite link for a chat; any previously generated primary link is revoked.
- *
  * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
- *
  * Returns the new invite link as String on success.
  *
  * @apiNote Each administrator in a chat generates their own invite links.
@@ -32,9 +30,9 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
-@AllArgsConstructor
-@Builder
+@RequiredArgsConstructor
+@SuperBuilder
+@Jacksonized
 public class ExportChatInviteLink extends BotApiMethod<String> {
     public static final String PATH = "exportChatInviteLink";
 
@@ -66,10 +64,9 @@ public class ExportChatInviteLink extends BotApiMethod<String> {
         }
     }
 
-    public static class ExportChatInviteLinkBuilder {
-
+    public static abstract class ExportChatInviteLinkBuilder<C extends ExportChatInviteLink, B extends ExportChatInviteLinkBuilder<C, B>> extends BotApiMethodBuilder<String, C, B> {
         @Tolerate
-        public ExportChatInviteLinkBuilder chatId(@NonNull Long chatId) {
+        public ExportChatInviteLinkBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }

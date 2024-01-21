@@ -120,13 +120,4 @@ public class ChatPermissions implements BotApiObject {
      */
     @JsonProperty(CANMANAGETOPICS_FIELD)
     private Boolean canManageTopics;
-
-    /**
-     * Optional.
-     * True, if the user is allowed to send audios, documents, photos, videos, video notes and voice notes, implies can_send_messages
-     * @deprecated Use individual permissions
-     */
-    @JsonProperty(CAN_SEND_MEDIA_MESSAGES_FIELD)
-    @Deprecated
-    private Boolean canSendMediaMessages;
 }

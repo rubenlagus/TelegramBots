@@ -1,14 +1,14 @@
 package org.telegram.telegrambots.meta.api.objects.chatmember;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 /**
@@ -17,14 +17,14 @@ import org.telegram.telegrambots.meta.api.objects.User;
  *
  * Represents a chat member that isn't currently a member of the chat, but may join it themselves.
  */
-@JsonDeserialize
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class ChatMemberLeft implements ChatMember {
     public static final String STATUS = "left";
 

@@ -1,15 +1,15 @@
 package org.telegram.telegrambots.meta.api.methods.forum;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -26,9 +26,9 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
-@AllArgsConstructor
-@Builder
+@RequiredArgsConstructor
+@SuperBuilder
+@Jacksonized
 public class HideGeneralForumTopic extends BotApiMethodBoolean {
     public static final String PATH = "hideGeneralForumTopic";
 
@@ -59,10 +59,9 @@ public class HideGeneralForumTopic extends BotApiMethodBoolean {
         return PATH;
     }
 
-    public static class HideGeneralForumTopicBuilder {
-
+    public static abstract class HideGeneralForumTopicBuilder<C extends HideGeneralForumTopic, B extends HideGeneralForumTopicBuilder<C, B>> extends BotApiMethodBooleanBuilder<C, B> {
         @Tolerate
-        public HideGeneralForumTopicBuilder chatId(@NonNull Long chatId) {
+        public HideGeneralForumTopicBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }

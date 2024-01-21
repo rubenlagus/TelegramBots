@@ -5,12 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.reactions.ReactionType;
 
 import java.util.List;
@@ -26,8 +28,9 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
+@SuperBuilder
+@Jacksonized
 public class Chat implements BotApiObject {
 
     private static final String ID_FIELD = "id";
@@ -328,7 +331,7 @@ public class Chat implements BotApiObject {
      * Returned only in getChat.
      */
     @JsonProperty(CUSTOM_EMOJI_STICKER_SET_NAME_FIELD)
-    private Boolean customEmojiStickerSetName;
+    private String customEmojiStickerSetName;
 
     @JsonIgnore
     public Boolean isGroupChat() {

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
@@ -26,21 +27,25 @@ import java.io.InputStream;
 @AllArgsConstructor
 public class InputFile implements Validable, BotApiObject {
 
+    @Getter
     private String attachName;
 
     /**
      * Name of the media to upload
      */
+    @Getter
     @JsonIgnore
     private String mediaName;
     /**
      * New media file
      */
+    @Getter
     @JsonIgnore
     private File newMediaFile;
     /**
      * New media stream
      */
+    @Getter
     @JsonIgnore
     private InputStream newMediaStream;
     /**
@@ -131,22 +136,6 @@ public class InputFile implements Validable, BotApiObject {
         this.attachName = attachName;
         this.isNew = false;
         return this;
-    }
-
-    public String getAttachName() {
-        return attachName;
-    }
-
-    public String getMediaName() {
-        return mediaName;
-    }
-
-    public File getNewMediaFile() {
-        return newMediaFile;
-    }
-
-    public InputStream getNewMediaStream() {
-        return newMediaStream;
     }
 
     public boolean isNew() {

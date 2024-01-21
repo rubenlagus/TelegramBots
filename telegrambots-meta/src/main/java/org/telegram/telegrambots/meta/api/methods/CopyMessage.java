@@ -1,17 +1,17 @@
 package org.telegram.telegrambots.meta.api.methods;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.MessageId;
 import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
@@ -38,9 +38,9 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class CopyMessage extends BotApiMethod<MessageId> {
     public static final String PATH = "copyMessage";
 
@@ -93,7 +93,6 @@ public class CopyMessage extends BotApiMethod<MessageId> {
      * to force a reply from the user.
      */
     @JsonProperty(REPLYMARKUP_FIELD)
-    @JsonDeserialize()
     private ReplyKeyboard replyMarkup;
     @JsonProperty(PROTECTCONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
@@ -173,16 +172,16 @@ public class CopyMessage extends BotApiMethod<MessageId> {
         }
     }
 
-    public static class CopyMessageBuilder {
+    public static abstract class CopyMessageBuilder<C extends CopyMessage, B extends CopyMessageBuilder<C, B>> extends BotApiMethodBuilder<MessageId, C, B> {
 
         @Tolerate
-        public CopyMessageBuilder chatId(@NonNull Long chatId) {
+        public CopyMessageBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }
 
         @Tolerate
-        public CopyMessageBuilder fromChatId(@NonNull Long fromChatId) {
+        public CopyMessageBuilder<C, B> fromChatId(@NonNull Long fromChatId) {
             this.fromChatId = fromChatId.toString();
             return this;
         }

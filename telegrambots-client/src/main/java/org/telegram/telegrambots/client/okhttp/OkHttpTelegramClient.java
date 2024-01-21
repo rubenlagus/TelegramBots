@@ -2,15 +2,18 @@ package org.telegram.telegrambots.client.okhttp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.Headers;
+import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import org.apache.commons.io.FileUtils;
 import org.telegram.telegrambots.client.AbstractTelegramClient;
 import org.telegram.telegrambots.client.TelegramMultipartBuilder;
 import org.telegram.telegrambots.client.ThrowingConsumer;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.TelegramUrl;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
@@ -24,11 +27,11 @@ import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
 import org.telegram.telegrambots.meta.api.methods.send.SendVoice;
 import org.telegram.telegrambots.meta.api.methods.stickers.AddStickerToSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.CreateNewStickerSet;
-import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumb;
+import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumbnail;
 import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.File;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaAnimation;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaAudio;
@@ -37,8 +40,10 @@ import org.telegram.telegrambots.meta.api.objects.media.InputMediaVideo;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -46,21 +51,26 @@ import java.util.concurrent.CompletableFuture;
 public class OkHttpTelegramClient extends AbstractTelegramClient {
     final OkHttpClient client;
     private final String botToken;
-    private final String baseUrl;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final TelegramUrl telegramUrl;
+    private final ObjectMapper objectMapper;
 
-    public OkHttpTelegramClient(OkHttpClient client, String botToken, String baseUrl) {
+    public OkHttpTelegramClient(ObjectMapper objectMapper, OkHttpClient client, String botToken, TelegramUrl telegramUrl) {
+        this.objectMapper = Objects.requireNonNull(objectMapper);
         this.client = Objects.requireNonNull(client);
         this.botToken = Objects.requireNonNull(botToken);
-        this.baseUrl = Objects.requireNonNull(baseUrl);
+        this.telegramUrl = Objects.requireNonNull(telegramUrl);
+    }
+
+    public OkHttpTelegramClient(OkHttpClient client, String botToken, TelegramUrl telegramUrl) {
+        this(new ObjectMapper(), client, botToken, telegramUrl);
     }
 
     public OkHttpTelegramClient(OkHttpClient client, String botToken) {
-        this(client, botToken, "https://api.telegram.org");
+        this(client, botToken, TelegramUrl.DEFAULT_URL);
     }
 
-    public OkHttpTelegramClient(String botToken, String baseUrl) {
-        this(new OkHttpClient.Builder().build(), botToken, baseUrl);
+    public OkHttpTelegramClient(String botToken, TelegramUrl telegramUrl) {
+        this(new OkHttpClient.Builder().build(), botToken, telegramUrl);
     }
 
     public OkHttpTelegramClient(String botToken) {
@@ -69,15 +79,13 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
     @Override
     public <T extends Serializable, Method extends BotApiMethod<T>> CompletableFuture<T> executeAsync(Method method) throws TelegramApiException {
-        //Intellij is a bit too optimistic with here
-        //noinspection ConstantConditions
         if (method == null) {
             throw new TelegramApiException("Parameter method can not be null");
         }
         method.validate();
 
         try {
-            String url = buildUrl(method.getMethod());
+            HttpUrl url = buildUrl(method.getMethod());
             String body = objectMapper.writeValueAsString(method);
             Headers headers = new Headers.Builder()
                     .add("charset", StandardCharsets.UTF_8.name())
@@ -98,15 +106,14 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
     @Override
     public CompletableFuture<Message> executeAsync(SendDocument sendDocument) {
         return executeMediaMethod(sendDocument, builder -> {
-            builder.addPart(SendDocument.REPLYMARKUP_FIELD, sendDocument.getReplyMarkup())
-                    .addPart(SendDocument.CAPTION_FIELD, sendDocument.getCaption())
+            builder.addPart(SendDocument.CAPTION_FIELD, sendDocument.getCaption())
                     .addPart(SendDocument.PARSEMODE_FIELD, sendDocument.getParseMode())
                     .addPart(SendDocument.DISABLECONTENTTYPEDETECTION_FIELD, sendDocument.getDisableContentTypeDetection())
                     .addJsonPart(SendDocument.CAPTION_ENTITIES_FIELD, sendDocument.getCaptionEntities());
 
-            if (sendDocument.getThumb() != null) {
-                builder.addInputFile(sendDocument.getThumb(), SendDocument.THUMBNAIL_FIELD, false);
-                builder.addPart(SendDocument.THUMBNAIL_FIELD, sendDocument.getThumb().getAttachName());
+            if (sendDocument.getThumbnail() != null) {
+                builder.addInputFile(SendDocument.THUMBNAIL_FIELD, sendDocument.getThumbnail(), false);
+                builder.addPart(SendDocument.THUMBNAIL_FIELD, sendDocument.getThumbnail().getAttachName());
             }
         });
     }
@@ -114,61 +121,78 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
     @Override
     public CompletableFuture<Message> executeAsync(SendPhoto sendPhoto) {
         return executeMediaMethod(sendPhoto, builder -> builder
-                .addJsonPart(SendPhoto.REPLYMARKUP_FIELD, sendPhoto.getReplyMarkup())
                 .addPart(SendPhoto.CAPTION_FIELD, sendPhoto.getCaption())
-                .addPart(SendPhoto.PARSEMODE_FIELD, sendPhoto.getParseMode())
+                .addPart(SendPhoto.PARSE_MODE_FIELD, sendPhoto.getParseMode())
+                .addPart(SendPhoto.HAS_SPOILER_FIELD, sendPhoto.getHasSpoiler())
                 .addJsonPart(SendPhoto.CAPTION_ENTITIES_FIELD, sendPhoto.getCaptionEntities()));
     }
 
     @Override
     public CompletableFuture<Message> executeAsync(SendVideo sendVideo) {
-        return executeMediaMethod(sendVideo, builder -> builder
-                .addJsonPart(SendVideo.REPLYMARKUP_FIELD, sendVideo.getReplyMarkup())
-                .addPart(SendVideo.CAPTION_FIELD, sendVideo.getCaption())
-                .addPart(SendVideo.PARSEMODE_FIELD, sendVideo.getParseMode())
-                .addPart(SendVideo.SUPPORTSSTREAMING_FIELD, sendVideo.getSupportsStreaming())
-                .addPart(SendVideo.DURATION_FIELD, sendVideo.getDuration())
-                .addPart(SendVideo.WIDTH_FIELD, sendVideo.getWidth())
-                .addPart(SendVideo.HEIGHT_FIELD, sendVideo.getHeight())
-                .addPart(SendVideo.HASSPOILER_FIELD, sendVideo.getHasSpoiler())
-                .addJsonPart(SendVideo.CAPTION_ENTITIES_FIELD, sendVideo.getCaptionEntities()));
+        return executeMediaMethod(sendVideo, builder -> {
+            builder
+                    .addPart(SendVideo.CAPTION_FIELD, sendVideo.getCaption())
+                    .addPart(SendVideo.PARSE_MODE_FIELD, sendVideo.getParseMode())
+                    .addPart(SendVideo.SUPPORTS_STREAMING_FIELD, sendVideo.getSupportsStreaming())
+                    .addPart(SendVideo.DURATION_FIELD, sendVideo.getDuration())
+                    .addPart(SendVideo.WIDTH_FIELD, sendVideo.getWidth())
+                    .addPart(SendVideo.HEIGHT_FIELD, sendVideo.getHeight())
+                    .addPart(SendVideo.HAS_SPOILER_FIELD, sendVideo.getHasSpoiler())
+                    .addJsonPart(SendVideo.CAPTION_ENTITIES_FIELD, sendVideo.getCaptionEntities());
+
+            if (sendVideo.getThumbnail() != null) {
+                builder.addInputFile(SendVideo.THUMBNAIL_FIELD, sendVideo.getThumbnail(), false);
+                builder.addPart(SendVideo.THUMBNAIL_FIELD, sendVideo.getThumbnail().getAttachName());
+            }
+        });
     }
 
     @Override
     public CompletableFuture<Message> executeAsync(SendVideoNote sendVideoNote) {
-        return executeMediaMethod(sendVideoNote, builder -> builder
-                .addJsonPart(SendVideoNote.REPLYMARKUP_FIELD, sendVideoNote.getReplyMarkup())
-                .addPart(SendVideoNote.DURATION_FIELD, sendVideoNote.getDuration())
-                .addPart(SendVideoNote.LENGTH_FIELD, sendVideoNote.getLength()));
+        return executeMediaMethod(sendVideoNote, builder -> {
+            builder
+                    .addPart(SendVideoNote.DURATION_FIELD, sendVideoNote.getDuration())
+                    .addPart(SendVideoNote.LENGTH_FIELD, sendVideoNote.getLength());
+
+            if (sendVideoNote.getThumbnail() != null) {
+                builder.addInputFile(SendVideoNote.THUMBNAIL_FIELD, sendVideoNote.getThumbnail(), false);
+                builder.addPart(SendVideoNote.THUMBNAIL_FIELD, sendVideoNote.getThumbnail().getAttachName());
+            }
+        });
     }
 
     @Override
     public CompletableFuture<Message> executeAsync(SendSticker sendSticker) {
         return executeMediaMethod(
                 sendSticker,
-                builder -> builder.addJsonPart(SendSticker.REPLYMARKUP_FIELD, sendSticker.getReplyMarkup())
+                builder -> builder.addPart(SendSticker.EMOJI_FIELD, sendSticker.getEmoji())
         );
     }
 
     @Override
     public CompletableFuture<Message> executeAsync(SendAudio sendAudio) {
-        return executeMediaMethod(sendAudio, builder -> builder
-                .addJsonPart(SendAudio.REPLYMARKUP_FIELD, sendAudio.getReplyMarkup())
-                .addPart(SendAudio.PERFOMER_FIELD, sendAudio.getPerformer())
-                .addPart(SendAudio.TITLE_FIELD, sendAudio.getTitle())
-                .addPart(SendAudio.DURATION_FIELD, sendAudio.getDuration())
-                .addPart(SendAudio.CAPTION_FIELD, sendAudio.getCaption())
-                .addPart(SendAudio.PARSEMODE_FIELD, sendAudio.getParseMode())
-                .addJsonPart(SendAudio.CAPTION_ENTITIES_FIELD, sendAudio.getCaptionEntities()));
+        return executeMediaMethod(sendAudio, builder -> {
+            builder
+                    .addPart(SendAudio.PERFORMER_FIELD, sendAudio.getPerformer())
+                    .addPart(SendAudio.TITLE_FIELD, sendAudio.getTitle())
+                    .addPart(SendAudio.DURATION_FIELD, sendAudio.getDuration())
+                    .addPart(SendAudio.CAPTION_FIELD, sendAudio.getCaption())
+                    .addPart(SendAudio.PARSE_MODE_FIELD, sendAudio.getParseMode())
+                    .addJsonPart(SendAudio.CAPTION_ENTITIES_FIELD, sendAudio.getCaptionEntities());
+
+            if (sendAudio.getThumbnail() != null) {
+                builder.addInputFile(SendAudio.THUMBNAIL_FIELD, sendAudio.getThumbnail(), false);
+                builder.addPart(SendAudio.THUMBNAIL_FIELD, sendAudio.getThumbnail().getAttachName());
+            }
+        });
     }
 
     @Override
     public CompletableFuture<Message> executeAsync(SendVoice sendVoice) {
         return executeMediaMethod(sendVoice, builder -> builder
-                .addJsonPart(SendVoice.REPLYMARKUP_FIELD, sendVoice.getReplyMarkup())
                 .addPart(SendVoice.DURATION_FIELD, sendVoice.getDuration())
                 .addPart(SendVoice.CAPTION_FIELD, sendVoice.getCaption())
-                .addPart(SendVoice.PARSEMODE_FIELD, sendVoice.getParseMode())
+                .addPart(SendVoice.PARSE_MODE_FIELD, sendVoice.getParseMode())
                 .addJsonPart(SendVoice.CAPTION_ENTITIES_FIELD, sendVoice.getCaptionEntities()));
     }
 
@@ -178,18 +202,19 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             assertParamNotNull(sendMediaGroup, "sendMediaGroup");
             sendMediaGroup.validate();
 
-            String url = buildUrl(SendDocument.PATH);
+            HttpUrl url = buildUrl(sendMediaGroup.getMethod());
 
             TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
 
-            addInputData(builder, sendMediaGroup.getMedias(), SendMediaGroup.MEDIA_FIELD);
+            addInputData(builder, SendMediaGroup.MEDIA_FIELD, sendMediaGroup.getMedias());
 
-            builder.addPart(SendMediaGroup.CHATID_FIELD, sendMediaGroup.getChatId())
-                    .addPart(SendMediaGroup.DISABLENOTIFICATION_FIELD, sendMediaGroup.getDisableNotification())
-                    .addPart(SendMediaGroup.REPLYTOMESSAGEID_FIELD, sendMediaGroup.getReplyToMessageId())
-                    .addPart(SendMediaGroup.MESSAGETHREADID_FIELD, sendMediaGroup.getMessageThreadId())
-                    .addPart(SendMediaGroup.ALLOWSENDINGWITHOUTREPLY_FIELD, sendMediaGroup.getAllowSendingWithoutReply())
-                    .addPart(SendMediaGroup.PROTECTCONTENT_FIELD, sendMediaGroup.getProtectContent());
+            builder.addPart(SendMediaGroup.CHAT_ID_FIELD, sendMediaGroup.getChatId())
+                    .addPart(SendMediaGroup.DISABLE_NOTIFICATION_FIELD, sendMediaGroup.getDisableNotification())
+                    .addPart(SendMediaGroup.REPLY_TO_MESSAGE_ID_FIELD, sendMediaGroup.getReplyToMessageId())
+                    .addPart(SendMediaGroup.MESSAGE_THREAD_ID_FIELD, sendMediaGroup.getMessageThreadId())
+                    .addPart(SendMediaGroup.ALLOW_SENDING_WITHOUT_REPLY_FIELD, sendMediaGroup.getAllowSendingWithoutReply())
+                    .addPart(SendMediaGroup.PROTECT_CONTENT_FIELD, sendMediaGroup.getProtectContent())
+                    .addJsonPart(SendMediaGroup.REPLY_PARAMETERS_FIELD, sendMediaGroup.getReplyParameters());
 
 
             Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
@@ -211,12 +236,13 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                             .addPart(SendAnimation.HEIGHT_FIELD, sendAnimation.getHeight())
                             .addPart(SendAnimation.CAPTION_FIELD, sendAnimation.getCaption())
                             .addJsonPart(SendAnimation.CAPTION_ENTITIES_FIELD, sendAnimation.getCaptionEntities())
-                            .addPart(SendAnimation.PARSEMODE_FIELD, sendAnimation.getParseMode())
-                            .addJsonPart(SendPhoto.REPLYMARKUP_FIELD, sendAnimation.getReplyMarkup());
+                            .addPart(SendAnimation.PARSE_MODE_FIELD, sendAnimation.getParseMode())
+                            .addPart(SendAnimation.HAS_SPOILER_FIELD, sendAnimation.getHasSpoiler())
+                            .addJsonPart(SendPhoto.REPLY_MARKUP_FIELD, sendAnimation.getReplyMarkup());
 
-                    if (sendAnimation.getThumb() != null) {
-                        builder.addInputFile(sendAnimation.getThumb(), SendAnimation.THUMBNAIL_FIELD, false);
-                        builder.addPart(SendDocument.THUMBNAIL_FIELD, sendAnimation.getThumb().getAttachName());
+                    if (sendAnimation.getThumbnail() != null) {
+                        builder.addInputFile(SendAnimation.THUMBNAIL_FIELD, sendAnimation.getThumbnail(), false);
+                        builder.addPart(SendAnimation.THUMBNAIL_FIELD, sendAnimation.getThumbnail().getAttachName());
                     }
                 }
 
@@ -229,13 +255,13 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             assertParamNotNull(setChatPhoto, "setChatPhoto");
             setChatPhoto.validate();
 
-            String url = buildUrl(SetChatPhoto.PATH);
+            HttpUrl url = buildUrl(setChatPhoto.getMethod());
 
             TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
 
             builder.addPart(SetChatPhoto.CHATID_FIELD, setChatPhoto.getChatId());
 
-            builder.addInputFile(setChatPhoto.getPhoto(), SetChatPhoto.PHOTO_FIELD, false);
+            builder.addInputFile(SetChatPhoto.PHOTO_FIELD, setChatPhoto.getPhoto(), false);
 
             Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
             return sendRequest(setChatPhoto, httpPost);
@@ -252,17 +278,14 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             assertParamNotNull(addStickerToSet, "addStickerToSet");
             addStickerToSet.validate();
 
-            String url = buildUrl(AddStickerToSet.PATH);
+            HttpUrl url = buildUrl(addStickerToSet.getMethod());
 
             TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
 
             builder.addPart(AddStickerToSet.USERID_FIELD, addStickerToSet.getUserId())
-                    .addPart(AddStickerToSet.NAME_FIELD, addStickerToSet.getName())
-                    .addPart(AddStickerToSet.EMOJIS_FIELD, addStickerToSet.getEmojis())
-                    .addInputFile(addStickerToSet.getPngSticker(), AddStickerToSet.PNGSTICKER_FIELD, true)
-                    .addInputFile(addStickerToSet.getTgsSticker(), AddStickerToSet.TGSSTICKER_FIELD, true)
-                    .addInputFile(addStickerToSet.getWebmSticker(), AddStickerToSet.WEBMSTICKER_FIELD, true)
-                    .addJsonPart(AddStickerToSet.MASKPOSITION_FIELD, addStickerToSet.getMaskPosition());
+                    .addPart(AddStickerToSet.NAME_FIELD, addStickerToSet.getName());
+
+            builder.addInputStickers(AddStickerToSet.STICKER_FIELD, Collections.singletonList(addStickerToSet.getSticker()));
 
             Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
             return sendRequest(addStickerToSet, httpPost);
@@ -274,21 +297,21 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
     }
 
     @Override
-    public CompletableFuture<Boolean> executeAsync(SetStickerSetThumb setStickerSetThumb) {
+    public CompletableFuture<Boolean> executeAsync(SetStickerSetThumbnail setStickerSetThumbnail) {
         try {
-            assertParamNotNull(setStickerSetThumb, "setStickerSetThumb");
-            setStickerSetThumb.validate();
+            assertParamNotNull(setStickerSetThumbnail, "setStickerSetThumbail");
+            setStickerSetThumbnail.validate();
 
-            String url = buildUrl(AddStickerToSet.PATH);
+            HttpUrl url = buildUrl(setStickerSetThumbnail.getMethod());
 
             TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
 
-            builder.addPart(SetStickerSetThumb.USERID_FIELD, setStickerSetThumb.getUserId())
-                    .addPart(SetStickerSetThumb.NAME_FIELD, setStickerSetThumb.getName())
-                    .addPart(SetStickerSetThumb.THUMB_FIELD, setStickerSetThumb.getThumb());
+            builder.addPart(SetStickerSetThumbnail.USER_ID_FIELD, setStickerSetThumbnail.getUserId())
+                    .addPart(SetStickerSetThumbnail.NAME_FIELD, setStickerSetThumbnail.getName())
+                    .addPart(SetStickerSetThumbnail.THUMBNAIL_FIELD, setStickerSetThumbnail.getThumbnail());
 
             Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
-            return sendRequest(setStickerSetThumb, httpPost);
+            return sendRequest(setStickerSetThumbnail, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
         }
@@ -300,19 +323,17 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             assertParamNotNull(createNewStickerSet, "createNewStickerSet");
             createNewStickerSet.validate();
 
-            String url = buildUrl(AddStickerToSet.PATH);
+            HttpUrl url = buildUrl(createNewStickerSet.getMethod());
 
             TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
 
-            builder.addPart(CreateNewStickerSet.USERID_FIELD, createNewStickerSet.getUserId())
+            builder.addPart(CreateNewStickerSet.USER_ID_FIELD, createNewStickerSet.getUserId())
                     .addPart(CreateNewStickerSet.NAME_FIELD, createNewStickerSet.getName())
-                    .addPart(CreateNewStickerSet.EMOJIS_FIELD, createNewStickerSet.getEmojis())
                     .addPart(CreateNewStickerSet.TITLE_FIELD, createNewStickerSet.getTitle())
-                    .addPart(CreateNewStickerSet.STICKERTYPE_FIELD, createNewStickerSet.getStickerType())
-                    .addInputFile(createNewStickerSet.getPngSticker(), CreateNewStickerSet.PNGSTICKER_FIELD, true)
-                    .addInputFile(createNewStickerSet.getTgsSticker(), CreateNewStickerSet.TGSSTICKER_FIELD, true)
-                    .addInputFile(createNewStickerSet.getWebmSticker(), CreateNewStickerSet.WEBMSTICKER_FIELD, true)
-                    .addJsonPart(CreateNewStickerSet.MASKPOSITION_FIELD, createNewStickerSet.getMaskPosition());
+                    .addPart(CreateNewStickerSet.STICKER_TYPE_FIELD, createNewStickerSet.getStickerType())
+                    .addPart(CreateNewStickerSet.STICKER_FORMAT_FIELD, createNewStickerSet.getStickerFormat())
+                    .addPart(CreateNewStickerSet.NEEDS_REPAINTING_FIELD, createNewStickerSet.getNeedsRepainting())
+                    .addInputStickers(CreateNewStickerSet.STICKERS_FIELD, createNewStickerSet.getStickers());
 
             Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
             return sendRequest(createNewStickerSet, httpPost);
@@ -329,12 +350,14 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             assertParamNotNull(uploadStickerFile, "uploadStickerFile");
             uploadStickerFile.validate();
 
-            String url = buildUrl(AddStickerToSet.PATH);
+            HttpUrl url = buildUrl(uploadStickerFile.getMethod());
 
             TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
 
-            builder.addPart(UploadStickerFile.USERID_FIELD, uploadStickerFile.getUserId())
-                    .addInputFile(uploadStickerFile.getPngSticker(), CreateNewStickerSet.PNGSTICKER_FIELD, true);
+            builder
+                    .addPart(UploadStickerFile.USERID_FIELD, uploadStickerFile.getUserId())
+                    .addPart(UploadStickerFile.STICKER_FORMAT_FIELD, uploadStickerFile.getStickerFormat())
+                    .addInputFile(UploadStickerFile.STICKER_FIELD, uploadStickerFile.getSticker(), true);
 
             Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
             return sendRequest(uploadStickerFile, httpPost);
@@ -351,16 +374,16 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             assertParamNotNull(editMessageMedia, "editMessageMedia");
             editMessageMedia.validate();
 
-            String url = buildUrl(AddStickerToSet.PATH);
+            HttpUrl url = buildUrl(editMessageMedia.getMethod());
 
             TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
 
-            builder.addPart(EditMessageMedia.CHATID_FIELD, editMessageMedia.getChatId())
-                    .addPart(EditMessageMedia.MESSAGEID_FIELD, editMessageMedia.getMessageId())
+            builder.addPart(EditMessageMedia.CHAT_ID_FIELD, editMessageMedia.getChatId())
+                    .addPart(EditMessageMedia.MESSAGE_ID_FIELD, editMessageMedia.getMessageId())
                     .addPart(EditMessageMedia.INLINE_MESSAGE_ID_FIELD, editMessageMedia.getInlineMessageId())
-                    .addJsonPart(EditMessageMedia.REPLYMARKUP_FIELD, editMessageMedia.getReplyMarkup());
+                    .addJsonPart(EditMessageMedia.REPLY_MARKUP_FIELD, editMessageMedia.getReplyMarkup());
 
-            addInputData(builder, editMessageMedia.getMedia(), EditMessageMedia.MEDIA_FIELD, true);
+            addInputData(builder, EditMessageMedia.MEDIA_FIELD, editMessageMedia.getMedia(), true);
 
             Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
             return sendRequest(editMessageMedia, httpPost);
@@ -368,6 +391,40 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             return CompletableFuture.failedFuture(e);
         } catch (IOException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + editMessageMedia.getMethod(), e));
+        }
+    }
+
+    @Override
+    public CompletableFuture<java.io.File> downloadFileAsync(File file) {
+        return downloadFileAsStreamAsync(file).thenApply(stream -> {
+            try {
+                java.io.File outputFile = getTempFile();
+                FileUtils.copyInputStreamToFile(stream, outputFile);
+                return outputFile;
+            } catch (IOException e) {
+                throw new RuntimeException("Unable to write file to disk", e);
+            } catch (TelegramApiException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    @Override
+    public CompletableFuture<InputStream> downloadFileAsStreamAsync(File file) {
+        try {
+            if (file == null) {
+                throw new TelegramApiException("Parameter file can not be null");
+            }
+            Request request = new Request.Builder()
+                    .url(file.getFileUrl(botToken))
+                    .get()
+                    .build();
+
+            OkHttpFutureDownloadCallback callback = new OkHttpFutureDownloadCallback();
+            client.newCall(request).enqueue(callback);
+            return callback;
+        } catch (TelegramApiException e) {
+            return CompletableFuture.failedFuture(e);
         }
     }
 
@@ -405,18 +462,20 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
             method.validate();
 
-            String url = buildUrl(SendDocument.PATH);
+            HttpUrl url = buildUrl(method.getMethod());
 
             TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
 
-            builder.addInputFile(method.getFile(), method.getFileField(), true);
+            builder.addInputFile(method.getFileField(), method.getFile(), true);
 
-            builder.addPart(SendMediaBotMethod.CHATID_FIELD, method.getChatId())
-                    .addPart(SendMediaBotMethod.MESSAGETHREADID_FIELD, method.getMessageThreadId())
-                    .addPart(SendMediaBotMethod.REPLYTOMESSAGEID_FIELD, method.getReplyToMessageId())
-                    .addPart(SendMediaBotMethod.DISABLENOTIFICATION_FIELD, method.getDisableNotification())
-                    .addPart(SendMediaBotMethod.PROTECTCONTENT_FIELD, method.getProtectContent())
-                    .addPart(SendMediaBotMethod.ALLOWSENDINGWITHOUTREPLY_FIELD, method.getAllowSendingWithoutReply());
+            builder.addPart(SendMediaBotMethod.CHAT_ID_FIELD, method.getChatId())
+                    .addPart(SendMediaBotMethod.MESSAGE_THREAD_ID_FIELD, method.getMessageThreadId())
+                    .addPart(SendMediaBotMethod.REPLY_TO_MESSAGE_ID_FIELD, method.getReplyToMessageId())
+                    .addPart(SendMediaBotMethod.DISABLE_NOTIFICATION_FIELD, method.getDisableNotification())
+                    .addPart(SendMediaBotMethod.PROTECT_CONTENT_FIELD, method.getProtectContent())
+                    .addPart(SendMediaBotMethod.ALLOW_SENDING_WITHOUT_REPLY_FIELD, method.getAllowSendingWithoutReply())
+                    .addJsonPart(SendMediaBotMethod.REPLY_PARAMETERS_FIELD, method.getReplyParameters())
+                    .addJsonPart(SendMediaBotMethod.REPLY_MARKUP_FIELD, method.getReplyMarkup());
 
             setup.accept(builder);
 
@@ -430,34 +489,37 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
         }
     }
 
-    private String buildUrl(String methodName) {
-        return baseUrl + "/bot" + botToken + "/" + methodName;
+    private HttpUrl buildUrl(String methodPath) {
+        return new HttpUrl
+                .Builder()
+                .scheme(telegramUrl.getSchema())
+                .host(telegramUrl.getHost())
+                .port(telegramUrl.getPort())
+                .addPathSegment("bot" + botToken)
+                .addPathSegment(methodPath)
+                .build();
     }
 
-    private void addInputData(TelegramMultipartBuilder builder, InputMedia media, String mediaField, boolean addField) throws IOException {
+    private void addInputData(TelegramMultipartBuilder builder, String mediaField, InputMedia media, boolean addField) throws IOException {
         if (media.isNewMedia()) {
             builder.addMedia(media);
         }
 
-        if (media instanceof InputMediaAudio) {
-            InputMediaAudio audio = (InputMediaAudio) media;
-            if (audio.getThumb() != null) {
-                builder.addInputFile(audio.getThumb(), InputMediaAudio.THUMBNAIL_FIELD, false);
+        if (media instanceof InputMediaAudio audio) {
+            if (audio.getThumbnail() != null) {
+                builder.addInputFile(InputMediaAudio.THUMBNAIL_FIELD,audio.getThumbnail(),  false);
             }
-        } else if (media instanceof InputMediaDocument) {
-            InputMediaDocument document = (InputMediaDocument) media;
-            if (document.getThumb() != null) {
-                builder.addInputFile(document.getThumb(), InputMediaDocument.THUMBNAIL_FIELD, false);
+        } else if (media instanceof InputMediaDocument document) {
+            if (document.getThumbnail() != null) {
+                builder.addInputFile(InputMediaDocument.THUMBNAIL_FIELD, document.getThumbnail(), false);
             }
-        } else if (media instanceof InputMediaVideo) {
-            InputMediaVideo video = (InputMediaVideo) media;
-            if (video.getThumb() != null) {
-                builder.addInputFile(video.getThumb(), InputMediaVideo.THUMBNAIL_FIELD, false);
+        } else if (media instanceof InputMediaVideo video) {
+            if (video.getThumbnail() != null) {
+                builder.addInputFile(InputMediaVideo.THUMBNAIL_FIELD, video.getThumbnail(), false);
             }
-        } else if (media instanceof InputMediaAnimation) {
-            InputMediaAnimation animation = (InputMediaAnimation) media;
-            if (animation.getThumb() != null) {
-                builder.addInputFile(animation.getThumb(), InputMediaAnimation.THUMBNAIL_FIELD, false);
+        } else if (media instanceof InputMediaAnimation animation) {
+            if (animation.getThumbnail() != null) {
+                builder.addInputFile(InputMediaAnimation.THUMBNAIL_FIELD, animation.getThumbnail(), false);
             }
         }
 
@@ -466,9 +528,9 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
         }
     }
 
-    private void addInputData(TelegramMultipartBuilder builder, List<InputMedia> media, String mediaField) throws IOException {
+    private void addInputData(TelegramMultipartBuilder builder, String mediaField, List<InputMedia> media) throws IOException {
         for (InputMedia inputMedia : media) {
-            addInputData(builder, inputMedia, null, false);
+            addInputData(builder, null, inputMedia, false);
         }
 
         builder.addJsonPart(mediaField, media);
@@ -480,4 +542,11 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
         }
     }
 
+    private java.io.File getTempFile() throws TelegramApiException {
+        try {
+            return java.io.File.createTempFile(Long.toString(System.currentTimeMillis()), ".tmp");
+        } catch (IOException e) {
+            throw new TelegramApiException("Error downloading file", e);
+        }
+    }
 }

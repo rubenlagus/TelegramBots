@@ -1,15 +1,13 @@
 package org.telegram.telegrambots.meta.api.objects.media;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.Tolerate;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -25,11 +23,13 @@ import java.util.List;
  * Represents a general file to be sent.
  */
 @SuppressWarnings("unused")
-@JsonDeserialize
+
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
 @ToString
+@SuperBuilder
+@Jacksonized
 public class InputMediaDocument extends InputMedia {
     private static final String TYPE = "document";
 
@@ -52,19 +52,24 @@ public class InputMediaDocument extends InputMedia {
     @JsonProperty(DISABLECONTENTTYPEDETECTION_FIELD)
     private Boolean disableContentTypeDetection;
 
-    public InputMediaDocument() {
-        super();
-    }
-
     public InputMediaDocument(@NonNull String media) {
         super(media);
     }
 
-    @Builder
-    public InputMediaDocument(@NonNull String media, String caption, String parseMode, List<MessageEntity> entities,
-                              boolean isNewMedia, String mediaName, File newMediaFile, InputStream newMediaStream, InputFile thumbnail,
-                              Boolean disableContentTypeDetection) {
-        super(media, caption, parseMode, entities, isNewMedia, mediaName, newMediaFile, newMediaStream);
+    public InputMediaDocument(File mediaFile, String fileName) {
+        super();
+        setMedia(mediaFile, fileName);
+    }
+
+    public InputMediaDocument(InputStream mediaStream, String fileName) {
+        super();
+        setMedia(mediaStream, fileName);
+    }
+
+    public InputMediaDocument(@NonNull String media, String caption, String parseMode, List<MessageEntity> captionEntities,
+                              boolean isNewMedia, String mediaName, File newMediaFile, InputStream newMediaStream,
+                              InputFile thumbnail, Boolean disableContentTypeDetection) {
+        super(media, caption, parseMode, captionEntities, isNewMedia, mediaName, newMediaFile, newMediaStream);
         this.thumbnail = thumbnail;
         this.disableContentTypeDetection = disableContentTypeDetection;
     }
@@ -77,33 +82,5 @@ public class InputMediaDocument extends InputMedia {
     @Override
     public void validate() throws TelegramApiValidationException {
         super.validate();
-    }
-
-    /**
-     * @deprecated Use {{@link #getThumbnail()}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public InputFile getThumb() {
-        return thumbnail;
-    }
-
-    /**
-     * @deprecated Use {{@link #setThumbnail(InputFile)}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public void setThumb(InputFile thumb) {
-        this.thumbnail = thumb;
-    }
-
-    public static class InputMediaDocumentBuilder {
-
-        @Tolerate
-        @Deprecated
-        public InputMediaDocument.InputMediaDocumentBuilder thumb(InputFile thumb) {
-            this.thumbnail = thumb;
-            return this;
-        }
     }
 }

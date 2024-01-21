@@ -1,14 +1,13 @@
 package org.telegram.telegrambots.meta.api.objects.commands.scope;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
 /**
  * @author Ruben Bermudez
@@ -17,13 +16,13 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * Represents the default scope of bot commands.
  * Default commands are used if no commands with a narrower scope are specified for the user.
  */
-@JsonDeserialize
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class BotCommandScopeDefault implements BotCommandScope {
     private static final String TYPE_FIELD = "type";
 
@@ -33,8 +32,4 @@ public class BotCommandScopeDefault implements BotCommandScope {
     @JsonProperty(TYPE_FIELD)
     private final String type = "default";
 
-    @Override
-    public void validate() throws TelegramApiValidationException {
-
-    }
 }

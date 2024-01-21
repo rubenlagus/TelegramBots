@@ -5,8 +5,8 @@ import org.telegram.telegrambots.extensions.bots.commandbot.commands.ICommandReg
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
-import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 import java.util.Collection;
 
@@ -90,22 +90,22 @@ public class HelpCommand extends ManCommand {
 	}
 	
 	@Override
-	public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
-		if (ICommandRegistry.class.isInstance(absSender)) {
-			ICommandRegistry registry = (ICommandRegistry) absSender;
+	public void execute(TelegramClient telegramClient, User user, Chat chat, String[] arguments) {
+		if (ICommandRegistry.class.isInstance(telegramClient)) {
+			ICommandRegistry registry = (ICommandRegistry) telegramClient;
 			
 			if (arguments.length > 0) {
 				IBotCommand command = registry.getRegisteredCommand(arguments[0]);
 				String reply = getManText(command);
 				try {
-					absSender.execute(SendMessage.builder().chatId(chat.getId()).text(reply).parseMode("HTML").build());
+					telegramClient.execute(SendMessage.builder().chatId(chat.getId()).text(reply).parseMode("HTML").build());
 				} catch (TelegramApiException e) {
 					e.printStackTrace();
 				}
 			} else {
 				String reply = getHelpText(registry);
 				try {
-					absSender.execute(SendMessage.builder().chatId(chat.getId()).text(reply).parseMode("HTML").build());
+					telegramClient.execute(SendMessage.builder().chatId(chat.getId()).text(reply).parseMode("HTML").build());
 				} catch (TelegramApiException e) {
 					e.printStackTrace();
 				}

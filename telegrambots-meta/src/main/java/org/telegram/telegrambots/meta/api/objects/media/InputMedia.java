@@ -2,8 +2,9 @@ package org.telegram.telegrambots.meta.api.objects.media;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -13,11 +14,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
-import org.telegram.telegrambots.meta.api.objects.media.serialization.InputMediaDeserializer;
-import org.telegram.telegrambots.meta.api.objects.media.serialization.InputMediaSerializer;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.File;
@@ -28,22 +28,34 @@ import java.util.List;
  * @author Ruben Bermudez
  * @version 3.5
  */
-@SuppressWarnings({"unused"})
-@JsonSerialize(using = InputMediaSerializer.class)
-@JsonDeserialize(using = InputMediaDeserializer.class)
+//@JsonSerialize(using = InputMediaSerializer.class)
+//@JsonDeserialize(using = InputMediaDeserializer.class)
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        property = "type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = InputMediaAnimation.class, name = "animation"),
+        @JsonSubTypes.Type(value = InputMediaAudio.class, name = "audio"),
+        @JsonSubTypes.Type(value = InputMediaDocument.class, name = "document"),
+        @JsonSubTypes.Type(value = InputMediaPhoto.class, name = "photo"),
+        @JsonSubTypes.Type(value = InputMediaVideo.class, name = "video")
+})
+@SuperBuilder
 public abstract class InputMedia implements Validable, BotApiObject {
     public static final String TYPE_FIELD = "type";
     public static final String MEDIA_FIELD = "media";
     public static final String CAPTION_FIELD = "caption";
-    public static final String PARSEMODE_FIELD = "parse_mode";
-    public static final String CAPTIONENTITIES_FIELD = "caption_entities";
+    public static final String PARSE_MODE_FIELD = "parse_mode";
+    public static final String CAPTION_ENTITIES_FIELD = "caption_entities";
 
     /**
      * File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended),
@@ -53,21 +65,45 @@ public abstract class InputMedia implements Validable, BotApiObject {
     @JsonProperty(MEDIA_FIELD)
     @NonNull
     private String media;
+    /**
+     * Optional.
+     * Caption of the media to be sent, 0-200 characters
+     */
     @JsonProperty(CAPTION_FIELD)
-    private String caption; ///< Optional. Caption of the media to be sent, 0-200 characters
-    @JsonProperty(PARSEMODE_FIELD)
-    private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
-    @JsonProperty(CAPTIONENTITIES_FIELD)
+    private String caption;
+    /**
+     * Optional.
+     * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+     */
+    @JsonProperty(PARSE_MODE_FIELD)
+    private String parseMode;
+    /**
+     * Optional.
+     * List of special entities that appear in message text, which can be specified instead of parse_mode
+     */
+    @JsonProperty(CAPTION_ENTITIES_FIELD)
     @Singular
-    private List<MessageEntity> captionEntities; ///< Optional. List of special entities that appear in message text, which can be specified instead of parse_mode
+    private List<MessageEntity> captionEntities;
+    /**
+     * True to upload a new media, false to use a fileId or URL
+     */
     @JsonIgnore
-    private boolean isNewMedia; ///< True to upload a new media, false to use a fileId or URL
+    private boolean isNewMedia;
+    /**
+     * Name of the media to upload
+     */
     @JsonIgnore
-    private String mediaName; ///< Name of the media to upload
+    private String mediaName;
+    /**
+     * New media file
+     */
     @JsonIgnore
-    private File newMediaFile; ///< New media file
+    private File newMediaFile;
+    /**
+     * New media stream
+     */
     @JsonIgnore
-    private InputStream newMediaStream; ///< New media stream
+    private InputStream newMediaStream;
 
     @JsonIgnore
     public boolean isNewMedia() {
@@ -114,7 +150,7 @@ public abstract class InputMedia implements Validable, BotApiObject {
             if (newMediaFile == null && newMediaStream == null) {
                 throw new TelegramApiValidationException("Media can't be empty", this);
             }
-        } else if (media == null || media.isEmpty()) {
+        } else if (media.isEmpty()) {
             throw new TelegramApiValidationException("Media can't be empty", this);
         }
         if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {

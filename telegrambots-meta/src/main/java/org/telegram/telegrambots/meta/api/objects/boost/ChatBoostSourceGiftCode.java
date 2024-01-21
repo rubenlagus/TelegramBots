@@ -1,14 +1,15 @@
 package org.telegram.telegrambots.meta.api.objects.boost;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 /**
@@ -17,14 +18,14 @@ import org.telegram.telegrambots.meta.api.objects.User;
  * The boost was obtained by the creation of Telegram Premium gift codes to boost a chat.
  * Each such code boosts the chat 4 times for the duration of the corresponding Telegram Premium subscription.
  */
-@JsonDeserialize
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
 public class ChatBoostSourceGiftCode implements ChatBoostSource {
     private static final String SOURCE_FIELD = "source";
     private static final String USER_FIELD = "user";
@@ -33,7 +34,8 @@ public class ChatBoostSourceGiftCode implements ChatBoostSource {
      * Source of the boost, always “gift_code”
      */
     @JsonProperty(SOURCE_FIELD)
-    private String source;
+    @Builder.Default
+    private final String source = ChatBoostSource.GIFT_CODE_TYPE;
     /**
      * User for which the gift code was created
      */

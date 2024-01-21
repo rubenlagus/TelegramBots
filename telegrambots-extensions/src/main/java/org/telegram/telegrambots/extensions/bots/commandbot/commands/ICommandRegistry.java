@@ -1,7 +1,7 @@
 package org.telegram.telegrambots.extensions.bots.commandbot.commands;
 
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.bots.AbsSender;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
+import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 import java.util.Collection;
 import java.util.Map;
@@ -21,7 +21,7 @@ public interface ICommandRegistry {
      * @note Use this method if you want your bot to execute a default action when the user
      * sends a command that is not registered.
      */
-    void registerDefaultAction(BiConsumer<AbsSender, Message> defaultConsumer);
+    void registerDefaultAction(BiConsumer<TelegramClient, Message> defaultConsumer);
 
     /**
      * register a command
