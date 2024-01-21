@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.telegram</groupId>
         <artifactId>Bots</artifactId>
-        <version>6.9.0</version>
+        <version>6.9.7.0</version>
     </parent>
 
     <artifactId>telegrambots-abilities</artifactId>
@@ -76,20 +76,18 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <commonslang.version>3.12.0</commonslang.version>
-        <mapdb.version>3.0.8</mapdb.version>
+        <mapdb.version>3.1.0</mapdb.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots</artifactId>
-            <version>6.9.0</version>
+            <version>6.9.7.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>${commonslang.version}</version>
         </dependency>
          <dependency>
             <groupId>com.google.guava</groupId>

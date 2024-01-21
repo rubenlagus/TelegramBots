@@ -65,7 +65,7 @@ public class ChatMemberRestricted implements ChatMember {
     @JsonProperty(ISMEMBER_FIELD)
     private Boolean isMember;
     /**
-     * True, if the user is allowed to send text messages, contacts, locations and venues
+     * True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues
      */
     @JsonProperty(CANSENDMESSAGES_FIELD)
     private Boolean canSendMessages;
