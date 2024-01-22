@@ -121,6 +121,7 @@ public class SendAnimation extends SendMediaBotMethod<Message> {
      * Optional
      * Description of the message to reply to
      */
+    @JsonProperty(REPLY_PARAMETERS_FIELD)
     private ReplyParameters replyParameters;
 
     @Tolerate

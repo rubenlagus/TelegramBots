@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.stickers;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -39,11 +40,13 @@ public class SetStickerSetThumb extends BotApiMethodBoolean {
      * Sticker set name
      */
     @NonNull
+    @JsonProperty(NAME_FIELD)
     private String name;
     /**
      * User identifier of the sticker set owner
      */
     @NonNull
+    @JsonProperty(USERID_FIELD)
     private Long userId;
     /**
      * Optional
@@ -59,6 +62,7 @@ public class SetStickerSetThumb extends BotApiMethodBoolean {
      *
      * If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.
      */
+    @JsonProperty(THUMB_FIELD)
     private InputFile thumb;
 
     @Override

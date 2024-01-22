@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.stickers;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -51,8 +52,10 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
     public static final String MASKPOSITION_FIELD = "mask_position";
 
     @NonNull
+    @JsonProperty(USERID_FIELD)
     private Long userId; ///< User identifier of sticker set owner
     @NonNull
+    @JsonProperty(NAME_FIELD)
     private String name; ///< Sticker set name
     /**
      * A JSON-serialized object with information about the added sticker.
@@ -61,14 +64,17 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
      * @apiNote This field will become NonNull in next major release as per Telegram API definition.
      */
     // @NonNull
+    @JsonProperty(STICKER_FIELD)
     private InputSticker sticker;
 
 
     @NonNull
     @Deprecated
+    @JsonProperty(EMOJIS_FIELD)
     private String emojis; ///< One or more emoji corresponding to the sticker
 
     @Deprecated
+    @JsonProperty(MASKPOSITION_FIELD)
     private MaskPosition maskPosition; ///< Optional. Position where the mask should be placed on faces
     /**
      * Optional.
@@ -78,6 +84,7 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
      * to get a file from the Internet, or upload a new one using multipart/form-data.
      */
     @Deprecated
+    @JsonProperty(PNGSTICKER_FIELD)
     private InputFile pngSticker;
     /**
      * Optional.
@@ -85,6 +92,7 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
      * See <a href="https://core.telegram.org/animated_stickers#technical-requirements"/a> for technical requirements
      */
     @Deprecated
+    @JsonProperty(TGSSTICKER_FIELD)
     private InputFile tgsSticker;
 
     /**
@@ -93,6 +101,7 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
      * See <a href="https://core.telegram.org/stickers#video-stickers"/a> for technical requirements
      */
     @Deprecated
+    @JsonProperty(WEBMSTICKER_FIELD)
     private InputFile webmSticker;
 
     @Override
