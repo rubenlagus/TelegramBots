@@ -303,7 +303,7 @@ public class Chat implements BotApiObject {
      * Returned only in getChat.
      */
     @JsonProperty(PROFILE_BACKGROUND_CUSTOM_EMOJI_ID_FIELD)
-    private Boolean profileBackgroundCustomEmojiId;
+    private String profileBackgroundCustomEmojiId;
     /**
      * Optional.
      * True, if new chat members will have access to old messages; available only to chat administrators.
