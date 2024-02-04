@@ -52,7 +52,7 @@ public class ReactionTypeEmoji implements ReactionType {
         if (emoji.isEmpty()) {
             throw new TelegramApiValidationException("Emoji parameter can't be empty", this);
         }
-        if (ReactionType.EMOJI_TYPE.equals(type)) {
+        if (!ReactionType.EMOJI_TYPE.equals(type)) {
             throw new TelegramApiValidationException("Type must be \"emoji\"", this);
         }
     }

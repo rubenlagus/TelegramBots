@@ -12,7 +12,7 @@ public Reply sayYuckOnImage() {
   // getChatId is a public utility function in rg.telegram.abilitybots.api.util.AbilityUtils
   Consumer<Update> action = upd -> silent.send("Yuck", getChatId(upd)); 
   
-  return Reply.of(action, Flag.PHOTO)
+  return Reply.of(action, Flag.PHOTO);
 }
 ```
 
@@ -36,7 +36,7 @@ public Ability playWithMe() {
         // The signature of a reply is -> (Consumer<Update> action, Predicate<Update>... conditions)
         // So, we  first declare the action that takes an update (NOT A MESSAGECONTEXT) like the action above
         // The reason of that is that a reply can be so versatile depending on the message, context becomes an inefficient wrapping
-        .reply(upd -> {
+        .reply((abilityBot,upd) -> {
               // Prints to console
               System.out.println("I'm in a reply!");
               // Sends message

@@ -48,7 +48,7 @@ public class ReactionTypeCustomEmoji implements ReactionType {
         if (customEmoji.isEmpty()) {
             throw new TelegramApiValidationException("CustomEmoji parameter can't be empty", this);
         }
-        if (ReactionType.CUSTOM_EMOJI_TYPE.equals(type)) {
+        if (!ReactionType.CUSTOM_EMOJI_TYPE.equals(type)) {
             throw new TelegramApiValidationException("Type must be \"custom_emoji\"", this);
         }
     }
