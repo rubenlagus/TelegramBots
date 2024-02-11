@@ -12,6 +12,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMessage;
+import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -47,6 +48,7 @@ public class SendVenue extends BotApiMethodMessage {
     private static final String GOOGLEPLACEID_FIELD = "google_place_id";
     private static final String GOOGLEPLACETYPE_FIELD = "google_place_type";
     private static final String PROTECTCONTENT_FIELD = "protect_content";
+    private static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -87,6 +89,12 @@ public class SendVenue extends BotApiMethodMessage {
     private String googlePlaceType; ///< Optional. Google Places type of the venue. (See supported types.)
     @JsonProperty(PROTECTCONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
+    /**
+     * Optional
+     * Description of the message to reply to
+     */
+    @JsonProperty(REPLY_PARAMETERS_FIELD)
+    private ReplyParameters replyParameters;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
@@ -116,6 +124,9 @@ public class SendVenue extends BotApiMethodMessage {
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+        if (replyParameters != null) {
+            replyParameters.validate();
         }
     }
 

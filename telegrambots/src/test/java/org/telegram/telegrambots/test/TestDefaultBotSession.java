@@ -7,10 +7,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicHttpResponse;
 import org.apache.http.message.BasicStatusLine;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -27,6 +26,10 @@ import java.util.Collections;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 
 /**
@@ -37,13 +40,13 @@ import static org.mockito.ArgumentMatchers.any;
 public class TestDefaultBotSession {
     private DefaultBotSession session;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         session = getDefaultBotSession();
         new TelegramBotsApi(DefaultBotSession.class);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         if (session != null && session.isRunning()) {
             session.stop();
@@ -52,43 +55,57 @@ public class TestDefaultBotSession {
 
     @Test
     public void TestDefaultBotSessionIsNotRunningWhenCreated() {
-        Assert.assertFalse(session.isRunning());
+        assertFalse(session.isRunning());
     }
 
     @Test
-    public void TestDefaultBotSessionCanBeStartedAfterCreation() throws Exception {
-        session = getDefaultBotSession();
-        session.start();
-        Assert.assertTrue(session.isRunning());
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void TestDefaultBotSessionCanNotBeStoppedAfterCreation() throws Exception {
-        session = getDefaultBotSession();
-        session.stop();
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void TestDefaultBotSessionCanNotBeStartedIfAlreadyStarted() throws Exception {
-        session = getDefaultBotSession();
-        session.start();
-        session.start();
+    public void TestDefaultBotSessionCanBeStartedAfterCreation() {
+        try {
+            session = getDefaultBotSession();
+            session.start();
+        } catch (Exception e) {
+            fail(e);
+        }
+        assertTrue(session.isRunning());
     }
 
     @Test
-    public void TestDefaultBotSessionCanBeStoppedIfStarted() throws Exception {
-        session = getDefaultBotSession();
-        session.start();
-        session.stop();
-        Assert.assertFalse(session.isRunning());
+    public void TestDefaultBotSessionCanNotBeStoppedAfterCreation() {
+        assertThrows(IllegalStateException.class, () -> {
+            session = getDefaultBotSession();
+            session.stop();
+        });
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void TestDefaultBotSessionCanNotBeStoppedIfAlreadyStopped() throws Exception {
-        session = getDefaultBotSession();
-        session.start();
-        session.stop();
-        session.stop();
+    @Test
+    public void TestDefaultBotSessionCanNotBeStartedIfAlreadyStarted() {
+        assertThrows(IllegalStateException.class, () -> {
+            session = getDefaultBotSession();
+            session.start();
+            session.start();
+        });
+    }
+
+    @Test
+    public void TestDefaultBotSessionCanBeStoppedIfStarted() {
+        try {
+            session = getDefaultBotSession();
+            session.start();
+            session.stop();
+        } catch (Exception e) {
+            fail(e);
+        }
+        assertFalse(session.isRunning());
+    }
+
+    @Test
+    public void TestDefaultBotSessionCanNotBeStoppedIfAlreadyStopped() {
+        assertThrows(IllegalStateException.class, () -> {
+            session = getDefaultBotSession();
+            session.start();
+            session.stop();
+            session.stop();
+        });
     }
 
     @Test

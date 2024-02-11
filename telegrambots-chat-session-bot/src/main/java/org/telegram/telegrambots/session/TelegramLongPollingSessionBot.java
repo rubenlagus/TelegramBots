@@ -76,7 +76,11 @@ public abstract class TelegramLongPollingSessionBot extends TelegramLongPollingB
         if (update.hasMessage()) {
             message = update.getMessage();
         } else if (update.hasCallbackQuery()) {
-            message = update.getCallbackQuery().getMessage();
+            if (update.getCallbackQuery().getMessage() instanceof Message) {
+                message = (Message) update.getCallbackQuery().getMessage();
+            } else {
+                return;
+            }
         } else {
             chatSession = Optional.empty();
             onUpdateReceived(update, chatSession);

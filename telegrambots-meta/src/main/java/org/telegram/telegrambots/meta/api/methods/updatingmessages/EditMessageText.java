@@ -13,6 +13,7 @@ import lombok.ToString;
 import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodSerializable;
+import org.telegram.telegrambots.meta.api.objects.LinkPreviewOptions;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -47,6 +48,7 @@ public class EditMessageText extends BotApiMethodSerializable {
     private static final String DISABLE_WEB_PREVIEW_FIELD = "disable_web_page_preview";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
     private static final String ENTITIES_FIELD = "entities";
+    private static final String LINK_PREVIEW_OPTIONS_FIELD = "link_preview_options";
 
     /**
      * Required if inline_message_id is not specified. Unique identifier for the chat to send the
@@ -82,6 +84,12 @@ public class EditMessageText extends BotApiMethodSerializable {
     private InlineKeyboardMarkup replyMarkup; ///< Optional. A JSON-serialized object for an inline keyboard.
     @JsonProperty(ENTITIES_FIELD)
     private List<MessageEntity> entities; ///< Optional. List of special entities that appear in message text, which can be specified instead of parse_mode
+    /**
+     * Optional
+     * Link preview generation options for the message
+     */
+    @JsonProperty(LINK_PREVIEW_OPTIONS_FIELD)
+    private LinkPreviewOptions linkPreviewOptions;
 
     public void disableWebPagePreview() {
         disableWebPagePreview = true;
@@ -147,6 +155,9 @@ public class EditMessageText extends BotApiMethodSerializable {
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+        if (linkPreviewOptions != null) {
+            linkPreviewOptions.validate();
         }
     }
 

@@ -32,7 +32,6 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Jacksonized
 @Builder
 public class AnswerInlineQuery extends BotApiMethodBoolean {
     public static final String PATH = "answerInlineQuery";

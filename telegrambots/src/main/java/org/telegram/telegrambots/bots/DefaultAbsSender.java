@@ -213,10 +213,12 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendDocument.getCaptionEntities() != null) {
                 builder.addTextBody(SendDocument.CAPTION_ENTITIES_FIELD, objectMapper.writeValueAsString(sendDocument.getCaptionEntities()), TEXT_PLAIN_CONTENT_TYPE);
             }
-
             if (sendDocument.getThumbnail() != null) {
                 addInputFile(builder, sendDocument.getThumbnail(), SendDocument.THUMBNAIL_FIELD, false);
                 builder.addTextBody(SendDocument.THUMBNAIL_FIELD, sendDocument.getThumbnail().getAttachName(), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendDocument.getReplyParameters() != null) {
+                builder.addTextBody(SendDocument.REPLY_PARAMETERS_FIELD, objectMapper.writeValueAsString(sendDocument.getReplyParameters()), TEXT_PLAIN_CONTENT_TYPE);
             }
 
             HttpEntity multipart = builder.build();
@@ -272,6 +274,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             }
             if (sendPhoto.getHasSpoiler() != null) {
                 builder.addTextBody(SendPhoto.HASSPOILER_FIELD, objectMapper.writeValueAsString(sendPhoto.getHasSpoiler()), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendPhoto.getReplyParameters() != null) {
+                builder.addTextBody(SendPhoto.REPLY_PARAMETERS_FIELD, objectMapper.writeValueAsString(sendPhoto.getReplyParameters()), TEXT_PLAIN_CONTENT_TYPE);
             }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
@@ -343,7 +348,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendVideo.getHasSpoiler() != null) {
                 builder.addTextBody(SendVideo.HASSPOILER_FIELD, objectMapper.writeValueAsString(sendVideo.getHasSpoiler()), TEXT_PLAIN_CONTENT_TYPE);
             }
-
+            if (sendVideo.getReplyParameters() != null) {
+                builder.addTextBody(SendVideo.REPLY_PARAMETERS_FIELD, objectMapper.writeValueAsString(sendVideo.getReplyParameters()), TEXT_PLAIN_CONTENT_TYPE);
+            }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
@@ -396,6 +403,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendVideoNote.getAllowSendingWithoutReply() != null) {
                 builder.addTextBody(SendVideoNote.ALLOWSENDINGWITHOUTREPLY_FIELD, sendVideoNote.getAllowSendingWithoutReply().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
+            if (sendVideoNote.getReplyParameters() != null) {
+                builder.addTextBody(SendVideoNote.REPLY_PARAMETERS_FIELD, objectMapper.writeValueAsString(sendVideoNote.getReplyParameters()), TEXT_PLAIN_CONTENT_TYPE);
+            }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
@@ -441,6 +451,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             }
             if (sendSticker.getEmoji() != null) {
                 builder.addTextBody(SendSticker.EMOJI_FIELD, sendSticker.getEmoji(), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendSticker.getReplyParameters() != null) {
+                builder.addTextBody(SendSticker.REPLY_PARAMETERS_FIELD, objectMapper.writeValueAsString(sendSticker.getReplyParameters()), TEXT_PLAIN_CONTENT_TYPE);
             }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
@@ -510,7 +523,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendAudio.getCaptionEntities() != null) {
                 builder.addTextBody(SendAudio.CAPTION_ENTITIES_FIELD, objectMapper.writeValueAsString(sendAudio.getCaptionEntities()), TEXT_PLAIN_CONTENT_TYPE);
             }
-
+            if (sendAudio.getReplyParameters() != null) {
+                builder.addTextBody(SendAudio.REPLY_PARAMETERS_FIELD, objectMapper.writeValueAsString(sendAudio.getReplyParameters()), TEXT_PLAIN_CONTENT_TYPE);
+            }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
@@ -570,6 +585,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             }
             if (sendVoice.getCaptionEntities() != null) {
                 builder.addTextBody(SendVoice.CAPTION_ENTITIES_FIELD, objectMapper.writeValueAsString(sendVoice.getCaptionEntities()), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendVoice.getReplyParameters() != null) {
+                builder.addTextBody(SendVoice.REPLY_PARAMETERS_FIELD, objectMapper.writeValueAsString(sendVoice.getReplyParameters()), TEXT_PLAIN_CONTENT_TYPE);
             }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
@@ -639,7 +657,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendMediaGroup.getProtectContent() != null) {
                 builder.addTextBody(SendMediaGroup.PROTECTCONTENT_FIELD, sendMediaGroup.getProtectContent().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
-
+            if (sendMediaGroup.getReplyParameters() != null) {
+                builder.addTextBody(SendMediaGroup.REPLY_PARAMETERS_FIELD, objectMapper.writeValueAsString(sendMediaGroup.getReplyParameters()), TEXT_PLAIN_CONTENT_TYPE);
+            }
 
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
@@ -741,7 +761,7 @@ public abstract class DefaultAbsSender extends AbsSender {
                 addInputFile(builder, createNewStickerSet.getPngSticker(), CreateNewStickerSet.PNGSTICKER_FIELD, true);
             } else if (createNewStickerSet.getTgsSticker() != null)  {
                 addInputFile(builder, createNewStickerSet.getTgsSticker(), CreateNewStickerSet.TGSSTICKER_FIELD, true);
-            } else {
+            } else if (createNewStickerSet.getWebmSticker() != null) {
                 addInputFile(builder, createNewStickerSet.getWebmSticker(), CreateNewStickerSet.WEBMSTICKER_FIELD, true);
             }
             if (createNewStickerSet.getMaskPosition() != null) {
@@ -867,6 +887,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             }
             if (sendAnimation.getHasSpoiler() != null) {
                 builder.addTextBody(SendAnimation.HASSPOILER_FIELD, objectMapper.writeValueAsString(sendAnimation.getHasSpoiler()), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendAnimation.getReplyParameters() != null) {
+                builder.addTextBody(SendAnimation.REPLY_PARAMETERS_FIELD, objectMapper.writeValueAsString(sendAnimation.getReplyParameters()), TEXT_PLAIN_CONTENT_TYPE);
             }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);

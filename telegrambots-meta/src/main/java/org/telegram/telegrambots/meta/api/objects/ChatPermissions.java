@@ -44,7 +44,7 @@ public class ChatPermissions implements BotApiObject {
 
     /**
      * Optional.
-     * True, if the user is allowed to send text messages, contacts, locations and venues
+     * True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues
      */
     @JsonProperty(CAN_SEND_MESSAGES_FIELD)
     private Boolean canSendMessages;

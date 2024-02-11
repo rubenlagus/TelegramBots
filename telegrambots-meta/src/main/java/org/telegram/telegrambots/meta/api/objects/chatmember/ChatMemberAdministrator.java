@@ -44,6 +44,9 @@ public class ChatMemberAdministrator implements ChatMember {
     private static final String CANPINMESSAGES_FIELD = "can_pin_messages";
     private static final String CANMANAGEVIDEOCHATS_FIELD = "can_manage_video_chats";
     private static final String CANMANAGETOPICS_FIELD = "can_manage_topics";
+    private static final String CAN_POST_STORIES_FIELD = "can_post_stories";
+    private static final String CAN_EDIT_STORIES_FIELD = "can_edit_stories";
+    private static final String CAN_DELETE_STORIES_FIELD = "can_delete_stories";
 
     /**
      * The member's status in the chat, always “administrator”
@@ -71,15 +74,14 @@ public class ChatMemberAdministrator implements ChatMember {
     @JsonProperty(ISANONYMOUS_FIELD)
     private Boolean isAnonymous;
     /**
-     * True, if the administrator can access the chat event log, chat statistics,
-     * message statistics in channels, see channel members,
-     * see anonymous administrators in supergroups and ignore slow mode.
+     * True, if the administrator can access the chat event log, chat statistics, boost list in channels,
+     * message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode.
      * Implied by any other administrator privilege
      */
     @JsonProperty(CANMANAGECHAT_FIELD)
     private Boolean canManageChat;
     /**
-     * True, if the administrator can post in the channel; channels only
+     * True, if the administrator can post messages in the channel; channels only
      */
     @JsonProperty(CANPOSTMESSAGES_FIELD)
     private Boolean canPostMessages;
@@ -131,4 +133,22 @@ public class ChatMemberAdministrator implements ChatMember {
      */
     @JsonProperty(CANMANAGETOPICS_FIELD)
     private Boolean canManageTopics;
+    /**
+     * Optional.
+     * True, if the administrator can post stories in the channel; channels only
+     */
+    @JsonProperty(CAN_POST_STORIES_FIELD)
+    private Boolean canPostStories;
+    /**
+     * Optional.
+     * True, if the administrator can edit stories posted by other users; channels only
+     */
+    @JsonProperty(CAN_EDIT_STORIES_FIELD)
+    private Boolean canEditStories;
+    /**
+     * Optional.
+     * True, if the administrator can delete stories posted by other users
+     */
+    @JsonProperty(CAN_DELETE_STORIES_FIELD)
+    private Boolean canDeleteStories;
 }

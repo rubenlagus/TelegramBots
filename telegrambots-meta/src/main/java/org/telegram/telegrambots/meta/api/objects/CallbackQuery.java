@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
+import org.telegram.telegrambots.meta.api.objects.serialization.MaybeInaccessibleMessageDeserializer;
 
 /**
  * This object represents an incoming callback query from a
@@ -51,12 +53,13 @@ public class CallbackQuery implements BotApiObject {
     private User from;
     /**
      * Optional.
-     * Message with the callback button that originated the query.
+     * Message sent by the bot with the callback button that originated the query
      *
      * @apiNote  The message content and message date will not be available if the message is too old
      */
     @JsonProperty(MESSAGE_FIELD)
-    private Message message;
+    @JsonDeserialize(using = MaybeInaccessibleMessageDeserializer.class)
+    private MaybeInaccessibleMessage message;
     /**
      * Optional.
      * Identifier of the message sent via the bot in inline mode, that originated the query

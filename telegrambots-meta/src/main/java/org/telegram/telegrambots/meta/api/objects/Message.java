@@ -2,13 +2,13 @@ package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicClosed;
 import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicCreated;
 import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicEdited;
@@ -17,12 +17,19 @@ import org.telegram.telegrambots.meta.api.objects.forum.GeneralForumTopicHidden;
 import org.telegram.telegrambots.meta.api.objects.forum.GeneralForumTopicUnhidden;
 import org.telegram.telegrambots.meta.api.objects.games.Animation;
 import org.telegram.telegrambots.meta.api.objects.games.Game;
+import org.telegram.telegrambots.meta.api.objects.giveaway.Giveaway;
+import org.telegram.telegrambots.meta.api.objects.giveaway.GiveawayCompleted;
+import org.telegram.telegrambots.meta.api.objects.giveaway.GiveawayCreated;
+import org.telegram.telegrambots.meta.api.objects.giveaway.GiveawayWinners;
+import org.telegram.telegrambots.meta.api.objects.messageorigin.MessageOrigin;
 import org.telegram.telegrambots.meta.api.objects.passport.PassportData;
 import org.telegram.telegrambots.meta.api.objects.payments.Invoice;
 import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.serialization.MaybeInaccessibleMessageDeserializer;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
+import org.telegram.telegrambots.meta.api.objects.stories.Story;
 import org.telegram.telegrambots.meta.api.objects.videochat.VideoChatEnded;
 import org.telegram.telegrambots.meta.api.objects.videochat.VideoChatParticipantsInvited;
 import org.telegram.telegrambots.meta.api.objects.videochat.VideoChatScheduled;
@@ -43,7 +50,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Message implements BotApiObject {
+public class Message implements MaybeInaccessibleMessage {
     private static final String MESSAGEID_FIELD = "message_id";
     private static final String MESSAGETHREADID_FIELD = "message_thread_id";
     private static final String FROM_FIELD = "from";
@@ -71,7 +78,7 @@ public class Message implements BotApiObject {
     private static final String NEWCHATPHOTO_FIELD = "new_chat_photo";
     private static final String DELETECHATPHOTO_FIELD = "delete_chat_photo";
     private static final String GROUPCHATCREATED_FIELD = "group_chat_created";
-    private static final String REPLYTOMESSAGE_FIELD = "reply_to_message";
+    private static final String REPLY_TO_MESSAGE_FIELD = "reply_to_message";
     private static final String VOICE_FIELD = "voice";
     private static final String CAPTION_FIELD = "caption";
     private static final String SUPERGROUPCREATED_FIELD = "supergroup_chat_created";
@@ -115,6 +122,17 @@ public class Message implements BotApiObject {
     private static final String HASMEDIASPOILER_FIELD = "has_media_spoiler";
     private static final String USERSHARED_FIELD = "user_shared";
     private static final String CHATSHARED_FIELD = "chat_shared";
+    private static final String STORY_FIELD = "story";
+    private static final String WRITE_ACCESS_ALLOWED_FIELD = "write_access_allowed";
+    private static final String EXTERNAL_REPLY_FIELD = "external_reply";
+    private static final String FORWARD_ORIGIN_FIELD = "forward_origin";
+    private static final String LINK_PREVIEW_OPTIONS_FIELD = "link_preview_options";
+    private static final String QUOTE_FIELD = "quote";
+    private static final String USERS_SHARED_FIELD = "users_shared";
+    private static final String GIVEAWAY_CREATED_FIELD = "giveaway_created";
+    private static final String GIVEAWAY_FIELD = "giveaway";
+    private static final String GIVEAWAY_WINNERS_FIELD = "giveaway_winners";
+    private static final String GIVEAWAY_COMPLETED_FIELD = "giveaway_completed";
 
     /**
      * Integer	Unique message identifier
@@ -135,7 +153,7 @@ public class Message implements BotApiObject {
     @JsonProperty(FROM_FIELD)
     private User from;  
     /**
-     * Date the message was sent in Unix time
+     * Date the message was sent in Unix time. It is always a positive number, representing a valid date.
      */
     @JsonProperty(DATE_FIELD)
     private Integer date;
@@ -242,7 +260,8 @@ public class Message implements BotApiObject {
      * Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply.
      */
     @JsonProperty(PINNED_MESSAGE_FIELD)
-    private Message pinnedMessage;  
+    @JsonDeserialize(using = MaybeInaccessibleMessageDeserializer.class)
+    private MaybeInaccessibleMessage pinnedMessage;
     /**
      * Optional.
      * New members were added to the group or supergroup, information about them (the bot itself may be one of these members)
@@ -278,8 +297,13 @@ public class Message implements BotApiObject {
      * Informs that the group has been created
      */
     @JsonProperty(GROUPCHATCREATED_FIELD)
-    private Boolean groupchatCreated;  
-    @JsonProperty(REPLYTOMESSAGE_FIELD)
+    private Boolean groupchatCreated;
+    /**
+     * Optional.
+     * For replies in the same chat and message thread, the original message.
+     * Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
+     */
+    @JsonProperty(REPLY_TO_MESSAGE_FIELD)
     private Message replyToMessage;
     /**
      * Optional.
@@ -532,8 +556,9 @@ public class Message implements BotApiObject {
     @JsonProperty(GENERALFORUMTOPICUNHIDDEN_FIELD)
     private GeneralForumTopicUnhidden generalForumTopicUnhidden;
     /**
-     * Optional.
-     * Service message: the user allowed the bot added to the attachment menu to write messages
+     * 	Optional.
+     * 	Service message: the user allowed the bot to write messages after adding it to the attachment or side menu,
+     * 	launching a Web App from a link, or accepting an explicit request from a Web App sent by the method requestWriteAccess
      */
     @JsonProperty(WRITEACCESSALLOWED_FIELD)
     private WriteAccessAllowed writeAccessAllowed;
@@ -555,6 +580,67 @@ public class Message implements BotApiObject {
      */
     @JsonProperty(CHATSHARED_FIELD)
     private ChatShared chatShared;
+    /**
+     * Optional.
+     * Message is a forwarded story
+     */
+    @JsonProperty(STORY_FIELD)
+    private Story story;
+    /**
+     * Optional.
+     * Information about the message that is being replied to, which may come from another chat or forum topic
+     */
+    @JsonProperty(EXTERNAL_REPLY_FIELD)
+    private ExternalReplyInfo externalReplyInfo;
+    /**
+     * Optional.
+     * Information about the original message for forwarded messages
+     */
+    @JsonProperty(FORWARD_ORIGIN_FIELD)
+    private MessageOrigin forwardOrigin;
+    /**
+     * Optional.
+     * Options used for link preview generation for the message, if it is a text message and link preview options were changed
+     */
+    @JsonProperty(LINK_PREVIEW_OPTIONS_FIELD)
+    private LinkPreviewOptions linkPreviewOptions;
+    /**
+     * Optional.
+     * For replies that quote part of the original message, the quoted part of the message
+     */
+    @JsonProperty(QUOTE_FIELD)
+    private TextQuote quote;
+    /**
+     * Optional.
+     * Service message: users were shared with the bot
+     */
+    @JsonProperty(USERS_SHARED_FIELD)
+    private UsersShared usersShared;
+    /**
+     * Optional.
+     * Service message: a scheduled giveaway was created
+     */
+    @JsonProperty(GIVEAWAY_CREATED_FIELD)
+    private GiveawayCreated giveawayCreated;
+    /**
+     * Optional.
+     * The message is a scheduled giveaway message
+     */
+    @JsonProperty(GIVEAWAY_FIELD)
+    private Giveaway giveaway;
+    /**
+     * Optional.
+     * A giveaway with public winners was completed
+     */
+    @JsonProperty(GIVEAWAY_WINNERS_FIELD)
+    private GiveawayWinners giveawayWinners;
+    /**
+     * Optional.
+     * Service message: a giveaway without public winners was completed
+     */
+    @JsonProperty(GIVEAWAY_COMPLETED_FIELD)
+    private GiveawayCompleted giveawayCompleted;
+
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {
@@ -586,11 +672,13 @@ public class Message implements BotApiObject {
     }
 
     @JsonIgnore
+    @Override
     public boolean isGroupMessage() {
         return chat.isGroupChat();
     }
 
     @JsonIgnore
+    @Override
     public boolean isUserMessage() {
         return chat.isUserChat();
     }
@@ -601,11 +689,13 @@ public class Message implements BotApiObject {
     }
 
     @JsonIgnore
+    @Override
     public boolean isSuperGroupMessage() {
         return chat.isSuperGroupChat();
     }
 
     @JsonIgnore
+    @Override
     public Long getChatId() {
         return chat.getId();
     }
@@ -776,5 +866,15 @@ public class Message implements BotApiObject {
     @JsonIgnore
     private boolean hasChatShared() {
         return chatShared != null;
+    }
+
+    @JsonIgnore
+    private boolean hasStory() {
+        return story != null;
+    }
+
+    @JsonIgnore
+    private boolean hasWriteAccessAllowed() {
+        return writeAccessAllowed != null;
     }
 }

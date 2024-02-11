@@ -26,7 +26,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * after 9 April, 2016. Older clients will ignore them.
  * @apiNote request_poll option will only work in Telegram versions released after 1X January, 2020.
  * Older clients will receive unsupported message.
- * @apiNote The optional fields web_app, request_user, request_chat, request_contact, request_location,
+ * @apiNote The optional fields web_app, request_user, request_users, request_chat, request_contact, request_location,
  * and request_poll are mutually exclusive
  */
 @EqualsAndHashCode(callSuper = false)
@@ -46,6 +46,7 @@ public class KeyboardButton implements Validable, BotApiObject {
     private static final String WEBAPP_FIELD = "web_app";
     private static final String REQUESTUSER_FIELD = "request_user";
     private static final String REQUESTCHAT_FIELD = "request_chat";
+    private static final String REQUEST_USERS_FIELD = "request_users";
     /**
      * Text of the button.
      * If none of the optional fields are used, it will be sent to the bot as a message when the button is pressed
@@ -82,7 +83,6 @@ public class KeyboardButton implements Validable, BotApiObject {
      */
     @JsonProperty(WEBAPP_FIELD)
     private WebAppInfo webApp;
-
     /**
      * Optional.
      * If specified, pressing the button will open a list of suitable users.
@@ -91,7 +91,6 @@ public class KeyboardButton implements Validable, BotApiObject {
      */
     @JsonProperty(REQUESTUSER_FIELD)
     private KeyboardButtonRequestUser requestUser;
-
     /**
      * Optional.
      * If specified, pressing the button will open a list of suitable chats.
@@ -100,6 +99,14 @@ public class KeyboardButton implements Validable, BotApiObject {
      */
     @JsonProperty(REQUESTCHAT_FIELD)
     private KeyboardButtonRequestChat requestChat;
+    /**
+     * Optional.
+     * If specified, pressing the button will open a list of suitable users.
+     * Identifiers of selected users will be sent to the bot in a “users_shared” service message.
+     * Available in private chats only.
+     */
+    @JsonProperty(REQUEST_USERS_FIELD)
+    private KeyboardButtonRequestUsers requestUsers;
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -114,8 +121,9 @@ public class KeyboardButton implements Validable, BotApiObject {
         requestsProvided += (webApp == null ? 0 : 1);
         requestsProvided += (requestUser == null ? 0 : 1);
         requestsProvided += (requestChat == null ? 0 : 1);
+        requestsProvided += (requestUsers == null ? 0 : 1);
         if (requestsProvided > 1) {
-            throw new TelegramApiValidationException("The optional fields web_app, request_user, request_chat, request_contact, request_location, and request_poll are mutually exclusive", this);
+            throw new TelegramApiValidationException("The optional fields web_app, request_user, request_users, request_chat, request_contact, request_location, and request_poll are mutually exclusive", this);
         }
         if (webApp != null) {
             webApp.validate();
@@ -128,6 +136,9 @@ public class KeyboardButton implements Validable, BotApiObject {
         }
         if (requestChat != null) {
             requestChat.validate();
+        }
+        if (requestUsers != null) {
+            requestUsers.validate();
         }
     }
 }

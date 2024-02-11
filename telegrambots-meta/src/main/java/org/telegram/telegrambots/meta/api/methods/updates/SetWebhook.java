@@ -60,9 +60,12 @@ public class SetWebhook extends BotApiMethodBoolean {
     @JsonProperty(MAXCONNECTIONS_FIELD)
     private Integer maxConnections;
     /**
-     * List the types of updates you want your bot to receive.
-     * For example, specify [“message”, “edited_channel_post”, “callback_query”] to only receive
-     * updates of these types. Specify an empty list to receive all updates regardless of type (default).
+     * Optional
+     * A JSON-serialized list of the update types you want your bot to receive.
+     * For example, specify ["message", "edited_channel_post", "callback_query"] to only receive updates of these types.
+     * See Update for a complete list of available update types.
+     * Specify an empty list to receive all update types except chat_member, message_reaction, and message_reaction_count (default).
+     *
      * If not specified, the previous setting will be used.
      *
      * Please note that this parameter doesn't affect updates created before the call to the setWebhook,
