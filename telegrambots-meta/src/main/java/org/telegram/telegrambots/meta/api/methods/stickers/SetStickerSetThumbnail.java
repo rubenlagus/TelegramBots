@@ -1,25 +1,16 @@
 package org.telegram.telegrambots.meta.api.methods.stickers;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
  * @author Ruben Bermudez
- * @version 1.0
+ * @version 6.6
  * Use this method to set the thumbnail of a regular or mask sticker set.
  * The format of the thumbnail file must match the format of the stickers in the set.
  * Returns True on success.
- * @deprecated Use {@link SetStickerSetThumbnail}
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -29,13 +20,12 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-@Deprecated
-public class SetStickerSetThumb extends BotApiMethodBoolean {
-    public static final String PATH = "setStickerSetThumb";
+public class SetStickerSetThumbnail extends BotApiMethodBoolean {
+    public static final String PATH = "setStickerSetThumbnail";
 
     public static final String NAME_FIELD = "name";
     public static final String USERID_FIELD = "user_id";
-    public static final String THUMB_FIELD = "thumb";
+    public static final String THUMBNAIL_FIELD = "thumbnail";
 
     /**
      * Sticker set name
@@ -61,7 +51,7 @@ public class SetStickerSetThumb extends BotApiMethodBoolean {
      *
      * If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.
      */
-    private InputFile thumb;
+    private InputFile thumbnail;
 
     @Override
     public String getMethod() {
@@ -76,8 +66,8 @@ public class SetStickerSetThumb extends BotApiMethodBoolean {
         if (userId <= 0) {
             throw new TelegramApiValidationException("userId can't be null", this);
         }
-        if (thumb != null) {
-            thumb.validate();
+        if (thumbnail != null) {
+            thumbnail.validate();
         }
     }
 }

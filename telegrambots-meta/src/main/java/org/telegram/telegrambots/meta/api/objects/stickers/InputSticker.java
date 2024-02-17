@@ -1,14 +1,7 @@
 package org.telegram.telegrambots.meta.api.objects.stickers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.Setter;
-import lombok.Singular;
-import lombok.ToString;
+import lombok.*;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -28,6 +21,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
+@Builder
 public class InputSticker implements BotApiObject, Validable {
 
     private static final String STICKER_FIELD = "sticker";
@@ -49,7 +43,8 @@ public class InputSticker implements BotApiObject, Validable {
      * List of 1-20 emoji associated with the sticker
      */
     @JsonProperty(EMOJI_LIST_FIELD)
-    @Singular
+    @NonNull
+    @Singular("emoji")
     private List<String> emojiList;
 
     /**
@@ -73,10 +68,9 @@ public class InputSticker implements BotApiObject, Validable {
             throw new TelegramApiValidationException("Emoji list must have between 1 and 20 items", this);
         }
 
-        if (keywords.size() > 20) {
+        if (keywords != null && keywords.size() > 20) {
             throw new TelegramApiValidationException("Keywords list must have between 0 and 20 items", this);
         }
-
 
         if (maskPosition != null) {
             maskPosition.validate();
