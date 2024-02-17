@@ -56,3 +56,20 @@ After that your bot will look like:
   }
 ```
 Also you could just implement LongPollingBot or WebHookBot interfaces. All this bots will be registered in context and connected to Telegram api.
+
+In addition, you may use @AfterBotRegistration annotation on one of the methods inside your bot. This method will be called once
+after bot will be registered.
+
+```java
+import org.telegram.telegrambots.starter.AfterBotRegistration;
+
+@Component
+public class YourBotName extends TelegramLongPollingBot {
+    @AfterBotRegistration
+    public void postInit(){
+        //some code here
+    }
+    
+    //Bot body.
+}
+```
