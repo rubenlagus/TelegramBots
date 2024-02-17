@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.telegram.telegrambots.meta.api.objects.boost.ChatBoostAdded;
 import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicClosed;
 import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicCreated;
 import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicEdited;
@@ -133,6 +134,9 @@ public class Message implements MaybeInaccessibleMessage {
     private static final String GIVEAWAY_FIELD = "giveaway";
     private static final String GIVEAWAY_WINNERS_FIELD = "giveaway_winners";
     private static final String GIVEAWAY_COMPLETED_FIELD = "giveaway_completed";
+    private static final String REPLY_TO_STORY_FIELD = "reply_to_story";
+    private static final String BOOST_ADDED_FIELD = "boost_added";
+    private static final String SENDER_BOOST_COUNT_FIELD = "sender_boost_count";
 
     /**
      * Integer	Unique message identifier
@@ -640,6 +644,24 @@ public class Message implements MaybeInaccessibleMessage {
      */
     @JsonProperty(GIVEAWAY_COMPLETED_FIELD)
     private GiveawayCompleted giveawayCompleted;
+    /**
+     * Optional.
+     * For replies to a story, the original message
+     */
+    @JsonProperty(REPLY_TO_STORY_FIELD)
+    private Story replyToStory;
+    /**
+     * Optional.
+     * The message is a service message about a user boosting the chat
+     */
+    @JsonProperty(BOOST_ADDED_FIELD)
+    private ChatBoostAdded boostAdded;
+    /**
+     * Optional.
+     * If the sender of the message boosted the chat, the number of boosts added by the user
+     */
+    @JsonProperty(SENDER_BOOST_COUNT_FIELD)
+    private Integer senderBoostCount;
 
 
     public List<MessageEntity> getEntities() {
@@ -876,5 +898,15 @@ public class Message implements MaybeInaccessibleMessage {
     @JsonIgnore
     private boolean hasWriteAccessAllowed() {
         return writeAccessAllowed != null;
+    }
+
+    @JsonIgnore
+    private boolean hasReplyToStory() {
+        return replyToStory != null;
+    }
+
+    @JsonIgnore
+    private boolean hasBoostAdded() {
+        return boostAdded != null;
     }
 }
