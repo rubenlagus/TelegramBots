@@ -1,0 +1,28 @@
+{
+  "ok": true,
+  "result": [
+    {
+      "update_id": 329421221,
+      "message": {
+        "message_id": 180,
+        "from": {
+          "id": 11111111,
+          "is_bot": false,
+          "first_name": "Alice Bob",
+          "username": "alicebob",
+          "language_code": "ru"
+        },
+        "chat": {
+          "id": 11111111,
+          "first_name": "Alice Bob",
+          "username": "alicebob",
+          "type": "private"
+        },
+        "date": 1707944280,
+        "write_access_allowed": {
+          "web_app_name": "alicebobshop"
+        }
+      }
+    }
+  ]
+}
