@@ -14,6 +14,7 @@ import lombok.ToString;
 import lombok.experimental.Tolerate;
 import org.apache.commons.lang3.StringUtils;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMessage;
+import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
 import org.telegram.telegrambots.meta.api.objects.payments.LabeledPrice;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -64,6 +65,7 @@ public class SendInvoice extends BotApiMethodMessage {
     private static final String MAXTIPAMOUNT_FIELD = "max_tip_amount";
     private static final String SUGGESTEDTIPAMOUNTS_FIELD = "suggested_tip_amounts";
     private static final String PROTECTCONTENT_FIELD = "protect_content";
+    private static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -167,6 +169,11 @@ public class SendInvoice extends BotApiMethodMessage {
     private List<Integer> suggestedTipAmounts;
     @JsonProperty(PROTECTCONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
+    /**
+     * Optional
+     * Description of the message to reply to
+     */
+    private ReplyParameters replyParameters;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
@@ -210,6 +217,9 @@ public class SendInvoice extends BotApiMethodMessage {
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+        if (replyParameters != null) {
+            replyParameters.validate();
         }
     }
 
