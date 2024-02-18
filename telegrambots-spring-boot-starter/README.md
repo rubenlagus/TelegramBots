@@ -38,12 +38,15 @@ How to use
 Your main spring boot class should look like this:
 
 ```java
+import org.telegram.telegrambots.starter.EnableTelegramBot;
+
 @SpringBootApplication
+@EnableTelegramBot
 public class YourApplicationMainClass {
 
-	public static void main(String[] args) {		
-		SpringApplication.run(YourApplicationMainClass.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(YourApplicationMainClass.class, args);
+    }
 }
 ```
 
