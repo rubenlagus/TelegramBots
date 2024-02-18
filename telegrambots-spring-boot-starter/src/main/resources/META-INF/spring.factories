@@ -1,1 +1,3 @@
+# Deprecated: To be removed when support for Spring Boot 2 is dropped
+# Replaced with file META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=org.telegram.telegrambots.starter.TelegramBotStarterConfiguration
