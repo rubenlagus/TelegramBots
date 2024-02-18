@@ -41,7 +41,7 @@ public class InaccessibleMessage implements MaybeInaccessibleMessage {
      * The field can be used to differentiate regular and inaccessible messages.
      */
     @JsonProperty(DATE_FIELD)
-    private Integer DATE;
+    private Integer date;
 
     @Override
     public Long getChatId() {
