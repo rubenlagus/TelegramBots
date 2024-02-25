@@ -34,7 +34,7 @@ public final class TestUtils {
     when(message.getText()).thenReturn(args);
     when(message.hasText()).thenReturn(true);
     when(message.isUserMessage()).thenReturn(true);
-    when(message.getChatId()).thenReturn((long) user.getId());
+    when(message.getChatId()).thenReturn(user.getId());
     when(update.getMessage()).thenReturn(message);
     return update;
   }

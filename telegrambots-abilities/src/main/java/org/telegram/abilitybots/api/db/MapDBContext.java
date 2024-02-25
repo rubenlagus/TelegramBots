@@ -186,7 +186,7 @@ public class MapDBContext implements DBContext {
       else if (struct instanceof Atomic.Var<?>)
         return Pair.of(entry.getKey(), BackupVar.createVar(((Atomic.Var<?>) struct).get()));
       return Pair.of(entry.getKey(), struct);
-    }).collect(toMap(pair -> (String) pair.a(), Pair::b));
+    }).collect(toMap(Pair::a, Pair::b));
   }
 
   private void doRecover(Map<String, Object> backupData) {
