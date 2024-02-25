@@ -35,9 +35,7 @@ public class PartialBotApiMethodTest {
             }
         };
 
-        String finalAnswer = answer;
-        assertDoesNotThrow(() -> method.deserializeResponse(finalAnswer),
-                "deserializeResponse should not throw if write access allowed passed into it ");
+        assertDoesNotThrow(() -> method.deserializeResponse(answer), "deserializeResponse should not throw if write access allowed passed into it ");
 
     }
 }
