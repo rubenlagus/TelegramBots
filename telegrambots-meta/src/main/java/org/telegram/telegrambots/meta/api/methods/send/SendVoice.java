@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -53,24 +54,36 @@ public class SendVoice extends SendMediaBotMethod<Message> {
     public static final String PROTECTCONTENT_FIELD = "protect_content";
     public static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
 
+    @JsonProperty(CHATID_FIELD)
     @NonNull
     private String chatId; ///< Unique identifier for the chat sent message to (Or username for channels)
     /**
      * Unique identifier for the target message thread (topic) of the forum;
      * for forum supergroups only
      */
+    @JsonProperty(MESSAGETHREADID_FIELD)
     private Integer messageThreadId;
+    @JsonProperty(VOICE_FIELD)
     @NonNull
     private InputFile voice; ///< Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.
+    @JsonProperty(DISABLENOTIFICATION_FIELD)
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
+    @JsonProperty(REPLYTOMESSAGEID_FIELD)
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
+    @JsonProperty(REPLYMARKUP_FIELD)
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    @JsonProperty(DURATION_FIELD)
     private Integer duration; ///< Optional. Duration of sent audio in seconds
+    @JsonProperty(CAPTION_FIELD)
     private String caption; ///< Optional. Voice caption (may also be used when resending videos by file_id).
+    @JsonProperty(PARSEMODE_FIELD)
     private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+    @JsonProperty(CAPTION_ENTITIES_FIELD)
     @Singular
     private List<MessageEntity> captionEntities; ///< Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
+    @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
+    @JsonProperty(PROTECTCONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
     /**
      * Optional

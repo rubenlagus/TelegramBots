@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.meta.api.methods.stickers;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -39,17 +40,20 @@ public class UploadStickerFile extends PartialBotApiMethod<File> {
     public static final String STICKER_FIELD = "sticker";
 
     @NonNull
+    @JsonProperty(USERID_FIELD)
     private Long userId; ///< User identifier of sticker file owner
     /**
      * Format of the sticker, must be one of “static”, “animated”, “video”
      */
     @NonNull
+    @JsonProperty(STICKER_FORMAT_FIELD)
     private String stickerFormat;
     /**
      * 	A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format.
      * 	See <a href="https://core.telegram.org/stickers"/a> for technical requirements.
      */
     @NonNull
+    @JsonProperty(STICKER_FIELD)
     private InputFile sticker; ///< New sticker file
 
     @Override
