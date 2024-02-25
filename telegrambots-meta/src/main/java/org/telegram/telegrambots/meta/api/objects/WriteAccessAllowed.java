@@ -20,7 +20,7 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 public class WriteAccessAllowed implements BotApiObject {
 
