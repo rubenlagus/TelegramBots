@@ -34,7 +34,7 @@ class SilentSenderTest {
   void returnsEmptyOnError() throws TelegramApiException {
     when(sender.execute(any())).thenThrow(TelegramApiException.class);
 
-    Optional execute = silent.execute(null);
+    Optional<?> execute = silent.execute(null);
 
     assertFalse(execute.isPresent(), "Execution of a bot API method with execption results in a nonempty optional");
   }
@@ -44,7 +44,7 @@ class SilentSenderTest {
     String data = "data";
     when(sender.execute(any())).thenReturn(data);
 
-    Optional execute = silent.execute(null);
+    Optional<?> execute = silent.execute(null);
 
     assertTrue(execute.isPresent(), "Optional is empty");
     assertEquals(data, execute.get(), "Silent execution resulted in a different object");

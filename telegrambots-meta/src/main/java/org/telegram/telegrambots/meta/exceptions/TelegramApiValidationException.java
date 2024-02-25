@@ -26,10 +26,10 @@ import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
  * Exception from method validations
  */
 public class TelegramApiValidationException extends TelegramApiException {
-    private PartialBotApiMethod method;
+    private PartialBotApiMethod<?> method;
     private BotApiObject object;
 
-    public TelegramApiValidationException(String message, PartialBotApiMethod method) {
+    public TelegramApiValidationException(String message, PartialBotApiMethod<?> method) {
         super(message);
         this.method = method;
     }
@@ -43,7 +43,7 @@ public class TelegramApiValidationException extends TelegramApiException {
         return object;
     }
 
-    public PartialBotApiMethod getMethod() {
+    public PartialBotApiMethod<?> getMethod() {
         return method;
     }
 
