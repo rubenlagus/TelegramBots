@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.test.Fakes.FakeWebhook;
+import org.telegram.telegrambots.test.fakes.FakeWebhook;
 import org.telegram.telegrambots.updatesreceivers.ServerlessWebhook;
 
 import java.io.IOException;

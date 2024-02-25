@@ -43,7 +43,7 @@ import org.telegram.telegrambots.meta.api.objects.UserProfilePhotos;
 import org.telegram.telegrambots.meta.api.objects.WebhookInfo;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 import org.telegram.telegrambots.meta.api.objects.games.GameHighScore;
-import org.telegram.telegrambots.test.Fakes.FakeWebhook;
+import org.telegram.telegrambots.test.fakes.FakeWebhook;
 import org.telegram.telegrambots.updatesreceivers.DefaultExceptionMapper;
 import org.telegram.telegrambots.updatesreceivers.RestApi;
 
