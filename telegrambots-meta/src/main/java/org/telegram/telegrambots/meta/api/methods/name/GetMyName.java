@@ -27,7 +27,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 @AllArgsConstructor
 @Builder
 public class GetMyName extends BotApiMethod<BotName> {
-    public static final String PATH = "getMyDescription";
+    public static final String PATH = "getMyName";
 
     private static final String LANGUAGE_CODE_FIELD = "language_code";
 

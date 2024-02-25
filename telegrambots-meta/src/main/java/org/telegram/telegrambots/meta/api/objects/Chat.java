@@ -16,7 +16,7 @@ import org.telegram.telegrambots.meta.api.objects.reactions.ReactionType;
 import java.util.List;
 
 /**
- * This object represents a Telegram chat with an user or a group
+ * This object represents a Telegram chat with a user or a group
  * @author Ruben Bermudez
  * @version 6.1
  */
@@ -65,6 +65,8 @@ public class Chat implements BotApiObject {
     private static final String HAS_VISIBLE_HISTORY_FIELD  = "has_visible_history";
     private static final String EMOJI_STATUS_CUSTOM_ID_FIELD  = "emoji_status_custom_emoji_id";
     private static final String EMOJI_STATUS_EXPIRATION_DATE_FIELD  = "emoji_status_expiration_date";
+    private static final String UNRESTRICT_BOOST_COUNT_FIELD  = "unrestrict_boost_count";
+    private static final String CUSTOM_EMOJI_STICKER_SET_NAME_FIELD  = "custom_emoji_sticker_set_name";
 
 
     private static final String USERCHATTYPE = "private";
@@ -311,6 +313,22 @@ public class Chat implements BotApiObject {
      */
     @JsonProperty(HAS_VISIBLE_HISTORY_FIELD)
     private Boolean hasVisibleHistory;
+    /**
+     * Optional.
+     * For supergroups, the minimum number of boosts that a non-administrator
+     * user needs to add in order to ignore slow mode and chat permissions.
+     * Returned only in getChat.
+     */
+    @JsonProperty(UNRESTRICT_BOOST_COUNT_FIELD)
+    private Integer unrestrictBoostCount;
+    /**
+     * Optional.
+     * For supergroups, the name of the group's custom emoji sticker set. Custom emoji from
+     * this set can be used by all users and bots in the group.
+     * Returned only in getChat.
+     */
+    @JsonProperty(CUSTOM_EMOJI_STICKER_SET_NAME_FIELD)
+    private Boolean customEmojiStickerSetName;
 
     @JsonIgnore
     public Boolean isGroupChat() {

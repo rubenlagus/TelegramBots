@@ -13,8 +13,6 @@ import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
-import java.util.List;
-
 /**
  * @author Ruben Bermudez
  * @version 3.1
@@ -49,9 +47,6 @@ public class SetChatTitle extends BotApiMethodBoolean {
         this.chatId = chatId.toString();
     }
 
-    private long[] otherUserIds;
-    private byte[] fileHashes;
-
     @Override
     public String getMethod() {
         return PATH;
@@ -74,24 +69,5 @@ public class SetChatTitle extends BotApiMethodBoolean {
             this.chatId = chatId.toString();
             return this;
         }
-
-        @Tolerate
-        public SetChatTitleBuilder ids(List<Byte> otherUserIds) {
-            this.otherUserIds = new long[otherUserIds.size()];
-            for (int i = 0; i < otherUserIds.size(); i++) {
-                this.otherUserIds[i] = otherUserIds.get(i);
-            }
-            return this;
-        }
-
-        @Tolerate
-        public SetChatTitleBuilder otherUserId(Long otherUserId) {
-            long[] newOtherUserIds = new long[this.otherUserIds.length + 1];
-            System.arraycopy(this.otherUserIds, 0, newOtherUserIds, 0, this.otherUserIds.length);
-            newOtherUserIds[newOtherUserIds.length - 1] = otherUserId;
-            this.otherUserIds = newOtherUserIds;
-            return this;
-        }
-
     }
 }

@@ -20,7 +20,7 @@ import org.telegram.telegrambots.meta.api.interfaces.Validable;
 public class ChatAdministratorRights implements BotApiObject, Validable {
 
     private static final String ISANONYMOUS_FIELD = "is_anonymous";
-    private static final String CANMANAGECHAT_FIELD = "can_manage_chat";
+    private static final String CAN_MANAGE_CHAT_FIELD = "can_manage_chat";
     private static final String CANDELETEMESSAGES_FIELD = "can_delete_messages";
     private static final String CANMANAGEVIDEOCHATS_FIELD = "can_manage_video_chats";
     private static final String CANRESTRICTMEMBERS_FIELD = "can_restrict_members";
@@ -42,11 +42,11 @@ public class ChatAdministratorRights implements BotApiObject, Validable {
     @NonNull
     private Boolean isAnonymous;
     /**
-     * True, if the administrator can access the chat event log, chat statistics, boost list in channels,
-     * message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode.
-     * Implied by any other administrator privilege
+     * True, if the administrator can access the chat event log, get boost list,
+     * see hidden supergroup and channel members, report spam messages and ignore slow mode.
+     * Implied by any other administrator privilege.
      */
-    @JsonProperty(CANMANAGECHAT_FIELD)
+    @JsonProperty(CAN_MANAGE_CHAT_FIELD)
     @NonNull
     private Boolean canManageChat;
     /**
@@ -113,13 +113,13 @@ public class ChatAdministratorRights implements BotApiObject, Validable {
     private Boolean canManageTopics;
     /**
      * Optional.
-     * True, if the administrator can post stories in the channel; channels only
+     * True, if the administrator can post stories to the chat
      */
     @JsonProperty(CAN_POST_STORIES_FIELD)
     private Boolean canPostStories;
     /**
      * Optional.
-     * True, if the administrator can edit stories posted by other users; channels only
+     * True, if the administrator can edit stories posted by other users
      */
     @JsonProperty(CAN_EDIT_STORIES_FIELD)
     private Boolean canEditStories;
