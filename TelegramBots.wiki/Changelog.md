@@ -101,12 +101,12 @@
 4. Simplified methods to set files in methods. Only InputFile is available now (this class contains constructors for all the cases)  
 5. Locations now use Double instead of Float to avoid rounding.
 6. When using a TelegramApi for webhook usage, a Webhook instance has to be provided in constructor (i.e. DefaultWebhook class)
-6. When registering a Webhook Bot, a SetWebhook object must be provided.
-7. When using Webhook with Spring, extends class SpringWebhookBot instead of WebhookBot 
-8. New Async methods returning CompletableFutures (yes, we still have the existing callback methods)
-9. Added new Async methods for missing cases returning CompletableFutures. Like for sendAudio or sendVideo.
-10. No more Guice to define custom class
-11. Bug fixes: #795
+7. When registering a Webhook Bot, a SetWebhook object must be provided.
+8. When using Webhook with Spring, extends class SpringWebhookBot instead of WebhookBot 
+9. New Async methods returning CompletableFutures (yes, we still have the existing callback methods)
+10. Added new Async methods for missing cases returning CompletableFutures. Like for sendAudio or sendVideo.
+11. No more Guice to define custom class
+12. Bug fixes: #795
 
 **[[How to update to version 5.0.0|How-To-Update#5.0.0]]**
 

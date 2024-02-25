@@ -5,11 +5,7 @@ import org.telegram.telegrambots.meta.api.objects.menubutton.MenuButton;
 import org.telegram.telegrambots.meta.api.objects.menubutton.MenuButtonDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Ruben Bermudez
@@ -48,7 +44,7 @@ public class GetChatMenuButtonTest {
         try {
             MenuButton result = getChatMenuButton.deserializeResponse(responseText);
             assertNotNull(result);
-            assertTrue(result instanceof MenuButtonDefault);
+            assertInstanceOf(MenuButtonDefault.class, result);
         } catch (TelegramApiRequestException e) {
             fail(e.getMessage());
         }

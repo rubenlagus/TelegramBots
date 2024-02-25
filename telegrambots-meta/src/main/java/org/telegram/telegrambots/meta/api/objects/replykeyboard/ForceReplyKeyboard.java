@@ -64,7 +64,7 @@ public class ForceReplyKeyboard implements ReplyKeyboard {
         if (forceReply == null) {
             throw new TelegramApiValidationException("ForceReply parameter can't not be null", this);
         }
-        if (inputFieldPlaceholder != null && (inputFieldPlaceholder.length() < 1 || inputFieldPlaceholder.length() > 64)) {
+        if (inputFieldPlaceholder != null && (inputFieldPlaceholder.isEmpty() || inputFieldPlaceholder.length() > 64)) {
             throw new TelegramApiValidationException("InputFieldPlaceholder must be between 1 and 64 characters", this);
         }
     }

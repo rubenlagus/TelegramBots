@@ -1,4 +1,4 @@
-package org.telegram.telegrambots.test.Fakes;
+package org.telegram.telegrambots.test.fakes;
 
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;

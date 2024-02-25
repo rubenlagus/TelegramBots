@@ -325,7 +325,7 @@ class TestDeserialization {
         ChatMember chatMember = new GetChatMember().deserializeResponse(updateText);
 
         assertNotNull(chatMember);
-        assertTrue(chatMember instanceof ChatMemberRestricted);
+        assertInstanceOf(ChatMemberRestricted.class, chatMember);
         ChatMemberRestricted chatMemberRestricted = (ChatMemberRestricted) chatMember;
         assertNotNull(chatMemberRestricted.getUser());
         assertEquals(1111111, chatMemberRestricted.getUser().getId());

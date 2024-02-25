@@ -167,7 +167,7 @@ public final class DefaultAbilities implements AbilityExtension {
 
           String commands = abilitiesPerPrivacy.asMap().entrySet().stream()
               .filter(entry -> privacy.compareTo(entry.getKey()) >= 0)
-              .sorted(comparing(Map.Entry::getKey))
+              .sorted(Map.Entry.comparingByKey())
               .map(entry ->
                   entry.getValue().stream()
                       .reduce(entry.getKey().toString(), (a, b) -> format("%s\n%s", a, b))

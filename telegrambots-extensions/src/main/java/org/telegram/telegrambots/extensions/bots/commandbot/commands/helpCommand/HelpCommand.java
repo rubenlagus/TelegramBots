@@ -60,7 +60,7 @@ public class HelpCommand extends ManCommand {
 	 * @return the extended Description or the toString() if IManCommand is not implemented
 	 */
 	public static String getManText(IBotCommand command) {
-		return IManCommand.class.isInstance(command) ? getManText((IManCommand) command) : command.toString();
+		return command instanceof IManCommand ? getManText((IManCommand) command) : command.toString();
 	}
 	
 	/**
@@ -91,7 +91,7 @@ public class HelpCommand extends ManCommand {
 	
 	@Override
 	public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
-		if (ICommandRegistry.class.isInstance(absSender)) {
+		if (absSender instanceof ICommandRegistry) {
 			ICommandRegistry registry = (ICommandRegistry) absSender;
 			
 			if (arguments.length > 0) {

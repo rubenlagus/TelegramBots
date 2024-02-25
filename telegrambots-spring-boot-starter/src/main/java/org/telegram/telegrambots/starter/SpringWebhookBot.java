@@ -63,7 +63,7 @@ public abstract class SpringWebhookBot extends TelegramWebhookBot {
         }
 
         @Override
-        public BotApiMethod onWebhookUpdateReceived(Update update) {
+        public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
             return null;
         }
 

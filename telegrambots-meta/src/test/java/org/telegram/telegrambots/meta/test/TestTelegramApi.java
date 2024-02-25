@@ -51,7 +51,7 @@ class TestTelegramApi {
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi(BotSession.class, null);
             telegramBotsApi.registerBot(new WebhookBot() {
                 @Override
-                public BotApiMethod onWebhookUpdateReceived(Update update) {
+                public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
                     return null;
                 }
 

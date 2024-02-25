@@ -23,7 +23,7 @@ public class PartialBotApiMethodTest {
 
         String answer = new String(Files.readAllBytes(Paths.get("src/test/resources/fixtures/update-with-write-access-allowed-for-webapp.json")));
 
-        PartialBotApiMethod method = new PartialBotApiMethod() {
+        PartialBotApiMethod<Serializable> method = new PartialBotApiMethod<Serializable>() {
             @Override
             public Serializable deserializeResponse(String answer) throws TelegramApiRequestException {
                 return deserializeResponseArray(answer, Update.class);
@@ -35,9 +35,7 @@ public class PartialBotApiMethodTest {
             }
         };
 
-        String finalAnswer = answer;
-        assertDoesNotThrow(() -> method.deserializeResponse(finalAnswer),
-                "deserializeResponse should not throw if write access allowed passed into it ");
+        assertDoesNotThrow(() -> method.deserializeResponse(answer), "deserializeResponse should not throw if write access allowed passed into it ");
 
     }
 }

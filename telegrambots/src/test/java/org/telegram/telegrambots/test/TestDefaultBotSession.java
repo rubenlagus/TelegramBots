@@ -16,7 +16,7 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.generics.BackOff;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
-import org.telegram.telegrambots.test.Fakes.FakeLongPollingBot;
+import org.telegram.telegrambots.test.fakes.FakeLongPollingBot;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import org.telegram.telegrambots.updatesreceivers.ExponentialBackOff;
 
