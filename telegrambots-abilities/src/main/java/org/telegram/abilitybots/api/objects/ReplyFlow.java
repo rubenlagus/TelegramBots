@@ -104,7 +104,7 @@ public class ReplyFlow extends Reply {
         action = (bot, upd) -> {};
 
       BiConsumer<BaseAbilityBot, Update> statefulAction;
-      if (nextReplies.size() > 0) {
+      if (!nextReplies.isEmpty()) {
         statefulAction = action.andThen((bot, upd) -> {
           Long chatId = AbilityUtils.getChatId(upd);
           db.<Long, Integer>getMap(STATES).put(chatId, id);

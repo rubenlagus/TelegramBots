@@ -195,17 +195,13 @@ public class ReplyFlowTest {
     public Ability replyFlowsWithAbility() {
       Reply replyWithVk = ReplyFlow.builder(db, 2)
           .enableStats("SECOND")
-          .action((bot, upd) -> {
-            silent.send("Second reply", upd.getMessage().getChatId());
-          })
+          .action((bot, upd) -> silent.send("Second reply", upd.getMessage().getChatId()))
           .onlyIf(hasMessageWith("two"))
           .build();
 
       Reply replyWithNickname = ReplyFlow.builder(db, 1)
           .enableStats("FIRST")
-          .action((bot, upd) -> {
-            silent.send("First reply", upd.getMessage().getChatId());
-          })
+          .action((bot, upd) -> silent.send("First reply", upd.getMessage().getChatId()))
           .onlyIf(hasMessageWith("one"))
           .next(replyWithVk)
           .build();

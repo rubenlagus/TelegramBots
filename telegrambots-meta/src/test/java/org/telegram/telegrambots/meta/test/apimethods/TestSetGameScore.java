@@ -9,9 +9,7 @@ import org.telegram.telegrambots.meta.test.TelegramBotsHelper;
 
 import java.io.Serializable;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Ruben Bermudez
@@ -44,7 +42,7 @@ class TestSetGameScore {
         Serializable result =
                 setGameScore.deserializeResponse(TelegramBotsHelper.GetSetGameScoreBooleanResponse());
         assertNotNull(result);
-        assertTrue(result instanceof Boolean);
+        assertInstanceOf(Boolean.class, result);
         assertTrue((Boolean) result);
     }
 
@@ -52,6 +50,6 @@ class TestSetGameScore {
     void TestGetUpdatesMustDeserializeCorrectMessageResponse() throws Exception {
         Serializable result = setGameScore.deserializeResponse(TelegramBotsHelper.GetSetGameScoreMessageResponse());
         assertNotNull(result);
-        assertTrue(result instanceof Message);
+        assertInstanceOf(Message.class, result);
     }
 }
