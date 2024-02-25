@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.only;
@@ -45,6 +46,7 @@ class SilentSenderTest {
 
     Optional execute = silent.execute(null);
 
+    assertTrue(execute.isPresent(), "Optional is empty");
     assertEquals(data, execute.get(), "Silent execution resulted in a different object");
   }
 
