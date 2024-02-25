@@ -31,6 +31,7 @@ public class DefaultBotOptions implements BotOptions {
     private int proxyPort;
     private int getUpdatesTimeout;
     private int getUpdatesLimit;
+    private boolean testEnvironment;
 
     public enum ProxyType {
         NO_PROXY,
@@ -151,5 +152,13 @@ public class DefaultBotOptions implements BotOptions {
 
     public void setGetUpdatesLimit(int getUpdatesLimit) {
         this.getUpdatesLimit = getUpdatesLimit;
+    }
+
+    public boolean isTestEnvironment() {
+        return testEnvironment;
+    }
+
+    public void setTestEnvironment(boolean testEnvironment) {
+        this.testEnvironment = testEnvironment;
     }
 }

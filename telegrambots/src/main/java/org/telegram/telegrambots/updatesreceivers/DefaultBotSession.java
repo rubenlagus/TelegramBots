@@ -239,7 +239,7 @@ public class DefaultBotSession implements BotSession {
                 request.setAllowedUpdates(options.getAllowedUpdates());
             }
 
-            String url = options.getBaseUrl() + token + "/" + GetUpdates.PATH;
+            String url = getApiUrl();
             //http client
             HttpPost httpPost = new HttpPost(url);
             httpPost.addHeader("charset", StandardCharsets.UTF_8.name());
@@ -277,6 +277,14 @@ public class DefaultBotSession implements BotSession {
 
             return Collections.emptyList();
         }
+    }
+
+    private String getApiUrl() {
+        String apiUrl = options.getBaseUrl() + token + "/";
+        if (options.isTestEnvironment()) {
+            apiUrl += "test/";
+        }
+        return apiUrl + GetUpdates.PATH;
     }
 
     public interface UpdatesSupplier {
