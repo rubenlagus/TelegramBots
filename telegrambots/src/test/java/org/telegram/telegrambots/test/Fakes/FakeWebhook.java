@@ -11,14 +11,14 @@ import org.telegram.telegrambots.meta.generics.WebhookBot;
  * @version 1.0
  */
 public class FakeWebhook implements WebhookBot {
-    private BotApiMethod returnValue;
+    private BotApiMethod<?> returnValue;
 
-    public void setReturnValue(BotApiMethod returnValue) {
+    public void setReturnValue(BotApiMethod<?> returnValue) {
         this.returnValue = returnValue;
     }
 
     @Override
-    public BotApiMethod onWebhookUpdateReceived(Update update) {
+    public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
         return returnValue;
     }
 

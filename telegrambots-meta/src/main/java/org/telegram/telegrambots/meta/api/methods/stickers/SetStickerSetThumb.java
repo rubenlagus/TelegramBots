@@ -19,6 +19,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * Use this method to set the thumbnail of a regular or mask sticker set.
  * The format of the thumbnail file must match the format of the stickers in the set.
  * Returns True on success.
+ * @deprecated Use {@link SetStickerSetThumbnail}
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -28,6 +29,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
+@Deprecated
 public class SetStickerSetThumb extends BotApiMethodBoolean {
     public static final String PATH = "setStickerSetThumb";
 

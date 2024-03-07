@@ -5,6 +5,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.message.BasicStatusLine;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -63,6 +65,14 @@ class TelegramFileDownloaderTest {
         when(httpClientMock.execute(any(HttpUriRequest.class))).thenReturn(httpResponseMock);
 
         telegramFileDownloader = new TelegramFileDownloader(httpClientMock, tokenSupplierMock);
+    }
+
+    @AfterEach
+    public void tearDown () {
+        reset(httpResponseMock);
+        reset(httpClientMock);
+        reset(httpClientMock);
+        reset(downloadFileCallbackMock);
     }
 
     @Test

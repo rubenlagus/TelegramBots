@@ -15,6 +15,7 @@ import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
+import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -50,6 +51,7 @@ public class SendDocument extends SendMediaBotMethod<Message> {
     public static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
     public static final String DISABLECONTENTTYPEDETECTION_FIELD = "disable_content_type_detection";
     public static final String PROTECTCONTENT_FIELD = "protect_content";
+    public static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
 
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to or Username for the channel to send the message to
@@ -79,6 +81,11 @@ public class SendDocument extends SendMediaBotMethod<Message> {
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
     private Boolean disableContentTypeDetection; ///< Optional	Disables automatic server-side content type detection for files uploaded using multipart/form-data
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
+    /**
+     * Optional
+     * Description of the message to reply to
+     */
+    private ReplyParameters replyParameters;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
@@ -116,6 +123,9 @@ public class SendDocument extends SendMediaBotMethod<Message> {
 
         if (replyMarkup != null) {
             replyMarkup.validate();
+        }
+        if (replyParameters != null) {
+            replyParameters.validate();
         }
     }
 

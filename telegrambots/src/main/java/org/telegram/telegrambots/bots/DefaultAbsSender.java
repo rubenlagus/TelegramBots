@@ -25,10 +25,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
 import org.telegram.telegrambots.meta.api.methods.send.SendVoice;
-import org.telegram.telegrambots.meta.api.methods.stickers.AddStickerToSet;
-import org.telegram.telegrambots.meta.api.methods.stickers.CreateNewStickerSet;
-import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumb;
-import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
+import org.telegram.telegrambots.meta.api.methods.stickers.*;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -209,10 +206,12 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendDocument.getCaptionEntities() != null) {
                 builder.addTextBody(SendDocument.CAPTION_ENTITIES_FIELD, objectMapper.writeValueAsString(sendDocument.getCaptionEntities()), TEXT_PLAIN_CONTENT_TYPE);
             }
-
             if (sendDocument.getThumbnail() != null) {
                 addInputFile(builder, sendDocument.getThumbnail(), SendDocument.THUMBNAIL_FIELD, false);
                 builder.addTextBody(SendDocument.THUMBNAIL_FIELD, sendDocument.getThumbnail().getAttachName(), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendDocument.getReplyParameters() != null) {
+                builder.addTextBody(SendDocument.REPLY_PARAMETERS_FIELD, objectMapper.writeValueAsString(sendDocument.getReplyParameters()), TEXT_PLAIN_CONTENT_TYPE);
             }
 
             HttpEntity multipart = builder.build();
@@ -268,6 +267,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             }
             if (sendPhoto.getHasSpoiler() != null) {
                 builder.addTextBody(SendPhoto.HASSPOILER_FIELD, objectMapper.writeValueAsString(sendPhoto.getHasSpoiler()), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendPhoto.getReplyParameters() != null) {
+                builder.addTextBody(SendPhoto.REPLY_PARAMETERS_FIELD, objectMapper.writeValueAsString(sendPhoto.getReplyParameters()), TEXT_PLAIN_CONTENT_TYPE);
             }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
@@ -339,7 +341,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendVideo.getHasSpoiler() != null) {
                 builder.addTextBody(SendVideo.HASSPOILER_FIELD, objectMapper.writeValueAsString(sendVideo.getHasSpoiler()), TEXT_PLAIN_CONTENT_TYPE);
             }
-
+            if (sendVideo.getReplyParameters() != null) {
+                builder.addTextBody(SendVideo.REPLY_PARAMETERS_FIELD, objectMapper.writeValueAsString(sendVideo.getReplyParameters()), TEXT_PLAIN_CONTENT_TYPE);
+            }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
@@ -392,6 +396,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendVideoNote.getAllowSendingWithoutReply() != null) {
                 builder.addTextBody(SendVideoNote.ALLOWSENDINGWITHOUTREPLY_FIELD, sendVideoNote.getAllowSendingWithoutReply().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
+            if (sendVideoNote.getReplyParameters() != null) {
+                builder.addTextBody(SendVideoNote.REPLY_PARAMETERS_FIELD, objectMapper.writeValueAsString(sendVideoNote.getReplyParameters()), TEXT_PLAIN_CONTENT_TYPE);
+            }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
@@ -437,6 +444,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             }
             if (sendSticker.getEmoji() != null) {
                 builder.addTextBody(SendSticker.EMOJI_FIELD, sendSticker.getEmoji(), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendSticker.getReplyParameters() != null) {
+                builder.addTextBody(SendSticker.REPLY_PARAMETERS_FIELD, objectMapper.writeValueAsString(sendSticker.getReplyParameters()), TEXT_PLAIN_CONTENT_TYPE);
             }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
@@ -506,7 +516,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendAudio.getCaptionEntities() != null) {
                 builder.addTextBody(SendAudio.CAPTION_ENTITIES_FIELD, objectMapper.writeValueAsString(sendAudio.getCaptionEntities()), TEXT_PLAIN_CONTENT_TYPE);
             }
-
+            if (sendAudio.getReplyParameters() != null) {
+                builder.addTextBody(SendAudio.REPLY_PARAMETERS_FIELD, objectMapper.writeValueAsString(sendAudio.getReplyParameters()), TEXT_PLAIN_CONTENT_TYPE);
+            }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
@@ -566,6 +578,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             }
             if (sendVoice.getCaptionEntities() != null) {
                 builder.addTextBody(SendVoice.CAPTION_ENTITIES_FIELD, objectMapper.writeValueAsString(sendVoice.getCaptionEntities()), TEXT_PLAIN_CONTENT_TYPE);
+            }
+            if (sendVoice.getReplyParameters() != null) {
+                builder.addTextBody(SendVoice.REPLY_PARAMETERS_FIELD, objectMapper.writeValueAsString(sendVoice.getReplyParameters()), TEXT_PLAIN_CONTENT_TYPE);
             }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
@@ -635,7 +650,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendMediaGroup.getProtectContent() != null) {
                 builder.addTextBody(SendMediaGroup.PROTECTCONTENT_FIELD, sendMediaGroup.getProtectContent().toString(), TEXT_PLAIN_CONTENT_TYPE);
             }
-
+            if (sendMediaGroup.getReplyParameters() != null) {
+                builder.addTextBody(SendMediaGroup.REPLY_PARAMETERS_FIELD, objectMapper.writeValueAsString(sendMediaGroup.getReplyParameters()), TEXT_PLAIN_CONTENT_TYPE);
+            }
 
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
@@ -646,6 +663,7 @@ public abstract class DefaultAbsSender extends AbsSender {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public Boolean execute(AddStickerToSet addStickerToSet) throws TelegramApiException {
         assertParamNotNull(addStickerToSet, "addStickerToSet");
@@ -685,6 +703,10 @@ public abstract class DefaultAbsSender extends AbsSender {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Deprecated
     @Override
     public Boolean execute(SetStickerSetThumb setStickerSetThumb) throws TelegramApiException {
         assertParamNotNull(setStickerSetThumb, "setStickerSetThumb");
@@ -709,6 +731,31 @@ public abstract class DefaultAbsSender extends AbsSender {
         }
     }
 
+    @Override
+    public Boolean execute(SetStickerSetThumbnail setStickerSetThumbnail) throws TelegramApiException {
+        assertParamNotNull(setStickerSetThumbnail, "setStickerSetThumbnail");
+        setStickerSetThumbnail.validate();
+        try {
+            String url = getBaseUrl() + SetStickerSetThumbnail.PATH;
+            HttpPost httppost = configuredHttpPost(url);
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setLaxMode();
+            builder.setCharset(StandardCharsets.UTF_8);
+            builder.addTextBody(SetStickerSetThumbnail.USERID_FIELD, setStickerSetThumbnail.getUserId().toString(), TEXT_PLAIN_CONTENT_TYPE);
+            builder.addTextBody(SetStickerSetThumbnail.NAME_FIELD, setStickerSetThumbnail.getName(), TEXT_PLAIN_CONTENT_TYPE);
+            if (setStickerSetThumbnail.getThumbnail() != null) {
+                addInputFile(builder, setStickerSetThumbnail.getThumbnail(), SetStickerSetThumbnail.THUMBNAIL_FIELD, true);
+            }
+            HttpEntity multipart = builder.build();
+            httppost.setEntity(multipart);
+
+            return setStickerSetThumbnail.deserializeResponse(sendHttpPostRequest(httppost));
+        } catch (IOException e) {
+            throw new TelegramApiException("Unable to set sticker set thumbnail", e);
+        }
+    }
+
+    @SuppressWarnings("deprecation")
     @Override
     public Boolean execute(CreateNewStickerSet createNewStickerSet) throws TelegramApiException {
         assertParamNotNull(createNewStickerSet, "createNewStickerSet");
@@ -864,6 +911,9 @@ public abstract class DefaultAbsSender extends AbsSender {
             if (sendAnimation.getHasSpoiler() != null) {
                 builder.addTextBody(SendAnimation.HASSPOILER_FIELD, objectMapper.writeValueAsString(sendAnimation.getHasSpoiler()), TEXT_PLAIN_CONTENT_TYPE);
             }
+            if (sendAnimation.getReplyParameters() != null) {
+                builder.addTextBody(SendAnimation.REPLY_PARAMETERS_FIELD, objectMapper.writeValueAsString(sendAnimation.getReplyParameters()), TEXT_PLAIN_CONTENT_TYPE);
+            }
             HttpEntity multipart = builder.build();
             httppost.setEntity(multipart);
 
@@ -1005,12 +1055,29 @@ public abstract class DefaultAbsSender extends AbsSender {
         return completableFuture;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Deprecated
     @Override
     public CompletableFuture<Boolean> executeAsync(SetStickerSetThumb setStickerSetThumb) {
         CompletableFuture<Boolean> completableFuture = new CompletableFuture<>();
         exe.submit(() -> {
             try {
                 completableFuture.complete(execute(setStickerSetThumb));
+            } catch (TelegramApiException e) {
+                completableFuture.completeExceptionally(e);
+            }
+        });
+        return completableFuture;
+    }
+
+    @Override
+    public CompletableFuture<Boolean> executeAsync(SetStickerSetThumbnail setStickerSetThumbnail) {
+        CompletableFuture<Boolean> completableFuture = new CompletableFuture<>();
+        exe.submit(() -> {
+            try {
+                completableFuture.complete(execute(setStickerSetThumbnail));
             } catch (TelegramApiException e) {
                 completableFuture.completeExceptionally(e);
             }

@@ -15,6 +15,7 @@ import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
+import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -56,6 +57,7 @@ public class SendAnimation extends SendMediaBotMethod<Message> {
     public static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
     public static final String PROTECTCONTENT_FIELD = "protect_content";
     public static final String HASSPOILER_FIELD = "has_spoiler";
+    public static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
 
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
@@ -98,6 +100,11 @@ public class SendAnimation extends SendMediaBotMethod<Message> {
      * Pass True if the animation must be covered with a spoiler animation
      */
     private Boolean hasSpoiler;
+    /**
+     * Optional
+     * Description of the message to reply to
+     */
+    private ReplyParameters replyParameters;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
@@ -134,6 +141,9 @@ public class SendAnimation extends SendMediaBotMethod<Message> {
         }
         if (thumbnail != null) {
             thumbnail.validate();
+        }
+        if (replyParameters != null) {
+            replyParameters.validate();
         }
     }
 

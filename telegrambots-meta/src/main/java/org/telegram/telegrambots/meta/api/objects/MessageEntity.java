@@ -51,11 +51,12 @@ public class MessageEntity implements BotApiObject {
      * - “underline” (underlined text)
      * - “strikethrough” (strikethrough text)
      * - “spoiler” (spoiler message)
+     * - “blockquote” (block quotation)
      * - “code” (monowidth string)
      * - “pre” (monowidth block)
      * - “text_link” (for clickable text URLs)
      * - “text_mention” (for users without usernames)
-     * - "custom_emoji"  (for inline custom emoji stickers)
+     * - "custom_emoji" (for inline custom emoji stickers)
      */
     @JsonProperty(TYPE_FIELD)
     @NonNull

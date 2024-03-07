@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -44,6 +44,7 @@ import org.telegram.telegrambots.meta.api.objects.WebhookInfo;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 import org.telegram.telegrambots.meta.api.objects.games.GameHighScore;
 import org.telegram.telegrambots.test.Fakes.FakeWebhook;
+import org.telegram.telegrambots.updatesreceivers.DefaultExceptionMapper;
 import org.telegram.telegrambots.updatesreceivers.RestApi;
 
 import javax.ws.rs.client.Entity;
@@ -53,8 +54,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
 
 /**
  * @author Ruben Bermudez
@@ -68,11 +70,11 @@ public class TestRestApi extends JerseyTest {
     @Override
     protected Application configure() {
         restApi = new RestApi();
-        return new ResourceConfig().register(restApi).register(JacksonFeature.class);
+        return new ResourceConfig().register(restApi).register(JacksonFeature.class).register(DefaultExceptionMapper.class);
     }
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         restApi.registerCallback(webhookBot);
         super.setUp();
@@ -113,7 +115,7 @@ public class TestRestApi extends JerseyTest {
                         .request(MediaType.APPLICATION_JSON)
                         .post(entity, AnswerInlineQuery.class);
 
-        assertEquals("{\"inline_query_id\":\"id\",\"results\":[{\"type\":\"article\",\"id\":\"0\",\"title\":\"Title\",\"input_message_content\":{\"message_text\":\"Text\",\"parse_mode\":\"Markdown\"},\"reply_markup\":{\"inline_keyboard\":[[{\"text\":\"Button1\",\"callback_data\":\"Callback\"}]]},\"url\":\"Url\",\"hide_url\":false,\"description\":\"Description\",\"thumb_url\":\"ThumbUrl\",\"thumb_width\":10,\"thumb_height\":20},{\"type\":\"photo\",\"id\":\"1\",\"photo_url\":\"PhotoUrl\",\"mime_type\":\"image/jpg\",\"photo_width\":10,\"photo_height\":20,\"thumb_url\":\"ThumbUrl\",\"title\":\"Title\",\"description\":\"Description\",\"caption\":\"Caption\",\"input_message_content\":{\"message_text\":\"Text\",\"parse_mode\":\"Markdown\"},\"reply_markup\":{\"inline_keyboard\":[[{\"text\":\"Button1\",\"callback_data\":\"Callback\"}]]},\"caption_entities\":[]}],\"cache_time\":100,\"is_personal\":true,\"next_offset\":\"3\",\"switch_pm_text\":\"pmText\",\"switch_pm_parameter\":\"PmParameter\",\"method\":\"answerInlineQuery\"}",
+        assertEquals("{\"inline_query_id\":\"id\",\"results\":[{\"type\":\"article\",\"id\":\"0\",\"title\":\"Title\",\"input_message_content\":{\"message_text\":\"Text\",\"parse_mode\":\"Markdown\"},\"reply_markup\":{\"inline_keyboard\":[[{\"text\":\"Button1\",\"callback_data\":\"Callback\"}]]},\"url\":\"Url\",\"hide_url\":false,\"description\":\"Description\",\"thumbnail_url\":\"ThumbUrl\",\"thumbnail_width\":10,\"thumbnail_height\":20},{\"type\":\"photo\",\"id\":\"1\",\"photo_url\":\"PhotoUrl\",\"mime_type\":\"image/jpg\",\"photo_width\":10,\"photo_height\":20,\"thumbnail_url\":\"ThumbUrl\",\"title\":\"Title\",\"description\":\"Description\",\"caption\":\"Caption\",\"input_message_content\":{\"message_text\":\"Text\",\"parse_mode\":\"Markdown\"},\"reply_markup\":{\"inline_keyboard\":[[{\"text\":\"Button1\",\"callback_data\":\"Callback\"}]]},\"caption_entities\":[]}],\"cache_time\":100,\"is_personal\":true,\"next_offset\":\"3\",\"switch_pm_text\":\"pmText\",\"switch_pm_parameter\":\"PmParameter\",\"method\":\"answerInlineQuery\"}",
                 map(result));
     }
 

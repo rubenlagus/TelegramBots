@@ -18,9 +18,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * @author Ruben Bermudez
  * @version 1.0
  * Use this method to forward messages of any kind.
- * Service messages can't be forwarded.
  *
- * On success, the sent Message is returned.
+ * Service messages and messages with protected content can't be forwarded.
+ *
+ * On success, the Message sent is returned.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
