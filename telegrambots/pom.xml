@@ -72,6 +72,7 @@
 
         <glassfish.version>2.41</glassfish.version>
         <httpcompontents.version>4.5.14</httpcompontents.version>
+        <httpcompontents5.version>5.3.1</httpcompontents5.version>
         <commonio.version>2.15.1</commonio.version>
     </properties>
 
@@ -153,9 +154,9 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>${httpcompontents.version}</version>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+            <version>${httpcompontents5.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
