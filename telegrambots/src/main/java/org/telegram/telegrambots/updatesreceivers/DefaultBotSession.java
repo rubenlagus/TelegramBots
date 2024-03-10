@@ -42,7 +42,7 @@ import static org.telegram.telegrambots.Constants.SOCKET_TIMEOUT;
 public class DefaultBotSession implements BotSession {
     private static final Logger log = LoggerFactory.getLogger(DefaultBotSession.class);
 
-    private AtomicBoolean running = new AtomicBoolean(false);
+    private final AtomicBoolean running = new AtomicBoolean(false);
 
     private final ConcurrentLinkedDeque<Update> receivedUpdates = new ConcurrentLinkedDeque<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -52,7 +52,7 @@ public class DefaultBotSession implements BotSession {
     private LongPollingBot callback;
     private String token;
     private int lastReceivedUpdate = 0;
-    private DefaultBotOptions options;
+    protected DefaultBotOptions options;
     private UpdatesSupplier updatesSupplier;
 
     public DefaultBotSession() {
