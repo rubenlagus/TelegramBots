@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.payments.LabeledPrice;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.util.ArrayList;
@@ -124,7 +125,7 @@ public class TestSendInvoice {
     @Test
     public void replyMarkupMustBeValidated() {
         SendInvoice sendInvoice = createSendInvoiceObject();
-        sendInvoice.setReplyMarkup(InlineKeyboardMarkup.builder().keyboardRow(Collections.singletonList(InlineKeyboardButton.builder().text("").build())).build());
+        sendInvoice.setReplyMarkup(InlineKeyboardMarkup.builder().keyboardRow(new InlineKeyboardRow(InlineKeyboardButton.builder().text("").build())).build());
         Throwable thrown = assertThrows(TelegramApiValidationException.class, sendInvoice::validate);
         assertEquals("Text parameter can't be empty", thrown.getMessage());
     }
@@ -143,7 +144,7 @@ public class TestSendInvoice {
                 .suggestedTipAmount(2)
                 .suggestedTipAmount(3)
                 .suggestedTipAmount(4)
-                .replyMarkup(InlineKeyboardMarkup.builder().keyboardRow(Collections.singletonList(InlineKeyboardButton.builder().text("Hello").build())).build())
+                .replyMarkup(InlineKeyboardMarkup.builder().keyboardRow(new InlineKeyboardRow(InlineKeyboardButton.builder().text("Hello").build())).build())
                 .build();
     }
 }

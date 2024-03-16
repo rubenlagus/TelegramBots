@@ -47,8 +47,5 @@ public class ReplyKeyboardRemove implements ReplyKeyboard {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (removeKeyboard == null) {
-            throw new TelegramApiValidationException("RemoveKeyboard parameter can't be null", this);
-        }
     }
 }
