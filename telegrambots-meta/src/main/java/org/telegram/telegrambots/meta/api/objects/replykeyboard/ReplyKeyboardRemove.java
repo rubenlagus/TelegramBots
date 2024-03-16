@@ -11,7 +11,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
  * @author Ruben Bermudez
@@ -34,9 +33,13 @@ public class ReplyKeyboardRemove implements ReplyKeyboard {
     private static final String REMOVEKEYBOARD_FIELD = "remove_keyboard";
     private static final String SELECTIVE_FIELD = "selective";
 
+    /**
+     * Requests clients to remove the custom keyboard
+     */
     @JsonProperty(REMOVEKEYBOARD_FIELD)
     @NonNull
-    private Boolean removeKeyboard; ///< Requests clients to remove the custom keyboard
+    @Builder.Default
+    private Boolean removeKeyboard = true;
     /**
      * Optional. Use this parameter if you want to show the keyboard to specific users only.
      * Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's
@@ -44,8 +47,4 @@ public class ReplyKeyboardRemove implements ReplyKeyboard {
      */
     @JsonProperty(SELECTIVE_FIELD)
     private Boolean selective;
-
-    @Override
-    public void validate() throws TelegramApiValidationException {
-    }
 }

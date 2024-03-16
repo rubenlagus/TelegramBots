@@ -77,7 +77,7 @@ public class BotSession implements AutoCloseable {
 
     public void start() throws TelegramApiException {
         if (runningPolling == null) {
-            runningPolling = createPollerTask();
+                runningPolling = createPollerTask();
         }
     }
 
@@ -102,16 +102,20 @@ public class BotSession implements AutoCloseable {
         executeDeleteWebhook();
         return executor.scheduleAtFixedRate(() -> {
             try {
+                log.debug("Getting updates");
                 List<Update> updates = getUpdatesFromTelegram();
+                log.debug("Received {} updates.", updates.size());
                 // Reset backup with every successful request
                 backOff.reset();
                 // Handle updates
                 if (!updates.isEmpty()) {
                     updates.removeIf(x -> x.getUpdateId() <= lastReceivedUpdate.get());
+                    log.debug("{} updates left after filter by last received {}", updates.size(), lastReceivedUpdate.get());
                     lastReceivedUpdate.set(updates.parallelStream()
                             .mapToInt(Update::getUpdateId)
                             .max()
                             .orElse( lastReceivedUpdate.get()));
+                    log.debug("New value for last received: {}", lastReceivedUpdate.get());
                     updatesConsumer.consume(updates);
                 }
             } catch (TelegramApiErrorResponseException e) {
@@ -143,6 +147,8 @@ public class BotSession implements AutoCloseable {
                             // Reset backup with every successful request
                             backOff.reset();
                             return updates;
+                        } else {
+                            log.info("Received empty body when calling getUpdates");
                         }
                     }
                 } else {
@@ -165,9 +171,12 @@ public class BotSession implements AutoCloseable {
                     try (ResponseBody body = response.body()) {
                         if (body != null) {
                             Boolean result = deleteWebhook.deserializeResponse(body.string());
+                            log.info("Result when calling deleteWebhook: {}", result);
                             if (!ofNullable(result).orElse(false)) {
                                 throw new TelegramApiErrorResponseException("Unable to delete Webhook");
                             }
+                        } else {
+                            log.info("Received empty result when calling deleteWebhook");
                         }
                     }
                 } else {
