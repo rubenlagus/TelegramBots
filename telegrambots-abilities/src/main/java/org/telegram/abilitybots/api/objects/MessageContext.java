@@ -22,6 +22,9 @@ public class MessageContext {
   private final Update update;
   private final BaseAbilityBot bot;
 
+  // Refactored code-Added thirdArg as explaining variable to remove magic number 2
+  int thirdArg = 2;
+
   private MessageContext(Update update, User user, Long chatId, BaseAbilityBot bot, String[] arguments) {
     this.user = user;
     this.chatId = chatId;
@@ -88,7 +91,9 @@ public class MessageContext {
    */
   public String thirdArg() {
     checkLength();
-    return arguments[2 % arguments.length];
+
+    // Replaced magic number 2 with thirdArg
+    return arguments[thirdArg % arguments.length];
   }
 
   /**
