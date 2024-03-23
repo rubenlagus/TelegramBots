@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
  * @author Roman Bondar
  */
 
-public class PartialBotApiMethodTest {
+public class PartialBotApiMethodJsonTest {
 
     @Test
     public void deserializeUpdateWithWriteAccessAllowedNotThrowApiException() throws IOException {

@@ -22,6 +22,9 @@ public abstract class PartialBotApiMethod<T extends Serializable> implements Val
     @JsonIgnore
     protected static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
+    // Refactored code - Pulled up METHOD_FIELD variable from BotApiMethod
+    protected static final String METHOD_FIELD = "method";
+
     /**
      * Deserialize a json answer to the response type to a method
      * @param answer Json answer received
@@ -62,6 +65,7 @@ public abstract class PartialBotApiMethod<T extends Serializable> implements Val
      * Getter for method path (that is the same as method name)
      * @return Method path
      */
-    @JsonProperty(BotApiMethod.METHOD_FIELD)
+    // Refactored Code
+    @JsonProperty(METHOD_FIELD)
     public abstract String getMethod();
 }
