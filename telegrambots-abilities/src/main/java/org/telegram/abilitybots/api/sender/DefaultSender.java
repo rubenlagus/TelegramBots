@@ -27,6 +27,10 @@ public class DefaultSender implements MessageSender {
 
   private DefaultAbsSender bot;
 
+  /*
+  *  Refactored code - Insufficient Modularization design smell refactored by moving the methods related to send functionality
+  * and extracting class DefaultSender1.
+   */
   public DefaultSender(DefaultAbsSender bot) {
     this.bot = bot;
   }
@@ -105,35 +109,5 @@ public class DefaultSender implements MessageSender {
   @Override
   public Message sendDocument(SendDocument sendDocument) throws TelegramApiException {
     return bot.execute(sendDocument);
-  }
-
-  @Override
-  public Message sendPhoto(SendPhoto sendPhoto) throws TelegramApiException {
-    return bot.execute(sendPhoto);
-  }
-
-  @Override
-  public Message sendVideo(SendVideo sendVideo) throws TelegramApiException {
-    return bot.execute(sendVideo);
-  }
-
-  @Override
-  public Message sendSticker(SendSticker sendSticker) throws TelegramApiException {
-    return bot.execute(sendSticker);
-  }
-
-  @Override
-  public Message sendAudio(SendAudio sendAudio) throws TelegramApiException {
-    return bot.execute(sendAudio);
-  }
-
-  @Override
-  public Message sendVoice(SendVoice sendVoice) throws TelegramApiException {
-    return bot.execute(sendVoice);
-  }
-
-  @Override
-  public Message sendVideoNote(SendVideoNote sendVideoNote) {
-    return null;
   }
 }
