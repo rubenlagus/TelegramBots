@@ -44,9 +44,10 @@ This library use [Telegram bot API](https://core.telegram.org/bots), you can fin
 ## Questions or Suggestions
 Feel free to create issues [here](https://github.com/rubenlagus/TelegramBots/issues) as you need or join the [chat](https://telegram.me/JavaBotsApi)
 
-## Powered by Intellij
+## Powered by Intellij and DigitalOcean
 <p align="center">
    <a href="https://www.jetbrains.com/?from=TelegramBots"><img src="jetbrains.png" width="75"></a>
+   <a href="https://www.digitalocean.com/?refcode=42a4fa8c6d00&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge"><img src="https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg" alt="DigitalOcean Referral Badge" /></a>
 </p>
 
 
