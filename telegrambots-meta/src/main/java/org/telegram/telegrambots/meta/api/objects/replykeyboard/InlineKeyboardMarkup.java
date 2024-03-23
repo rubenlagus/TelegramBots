@@ -11,7 +11,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.util.List;
@@ -34,20 +34,18 @@ public class InlineKeyboardMarkup implements ReplyKeyboard {
 
     private static final String KEYBOARD_FIELD = "inline_keyboard";
 
+    /**
+     * Array of button rows, each represented by an Array of Strings
+     */
     @JsonProperty(KEYBOARD_FIELD)
     @NonNull
     @Singular(value = "keyboardRow")
-    private List<List<InlineKeyboardButton>> keyboard; ///< Array of button rows, each represented by an Array of Strings
+    private List<InlineKeyboardRow> keyboard;
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (keyboard == null) {
-            throw new TelegramApiValidationException("Keyboard parameter can't be null", this);
-        }
-        for (List<InlineKeyboardButton> inlineKeyboardButtons : keyboard) {
-            for (InlineKeyboardButton inlineKeyboardButton : inlineKeyboardButtons) {
-                inlineKeyboardButton.validate();
-            }
+        for (InlineKeyboardRow inlineKeyboardButtons : keyboard) {
+            inlineKeyboardButtons.validate();
         }
     }
 }

@@ -3,6 +3,10 @@ package org.telegram.telegrambots.meta.api.objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -11,8 +15,12 @@ import java.io.Serializable;
  * @version 1.0
  * Response from Telegram Server
  */
+@Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ApiResponse<T> implements Serializable {
     private static final String OK_FIELD = "ok";
     private static final String ERROR_CODE_FIELD = "error_code";
@@ -30,26 +38,6 @@ public class ApiResponse<T> implements Serializable {
     private ResponseParameters parameters;
     @JsonProperty(RESULT_FIELD)
     private T result;
-
-    public Boolean getOk() {
-        return ok;
-    }
-
-    public Integer getErrorCode() {
-        return errorCode;
-    }
-
-    public String getErrorDescription() {
-        return errorDescription;
-    }
-
-    public T getResult() {
-        return result;
-    }
-
-    public ResponseParameters getParameters() {
-        return parameters;
-    }
 
     @Override
     public String toString() {

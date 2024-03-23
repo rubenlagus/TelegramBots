@@ -1,11 +1,13 @@
 package org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons;
 
+import org.apache.commons.lang3.stream.Streams;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Ruben Bermudez
@@ -22,6 +24,14 @@ public class KeyboardRow extends ArrayList<KeyboardButton> implements Validable 
 
     public KeyboardRow(Collection<? extends KeyboardButton> c) {
         super(c);
+    }
+
+    public KeyboardRow(KeyboardButton... buttons) {
+        super(List.of(buttons));
+    }
+
+    public KeyboardRow(String... buttonTexts) {
+        super(Streams.of(buttonTexts).map(KeyboardButton::new).collect(Collectors.toList()));
     }
 
     public boolean add(String text) {

@@ -139,12 +139,4 @@ public class ChatMemberRestricted implements ChatMember {
      */
     @JsonProperty(UNTILDATE_FIELD)
     private Integer untilDate;
-
-    /**
-     * True, if the user is allowed to send audios, documents, photos, videos, video notes and voice notes
-     * @deprecated Use individual permissions instead
-     */
-    @JsonProperty(CANSENDMEDIAMESSAGES_FIELD)
-    @Deprecated
-    private Boolean canSendMediaMessages;
 }

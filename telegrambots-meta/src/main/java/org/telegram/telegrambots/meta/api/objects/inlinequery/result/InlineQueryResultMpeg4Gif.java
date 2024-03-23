@@ -1,8 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.result;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
-import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -106,34 +103,6 @@ public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
         }
         if (replyMarkup != null) {
             replyMarkup.validate();
-        }
-    }
-
-    /**
-     * @deprecated Use {{@link #getThumbnailUrl()}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public String getThumbUrl() {
-        return thumbnailUrl;
-    }
-
-    /**
-     * @deprecated Use {{@link #setThumbnailUrl(String)}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public void setThumbUrl(String thumbUrl) {
-        this.thumbnailUrl = thumbUrl;
-    }
-
-    public static class InlineQueryResultMpeg4GifBuilder {
-
-        @Tolerate
-        @Deprecated
-        public InlineQueryResultMpeg4GifBuilder thumbUrl(String thumbUrl) {
-            this.thumbnailUrl = thumbUrl;
-            return this;
         }
     }
 }

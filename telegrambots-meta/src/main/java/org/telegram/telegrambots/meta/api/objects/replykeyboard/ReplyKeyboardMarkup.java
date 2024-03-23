@@ -72,10 +72,7 @@ public class ReplyKeyboardMarkup implements ReplyKeyboard {
     private Boolean isPersistent;
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (keyboard == null) {
-            throw new TelegramApiValidationException("Keyboard parameter can't be null", this);
-        }
-        if (inputFieldPlaceholder != null && (inputFieldPlaceholder.length() < 1 || inputFieldPlaceholder.length() > 64)) {
+        if (inputFieldPlaceholder != null && (inputFieldPlaceholder.isEmpty() || inputFieldPlaceholder.length() > 64)) {
             throw new TelegramApiValidationException("InputFieldPlaceholder must be between 1 and 64 characters", this);
         }
         for (KeyboardRow keyboardButtons : keyboard) {

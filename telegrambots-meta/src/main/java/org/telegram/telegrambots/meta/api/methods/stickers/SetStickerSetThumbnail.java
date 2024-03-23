@@ -24,7 +24,7 @@ public class SetStickerSetThumbnail extends BotApiMethodBoolean {
     public static final String PATH = "setStickerSetThumbnail";
 
     public static final String NAME_FIELD = "name";
-    public static final String USERID_FIELD = "user_id";
+    public static final String USER_ID_FIELD = "user_id";
     public static final String THUMBNAIL_FIELD = "thumbnail";
 
     /**

@@ -27,7 +27,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Builder
 public class ReactionTypeCustomEmoji implements ReactionType {
     private static final String TYPE_FIELD = "type";
-    private static final String CUSTOM_EMOJI_FIELD = "custom_emoji";
+    private static final String CUSTOM_EMOJI_ID_FIELD = "custom_emoji_id";
 
     /**
      * Type of the reaction, always “custom_emoji”
@@ -39,14 +39,14 @@ public class ReactionTypeCustomEmoji implements ReactionType {
     /**
      * Custom emoji identifier
      */
-    @JsonProperty(CUSTOM_EMOJI_FIELD)
+    @JsonProperty(CUSTOM_EMOJI_ID_FIELD)
     @NonNull
-    private String customEmoji;
+    private String customEmojiId;
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (customEmoji.isEmpty()) {
-            throw new TelegramApiValidationException("CustomEmoji parameter can't be empty", this);
+        if (customEmojiId.isEmpty()) {
+            throw new TelegramApiValidationException("CustomEmojiId parameter can't be empty", this);
         }
         if (!ReactionType.CUSTOM_EMOJI_TYPE.equals(type)) {
             throw new TelegramApiValidationException("Type must be \"custom_emoji\"", this);
