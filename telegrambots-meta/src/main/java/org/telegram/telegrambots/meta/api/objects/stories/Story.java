@@ -23,14 +23,18 @@ import org.telegram.telegrambots.meta.api.objects.Chat;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Story implements BotApiObject {
-    private static final String CHAT_FIELD = "chat";
+    /*
+    * Refactored code - Using CHAT_ID_FIELD instead of CHAT_FIELD to change bidirectional association to unidirectional association
+     */
+
+    private static final String CHAT_ID_FIELD = "chat_id";
     private static final String ID_FIELD = "id";
 
     /**
      * Chat that posted the story
      */
-    @JsonProperty(CHAT_FIELD)
-    private Chat chat;
+    @JsonProperty(CHAT_ID_FIELD)
+    private Long chatId;
     /**
      * Unique identifier for the story in the chat
      */
