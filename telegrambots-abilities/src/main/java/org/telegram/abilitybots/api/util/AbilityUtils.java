@@ -302,7 +302,9 @@ public final class AbilityUtils {
    * @param commandName the command name to be checked for validity
    * @return whether the command name is valid
    */
-  public static boolean isValidCommandName(String commandName){
+
+  // Refactored code by renaming isValueCommandName to isValCmdName method
+  public static boolean isValCmdName(String commandName){
     if (commandName == null || commandName.length() > 31) return false;
     return commandName.matches("[A-Za-z_0-9]+");
   }

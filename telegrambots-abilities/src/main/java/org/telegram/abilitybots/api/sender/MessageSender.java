@@ -54,15 +54,4 @@ public interface MessageSender {
 
   Message sendDocument(SendDocument sendDocument) throws TelegramApiException;
 
-  Message sendPhoto(SendPhoto sendPhoto) throws TelegramApiException;
-
-  Message sendVideo(SendVideo sendVideo) throws TelegramApiException;
-
-  Message sendAudio(SendAudio sendAudio) throws TelegramApiException;
-
-  Message sendVoice(SendVoice sendVoice) throws TelegramApiException;
-
-  Message sendVideoNote(SendVideoNote sendVideoNote) throws TelegramApiException;
-
-  Message sendSticker(SendSticker sendSticker) throws TelegramApiException;
 }

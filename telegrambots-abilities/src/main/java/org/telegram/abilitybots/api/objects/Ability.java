@@ -19,7 +19,7 @@ import static com.google.common.collect.Lists.newArrayList;
 import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Optional.ofNullable;
-import static org.telegram.abilitybots.api.util.AbilityUtils.isValidCommandName;
+import static org.telegram.abilitybots.api.util.AbilityUtils.isValCmdName;
 
 /**
  * An ability is a fully-fledged bot action that contains all the necessary information to process:
@@ -50,10 +50,18 @@ public final class Ability {
   private final List<Reply> replies;
   private final List<Predicate<Update>> flags;
 
+
   @SafeVarargs
   private Ability(String name, String info, Locality locality, Privacy privacy, int argNum, boolean statsEnabled, Consumer<MessageContext> action, Consumer<MessageContext> postAction, List<Reply> replies, Predicate<Update>... flags) {
-    checkArgument(isValidCommandName(name), "Method name can only contain alpha-numeric characters and underscores," +
-            " cannot be longer than 31 characters, empty or null", name);
+    // Refactored checkArgument to remove long statement code smell by renaming method name and introducing explaining variables.
+    // Explaining variables - INVALID_METHOD_NAME_ERROR and METHOD_NAME_CONSTRAINT
+    final String INVALID_METHOD_NAME_ERROR = "Method name can only contain alpha-numeric characters and underscores, " ;
+    final String METHOD_NAME_CONSTRAINT = "cannot be longer than 31 characters, and cannot be null";
+
+    // isValueCommandName renamed to isValCmdName
+    checkArgument(isValCmdName(name), INVALID_METHOD_NAME_ERROR+METHOD_NAME_CONSTRAINT, name);
+
+
     this.name = name;
     this.info = info;
 
