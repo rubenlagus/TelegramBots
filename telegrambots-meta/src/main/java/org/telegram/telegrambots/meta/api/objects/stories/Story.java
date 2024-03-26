@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
-import org.telegram.telegrambots.meta.api.objects.Chat;
+
 
 /**
  * @author Ruben Bermudez
@@ -34,7 +34,7 @@ public class Story implements BotApiObject {
      * Chat that posted the story
      */
     @JsonProperty(CHAT_ID_FIELD)
-    private Long chatId;
+    private String chatId;
     /**
      * Unique identifier for the story in the chat
      */
