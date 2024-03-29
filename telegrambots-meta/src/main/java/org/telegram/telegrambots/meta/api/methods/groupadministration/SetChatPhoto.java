@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -37,8 +38,10 @@ public class SetChatPhoto extends PartialBotApiMethod<Boolean> {
     public static final String PHOTO_FIELD = "photo";
 
     @NonNull
+    @JsonProperty(CHATID_FIELD)
     private String chatId; ///< Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     @NonNull
+    @JsonProperty(PHOTO_FIELD)
     private InputFile photo; ///< New chat photo as InputStream, uploaded using multipart/form-data
 
     @Tolerate

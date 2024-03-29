@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -60,21 +61,32 @@ public class SendAudio extends SendMediaBotMethod<Message> {
     public static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
 
     @NonNull
+    @JsonProperty(CHATID_FIELD)
     private String chatId; ///< Unique identifier for the chat to send the message to (or Username fro channels)
     /**
      * Unique identifier for the target message thread (topic) of the forum;
      * for forum supergroups only
      */
+    @JsonProperty(MESSAGETHREADID_FIELD)
     private Integer messageThreadId;
     @NonNull
+    @JsonProperty(AUDIO_FIELD)
     private InputFile audio; ///< Audio file to send. file_id as String to resend an audio that is already on the Telegram servers or Url to upload it
+    @JsonProperty(REPLYTOMESSAGEID_FIELD)
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
+    @JsonProperty(DISABLENOTIFICATION_FIELD)
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
+    @JsonProperty(REPLYMARKUP_FIELD)
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    @JsonProperty(PERFOMER_FIELD)
     private String performer; ///< Optional. Performer of sent audio
+    @JsonProperty(TITLE_FIELD)
     private String title; ///< Optional. Title of sent audio
+    @JsonProperty(CAPTION_FIELD)
     private String caption; ///< Optional. Audio caption (may also be used when resending documents by file_id), 0-200 characters
+    @JsonProperty(PARSEMODE_FIELD)
     private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+    @JsonProperty(DURATION_FIELD)
     private Integer duration; ///< Integer	Duration of the audio in seconds as defined by sender
     /**
      * Optional.
@@ -84,15 +96,20 @@ public class SendAudio extends SendMediaBotMethod<Message> {
      * Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass
      * “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
      */
+    @JsonProperty(THUMBNAIL_FIELD)
     private InputFile thumbnail;
     @Singular
+    @JsonProperty(CAPTION_ENTITIES_FIELD)
     private List<MessageEntity> captionEntities; ///< Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
+    @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
+    @JsonProperty(PROTECTCONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
     /**
      * Optional
      * Description of the message to reply to
      */
+    @JsonProperty(REPLY_PARAMETERS_FIELD)
     private ReplyParameters replyParameters;
 
     @Tolerate

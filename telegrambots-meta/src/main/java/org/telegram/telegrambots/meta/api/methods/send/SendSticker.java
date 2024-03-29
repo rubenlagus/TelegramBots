@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -45,12 +46,14 @@ public class SendSticker extends SendMediaBotMethod<Message> {
     public static final String EMOJI_FIELD = "emoji";
     public static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
 
+    @JsonProperty(CHATID_FIELD)
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     /**
      * Unique identifier for the target message thread (topic) of the forum;
      * for forum supergroups only
      */
+    @JsonProperty(MESSAGETHREADID_FIELD)
     private Integer messageThreadId;
     /**
      * Sticker to send.
@@ -60,17 +63,24 @@ public class SendSticker extends SendMediaBotMethod<Message> {
      * Video stickers can only be sent by a file_id.
      * Animated stickers can't be sent via an HTTP URL.
      */
+    @JsonProperty(STICKER_FIELD)
     @NonNull
     private InputFile sticker; ///< Sticker file to send. file_id as String to resend a sticker that is already on the Telegram servers or URL to upload it
+    @JsonProperty(DISABLENOTIFICATION_FIELD)
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
+    @JsonProperty(REPLYTOMESSAGEID_FIELD)
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
+    @JsonProperty(REPLYMARKUP_FIELD)
     private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
+    @JsonProperty(PROTECTCONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
     /**
      * Optional
      * Emoji associated with the sticker; only for uploaded stickers
      */
+    @JsonProperty(EMOJI_FIELD)
     private String emoji;
     /**
      * Optional

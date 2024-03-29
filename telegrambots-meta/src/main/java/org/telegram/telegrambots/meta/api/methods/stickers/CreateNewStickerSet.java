@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.stickers;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -66,6 +67,7 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
      * User identifier of created sticker set owner
      */
     @NonNull
+    @JsonProperty(USERID_FIELD)
     private Long userId;
     /**
      * Short name of sticker set, to be used in t.me/addstickers/ URLs (e.g., animals).
@@ -74,22 +76,26 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
      * "_by_<bot_username>". <bot_username> is case-insensitive. 1-64 characters.
      */
     @NonNull
+    @JsonProperty(NAME_FIELD)
     private String name;
     /**
      * Sticker set title, 1-64 characters
      */
     @NonNull
+    @JsonProperty(TITLE_FIELD)
     private String title;
     /**
      * A JSON-serialized list of 1-50 initial stickers to be added to the sticker set
      */
     @NonNull
     @Singular
+    @JsonProperty(STICKERS_FIELD)
     private List<InputSticker> stickers;
     /**
      * Format of stickers in the set, must be one of “static”, “animated”, “video”
      */
     @NonNull
+    @JsonProperty(STICKER_FORMAT_FIELD)
     private String stickerFormat;
     /**
      * Optional
@@ -97,6 +103,7 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
      * the accent color if used as emoji status, white on chat photos, or another appropriate color based on context;
      * for custom emoji sticker sets only
      */
+    @JsonProperty(NEEDS_REPAINTING_FIELD)
     private Boolean needsRepainting;
     /**
      * Optional
@@ -104,6 +111,7 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
      * By default, a regular sticker set is created.
      */
     @Builder.Default
+    @JsonProperty(STICKERTYPE_FIELD)
     private String stickerType = "regular";
 
 
@@ -115,8 +123,10 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
      */
     @NonNull
     @Deprecated
+    @JsonProperty(EMOJIS_FIELD)
     private String emojis; ///< One or more emoji corresponding to the sticker
     @Deprecated
+    @JsonProperty(MASKPOSITION_FIELD)
     private MaskPosition maskPosition; ///< Optional. Position where the mask should be placed on faces
     /**
      * Optional.
@@ -127,6 +137,7 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
      * using multipart/form-data. More info on Sending Files »
      */
     @Deprecated
+    @JsonProperty(PNGSTICKER_FIELD)
     private InputFile pngSticker;
 
     /**
@@ -135,6 +146,7 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
      * See https://core.telegram.org/animated_stickers#technical-requirements for technical requirements
      */
     @Deprecated
+    @JsonProperty(TGSSTICKER_FIELD)
     private InputFile tgsSticker;
 
     /**
@@ -143,6 +155,7 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
      * See https://core.telegram.org/stickers#video-stickers for technical requirements
      */
     @Deprecated
+    @JsonProperty(WEBMSTICKER_FIELD)
     private InputFile webmSticker;
 
     /**
