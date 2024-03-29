@@ -16,9 +16,6 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public  class BotApiMethod<T extends Serializable> extends PartialBotApiMethod<T> {
 
-    /*
-    * Refactored code to remove unnecessary abstraction by moving METHOD_FIELD to PartialBotApiMethod class.
-     */
     @Override
     public T deserializeResponse(String answer) throws TelegramApiRequestException {
         return null;

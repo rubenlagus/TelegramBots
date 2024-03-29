@@ -11,7 +11,6 @@ public class TimedSendLongPollingBotTest
     @Test
     public void testMessageProcessing()
     {
-        // Arrange
         TimedSendLongPollingBot testbot = new TimedSendLongPollingBot()
         {
             @Override
@@ -31,11 +30,9 @@ public class TimedSendLongPollingBotTest
             }
         };
 
-        // Act
-        Long chatId = 002L;
+        Long chatId = 2L;
         Object messageRequest = mock(Object.class);
 
-        // Assert
         testbot.sendTimed(chatId,messageRequest);
         testbot.finish();
     }
