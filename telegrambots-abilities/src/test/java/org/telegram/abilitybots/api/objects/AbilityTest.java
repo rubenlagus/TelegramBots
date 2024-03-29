@@ -10,11 +10,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.telegram.abilitybots.api.bot.DefaultBot.getDefaultBuilder;
 
 class AbilityTest {
-  // Refactored magic number -4 using extract method technique
-  final int inputNegativeNumber = -4;
   @Test
   void argumentsCannotBeNegative() {
-    Assertions.assertThrows(IllegalArgumentException.class, () -> getDefaultBuilder().input(inputNegativeNumber).build());
+    Assertions.assertThrows(IllegalArgumentException.class, () -> getDefaultBuilder().input(-4).build());
   }
 
   @Test
@@ -72,4 +70,3 @@ class AbilityTest {
     assertFalse(statsDisabledAbility.statsEnabled());
   }
 }
-
