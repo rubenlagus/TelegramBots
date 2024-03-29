@@ -133,48 +133,16 @@ public class CreateInvoiceLink extends BotApiMethod<String> {
         return PATH;
     }
 
-    // Old code - validate() method was containing complex method and complex conditional code smells
-
-//    @Override
-//    public void validate() throws TelegramApiValidationException {
-//        if (StringUtils.isEmpty(title) || title.length() > 32) {
-//            throw new TelegramApiValidationException("Title parameter can't be empty or longer than 32 chars", this);
-//        }
-//        if (StringUtils.isEmpty(description) || description.length() > 255) {
-//            throw new TelegramApiValidationException("Description parameter can't be empty or longer than 255 chars", this);
-//        }
-//        if (StringUtils.isEmpty(payload)) {
-//            throw new TelegramApiValidationException("Payload parameter can't be empty", this);
-//        }
-//        if (StringUtils.isEmpty(providerToken)) {
-//            throw new TelegramApiValidationException("ProviderToken parameter can't be empty", this);
-//        }
-//        if (StringUtils.isEmpty(currency)) {
-//            throw new TelegramApiValidationException("Currency parameter can't be empty", this);
-//        }
-//        if (prices.isEmpty()) {
-//            throw new TelegramApiValidationException("Prices parameter can't be empty", this);
-//        } else {
-//            for (LabeledPrice price : prices) {
-//                price.validate();
-//            }
-//        }
-//        if (suggestedTipAmounts != null && !suggestedTipAmounts.isEmpty() && suggestedTipAmounts.size() > 4) {
-//            throw new TelegramApiValidationException("No more that 4 suggested tips allowed", this);
-//        }
-//    }
-
-    // Refactored validate method using decompose conditional refactoring technique
-@Override
-public void validate() throws TelegramApiValidationException {
-    validateTitle();
-    validateDescription();
-    validatePayload();
-    validateProviderToken();
-    validateCurrency();
-    validatePrices();
-    validateSuggestedTipAmounts();
-}
+    @Override
+    public void validate() throws TelegramApiValidationException {
+        validateTitle();
+        validateDescription();
+        validatePayload();
+        validateProviderToken();
+        validateCurrency();
+        validatePrices();
+        validateSuggestedTipAmounts();
+    }
 
     private void validateTitle() throws TelegramApiValidationException {
         if (StringUtils.isEmpty(title) || title.length() > 32) {
