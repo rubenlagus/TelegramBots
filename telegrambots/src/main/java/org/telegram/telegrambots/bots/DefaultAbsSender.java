@@ -1224,7 +1224,18 @@ public abstract class DefaultAbsSender extends AbsSender {
         return httppost;
     }
 
-    private void addInputData(MultipartEntityBuilder builder, InputMedia media, String mediaField, boolean addField) throws JsonProcessingException {
+private void addInputData(MultipartEntityBuilder builder, InputMedia media, String mediaField, boolean addField) throws JsonProcessingException {
+    addNewMedia(builder, media);
+    addThumbnail(builder, media);
+    addDocument(builder,media);
+    addVideo(builder,media);
+    addAnimation(builder,media);
+    if (addField) {
+        builder.addTextBody(mediaField, objectMapper.writeValueAsString(media), TEXT_PLAIN_CONTENT_TYPE);
+    }
+}
+
+    private void addNewMedia(MultipartEntityBuilder builder, InputMedia media) {
         if (media.isNewMedia()) {
             if (media.getNewMediaFile() != null) {
                 builder.addBinaryBody(media.getMediaName(), media.getNewMediaFile(), ContentType.APPLICATION_OCTET_STREAM, media.getMediaName());
@@ -1232,31 +1243,41 @@ public abstract class DefaultAbsSender extends AbsSender {
                 builder.addBinaryBody(media.getMediaName(), media.getNewMediaStream(), ContentType.APPLICATION_OCTET_STREAM, media.getMediaName());
             }
         }
+    }
 
+    private void addThumbnail(MultipartEntityBuilder builder, InputMedia media) {
         if (media instanceof InputMediaAudio) {
             InputMediaAudio audio = (InputMediaAudio) media;
             if (audio.getThumbnail() != null) {
                 addInputFile(builder, audio.getThumbnail(), InputMediaAudio.THUMBNAIL_FIELD, false);
             }
-        } else if (media instanceof InputMediaDocument) {
+        }
+    }
+
+    private void addDocument(MultipartEntityBuilder builder, InputMedia media) {
+        if (media instanceof InputMediaDocument) {
             InputMediaDocument document = (InputMediaDocument) media;
             if (document.getThumbnail() != null) {
                 addInputFile(builder, document.getThumbnail(), InputMediaDocument.THUMBNAIL_FIELD, false);
             }
-        } else if (media instanceof InputMediaVideo) {
+        }
+    }
+
+    private void addVideo(MultipartEntityBuilder builder, InputMedia media) {
+        if (media instanceof InputMediaVideo) {
             InputMediaVideo video = (InputMediaVideo) media;
             if (video.getThumbnail() != null) {
                 addInputFile(builder, video.getThumbnail(), InputMediaVideo.THUMBNAIL_FIELD, false);
             }
-        } else if (media instanceof InputMediaAnimation) {
+        }
+    }
+
+    private void addAnimation(MultipartEntityBuilder builder, InputMedia media) {
+        if (media instanceof InputMediaAnimation) {
             InputMediaAnimation animation = (InputMediaAnimation) media;
             if (animation.getThumbnail() != null) {
                 addInputFile(builder, animation.getThumbnail(), InputMediaAnimation.THUMBNAIL_FIELD, false);
             }
-        }
-
-        if (addField) {
-            builder.addTextBody(mediaField, objectMapper.writeValueAsString(media), TEXT_PLAIN_CONTENT_TYPE);
         }
     }
 
