@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
-
+import org.telegram.telegrambots.meta.api.objects.Chat;
 
 /**
  * @author Ruben Bermudez
@@ -23,18 +23,14 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Story implements BotApiObject {
-    /*
-    * Refactored code - Using CHAT_ID_FIELD instead of CHAT_FIELD to change bidirectional association to unidirectional association
-     */
-
-    private static final String CHAT_ID_FIELD = "chat_id";
+    private static final String CHAT_FIELD = "chat";
     private static final String ID_FIELD = "id";
 
     /**
      * Chat that posted the story
      */
-    @JsonProperty(CHAT_ID_FIELD)
-    private String chatId;
+    @JsonProperty(CHAT_FIELD)
+    private Chat chat;
     /**
      * Unique identifier for the story in the chat
      */

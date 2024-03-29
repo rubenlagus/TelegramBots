@@ -30,8 +30,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Chat implements BotApiObject {
 
-    // Variable name changed from CHAT_FIELD to CHAT_ID_FIELD for refactoring
-    private static final String CHAT_ID_FIELD = "id";
+    private static final String ID_FIELD = "id";
     private static final String TYPE_FIELD = "type";
     private static final String TITLE_FIELD = "title";
     private static final String USERNAME_FIELD = "username";
@@ -81,7 +80,7 @@ public class Chat implements BotApiObject {
      * have difficulty/silent defects in interpreting it. But it smaller than 52 bits,
      * so a signed 64 bit integer or double-precision float type are safe for storing this identifier.
      */
-    @JsonProperty(CHAT_ID_FIELD)
+    @JsonProperty(ID_FIELD)
     @NonNull
     private Long id;
     /**
