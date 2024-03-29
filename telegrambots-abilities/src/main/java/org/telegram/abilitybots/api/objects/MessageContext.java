@@ -22,9 +22,6 @@ public class MessageContext {
   private final Update update;
   private final BaseAbilityBot bot;
 
-  // Refactored code-Added thirdArg as explaining variable to remove magic number 2
-  int thirdArg = 2;
-
   private MessageContext(Update update, User user, Long chatId, BaseAbilityBot bot, String[] arguments) {
     this.user = user;
     this.chatId = chatId;
@@ -91,9 +88,7 @@ public class MessageContext {
    */
   public String thirdArg() {
     checkLength();
-
-    // Replaced magic number 2 with thirdArg
-    return arguments[thirdArg % arguments.length];
+    return arguments[2 % arguments.length];
   }
 
   /**
@@ -111,11 +106,11 @@ public class MessageContext {
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
-        .add("user", user)
-        .add("chatId", chatId)
-        .add("arguments", arguments)
-        .add("update", update)
-        .toString();
+            .add("user", user)
+            .add("chatId", chatId)
+            .add("arguments", arguments)
+            .add("update", update)
+            .toString();
   }
 
   @Override
@@ -127,9 +122,9 @@ public class MessageContext {
 
     MessageContext that = (MessageContext) o;
     return Objects.equal(user, that.user) &&
-        Objects.equal(chatId, that.chatId) &&
-        Arrays.equals(arguments, that.arguments) &&
-        Objects.equal(update, that.update);
+            Objects.equal(chatId, that.chatId) &&
+            Arrays.equals(arguments, that.arguments) &&
+            Objects.equal(update, that.update);
   }
 
   @Override
