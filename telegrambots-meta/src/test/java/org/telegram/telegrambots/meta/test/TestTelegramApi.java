@@ -81,7 +81,6 @@ class TestTelegramApi {
             }, new SetWebhook());
             fail();
         } catch (TelegramApiException e) {
-            // Introducing logger as explaining variable to resolve empty catch clause code smell
             logger.error("Exception occurred while registering bot: {}", e.getMessage());
 
         }
