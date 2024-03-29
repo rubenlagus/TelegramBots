@@ -14,12 +14,16 @@ import org.telegram.telegrambots.meta.generics.WebhookBot;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.mock;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Ruben Bermudez
  * @version 1.0
  */
 class TestTelegramApi {
 
+    private static final Logger logger = LoggerFactory.getLogger(TestTelegramApi.class);
     private Webhook webhook;
 
     @BeforeEach
@@ -77,7 +81,8 @@ class TestTelegramApi {
             }, new SetWebhook());
             fail();
         } catch (TelegramApiException e) {
-            // Ignore
+            logger.error("Exception occurred while registering bot: {}", e.getMessage());
+
         }
     }
 }

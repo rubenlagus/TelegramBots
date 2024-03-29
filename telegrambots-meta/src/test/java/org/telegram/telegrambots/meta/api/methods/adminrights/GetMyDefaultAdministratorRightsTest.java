@@ -52,12 +52,13 @@ public class GetMyDefaultAdministratorRightsTest {
                 "    }\n" +
                 "}";
 
-        GetMyDefaultAdministratorRights getMyDefaultAdministratorRights = GetMyDefaultAdministratorRights
+
+        GetMyDefaultAdministratorRights administratorRights = GetMyDefaultAdministratorRights
                 .builder()
                 .build();
 
         try {
-            ChatAdministratorRights result = getMyDefaultAdministratorRights.deserializeResponse(responseText);
+            ChatAdministratorRights result = administratorRights.deserializeResponse(responseText);
             assertNotNull(result);
             assertEquals(true, result.getIsAnonymous());
             assertEquals(true, result.getCanManageChat());

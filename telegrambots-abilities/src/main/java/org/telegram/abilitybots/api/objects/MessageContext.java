@@ -106,11 +106,11 @@ public class MessageContext {
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
-        .add("user", user)
-        .add("chatId", chatId)
-        .add("arguments", arguments)
-        .add("update", update)
-        .toString();
+            .add("user", user)
+            .add("chatId", chatId)
+            .add("arguments", arguments)
+            .add("update", update)
+            .toString();
   }
 
   @Override
@@ -122,9 +122,9 @@ public class MessageContext {
 
     MessageContext that = (MessageContext) o;
     return Objects.equal(user, that.user) &&
-        Objects.equal(chatId, that.chatId) &&
-        Arrays.equals(arguments, that.arguments) &&
-        Objects.equal(update, that.update);
+            Objects.equal(chatId, that.chatId) &&
+            Arrays.equals(arguments, that.arguments) &&
+            Objects.equal(update, that.update);
   }
 
   @Override

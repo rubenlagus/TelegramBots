@@ -70,4 +70,3 @@ class AbilityTest {
     assertFalse(statsDisabledAbility.statsEnabled());
   }
 }
-

@@ -50,10 +50,13 @@ public final class Ability {
   private final List<Reply> replies;
   private final List<Predicate<Update>> flags;
 
+
   @SafeVarargs
   private Ability(String name, String info, Locality locality, Privacy privacy, int argNum, boolean statsEnabled, Consumer<MessageContext> action, Consumer<MessageContext> postAction, List<Reply> replies, Predicate<Update>... flags) {
-    checkArgument(isValidCommandName(name), "Method name can only contain alpha-numeric characters and underscores," +
-            " cannot be longer than 31 characters, empty or null", name);
+    String ERROR_MESSAGE_PREFIX = "Method name can only contain alpha-numeric characters and underscores," ;
+    String ERROR_MESSAGE_SUFFIX = " cannot be longer than 31 characters, empty or null";
+    checkArgument(isValidCommandName(name), "%s%s", ERROR_MESSAGE_PREFIX, ERROR_MESSAGE_SUFFIX, name);
+
     this.name = name;
     this.info = info;
 

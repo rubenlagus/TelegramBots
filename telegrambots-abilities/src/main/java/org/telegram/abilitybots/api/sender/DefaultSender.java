@@ -3,9 +3,6 @@ package org.telegram.abilitybots.api.sender;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.*;
-import org.telegram.telegrambots.meta.api.methods.stickers.AddStickerToSet;
-import org.telegram.telegrambots.meta.api.methods.stickers.CreateNewStickerSet;
-import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
@@ -39,21 +36,6 @@ public class DefaultSender implements MessageSender {
   @Override
   public <T extends Serializable, Method extends BotApiMethod<T>> T execute(Method method) throws TelegramApiException {
     return bot.execute(method);
-  }
-
-  @Override
-  public Boolean addStickerToSet(AddStickerToSet addStickerToSet) throws TelegramApiException {
-    return bot.execute(addStickerToSet);
-  }
-
-  @Override
-  public Boolean createNewStickerSet(CreateNewStickerSet createNewStickerSet) throws TelegramApiException {
-    return bot.execute(createNewStickerSet);
-  }
-
-  @Override
-  public File uploadStickerFile(UploadStickerFile uploadStickerFile) throws TelegramApiException {
-    return bot.execute(uploadStickerFile);
   }
 
   @Override
