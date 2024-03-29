@@ -52,7 +52,7 @@ public class GetMyDefaultAdministratorRightsTest {
                 "    }\n" +
                 "}";
 
-        // Refactored long identifier code smell by renaming getMyDefaultAdministratorRights variable name to administratorRights
+
         GetMyDefaultAdministratorRights administratorRights = GetMyDefaultAdministratorRights
                 .builder()
                 .build();
