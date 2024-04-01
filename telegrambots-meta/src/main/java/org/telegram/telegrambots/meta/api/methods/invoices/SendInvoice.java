@@ -187,6 +187,7 @@ public class SendInvoice extends BotApiMethodMessage {
 
     @Override
     public void validate() throws TelegramApiValidationException {
+
         validateChatId();
         validateTitle();
         validateDescription();
