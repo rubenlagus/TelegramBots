@@ -114,8 +114,8 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
     @Deprecated
     public void setStickerFormat(String stickerFormat) throws TelegramApiException {
         String existingFormat = getStickerFormat();
-        if (existingFormat != null && !existingFormat.equals(stickerFormat)) {
-            this.stickers.forEach(x -> x.setFormat(existingFormat));
+        if (existingFormat == null || !existingFormat.equals(stickerFormat)) {
+            this.stickers.forEach(x -> x.setFormat(stickerFormat));
         }
     }
 
