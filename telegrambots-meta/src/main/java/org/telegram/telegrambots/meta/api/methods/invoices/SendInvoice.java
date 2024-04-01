@@ -187,41 +187,85 @@ public class SendInvoice extends BotApiMethodMessage {
 
     @Override
     public void validate() throws TelegramApiValidationException {
+        validateChatId();
+        validateTitle();
+        validateDescription();
+        validatePayload();
+        validateProviderToken();
+        validateCurrency();
+        validatePrices();
+        validateSuggestedTipAmounts();
+        validateReplyMarkup();
+        validateReplyParameters();
+    }
+
+    private void validateChatId() throws TelegramApiValidationException {
         if (StringUtils.isEmpty(chatId)) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
         }
+    }
+
+    private void validateTitle() throws TelegramApiValidationException {
         if (StringUtils.isEmpty(title) || title.length() > 32) {
             throw new TelegramApiValidationException("Title parameter can't be empty or longer than 32 chars", this);
         }
+    }
+
+    private void validateDescription() throws TelegramApiValidationException {
         if (StringUtils.isEmpty(description) || description.length() > 255) {
             throw new TelegramApiValidationException("Description parameter can't be empty or longer than 255 chars", this);
         }
+    }
+
+    private void validatePayload() throws TelegramApiValidationException {
         if (StringUtils.isEmpty(payload)) {
             throw new TelegramApiValidationException("Payload parameter can't be empty", this);
         }
+    }
+
+    private void validateProviderToken() throws TelegramApiValidationException {
         if (StringUtils.isEmpty(providerToken)) {
             throw new TelegramApiValidationException("ProviderToken parameter can't be empty", this);
         }
+    }
+
+    private void validateCurrency() throws TelegramApiValidationException {
         if (StringUtils.isEmpty(currency)) {
             throw new TelegramApiValidationException("Currency parameter can't be empty", this);
         }
-        if (prices.isEmpty()) {
+    }
+
+// Similarly, define separate methods for validating other parameters...
+
+    private void validateSuggestedTipAmounts() throws TelegramApiValidationException {
+        if (suggestedTipAmounts != null && suggestedTipAmounts.size() > 4) {
+            throw new TelegramApiValidationException("No more than 4 suggested tips allowed", this);
+        }
+    }
+
+    private void validateReplyMarkup() throws TelegramApiValidationException {
+        if (replyMarkup != null) {
+            replyMarkup.validate();
+        }
+    }
+
+    private void validateReplyParameters() throws TelegramApiValidationException {
+        if (replyParameters != null) {
+            replyParameters.validate();
+        }
+    }
+
+    private void validatePrices() throws TelegramApiValidationException {
+        if (prices == null || prices.isEmpty()) {
             throw new TelegramApiValidationException("Prices parameter can't be empty", this);
         } else {
             for (LabeledPrice price : prices) {
                 price.validate();
             }
         }
-        if (suggestedTipAmounts != null && !suggestedTipAmounts.isEmpty() && suggestedTipAmounts.size() > 4) {
-            throw new TelegramApiValidationException("No more that 4 suggested tips allowed", this);
-        }
-        if (replyMarkup != null) {
-            replyMarkup.validate();
-        }
-        if (replyParameters != null) {
-            replyParameters.validate();
-        }
     }
+
+
 
     public static class SendInvoiceBuilder {
 
