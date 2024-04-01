@@ -20,7 +20,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Ruben Bermudez
@@ -99,7 +98,7 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
      */
     @Deprecated
     public String getStickerFormat() throws TelegramApiException {
-        List<String> formats = stickers.stream().map(InputSticker::getFormat).filter(Objects::nonNull).distinct().toList();
+        List<String> formats = stickers.stream().map(InputSticker::getFormat).distinct().toList();
         if (formats.size() > 1) {
             throw new TelegramApiException("Multiple format present in strickers");
         }
