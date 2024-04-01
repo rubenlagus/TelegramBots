@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -28,6 +29,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class InputContactMessageContent implements InputMessageContent {
 
     private static final String PHONE_NUMBER_FIELD = "phone_number";

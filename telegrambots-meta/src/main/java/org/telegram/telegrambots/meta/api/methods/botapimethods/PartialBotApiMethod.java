@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.meta.api.methods.botapimethods;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
  */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
+@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class PartialBotApiMethod<T extends Serializable> implements Validable {
     @JsonIgnore
     protected static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();

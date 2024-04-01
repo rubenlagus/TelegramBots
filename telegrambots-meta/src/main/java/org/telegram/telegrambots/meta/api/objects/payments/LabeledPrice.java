@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.payments;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -25,6 +26,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @RequiredArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class LabeledPrice implements Validable, BotApiObject {
     private static final String LABEL_FIELD = "label";
     private static final String AMOUNT_FIELD = "amount";

@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.replykeyboard;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +30,7 @@ import lombok.extern.jackson.Jacksonized;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ReplyKeyboardRemove implements ReplyKeyboard {
     private static final String REMOVEKEYBOARD_FIELD = "remove_keyboard";
     private static final String SELECTIVE_FIELD = "selective";

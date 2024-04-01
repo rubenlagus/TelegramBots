@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.stickers;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -13,11 +14,13 @@ import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.stickers.InputSticker;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Ruben Bermudez
@@ -35,6 +38,7 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
     public static final String PATH = "createNewStickerSet";
 
@@ -42,7 +46,6 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
     public static final String STICKERS_FIELD = "stickers";
     public static final String NAME_FIELD = "name";
     public static final String TITLE_FIELD = "title";
-    public static final String STICKER_FORMAT_FIELD = "sticker_format";
     public static final String STICKER_TYPE_FIELD = "sticker_type";
     public static final String NEEDS_REPAINTING_FIELD = "needs_repainting";
 
@@ -71,11 +74,6 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
     @Singular
     private List<InputSticker> stickers;
     /**
-     * Format of stickers in the set, must be one of “static”, “animated”, “video”
-     */
-    @NonNull
-    private String stickerFormat;
-    /**
      * Optional
      * True if stickers in the sticker set must be repainted to the color of text when used in messages,
      * the accent color if used as emoji status, white on chat photos, or another appropriate color based on context;
@@ -93,6 +91,32 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
     @Override
     public String getMethod() {
         return PATH;
+    }
+
+    /**
+     * Returns the sticker format. Will only work if all stickers are of the same type, an exception is thrown otherwise
+     * @deprecated Use the format within each sticker
+     */
+    @Deprecated
+    public String getStickerFormat() throws TelegramApiException {
+        List<String> formats = stickers.stream().map(InputSticker::getFormat).filter(Objects::nonNull).distinct().toList();
+        if (formats.size() > 1) {
+            throw new TelegramApiException("Multiple format present in strickers");
+        }
+        return formats.isEmpty() ? null : formats.get(0);
+    }
+
+    /**
+     * Returns the sticker format.
+     * Will only work if no sticker with other format already exists in the list
+     * @deprecated Use the format within each sticker
+     */
+    @Deprecated
+    public void setStickerFormat(String stickerFormat) throws TelegramApiException {
+        String existingFormat = getStickerFormat();
+        if (existingFormat != null && !existingFormat.equals(stickerFormat)) {
+            this.stickers.forEach(x -> x.setFormat(existingFormat));
+        }
     }
 
     @Override
@@ -114,10 +138,6 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
         if (!Arrays.asList("regular", "mask", "custom_emoji").contains(stickerType)) {
             throw new TelegramApiValidationException("Stickertype must be 'regular', 'mask' or 'custom_emoji'", this);
         }
-        if (!Arrays.asList("static", "animated", "video").contains(stickerFormat)) {
-            throw new TelegramApiValidationException("StickerFormat must be 'static', 'animated', 'video'", this);
-        }
-
         if (needsRepainting != null && !"custom_emoji".equals(stickerType)) {
             throw new TelegramApiValidationException("needsRepainting is only allowed with custom emojis", this);
         }

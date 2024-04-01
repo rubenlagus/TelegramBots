@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.giveaway;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +25,6 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 @RequiredArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GiveawayCreated implements BotApiObject {
 }

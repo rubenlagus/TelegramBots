@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -35,6 +36,7 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SendMessage extends BotApiMethodMessage {
     public static final String PATH = "sendmessage";
 
@@ -51,6 +53,7 @@ public class SendMessage extends BotApiMethodMessage {
     private static final String PROTECTCONTENT_FIELD = "protect_content";
     private static final String LINK_PREVIEW_OPTIONS_FIELD = "link_preview_options";
     private static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
+    private static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -72,8 +75,15 @@ public class SendMessage extends BotApiMethodMessage {
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     @JsonProperty(REPLYTOMESSAGEID_FIELD)
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
+    /**
+     * Optional.
+     * Additional interface options.
+     * A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard
+     * or to force a reply from the user.
+     * @apiNote Not supported for messages sent on behalf of a business account
+     */
     @JsonProperty(REPLYMARKUP_FIELD)
-    private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    private ReplyKeyboard replyMarkup;
     @JsonProperty(ENTITIES_FIELD)
     private List<MessageEntity> entities; ///< Optional. List of special entities that appear in message text, which can be specified instead of parse_mode
     @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
@@ -92,6 +102,12 @@ public class SendMessage extends BotApiMethodMessage {
      */
     @JsonProperty(REPLY_PARAMETERS_FIELD)
     private ReplyParameters replyParameters;
+    /**
+     * Optional.
+     * Unique identifier of the business connection on behalf of which the message will be sent
+     */
+    @JsonProperty(BUSINESS_CONNECTION_ID_FIELD)
+    private String businessConnectionId;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

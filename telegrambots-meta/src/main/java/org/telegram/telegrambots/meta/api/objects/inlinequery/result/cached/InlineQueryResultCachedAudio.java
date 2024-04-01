@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.result.cached;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -37,6 +38,7 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class InlineQueryResultCachedAudio implements InlineQueryResult {
 
     private static final String TYPE_FIELD = "type";
@@ -70,10 +72,10 @@ public class InlineQueryResultCachedAudio implements InlineQueryResult {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (id == null || id.isEmpty()) {
+        if (id.isEmpty()) {
             throw new TelegramApiValidationException("ID parameter can't be empty", this);
         }
-        if (audioFileId == null || audioFileId.isEmpty()) {
+        if (audioFileId.isEmpty()) {
             throw new TelegramApiValidationException("AudioFileId parameter can't be empty", this);
         }
         if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {

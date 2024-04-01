@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.stickers;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
@@ -17,8 +18,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * @author Ruben Bermudez
  * @version 1.0
  * Use this method to add a new sticker to a set created by the bot.
- * The format of the added sticker must match the format of the other stickers in the set. Emoji sticker sets can have up to 200 stickers.
- * Animated and video sticker sets can have up to 50 stickers. Static sticker sets can have up to 120 stickers.
+ * Emoji sticker sets can have up to 200 stickers.
+ * Other sticker sets can have up to 120 stickers.
  * Returns True on success.
  */
 @EqualsAndHashCode(callSuper = false)
@@ -28,6 +29,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @RequiredArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
     public static final String PATH = "addStickerToSet";
 
@@ -35,10 +37,16 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
     public static final String NAME_FIELD = "name";
     public static final String STICKER_FIELD = "sticker";
 
+    /**
+     * User identifier of sticker set owner
+     */
     @NonNull
-    private Long userId; ///< User identifier of sticker set owner
+    private Long userId;
+    /**
+     * Sticker set name
+     */
     @NonNull
-    private String name; ///< Sticker set name
+    private String name;
     /**
      * A JSON-serialized object with information about the added sticker.
      * If exactly the same sticker had already been added to the set, then the set isn't changed.
@@ -64,10 +72,6 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
         if (name.isEmpty()) {
             throw new TelegramApiValidationException("name can't be empty", this);
         }
-        if (sticker == null) {
-            throw new TelegramApiValidationException("Sticker can't be empty", this);
-        } else {
-            sticker.validate();
-        }
+        sticker.validate();
     }
 }

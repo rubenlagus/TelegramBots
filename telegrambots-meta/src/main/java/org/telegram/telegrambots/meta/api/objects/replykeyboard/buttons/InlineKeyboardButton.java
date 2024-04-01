@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -33,6 +34,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class InlineKeyboardButton implements Validable, BotApiObject {
 
     private static final String TEXT_FIELD = "text";

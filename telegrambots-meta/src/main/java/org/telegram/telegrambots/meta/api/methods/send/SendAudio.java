@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -38,6 +39,7 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SendAudio extends SendMediaBotMethod<Message> {
     public static final String PATH = "sendaudio";
 
@@ -49,6 +51,7 @@ public class SendAudio extends SendMediaBotMethod<Message> {
     public static final String PARSE_MODE_FIELD = "parse_mode";
     public static final String THUMBNAIL_FIELD = "thumbnail";
     public static final String CAPTION_ENTITIES_FIELD = "caption_entities";
+    public static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
 
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (or Username fro channels)
@@ -61,7 +64,14 @@ public class SendAudio extends SendMediaBotMethod<Message> {
     private InputFile audio; ///< Audio file to send. file_id as String to resend an audio that is already on the Telegram servers or Url to upload it
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
-    private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    /**
+     * Optional.
+     * Additional interface options.
+     * A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard
+     * or to force a reply from the user.
+     * @apiNote Not supported for messages sent on behalf of a business account
+     */
+    private ReplyKeyboard replyMarkup;
     private String performer; ///< Optional. Performer of sent audio
     private String title; ///< Optional. Title of sent audio
     private String caption; ///< Optional. Audio caption (may also be used when resending documents by file_id), 0-200 characters
@@ -85,6 +95,11 @@ public class SendAudio extends SendMediaBotMethod<Message> {
      * Description of the message to reply to
      */
     private ReplyParameters replyParameters;
+    /**
+     * Optional.
+     * Unique identifier of the business connection on behalf of which the message will be sent
+     */
+    private String businessConnectionId;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

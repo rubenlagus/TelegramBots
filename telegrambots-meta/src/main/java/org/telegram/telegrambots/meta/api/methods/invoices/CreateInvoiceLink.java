@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.invoices;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -33,6 +34,7 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CreateInvoiceLink extends BotApiMethod<String> {
     public static final String PATH = "createInvoiceLink";
 

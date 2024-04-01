@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.menubutton;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -27,6 +28,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @RequiredArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MenuButtonWebApp extends MenuButton {
     private static final String TYPE = "web_app"; ///< Type of the button, must be web_app
 

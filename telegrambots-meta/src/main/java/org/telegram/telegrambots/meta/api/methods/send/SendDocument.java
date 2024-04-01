@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -34,6 +35,7 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SendDocument extends SendMediaBotMethod<Message> {
     public static final String PATH = "senddocument";
 
@@ -43,6 +45,7 @@ public class SendDocument extends SendMediaBotMethod<Message> {
     public static final String THUMBNAIL_FIELD = "thumbnail";
     public static final String CAPTION_ENTITIES_FIELD = "caption_entities";
     public static final String DISABLECONTENTTYPEDETECTION_FIELD = "disable_content_type_detection";
+    public static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
 
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to or Username for the channel to send the message to
@@ -56,7 +59,14 @@ public class SendDocument extends SendMediaBotMethod<Message> {
     private String caption; ///< Optional. Document caption (may also be used when resending documents by file_id), 0-200 characters
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
-    private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    /**
+     * Optional.
+     * Additional interface options.
+     * A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard
+     * or to force a reply from the user.
+     * @apiNote Not supported for messages sent on behalf of a business account
+     */
+    private ReplyKeyboard replyMarkup;
     private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
     /**
      * Optional.
@@ -77,6 +87,11 @@ public class SendDocument extends SendMediaBotMethod<Message> {
      * Description of the message to reply to
      */
     private ReplyParameters replyParameters;
+    /**
+     * Optional.
+     * Unique identifier of the business connection on behalf of which the message will be sent
+     */
+    private String businessConnectionId;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

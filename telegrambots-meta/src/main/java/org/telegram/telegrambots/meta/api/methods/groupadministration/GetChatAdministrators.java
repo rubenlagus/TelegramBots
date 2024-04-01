@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GetChatAdministrators extends BotApiMethod<ArrayList<ChatMember>> {
     public static final String PATH = "getChatAdministrators";
 

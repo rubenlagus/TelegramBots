@@ -88,6 +88,14 @@ public final class AbilityUtils {
       return update.getChatMember().getFrom();
     } else if (Flag.CHAT_JOIN_REQUEST.test(update)) {
       return update.getChatJoinRequest().getUser();
+    } else if (Flag.HAS_BUSINESS_CONNECTION.test(update)) {
+      return update.getBusinessConnection().getUser();
+    } else if (Flag.HAS_BUSINESS_MESSAGE.test(update)) {
+      return update.getBusinessMessage().getFrom();
+    } else if (Flag.HAS_EDITED_BUSINESS_MESSAGE.test(update)) {
+      return update.getEditedBuinessMessage().getFrom();
+    } else if (Flag.HAS_DELETED_BUSINESS_MESSAGE.test(update)) {
+      return EMPTY_USER;
     } else if (Flag.POLL.test(update)) {
       return EMPTY_USER;
     } else {
@@ -175,6 +183,14 @@ public final class AbilityUtils {
       return update.getChatMember().getChat().getId();
     } else if (Flag.CHAT_JOIN_REQUEST.test(update)) {
       return update.getChatJoinRequest().getChat().getId();
+    } else if (Flag.HAS_BUSINESS_CONNECTION.test(update)) {
+      return update.getBusinessConnection().getUser().getId();
+    } else if (Flag.HAS_BUSINESS_MESSAGE.test(update)) {
+      return update.getBusinessMessage().getFrom().getId();
+    } else if (Flag.HAS_EDITED_BUSINESS_MESSAGE.test(update)) {
+      return update.getEditedBuinessMessage().getFrom().getId();
+    } else if (Flag.HAS_DELETED_BUSINESS_MESSAGE.test(update)) {
+      return EMPTY_USER.getId();
     } else {
       throw new IllegalStateException("Could not retrieve originating chat ID from update");
     }

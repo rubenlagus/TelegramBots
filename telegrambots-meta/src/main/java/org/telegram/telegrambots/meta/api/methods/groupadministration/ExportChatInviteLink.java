@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -33,6 +34,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @RequiredArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ExportChatInviteLink extends BotApiMethod<String> {
     public static final String PATH = "exportChatInviteLink";
 

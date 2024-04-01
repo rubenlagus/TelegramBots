@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.replykeyboard;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +33,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ForceReplyKeyboard implements ReplyKeyboard {
     private static final String FORCEREPLY_FIELD = "force_reply";
     private static final String SELECTIVE_FIELD = "selective";

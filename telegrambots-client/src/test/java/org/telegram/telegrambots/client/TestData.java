@@ -41,6 +41,11 @@ public class TestData {
             null,
             null,
             null,
+            null,
+            null,
+            null,
+            null,
+            null,
             null
     );
 
@@ -55,6 +60,7 @@ public class TestData {
             null,
             null,
             false,
+            null,
             null
     );
     public static final Chat PRIVATE_CHAT = new Chat(
@@ -64,6 +70,11 @@ public class TestData {
             TEST_USER.getFirstName(),
             TEST_USER.getLastName(),
             TEST_USER.getUserName(),
+            null,
+            null,
+            null,
+            null,
+            null,
             null,
             null,
             null,
@@ -109,6 +120,7 @@ public class TestData {
             true,
             false,
             null,
-            false
+            false,
+            null
     );
 }

@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -37,6 +38,7 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SendAnimation extends SendMediaBotMethod<Message> {
     public static final String PATH = "sendAnimation";
 
@@ -49,6 +51,7 @@ public class SendAnimation extends SendMediaBotMethod<Message> {
     public static final String THUMBNAIL_FIELD = "thumbnail";
     public static final String CAPTION_ENTITIES_FIELD = "caption_entities";
     public static final String HAS_SPOILER_FIELD = "has_spoiler";
+    public static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
 
     /**
      * Unique identifier for the chat to send the message to (Or username for channels)
@@ -100,7 +103,10 @@ public class SendAnimation extends SendMediaBotMethod<Message> {
     private Integer replyToMessageId;
     /**
      * Optional.
-     * JSON-serialized object for a custom reply keyboard
+     * Additional interface options.
+     * A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard
+     * or to force a reply from the user.
+     * @apiNote Not supported for messages sent on behalf of a business account
      */
     private ReplyKeyboard replyMarkup;
     /**
@@ -143,6 +149,11 @@ public class SendAnimation extends SendMediaBotMethod<Message> {
      * Description of the message to reply to
      */
     private ReplyParameters replyParameters;
+    /**
+     * Optional.
+     * Unique identifier of the business connection on behalf of which the message will be sent
+     */
+    private String businessConnectionId;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

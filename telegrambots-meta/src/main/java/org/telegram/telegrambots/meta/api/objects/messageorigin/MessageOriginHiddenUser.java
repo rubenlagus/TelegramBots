@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.messageorigin;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +26,7 @@ import lombok.extern.jackson.Jacksonized;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MessageOriginHiddenUser implements MessageOrigin {
     private static final String TYPE_FIELD = "type";
     private static final String DATE_FIELD = "date";

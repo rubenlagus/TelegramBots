@@ -1,14 +1,19 @@
 package org.telegram.telegrambots.meta.test.apimethods;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
+import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultPhoto;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultsButton;
+import org.telegram.telegrambots.meta.api.objects.inlinequery.result.cached.InlineQueryResultCachedPhoto;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author Ruben Bermudez
@@ -16,9 +21,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class TestAnswerInlineQuery {
     private AnswerInlineQuery answerInlineQuery;
+    private ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
+        objectMapper = new ObjectMapper();
         answerInlineQuery = new AnswerInlineQuery("", new ArrayList<>());
     }
 
@@ -132,6 +139,32 @@ class TestAnswerInlineQuery {
             answerInlineQuery.validate();
         } catch (TelegramApiValidationException e) {
             assertEquals("SwitchPmParameter only allows A-Z, a-z, 0-9, _ and - characters", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testDeserializationPhoto() {
+        try {
+            answerInlineQuery.setResults(List.of(
+                    InlineQueryResultCachedPhoto
+                            .builder()
+                            .id("ID1")
+                            .photoFileId("photo_file_id")
+                            .build(),
+                    InlineQueryResultPhoto
+                            .builder()
+                            .id("ID2")
+                            .photoUrl("photo_url")
+                            .build()
+            ));
+
+            String serializedObject = objectMapper.writeValueAsString(answerInlineQuery);
+
+            AnswerInlineQuery deserializedObject = objectMapper.readValue(serializedObject, AnswerInlineQuery.class);
+
+            assertEquals(answerInlineQuery, deserializedObject);
+        } catch (Exception e) {
+            fail(e);
         }
     }
 }

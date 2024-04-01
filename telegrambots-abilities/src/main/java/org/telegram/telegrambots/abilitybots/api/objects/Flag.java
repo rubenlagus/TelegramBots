@@ -32,6 +32,10 @@ public enum Flag implements Predicate<Update> {
   MY_CHAT_MEMBER(Update::hasMyChatMember),
   CHAT_MEMBER(Update::hasChatMember),
   CHAT_JOIN_REQUEST(Update::hasChatJoinRequest),
+  HAS_BUSINESS_CONNECTION(Update::hasBusinessConnection),
+  HAS_BUSINESS_MESSAGE(Update::hasBusinessMessage),
+  HAS_EDITED_BUSINESS_MESSAGE(Update::hasEditedBusinessMessage),
+  HAS_DELETED_BUSINESS_MESSAGE(Update::hasDeletedBusinessMessage),
 
 
   // Message Flags

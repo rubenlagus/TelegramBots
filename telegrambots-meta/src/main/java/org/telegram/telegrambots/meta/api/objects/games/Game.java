@@ -16,6 +16,7 @@
  */
 package org.telegram.telegrambots.meta.api.objects.games;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -46,6 +47,7 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Game implements BotApiObject {
 
     private static final String TITLE_FIELD = "title";

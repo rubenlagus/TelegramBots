@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.result.cached;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -38,6 +39,7 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class InlineQueryResultCachedDocument implements InlineQueryResult {
 
     private static final String TYPE_FIELD = "type";
@@ -77,10 +79,10 @@ public class InlineQueryResultCachedDocument implements InlineQueryResult {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (id == null || id.isEmpty()) {
+        if (id.isEmpty()) {
             throw new TelegramApiValidationException("ID parameter can't be empty", this);
         }
-        if (documentFileId == null || documentFileId.isEmpty()) {
+        if (documentFileId.isEmpty()) {
             throw new TelegramApiValidationException("DocumentFileId parameter can't be empty", this);
         }
         if (title == null || title.isEmpty()) {

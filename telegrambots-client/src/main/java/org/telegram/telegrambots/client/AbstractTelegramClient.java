@@ -13,6 +13,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
 import org.telegram.telegrambots.meta.api.methods.send.SendVoice;
 import org.telegram.telegrambots.meta.api.methods.stickers.AddStickerToSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.CreateNewStickerSet;
+import org.telegram.telegrambots.meta.api.methods.stickers.ReplaceStickerInSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumbnail;
 import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
@@ -126,6 +127,15 @@ public abstract class AbstractTelegramClient implements TelegramClient {
             return executeAsync(addStickerToSet).get();
         } catch (Exception e) {
             throw mapException(e, addStickerToSet.getMethod());
+        }
+    }
+
+    @Override
+    public Boolean execute(ReplaceStickerInSet replaceStickerInSet) throws TelegramApiException {
+        try {
+            return executeAsync(replaceStickerInSet).get();
+        } catch (Exception e) {
+            throw mapException(e, replaceStickerInSet.getMethod());
         }
     }
 

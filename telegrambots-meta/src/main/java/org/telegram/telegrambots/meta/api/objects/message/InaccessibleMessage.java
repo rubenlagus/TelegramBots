@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.message;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -25,6 +26,7 @@ import org.telegram.telegrambots.meta.api.objects.Chat;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class InaccessibleMessage implements MaybeInaccessibleMessage {
 
     private static final String CHAT_FIELD = "chat";

@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -31,6 +32,7 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AnswerInlineQuery extends BotApiMethodBoolean {
     public static final String PATH = "answerInlineQuery";
 

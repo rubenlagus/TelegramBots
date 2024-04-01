@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -30,28 +31,32 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class KeyboardButtonRequestChat implements Validable, BotApiObject {
 
-    private static final String REQUESTID_FIELD = "request_id";
-    private static final String CHATISCHANNEL_FIELD = "chat_is_channel";
-    private static final String CHATISFORUM_FIELD = "chat_is_forum";
-    private static final String CHATHASUSERNAME_FIELD = "chat_has_username";
-    private static final String CHATISCREATED_FIELD = "chat_is_created";
-    private static final String USERADMINISTRATORRIGHTS_FIELD = "user_administrator_rights";
-    private static final String BOTADMINISTRATORRIGHTS_FIELD = "bot_administrator_rights";
-    private static final String BOTISMEMBER_FIELD = "bot_is_member";
+    private static final String REQUEST_ID_FIELD = "request_id";
+    private static final String CHAT_IS_CHANNEL_FIELD = "chat_is_channel";
+    private static final String CHAT_IS_FORUM_FIELD = "chat_is_forum";
+    private static final String CHAT_HAS_USERNAME_FIELD = "chat_has_username";
+    private static final String CHAT_IS_CREATED_FIELD = "chat_is_created";
+    private static final String USER_ADMINISTRATOR_RIGHTS_FIELD = "user_administrator_rights";
+    private static final String BOT_ADMINISTRATOR_RIGHTS_FIELD = "bot_administrator_rights";
+    private static final String BOT_IS_MEMBER_FIELD = "bot_is_member";
     private static final String SWITCH_INLINE_QUERY_CHOSEN_CHAT_FIELD = "switch_inline_query_chosen_chat";
+    private static final String REQUEST_TITLE_FIELD = "request_title";
+    private static final String REQUEST_USERNAME_FIELD = "request_username";
+    private static final String REQUEST_PHOTO_FIELD = "request_photo";
 
     /**
      * Signed 32-bit identifier of the request
      */
-    @JsonProperty(REQUESTID_FIELD)
+    @JsonProperty(REQUEST_ID_FIELD)
     @NonNull
     private String requestId;
     /**
      * Pass True to request a channel chat, pass False to request a group or a supergroup chat.
      */
-    @JsonProperty(CHATISCHANNEL_FIELD)
+    @JsonProperty(CHAT_IS_CHANNEL_FIELD)
     @NonNull
     private Boolean chatIsChannel;
     /**
@@ -59,28 +64,28 @@ public class KeyboardButtonRequestChat implements Validable, BotApiObject {
      * Pass True to request a forum supergroup, pass False to request a non-forum chat.
      * If not specified, no additional restrictions are applied.
      */
-    @JsonProperty(CHATISFORUM_FIELD)
+    @JsonProperty(CHAT_IS_FORUM_FIELD)
     private Boolean chatIsForum;
     /**
      * Optional.
      * Pass True to request a supergroup or a channel with a username, pass False to request a chat without a username.
      * If not specified, no additional restrictions are applied.
      */
-    @JsonProperty(CHATHASUSERNAME_FIELD)
+    @JsonProperty(CHAT_HAS_USERNAME_FIELD)
     private Boolean chatHasUsername;
     /**
      * Optional.
      * Pass True to request a chat owned by the user.
      * Otherwise, no additional restrictions are applied.
      */
-    @JsonProperty(CHATISCREATED_FIELD)
+    @JsonProperty(CHAT_IS_CREATED_FIELD)
     private Boolean chatIsCreated;
     /**
      * Optional.
      * A JSON-serialized object listing the required administrator rights of the user in the chat.
      * If not specified, no additional restrictions are applied.
      */
-    @JsonProperty(USERADMINISTRATORRIGHTS_FIELD)
+    @JsonProperty(USER_ADMINISTRATOR_RIGHTS_FIELD)
     private ChatAdministratorRights userAdministratorRights;
     /**
      * Optional.
@@ -88,14 +93,14 @@ public class KeyboardButtonRequestChat implements Validable, BotApiObject {
      * The rights must be a subset of user_administrator_rights.
      * If not specified, no additional restrictions are applied.
      */
-    @JsonProperty(BOTADMINISTRATORRIGHTS_FIELD)
+    @JsonProperty(BOT_ADMINISTRATOR_RIGHTS_FIELD)
     private ChatAdministratorRights botAdministratorRights;
     /**
      * Optional.
      * Pass True to request a chat with the bot as a member.
      * Otherwise, no additional restrictions are applied.
      */
-    @JsonProperty(BOTISMEMBER_FIELD)
+    @JsonProperty(BOT_IS_MEMBER_FIELD)
     private Boolean botIsMember;
     /**
      * Optional.
@@ -104,7 +109,24 @@ public class KeyboardButtonRequestChat implements Validable, BotApiObject {
      */
     @JsonProperty(SWITCH_INLINE_QUERY_CHOSEN_CHAT_FIELD)
     private SwitchInlineQueryChosenChat switchInlineQueryChosenChat;
-
+    /**
+     * Optional.
+     * Pass True to request the chat's title
+     */
+    @JsonProperty(REQUEST_TITLE_FIELD)
+    private Boolean requestTitle;
+    /**
+     * Optional.
+     * Pass True to request the chat's username
+     */
+    @JsonProperty(REQUEST_USERNAME_FIELD)
+    private Boolean requestUsername;
+    /**
+     * Optional.
+     * Pass True to request the chat's photo
+     */
+    @JsonProperty(REQUEST_PHOTO_FIELD)
+    private Boolean requestPhoto;
 
     @Override
     public void validate() throws TelegramApiValidationException {

@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -41,6 +42,7 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
     public static final String PATH = "sendMediaGroup";
 
@@ -52,6 +54,7 @@ public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
     public static final String ALLOW_SENDING_WITHOUT_REPLY_FIELD = "allow_sending_without_reply";
     public static final String PROTECT_CONTENT_FIELD = "protect_content";
     public static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
+    public static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
 
     /**
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -94,7 +97,11 @@ public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
      * Description of the message to reply to
      */
     private ReplyParameters replyParameters;
-
+    /**
+     * Optional.
+     * Unique identifier of the business connection on behalf of which the message will be sent
+     */
+    private String businessConnectionId;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
