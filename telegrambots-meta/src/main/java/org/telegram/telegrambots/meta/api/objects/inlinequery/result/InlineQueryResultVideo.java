@@ -99,9 +99,6 @@ public class InlineQueryResultVideo implements InlineQueryResult {
         if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
             throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
         }
-        if (thumbnailUrl != null && !"image/jpeg".equalsIgnoreCase(thumbnailUrl)) {
-            throw new TelegramApiValidationException("Thumbnail Url must be JPEG", this);
-        }
         if (inputMessageContent != null) {
             inputMessageContent.validate();
         }
