@@ -27,7 +27,7 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Birthdate implements BotApiObject {
-    private static final String DAY_FIELD = "value";
+    private static final String DAY_FIELD = "day";
     private static final String MONTH_FIELD = "month";
     private static final String YEAR_FIELD = "year";
 
