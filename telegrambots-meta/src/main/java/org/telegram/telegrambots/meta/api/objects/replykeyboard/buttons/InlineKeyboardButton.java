@@ -43,6 +43,7 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
     private static final String CALLBACK_GAME_FIELD = "callback_game";
     private static final String SWITCH_INLINE_QUERY_FIELD = "switch_inline_query";
     private static final String SWITCH_INLINE_QUERY_CURRENT_CHAT_FIELD = "switch_inline_query_current_chat";
+    private static final String SWITCH_INLINE_QUERY_CHOSEN_CHAT_FIELD = "switch_inline_query_chosen_chat";
     private static final String PAY_FIELD = "pay";
     private static final String LOGIN_URL_FIELD = "login_url";
     private static final String WEBAPP_FIELD = "web_app";
@@ -102,7 +103,6 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
      */
     @JsonProperty(LOGIN_URL_FIELD)
     private LoginUrl loginUrl;
-
     /**
      * Optional.
      * Description of the web app that will be launched when the user presses the button.
@@ -111,6 +111,14 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
      */
     @JsonProperty(WEBAPP_FIELD)
     private WebAppInfo webApp;
+    /**
+     * Optional.
+     * If set, pressing the button will prompt the user to select one of their chats of the specified type,
+     * open that chat and insert the bot's username and the specified inline query in the input field
+     */
+    @JsonProperty(SWITCH_INLINE_QUERY_CHOSEN_CHAT_FIELD)
+    private SwitchInlineQueryChosenChat switchInlineQueryChosenChat;
+
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -122,6 +130,12 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
         }
         if (webApp != null) {
             webApp.validate();
+        }
+        if (callbackGame != null) {
+            callbackGame.validate();
+        }
+        if (switchInlineQueryChosenChat != null) {
+            switchInlineQueryChosenChat.validate();
         }
     }
 }
