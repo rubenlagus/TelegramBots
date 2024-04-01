@@ -23,6 +23,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
+import org.telegram.telegrambots.meta.api.interfaces.Validable;
 
 /**
  * @author Ruben Bermudez
@@ -34,5 +35,5 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 @Setter
 @ToString
 @NoArgsConstructor
-public class CallbackGame implements BotApiObject {
+public class CallbackGame implements BotApiObject, Validable {
 }
