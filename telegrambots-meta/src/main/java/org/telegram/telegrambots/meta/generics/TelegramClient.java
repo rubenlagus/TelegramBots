@@ -13,6 +13,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
 import org.telegram.telegrambots.meta.api.methods.send.SendVoice;
 import org.telegram.telegrambots.meta.api.methods.stickers.AddStickerToSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.CreateNewStickerSet;
+import org.telegram.telegrambots.meta.api.methods.stickers.ReplaceStickerInSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumbnail;
 import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
@@ -86,6 +87,15 @@ public interface TelegramClient {
      * @see <a href="https://core.telegram.org/bots/api#addStickerToSet">https://core.telegram.org/bots/api#addStickerToSet</a>
      */
     Boolean execute(AddStickerToSet addStickerToSet) throws TelegramApiException;
+
+    /**
+     * Replace a sticker in a set
+     * @param replaceStickerInSet Information of the sticker to set
+     * @return If success, true is returned
+     * @throws TelegramApiException If there is any error adding the sticker to the set
+     * @see <a href="https://core.telegram.org/bots/api#replaceStickerInSet">https://core.telegram.org/bots/api#replaceStickerInSet</a>
+     */
+    Boolean execute(ReplaceStickerInSet replaceStickerInSet) throws TelegramApiException;
 
     /**
      * Set sticker set thumb
@@ -189,6 +199,14 @@ public interface TelegramClient {
      * @see <a href="https://core.telegram.org/bots/api#addStickerToSet">https://core.telegram.org/bots/api#addStickerToSet</a>
      */
     CompletableFuture<Boolean> executeAsync(AddStickerToSet addStickerToSet);
+
+    /**
+     * Replace a sticker in a set
+     * @param replaceStickerInSet Information of the sticker to set
+     * @return If success, true is returned
+     * @see <a href="https://core.telegram.org/bots/api#replaceStickerInSet">https://core.telegram.org/bots/api#replaceStickerInSet</a>
+     */
+    CompletableFuture<Boolean> executeAsync(ReplaceStickerInSet replaceStickerInSet);
 
     /**
      * Set sticker set thumb

@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.passport.dataerror;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -26,6 +27,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @ToString
 @RequiredArgsConstructor
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 @SuperBuilder
 public class PassportElementErrorDataField implements PassportElementError {
     private static final String SOURCE_FIELD = "source";

@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.result;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -32,6 +33,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class InlineQueryResultContact implements InlineQueryResult {
 
     private static final String TYPE_FIELD = "type";

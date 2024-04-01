@@ -1,8 +1,8 @@
 package org.telegram.telegrambots.meta.api.objects.message;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -77,6 +77,7 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Message implements MaybeInaccessibleMessage {
     private static final String MESSAGEID_FIELD = "message_id";
     private static final String MESSAGETHREADID_FIELD = "message_thread_id";
@@ -163,6 +164,9 @@ public class Message implements MaybeInaccessibleMessage {
     private static final String REPLY_TO_STORY_FIELD = "reply_to_story";
     private static final String BOOST_ADDED_FIELD = "boost_added";
     private static final String SENDER_BOOST_COUNT_FIELD = "sender_boost_count";
+    private static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
+    private static final String SENDER_BUSINESS_BOT_FIELD = "sender_business_bot";
+    private static final String IS_FROM_OFFLINE_FIELD = "is_from_offline";
 
     /**
      * Integer	Unique message identifier
@@ -290,7 +294,6 @@ public class Message implements MaybeInaccessibleMessage {
      * Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply.
      */
     @JsonProperty(PINNED_MESSAGE_FIELD)
-    @JsonDeserialize(using = MaybeInaccessibleMessageDeserializer.class)
     private MaybeInaccessibleMessage pinnedMessage;
     /**
      * Optional.
@@ -688,7 +691,28 @@ public class Message implements MaybeInaccessibleMessage {
      */
     @JsonProperty(SENDER_BOOST_COUNT_FIELD)
     private Integer senderBoostCount;
-
+    /**
+     * Optional.
+     * Unique identifier of the business connection from which the message was received.
+     * If non-empty, the message belongs to a chat of the corresponding business account that is independent of any
+     * potential bot chat which might share the same identifier.
+     */
+    @JsonProperty(BUSINESS_CONNECTION_ID_FIELD)
+    private String businessConnectionId;
+    /**
+     * Optional.
+     * The bot that actually sent the message on behalf of the business account.
+     * Available only for outgoing messages sent on behalf of the connected business account.
+     */
+    @JsonProperty(SENDER_BUSINESS_BOT_FIELD)
+    private User senderBusinessBot;
+    /**
+     * Optional.
+     * True, if the message was sent by an implicit action, for example, as an away or a greeting business message,
+     * or as a scheduled message
+     */
+    @JsonProperty(IS_FROM_OFFLINE_FIELD)
+    private Boolean isFromOffline;
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {

@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.telegram</groupId>
         <artifactId>Bots</artifactId>
-        <version>7.0.0</version>
+        <version>7.2.0</version>
     </parent>
 
     <artifactId>telegrambots-meta</artifactId>
@@ -83,6 +83,12 @@
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.checkerframework</groupId>
+            <artifactId>checker-qual</artifactId>
+            <version>3.41.0</version>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>

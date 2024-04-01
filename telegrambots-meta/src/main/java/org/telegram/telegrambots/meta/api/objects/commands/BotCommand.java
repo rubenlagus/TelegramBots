@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.commands;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -25,6 +26,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @RequiredArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BotCommand implements BotApiObject, Validable {
     private static final String COMMAND_FIELD = "command";
     private static final String DESCRIPTION_FIELD = "description";

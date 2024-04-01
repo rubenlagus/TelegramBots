@@ -133,6 +133,7 @@ public class TestTelegramMultipartBuilder {
             InputSticker inputSticker = InputSticker.builder()
                     .sticker(inputFile)
                     .emoji("A")
+                    .format("static")
                     .build();
             MultipartBody result = multipartBuilder.addInputStickers("testField", List.of(inputSticker)).build();
             assertNotNull(result);

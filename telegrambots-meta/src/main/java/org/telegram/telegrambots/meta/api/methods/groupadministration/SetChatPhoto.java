@@ -1,6 +1,12 @@
 package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
 import lombok.extern.jackson.Jacksonized;
@@ -25,6 +31,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @RequiredArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SetChatPhoto extends PartialBotApiMethod<Boolean> {
     public static final String PATH = "setChatPhoto";
 

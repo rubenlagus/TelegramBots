@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.result;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -33,6 +34,7 @@ import java.util.regex.Pattern;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class InlineQueryResultsButton implements Validable, BotApiObject  {
 
     private static final String TEXT_FIELD = "text";

@@ -10,6 +10,9 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.boost.ChatBoostRemoved;
 import org.telegram.telegrambots.meta.api.objects.boost.ChatBoostUpdated;
+import org.telegram.telegrambots.meta.api.objects.business.BusinessConnection;
+import org.telegram.telegrambots.meta.api.objects.business.BusinessMessagesDeleted;
+import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberUpdated;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.ChosenInlineQuery;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
@@ -52,6 +55,10 @@ public class Update implements BotApiObject {
     private static final String MESSAGE_REACTION_COUNT_FIELD = "message_reaction_count";
     private static final String CHAT_BOOST_FIELD = "chat_boost";
     private static final String REMOVED_CHAT_BOOST_FIELD = "removed_chat_boost";
+    private static final String BUSINESS_CONNECTION_FIELD = "business_connection";
+    private static final String BUSINESS_MESSAGE_FIELD = "business_message";
+    private static final String EDITED_BUSINESS_MESSAGE_FIELD = "edited_business_message";
+    private static final String DELETED_BUSINESS_MESSAGES_FIELD = "deleted_business_messages";
 
     @JsonProperty(UPDATEID_FIELD)
     private Integer updateId;
@@ -170,6 +177,30 @@ public class Update implements BotApiObject {
      */
     @JsonProperty(REMOVED_CHAT_BOOST_FIELD)
     private ChatBoostRemoved removedChatBoost;
+    /**
+     * Optional.
+     * The bot was connected to or disconnected from a business account, or a user edited an existing connection with the bot
+     */
+    @JsonProperty(BUSINESS_CONNECTION_FIELD)
+    private BusinessConnection businessConnection;
+    /**
+     * Optional.
+     * New non-service message from a connected business account
+     */
+    @JsonProperty(BUSINESS_MESSAGE_FIELD)
+    private Message businessMessage;
+    /**
+     * Optional.
+     * New version of a message from a connected business account
+     */
+    @JsonProperty(EDITED_BUSINESS_MESSAGE_FIELD)
+    private Message editedBuinessMessage;
+    /**
+     * Optional.
+     * Messages were deleted from a connected business account
+     */
+    @JsonProperty(DELETED_BUSINESS_MESSAGES_FIELD)
+    private BusinessMessagesDeleted deletedBusinessMessages;
 
     public boolean hasMessage() {
         return message != null;
@@ -225,5 +256,21 @@ public class Update implements BotApiObject {
 
     public boolean hasChatJoinRequest() {
         return chatJoinRequest != null;
+    }
+
+    public boolean hasBusinessConnection() {
+        return businessConnection != null;
+    }
+
+    public boolean hasBusinessMessage() {
+        return businessMessage != null;
+    }
+
+    public boolean hasEditedBusinessMessage() {
+        return editedBuinessMessage != null;
+    }
+
+    public boolean hasDeletedBusinessMessage() {
+        return deletedBusinessMessages != null;
     }
 }

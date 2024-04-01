@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -32,6 +33,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SendVideoNote extends SendMediaBotMethod<Message> {
     public static final String PATH = "sendvideonote";
 
@@ -39,6 +41,7 @@ public class SendVideoNote extends SendMediaBotMethod<Message> {
     public static final String DURATION_FIELD = "duration";
     public static final String LENGTH_FIELD = "length";
     public static final String THUMBNAIL_FIELD = "thumbnail";
+    public static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
 
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
@@ -53,7 +56,14 @@ public class SendVideoNote extends SendMediaBotMethod<Message> {
     private Integer length; ///< Optional. Video width and height
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
-    private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    /**
+     * Optional.
+     * Additional interface options.
+     * A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard
+     * or to force a reply from the user.
+     * @apiNote Not supported for messages sent on behalf of a business account
+     */
+    private ReplyKeyboard replyMarkup;
     /**
      * Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size.
      * A thumbnail’s width and height should not exceed 320.
@@ -69,6 +79,11 @@ public class SendVideoNote extends SendMediaBotMethod<Message> {
      * Description of the message to reply to
      */
     private ReplyParameters replyParameters;
+    /**
+     * Optional.
+     * Unique identifier of the business connection on behalf of which the message will be sent
+     */
+    private String businessConnectionId;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

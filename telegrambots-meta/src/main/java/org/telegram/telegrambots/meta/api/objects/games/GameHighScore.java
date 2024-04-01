@@ -17,6 +17,7 @@
 
 package org.telegram.telegrambots.meta.api.objects.games;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -41,6 +42,7 @@ import org.telegram.telegrambots.meta.api.objects.User;
 @RequiredArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GameHighScore implements BotApiObject {
     private static final String POSITION_FIELD = "position";
     private static final String USER_FIELD = "user";

@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.menubutton;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @NoArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MenuButtonDefault extends MenuButton {
     private static final String TYPE = "default"; ///< Type of the button, must be default
 

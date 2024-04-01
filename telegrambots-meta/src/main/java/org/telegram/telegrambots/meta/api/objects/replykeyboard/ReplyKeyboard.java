@@ -10,11 +10,7 @@ import org.telegram.telegrambots.meta.api.interfaces.Validable;
  * @version 1.0
  * Reply keyboard abstract type
  */
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.DEDUCTION,
-        include = JsonTypeInfo.As.EXISTING_PROPERTY,
-        property = "type",
-        visible = true)
+@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = ForceReplyKeyboard.class),
         @JsonSubTypes.Type(value = ReplyKeyboardMarkup.class),

@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.boost;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +26,7 @@ import org.telegram.telegrambots.meta.api.objects.User;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ChatBoostSourcePremium implements ChatBoostSource {
     private static final String SOURCE_FIELD = "source";
     private static final String USER_FIELD = "user";

@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.invoices;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -34,6 +35,7 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SendInvoice extends BotApiMethodMessage {
     public static final String PATH = "sendinvoice";
 

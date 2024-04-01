@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -31,34 +32,61 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SendSticker extends SendMediaBotMethod<Message> {
     public static final String PATH = "sendsticker";
 
     public static final String STICKER_FIELD = "sticker";
     public static final String EMOJI_FIELD = "emoji";
+    public static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
 
+    /**
+     * Unique identifier for the chat to send the message to (Or username for channels)
+     */
     @NonNull
-    private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
+    private String chatId;
     /**
      * Unique identifier for the target message thread (topic) of the forum;
      * for forum supergroups only
      */
     private Integer messageThreadId;
     /**
-     * Sticker to send.
-     * Pass a file_id as String to send a file that exists on the Telegram servers (recommended),
-     * pass an HTTP URL as a String for Telegram to get a .WEBP sticker from the Internet,
-     * or upload a new .WEBP or .TGS sticker using multipart/form-data.
-     * Video stickers can only be sent by a file_id.
-     * Animated stickers can't be sent via an HTTP URL.
+     * 	Sticker to send.
+     * 	Pass a file_id as String to send a file that exists on the Telegram servers (recommended),
+     * 	pass an HTTP URL as a String for Telegram to get a .WEBP sticker from the Internet, or upload a new
+     * 	.WEBP, .TGS, or .WEBM sticker using multipart/form-data.
+     * 	Video and animated stickers can't be sent via an HTTP URL.
      */
     @NonNull
-    private InputFile sticker; ///< Sticker file to send. file_id as String to resend a sticker that is already on the Telegram servers or URL to upload it
-    private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
-    private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
-    private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
-    private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
-    private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
+    private InputFile sticker;
+    /**
+     * Optional.
+     * Sends the message silently. Users will receive a notification with no sound.
+     */
+    private Boolean disableNotification;
+    /**
+     * Optional.
+     * If the message is a reply, ID of the original message
+     */
+    private Integer replyToMessageId;
+    /**
+     * Optional.
+     * Additional interface options.
+     * A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard
+     * or to force a reply from the user.
+     * @apiNote Not supported for messages sent on behalf of a business account
+     */
+    private ReplyKeyboard replyMarkup;
+    /**
+     * Optional.
+     * Pass True, if the message should be sent even if the specified replied-to message is not found
+     */
+    private Boolean allowSendingWithoutReply;
+    /**
+     * Optional.
+     * Pass True, if the message should be sent even if the specified replied-to message is not found
+     */
+    private Boolean protectContent;
     /**
      * Optional
      * Emoji associated with the sticker; only for uploaded stickers
@@ -69,6 +97,11 @@ public class SendSticker extends SendMediaBotMethod<Message> {
      * Description of the message to reply to
      */
     private ReplyParameters replyParameters;
+    /**
+     * Optional.
+     * Unique identifier of the business connection on behalf of which the message will be sent
+     */
+    private String businessConnectionId;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

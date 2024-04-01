@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -29,15 +30,17 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @RequiredArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SendChatAction extends BotApiMethodBoolean {
 
     public static final String PATH = "sendChatAction";
 
-    public static final String CHATID_FIELD = "chat_id";
+    private static final String CHAT_ID_FIELD = "chat_id";
     private static final String ACTION_FIELD = "action";
-    private static final String MESSAGETHREADID_FIELD = "message_thread_id";
+    private static final String MESSAGE_THREAD_ID_FIELD = "message_thread_id";
+    private static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
 
-    @JsonProperty(CHATID_FIELD)
+    @JsonProperty(CHAT_ID_FIELD)
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     /**
@@ -59,8 +62,14 @@ public class SendChatAction extends BotApiMethodBoolean {
      * Optional
      * Unique identifier for the target message thread; supergroups only
      */
-    @JsonProperty(MESSAGETHREADID_FIELD)
+    @JsonProperty(MESSAGE_THREAD_ID_FIELD)
     private Integer messageThreadId;
+    /**
+     * Optional.
+     * Unique identifier of the business connection on behalf of which the action will be sent.
+     */
+    @JsonProperty(BUSINESS_CONNECTION_ID_FIELD)
+    private String businessConnectionId;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

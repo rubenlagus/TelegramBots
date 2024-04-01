@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.commands;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -33,6 +34,7 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SetMyCommands extends BotApiMethodBoolean {
     public static final String PATH = "setMyCommands";
 

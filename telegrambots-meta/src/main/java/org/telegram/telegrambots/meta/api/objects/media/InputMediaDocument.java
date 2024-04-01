@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.media;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -30,6 +31,7 @@ import java.util.List;
 @ToString
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class InputMediaDocument extends InputMedia {
     private static final String TYPE = "document";
 

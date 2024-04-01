@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.giveaway;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -26,6 +27,7 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GiveawayCompleted implements BotApiObject {
     public static final String WINNER_COUNT_FIELD = "winner_count";
     public static final String UNCLAIMED_PRIZE_COUNT_FIELD = "unclaimed_prize_count";

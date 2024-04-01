@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -31,6 +32,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class LoginUrl implements Validable, BotApiObject {
     private static final String URL_FIELD = "url";
     private static final String FORWARD_TEXT_FIELD = "forward_text";
