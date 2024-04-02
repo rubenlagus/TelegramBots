@@ -17,6 +17,4 @@ import java.io.Serializable;
 public abstract class BotApiMethod<T extends Serializable> extends PartialBotApiMethod<T> {
     protected static final String METHOD_FIELD = "method";
 
-    public abstract void validate() throws TelegramApiValidationException;
-
 }
