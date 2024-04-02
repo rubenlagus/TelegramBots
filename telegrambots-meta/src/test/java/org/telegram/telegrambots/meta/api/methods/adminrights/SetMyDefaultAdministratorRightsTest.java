@@ -13,13 +13,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SetMyDefaultAdministratorRightsTest {
 
     @Test
-    public void testSetMyDefaultAdministratorRightsWithNone() {
-        SetMyDefaultAdministratorRights setMyDefaultAdministratorRights = SetMyDefaultAdministratorRights
+    public void testDefaultRights() {
+        SetMyDefaultAdministratorRights defaultRights = SetMyDefaultAdministratorRights
                 .builder()
                 .build();
-        assertEquals("setMyDefaultAdministratorRights", setMyDefaultAdministratorRights.getMethod());
-        assertDoesNotThrow(setMyDefaultAdministratorRights::validate);
+        assertEquals("setMyDefaultAdministratorRights", defaultRights.getMethod());
+        assertDoesNotThrow(defaultRights::validate);
     }
+
 
     @Test
     public void testSetMyDefaultAdministratorRightsForChannels() {
