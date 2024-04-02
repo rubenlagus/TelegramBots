@@ -14,6 +14,7 @@ public class SetMyDefaultAdministratorRightsTest {
 
     @Test
     public void testDefaultRights() {
+
         SetMyDefaultAdministratorRights defaultRights = SetMyDefaultAdministratorRights
                 .builder()
                 .build();
