@@ -1,7 +1,13 @@
 package org.telegram.telegrambots.extensions.bots.commandbot;
 
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.bots.AbsSender;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.function.BiConsumer;
 
 /**
  * This interface represents common functions for command bots
@@ -44,4 +50,18 @@ public interface CommandBot {
     default boolean filter(Message message) {
         return false;
     }
+
+    boolean register(IBotCommand botCommand);
+
+    Map<IBotCommand, Boolean> registerAll(IBotCommand... botCommands);
+
+    boolean deregister(IBotCommand botCommand);
+
+    Map<IBotCommand, Boolean> deregisterAll(IBotCommand... botCommands);
+
+    Collection<IBotCommand> getRegisteredCommands();
+
+    void registerDefaultAction(BiConsumer<AbsSender, Message> defaultConsumer);
+
+    IBotCommand getRegisteredCommand(String commandIdentifier);
 }

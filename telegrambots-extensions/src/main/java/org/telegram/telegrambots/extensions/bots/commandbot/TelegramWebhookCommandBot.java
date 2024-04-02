@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.extensions.bots.commandbot;
 
-
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.CommandRegistry;
@@ -23,78 +22,10 @@ import java.util.function.BiConsumer;
 public abstract class TelegramWebhookCommandBot extends TelegramWebhookBot implements CommandBot, ICommandRegistry {
     private final CommandRegistry commandRegistry;
 
-    /**
-     * Creates a TelegramWebhookCommandBot using default options
-     * Use ICommandRegistry's methods on this bot to register commands
-     *
-     * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
-     */
-    @Deprecated
-    public TelegramWebhookCommandBot() {
-        this(new DefaultBotOptions());
-    }
-
-    /**
-     * Creates a TelegramWebhookCommandBot with custom options and allowing commands with
-     * usernames
-     * Use ICommandRegistry's methods on this bot to register commands
-     *
-     * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
-     *
-     * @param options     Bot options
-     */
-    @Deprecated
-    public TelegramWebhookCommandBot(DefaultBotOptions options) {
-        this(options, true);
-    }
-
-    /**
-     * Creates a TelegramWebhookCommandBot
-     * Use ICommandRegistry's methods on this bot to register commands
-     *
-     * @deprecated Overwriting the getBotToken() method is deprecated. Use the constructor instead
-     *
-     * @param options                   Bot options
-     * @param allowCommandsWithUsername true to allow commands with parameters (default),
-     *                                  false otherwise
-     */
-    @Deprecated
-    public TelegramWebhookCommandBot(DefaultBotOptions options, boolean allowCommandsWithUsername) {
-        super(options);
-        this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, this::getBotUsername);
-    }
-
-    /**
-     * Creates a TelegramWebhookCommandBot using default options
-     * Use ICommandRegistry's methods on this bot to register commands
-     *
-     * @param botToken the telegram api token
-     */
     public TelegramWebhookCommandBot(String botToken) {
-        this(new DefaultBotOptions(), botToken);
+        this(new DefaultBotOptions(), true, botToken);
     }
 
-    /**
-     * Creates a TelegramWebhookCommandBot with custom options and allowing commands with
-     * usernames
-     * Use ICommandRegistry's methods on this bot to register commands
-     *
-     * @param options     Bot options
-     * @param botToken the telegram api token
-     */
-    public TelegramWebhookCommandBot(DefaultBotOptions options, String botToken) {
-        this(options, true, botToken);
-    }
-
-    /**
-     * Creates a TelegramWebhookCommandBot
-     * Use ICommandRegistry's methods on this bot to register commands
-     *
-     * @param options                   Bot options
-     * @param allowCommandsWithUsername true to allow commands with parameters (default),
-     *                                  false otherwise
-     * @param botToken the telegram api token
-     */
     public TelegramWebhookCommandBot(DefaultBotOptions options, boolean allowCommandsWithUsername, String botToken) {
         super(options, botToken);
         this.commandRegistry = new CommandRegistry(allowCommandsWithUsername, this::getBotUsername);
@@ -105,7 +36,7 @@ public abstract class TelegramWebhookCommandBot extends TelegramWebhookBot imple
         if (update.hasMessage()) {
             Message message = update.getMessage();
             if (message.isCommand() && !filter(message)) {
-                if (!commandRegistry.executeCommand(this, message)) {
+                if (!executeCommand(message)) {
                     //we have received a not registered command, handle it as invalid
                     processInvalidCommandUpdate(update);
                 }
@@ -149,5 +80,9 @@ public abstract class TelegramWebhookCommandBot extends TelegramWebhookBot imple
     @Override
     public final IBotCommand getRegisteredCommand(String commandIdentifier) {
         return commandRegistry.getRegisteredCommand(commandIdentifier);
+    }
+
+    private boolean executeCommand(Message message) {
+        return commandRegistry.executeCommand(this, message);
     }
 }
