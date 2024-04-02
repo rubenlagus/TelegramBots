@@ -26,12 +26,30 @@ public class InputMediaSerializer extends JsonSerializer<InputMedia> {
         gen.writeStartObject();
         gen.writeStringField(InputMedia.MEDIA_FIELD, value.getMedia());
         gen.writeStringField(InputMedia.TYPE_FIELD, value.getType());
+        writeCaption(value, gen);
+        writeParseMode(value, gen);
+        writeCaptionEntities(value, gen);
+        writeAudioFields(value, gen);
+        writeAnimationFields(value, gen);
+        writeDocumentFields(value, gen);
+        writePhotoFields(value, gen);
+        writeVideoFields(value, gen);
+        gen.writeEndObject();
+    }
+
+    private void writeCaption(InputMedia value, JsonGenerator gen) throws IOException {
         if (value.getCaption() != null) {
             gen.writeStringField(InputMedia.CAPTION_FIELD, value.getCaption());
         }
+    }
+
+    private void writeParseMode(InputMedia value, JsonGenerator gen) throws IOException {
         if (value.getParseMode() != null) {
             gen.writeStringField(InputMedia.PARSEMODE_FIELD, value.getParseMode());
         }
+    }
+
+    private void writeCaptionEntities(InputMedia value, JsonGenerator gen) throws IOException {
         if (value.getCaptionEntities() != null) {
             gen.writeArrayFieldStart(InputMedia.CAPTIONENTITIES_FIELD);
             for (MessageEntity entity : value.getCaptionEntities()) {
@@ -39,7 +57,9 @@ public class InputMediaSerializer extends JsonSerializer<InputMedia> {
             }
             gen.writeEndArray();
         }
+    }
 
+    private void writeAudioFields(InputMedia value, JsonGenerator gen) throws IOException {
         if (value instanceof InputMediaAudio) {
             InputMediaAudio audio = (InputMediaAudio) value;
             if (audio.getThumbnail() != null) {
@@ -54,7 +74,11 @@ public class InputMediaSerializer extends JsonSerializer<InputMedia> {
             if (audio.getTitle() != null) {
                 gen.writeStringField(InputMediaAudio.TITLE_FIELD, audio.getTitle());
             }
-        } else if (value instanceof InputMediaAnimation) {
+        }
+    }
+
+    private void writeAnimationFields(InputMedia value, JsonGenerator gen) throws IOException {
+        if (value instanceof InputMediaAnimation) {
             InputMediaAnimation animation = (InputMediaAnimation) value;
             if (animation.getThumbnail() != null) {
                 gen.writeStringField(InputMediaAnimation.THUMBNAIL_FIELD, animation.getThumbnail().getAttachName());
@@ -71,17 +95,29 @@ public class InputMediaSerializer extends JsonSerializer<InputMedia> {
             if (animation.getHasSpoiler() != null) {
                 gen.writeBooleanField(InputMediaAnimation.HASSPOILER_FIELD, animation.getHasSpoiler());
             }
-        } else if (value instanceof InputMediaDocument) {
+        }
+    }
+
+    private void writeDocumentFields(InputMedia value, JsonGenerator gen) throws IOException {
+        if (value instanceof InputMediaDocument) {
             InputMediaDocument document = (InputMediaDocument) value;
             if (document.getThumbnail() != null) {
                 gen.writeStringField(InputMediaDocument.THUMBNAIL_FIELD, document.getThumbnail().getAttachName());
             }
-        } else if (value instanceof InputMediaPhoto) {
+        }
+    }
+
+    private void writePhotoFields(InputMedia value, JsonGenerator gen) throws IOException {
+        if (value instanceof InputMediaPhoto) {
             InputMediaPhoto photo = (InputMediaPhoto) value;
             if (photo.getHasSpoiler() != null) {
                 gen.writeBooleanField(InputMediaPhoto.HASSPOILER_FIELD, photo.getHasSpoiler());
             }
-        } else if (value instanceof InputMediaVideo) {
+        }
+    }
+
+    private void writeVideoFields(InputMedia value, JsonGenerator gen) throws IOException {
+        if (value instanceof InputMediaVideo) {
             InputMediaVideo video = (InputMediaVideo) value;
             if (video.getThumbnail() != null) {
                 gen.writeStringField(InputMediaVideo.THUMBNAIL_FIELD, video.getThumbnail().getAttachName());
@@ -102,8 +138,6 @@ public class InputMediaSerializer extends JsonSerializer<InputMedia> {
                 gen.writeBooleanField(InputMediaVideo.HASSPOILER_FIELD, video.getHasSpoiler());
             }
         }
-
-        gen.writeEndObject();
     }
 
     @Override
