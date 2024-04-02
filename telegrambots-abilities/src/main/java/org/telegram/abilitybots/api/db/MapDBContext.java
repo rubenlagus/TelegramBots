@@ -50,11 +50,11 @@ public class MapDBContext implements DBContext {
    */
   public static DBContext onlineInstance(String name) {
     DB db = DBMaker
-        .fileDB(name)
-        .fileMmapEnableIfSupported()
-        .closeOnJvmShutdown()
-        .transactionEnable()
-        .make();
+            .fileDB(name)
+            .fileMmapEnableIfSupported()
+            .closeOnJvmShutdown()
+            .transactionEnable()
+            .make();
 
     return new MapDBContext(db);
   }
@@ -67,12 +67,12 @@ public class MapDBContext implements DBContext {
    */
   public static DBContext offlineInstance(String name) {
     DB db = DBMaker
-        .fileDB(name)
-        .fileMmapEnableIfSupported()
-        .closeOnJvmShutdown()
-        .transactionEnable()
-        .fileDeleteAfterClose()
-        .make();
+            .fileDB(name)
+            .fileMmapEnableIfSupported()
+            .closeOnJvmShutdown()
+            .transactionEnable()
+            .fileDeleteAfterClose()
+            .make();
 
     return new MapDBContext(db);
   }
@@ -100,9 +100,9 @@ public class MapDBContext implements DBContext {
   @Override
   public String summary() {
     return stream(db.getAllNames().spliterator(), false)
-        .map(this::info)
-        .reduce(new StringJoiner("\n"), StringJoiner::add, StringJoiner::merge)
-        .toString();
+            .map(this::info)
+            .reduce(new StringJoiner("\n"), StringJoiner::add, StringJoiner::merge)
+            .toString();
   }
 
   @Override
