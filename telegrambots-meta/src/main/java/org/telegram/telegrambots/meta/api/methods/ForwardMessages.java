@@ -98,6 +98,16 @@ public class ForwardMessages extends BotApiMethod<ArrayList<MessageId>> {
     }
 
     @Override
+    public ArrayList<MessageId> deserializeResponse(String answer) throws TelegramApiRequestException {
+        return deserializeResponseArray(answer, MessageId.class);
+    }
+
+    @Override
+    public String getMethod() {
+        return PATH;
+    }
+
+    @Override
     public void validate() throws TelegramApiValidationException {
         if (chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId can't be empty", this);
@@ -108,16 +118,6 @@ public class ForwardMessages extends BotApiMethod<ArrayList<MessageId>> {
         if (messageIds.isEmpty() || messageIds.size() > 100) {
             throw new TelegramApiValidationException("MessageIds parameter items count must be between 1 and 100", this);
         }
-    }
-
-    @Override
-    public ArrayList<MessageId> deserializeResponse(String answer) throws TelegramApiRequestException {
-        return deserializeResponseArray(answer, MessageId.class);
-    }
-
-    @Override
-    public String getMethod() {
-        return PATH;
     }
 
     public static class ForwardMessagesBuilder {

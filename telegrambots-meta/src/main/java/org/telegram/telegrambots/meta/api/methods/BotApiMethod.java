@@ -2,6 +2,7 @@ package org.telegram.telegrambots.meta.api.methods;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.Serializable;
 
@@ -15,5 +16,7 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class BotApiMethod<T extends Serializable> extends PartialBotApiMethod<T> {
     protected static final String METHOD_FIELD = "method";
+
+    public abstract void validate() throws TelegramApiValidationException;
 
 }
