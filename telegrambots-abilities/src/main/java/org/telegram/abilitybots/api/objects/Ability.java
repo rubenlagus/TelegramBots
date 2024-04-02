@@ -51,7 +51,7 @@ public final class Ability {
   private final List<Predicate<Update>> flags;
 
   @SafeVarargs
-  private Ability(String name, String info, Locality locality, Privacy privacy, int argNum, boolean statsEnabled, Consumer<MessageContext> action, Consumer<MessageContext> postAction, List<Reply> replies, Predicate<Update>... flags) {
+  Ability(String name, String info, Locality locality, Privacy privacy, int argNum, boolean statsEnabled, Consumer<MessageContext> action, Consumer<MessageContext> postAction, List<Reply> replies, Predicate<Update>... flags) {
     checkArgument(isValidCommandName(name), "Method name can only contain alpha-numeric characters and underscores," +
             " cannot be longer than 31 characters, empty or null", name);
     this.name = name;
@@ -75,8 +75,8 @@ public final class Ability {
     this.statsEnabled = statsEnabled;
   }
 
-  public static AbilityBuilder builder() {
-    return new AbilityBuilder();
+  public static AbilityBuilderFactory.AbilityBuilder builder() {
+    return AbilityBuilderFactory.builder();
   }
 
   public String name() {
