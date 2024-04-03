@@ -46,7 +46,7 @@ public class UsersShared implements BotApiObject {
     private List<UserShared> users;
 
     /**
-     * Use {{@link #getUsers()}}
+     * Use {{@link UsersShared#getUsers()}}
      */
     @Deprecated
     @JsonIgnore
