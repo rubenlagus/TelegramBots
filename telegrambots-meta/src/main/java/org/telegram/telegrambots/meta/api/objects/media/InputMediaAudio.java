@@ -24,7 +24,6 @@ import java.util.List;
  * Represents an audio file to be treated as music to be sent.
  */
 @SuppressWarnings({"unused"})
-
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
