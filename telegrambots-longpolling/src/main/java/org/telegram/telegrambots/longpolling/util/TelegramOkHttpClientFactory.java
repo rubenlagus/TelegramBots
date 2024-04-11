@@ -45,7 +45,7 @@ public class TelegramOkHttpClientFactory {
     }
 
     @RequiredArgsConstructor
-    public static class ProxyOkHttpClientCreator extends DefaultOkHttpClientCreator {
+    public static class HttpProxyOkHttpClientCreator extends DefaultOkHttpClientCreator {
         private final Supplier<Proxy> proxySupplier;
         private final Supplier<Authenticator> authenticatorSupplier;
 
@@ -58,6 +58,31 @@ public class TelegramOkHttpClientFactory {
             ofNullable(authenticatorSupplier.get()).ifPresent(okHttpClientBuilder::proxyAuthenticator);
 
             return okHttpClientBuilder.build();
+        }
+    }
+
+    @RequiredArgsConstructor
+    public static class SocksProxyOkHttpClientCreator extends DefaultOkHttpClientCreator {
+        private final Supplier<Proxy> proxySupplier;
+
+        @Override
+        public OkHttpClient get() {
+            OkHttpClient.Builder okHttpClientBuilder = getBaseClient();
+
+            // Proxy
+            ofNullable(proxySupplier.get()).ifPresent(okHttpClientBuilder::proxy);
+
+            return okHttpClientBuilder.build();
+        }
+    }
+
+    /**
+     * @deprecated Use {@link HttpProxyOkHttpClientCreator} instead
+     */
+    @Deprecated
+    public static class ProxyOkHttpClientCreator extends HttpProxyOkHttpClientCreator {
+        public ProxyOkHttpClientCreator(Supplier<Proxy> proxySupplier, Supplier<Authenticator> authenticatorSupplier) {
+            super(proxySupplier, authenticatorSupplier);
         }
     }
 }
