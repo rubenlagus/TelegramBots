@@ -11,8 +11,8 @@ import java.util.function.Function;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DefaultGetUpdatesGenerator implements Function<Integer, GetUpdates> {
-    private static final int GET_UPDATES_LIMIT = 1;
-    private static final int GET_UPDATES_TIMEOUT = 1;
+    private static final int GET_UPDATES_LIMIT = 100;
+    private static final int GET_UPDATES_TIMEOUT = 50;
 
     private List<String> allowedUpdates = new ArrayList<>();
 
