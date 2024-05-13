@@ -1,0 +1,56 @@
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+public class MyTelegramBot extends TelegramLongPollingBot {
+
+    @Override
+    public void onUpdateReceived(Update update) {
+        Message message = update.getMessage();
+        if (message != null && message.hasText()) {
+            String text = message.getText();
+            switch (text) {
+                case "/start":
+                    sendTextMessage(message.getChatId().toString(), "Привет! Это пример телеграм бота.");
+                    break;
+                case "/bagtutor":
+                    sendVideo(message.getChatId().toString(), "https://example.com/your_video.mp4");
+                    break;
+                case "/poisk.laik":
+                    sendTextMessage(message.getChatId().toString(), "Текст для команды /poisk.laik");
+                    break;
+            }
+        }
+    }
+
+    private void sendTextMessage(String chatId, String text) {
+        try {
+            execute(new org.telegram.telegrambots.meta.api.methods.send.SendMessage(chatId, text));
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendVideo(String chatId, String videoUrl) {
+        SendVideo sendVideo = new SendVideo();
+        sendVideo.setChatId(chatId);
+        sendVideo.setVideo(videoUrl);
+        try {
+            execute(sendVideo);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public String getBotUsername() {
+        return "APATATEAMbot";
+    }
+
+    @Override
+    public String getBotToken() {
+        return "6991957347:AAHaCw_nv4aDnOj3MQSsJES1Q0VezrpS4V8";
+    }
+}
