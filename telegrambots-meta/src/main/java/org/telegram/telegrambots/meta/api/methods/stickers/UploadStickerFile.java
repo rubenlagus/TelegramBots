@@ -1,16 +1,15 @@
 package org.telegram.telegrambots.meta.api.methods.stickers;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -21,16 +20,18 @@ import java.util.Arrays;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * Use this method to upload a .png file with a sticker for later use in createNewStickerSet and addStickerToSet
- * methods (can be used multiple times). Returns the uploaded File on success.
+ * Use this method to upload a file with a sticker for later use in the createNewStickerSet, addStickerToSet,
+ * or replaceStickerInSet methods (the file can be used multiple times).
+ * Returns the uploaded File on success.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
-@AllArgsConstructor
-@Builder
+@RequiredArgsConstructor
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UploadStickerFile extends PartialBotApiMethod<File> {
     public static final String PATH = "uploadStickerFile";
 
@@ -38,19 +39,23 @@ public class UploadStickerFile extends PartialBotApiMethod<File> {
     public static final String STICKER_FORMAT_FIELD = "sticker_format";
     public static final String STICKER_FIELD = "sticker";
 
+    /**
+     * User identifier of sticker file owner
+     */
     @NonNull
-    private Long userId; ///< User identifier of sticker file owner
+    private Long userId;
     /**
      * Format of the sticker, must be one of “static”, “animated”, “video”
      */
     @NonNull
     private String stickerFormat;
     /**
-     * 	A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format.
-     * 	See <a href="https://core.telegram.org/stickers"/a> for technical requirements.
+     * New sticker file
+     * A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format.
+     * See <a href="https://core.telegram.org/stickers"/a> for technical requirements.
      */
     @NonNull
-    private InputFile sticker; ///< New sticker file
+    private InputFile sticker;
 
     @Override
     public String getMethod() {
@@ -60,24 +65,6 @@ public class UploadStickerFile extends PartialBotApiMethod<File> {
     @Override
     public File deserializeResponse(String answer) throws TelegramApiRequestException {
         return deserializeResponse(answer, File.class);
-    }
-
-    /**
-     * @deprecated Use {{@link #getSticker()}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public InputFile getPngSticker() {
-        return sticker;
-    }
-
-    /**
-     * @deprecated Use {{@link #setSticker(InputFile)}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public void setPngSticker(InputFile pngSticker) {
-        this.sticker = pngSticker;
     }
 
     @Override
@@ -90,15 +77,5 @@ public class UploadStickerFile extends PartialBotApiMethod<File> {
         }
 
         sticker.validate();
-    }
-
-    public static class UploadStickerFileBuilder {
-
-        @Tolerate
-        @Deprecated
-        public UploadStickerFileBuilder pngSticker(InputFile pngSticker) {
-            this.sticker = pngSticker;
-            return this;
-        }
     }
 }

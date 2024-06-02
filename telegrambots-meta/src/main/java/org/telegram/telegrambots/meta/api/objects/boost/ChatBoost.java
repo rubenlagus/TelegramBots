@@ -1,14 +1,15 @@
 package org.telegram.telegrambots.meta.api.objects.boost;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
@@ -16,14 +17,15 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
  * @version 7.0
  * This object contains information about a chat boost.
  */
-@JsonDeserialize
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ChatBoost implements BotApiObject {
     private static final String BOOST_ID_FIELD = "boost_id";
     private static final String ADD_DATE_FIELD = "add_date";

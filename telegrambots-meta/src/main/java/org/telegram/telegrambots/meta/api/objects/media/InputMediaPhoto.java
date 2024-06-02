@@ -1,13 +1,14 @@
 package org.telegram.telegrambots.meta.api.objects.media;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -22,11 +23,14 @@ import java.util.List;
  * Represents a photo.
  */
 @SuppressWarnings("unused")
-@JsonDeserialize
+
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
 @ToString
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class InputMediaPhoto extends InputMedia {
     private static final String TYPE = "photo";
 
@@ -39,19 +43,24 @@ public class InputMediaPhoto extends InputMedia {
     @JsonProperty(HASSPOILER_FIELD)
     private Boolean hasSpoiler;
 
-    public InputMediaPhoto() {
-        super();
-    }
-
     public InputMediaPhoto(@NonNull String media) {
         super(media);
     }
 
-    @Builder
-    public InputMediaPhoto(@NonNull String media, String caption, String parseMode, List<MessageEntity> entities,
+    public InputMediaPhoto(File mediaFile, String fileName) {
+        super();
+        setMedia(mediaFile, fileName);
+    }
+
+    public InputMediaPhoto(InputStream mediaStream, String fileName) {
+        super();
+        setMedia(mediaStream, fileName);
+    }
+
+    public InputMediaPhoto(@NonNull String media, String caption, String parseMode, List<MessageEntity> captionEntities,
                            boolean isNewMedia, String mediaName, File newMediaFile, InputStream newMediaStream,
                            Boolean hasSpoiler) {
-        super(media, caption, parseMode, entities, isNewMedia, mediaName, newMediaFile, newMediaStream);
+        super(media, caption, parseMode, captionEntities, isNewMedia, mediaName, newMediaFile, newMediaStream);
         this.hasSpoiler = hasSpoiler;
     }
 

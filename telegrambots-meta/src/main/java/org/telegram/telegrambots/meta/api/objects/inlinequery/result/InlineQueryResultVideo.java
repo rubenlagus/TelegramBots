@@ -1,20 +1,17 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.result;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
-import lombok.experimental.Tolerate;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -29,15 +26,16 @@ import java.util.List;
  * Alternatively, you can use input_message_content to send a message with the specified content
  * instead of the video.
  */
-@JsonDeserialize
+
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class InlineQueryResultVideo implements InlineQueryResult {
     private static final String TYPE_FIELD = "type";
     private static final String ID_FIELD = "id";
@@ -101,9 +99,6 @@ public class InlineQueryResultVideo implements InlineQueryResult {
         if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
             throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
         }
-        if (thumbnailUrl != null && !"image/jpeg".equalsIgnoreCase(thumbnailUrl)) {
-            throw new TelegramApiValidationException("Thumbnail Url must be JPEG", this);
-        }
         if (inputMessageContent != null) {
             inputMessageContent.validate();
         }
@@ -113,31 +108,5 @@ public class InlineQueryResultVideo implements InlineQueryResult {
     }
 
 
-    /**
-     * @deprecated Use {{@link #getThumbnailUrl()}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public String getThumbUrl() {
-        return thumbnailUrl;
-    }
 
-    /**
-     * @deprecated Use {{@link #setThumbnailUrl(String)}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public void setThumbUrl(String thumbUrl) {
-        this.thumbnailUrl = thumbUrl;
-    }
-
-    public static class InlineQueryResultVideoBuilder {
-
-        @Tolerate
-        @Deprecated
-        public InlineQueryResultVideoBuilder thumbUrl(String thumbUrl) {
-            this.thumbnailUrl = thumbUrl;
-            return this;
-        }
-    }
 }

@@ -1,15 +1,16 @@
 package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import lombok.extern.jackson.Jacksonized;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -27,9 +28,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
-@AllArgsConstructor
-@Builder
+@RequiredArgsConstructor
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SetChatPhoto extends PartialBotApiMethod<Boolean> {
     public static final String PATH = "setChatPhoto";
 
@@ -66,10 +68,9 @@ public class SetChatPhoto extends PartialBotApiMethod<Boolean> {
         }
     }
 
-    public static class SetChatPhotoBuilder {
-
+    public static abstract class SetChatPhotoBuilder<C extends SetChatPhoto, B extends SetChatPhotoBuilder<C, B>> extends PartialBotApiMethodBuilder<Boolean, C, B> {
         @Tolerate
-        public SetChatPhotoBuilder chatId(@NonNull Long chatId) {
+        public SetChatPhotoBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }

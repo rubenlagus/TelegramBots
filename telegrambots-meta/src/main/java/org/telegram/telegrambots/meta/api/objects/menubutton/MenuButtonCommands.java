@@ -1,7 +1,13 @@
 package org.telegram.telegrambots.meta.api.objects.menubutton;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
@@ -11,12 +17,15 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * Represents menu button, which opens the list of bot's commands.
  */
 @SuppressWarnings({"unused"})
-@JsonDeserialize
+
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
 @ToString
-@Builder
+@NoArgsConstructor
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MenuButtonCommands extends MenuButton {
     private static final String TYPE = "commands"; ///< Type of the button, must be commands
 

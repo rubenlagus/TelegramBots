@@ -1,7 +1,7 @@
 package org.telegram.telegrambots.meta.api.objects.replykeyboard;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -11,6 +11,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
@@ -21,7 +23,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * extremely useful if you want to create user-friendly step-by-step interfaces without having to
  * sacrifice privacy mode.
  */
-@JsonDeserialize
+
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
@@ -29,7 +31,9 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ForceReplyKeyboard implements ReplyKeyboard {
     private static final String FORCEREPLY_FIELD = "force_reply";
     private static final String SELECTIVE_FIELD = "selective";

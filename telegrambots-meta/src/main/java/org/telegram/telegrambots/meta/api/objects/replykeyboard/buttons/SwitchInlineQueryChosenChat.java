@@ -1,15 +1,16 @@
 package org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 
@@ -24,10 +25,11 @@ import org.telegram.telegrambots.meta.api.interfaces.Validable;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SwitchInlineQueryChosenChat implements Validable, BotApiObject {
     private static final String QUERY_FIELD = "query";
     private static final String ALLOW_USER_CHATS_FIELD = "allow_user_chats";

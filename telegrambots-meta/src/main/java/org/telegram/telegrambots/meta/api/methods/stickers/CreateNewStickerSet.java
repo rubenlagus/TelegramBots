@@ -1,20 +1,20 @@
 package org.telegram.telegrambots.meta.api.methods.stickers;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
-import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.InputFile;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.stickers.InputSticker;
-import org.telegram.telegrambots.meta.api.objects.stickers.MaskPosition;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -34,33 +34,19 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
     public static final String PATH = "createNewStickerSet";
 
-    public static final String USERID_FIELD = "user_id";
+    public static final String USER_ID_FIELD = "user_id";
     public static final String STICKERS_FIELD = "stickers";
     public static final String NAME_FIELD = "name";
     public static final String TITLE_FIELD = "title";
-    public static final String STICKER_FORMAT_FIELD = "sticker_format";
-    public static final String STICKERTYPE_FIELD = "sticker_type";
+    public static final String STICKER_TYPE_FIELD = "sticker_type";
     public static final String NEEDS_REPAINTING_FIELD = "needs_repainting";
-
-    @Deprecated
-    public static final String PNGSTICKER_FIELD = "png_sticker";
-    @Deprecated
-    public static final String TGSSTICKER_FIELD = "tgs_sticker";
-    @Deprecated
-    public static final String WEBMSTICKER_FIELD = "webm_sticker";
-    @Deprecated
-    public static final String EMOJIS_FIELD = "emojis";
-    @Deprecated
-    public static final String CONTAINSMASKS_FIELD = "contains_masks";
-    @Deprecated
-    public static final String MASKPOSITION_FIELD = "mask_position";
-
 
     /**
      * User identifier of created sticker set owner
@@ -87,11 +73,6 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
     @Singular
     private List<InputSticker> stickers;
     /**
-     * Format of stickers in the set, must be one of “static”, “animated”, “video”
-     */
-    @NonNull
-    private String stickerFormat;
-    /**
      * Optional
      * True if stickers in the sticker set must be repainted to the color of text when used in messages,
      * the accent color if used as emoji status, white on chat photos, or another appropriate color based on context;
@@ -106,77 +87,35 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
     @Builder.Default
     private String stickerType = "regular";
 
-
-    /**
-     * Name of sticker set, to be used in t.me/addstickers/<name> URLs.
-     * Can contain only english letters, digits and underscores.
-     * Must begin with a letter, can't contain consecutive underscores and must end in “_by_<bot username>”.
-     * <bot_username> is case insensitive. 7-64 characters.
-     */
-    @NonNull
-    @Deprecated
-    private String emojis; ///< One or more emoji corresponding to the sticker
-    @Deprecated
-    private MaskPosition maskPosition; ///< Optional. Position where the mask should be placed on faces
-    /**
-     * Optional.
-     * Png image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px,
-     * and either width or height must be exactly 512px.
-     * Pass a file_id as a String to send a file that already exists on the Telegram servers,
-     * pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one
-     * using multipart/form-data. More info on Sending Files »
-     */
-    @Deprecated
-    private InputFile pngSticker;
-
-    /**
-     * Optional
-     * TGS animation with the sticker, uploaded using multipart/form-data.
-     * See https://core.telegram.org/animated_stickers#technical-requirements for technical requirements
-     */
-    @Deprecated
-    private InputFile tgsSticker;
-
-    /**
-     * Optional
-     * WEBM video with the sticker, uploaded using multipart/form-data.
-     * See https://core.telegram.org/stickers#video-stickers for technical requirements
-     */
-    @Deprecated
-    private InputFile webmSticker;
-
-    /**
-     * @deprecated Use {@link #setStickerType(String)}
-     */
-    @Deprecated
-    public void setContainsMasks(boolean containsMasks) {
-        if (containsMasks) {
-            this.stickerType = "mask";
-        } else {
-            this.stickerType = "regular";
-        }
-    }
-
-    /**
-     * @deprecated Use {@link #getStickerType()} or {@link #isMask()}
-     */
-    @Deprecated
-    public Boolean getContainsMasks() {
-        return isMask();
-    }
-
-    @Deprecated
-    public boolean isRegularSticker() {
-        return "regular".equals(stickerType);
-    }
-    @Deprecated
-    public boolean isMask() {
-        return "mask".equals(stickerType);
-    }
-
     @Override
     public String getMethod() {
         return PATH;
+    }
+
+    /**
+     * Returns the sticker format. Will only work if all stickers are of the same type, an exception is thrown otherwise
+     * @deprecated Use the format within each sticker
+     */
+    @Deprecated
+    public String getStickerFormat() throws TelegramApiException {
+        List<String> formats = stickers.stream().map(InputSticker::getFormat).distinct().toList();
+        if (formats.size() > 1) {
+            throw new TelegramApiException("Multiple format present in strickers");
+        }
+        return formats.isEmpty() ? null : formats.get(0);
+    }
+
+    /**
+     * Returns the sticker format.
+     * Will only work if no sticker with other format already exists in the list
+     * @deprecated Use the format within each sticker
+     */
+    @Deprecated
+    public void setStickerFormat(String stickerFormat) throws TelegramApiException {
+        String existingFormat = getStickerFormat();
+        if (existingFormat == null || !existingFormat.equals(stickerFormat)) {
+            this.stickers.forEach(x -> x.setFormat(stickerFormat));
+        }
     }
 
     @Override
@@ -198,62 +137,15 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
         if (!Arrays.asList("regular", "mask", "custom_emoji").contains(stickerType)) {
             throw new TelegramApiValidationException("Stickertype must be 'regular', 'mask' or 'custom_emoji'", this);
         }
-        if (!Arrays.asList("static", "animated", "video").contains(stickerFormat)) {
-            throw new TelegramApiValidationException("StickerFormat must be 'static', 'animated', 'video'", this);
-        }
-
         if (needsRepainting != null && !"custom_emoji".equals(stickerType)) {
             throw new TelegramApiValidationException("needsRepainting is only allowed with custom emojis", this);
         }
-        if (pngSticker == null && tgsSticker == null && webmSticker == null) {
-            if (stickers.isEmpty()) {
-                throw new TelegramApiValidationException("sticker can't be empty", this);
-            } else {
-                for (InputSticker sticker : stickers) {
-                    sticker.validate();
-                }
-            }
+        if (stickers.isEmpty()) {
+            throw new TelegramApiValidationException("sticker can't be empty", this);
         } else {
-            // Support deprecated option
-            if (emojis.isEmpty()) {
-                throw new TelegramApiValidationException("emojis can't be empty", this);
+            for (InputSticker sticker : stickers) {
+                sticker.validate();
             }
-            if ((pngSticker != null && tgsSticker != null) || (pngSticker != null && webmSticker != null)
-                        || (tgsSticker != null && webmSticker != null)) {
-                throw new TelegramApiValidationException("One of pngSticker, tgsSticker or webmSticker is needed", this);
-            }
-
-            if (pngSticker != null) {
-                pngSticker.validate();
-            }
-
-            if (tgsSticker != null) {
-                tgsSticker.validate();
-            }
-
-            if (webmSticker != null) {
-                webmSticker.validate();
-            }
-
-            if (maskPosition != null) {
-                maskPosition.validate();
-            }
-        }
-    }
-
-    public static class CreateNewStickerSetBuilder {
-        /**
-         * @deprecated Use {@link #stickerType(String)} or {@link #setStickerType(String)}
-         */
-        @Tolerate
-        @Deprecated
-        public CreateNewStickerSet.CreateNewStickerSetBuilder containsMasks(@NonNull Boolean containsMasks) {
-            if (containsMasks) {
-                this.stickerType("mask");
-            } else {
-                this.stickerType("regular");
-            }
-            return this;
         }
     }
 }

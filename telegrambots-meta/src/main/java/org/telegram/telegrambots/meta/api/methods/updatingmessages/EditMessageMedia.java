@@ -1,21 +1,22 @@
 package org.telegram.telegrambots.meta.api.methods.updatingmessages;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import lombok.extern.jackson.Jacksonized;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -38,28 +39,29 @@ import java.io.Serializable;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EditMessageMedia extends PartialBotApiMethod<Serializable> {
     public static final String PATH = "editMessageMedia";
 
-    public static final String CHATID_FIELD = "chat_id";
-    public static final String MESSAGEID_FIELD = "message_id";
+    public static final String CHAT_ID_FIELD = "chat_id";
+    public static final String MESSAGE_ID_FIELD = "message_id";
     public static final String INLINE_MESSAGE_ID_FIELD = "inline_message_id";
     public static final String MEDIA_FIELD = "media";
-    public static final String REPLYMARKUP_FIELD = "reply_markup";
+    public static final String REPLY_MARKUP_FIELD = "reply_markup";
 
     /**
      * Required if inline_message_id is not specified. Unique identifier for the chat to send the
      * message to (Or username for channels)
      */
-    @JsonProperty(CHATID_FIELD)
+    @JsonProperty(CHAT_ID_FIELD)
     private String chatId;
     /**
      * Required if inline_message_id is not specified. Unique identifier of the sent message
      */
-    @JsonProperty(MESSAGEID_FIELD)
+    @JsonProperty(MESSAGE_ID_FIELD)
     private Integer messageId;
     /**
      * Required if chat_id and message_id are not specified. Identifier of the inline message
@@ -73,7 +75,7 @@ public class EditMessageMedia extends PartialBotApiMethod<Serializable> {
     @JsonProperty(MEDIA_FIELD)
     private InputMedia media;
 
-    @JsonProperty(REPLYMARKUP_FIELD)
+    @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. A JSON-serialized object for an inline keyboard.
 
     @Tolerate
@@ -137,10 +139,9 @@ public class EditMessageMedia extends PartialBotApiMethod<Serializable> {
         }
     }
 
-    public static class EditMessageMediaBuilder {
-
+    public static abstract class EditMessageMediaBuilder<C extends EditMessageMedia, B extends EditMessageMediaBuilder<C, B>> extends PartialBotApiMethodBuilder<Serializable, C, B> {
         @Tolerate
-        public EditMessageMediaBuilder chatId(Long chatId) {
+        public EditMessageMediaBuilder<C, B> chatId(Long chatId) {
             this.chatId = chatId == null ? null : chatId.toString();
             return this;
         }

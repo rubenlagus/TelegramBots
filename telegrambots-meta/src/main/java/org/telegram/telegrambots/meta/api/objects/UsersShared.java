@@ -1,15 +1,20 @@
 package org.telegram.telegrambots.meta.api.objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Ruben Bermudez
@@ -20,11 +25,14 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@RequiredArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UsersShared implements BotApiObject {
     private static final String REQUEST_ID_FIELD = "request_id";
-    private static final String USER_IDS_FIELD = "user_ids";
+    private static final String USERS_FIELD = "users";
 
     /**
      * Identifier of the request
@@ -32,10 +40,20 @@ public class UsersShared implements BotApiObject {
     @JsonProperty(REQUEST_ID_FIELD)
     private String requestId;
     /**
-     * Identifiers of the shared users. These numbers may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting them.
-     * But they have at most 52 significant bits, so 64-bit integers or double-precision float types are safe for storing these identifiers.
-     * @apiNote The bot may not have access to the users and could be unable to use these identifiers, unless the users are already known to the bot by some other means.
+     * Information about users shared with the bot.
      */
-    @JsonProperty(USER_IDS_FIELD)
-    private List<Long> userIds;
+    @JsonProperty(USERS_FIELD)
+    private List<UserShared> users;
+
+    /**
+     * Use {{@link UsersShared#getUsers()}}
+     */
+    @Deprecated
+    @JsonIgnore
+    public List<Long> getUserIds() {
+        if (users == null) {
+            return null;
+        }
+        return users.stream().map(UserShared::getUserId).collect(Collectors.toList());
+    }
 }

@@ -1,9 +1,9 @@
 package org.telegram.telegrambots.meta.api.objects.commands.scope;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
-import org.telegram.telegrambots.meta.api.objects.commands.scope.serialization.BotCommandScopeDeserializer;
 
 /**
  * @author Ruben Bermudez
@@ -44,7 +44,19 @@ import org.telegram.telegrambots.meta.api.objects.commands.scope.serialization.B
  * botCommandScopeDefault + language_code
  * botCommandScopeDefault
  */
-@JsonDeserialize(using = BotCommandScopeDeserializer.class)
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = BotCommandScopeDefault.class, name = "default"),
+        @JsonSubTypes.Type(value = BotCommandScopeAllPrivateChats.class, name = "all_private_chats"),
+        @JsonSubTypes.Type(value = BotCommandScopeAllGroupChats.class, name = "all_group_chats"),
+        @JsonSubTypes.Type(value = BotCommandScopeAllChatAdministrators.class, name = "all_chat_administrators"),
+        @JsonSubTypes.Type(value = BotCommandScopeChat.class, name = "chat"),
+        @JsonSubTypes.Type(value = BotCommandScopeChatAdministrators.class, name = "chat_administrators"),
+        @JsonSubTypes.Type(value = BotCommandScopeChatMember.class, name = "chat_member")
+})
 public interface BotCommandScope extends BotApiObject, Validable {
     String getType();
 }

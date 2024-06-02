@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.games.SetGameScore;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.test.TelegramBotsHelper;
 
 import java.io.Serializable;
@@ -24,12 +24,10 @@ class TestSetGameScore {
 
     @BeforeEach
     void setUp() {
-        setGameScore = new SetGameScore();
+        setGameScore = new SetGameScore(98765L, 12);
         setGameScore.setChatId(12345L);
         setGameScore.setDisableEditMessage(true);
         setGameScore.setMessageId(54321);
-        setGameScore.setScore(12);
-        setGameScore.setUserId(98765L);
     }
 
     @Test

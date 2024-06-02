@@ -1,16 +1,17 @@
 package org.telegram.telegrambots.meta.api.methods.updatingmessages;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodSerializable;
 import org.telegram.telegrambots.meta.api.objects.LinkPreviewOptions;
@@ -34,9 +35,10 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EditMessageText extends BotApiMethodSerializable {
     public static final String PATH = "editmessagetext";
 
@@ -161,10 +163,9 @@ public class EditMessageText extends BotApiMethodSerializable {
         }
     }
 
-    public static class EditMessageTextBuilder {
-
+    public static abstract class EditMessageTextBuilder<C extends EditMessageText, B extends EditMessageTextBuilder<C, B>> extends BotApiMethodSerializableBuilder<C, B> {
         @Tolerate
-        public EditMessageTextBuilder chatId(Long chatId) {
+        public EditMessageTextBuilder<C, B> chatId(Long chatId) {
             this.chatId = chatId == null ? null : chatId.toString();
             return this;
         }

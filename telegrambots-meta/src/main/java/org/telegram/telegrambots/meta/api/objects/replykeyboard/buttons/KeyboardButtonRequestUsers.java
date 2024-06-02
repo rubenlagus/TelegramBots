@@ -1,15 +1,16 @@
 package org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -26,16 +27,20 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class KeyboardButtonRequestUsers implements Validable, BotApiObject {
 
     private static final String REQUEST_ID_FIELD = "request_id";
     private static final String USER_IS_BOT_FIELD = "user_is_bot";
     private static final String USER_IS_PREMIUM_FIELD = "user_is_premium";
     private static final String MAX_QUANTITY_FIELD = "max_quantity";
+    private static final String REQUEST_NAME_FIELD = "request_name";
+    private static final String REQUEST_USERNAME_FIELD = "request_username";
+    private static final String REQUEST_PHOTO_FIELD = "request_photo";
 
     /**
      * Signed 32-bit identifier of the request that will be received back in the UsersShared object.
@@ -65,7 +70,24 @@ public class KeyboardButtonRequestUsers implements Validable, BotApiObject {
      */
     @JsonProperty(MAX_QUANTITY_FIELD)
     private Integer maxQuantity;
-
+    /**
+     * Optional.
+     * Pass True to request the users' first and last name
+     */
+    @JsonProperty(REQUEST_NAME_FIELD)
+    private Boolean requestName;
+    /**
+     * Optional.
+     * Pass True to request the users' username
+     */
+    @JsonProperty(REQUEST_USERNAME_FIELD)
+    private Boolean requestUsername;
+    /**
+     * Optional.
+     * Pass True to request the users' photo
+     */
+    @JsonProperty(REQUEST_PHOTO_FIELD)
+    private Boolean requestPhoto;
 
     @Override
     public void validate() throws TelegramApiValidationException {

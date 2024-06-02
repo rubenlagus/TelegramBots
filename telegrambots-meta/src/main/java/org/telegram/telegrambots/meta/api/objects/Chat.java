@@ -1,16 +1,22 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
+import org.telegram.telegrambots.meta.api.objects.business.BusinessIntro;
+import org.telegram.telegrambots.meta.api.objects.business.BusinessLocation;
+import org.telegram.telegrambots.meta.api.objects.business.BusinessOpeningHours;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.reactions.ReactionType;
 
 import java.util.List;
@@ -26,8 +32,10 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Chat implements BotApiObject {
 
     private static final String ID_FIELD = "id";
@@ -67,7 +75,11 @@ public class Chat implements BotApiObject {
     private static final String EMOJI_STATUS_EXPIRATION_DATE_FIELD  = "emoji_status_expiration_date";
     private static final String UNRESTRICT_BOOST_COUNT_FIELD  = "unrestrict_boost_count";
     private static final String CUSTOM_EMOJI_STICKER_SET_NAME_FIELD  = "custom_emoji_sticker_set_name";
-
+    private static final String BIRTHDATE_FIELD  = "birthdate";
+    private static final String BUSINESS_INTRO_FIELD  = "business_intro";
+    private static final String BUSINESS_LOCATION_FIELD  = "business_location";
+    private static final String BUSINESS_OPENING_HOURS_FIELD  = "business_opening_hours";
+    private static final String PERSONAL_CHAT_FIELD  = "personal_chat";
 
     private static final String USERCHATTYPE = "private";
     private static final String GROUPCHATTYPE = "group";
@@ -328,7 +340,42 @@ public class Chat implements BotApiObject {
      * Returned only in getChat.
      */
     @JsonProperty(CUSTOM_EMOJI_STICKER_SET_NAME_FIELD)
-    private Boolean customEmojiStickerSetName;
+    private String customEmojiStickerSetName;
+    /**
+     * Optional.
+     * For private chats, the date of birth of the user.
+     * Returned only in getChat.
+     */
+    @JsonProperty(BIRTHDATE_FIELD)
+    private Birthdate birthdate;
+    /**
+     * Optional.
+     * For private chats with business accounts, the intro of the business.
+     * Returned only in getChat.
+     */
+    @JsonProperty(BUSINESS_INTRO_FIELD)
+    private BusinessIntro businessIntro;
+    /**
+     * Optional.
+     * For private chats with business accounts, the location of the business.
+     * Returned only in getChat.
+     */
+    @JsonProperty(BUSINESS_LOCATION_FIELD)
+    private BusinessLocation businessLocation;
+    /**
+     * Optional.
+     * For private chats with business accounts, the opening hours of the business.
+     * Returned only in getChat.
+     */
+    @JsonProperty(BUSINESS_OPENING_HOURS_FIELD)
+    private BusinessOpeningHours businessOpeningHours;
+    /**
+     * Optional.
+     * For private chats, the personal channel of the user.
+     * Returned only in getChat.
+     */
+    @JsonProperty(PERSONAL_CHAT_FIELD)
+    private Chat personalChat;
 
     @JsonIgnore
     public Boolean isGroupChat() {

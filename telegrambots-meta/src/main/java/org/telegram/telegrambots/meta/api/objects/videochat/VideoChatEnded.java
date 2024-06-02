@@ -1,7 +1,10 @@
 package org.telegram.telegrambots.meta.api.objects.videochat;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
@@ -13,8 +16,11 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@RequiredArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class VideoChatEnded implements BotApiObject {
     private static final String DURATION_FIELD = "duration";
 

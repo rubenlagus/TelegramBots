@@ -1,14 +1,15 @@
 package org.telegram.telegrambots.meta.api.objects.chatmember;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 /**
@@ -17,14 +18,15 @@ import org.telegram.telegrambots.meta.api.objects.User;
  *
  * Represents a chat member that was banned in the chat and can't return to the chat or view chat messages.
  */
-@JsonDeserialize
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ChatMemberBanned implements ChatMember {
     public static final String STATUS = "kicked";
 

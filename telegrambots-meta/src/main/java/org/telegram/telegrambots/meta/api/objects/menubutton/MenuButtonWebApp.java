@@ -1,8 +1,15 @@
 package org.telegram.telegrambots.meta.api.objects.menubutton;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.objects.webapp.WebAppInfo;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -13,12 +20,15 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * Represents menu button, which launches a web app.
  */
 @SuppressWarnings({"unused"})
-@JsonDeserialize
+
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
 @ToString
-@Builder
+@RequiredArgsConstructor
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MenuButtonWebApp extends MenuButton {
     private static final String TYPE = "web_app"; ///< Type of the button, must be web_app
 

@@ -1,15 +1,16 @@
 package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -25,9 +26,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
-@AllArgsConstructor
-@Builder
+@RequiredArgsConstructor
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SetChatStickerSet extends BotApiMethodBoolean {
     public static final String PATH = "setChatStickerSet";
 
@@ -61,10 +63,9 @@ public class SetChatStickerSet extends BotApiMethodBoolean {
         }
     }
 
-    public static class SetChatStickerSetBuilder {
-
+    public static abstract class SetChatStickerSetBuilder<C extends SetChatStickerSet, B extends SetChatStickerSetBuilder<C, B>> extends BotApiMethodBooleanBuilder<C, B> {
         @Tolerate
-        public SetChatStickerSetBuilder chatId(@NonNull Long chatId) {
+        public SetChatStickerSetBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }
