@@ -46,7 +46,7 @@ public class InlineQueryResultLocation implements InlineQueryResult {
     private static final String THUMBNAIL_URL_FIELD = "thumbnail_url";
     private static final String THUMBNAIL_WIDTH_FIELD = "thumbnail_width";
     private static final String THUMBNAUK_HEIGHT_FIELD = "thumbnail_height";
-    private static final String LIVEPERIOD_FIELD = "live_period";
+    private static final String LIVE_PERIOD_FIELD = "live_period";
     private static final String HORIZONTALACCURACY_FIELD = "horizontal_accuracy";
     private static final String HEADING_FIELD = "heading";
     private static final String PROXIMITYALERTRADIUS_FIELD = "proximity_alert_radius";
@@ -75,7 +75,11 @@ public class InlineQueryResultLocation implements InlineQueryResult {
     private Integer thumbnailWidth; ///< Optional. Thumbnail width
     @JsonProperty(THUMBNAUK_HEIGHT_FIELD)
     private Integer thumbnailHeight; ///< Optional. Thumbnail height
-    @JsonProperty(LIVEPERIOD_FIELD)
+    /**
+     * Optional. Period in seconds during which the location can be updated,
+     * should be between 60 and 86400, or 0x7FFFFFFF for live locations that can be edited indefinitely.
+     */
+    @JsonProperty(LIVE_PERIOD_FIELD)
     private Integer livePeriod; ///< Optional. Period in seconds for which the location can be updated, should be between 60 and 86400.
     /**
      * Optional.
@@ -106,8 +110,8 @@ public class InlineQueryResultLocation implements InlineQueryResult {
         if (title.isEmpty()) {
             throw new TelegramApiValidationException("Title parameter can't be empty", this);
         }
-        if (livePeriod != null && (livePeriod < 60 || livePeriod > 86400)) {
-            throw new TelegramApiValidationException("Live period parameter must be between 60 and 86400", this);
+        if (livePeriod != null && (livePeriod < 60 || livePeriod > 86400) && livePeriod != 0x7FFFFFFF) {
+            throw new TelegramApiValidationException("Live period parameter must be between 60 and 86400 or be 0x7FFFFFFF", this);
         }
         if (horizontalAccuracy != null && (horizontalAccuracy < 0 || horizontalAccuracy > 1500)) {
             throw new TelegramApiValidationException("Horizontal Accuracy parameter must be between 0 and 1500", this);

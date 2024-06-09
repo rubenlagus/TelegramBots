@@ -25,6 +25,7 @@ import java.util.List;
  * This object represents a Telegram chat with a user or a group
  * @author Ruben Bermudez
  * @version 6.1
+ * @deprecated Use {{@link org.telegram.telegrambots.meta.api.objects.chat.Chat}}
  */
 @SuppressWarnings("WeakerAccess")
 @EqualsAndHashCode(callSuper = false)
@@ -36,6 +37,7 @@ import java.util.List;
 @SuperBuilder
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Deprecated
 public class Chat implements BotApiObject {
 
     private static final String ID_FIELD = "id";

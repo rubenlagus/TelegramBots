@@ -37,26 +37,27 @@ import java.io.Serializable;
 public class EditMessageLiveLocation extends BotApiMethodSerializable {
     public static final String PATH = "editMessageLiveLocation";
 
-    private static final String CHATID_FIELD = "chat_id";
-    private static final String MESSAGEID_FIELD = "message_id";
+    private static final String CHAT_ID_FIELD = "chat_id";
+    private static final String MESSAGE_ID_FIELD = "message_id";
     private static final String INLINE_MESSAGE_ID_FIELD = "inline_message_id";
     private static final String LATITUDE_FIELD = "latitude";
     private static final String LONGITUDE_FIELD = "longitude";
-    private static final String REPLYMARKUP_FIELD = "reply_markup";
-    private static final String HORIZONTALACCURACY_FIELD = "horizontal_accuracy";
+    private static final String REPLY_MARKUP_FIELD = "reply_markup";
+    private static final String HORIZONTAL_ACCURACY_FIELD = "horizontal_accuracy";
     private static final String HEADING_FIELD = "heading";
-    private static final String PROXIMITYALERTRADIUS_FIELD = "proximity_alert_radius";
+    private static final String PROXIMITY_ALERT_RADIUS_FIELD = "proximity_alert_radius";
+    private static final String LIVE_PERIOD_FIELD = "live_period";
 
     /**
      * Required if inline_message_id is not specified. Unique identifier for the chat to send the
      * message to (Or username for channels)
      */
-    @JsonProperty(CHATID_FIELD)
+    @JsonProperty(CHAT_ID_FIELD)
     private String chatId;
     /**
      * Required if inline_message_id is not specified. Unique identifier of the sent message
      */
-    @JsonProperty(MESSAGEID_FIELD)
+    @JsonProperty(MESSAGE_ID_FIELD)
     private Integer messageId;
     /**
      * Required if chat_id and message_id are not specified. Identifier of the inline message
@@ -69,13 +70,13 @@ public class EditMessageLiveLocation extends BotApiMethodSerializable {
     @JsonProperty(LONGITUDE_FIELD)
     @NonNull
     private Double longitude; ///< Longitude of new location
-    @JsonProperty(REPLYMARKUP_FIELD)
+    @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup; ///< Optional. A JSON-serialized object for an inline keyboard.
     /**
      * Optional.
      * The radius of uncertainty for the location, measured in meters; 0-1500
      */
-    @JsonProperty(HORIZONTALACCURACY_FIELD)
+    @JsonProperty(HORIZONTAL_ACCURACY_FIELD)
     private Double horizontalAccuracy;
     /**
      * Optional.
@@ -89,8 +90,18 @@ public class EditMessageLiveLocation extends BotApiMethodSerializable {
      * For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters.
      * Must be between 1 and 100000 if specified.
      */
-    @JsonProperty(PROXIMITYALERTRADIUS_FIELD)
+    @JsonProperty(PROXIMITY_ALERT_RADIUS_FIELD)
     private Integer proximityAlertRadius;
+    /**
+     * Optional
+     * New period in seconds during which the location can be updated, starting from the message send date.
+     * If 0x7FFFFFFF is specified, then the location can be updated forever. Otherwise,
+     * the new value must not exceed the current live_period by more than a day, and the live
+     * location expiration date must remain within the next 90 days.
+     * @apiNote If not specified, then live_period remains unchanged
+     */
+    @JsonProperty(LIVE_PERIOD_FIELD)
+    private Integer livePeriod;
 
     @Tolerate
     public void setChatId(Long chatId) {
@@ -132,6 +143,9 @@ public class EditMessageLiveLocation extends BotApiMethodSerializable {
         }
         if (proximityAlertRadius != null && (proximityAlertRadius < 1 || proximityAlertRadius > 100000)) {
             throw new TelegramApiValidationException("Approaching notification distance parameter must be between 1 and 100000", this);
+        }
+        if (livePeriod != null && (livePeriod < 60 || livePeriod > 86400) && livePeriod != 0x7FFFFFFF) {
+            throw new TelegramApiValidationException("Live period parameter must be between 60 and 86400 or be 0x7FFFFFFF", this);
         }
         if (replyMarkup != null) {
             replyMarkup.validate();

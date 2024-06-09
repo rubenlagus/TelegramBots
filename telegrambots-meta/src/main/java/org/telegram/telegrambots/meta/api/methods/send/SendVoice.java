@@ -25,9 +25,11 @@ import java.util.List;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * Use this method to send voice notes, if you want Telegram clients to display the file as a
- * playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS
+ * Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message.
+ * For this to work, your audio must be in an .OGG file encoded with OPUS, or in .MP3 format, or in .M4A format
  * (other formats may be sent as Audio or Document).
+ * On success, the sent Message is returned.
+ * @apiNote Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -79,7 +81,6 @@ public class SendVoice extends SendMediaBotMethod<Message> {
      * Additional interface options.
      * A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard
      * or to force a reply from the user.
-     * @apiNote Not supported for messages sent on behalf of a business account
      */
     private ReplyKeyboard replyMarkup;
     /**

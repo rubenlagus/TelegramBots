@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
+import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 
 /**
@@ -26,7 +27,7 @@ import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 public class ChatMemberUpdated extends org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberUpdated {
     public ChatMemberUpdated(Chat chat, User from, Integer date, ChatMember oldChatMember, ChatMember newChatMember,
                              ChatInviteLink inviteLink, Boolean viaChatFolderInviteLink) {
-        super(chat, from, date, oldChatMember, newChatMember, inviteLink, viaChatFolderInviteLink);
+        super(chat, from, date, oldChatMember, newChatMember, inviteLink, viaChatFolderInviteLink,null);
     }
 
     public ChatMemberUpdated() {

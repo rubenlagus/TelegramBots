@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.Chat;
+import org.telegram.telegrambots.meta.api.objects.chat.ChatFullInfo;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -29,7 +29,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @SuperBuilder
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GetChat extends BotApiMethod<Chat> {
+public class GetChat extends BotApiMethod<ChatFullInfo> {
     public static final String PATH = "getChat";
 
     private static final String CHATID_FIELD = "chat_id";
@@ -49,8 +49,8 @@ public class GetChat extends BotApiMethod<Chat> {
     }
 
     @Override
-    public Chat deserializeResponse(String answer) throws TelegramApiRequestException {
-        return deserializeResponse(answer, Chat.class);
+    public ChatFullInfo deserializeResponse(String answer) throws TelegramApiRequestException {
+        return deserializeResponse(answer, ChatFullInfo.class);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class GetChat extends BotApiMethod<Chat> {
         }
     }
 
-    public static abstract class GetChatBuilder<C extends GetChat, B extends GetChatBuilder<C, B>> extends BotApiMethodBuilder<Chat, C, B> {
+    public static abstract class GetChatBuilder<C extends GetChat, B extends GetChatBuilder<C, B>> extends BotApiMethodBuilder<ChatFullInfo, C, B> {
         @Tolerate
         public GetChatBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();

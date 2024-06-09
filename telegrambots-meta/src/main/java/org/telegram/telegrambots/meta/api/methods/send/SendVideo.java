@@ -73,7 +73,6 @@ public class SendVideo extends SendMediaBotMethod<Message> {
      * Additional interface options.
      * A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard
      * or to force a reply from the user.
-     * @apiNote Not supported for messages sent on behalf of a business account
      */
     private ReplyKeyboard replyMarkup;
     private String parseMode; ///< Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.

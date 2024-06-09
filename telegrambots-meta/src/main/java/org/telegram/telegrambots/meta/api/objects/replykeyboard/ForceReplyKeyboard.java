@@ -22,6 +22,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * to the user (act as if the user has selected the bot‘s message and tapped ’Reply'). This can be
  * extremely useful if you want to create user-friendly step-by-step interfaces without having to
  * sacrifice privacy mode.
+ * @apiNote Not supported in channels and for messages sent on behalf of a Telegram Business account.
  */
 
 @EqualsAndHashCode(callSuper = false)

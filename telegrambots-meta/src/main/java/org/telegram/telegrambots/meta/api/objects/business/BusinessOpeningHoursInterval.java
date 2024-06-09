@@ -15,6 +15,7 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 /**
  * @author Ruben Bermudez
  * @version 7.2
+ * Describes an interval of time during which a business is open.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
