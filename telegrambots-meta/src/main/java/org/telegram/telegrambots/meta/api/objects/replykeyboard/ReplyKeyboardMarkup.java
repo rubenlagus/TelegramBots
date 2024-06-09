@@ -20,7 +20,8 @@ import java.util.List;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * This object represents a custom keyboard with reply options.
+ * This object represents a custom keyboard with reply options (see Introduction to bots for details and examples).
+ * @apiNote Not supported in channels and for messages sent on behalf of a Telegram Business account.
  */
 
 @EqualsAndHashCode(callSuper = false)

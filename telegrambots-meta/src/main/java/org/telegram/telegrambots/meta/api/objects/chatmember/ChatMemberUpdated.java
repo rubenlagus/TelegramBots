@@ -11,7 +11,7 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
-import org.telegram.telegrambots.meta.api.objects.Chat;
+import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 import org.telegram.telegrambots.meta.api.objects.ChatInviteLink;
 import org.telegram.telegrambots.meta.api.objects.User;
 
@@ -37,6 +37,7 @@ public class ChatMemberUpdated implements BotApiObject {
     private static final String NEW_CHAT_MEMBER_FIELD = "new_chat_member";
     private static final String INVITE_LINK_FIELD = "invite_link";
     private static final String VIA_CHAT_FOLDER_INVITE_LINK_FIELD = "via_chat_folder_invite_link";
+    private static final String VIA_JOIN_REQUEST_FIELD = "via_join_request";
 
     /**
      * Chat the user belongs to
@@ -76,5 +77,11 @@ public class ChatMemberUpdated implements BotApiObject {
      */
     @JsonProperty(VIA_CHAT_FOLDER_INVITE_LINK_FIELD)
     private Boolean viaChatFolderInviteLink;
+    /**
+     * Optional.
+     * True, if the user joined the chat after sending a join request and being approved by an administrator
+     */
+    @JsonProperty(VIA_JOIN_REQUEST_FIELD)
+    private Boolean viaJoinRequest;
 
 }

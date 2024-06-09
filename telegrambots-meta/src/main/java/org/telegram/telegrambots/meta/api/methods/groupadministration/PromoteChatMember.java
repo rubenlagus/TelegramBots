@@ -113,7 +113,8 @@ public class PromoteChatMember extends BotApiMethodBoolean {
     private Boolean canEditStories;
     /**
      * Optional
-     * True if the administrator can delete stories posted by other users
+     * Pass True if the administrator can edit stories posted by other users,
+     * post stories to the chat page, pin chat stories, and access the chat's story archive
      */
     @JsonProperty(CAN_DELETE_STORIES_FIELD)
     private Boolean canDeleteStories;

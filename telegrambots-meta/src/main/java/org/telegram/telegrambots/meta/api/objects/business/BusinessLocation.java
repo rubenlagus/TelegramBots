@@ -17,6 +17,7 @@ import org.telegram.telegrambots.meta.api.objects.Location;
 /**
  * @author Ruben Bermudez
  * @version 7.2
+ * Contains information about the location of a Telegram Business account.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter

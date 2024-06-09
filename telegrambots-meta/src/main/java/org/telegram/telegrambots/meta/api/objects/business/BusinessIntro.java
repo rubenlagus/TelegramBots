@@ -16,6 +16,7 @@ import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 /**
  * @author Ruben Bermudez
  * @version 7.2
+ * Contains information about the start page settings of a Telegram Business account.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter

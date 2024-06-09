@@ -17,6 +17,7 @@ import java.util.List;
 /**
  * @author Ruben Bermudez
  * @version 7.2
+ * Describes the opening hours of a business.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
