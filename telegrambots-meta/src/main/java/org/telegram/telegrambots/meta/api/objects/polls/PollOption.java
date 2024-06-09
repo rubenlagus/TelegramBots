@@ -5,13 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
+
+import java.util.List;
 
 /**
  * @author Ruben Bermudez
@@ -30,10 +32,24 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PollOption implements BotApiObject {
     private static final String TEXT_FIELD = "text";
-    private static final String VOTERCOUNT_FIELD = "voter_count";
+    private static final String VOTER_COUNT_FIELD = "voter_count";
+    private static final String TEXT_ENTITIES_FIELD = "text_entities";
 
+    /**
+     * Option text, 1-100 characters
+     */
     @JsonProperty(TEXT_FIELD)
-    private String text; ///< Option text, 1-100 characters
-    @JsonProperty(VOTERCOUNT_FIELD)
-    private Integer voterCount; ///< Number of users that voted for this option
+    private String text;
+    /**
+     * Number of users that voted for this option
+     */
+    @JsonProperty(VOTER_COUNT_FIELD)
+    private Integer voterCount;
+    /**
+     * Optional.
+     * Special entities that appear in the option text.
+     * Currently, only custom emoji entities are allowed in poll option texts
+     */
+    @JsonProperty(TEXT_ENTITIES_FIELD)
+    private List<MessageEntity> textEntities;
 }

@@ -1,4 +1,4 @@
-package org.telegram.telegrambots.meta.test.apimethods;
+package org.telegram.telegrambots.meta.api.methods;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;

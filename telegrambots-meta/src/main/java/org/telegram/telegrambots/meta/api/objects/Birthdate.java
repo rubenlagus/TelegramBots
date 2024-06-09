@@ -16,6 +16,7 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 /**
  * @author Ruben Bermudez
  * @version 7.2
+ * Describes the birthdate of a user.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter

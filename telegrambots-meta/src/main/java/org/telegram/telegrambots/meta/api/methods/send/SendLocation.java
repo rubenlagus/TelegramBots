@@ -42,7 +42,7 @@ public class SendLocation extends BotApiMethodMessage {
     private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     private static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
-    private static final String LIVEPERIOD_FIELD = "live_period";
+    private static final String LIVE_PERIOD_FIELD = "live_period";
     private static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
     private static final String HORIZONTALACCURACY_FIELD = "horizontal_accuracy";
     private static final String HEADING_FIELD = "heading";
@@ -75,12 +75,16 @@ public class SendLocation extends BotApiMethodMessage {
      * Additional interface options.
      * A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard
      * or to force a reply from the user.
-     * @apiNote Not supported for messages sent on behalf of a business account
      */
     @JsonProperty(REPLYMARKUP_FIELD)
     private ReplyKeyboard replyMarkup;
-    @JsonProperty(LIVEPERIOD_FIELD)
-    private Integer livePeriod; ///< Optional. Period in seconds for which the location will be updated (see Live Locations), should be between 60 and 86400.
+    /**
+     * Period in seconds during which the location will be updated
+     * (see Live Locations, should be between 60 and 86400,
+     * or 0x7FFFFFFF for live locations that can be edited indefinitely.
+     */
+    @JsonProperty(LIVE_PERIOD_FIELD)
+    private Integer livePeriod;
     @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
     /**
@@ -153,8 +157,8 @@ public class SendLocation extends BotApiMethodMessage {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-        if (livePeriod != null && (livePeriod < 60 || livePeriod > 86400)) {
-            throw new TelegramApiValidationException("Live period parameter must be between 60 and 86400", this);
+        if (livePeriod != null && (livePeriod < 60 || livePeriod > 86400) && livePeriod != 0x7FFFFFFF) {
+            throw new TelegramApiValidationException("Live period parameter must be between 60 and 86400 or be 0x7FFFFFFF", this);
         }
         if (replyParameters != null) {
             replyParameters.validate();

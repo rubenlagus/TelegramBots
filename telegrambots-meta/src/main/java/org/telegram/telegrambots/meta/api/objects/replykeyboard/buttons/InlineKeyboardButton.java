@@ -21,8 +21,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 /**
  * @author Ruben Bermudez
  * @version 6.1
- * This object represents one button of an inline keyboard. You must use exactly one of the
- * optional fields.
+ * This object represents one button of an inline keyboard.
+ * @apiNote You must use exactly one of the optional fields.
  * @apiNote This will only work in Telegram versions released after 9 April, 2016. Older clients will
  * display unsupported message.
  */
@@ -48,9 +48,12 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
     private static final String LOGIN_URL_FIELD = "login_url";
     private static final String WEBAPP_FIELD = "web_app";
 
+    /**
+     * Label text on the button
+     */
     @JsonProperty(TEXT_FIELD)
     @NonNull
-    private String text; ///< Label text on the button
+    private String text;
     /**
      * Optional.
      * HTTP or tg:// url to be opened when the button is pressed.
@@ -59,10 +62,16 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
      */
     @JsonProperty(URL_FIELD)
     private String url;
-    @JsonProperty(CALLBACK_DATA_FIELD)
-    private String callbackData; ///< Optional. Data to be sent in a callback query to the bot when button is pressed
     /**
-     * Optional. Description of the game that will be launched when the user presses the button.
+     * Optional.
+     * Data to be sent in a callback query to the bot when button is pressed, 1-64 bytes.
+     * @apiNote Not supported for messages sent on behalf of a Telegram Business account.
+     */
+    @JsonProperty(CALLBACK_DATA_FIELD)
+    private String callbackData;
+    /**
+     * Optional.
+     * Description of the game that will be launched when the user presses the button.
      *
      * @apiNote This type of button must always be the first button in the first row.
      */
@@ -70,27 +79,28 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
     private CallbackGame callbackGame;
     /**
      * Optional.
-     * If set, pressing the button will prompt the user to select one of their chats,
-     * open that chat and insert the bot‘s username and the specified inline query in the input field.
-     * Can be empty, in which case just the bot’s username will be inserted.
-     *
-     * @apiNote This offers an easy way for users to start using your bot in inline mode when
-     * they are currently in a private chat with it.
-     * Especially useful when combined with switch_pm… actions – in this case the user will
-     * be automatically returned to the chat they switched from, skipping the chat selection screen.
+     * If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the
+     * bot's username and the specified inline query in the input field.
+     * May be empty, in which case just the bot's username will be inserted.
+     * @apiNote Not supported for messages sent on behalf of a Telegram Business account.
      */
     @JsonProperty(SWITCH_INLINE_QUERY_FIELD)
     private String switchInlineQuery;
     /**
-     * Optional. If set, pressing the button will insert the bot‘s username and the specified
-     * inline query in the current chat's input field. Can be empty,
-     * in which case only the bot’s username will be inserted.
+     * Optional.
+     * If set, pressing the button will insert the bot's username and the specified inline query in the current
+     * chat's input field.
+     * May be empty, in which case only the bot's username will be inserted.
+     * This offers a quick way for the user to open your bot in inline mode in the same chat -
+     * good for selecting something from multiple options.
+     * @apiNote Not supported in channels and for messages sent on behalf of a Telegram Business account.
      */
     @JsonProperty(SWITCH_INLINE_QUERY_CURRENT_CHAT_FIELD)
     private String switchInlineQueryCurrentChat;
 
     /**
-     * Optional. Specify True, to send a Buy button.
+     * Optional.
+     * Specify True, to send a Buy button.
      *
      * @apiNote This type of button must always be the first button in the first row.
      */
@@ -99,22 +109,24 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
     /**
      * Optional.
      * An HTTPS URL used to automatically authorize the user.
-     * Can be used as a replacement for the Telegram Login Widget.
+     * @apiNote Can be used as a replacement for the Telegram Login Widget.
      */
     @JsonProperty(LOGIN_URL_FIELD)
     private LoginUrl loginUrl;
     /**
      * Optional.
-     * Description of the web app that will be launched when the user presses the button.
-     * The web app will be able to send an arbitrary message on behalf of the user using the method answerWebAppQuery.
-     * Available only in private chats between users and the bot.
+     * Description of the Web App that will be launched when the user presses the button.
+     * The Web App will be able to send an arbitrary message on behalf of the user using the method answerWebAppQuery.
+     * @apiNote Available only in private chats between a user and the bot.
+     * @apiNote Not supported for messages sent on behalf of a Telegram Business account.
      */
     @JsonProperty(WEBAPP_FIELD)
     private WebAppInfo webApp;
     /**
      * Optional.
      * If set, pressing the button will prompt the user to select one of their chats of the specified type,
-     * open that chat and insert the bot's username and the specified inline query in the input field
+     * open that chat and insert the bot's username and the specified inline query in the input field.
+     * @apiNote Not supported for messages sent on behalf of a Telegram Business account.
      */
     @JsonProperty(SWITCH_INLINE_QUERY_CHOSEN_CHAT_FIELD)
     private SwitchInlineQueryChosenChat switchInlineQueryChosenChat;

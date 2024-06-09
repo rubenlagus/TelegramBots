@@ -106,7 +106,6 @@ public class SendAnimation extends SendMediaBotMethod<Message> {
      * Additional interface options.
      * A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard
      * or to force a reply from the user.
-     * @apiNote Not supported for messages sent on behalf of a business account
      */
     private ReplyKeyboard replyMarkup;
     /**
