@@ -36,11 +36,12 @@ import java.util.List;
 public class InputMediaAnimation extends InputMedia {
     private static final String TYPE = "animation";
 
-    public static final String WIDTH_FIELD = "width";
-    public static final String HEIGHT_FIELD = "height";
-    public static final String DURATION_FIELD = "duration";
+    private static final String WIDTH_FIELD = "width";
+    private static final String HEIGHT_FIELD = "height";
+    private static final String DURATION_FIELD = "duration";
     public static final String THUMBNAIL_FIELD = "thumbnail";
-    public static final String HASSPOILER_FIELD = "has_spoiler";
+    private static final String HAS_SPOILER_FIELD = "has_spoiler";
+    private static final String SHOW_CAPTION_ABOVE_MEDIA_FIELD = "show_caption_above_media";
 
     @JsonProperty(WIDTH_FIELD)
     private Integer width; ///< Optional. Animation width
@@ -60,8 +61,14 @@ public class InputMediaAnimation extends InputMedia {
      * Optional.
      * Pass True if the animation must be covered with a spoiler animation
      */
-    @JsonProperty(HASSPOILER_FIELD)
+    @JsonProperty(HAS_SPOILER_FIELD)
     private Boolean hasSpoiler;
+    /**
+     * Optional.
+     * Pass True, if the caption must be shown above the message media
+     */
+    @JsonProperty(SHOW_CAPTION_ABOVE_MEDIA_FIELD)
+    private Boolean showCaptionAboveMedia;
 
     public InputMediaAnimation(@NonNull String media) {
         super(media);

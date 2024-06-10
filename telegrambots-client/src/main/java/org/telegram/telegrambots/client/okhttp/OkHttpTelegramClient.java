@@ -127,6 +127,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                 .addPart(SendPhoto.PARSE_MODE_FIELD, sendPhoto.getParseMode())
                 .addPart(SendPhoto.HAS_SPOILER_FIELD, sendPhoto.getHasSpoiler())
                 .addPart(SendPhoto.BUSINESS_CONNECTION_ID_FIELD, sendPhoto.getBusinessConnectionId())
+                .addPart(SendPhoto.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendPhoto.getShowCaptionAboveMedia())
                 .addJsonPart(SendPhoto.CAPTION_ENTITIES_FIELD, sendPhoto.getCaptionEntities()));
     }
 
@@ -202,6 +203,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                 .addPart(SendVoice.CAPTION_FIELD, sendVoice.getCaption())
                 .addPart(SendVoice.PARSE_MODE_FIELD, sendVoice.getParseMode())
                 .addPart(SendVoice.BUSINESS_CONNECTION_ID_FIELD, sendVoice.getBusinessConnectionId())
+                .addPart(SendVoice.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendVoice.getShowCaptionAboveMedia())
                 .addJsonPart(SendVoice.CAPTION_ENTITIES_FIELD, sendVoice.getCaptionEntities()));
     }
 
@@ -224,6 +226,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                     .addPart(SendMediaGroup.ALLOW_SENDING_WITHOUT_REPLY_FIELD, sendMediaGroup.getAllowSendingWithoutReply())
                     .addPart(SendMediaGroup.PROTECT_CONTENT_FIELD, sendMediaGroup.getProtectContent())
                     .addPart(SendMediaGroup.BUSINESS_CONNECTION_ID_FIELD, sendMediaGroup.getBusinessConnectionId())
+                    .addPart(SendMediaGroup.MESSAGE_EFFECT_ID_FIELD, sendMediaGroup.getMessageEffectId())
                     .addJsonPart(SendMediaGroup.REPLY_MARKUP_FIELD, sendMediaGroup.getReplyMarkup())
                     .addJsonPart(SendMediaGroup.REPLY_PARAMETERS_FIELD, sendMediaGroup.getReplyParameters());
 
@@ -250,7 +253,8 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                             .addPart(SendAnimation.PARSE_MODE_FIELD, sendAnimation.getParseMode())
                             .addPart(SendAnimation.HAS_SPOILER_FIELD, sendAnimation.getHasSpoiler())
                             .addPart(SendAnimation.BUSINESS_CONNECTION_ID_FIELD, sendAnimation.getBusinessConnectionId())
-                            .addJsonPart(SendPhoto.REPLY_MARKUP_FIELD, sendAnimation.getReplyMarkup());
+                            .addPart(SendAnimation.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendAnimation.getShowCaptionAboveMedia())
+                            .addJsonPart(SendAnimation.REPLY_MARKUP_FIELD, sendAnimation.getReplyMarkup());
 
                     if (sendAnimation.getThumbnail() != null) {
                         builder.addInputFile(SendAnimation.THUMBNAIL_FIELD, sendAnimation.getThumbnail(), false);
@@ -511,6 +515,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                     .addPart(SendMediaBotMethod.DISABLE_NOTIFICATION_FIELD, method.getDisableNotification())
                     .addPart(SendMediaBotMethod.PROTECT_CONTENT_FIELD, method.getProtectContent())
                     .addPart(SendMediaBotMethod.ALLOW_SENDING_WITHOUT_REPLY_FIELD, method.getAllowSendingWithoutReply())
+                    .addPart(SendMediaBotMethod.MESSAGE_EFFECT_ID_FIELD, method.getMessageEffectId())
                     .addJsonPart(SendMediaBotMethod.REPLY_PARAMETERS_FIELD, method.getReplyParameters())
                     .addJsonPart(SendMediaBotMethod.REPLY_MARKUP_FIELD, method.getReplyMarkup());
 

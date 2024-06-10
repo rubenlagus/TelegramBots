@@ -76,20 +76,23 @@ public class InputInvoiceMessageContent implements InputMessageContent {
     @NonNull
     private String payload;
     /**
-     * Payment provider token, obtained via Botfather
+     * Optional.
+     * Payment provider token, obtained via @BotFather.
+     * Pass an empty string for payments in Telegram Stars.
      */
     @JsonProperty(PROVIDERTOKEN_FIELD)
-    @NonNull
     private String providerToken;
     /**
-     * Three-letter ISO 4217 currency code, see more on currencies
+     * Three-letter ISO 4217 currency code, see more on currencies.
+     * Pass “XTR” for payments in Telegram Stars.
      */
     @JsonProperty(CURRENCY_FIELD)
     @NonNull
     private String currency;
     /**
      * Price breakdown, a JSON-serialized list of components
-     * (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
+     * (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.).
+     * @apiNote Must contain exactly one item for payments in Telegram Stars.
      */
     @JsonProperty(PRICES_FIELD)
     @NonNull
@@ -98,8 +101,10 @@ public class InputInvoiceMessageContent implements InputMessageContent {
     /**
      * Optional.
      * The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double).
-     * For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145.
-     * Defaults to 0
+     * For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json,
+     * it shows the number of digits past the decimal point for each currency (2 for the majority of currencies).
+     * Defaults to 0.
+     * @apiNote Not supported for payments in Telegram Stars.
      */
     @JsonProperty(MAXTIPAMOUNT_FIELD)
     private Integer maxTipAmount;
@@ -147,43 +152,50 @@ public class InputInvoiceMessageContent implements InputMessageContent {
     private Integer photoHeight;
     /**
      * Optional.
-     * Pass True, if you require the user's full name to complete the order
+     * Pass True if you require the user's full name to complete the order.
+     * @apiNote Ignored for payments in Telegram Stars.
      */
     @JsonProperty(NEEDNAME_FIELD)
     private Boolean needName;
     /**
      * Optional.
      * Pass True, if you require the user's phone number to complete the order
+     * @apiNote Ignored for payments in Telegram Stars.
      */
     @JsonProperty(NEEDPHONENUMBER_FIELD)
     private Boolean needPhoneNumber;
     /**
      * Optional.
      * Pass True, if you require the user's email address to complete the order
+     * @apiNote Ignored for payments in Telegram Stars.
      */
     @JsonProperty(NEEDEMAIL_FIELD)
     private Boolean needEmail;
     /**
      * Optional.
      * Pass True, if you require the user's shipping address to complete the order
+     * @apiNote Ignored for payments in Telegram Stars.
      */
     @JsonProperty(NEEDSHIPPINGADDRESS_FIELD)
     private Boolean needShippingAddress;
     /**
      * Optional.
      * Pass True, if user's phone number should be sent to provider
+     * @apiNote Ignored for payments in Telegram Stars.
      */
     @JsonProperty(SENDPHONENUMBERTOPROVIDER_FIELD)
     private Boolean sendPhoneNumberToProvider;
     /**
      * Optional.
      * Pass True, if user's email address should be sent to provider
+     * @apiNote Ignored for payments in Telegram Stars.
      */
     @JsonProperty(SENDEMAILTOPROVIDER_FIELD)
     private Boolean sendEmailToProvider;
     /**
      * Optional.
      * Pass True, if the final price depends on the shipping method
+     * @apiNote Ignored for payments in Telegram Stars.
      */
     @JsonProperty(ISFLEXIBLE_FIELD)
     private Boolean isFlexible;
@@ -199,13 +211,10 @@ public class InputInvoiceMessageContent implements InputMessageContent {
         if (StringUtils.isEmpty(payload) || payload.length() > 32) {
             throw new TelegramApiValidationException("Payload parameter must be between 1 and 128 characters", this);
         }
-        if (StringUtils.isEmpty(providerToken)) {
-            throw new TelegramApiValidationException("ProviderToken parameter must not be empty", this);
-        }
         if (StringUtils.isEmpty(currency)) {
             throw new TelegramApiValidationException("Currency parameter must not be empty", this);
         }
-        if (prices == null || prices.isEmpty()) {
+        if (prices.isEmpty()) {
             throw new TelegramApiValidationException("Prices parameter must not be empty", this);
         }
         for (LabeledPrice price : prices) {

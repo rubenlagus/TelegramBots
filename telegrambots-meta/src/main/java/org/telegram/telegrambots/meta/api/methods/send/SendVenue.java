@@ -110,6 +110,11 @@ public class SendVenue extends BotApiMethodMessage {
      */
     @JsonProperty(BUSINESS_CONNECTION_ID_FIELD)
     private String businessConnectionId;
+    /**
+     * Optional
+     * Unique identifier of the message effect to be added to the message
+     */
+    private String messageEffectId;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

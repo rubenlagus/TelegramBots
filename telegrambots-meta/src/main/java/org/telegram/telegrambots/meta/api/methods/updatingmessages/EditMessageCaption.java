@@ -42,6 +42,7 @@ public class EditMessageCaption extends BotApiMethodSerializable {
     private static final String REPLYMARKUP_FIELD = "reply_markup";
     private static final String PARSEMODE_FIELD = "parse_mode";
     private static final String CAPTION_ENTITIES_FIELD = "caption_entities";
+    private static final String SHOW_CAPTION_ABOVE_MEDIA_FIELD = "show_caption_above_media";
 
     /**
      * Required if inline_message_id is not specified. Unique identifier for the chat to send the
@@ -68,6 +69,12 @@ public class EditMessageCaption extends BotApiMethodSerializable {
     @JsonProperty(CAPTION_ENTITIES_FIELD)
     @Singular
     private List<MessageEntity> captionEntities; ///< Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
+    /**
+     * Optional.
+     * Pass True, if the caption must be shown above the message media
+     */
+    @JsonProperty(SHOW_CAPTION_ABOVE_MEDIA_FIELD)
+    private Boolean showCaptionAboveMedia;
 
     @Tolerate
     public void setChatId(Long chatId) {

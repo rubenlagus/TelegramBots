@@ -34,14 +34,21 @@ import java.util.List;
 public class InputMediaPhoto extends InputMedia {
     private static final String TYPE = "photo";
 
-    public static final String HASSPOILER_FIELD = "has_spoiler";
+    private static final String HAS_SPOILER_FIELD = "has_spoiler";
+    private static final String SHOW_CAPTION_ABOVE_MEDIA_FIELD = "show_caption_above_media";
 
     /**
      * Optional.
      * Pass True if the photo must be covered with a spoiler animation
      */
-    @JsonProperty(HASSPOILER_FIELD)
+    @JsonProperty(HAS_SPOILER_FIELD)
     private Boolean hasSpoiler;
+    /**
+     * Optional.
+     * Pass True, if the caption must be shown above the message media
+     */
+    @JsonProperty(SHOW_CAPTION_ABOVE_MEDIA_FIELD)
+    private Boolean showCaptionAboveMedia;
 
     public InputMediaPhoto(@NonNull String media) {
         super(media);

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
@@ -37,23 +36,36 @@ public class Invoice implements BotApiObject {
     private static final String TOTAL_AMOUNT_FIELD = "total_amount";
     private static final String PHOTO_FIELD = "photo";
 
+    /**
+     * Product name
+     */
     @JsonProperty(TITLE_FIELD)
-    private String title; ///< Product name
+    private String title;
+    /**
+     * Product description
+     */
     @JsonProperty(DESCRIPTION_FIELD)
-    private String description; ///< Product description
+    private String description;
     /**
      * 	Unique bot deep-linking parameter that can be used to generate this invoice; may be empty
      */
     @JsonProperty(START_PARAMETER_FIELD)
     private String startParameter;
+    /**
+     * Three-letter ISO 4217 currency code, or “XTR” for payments in Telegram Stars
+     */
     @JsonProperty(CURRENCY_FIELD)
-    private String currency; ///< Three-letter ISO 4217 currency code
+    private String currency;
     /**
      * Total price in the smallest units of the currency (integer, not float/double).
      * For example, for a price of US$ 1.45 pass amount = 145.
      */
     @JsonProperty(TOTAL_AMOUNT_FIELD)
-    private Integer totalAmount; ///< Goods total price in minimal quantity of the currency
+    private Integer totalAmount;
+    /**
+     * Optional.
+     * Goods photo
+     */
     @JsonProperty(PHOTO_FIELD)
-    private PhotoSize photo; ///< Optional. Goods photo
+    private PhotoSize photo;
 }

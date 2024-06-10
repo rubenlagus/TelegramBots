@@ -35,12 +35,13 @@ import java.util.List;
 public class InputMediaVideo extends InputMedia {
     private static final String TYPE = "video";
 
-    public static final String WIDTH_FIELD = "width";
-    public static final String HEIGHT_FIELD = "height";
-    public static final String DURATION_FIELD = "duration";
-    public static final String SUPPORTSSTREAMING_FIELD = "supports_streaming";
+    private static final String WIDTH_FIELD = "width";
+    private static final String HEIGHT_FIELD = "height";
+    private static final String DURATION_FIELD = "duration";
+    private static final String SUPPORTSSTREAMING_FIELD = "supports_streaming";
     public static final String THUMBNAIL_FIELD = "thumbnail";
-    public static final String HASSPOILER_FIELD = "has_spoiler";
+    private static final String HASSPOILER_FIELD = "has_spoiler";
+    private static final String SHOW_CAPTION_ABOVE_MEDIA_FIELD = "show_caption_above_media";
 
     @JsonProperty(WIDTH_FIELD)
     private Integer width; ///< Optional. Video width
@@ -65,6 +66,12 @@ public class InputMediaVideo extends InputMedia {
      */
     @JsonProperty(HASSPOILER_FIELD)
     private Boolean hasSpoiler;
+    /**
+     * Optional.
+     * Pass True, if the caption must be shown above the message media
+     */
+    @JsonProperty(SHOW_CAPTION_ABOVE_MEDIA_FIELD)
+    private Boolean showCaptionAboveMedia;
 
     public InputMediaVideo(@NonNull String media) {
         super(media);

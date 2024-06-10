@@ -80,14 +80,6 @@ public class TestSendInvoice {
     }
 
     @Test
-    public void providerTokenCantBeEmpty() {
-        SendInvoice sendInvoice = createSendInvoiceObject();
-        sendInvoice.setProviderToken("");
-        Throwable thrown = assertThrows(TelegramApiValidationException.class, sendInvoice::validate);
-        assertEquals("ProviderToken parameter can't be empty", thrown.getMessage());
-    }
-
-    @Test
     public void currencyCantBeEmpty() {
         SendInvoice sendInvoice = createSendInvoiceObject();
         sendInvoice.setCurrency("");

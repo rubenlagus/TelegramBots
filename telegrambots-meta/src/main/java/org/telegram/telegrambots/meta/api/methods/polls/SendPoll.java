@@ -65,6 +65,7 @@ public class SendPoll extends BotApiMethodMessage {
     private static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
     private static final String QUESTION_PARSE_MODE_FIELD = "question_parse_mode";
     private static final String QUESTION_ENTITIES_FIELD = "question_entities";
+    private static final String MESSAGE_EFFECT_ID_FIELD = "message_effect_id";
 
     /**
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername).
@@ -216,6 +217,12 @@ public class SendPoll extends BotApiMethodMessage {
      */
     @JsonProperty(QUESTION_ENTITIES_FIELD)
     private List<MessageEntity> questionEntities;
+    /**
+     * Optional
+     * Unique identifier of the message effect to be added to the message
+     */
+    @JsonProperty(MESSAGE_EFFECT_ID_FIELD)
+    private String messageEffectId;
 
 
     @Tolerate

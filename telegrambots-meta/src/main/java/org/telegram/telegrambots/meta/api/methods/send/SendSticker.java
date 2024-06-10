@@ -101,6 +101,11 @@ public class SendSticker extends SendMediaBotMethod<Message> {
      * Unique identifier of the business connection on behalf of which the message will be sent
      */
     private String businessConnectionId;
+    /**
+     * Optional
+     * Unique identifier of the message effect to be added to the message
+     */
+    private String messageEffectId;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
