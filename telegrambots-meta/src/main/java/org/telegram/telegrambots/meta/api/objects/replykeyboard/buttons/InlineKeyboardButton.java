@@ -100,9 +100,9 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
 
     /**
      * Optional.
-     * Specify True, to send a Buy button.
+     * Specify True, to send a Pay button. Substrings “⭐” and “XTR” in the buttons's text will be replaced with a Telegram Star icon.
      *
-     * @apiNote This type of button must always be the first button in the first row.
+     * @apiNote This type of button must always be the first button in the first row and can only be used in invoice messages.
      */
     @JsonProperty(PAY_FIELD)
     private Boolean pay;

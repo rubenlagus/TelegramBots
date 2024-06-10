@@ -59,6 +59,7 @@ public class CopyMessage extends BotApiMethod<MessageId> {
     private static final String REPLYMARKUP_FIELD = "reply_markup";
     private static final String PROTECTCONTENT_FIELD = "protect_content";
     private static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
+    private static final String SHOW_CAPTION_ABOVE_MEDIA_FIELD = "show_caption_above_media";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -89,7 +90,6 @@ public class CopyMessage extends BotApiMethod<MessageId> {
     private Boolean allowSendingWithoutReply; ///< Optional. Pass True, if the message should be sent even if the specified replied-to message is not found
     /**
      * Optional.
-     *
      * Additional interface options.
      * A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or
      * to force a reply from the user.
@@ -104,6 +104,12 @@ public class CopyMessage extends BotApiMethod<MessageId> {
      */
     @JsonProperty(REPLY_PARAMETERS_FIELD)
     private ReplyParameters replyParameters;
+    /**
+     * Optional.
+     * Pass True, if the caption must be shown above the message media
+     */
+    @JsonProperty(SHOW_CAPTION_ABOVE_MEDIA_FIELD)
+    private Boolean showCaptionAboveMedia;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

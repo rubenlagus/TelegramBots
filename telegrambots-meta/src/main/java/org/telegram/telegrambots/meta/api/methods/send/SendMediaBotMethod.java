@@ -21,6 +21,7 @@ public abstract class SendMediaBotMethod<T extends Serializable> extends Partial
     public static final String ALLOW_SENDING_WITHOUT_REPLY_FIELD = "allow_sending_without_reply";
     public static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
     public static final String REPLY_MARKUP_FIELD = "reply_markup";
+    public static final String MESSAGE_EFFECT_ID_FIELD = "message_effect_id";
 
     public abstract String getChatId();
 
@@ -42,6 +43,9 @@ public abstract class SendMediaBotMethod<T extends Serializable> extends Partial
 
     public abstract ReplyKeyboard getReplyMarkup();
 
+    public abstract String getMessageEffectId();
+
     public static abstract class SendMediaBotMethodBuilder<T extends Serializable, C extends SendMediaBotMethod<T>, B extends SendMediaBotMethodBuilder<T, C, B>> extends PartialBotApiMethodBuilder<T, C, B> {
+
     }
 }

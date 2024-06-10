@@ -52,6 +52,7 @@ public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
     private static final String MPEG4_DURATION_FIELD = "mpeg4_duration";
     private static final String PARSEMODE_FIELD = "parse_mode";
     private static final String CAPTION_ENTITIES_FIELD = "caption_entities";
+    private static final String SHOW_CAPTION_ABOVE_MEDIA_FIELD = "show_caption_above_media";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "mpeg4_gif"; ///< Type of the result, must be "mpeg4_gif"
@@ -84,6 +85,12 @@ public class InlineQueryResultMpeg4Gif implements InlineQueryResult {
     @JsonProperty(CAPTION_ENTITIES_FIELD)
     @Singular
     private List<MessageEntity> captionEntities; ///< Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
+    /**
+     * Optional.
+     * Pass True, if the caption must be shown above the message media
+     */
+    @JsonProperty(SHOW_CAPTION_ABOVE_MEDIA_FIELD)
+    private Boolean showCaptionAboveMedia;
 
     @Override
     public void validate() throws TelegramApiValidationException {

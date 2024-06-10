@@ -20,8 +20,9 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * @author Ruben Bermudez
  * @version 1.0
  *
- * This object represents one button of the reply keyboard. For simple text buttons String
- * can be used instead of this object to specify text of the button.
+ * his object represents one button of the reply keyboard.
+ * At most one of the optional fields must be used to specify type of the button.
+ * For simple text buttons, String can be used instead of this object to specify the button text.
  * @apiNote  Optional fields are mutually exclusive.
  * @apiNote request_contact and request_location options will only work in Telegram versions released
  * after 9 April, 2016. Older clients will ignore them.

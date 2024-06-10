@@ -31,22 +31,42 @@ public class PreCheckoutQuery implements BotApiObject {
     private static final String SHIPPING_OPTION_ID_FIELD = "shipping_option_id";
     private static final String ORDER_INFO_FIELD = "order_info";
 
+    /**
+     * Unique query identifier
+     */
     @JsonProperty(ID_FIELD)
-    private String id; ///< Unique query identifier
+    private String id;
+    /**
+     * User who sent the query
+     */
     @JsonProperty(FROM_FIELD)
-    private User from; ///< User who sent the query
+    private User from;
+    /**
+     * Three-letter ISO 4217 currency code, or “XTR” for payments in Telegram Stars
+     */
     @JsonProperty(CURRENCY_FIELD)
-    private String currency; ///< Three-letter ISO 4217 currency code
+    private String currency;
     /**
      * Total price in the smallest units of the currency (integer, not float/double).
      * For example, for a price of US$ 1.45 pass amount = 145.
      */
     @JsonProperty(TOTAL_AMOUNT_FIELD)
     private Integer totalAmount;
+    /**
+     * Bot specified invoice payload
+     */
     @JsonProperty(INVOICE_PAYLOAD_FIELD)
-    private String invoicePayload; ///< Bot specified invoice payload
+    private String invoicePayload;
+    /**
+     * Optional.
+     * Identifier of a chosen by user shipping option
+     */
     @JsonProperty(SHIPPING_OPTION_ID_FIELD)
-    private String shippingOptionId; ///< Optional. Identifier of a chosen by user shipping option
+    private String shippingOptionId;
+    /**
+     * Optional.
+     * Order info provided by the user
+     */
     @JsonProperty(ORDER_INFO_FIELD)
-    private OrderInfo orderInfo; ///< Optional. Order info provided by the user
+    private OrderInfo orderInfo;
 }

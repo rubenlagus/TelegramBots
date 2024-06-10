@@ -71,14 +71,6 @@ public class TestCreateInvoiceLink {
     }
 
     @Test
-    public void providerTokenCantBeEmpty() {
-        CreateInvoiceLink createInvoiceLink = createSendInvoiceObject();
-        createInvoiceLink.setProviderToken("");
-        Throwable thrown = assertThrows(TelegramApiValidationException.class, createInvoiceLink::validate);
-        assertEquals("ProviderToken parameter can't be empty", thrown.getMessage());
-    }
-
-    @Test
     public void currencyCantBeEmpty() {
         CreateInvoiceLink createInvoiceLink = createSendInvoiceObject();
         createInvoiceLink.setCurrency("");
