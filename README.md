@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.org/rubenlagus/TelegramBots.svg?branch=master)](https://travis-ci.org/rubenlagus/TelegramBots)
 [![Jitpack](https://jitpack.io/v/rubenlagus/TelegramBots.svg)](https://jitpack.io/#rubenlagus/TelegramBots)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.telegram/telegrambots/badge.svg)](http://mvnrepository.com/artifact/org.telegram/telegrambots)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.telegram/telegrambots-meta/badge.svg)](http://mvnrepository.com/artifact/org.telegram/telegrambots)
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/rubenlagus/TelegramBots/blob/master/LICENSE)
 
 A simple to use library to create Telegram Bots in Java
