@@ -110,20 +110,20 @@ public class Chat implements BotApiObject {
     @JsonProperty(TITLE_FIELD)
     private String title;
     /**
-     * Optional
-     * Username of the chat, only for private chats and channels if available
+     * Optional.
+     * Interlocutor's first name for private chats
      */
     @JsonProperty(FIRSTNAME_FIELD)
     private String firstName;
     /**
      * Optional.
-     * Interlocutor's first name for private chats
+     * Interlocutor's last name for private chats
      */
     @JsonProperty(LASTNAME_FIELD)
     private String lastName;
     /**
-     * Optional.
-     * Interlocutor's last name for private chats
+     * Optional
+     * Username of the chat, only for private chats and channels if available
      */
     @JsonProperty(USERNAME_FIELD)
     private String userName;
@@ -217,7 +217,7 @@ public class Chat implements BotApiObject {
      * Returned only in getChat.
      */
     @JsonProperty(HASPROTECTEDCONTENT_FIELD)
-    private Boolean HasProtectedContent;
+    private Boolean hasProtectedContent;
     /**
      * Optional.
      * True, if users need to join the supergroup before they can send messages.
