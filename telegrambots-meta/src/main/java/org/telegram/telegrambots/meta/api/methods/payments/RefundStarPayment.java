@@ -38,7 +38,7 @@ public class RefundStarPayment extends BotApiMethodBoolean {
      */
     @JsonProperty(USER_ID_FIELD)
     @NonNull
-    private Integer userId;
+    private Long userId;
     /**
      * Telegram payment identifier
      */
