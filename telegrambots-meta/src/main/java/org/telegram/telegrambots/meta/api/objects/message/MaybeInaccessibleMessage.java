@@ -22,8 +22,6 @@ import org.telegram.telegrambots.meta.api.objects.chat.Chat;
         @JsonSubTypes.Type(value = InaccessibleMessage.class, name = "0")
 })
 public interface MaybeInaccessibleMessage extends BotApiObject {
-    String DATE_FIELD = "date";
-
     @JsonIgnore
     default boolean isUserMessage() {
         return true;
