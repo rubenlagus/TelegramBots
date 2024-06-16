@@ -22,4 +22,6 @@ import org.telegram.telegrambots.meta.api.interfaces.Validable;
 public interface ReactionType extends Validable, BotApiObject {
     String EMOJI_TYPE = "emoji";
     String CUSTOM_EMOJI_TYPE = "custom_emoji";
+
+    String getType();
 }
