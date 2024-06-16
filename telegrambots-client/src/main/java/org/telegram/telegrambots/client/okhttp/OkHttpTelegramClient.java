@@ -146,6 +146,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                     .addPart(SendVideo.HEIGHT_FIELD, sendVideo.getHeight())
                     .addPart(SendVideo.HAS_SPOILER_FIELD, sendVideo.getHasSpoiler())
                     .addPart(SendVideo.BUSINESS_CONNECTION_ID_FIELD, sendVideo.getBusinessConnectionId())
+                    .addPart(SendVideo.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendVideo.getShowCaptionAboveMedia())
                     .addJsonPart(SendVideo.CAPTION_ENTITIES_FIELD, sendVideo.getCaptionEntities());
 
             if (sendVideo.getThumbnail() != null) {
