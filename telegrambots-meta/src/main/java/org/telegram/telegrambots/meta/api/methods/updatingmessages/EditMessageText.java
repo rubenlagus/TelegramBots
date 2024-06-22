@@ -26,8 +26,10 @@ import java.util.List;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * Use this method to edit text messages. On
- * success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
+ * Use this method to edit text and game messages.
+ * On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
+ * @apiNote Note that business messages that were not sent by the bot and do not contain an inline keyboard
+ * can only be edited within 48 hours from the time they were sent.
  */
 @SuppressWarnings("unused")
 @EqualsAndHashCode(callSuper = false)
@@ -42,26 +44,27 @@ import java.util.List;
 public class EditMessageText extends BotApiMethodSerializable {
     public static final String PATH = "editmessagetext";
 
-    private static final String CHATID_FIELD = "chat_id";
-    private static final String MESSAGEID_FIELD = "message_id";
+    private static final String CHAT_ID_FIELD = "chat_id";
+    private static final String MESSAGE_ID_FIELD = "message_id";
     private static final String INLINE_MESSAGE_ID_FIELD = "inline_message_id";
     private static final String TEXT_FIELD = "text";
     private static final String PARSE_MODE_FIELD = "parse_mode";
     private static final String DISABLE_WEB_PREVIEW_FIELD = "disable_web_page_preview";
-    private static final String REPLYMARKUP_FIELD = "reply_markup";
+    private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String ENTITIES_FIELD = "entities";
     private static final String LINK_PREVIEW_OPTIONS_FIELD = "link_preview_options";
+    private static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
 
     /**
      * Required if inline_message_id is not specified. Unique identifier for the chat to send the
      * message to (Or username for channels)
      */
-    @JsonProperty(CHATID_FIELD)
+    @JsonProperty(CHAT_ID_FIELD)
     private String chatId;
     /**
      * Required if inline_message_id is not specified. Unique identifier of the sent message
      */
-    @JsonProperty(MESSAGEID_FIELD)
+    @JsonProperty(MESSAGE_ID_FIELD)
     private Integer messageId;
     /**
      * Required if chat_id and message_id are not specified. Identifier of the inline message
@@ -80,18 +83,36 @@ public class EditMessageText extends BotApiMethodSerializable {
      */
     @JsonProperty(PARSE_MODE_FIELD)
     private String parseMode;
+    /**
+     * Optional.
+     * Disables link previews for links in this message
+     */
     @JsonProperty(DISABLE_WEB_PREVIEW_FIELD)
-    private Boolean disableWebPagePreview; ///< Optional. Disables link previews for links in this message
-    @JsonProperty(REPLYMARKUP_FIELD)
-    private InlineKeyboardMarkup replyMarkup; ///< Optional. A JSON-serialized object for an inline keyboard.
+    private Boolean disableWebPagePreview;
+    /**
+     * Optional.
+     * A JSON-serialized object for an inline keyboard.
+     */
+    @JsonProperty(REPLY_MARKUP_FIELD)
+    private InlineKeyboardMarkup replyMarkup;
+    /**
+     * Optional.
+     * List of special entities that appear in message text, which can be specified instead of parse_mode
+     */
     @JsonProperty(ENTITIES_FIELD)
-    private List<MessageEntity> entities; ///< Optional. List of special entities that appear in message text, which can be specified instead of parse_mode
+    private List<MessageEntity> entities;
     /**
      * Optional
      * Link preview generation options for the message
      */
     @JsonProperty(LINK_PREVIEW_OPTIONS_FIELD)
     private LinkPreviewOptions linkPreviewOptions;
+    /**
+     * Optional
+     * Unique identifier of the business connection on behalf of which the message to be edited was sent
+     */
+    @JsonProperty(BUSINESS_CONNECTION_ID_FIELD)
+    private String businessConnectionId;
 
     public void disableWebPagePreview() {
         disableWebPagePreview = true;

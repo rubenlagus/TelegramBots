@@ -47,6 +47,7 @@ public class EditMessageLiveLocation extends BotApiMethodSerializable {
     private static final String HEADING_FIELD = "heading";
     private static final String PROXIMITY_ALERT_RADIUS_FIELD = "proximity_alert_radius";
     private static final String LIVE_PERIOD_FIELD = "live_period";
+    private static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
 
     /**
      * Required if inline_message_id is not specified. Unique identifier for the chat to send the
@@ -64,14 +65,24 @@ public class EditMessageLiveLocation extends BotApiMethodSerializable {
      */
     @JsonProperty(INLINE_MESSAGE_ID_FIELD)
     private String inlineMessageId;
+    /**
+     * Latitude of new location
+     */
     @JsonProperty(LATITUDE_FIELD)
     @NonNull
-    private Double latitude; ///< Latitude of new location
+    private Double latitude;
+    /**
+     * Longitude of new location
+     */
     @JsonProperty(LONGITUDE_FIELD)
     @NonNull
-    private Double longitude; ///< Longitude of new location
+    private Double longitude;
+    /**
+     * Optional.
+     * A JSON-serialized object for an inline keyboard.
+     */
     @JsonProperty(REPLY_MARKUP_FIELD)
-    private InlineKeyboardMarkup replyMarkup; ///< Optional. A JSON-serialized object for an inline keyboard.
+    private InlineKeyboardMarkup replyMarkup;
     /**
      * Optional.
      * The radius of uncertainty for the location, measured in meters; 0-1500
@@ -102,6 +113,13 @@ public class EditMessageLiveLocation extends BotApiMethodSerializable {
      */
     @JsonProperty(LIVE_PERIOD_FIELD)
     private Integer livePeriod;
+    /**
+     * Optional
+     * Unique identifier of the business connection on behalf of which the message to be edited was sent
+     */
+    @JsonProperty(BUSINESS_CONNECTION_ID_FIELD)
+    private String businessConnectionId;
+
 
     @Tolerate
     public void setChatId(Long chatId) {
