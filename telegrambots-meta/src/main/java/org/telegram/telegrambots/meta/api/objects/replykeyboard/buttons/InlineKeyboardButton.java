@@ -64,8 +64,7 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
     private String url;
     /**
      * Optional.
-     * Data to be sent in a callback query to the bot when button is pressed, 1-64 bytes.
-     * @apiNote Not supported for messages sent on behalf of a Telegram Business account.
+     * Data to be sent in a callback query to the bot when the button is pressed, 1-64 bytes
      */
     @JsonProperty(CALLBACK_DATA_FIELD)
     private String callbackData;

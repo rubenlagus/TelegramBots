@@ -422,6 +422,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             builder.addPart(EditMessageMedia.CHAT_ID_FIELD, editMessageMedia.getChatId())
                     .addPart(EditMessageMedia.MESSAGE_ID_FIELD, editMessageMedia.getMessageId())
                     .addPart(EditMessageMedia.INLINE_MESSAGE_ID_FIELD, editMessageMedia.getInlineMessageId())
+                    .addPart(EditMessageMedia.BUSINESS_CONNECTION_ID_FIELD, editMessageMedia.getBusinessConnectionId())
                     .addJsonPart(EditMessageMedia.REPLY_MARKUP_FIELD, editMessageMedia.getReplyMarkup());
 
             addInputData(builder, EditMessageMedia.MEDIA_FIELD, editMessageMedia.getMedia(), true);

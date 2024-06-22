@@ -37,29 +37,40 @@ import java.io.Serializable;
 public class StopMessageLiveLocation extends BotApiMethodSerializable {
     public static final String PATH = "stopMessageLiveLocation";
 
-    private static final String CHATID_FIELD = "chat_id";
-    private static final String MESSAGEID_FIELD = "message_id";
+    private static final String CHAT_ID_FIELD = "chat_id";
+    private static final String MESSAGE_ID_FIELD = "message_id";
     private static final String INLINE_MESSAGE_ID_FIELD = "inline_message_id";
-    private static final String REPLYMARKUP_FIELD = "reply_markup";
+    private static final String REPLY_MARKUP_FIELD = "reply_markup";
+    private static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
 
     /**
      * Required if inline_message_id is not specified. Unique identifier for the chat to send the
      * message to (Or username for channels)
      */
-    @JsonProperty(CHATID_FIELD)
+    @JsonProperty(CHAT_ID_FIELD)
     private String chatId;
     /**
      * Required if inline_message_id is not specified. Unique identifier of the sent message
      */
-    @JsonProperty(MESSAGEID_FIELD)
+    @JsonProperty(MESSAGE_ID_FIELD)
     private Integer messageId;
     /**
      * Required if chat_id and message_id are not specified. Identifier of the inline message
      */
     @JsonProperty(INLINE_MESSAGE_ID_FIELD)
     private String inlineMessageId;
-    @JsonProperty(REPLYMARKUP_FIELD)
-    private InlineKeyboardMarkup replyMarkup; ///< Optional. A JSON-serialized object for an inline keyboard.
+    /**
+     * Optional.
+     * A JSON-serialized object for an inline keyboard.
+     */
+    @JsonProperty(REPLY_MARKUP_FIELD)
+    private InlineKeyboardMarkup replyMarkup;
+    /**
+     * Optional
+     * Unique identifier of the business connection on behalf of which the message to be edited was sent
+     */
+    @JsonProperty(BUSINESS_CONNECTION_ID_FIELD)
+    private String businessConnectionId;
 
     @Tolerate
     public void setChatId(Long chatId) {

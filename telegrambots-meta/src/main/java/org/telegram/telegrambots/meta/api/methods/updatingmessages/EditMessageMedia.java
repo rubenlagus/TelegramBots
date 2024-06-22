@@ -27,12 +27,14 @@ import java.io.Serializable;
 /**
  * @author Ruben Bermudez
  * @version 4.0.0
- * Use this method to edit audio, document, photo, or video messages.
- * f a message is part of a message album, then it can be edited only to an audio for audio albums,
- * only to a document for document albums and to a photo or a video otherwise
- * When an inline message is edited, a new file can't be uploaded.
- * Use a previously uploaded file via its file_id or specify a URL.
- * On success, if the edited message was sent by the bot, the edited Message is returned, otherwise True is returned.
+ * Use this method to edit animation, audio, document, photo, or video messages.
+ * If a message is part of a message album, then it can be edited only to an audio for audio albums,
+ * only to a document for document albums and to a photo or a video otherwise.
+ * When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or
+ * specify a URL.
+ * On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
+ * @apiNote  Note that business messages that were not sent by the bot and do not contain an inline
+ * keyboard can only be edited within 48 hours from the time they were sent.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -51,6 +53,7 @@ public class EditMessageMedia extends PartialBotApiMethod<Serializable> {
     public static final String INLINE_MESSAGE_ID_FIELD = "inline_message_id";
     public static final String MEDIA_FIELD = "media";
     public static final String REPLY_MARKUP_FIELD = "reply_markup";
+    public static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
 
     /**
      * Required if inline_message_id is not specified. Unique identifier for the chat to send the
@@ -74,9 +77,18 @@ public class EditMessageMedia extends PartialBotApiMethod<Serializable> {
     @NonNull
     @JsonProperty(MEDIA_FIELD)
     private InputMedia media;
-
+    /**
+     * Optional
+     * Unique identifier of the business connection on behalf of which the message to be edited was sent
+     */
     @JsonProperty(REPLY_MARKUP_FIELD)
-    private InlineKeyboardMarkup replyMarkup; ///< Optional. A JSON-serialized object for an inline keyboard.
+    private InlineKeyboardMarkup replyMarkup;
+    /**
+     * Optional
+     * Unique identifier of the business connection on behalf of which the message to be edited was sent
+     */
+    @JsonProperty(BUSINESS_CONNECTION_ID_FIELD)
+    private String businessConnectionId;
 
     @Tolerate
     public void setChatId(Long chatId) {
