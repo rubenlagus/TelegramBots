@@ -179,8 +179,8 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
      */
     @Override
     public void consume(Update update) {
-        log.info(format("[%s] New update [%s] received at %s", botUsername, update.getUpdateId(), now()));
-        log.info(update.toString());
+        log.debug(format("[%s] New update [%s] received at %s", botUsername, update.getUpdateId(), now()));
+        log.debug(update.toString());
         long millisStarted = System.currentTimeMillis();
 
         Stream.of(update)
@@ -204,7 +204,7 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
         db.commit();
 
         long processingTime = System.currentTimeMillis() - millisStarted;
-        log.info(format("[%s] Processing of update [%s] ended at %s%n---> Processing time: [%d ms] <---%n", botUsername, update.getUpdateId(), now(), processingTime));
+        log.debug(format("[%s] Processing of update [%s] ended at %s%n---> Processing time: [%d ms] <---%n", botUsername, update.getUpdateId(), now(), processingTime));
     }
 
     public Privacy getPrivacy(Update update, long id) {
