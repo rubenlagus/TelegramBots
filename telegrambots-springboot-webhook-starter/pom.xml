@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.telegram</groupId>
         <artifactId>Bots</artifactId>
-        <version>7.5.0</version>
+        <version>7.6.1</version>
     </parent>
 
     <artifactId>telegrambots-springboot-webhook-starter</artifactId>
@@ -71,7 +71,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <telegrambots.version>7.5.0</telegrambots.version>
+        <telegrambots.version>7.6.1</telegrambots.version>
         <spring.version>3.2.3</spring.version>
         <jackson.version>2.16.1</jackson.version>
     </properties>
