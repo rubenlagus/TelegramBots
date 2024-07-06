@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
+import org.telegram.telegrambots.meta.api.methods.send.SendPaidMedia;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
@@ -69,6 +70,14 @@ public interface TelegramClient {
      * @see <a href="https://core.telegram.org/bots/api#sendMediaGroup">https://core.telegram.org/bots/api#sendMediaGroup</a>
      */
     List<Message> execute(SendMediaGroup sendMediaGroup) throws TelegramApiException;
+
+    /**
+     * Send a paid media
+     * @return If success, list of generated messages
+     * @throws TelegramApiException If there is any error sending the media group
+     * @see <a href="https://core.telegram.org/bots/api#sendMediaGroup">https://core.telegram.org/bots/api#sendMediaGroup</a>
+     */
+    List<Message> execute(SendPaidMedia sendPaidMedia) throws TelegramApiException;
 
     /**
      * Set chat profile photo
@@ -183,6 +192,13 @@ public interface TelegramClient {
      * @see <a href="https://core.telegram.org/bots/api#sendMediaGroup">https://core.telegram.org/bots/api#sendMediaGroup</a>
      */
     CompletableFuture<List<Message>> executeAsync(SendMediaGroup sendMediaGroup);
+
+    /**
+     * Send a paid media
+     * @return If success, list of generated messages
+     * @see <a href="https://core.telegram.org/bots/api#sendMediaGroup">https://core.telegram.org/bots/api#sendMediaGroup</a>
+     */
+    CompletableFuture<List<Message>> executeAsync(SendPaidMedia sendPaidMedia);
 
     /**
      * Set chat profile photo

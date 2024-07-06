@@ -19,6 +19,7 @@ import org.telegram.telegrambots.meta.api.objects.giveaway.Giveaway;
 import org.telegram.telegrambots.meta.api.objects.giveaway.GiveawayWinners;
 import org.telegram.telegrambots.meta.api.objects.messageorigin.MessageOrigin;
 import org.telegram.telegrambots.meta.api.objects.payments.Invoice;
+import org.telegram.telegrambots.meta.api.objects.payments.paidmedia.PaidMediaInfo;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 import org.telegram.telegrambots.meta.api.objects.stories.Story;
@@ -63,6 +64,7 @@ public class ExternalReplyInfo implements BotApiObject {
     private static final String LOCATION_FIELD = "location";
     private static final String POLL_FIELD = "poll";
     private static final String VENUE_FIELD = "venue";
+    private static final String PAID_MEDIA_FIELD = "paid_media";
 
     /**
      * Origin of the message replied to by the given message
@@ -200,7 +202,13 @@ public class ExternalReplyInfo implements BotApiObject {
      * Message is a venue, information about the venue
      */
     @JsonProperty(VENUE_FIELD)
-    private Venue venue;  
+    private Venue venue;
+    /**
+     * Optional.
+     * Message contains paid media; information about the paid media
+     */
+    @JsonProperty(PAID_MEDIA_FIELD)
+    private PaidMediaInfo paidMedia;
 
 
     @JsonIgnore
