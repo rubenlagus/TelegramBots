@@ -74,6 +74,7 @@ public class ChatFullInfo extends Chat {
     private static final String BUSINESS_LOCATION_FIELD  = "business_location";
     private static final String BUSINESS_OPENING_HOURS_FIELD  = "business_opening_hours";
     private static final String PERSONAL_CHAT_FIELD  = "personal_chat";
+    private static final String CAN_SEND_PAID_MEDIA_FIELD  = "can_send_paid_media";
 
     /**
      * Optional.
@@ -320,4 +321,11 @@ public class ChatFullInfo extends Chat {
      */
     @JsonProperty(PERSONAL_CHAT_FIELD)
     private Chat personalChat;
+    /**
+     * Optional.
+     * True, if paid media messages can be sent or forwarded to the channel chat.
+     * The field is available only for channel chats.
+     */
+    @JsonProperty(CAN_SEND_PAID_MEDIA_FIELD)
+    private Boolean canSendPaidMedia;
 }
