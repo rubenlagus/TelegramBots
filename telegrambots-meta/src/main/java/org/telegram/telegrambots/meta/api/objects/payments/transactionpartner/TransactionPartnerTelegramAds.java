@@ -4,19 +4,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
-import org.telegram.telegrambots.meta.api.objects.User;
 
 /**
  * @author Ruben Bermudez
- * @version 7.5
+ * @version 7.6
  *
- * Describes a transaction with a user.
+ * Describes a withdrawal transaction to the Telegram Ads platform.
  */
 
 @EqualsAndHashCode(callSuper = false)
@@ -27,26 +25,12 @@ import org.telegram.telegrambots.meta.api.objects.User;
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 @SuperBuilder
-public class TransactionPartnerUser implements TransactionPartner {
+public class TransactionPartnerTelegramAds implements TransactionPartner {
     private static final String TYPE_FIELD = "type";
-    private static final String USER_FIELD = "user";
-    private static final String INVOICE_PAYLOAD_FIELD = "invoice_payload";
 
     /**
-     * Type of the transaction partner, always “user”
+     * Type of the transaction partner, always “telegram_ads”
      */
     @JsonProperty(TYPE_FIELD)
-    private final String type = "user";
-    /**
-     * Information about the user
-     */
-    @JsonProperty(USER_FIELD)
-    @NonNull
-    private User user;
-    /**
-     * Optional.
-     * Bot-specified invoice payload
-     */
-    @JsonProperty(INVOICE_PAYLOAD_FIELD)
-    private String invoicePayload;
+    private final String type = "telegram_ads";
 }

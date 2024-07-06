@@ -7,6 +7,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
+import org.telegram.telegrambots.meta.api.objects.media.paid.InputPaidMedia;
 import org.telegram.telegrambots.meta.api.objects.stickers.InputSticker;
 
 import java.io.IOException;
@@ -89,6 +90,27 @@ public class TelegramMultipartBuilder {
     }
 
     public TelegramMultipartBuilder addMedia(InputMedia media) throws IOException {
+        if (media == null) {
+            return this;
+        }
+
+        if (media.isNewMedia()) {
+            RequestBody body = null;
+            if (media.getNewMediaFile() != null) {
+                body = RequestBody.create(media.getNewMediaFile(), MediaType.parse("application/octet-stream"));
+            } else if (media.getNewMediaStream() != null) {
+                body = RequestBody.create(media.getNewMediaStream().readAllBytes(), MediaType.parse("application/octet-stream")
+                );
+            }
+            if (body != null) {
+                internalBuilder.addFormDataPart(media.getMediaName(), media.getMediaName(), body);
+            }
+        }
+
+        return this;
+    }
+
+    public TelegramMultipartBuilder addMedia(InputPaidMedia media) throws IOException {
         if (media == null) {
             return this;
         }

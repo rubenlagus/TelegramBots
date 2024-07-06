@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
+import org.telegram.telegrambots.meta.api.methods.send.SendPaidMedia;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
@@ -109,6 +110,15 @@ public abstract class AbstractTelegramClient implements TelegramClient {
             return executeAsync(sendMediaGroup).get();
         } catch (Exception e) {
             throw mapException(e, sendMediaGroup.getMethod());
+        }
+    }
+
+    @Override
+    public List<Message> execute(SendPaidMedia sendPaidMedia) throws TelegramApiException {
+        try {
+            return executeAsync(sendPaidMedia).get();
+        } catch (Exception e) {
+            throw mapException(e, sendPaidMedia.getMethod());
         }
     }
 
