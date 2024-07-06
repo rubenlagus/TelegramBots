@@ -35,12 +35,17 @@ public class MenuButtonWebApp extends MenuButton {
     public static final String TEXT_FIELD = "text";
     public static final String WEBAPP_FIELD = "web_app";
 
+    /**
+     * Text of the button
+     */
     @JsonProperty(TEXT_FIELD)
     @NonNull
-    private String text; ///< Text of the button
+    private String text;
     /**
-     * Description of the web app that will be launched when the user presses the button.
-     * The web app will be able to send an arbitrary message on behalf of the user using the method answerWebAppQuery.
+     * Description of the Web App that will be launched when the user presses the button.
+     * The Web App will be able to send an arbitrary message on behalf of the user using the method answerWebAppQuery.
+     * Alternatively, a t.me link to a Web App of the bot can be specified in the object instead of the Web App's URL,
+     * in which case the Web App will be opened as if the user pressed the link.
      */
     @JsonProperty(WEBAPP_FIELD)
     @NonNull

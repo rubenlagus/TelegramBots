@@ -12,7 +12,6 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.objects.Audio;
-import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 import org.telegram.telegrambots.meta.api.objects.ChatShared;
 import org.telegram.telegrambots.meta.api.objects.Contact;
 import org.telegram.telegrambots.meta.api.objects.Dice;
@@ -35,6 +34,7 @@ import org.telegram.telegrambots.meta.api.objects.VideoNote;
 import org.telegram.telegrambots.meta.api.objects.Voice;
 import org.telegram.telegrambots.meta.api.objects.WriteAccessAllowed;
 import org.telegram.telegrambots.meta.api.objects.boost.ChatBoostAdded;
+import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 import org.telegram.telegrambots.meta.api.objects.chat.background.ChatBackground;
 import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicClosed;
 import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicCreated;
@@ -52,6 +52,7 @@ import org.telegram.telegrambots.meta.api.objects.messageorigin.MessageOrigin;
 import org.telegram.telegrambots.meta.api.objects.passport.PassportData;
 import org.telegram.telegrambots.meta.api.objects.payments.Invoice;
 import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
+import org.telegram.telegrambots.meta.api.objects.payments.paidmedia.PaidMediaInfo;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
@@ -171,6 +172,7 @@ public class Message implements MaybeInaccessibleMessage {
     private static final String CHAT_BACKGROUND_SET_FIELD = "chat_background_set";
     private static final String EFFECT_ID_FIELD = "effect_id";
     private static final String SHOW_CAPTION_ABOVE_MEDIA_FIELD = "show_caption_above_media";
+    private static final String PAID_MEDIA_FIELD = "paid_media";
 
     /**
      * Integer	Unique message identifier
@@ -735,6 +737,12 @@ public class Message implements MaybeInaccessibleMessage {
      */
     @JsonProperty(SHOW_CAPTION_ABOVE_MEDIA_FIELD)
     private Boolean showCaptionAboveMedia;
+    /**
+     * 	Optional.
+     * 	Message contains paid media; information about the paid media
+     */
+    @JsonProperty(PAID_MEDIA_FIELD)
+    private PaidMediaInfo paidMedia;
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {
@@ -980,5 +988,10 @@ public class Message implements MaybeInaccessibleMessage {
     @JsonIgnore
     private boolean hasBoostAdded() {
         return boostAdded != null;
+    }
+
+    @JsonIgnore
+    private boolean hasPaidMedia() {
+        return paidMedia != null;
     }
 }

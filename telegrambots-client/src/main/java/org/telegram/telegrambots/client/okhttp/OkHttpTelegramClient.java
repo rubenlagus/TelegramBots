@@ -20,6 +20,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMediaBotMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
+import org.telegram.telegrambots.meta.api.methods.send.SendPaidMedia;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
@@ -32,12 +33,14 @@ import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumbnai
 import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.File;
-import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaAnimation;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaAudio;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaDocument;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaVideo;
+import org.telegram.telegrambots.meta.api.objects.media.paid.InputPaidMedia;
+import org.telegram.telegrambots.meta.api.objects.media.paid.InputPaidMediaVideo;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
@@ -205,6 +208,41 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                 .addPart(SendVoice.BUSINESS_CONNECTION_ID_FIELD, sendVoice.getBusinessConnectionId())
                 .addPart(SendVoice.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendVoice.getShowCaptionAboveMedia())
                 .addJsonPart(SendVoice.CAPTION_ENTITIES_FIELD, sendVoice.getCaptionEntities()));
+    }
+
+    @Override
+    public CompletableFuture<List<Message>> executeAsync(SendPaidMedia sendPaidMedia) {
+        try {
+            assertParamNotNull(sendPaidMedia, "sendPaidMedia");
+            sendPaidMedia.validate();
+
+            HttpUrl url = buildUrl(sendPaidMedia.getMethod());
+
+            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
+
+            addPaidInputData(builder, SendPaidMedia.MEDIA_FIELD, sendPaidMedia.getMedia());
+
+            builder.addPart(SendPaidMedia.CHAT_ID_FIELD, sendPaidMedia.getChatId())
+                    .addPart(SendPaidMedia.STAR_COUNT_FIELD, sendPaidMedia.getStarCount())
+                    .addPart(SendPaidMedia.CAPTION_FIELD, sendPaidMedia.getCaption())
+                    .addPart(SendPaidMedia.PARSE_MODE_FIELD, sendPaidMedia.getParseMode())
+                    .addPart(SendPaidMedia.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendPaidMedia.getShowCaptionAboveMedia())
+                    .addPart(SendPaidMedia.DISABLE_NOTIFICATION_FIELD, sendPaidMedia.getDisableNotification())
+                    .addPart(SendPaidMedia.PROTECT_CONTENT_FIELD, sendPaidMedia.getProtectContent())
+                    .addJsonPart(SendPaidMedia.CAPTION_ENTITIES_FIELD, sendPaidMedia.getCaptionEntities())
+                    .addJsonPart(SendPaidMedia.REPLY_MARKUP_FIELD, sendPaidMedia.getReplyMarkup())
+                    .addJsonPart(SendPaidMedia.REPLY_PARAMETERS_FIELD, sendPaidMedia.getReplyParameters());
+
+
+            Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
+
+            //For some reason java is having problem with casting ArrayList to List here
+            return sendRequest(sendPaidMedia, httpPost).thenApply(list -> list);
+        } catch (TelegramApiException e) {
+            return CompletableFuture.failedFuture(e);
+        } catch (IOException e) {
+            return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + sendPaidMedia.getMethod(), e));
+        }
     }
 
     @Override
@@ -569,6 +607,30 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
         if (addField) {
             builder.addJsonPart(mediaField, media);
         }
+    }
+
+    private void addInputData(TelegramMultipartBuilder builder, String mediaField, InputPaidMedia media, boolean addField) throws IOException {
+        if (media.isNewMedia()) {
+            builder.addMedia(media);
+        }
+
+        if (media instanceof InputPaidMediaVideo document) {
+            if (document.getThumbnail() != null) {
+                builder.addInputFile(InputMediaDocument.THUMBNAIL_FIELD, document.getThumbnail(), false);
+            }
+        }
+
+        if (addField) {
+            builder.addJsonPart(mediaField, media);
+        }
+    }
+
+    private void addPaidInputData(TelegramMultipartBuilder builder, String mediaField, List<InputPaidMedia> media) throws IOException {
+        for (InputPaidMedia inputMedia : media) {
+            addInputData(builder, null, inputMedia, false);
+        }
+
+        builder.addJsonPart(mediaField, media);
     }
 
     private void addInputData(TelegramMultipartBuilder builder, String mediaField, List<InputMedia> media) throws IOException {
