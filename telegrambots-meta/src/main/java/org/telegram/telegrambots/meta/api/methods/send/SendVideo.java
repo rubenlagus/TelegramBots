@@ -51,6 +51,7 @@ public class SendVideo extends SendMediaBotMethod<Message> {
     public static final String CAPTION_ENTITIES_FIELD = "caption_entities";
     public static final String HAS_SPOILER_FIELD = "has_spoiler";
     public static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
+    public static final String SHOW_CAPTION_ABOVE_MEDIA_FIELD = "show_caption_above_media";
 
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
@@ -109,6 +110,11 @@ public class SendVideo extends SendMediaBotMethod<Message> {
      * Unique identifier of the message effect to be added to the message
      */
     private String messageEffectId;
+    /**
+     * Optional.
+     * Pass True, if the caption must be shown above the message media
+     */
+    private Boolean showCaptionAboveMedia;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
