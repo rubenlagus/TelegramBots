@@ -115,7 +115,6 @@ public class SendInvoice extends BotApiMethodMessage {
      * with the value used as the start parameter
      */
     @JsonProperty(START_PARAMETER_FIELD)
-    @NonNull
     private String startParameter;
     /**
      * Three-letter ISO 4217 currency code, see more on currencies.
