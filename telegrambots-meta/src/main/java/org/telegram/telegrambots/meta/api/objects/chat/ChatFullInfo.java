@@ -42,23 +42,23 @@ public class ChatFullInfo extends Chat {
     private static final String BIO_FIELD = "bio";
     private static final String PHOTO_FIELD = "photo";
     private static final String DESCRIPTION_FIELD = "description";
-    private static final String INVITELINK_FIELD = "invite_link";
-    private static final String PINNEDMESSAGE_FIELD = "pinned_message";
-    private static final String STICKERSETNAME_FIELD = "sticker_set_name";
-    private static final String CANSETSTICKERSET_FIELD = "can_set_sticker_set";
+    private static final String INVITE_LINK_FIELD = "invite_link";
+    private static final String PINNED_MESSAGE_FIELD = "pinned_message";
+    private static final String STICKER_SET_NAME_FIELD = "sticker_set_name";
+    private static final String CAN_SET_STICKER_SET_FIELD = "can_set_sticker_set";
     private static final String PERMISSIONS_FIELD = "permissions";
-    private static final String SLOWMODEDELAY_FIELD = "slow_mode_delay";
-    private static final String LINKEDCHATID_FIELD = "linked_chat_id";
+    private static final String SLOW_MODE_DELAY_FIELD = "slow_mode_delay";
+    private static final String LINKED_CHAT_ID_FIELD = "linked_chat_id";
     private static final String LOCATION_FIELD = "location";
-    private static final String MESSAGEAUTODELETETIME_FIELD = "message_auto_delete_time";
-    private static final String HASPRIVATEFORWARDS_FIELD = "has_private_forwards";
-    private static final String HASPROTECTEDCONTENT_FIELD = "has_protected_content";
-    private static final String JOINTOSENDMESSAGES_FIELD  = "join_to_send_messages";
-    private static final String JOINBYREQUEST_FIELD  = "join_by_request";
-    private static final String HASRESTRICTEDVOICEANDVIDEOMESSAGES_FIELD  = "has_restricted_voice_and_video_messages";
-    private static final String ACTIVEUSERNAMES_FIELD  = "active_usernames";
-    private static final String HASAGGRESSIVEANTISPAMENABLED_FIELD  = "has_aggressive_anti_spam_enabled";
-    private static final String HASHIDDENMEMBERS_FIELD  = "has_hidden_members";
+    private static final String MESSAGE_AUTO_DELETE_TIME_FIELD = "message_auto_delete_time";
+    private static final String HAS_PRIVATE_FORWARDS_FIELD = "has_private_forwards";
+    private static final String HAS_PROTECTED_CONTENT_FIELD = "has_protected_content";
+    private static final String JOIN_TO_SEND_MESSAGES_FIELD  = "join_to_send_messages";
+    private static final String JOIN_BY_REQUEST_FIELD = "join_by_request";
+    private static final String HAS_RESTRICTED_VOICE_AND_VIDEO_MESSAGES_FIELD = "has_restricted_voice_and_video_messages";
+    private static final String ACTIVE_USERNAMES_FIELD = "active_usernames";
+    private static final String HAS_AGGRESSIVE_ANTISPAM_ENABLED_FIELD = "has_aggressive_anti_spam_enabled";
+    private static final String HAS_HIDDEN_MEMBERS_FIELD = "has_hidden_members";
     private static final String AVAILABLE_REACTIONS_FIELD  = "available_reactions";
     private static final String ACCENT_COLOR_ID_FIELD  = "accent_color_id";
     private static final String BACKGROUND_CUSTOM_EMOJI_ID_FIELD  = "background_custom_emoji_id";
@@ -92,25 +92,25 @@ public class ChatFullInfo extends Chat {
      * Optional.
      * Primary invite link, for groups, supergroups and channel chats. Returned only in getChat.
      */
-    @JsonProperty(INVITELINK_FIELD)
+    @JsonProperty(INVITE_LINK_FIELD)
     private String inviteLink;
     /**
      * Optional.
      * The most recent pinned message (by sending date). Returned only in getChat.
      */
-    @JsonProperty(PINNEDMESSAGE_FIELD)
+    @JsonProperty(PINNED_MESSAGE_FIELD)
     private Message pinnedMessage;
     /**
      * Optional.
      * For supergroups, name of Group sticker set. Returned only in getChat.
      */
-    @JsonProperty(STICKERSETNAME_FIELD)
+    @JsonProperty(STICKER_SET_NAME_FIELD)
     private String stickerSetName;
     /**
      * Optional.
      * True, if the bot can change group the sticker set. Returned only in getChat.
      */
-    @JsonProperty(CANSETSTICKERSET_FIELD)
+    @JsonProperty(CAN_SET_STICKER_SET_FIELD)
     private Boolean canSetStickerSet;
     /**
      * Optional.
@@ -123,7 +123,7 @@ public class ChatFullInfo extends Chat {
      * For supergroups, the minimum allowed delay between consecutive messages sent by each unpriviledged user.
      * Returned only in getChat.
      */
-    @JsonProperty(SLOWMODEDELAY_FIELD)
+    @JsonProperty(SLOW_MODE_DELAY_FIELD)
     private Integer slowModeDelay;
     /**
      * Optional.
@@ -141,7 +141,7 @@ public class ChatFullInfo extends Chat {
      * double-precision float type are safe for storing this identifier.
      * Returned only in getChat.
      */
-    @JsonProperty(LINKEDCHATID_FIELD)
+    @JsonProperty(LINKED_CHAT_ID_FIELD)
     private Long linkedChatId;
     /**
      * Optional. For supergroups, the location to which the supergroup is connected. Returned only in getChat.
@@ -151,49 +151,49 @@ public class ChatFullInfo extends Chat {
     /**
      * Optional. The time after which all messages sent to the chat will be automatically deleted; in seconds. Returned only in getChat.
      */
-    @JsonProperty(MESSAGEAUTODELETETIME_FIELD)
+    @JsonProperty(MESSAGE_AUTO_DELETE_TIME_FIELD)
     private Integer messageAutoDeleteTime;
     /**
      * Optional.
      * True, if privacy settings of the other party in the private chat allows to use tg://user?id=<user_id> links only in chats with the user.
      * Returned only in getChat.
      */
-    @JsonProperty(HASPRIVATEFORWARDS_FIELD)
+    @JsonProperty(HAS_PRIVATE_FORWARDS_FIELD)
     private Boolean hasPrivateForwards;
     /**
      * Optional.
      * True, if messages from the chat can't be forwarded to other chats.
      * Returned only in getChat.
      */
-    @JsonProperty(HASPROTECTEDCONTENT_FIELD)
-    private Boolean HasProtectedContent;
+    @JsonProperty(HAS_PROTECTED_CONTENT_FIELD)
+    private Boolean hasProtectedContent;
     /**
      * Optional.
      * True, if users need to join the supergroup before they can send messages.
      * Returned only in getChat.
      */
-    @JsonProperty(JOINTOSENDMESSAGES_FIELD)
+    @JsonProperty(JOIN_TO_SEND_MESSAGES_FIELD)
     private Boolean joinToSendMessages;
     /**
      * Optional.
      * True, if all users directly joining the supergroup need to be approved by supergroup administrators.
      * Returned only in getChat.
      */
-    @JsonProperty(JOINBYREQUEST_FIELD)
+    @JsonProperty(JOIN_BY_REQUEST_FIELD)
     private Boolean joinByRequest;
     /**
      * Optional.
      * True, if the privacy settings of the other party restrict sending voice and video note messages in the private chat.
      * Returned only in getChat.
      */
-    @JsonProperty(HASRESTRICTEDVOICEANDVIDEOMESSAGES_FIELD)
+    @JsonProperty(HAS_RESTRICTED_VOICE_AND_VIDEO_MESSAGES_FIELD)
     private Boolean hasRestrictedVoiceAndVideoMessages;
     /**
      * Optional.
      * If non-empty, the list of all active chat usernames; for private chats, supergroups and channels.
      * Returned only in getChat.
      */
-    @JsonProperty(ACTIVEUSERNAMES_FIELD)
+    @JsonProperty(ACTIVE_USERNAMES_FIELD)
     private List<String> activeUsernames;
     /**
      * Optional.
@@ -208,14 +208,14 @@ public class ChatFullInfo extends Chat {
      * The field is only available to chat administrators.
      * Returned only in getChat.
      */
-    @JsonProperty(HASAGGRESSIVEANTISPAMENABLED_FIELD)
+    @JsonProperty(HAS_AGGRESSIVE_ANTISPAM_ENABLED_FIELD)
     private Boolean hasAggressiveAntiSpamEnabled;
     /**
      * Optional.
      * True, if non-administrators can only get the list of bots and administrators in the chat.
      * Returned only in getChat.
      */
-    @JsonProperty(HASHIDDENMEMBERS_FIELD)
+    @JsonProperty(HAS_HIDDEN_MEMBERS_FIELD)
     private Boolean hasHiddenMembers;
     /**
      * Optional.
