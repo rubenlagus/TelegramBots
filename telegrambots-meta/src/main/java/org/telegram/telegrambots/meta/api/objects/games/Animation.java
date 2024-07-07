@@ -26,12 +26,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import lombok.experimental.Tolerate;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 
 /**
  * This object represents an animation file (GIF or H.264/MPEG-4 AVC video without sound).
+ *
  * @author Ruben Bermudez
  * @version 2.4
  */
@@ -103,7 +105,7 @@ public class Animation implements BotApiObject {
      * MIME type of the file as defined by sender
      */
     @JsonProperty(MIMETYPE_FIELD)
-    private String mimetype;
+    private String mimeType;
     /**
      * Optional.
      * File size in bytes.
@@ -112,5 +114,36 @@ public class Animation implements BotApiObject {
      */
     @JsonProperty(FILESIZE_FIELD)
     private Long fileSize;
+
+    /**
+     * @deprecated Use {{@link #getMimeType()}} instead
+     */
+    @Deprecated
+    @Tolerate
+    public String getMimetype() {
+        return mimeType;
+    }
+
+    /**
+     * @deprecated Use {{@link #setMimeType(String)}} instead
+     */
+    @Deprecated
+    @Tolerate
+    public void setMimetype(String mimetype) {
+        this.mimeType = mimetype;
+    }
+
+    public static abstract class AnimationBuilder<C extends Animation, B extends AnimationBuilder<C, B>> {
+
+        /**
+         * @deprecated Use {{@link #mimeType(String)}} instead
+         */
+        @Deprecated
+        @Tolerate
+        public B mimetype(String mimetype) {
+            this.mimeType = mimetype;
+            return self();
+        }
+    }
 
 }
