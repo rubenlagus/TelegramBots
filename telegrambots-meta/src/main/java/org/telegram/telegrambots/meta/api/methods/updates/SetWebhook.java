@@ -12,8 +12,9 @@ import lombok.Singular;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
-import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.util.List;
@@ -25,7 +26,6 @@ import java.util.List;
  * Whenever there is an update for the bot, we will send an HTTPS POST request to the specified URL,
  * containing a JSON-serialized Update. In case of an unsuccessful request,
  * we will give up after a reasonable amount of attempts. Returns True on success.
- *
  * If you'd like to make sure that the webhook was set by you, you can specify secret data in the parameter secret_token.
  * If specified, the request will contain a header “X-Telegram-Bot-Api-Secret-Token” with the secret token as content.
  */
@@ -38,16 +38,16 @@ import java.util.List;
 @SuperBuilder
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SetWebhook extends BotApiMethodBoolean {
+public class SetWebhook extends PartialBotApiMethod<Boolean> {
     public static final String PATH = "setWebhook";
 
     public static final String URL_FIELD = "url";
     public static final String CERTIFICATE_FIELD = "certificate";
-    public static final String MAXCONNECTIONS_FIELD = "max_connections";
-    public static final String ALLOWEDUPDATES_FIELD = "allowed_updates";
-    public static final String IPADDRESS_FIELD = "ip_address";
-    public static final String DROPPENDINGUPDATES_FIELD = "drop_pending_updates";
-    public static final String SECRETTOKEN_FIELD = "secret_token";
+    public static final String MAX_CONNECTIONS_FIELD = "max_connections";
+    public static final String ALLOWED_UPDATES_FIELD = "allowed_updates";
+    public static final String IP_ADDRESS_FIELD = "ip_address";
+    public static final String DROP_PENDING_UPDATES_FIELD = "drop_pending_updates";
+    public static final String SECRET_TOKEN_FIELD = "secret_token";
 
     @JsonProperty(URL_FIELD)
     @NonNull
@@ -59,7 +59,7 @@ public class SetWebhook extends BotApiMethodBoolean {
      * Defaults to 40. Use lower values to limit the load on your bot‘s server,
      * and higher values to increase your bot’s throughput.
      */
-    @JsonProperty(MAXCONNECTIONS_FIELD)
+    @JsonProperty(MAX_CONNECTIONS_FIELD)
     private Integer maxConnections;
     /**
      * Optional
@@ -67,18 +67,16 @@ public class SetWebhook extends BotApiMethodBoolean {
      * For example, specify ["message", "edited_channel_post", "callback_query"] to only receive updates of these types.
      * See Update for a complete list of available update types.
      * Specify an empty list to receive all update types except chat_member, message_reaction, and message_reaction_count (default).
-     *
      * If not specified, the previous setting will be used.
-     *
      * Please note that this parameter doesn't affect updates created before the call to the setWebhook,
      * so unwanted updates may be received for a short period of time.
      */
-    @JsonProperty(ALLOWEDUPDATES_FIELD)
+    @JsonProperty(ALLOWED_UPDATES_FIELD)
     @Singular
     private List<String> allowedUpdates;
-    @JsonProperty(IPADDRESS_FIELD)
+    @JsonProperty(IP_ADDRESS_FIELD)
     private String ipAddress;
-    @JsonProperty(DROPPENDINGUPDATES_FIELD)
+    @JsonProperty(DROP_PENDING_UPDATES_FIELD)
     private Boolean dropPendingUpdates;
     /**
      * Optional
@@ -86,8 +84,13 @@ public class SetWebhook extends BotApiMethodBoolean {
      * Only characters A-Z, a-z, 0-9, _ and - are allowed.
      * The header is useful to ensure that the request comes from a webhook set by you.
      */
-    @JsonProperty(SECRETTOKEN_FIELD)
+    @JsonProperty(SECRET_TOKEN_FIELD)
     private String secretToken;
+
+    @Override
+    public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
+        return deserializeResponse(answer, Boolean.class);
+    }
 
     @Override
     public String getMethod() {

@@ -31,6 +31,7 @@ import org.telegram.telegrambots.meta.api.methods.stickers.CreateNewStickerSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.ReplaceStickerInSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumbnail;
 import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
+import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
@@ -132,6 +133,36 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                 .addPart(SendPhoto.BUSINESS_CONNECTION_ID_FIELD, sendPhoto.getBusinessConnectionId())
                 .addPart(SendPhoto.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendPhoto.getShowCaptionAboveMedia())
                 .addJsonPart(SendPhoto.CAPTION_ENTITIES_FIELD, sendPhoto.getCaptionEntities()));
+    }
+
+    @Override
+    public CompletableFuture<Boolean> executeAsync(SetWebhook setWebhook) {
+        try {
+            assertParamNotNull(setWebhook, "method");
+
+            setWebhook.validate();
+
+            HttpUrl url = buildUrl(setWebhook.getMethod());
+
+            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
+
+            builder.addPart(SetWebhook.URL_FIELD, setWebhook.getUrl())
+                    .addPart(SetWebhook.MAX_CONNECTIONS_FIELD, setWebhook.getMaxConnections())
+                    .addJsonPart(SetWebhook.ALLOWED_UPDATES_FIELD, setWebhook.getAllowedUpdates())
+                    .addPart(SetWebhook.IP_ADDRESS_FIELD, setWebhook.getIpAddress())
+                    .addPart(SetWebhook.DROP_PENDING_UPDATES_FIELD, setWebhook.getDropPendingUpdates())
+                    .addPart(SetWebhook.SECRET_TOKEN_FIELD, setWebhook.getSecretToken());
+
+            builder.addInputFile(SetWebhook.CERTIFICATE_FIELD, setWebhook.getCertificate(), true);
+
+            Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
+
+            return sendRequest(setWebhook, httpPost);
+        } catch (TelegramApiException e) {
+            return CompletableFuture.failedFuture(e);
+        } catch (IOException e) {
+            return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + setWebhook.getMethod(), e));
+        }
     }
 
     @Override
