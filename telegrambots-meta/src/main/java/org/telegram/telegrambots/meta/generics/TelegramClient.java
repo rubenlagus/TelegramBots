@@ -17,6 +17,7 @@ import org.telegram.telegrambots.meta.api.methods.stickers.CreateNewStickerSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.ReplaceStickerInSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumbnail;
 import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
+import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
@@ -37,6 +38,8 @@ public interface TelegramClient {
     Message execute(SendDocument sendDocument) throws TelegramApiException;
 
     Message execute(SendPhoto sendPhoto) throws TelegramApiException;
+
+    Boolean execute(SetWebhook setWebhook) throws TelegramApiException;
 
     Message execute(SendVideo sendVideo) throws TelegramApiException;
 
@@ -143,12 +146,14 @@ public interface TelegramClient {
 
     java.io.File downloadFile(File file) throws TelegramApiException;
 
+    @SuppressWarnings("unused")
     default java.io.File downloadFile(String filePath) throws TelegramApiException {
         return downloadFile(new File(null, null, null, filePath));
     }
 
     InputStream downloadFileAsStream(File file) throws TelegramApiException;
 
+    @SuppressWarnings("unused")
     default InputStream downloadFileAsStream(String filePath) throws TelegramApiException {
         return downloadFileAsStream(new File(null, null, null, filePath));
     }
@@ -164,6 +169,8 @@ public interface TelegramClient {
     CompletableFuture<Message> executeAsync(SendDocument sendDocument);
 
     CompletableFuture<Message> executeAsync(SendPhoto sendPhoto);
+
+    CompletableFuture<Boolean> executeAsync(SetWebhook setWebhook);
 
     CompletableFuture<Message> executeAsync(SendVideo sendVideo);
 
@@ -264,12 +271,14 @@ public interface TelegramClient {
 
     CompletableFuture<java.io.File> downloadFileAsync(File file);
 
+    @SuppressWarnings("unused")
     default CompletableFuture<java.io.File> downloadFileAsync(String filePath) {
         return downloadFileAsync(new File(null, null, null, filePath));
-    };
+    }
 
     CompletableFuture<InputStream> downloadFileAsStreamAsync(File file);
 
+    @SuppressWarnings("unused")
     default CompletableFuture<InputStream> downloadFileAsStreamAsync(String filePath) {
         return downloadFileAsStreamAsync(new File(null, null, null, filePath));
     }
