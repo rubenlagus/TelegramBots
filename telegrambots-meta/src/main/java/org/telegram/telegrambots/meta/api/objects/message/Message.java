@@ -859,7 +859,7 @@ public class Message implements MaybeInaccessibleMessage {
     }
 
     @JsonIgnore
-    private boolean hasGame() {
+    public boolean hasGame() {
         return game != null;
     }
 
@@ -924,82 +924,87 @@ public class Message implements MaybeInaccessibleMessage {
     }
 
     @JsonIgnore
-    private boolean hasMessageAutoDeleteTimerChanged() {
+    public boolean hasMessageAutoDeleteTimerChanged() {
         return messageAutoDeleteTimerChanged != null;
     }
 
     @JsonIgnore
-    private boolean hasWebAppData() {
+    public boolean hasWebAppData() {
         return webAppData != null;
     }
 
     @JsonIgnore
-    private boolean hasVideoChatStarted() {
+    public boolean hasVideoChatStarted() {
         return videoChatStarted != null;
     }
 
     @JsonIgnore
-    private boolean hasVideoChatEnded() {
+    public boolean hasVideoChatEnded() {
         return videoChatEnded != null;
     }
 
     @JsonIgnore
-    private boolean hasVideoChatScheduled() {
+    public boolean hasVideoChatScheduled() {
         return videoChatScheduled != null;
     }
 
     @JsonIgnore
-    private boolean hasVideoChatParticipantsInvited() {
+    public boolean hasVideoChatParticipantsInvited() {
         return videoChatParticipantsInvited != null;
     }
 
     @JsonIgnore
-    private boolean hasForumTopicCreated() {
+    public boolean hasForumTopicCreated() {
         return forumTopicCreated != null;
     }
 
     @JsonIgnore
-    private boolean hasForumTopicClosed() {
+    public boolean hasForumTopicClosed() {
         return forumTopicClosed != null;
     }
 
     @JsonIgnore
-    private boolean hasForumTopicReopened() {
+    public boolean hasForumTopicReopened() {
         return forumTopicReopened != null;
     }
 
     @JsonIgnore
-    private boolean hasUserShared() {
+    public boolean hasUserShared() {
         return userShared != null;
     }
 
     @JsonIgnore
-    private boolean hasChatShared() {
+    public boolean hasChatShared() {
         return chatShared != null;
     }
 
     @JsonIgnore
-    private boolean hasStory() {
+    public boolean hasStory() {
         return story != null;
     }
 
     @JsonIgnore
-    private boolean hasWriteAccessAllowed() {
+    public boolean hasWriteAccessAllowed() {
         return writeAccessAllowed != null;
     }
 
     @JsonIgnore
-    private boolean hasReplyToStory() {
+    public boolean hasReplyToStory() {
         return replyToStory != null;
     }
 
     @JsonIgnore
-    private boolean hasBoostAdded() {
+    public boolean hasBoostAdded() {
         return boostAdded != null;
     }
 
     @JsonIgnore
-    private boolean hasPaidMedia() {
+    public boolean hasPaidMedia() {
         return paidMedia != null;
+    }
+
+    @JsonIgnore
+    public boolean hasCaption() {
+        return caption != null;
     }
 }
