@@ -1,19 +1,21 @@
 package org.telegram.telegrambots.meta.api.methods;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.MessageId;
+import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -23,10 +25,11 @@ import java.util.List;
 /**
  * @author Ruben Bermudez
  * @version 1.0
- * Use this method to copy messages of any kind.
- * Service messages and invoice messages can't be copied.
+ * Use this method to copy messages of any kind. Service messages, paid media messages,
+ * giveaway messages, giveaway winners messages, and invoice messages can't be copied.
  * A quiz poll can be copied only if the value of the field correct_option_id is known to the bot.
  * The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message.
+ *
  * Returns the MessageId of the sent message on success.
  */
 @SuppressWarnings("unused")
@@ -35,9 +38,10 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CopyMessage extends BotApiMethod<MessageId> {
     public static final String PATH = "copyMessage";
 
@@ -53,6 +57,8 @@ public class CopyMessage extends BotApiMethod<MessageId> {
     private static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
     private static final String PROTECTCONTENT_FIELD = "protect_content";
+    private static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
+    private static final String SHOW_CAPTION_ABOVE_MEDIA_FIELD = "show_caption_above_media";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -83,16 +89,26 @@ public class CopyMessage extends BotApiMethod<MessageId> {
     private Boolean allowSendingWithoutReply; ///< Optional. Pass True, if the message should be sent even if the specified replied-to message is not found
     /**
      * Optional.
-     *
      * Additional interface options.
      * A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or
      * to force a reply from the user.
      */
     @JsonProperty(REPLYMARKUP_FIELD)
-    @JsonDeserialize()
     private ReplyKeyboard replyMarkup;
     @JsonProperty(PROTECTCONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
+    /**
+     * Optional
+     * Description of the message to reply to
+     */
+    @JsonProperty(REPLY_PARAMETERS_FIELD)
+    private ReplyParameters replyParameters;
+    /**
+     * Optional.
+     * Pass True, if the caption must be shown above the message media
+     */
+    @JsonProperty(SHOW_CAPTION_ABOVE_MEDIA_FIELD)
+    private Boolean showCaptionAboveMedia;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
@@ -158,18 +174,21 @@ public class CopyMessage extends BotApiMethod<MessageId> {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
+        if (replyParameters != null) {
+            replyParameters.validate();
+        }
     }
 
-    public static class CopyMessageBuilder {
+    public static abstract class CopyMessageBuilder<C extends CopyMessage, B extends CopyMessageBuilder<C, B>> extends BotApiMethodBuilder<MessageId, C, B> {
 
         @Tolerate
-        public CopyMessageBuilder chatId(@NonNull Long chatId) {
+        public CopyMessageBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }
 
         @Tolerate
-        public CopyMessageBuilder fromChatId(@NonNull Long fromChatId) {
+        public CopyMessageBuilder<C, B> fromChatId(@NonNull Long fromChatId) {
             this.fromChatId = fromChatId.toString();
             return this;
         }

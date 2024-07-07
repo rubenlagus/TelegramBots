@@ -1,15 +1,16 @@
 package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -24,9 +25,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ApproveChatJoinRequest extends BotApiMethodBoolean {
     public static final String PATH = "approveChatJoinRequest";
 
@@ -60,10 +62,9 @@ public class ApproveChatJoinRequest extends BotApiMethodBoolean {
         }
     }
 
-    public static class ApproveChatJoinRequestBuilder {
-
+    public abstract static class ApproveChatJoinRequestBuilder<C extends ApproveChatJoinRequest, B extends ApproveChatJoinRequestBuilder<C, B>> extends BotApiMethodBoolean.BotApiMethodBooleanBuilder<C, B> {
         @Tolerate
-        public ApproveChatJoinRequestBuilder chatId(@NonNull Long chatId) {
+        public ApproveChatJoinRequestBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }

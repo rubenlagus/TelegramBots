@@ -3,6 +3,7 @@ package org.telegram.telegrambots.meta.api.objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
+import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 
 /**
  * Represents a join request sent to a chat.

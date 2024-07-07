@@ -1,18 +1,17 @@
 package org.telegram.telegrambots.meta.api.objects.inlinequery.result.cached;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputMessageContent;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResult;
@@ -28,15 +27,16 @@ import java.util.List;
  * this animated MPEG-4 file will be sent by the user with optional caption. Alternatively, you can
  * use input_message_content to send a message with the specified content instead of the animation.
  */
-@JsonDeserialize
+
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class InlineQueryResultCachedMpeg4Gif implements InlineQueryResult {
 
     private static final String TYPE_FIELD = "type";
@@ -48,6 +48,7 @@ public class InlineQueryResultCachedMpeg4Gif implements InlineQueryResult {
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String PARSEMODE_FIELD = "parse_mode";
     private static final String CAPTION_ENTITIES_FIELD = "caption_entities";
+    private static final String SHOW_CAPTION_ABOVE_MEDIA_FIELD = "show_caption_above_media";
 
     @JsonProperty(TYPE_FIELD)
     private final String type = "mpeg4_gif"; ///< Type of the result, must be "mpeg4_gif"
@@ -70,13 +71,19 @@ public class InlineQueryResultCachedMpeg4Gif implements InlineQueryResult {
     @JsonProperty(CAPTION_ENTITIES_FIELD)
     @Singular
     private List<MessageEntity> captionEntities; ///< Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
+    /**
+     * Optional.
+     * Pass True, if the caption must be shown above the message media
+     */
+    @JsonProperty(SHOW_CAPTION_ABOVE_MEDIA_FIELD)
+    private Boolean showCaptionAboveMedia;
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (id == null || id.isEmpty()) {
+        if (id.isEmpty()) {
             throw new TelegramApiValidationException("ID parameter can't be empty", this);
         }
-        if (mpeg4FileId == null || mpeg4FileId.isEmpty()) {
+        if (mpeg4FileId.isEmpty()) {
             throw new TelegramApiValidationException("Mpeg4FileId parameter can't be empty", this);
         }
         if (inputMessageContent != null) {

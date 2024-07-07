@@ -1,23 +1,31 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
+import org.telegram.telegrambots.meta.api.objects.business.BusinessIntro;
+import org.telegram.telegrambots.meta.api.objects.business.BusinessLocation;
+import org.telegram.telegrambots.meta.api.objects.business.BusinessOpeningHours;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
+import org.telegram.telegrambots.meta.api.objects.reactions.ReactionType;
 
 import java.util.List;
 
 /**
- * This object represents a Telegram chat with an user or a group
+ * This object represents a Telegram chat with a user or a group
  * @author Ruben Bermudez
  * @version 6.1
+ * @deprecated Use {{@link org.telegram.telegrambots.meta.api.objects.chat.Chat}}
  */
 @SuppressWarnings("WeakerAccess")
 @EqualsAndHashCode(callSuper = false)
@@ -25,8 +33,11 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Deprecated
 public class Chat implements BotApiObject {
 
     private static final String ID_FIELD = "id";
@@ -54,9 +65,23 @@ public class Chat implements BotApiObject {
     private static final String HASRESTRICTEDVOICEANDVIDEOMESSAGES_FIELD  = "has_restricted_voice_and_video_messages";
     private static final String ISFORUM_FIELD  = "is_forum";
     private static final String ACTIVEUSERNAMES_FIELD  = "active_usernames";
-    private static final String EMOJISTATUSCUSTOMEMOJIID_FIELD  = "emoji_status_custom_emoji_id";
     private static final String HASAGGRESSIVEANTISPAMENABLED_FIELD  = "has_aggressive_anti_spam_enabled";
     private static final String HASHIDDENMEMBERS_FIELD  = "has_hidden_members";
+    private static final String AVAILABLE_REACTIONS_FIELD  = "available_reactions";
+    private static final String ACCENT_COLOR_ID_FIELD  = "accent_color_id";
+    private static final String BACKGROUND_CUSTOM_EMOJI_ID_FIELD  = "background_custom_emoji_id";
+    private static final String PROFILE_ACCENT_COLOR_ID_FIELD  = "profile_accent_color_id";
+    private static final String PROFILE_BACKGROUND_CUSTOM_EMOJI_ID_FIELD  = "profile_background_custom_emoji_id";
+    private static final String HAS_VISIBLE_HISTORY_FIELD  = "has_visible_history";
+    private static final String EMOJI_STATUS_CUSTOM_ID_FIELD  = "emoji_status_custom_emoji_id";
+    private static final String EMOJI_STATUS_EXPIRATION_DATE_FIELD  = "emoji_status_expiration_date";
+    private static final String UNRESTRICT_BOOST_COUNT_FIELD  = "unrestrict_boost_count";
+    private static final String CUSTOM_EMOJI_STICKER_SET_NAME_FIELD  = "custom_emoji_sticker_set_name";
+    private static final String BIRTHDATE_FIELD  = "birthdate";
+    private static final String BUSINESS_INTRO_FIELD  = "business_intro";
+    private static final String BUSINESS_LOCATION_FIELD  = "business_location";
+    private static final String BUSINESS_OPENING_HOURS_FIELD  = "business_opening_hours";
+    private static final String PERSONAL_CHAT_FIELD  = "personal_chat";
 
     private static final String USERCHATTYPE = "private";
     private static final String GROUPCHATTYPE = "group";
@@ -214,14 +239,12 @@ public class Chat implements BotApiObject {
      */
     @JsonProperty(HASRESTRICTEDVOICEANDVIDEOMESSAGES_FIELD)
     private Boolean hasRestrictedVoiceAndVideoMessages;
-
     /**
      * Optional.
      * True, if the supergroup chat is a forum (has topics enabled)
      */
     @JsonProperty(ISFORUM_FIELD)
     private Boolean isForum;
-
     /**
      * Optional.
      * If non-empty, the list of all active chat usernames; for private chats, supergroups and channels.
@@ -229,13 +252,12 @@ public class Chat implements BotApiObject {
      */
     @JsonProperty(ACTIVEUSERNAMES_FIELD)
     private List<String> activeUsernames;
-
     /**
      * Optional.
-     * Custom emoji identifier of emoji status of the other party in a private chat.
+     * Custom emoji identifier of the emoji status of the chat or the other party in a private chat.
      * Returned only in getChat.
      */
-    @JsonProperty(EMOJISTATUSCUSTOMEMOJIID_FIELD)
+    @JsonProperty(EMOJI_STATUS_CUSTOM_ID_FIELD)
     private String emojiStatusCustomEmojiId;
     /**
      * Optional.
@@ -252,6 +274,110 @@ public class Chat implements BotApiObject {
      */
     @JsonProperty(HASHIDDENMEMBERS_FIELD)
     private Boolean hasHiddenMembers;
+    /**
+     * Optional.
+     * Expiration date of the emoji status of the other party in a private chat, if any.
+     * Returned only in getChat.
+     */
+    @JsonProperty(EMOJI_STATUS_EXPIRATION_DATE_FIELD)
+    private Boolean emojiStatusExpirationDate;
+    /**
+     * Optional.
+     * List of available reactions allowed in the chat.
+     * If omitted, then all emoji reactions are allowed.
+     * Returned only in getChat.
+     */
+    @JsonProperty(AVAILABLE_REACTIONS_FIELD)
+    private List<ReactionType> availableReactions;
+    /**
+     * Optional.
+     * Identifier of the accent color for the chat name and backgrounds of the chat photo, reply header, and link preview.
+     * See accent colors for more details.
+     * Returned only in getChat.
+     * Always returned in getChat.
+     */
+    @JsonProperty(ACCENT_COLOR_ID_FIELD)
+    private Integer accentColorId;
+    /**
+     * Optional.
+     * Custom emoji identifier of emoji chosen by the chat for the reply header and link preview background.
+     * Returned only in getChat.
+     */
+    @JsonProperty(BACKGROUND_CUSTOM_EMOJI_ID_FIELD)
+    private String backgroundCustomEmojiId;
+    /**
+     * Optional.
+     * Identifier of the accent color for the chat's profile background.
+     * See profile accent colors for more details.
+     * Returned only in getChat.
+     */
+    @JsonProperty(PROFILE_ACCENT_COLOR_ID_FIELD)
+    private Boolean profileAccentColorId;
+    /**
+     * Optional.
+     * Custom emoji identifier of the emoji chosen by the chat for its profile background.
+     * Returned only in getChat.
+     */
+    @JsonProperty(PROFILE_BACKGROUND_CUSTOM_EMOJI_ID_FIELD)
+    private String profileBackgroundCustomEmojiId;
+    /**
+     * Optional.
+     * True, if new chat members will have access to old messages; available only to chat administrators.
+     * Returned only in getChat.
+     */
+    @JsonProperty(HAS_VISIBLE_HISTORY_FIELD)
+    private Boolean hasVisibleHistory;
+    /**
+     * Optional.
+     * For supergroups, the minimum number of boosts that a non-administrator
+     * user needs to add in order to ignore slow mode and chat permissions.
+     * Returned only in getChat.
+     */
+    @JsonProperty(UNRESTRICT_BOOST_COUNT_FIELD)
+    private Integer unrestrictBoostCount;
+    /**
+     * Optional.
+     * For supergroups, the name of the group's custom emoji sticker set. Custom emoji from
+     * this set can be used by all users and bots in the group.
+     * Returned only in getChat.
+     */
+    @JsonProperty(CUSTOM_EMOJI_STICKER_SET_NAME_FIELD)
+    private String customEmojiStickerSetName;
+    /**
+     * Optional.
+     * For private chats, the date of birth of the user.
+     * Returned only in getChat.
+     */
+    @JsonProperty(BIRTHDATE_FIELD)
+    private Birthdate birthdate;
+    /**
+     * Optional.
+     * For private chats with business accounts, the intro of the business.
+     * Returned only in getChat.
+     */
+    @JsonProperty(BUSINESS_INTRO_FIELD)
+    private BusinessIntro businessIntro;
+    /**
+     * Optional.
+     * For private chats with business accounts, the location of the business.
+     * Returned only in getChat.
+     */
+    @JsonProperty(BUSINESS_LOCATION_FIELD)
+    private BusinessLocation businessLocation;
+    /**
+     * Optional.
+     * For private chats with business accounts, the opening hours of the business.
+     * Returned only in getChat.
+     */
+    @JsonProperty(BUSINESS_OPENING_HOURS_FIELD)
+    private BusinessOpeningHours businessOpeningHours;
+    /**
+     * Optional.
+     * For private chats, the personal channel of the user.
+     * Returned only in getChat.
+     */
+    @JsonProperty(PERSONAL_CHAT_FIELD)
+    private Chat personalChat;
 
     @JsonIgnore
     public Boolean isGroupChat() {

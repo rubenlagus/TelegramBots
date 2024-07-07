@@ -1,16 +1,17 @@
 package org.telegram.telegrambots.meta.api.methods.polls;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import lombok.extern.jackson.Jacksonized;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -26,21 +27,35 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
-@AllArgsConstructor
-@Builder
+@RequiredArgsConstructor
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class StopPoll extends BotApiMethod<Poll> {
     public static final String PATH = "stopPoll";
 
-    private static final String CHATID_FIELD = "chat_id";
-    private static final String MESSAGEID_FIELD = "message_id";
+    private static final String CHAT_ID_FIELD = "chat_id";
+    private static final String MESSAGE_ID_FIELD = "message_id";
+    private static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
 
-    @JsonProperty(CHATID_FIELD)
+    /**
+     * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     */
+    @JsonProperty(CHAT_ID_FIELD)
     @NonNull
-    private String chatId; ///< Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-    @JsonProperty(MESSAGEID_FIELD)
+    private String chatId;
+    /**
+     * Identifier of the original message with the poll
+     */
+    @JsonProperty(MESSAGE_ID_FIELD)
     @NonNull
-    private Integer messageId; ///< Identifier of the original message with the poll
+    private Integer messageId;
+    /**
+     * Optional
+     * Unique identifier of the business connection on behalf of which the message to be edited was sent
+     */
+    @JsonProperty(BUSINESS_CONNECTION_ID_FIELD)
+    private String businessConnectionId;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
@@ -68,10 +83,9 @@ public class StopPoll extends BotApiMethod<Poll> {
     }
 
 
-    public static class StopPollBuilder {
-
+    public static abstract class StopPollBuilder<C extends StopPoll, B extends StopPollBuilder<C, B>> extends BotApiMethodBuilder<Poll, C, B> {
         @Tolerate
-        public StopPollBuilder chatId(@NonNull Long chatId) {
+        public StopPollBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }

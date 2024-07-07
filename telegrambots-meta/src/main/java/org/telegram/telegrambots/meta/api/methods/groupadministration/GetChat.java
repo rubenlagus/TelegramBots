@@ -1,17 +1,18 @@
 package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.Chat;
+import lombok.extern.jackson.Jacksonized;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.chat.ChatFullInfo;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -24,10 +25,11 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
-@AllArgsConstructor
-@Builder
-public class GetChat extends BotApiMethod<Chat> {
+@RequiredArgsConstructor
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class GetChat extends BotApiMethod<ChatFullInfo> {
     public static final String PATH = "getChat";
 
     private static final String CHATID_FIELD = "chat_id";
@@ -47,8 +49,8 @@ public class GetChat extends BotApiMethod<Chat> {
     }
 
     @Override
-    public Chat deserializeResponse(String answer) throws TelegramApiRequestException {
-        return deserializeResponse(answer, Chat.class);
+    public ChatFullInfo deserializeResponse(String answer) throws TelegramApiRequestException {
+        return deserializeResponse(answer, ChatFullInfo.class);
     }
 
     @Override
@@ -58,10 +60,9 @@ public class GetChat extends BotApiMethod<Chat> {
         }
     }
 
-    public static class GetChatBuilder {
-
+    public static abstract class GetChatBuilder<C extends GetChat, B extends GetChatBuilder<C, B>> extends BotApiMethodBuilder<ChatFullInfo, C, B> {
         @Tolerate
-        public GetChatBuilder chatId(@NonNull Long chatId) {
+        public GetChatBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }

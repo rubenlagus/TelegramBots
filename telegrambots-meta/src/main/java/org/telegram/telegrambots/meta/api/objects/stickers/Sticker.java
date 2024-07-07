@@ -1,13 +1,16 @@
 package org.telegram.telegrambots.meta.api.objects.stickers;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
@@ -21,8 +24,11 @@ import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@RequiredArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Sticker implements BotApiObject {
 
     private static final String FILEID_FIELD = "file_id";
@@ -128,22 +134,4 @@ public class Sticker implements BotApiObject {
      */
     @JsonProperty(NEEDS_REPAINTING_FIELD)
     private Boolean needsRepainting;
-
-    /**
-     * @deprecated Use {{@link #getThumbnail()}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public PhotoSize getThumb() {
-        return thumbnail;
-    }
-
-    /**
-     * @deprecated Use {{@link #setThumbnail(PhotoSize)}}
-     */
-    @JsonIgnore
-    @Deprecated
-    public void setThumb(PhotoSize thumb) {
-        this.thumbnail = thumb;
-    }
 }

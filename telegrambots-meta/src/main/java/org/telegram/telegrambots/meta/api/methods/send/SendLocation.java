@@ -1,17 +1,19 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMessage;
+import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -25,9 +27,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SendLocation extends BotApiMethodMessage {
     public static final String PATH = "sendlocation";
 
@@ -39,12 +42,14 @@ public class SendLocation extends BotApiMethodMessage {
     private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     private static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
     private static final String REPLYMARKUP_FIELD = "reply_markup";
-    private static final String LIVEPERIOD_FIELD = "live_period";
+    private static final String LIVE_PERIOD_FIELD = "live_period";
     private static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
     private static final String HORIZONTALACCURACY_FIELD = "horizontal_accuracy";
     private static final String HEADING_FIELD = "heading";
     private static final String PROXIMITYALERTRADIUS_FIELD = "proximity_alert_radius";
     private static final String PROTECTCONTENT_FIELD = "protect_content";
+    private static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
+    private static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -65,10 +70,21 @@ public class SendLocation extends BotApiMethodMessage {
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     @JsonProperty(REPLYTOMESSAGEID_FIELD)
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
+    /**
+     * Optional.
+     * Additional interface options.
+     * A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard
+     * or to force a reply from the user.
+     */
     @JsonProperty(REPLYMARKUP_FIELD)
-    private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
-    @JsonProperty(LIVEPERIOD_FIELD)
-    private Integer livePeriod; ///< Optional. Period in seconds for which the location will be updated (see Live Locations), should be between 60 and 86400.
+    private ReplyKeyboard replyMarkup;
+    /**
+     * Period in seconds during which the location will be updated
+     * (see Live Locations, should be between 60 and 86400,
+     * or 0x7FFFFFFF for live locations that can be edited indefinitely.
+     */
+    @JsonProperty(LIVE_PERIOD_FIELD)
+    private Integer livePeriod;
     @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
     /**
@@ -93,6 +109,23 @@ public class SendLocation extends BotApiMethodMessage {
     private Integer proximityAlertRadius;
     @JsonProperty(PROTECTCONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
+    /**
+     * Optional
+     * Description of the message to reply to
+     */
+    @JsonProperty(REPLY_PARAMETERS_FIELD)
+    private ReplyParameters replyParameters;
+    /**
+     * Optional.
+     * Unique identifier of the business connection on behalf of which the message will be sent
+     */
+    @JsonProperty(BUSINESS_CONNECTION_ID_FIELD)
+    private String businessConnectionId;
+    /**
+     * Optional
+     * Unique identifier of the message effect to be added to the message
+     */
+    private String messageEffectId;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
@@ -129,15 +162,17 @@ public class SendLocation extends BotApiMethodMessage {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-        if (livePeriod != null && (livePeriod < 60 || livePeriod > 86400)) {
-            throw new TelegramApiValidationException("Live period parameter must be between 60 and 86400", this);
+        if (livePeriod != null && (livePeriod < 60 || livePeriod > 86400) && livePeriod != 0x7FFFFFFF) {
+            throw new TelegramApiValidationException("Live period parameter must be between 60 and 86400 or be 0x7FFFFFFF", this);
+        }
+        if (replyParameters != null) {
+            replyParameters.validate();
         }
     }
 
-    public static class SendLocationBuilder {
-
+    public static abstract class SendLocationBuilder<C extends SendLocation, B extends SendLocationBuilder<C, B>> extends BotApiMethodMessageBuilder<C, B> {
         @Tolerate
-        public SendLocationBuilder chatId(@NonNull Long chatId) {
+        public SendLocationBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }

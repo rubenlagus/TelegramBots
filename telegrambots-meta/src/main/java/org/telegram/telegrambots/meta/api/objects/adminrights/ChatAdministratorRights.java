@@ -1,7 +1,16 @@
 package org.telegram.telegrambots.meta.api.objects.adminrights;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 
@@ -14,13 +23,15 @@ import org.telegram.telegrambots.meta.api.interfaces.Validable;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ChatAdministratorRights implements BotApiObject, Validable {
 
     private static final String ISANONYMOUS_FIELD = "is_anonymous";
-    private static final String CANMANAGECHAT_FIELD = "can_manage_chat";
+    private static final String CAN_MANAGE_CHAT_FIELD = "can_manage_chat";
     private static final String CANDELETEMESSAGES_FIELD = "can_delete_messages";
     private static final String CANMANAGEVIDEOCHATS_FIELD = "can_manage_video_chats";
     private static final String CANRESTRICTMEMBERS_FIELD = "can_restrict_members";
@@ -31,6 +42,9 @@ public class ChatAdministratorRights implements BotApiObject, Validable {
     private static final String CANEDITMESSAGES_FIELD = "can_edit_messages";
     private static final String CANPINMESSAGES_FIELD = "can_pin_messages";
     private static final String CANMANAGETOPICS_FIELD = "can_manage_topics";
+    private static final String CAN_POST_STORIES_FIELD = "can_post_stories";
+    private static final String CAN_EDIT_STORIES_FIELD = "can_edit_stories";
+    private static final String CAN_DELETE_STORIES_FIELD = "can_delete_stories";
 
     /**
      * True, if the user's presence in the chat is hidden
@@ -39,12 +53,11 @@ public class ChatAdministratorRights implements BotApiObject, Validable {
     @NonNull
     private Boolean isAnonymous;
     /**
-     * True, if the administrator can access the chat event log, chat statistics,
-     * message statistics in channels, see channel members, see anonymous administrators
-     * in supergroups and ignore slow mode.
-     * Implied by any other administrator privilege
+     * True, if the administrator can access the chat event log, get boost list,
+     * see hidden supergroup and channel members, report spam messages and ignore slow mode.
+     * Implied by any other administrator privilege.
      */
-    @JsonProperty(CANMANAGECHAT_FIELD)
+    @JsonProperty(CAN_MANAGE_CHAT_FIELD)
     @NonNull
     private Boolean canManageChat;
     /**
@@ -87,7 +100,7 @@ public class ChatAdministratorRights implements BotApiObject, Validable {
     private Boolean canInviteUsers;
     /**
      * Optional.
-     * True, if the administrator can post in the channel; channels only
+     * True, if the administrator can post messages in the channel; channels only
      */
     @JsonProperty(CANPOSTMESSAGES_FIELD)
     private Boolean canPostMessages;
@@ -109,4 +122,23 @@ public class ChatAdministratorRights implements BotApiObject, Validable {
      */
     @JsonProperty(CANMANAGETOPICS_FIELD)
     private Boolean canManageTopics;
+    /**
+     * Optional.
+     * True, if the administrator can post stories to the chat
+     */
+    @JsonProperty(CAN_POST_STORIES_FIELD)
+    private Boolean canPostStories;
+    /**
+     * Optional.
+     * True, if the administrator can edit stories posted by other users,
+     * post stories to the chat page, pin chat stories, and access the chat's story archive
+     */
+    @JsonProperty(CAN_EDIT_STORIES_FIELD)
+    private Boolean canEditStories;
+    /**
+     * Optional.
+     * True, if the administrator can delete stories posted by other users
+     */
+    @JsonProperty(CAN_DELETE_STORIES_FIELD)
+    private Boolean canDeleteStories;
 }

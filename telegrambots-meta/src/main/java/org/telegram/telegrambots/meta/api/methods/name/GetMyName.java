@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.name.BotName;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
@@ -27,7 +27,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 @AllArgsConstructor
 @Builder
 public class GetMyName extends BotApiMethod<BotName> {
-    public static final String PATH = "getMyDescription";
+    public static final String PATH = "getMyName";
 
     private static final String LANGUAGE_CODE_FIELD = "language_code";
 

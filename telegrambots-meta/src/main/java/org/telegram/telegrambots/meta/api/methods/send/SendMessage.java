@@ -1,20 +1,22 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMessage;
+import org.telegram.telegrambots.meta.api.objects.LinkPreviewOptions;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
+import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -31,9 +33,10 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SendMessage extends BotApiMethodMessage {
     public static final String PATH = "sendmessage";
 
@@ -44,10 +47,14 @@ public class SendMessage extends BotApiMethodMessage {
     private static final String DISABLEWEBPAGEPREVIEW_FIELD = "disable_web_page_preview";
     private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
     private static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
-    private static final String REPLYMARKUP_FIELD = "reply_markup";
+    private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String ENTITIES_FIELD = "entities";
     private static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
     private static final String PROTECTCONTENT_FIELD = "protect_content";
+    private static final String LINK_PREVIEW_OPTIONS_FIELD = "link_preview_options";
+    private static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
+    private static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
+    private static final String MESSAGE_EFFECT_ID_FIELD = "message_effect_id";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -69,15 +76,44 @@ public class SendMessage extends BotApiMethodMessage {
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
     @JsonProperty(REPLYTOMESSAGEID_FIELD)
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
-    @JsonProperty(REPLYMARKUP_FIELD)
-    @JsonDeserialize()
-    private ReplyKeyboard replyMarkup; ///< Optional. JSON-serialized object for a custom reply keyboard
+    /**
+     * Optional
+     * Additional interface options.
+     * A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard
+     * or to force a reply from the user
+     */
+    @JsonProperty(REPLY_MARKUP_FIELD)
+    private ReplyKeyboard replyMarkup;
     @JsonProperty(ENTITIES_FIELD)
     private List<MessageEntity> entities; ///< Optional. List of special entities that appear in message text, which can be specified instead of parse_mode
     @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
     @JsonProperty(PROTECTCONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
+    /**
+     * Optional
+     * Link preview generation options for the message
+     */
+    @JsonProperty(LINK_PREVIEW_OPTIONS_FIELD)
+    private LinkPreviewOptions linkPreviewOptions;
+    /**
+     * Optional
+     * Description of the message to reply to
+     */
+    @JsonProperty(REPLY_PARAMETERS_FIELD)
+    private ReplyParameters replyParameters;
+    /**
+     * Optional.
+     * Unique identifier of the business connection on behalf of which the message will be sent
+     */
+    @JsonProperty(BUSINESS_CONNECTION_ID_FIELD)
+    private String businessConnectionId;
+    /**
+     * Optional
+     * Unique identifier of the message effect to be added to the message
+     */
+    @JsonProperty(MESSAGE_EFFECT_ID_FIELD)
+    private String messageEffectId;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
@@ -143,12 +179,17 @@ public class SendMessage extends BotApiMethodMessage {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
+        if (linkPreviewOptions != null) {
+            linkPreviewOptions.validate();
+        }
+        if (replyParameters != null) {
+            replyParameters.validate();
+        }
     }
 
-    public static class SendMessageBuilder {
-
+    public static abstract class SendMessageBuilder<C extends SendMessage, B extends SendMessageBuilder<C, B>> extends BotApiMethodMessageBuilder<C, B> {
         @Tolerate
-        public SendMessageBuilder chatId(@NonNull Long chatId) {
+        public SendMessageBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }

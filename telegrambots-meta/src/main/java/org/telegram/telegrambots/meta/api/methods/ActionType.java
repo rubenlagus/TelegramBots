@@ -7,15 +7,15 @@ package org.telegram.telegrambots.meta.api.methods;
  */
 public enum ActionType {
     TYPING("typing"),
-    RECORDVIDEO("record_video"),
-    RECORDVIDEONOTE("record_video_note"),
-    RECORDVOICE("record_voice"),
-    UPLOADPHOTO("upload_photo"),
-    UPLOADVIDEO("upload_video"),
-    UPLOADVIDEONOTE("upload_video_note"),
-    UPLOADVOICE("upload_voice"),
-    UPLOADDOCUMENT("upload_document"),
-    FINDLOCATION("find_location");
+    RECORD_VIDEO("record_video"),
+    RECORD_VIDEO_NOTE("record_video_note"),
+    RECORD_VOICE("record_voice"),
+    UPLOAD_PHOTO("upload_photo"),
+    UPLOAD_VIDEO("upload_video"),
+    UPLOAD_VIDEO_NOTE("upload_video_note"),
+    UPLOAD_VOICE("upload_voice"),
+    UPLOAD_DOCUMENT("upload_document"),
+    FIND_LOCATION("find_location");
 
     private final String text;
 
@@ -36,25 +36,25 @@ public enum ActionType {
             case "typing":
                 return TYPING;
             case "record_video":
-                return RECORDVIDEO;
+                return RECORD_VIDEO;
             case "record_video_note":
-                return RECORDVIDEONOTE;
+                return RECORD_VIDEO_NOTE;
             case "record_audio":
             case "record_voice":
-                return RECORDVOICE;
+                return RECORD_VOICE;
             case "upload_photo":
-                return UPLOADPHOTO;
+                return UPLOAD_PHOTO;
             case "upload_video":
-                return UPLOADVIDEO;
+                return UPLOAD_VIDEO;
             case "upload_video_note":
-                return UPLOADVIDEONOTE;
+                return UPLOAD_VIDEO_NOTE;
             case "upload_audio":
             case "upload_voice":
-                return UPLOADVOICE;
+                return UPLOAD_VOICE;
             case "upload_document":
-                return UPLOADDOCUMENT;
+                return UPLOAD_DOCUMENT;
             case "find_location":
-                return FINDLOCATION;
+                return FIND_LOCATION;
             default:
                 return null;
         }

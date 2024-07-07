@@ -1,15 +1,16 @@
 package org.telegram.telegrambots.meta.api.methods.forum;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -25,9 +26,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
-@AllArgsConstructor
-@Builder
+@RequiredArgsConstructor
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EditGeneralForumTopic extends BotApiMethodBoolean {
     public static final String PATH = "editGeneralForumTopic";
 
@@ -69,10 +71,9 @@ public class EditGeneralForumTopic extends BotApiMethodBoolean {
         return PATH;
     }
 
-    public static class EditGeneralForumTopicBuilder {
-
+    public static abstract class EditGeneralForumTopicBuilder<C extends EditGeneralForumTopic, B extends EditGeneralForumTopicBuilder<C, B>> extends BotApiMethodBooleanBuilder<C, B> {
         @Tolerate
-        public EditGeneralForumTopicBuilder chatId(@NonNull Long chatId) {
+        public EditGeneralForumTopicBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }

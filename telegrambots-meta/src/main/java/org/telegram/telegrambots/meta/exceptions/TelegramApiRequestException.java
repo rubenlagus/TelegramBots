@@ -18,8 +18,7 @@
 package org.telegram.telegrambots.meta.exceptions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.Getter;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.ResponseParameters;
 
@@ -29,9 +28,8 @@ import org.telegram.telegrambots.meta.api.objects.ResponseParameters;
  * @version 1.0
  * Exception thrown when something goes wrong in the api
  */
+@Getter
 public class TelegramApiRequestException extends TelegramApiException {
-    private static final Logger log = LoggerFactory.getLogger(TelegramApiRequestException.class);
-
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private static final String ERRORDESCRIPTIONFIELD = "description";
     private static final String ERRORCODEFIELD = "error_code";
@@ -54,18 +52,6 @@ public class TelegramApiRequestException extends TelegramApiException {
 
     public TelegramApiRequestException(String message, Throwable cause) {
         super(message, cause);
-    }
-
-    public String getApiResponse() {
-        return apiResponse;
-    }
-
-    public Integer getErrorCode() {
-        return errorCode;
-    }
-
-    public ResponseParameters getParameters() {
-        return parameters;
     }
 
     /**

@@ -1,16 +1,17 @@
 package org.telegram.telegrambots.meta.api.methods.updates;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -33,9 +34,10 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SetWebhook extends BotApiMethodBoolean {
     public static final String PATH = "setWebhook";
 
@@ -60,9 +62,12 @@ public class SetWebhook extends BotApiMethodBoolean {
     @JsonProperty(MAXCONNECTIONS_FIELD)
     private Integer maxConnections;
     /**
-     * List the types of updates you want your bot to receive.
-     * For example, specify [“message”, “edited_channel_post”, “callback_query”] to only receive
-     * updates of these types. Specify an empty list to receive all updates regardless of type (default).
+     * Optional
+     * A JSON-serialized list of the update types you want your bot to receive.
+     * For example, specify ["message", "edited_channel_post", "callback_query"] to only receive updates of these types.
+     * See Update for a complete list of available update types.
+     * Specify an empty list to receive all update types except chat_member, message_reaction, and message_reaction_count (default).
+     *
      * If not specified, the previous setting will be used.
      *
      * Please note that this parameter doesn't affect updates created before the call to the setWebhook,

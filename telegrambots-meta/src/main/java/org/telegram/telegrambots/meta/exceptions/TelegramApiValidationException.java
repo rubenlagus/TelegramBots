@@ -18,7 +18,7 @@
 package org.telegram.telegrambots.meta.exceptions;
 
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
-import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
 /**
  * @author Ruben Bermudez

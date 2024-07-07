@@ -1,15 +1,16 @@
 package org.telegram.telegrambots.meta.api.methods.updatingmessages;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodSerializable;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -29,51 +30,64 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(force = true)
-@AllArgsConstructor
-@Builder
+@RequiredArgsConstructor
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EditMessageLiveLocation extends BotApiMethodSerializable {
     public static final String PATH = "editMessageLiveLocation";
 
-    private static final String CHATID_FIELD = "chat_id";
-    private static final String MESSAGEID_FIELD = "message_id";
+    private static final String CHAT_ID_FIELD = "chat_id";
+    private static final String MESSAGE_ID_FIELD = "message_id";
     private static final String INLINE_MESSAGE_ID_FIELD = "inline_message_id";
     private static final String LATITUDE_FIELD = "latitude";
     private static final String LONGITUDE_FIELD = "longitude";
-    private static final String REPLYMARKUP_FIELD = "reply_markup";
-    private static final String HORIZONTALACCURACY_FIELD = "horizontal_accuracy";
+    private static final String REPLY_MARKUP_FIELD = "reply_markup";
+    private static final String HORIZONTAL_ACCURACY_FIELD = "horizontal_accuracy";
     private static final String HEADING_FIELD = "heading";
-    private static final String PROXIMITYALERTRADIUS_FIELD = "proximity_alert_radius";
+    private static final String PROXIMITY_ALERT_RADIUS_FIELD = "proximity_alert_radius";
+    private static final String LIVE_PERIOD_FIELD = "live_period";
+    private static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
 
     /**
      * Required if inline_message_id is not specified. Unique identifier for the chat to send the
      * message to (Or username for channels)
      */
-    @JsonProperty(CHATID_FIELD)
+    @JsonProperty(CHAT_ID_FIELD)
     private String chatId;
     /**
      * Required if inline_message_id is not specified. Unique identifier of the sent message
      */
-    @JsonProperty(MESSAGEID_FIELD)
+    @JsonProperty(MESSAGE_ID_FIELD)
     private Integer messageId;
     /**
      * Required if chat_id and message_id are not specified. Identifier of the inline message
      */
     @JsonProperty(INLINE_MESSAGE_ID_FIELD)
     private String inlineMessageId;
+    /**
+     * Latitude of new location
+     */
     @JsonProperty(LATITUDE_FIELD)
     @NonNull
-    private Double latitude; ///< Latitude of new location
+    private Double latitude;
+    /**
+     * Longitude of new location
+     */
     @JsonProperty(LONGITUDE_FIELD)
     @NonNull
-    private Double longitude; ///< Longitude of new location
-    @JsonProperty(REPLYMARKUP_FIELD)
-    private InlineKeyboardMarkup replyMarkup; ///< Optional. A JSON-serialized object for an inline keyboard.
+    private Double longitude;
+    /**
+     * Optional.
+     * A JSON-serialized object for an inline keyboard.
+     */
+    @JsonProperty(REPLY_MARKUP_FIELD)
+    private InlineKeyboardMarkup replyMarkup;
     /**
      * Optional.
      * The radius of uncertainty for the location, measured in meters; 0-1500
      */
-    @JsonProperty(HORIZONTALACCURACY_FIELD)
+    @JsonProperty(HORIZONTAL_ACCURACY_FIELD)
     private Double horizontalAccuracy;
     /**
      * Optional.
@@ -87,8 +101,25 @@ public class EditMessageLiveLocation extends BotApiMethodSerializable {
      * For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters.
      * Must be between 1 and 100000 if specified.
      */
-    @JsonProperty(PROXIMITYALERTRADIUS_FIELD)
+    @JsonProperty(PROXIMITY_ALERT_RADIUS_FIELD)
     private Integer proximityAlertRadius;
+    /**
+     * Optional
+     * New period in seconds during which the location can be updated, starting from the message send date.
+     * If 0x7FFFFFFF is specified, then the location can be updated forever. Otherwise,
+     * the new value must not exceed the current live_period by more than a day, and the live
+     * location expiration date must remain within the next 90 days.
+     * @apiNote If not specified, then live_period remains unchanged
+     */
+    @JsonProperty(LIVE_PERIOD_FIELD)
+    private Integer livePeriod;
+    /**
+     * Optional
+     * Unique identifier of the business connection on behalf of which the message to be edited was sent
+     */
+    @JsonProperty(BUSINESS_CONNECTION_ID_FIELD)
+    private String businessConnectionId;
+
 
     @Tolerate
     public void setChatId(Long chatId) {
@@ -131,15 +162,17 @@ public class EditMessageLiveLocation extends BotApiMethodSerializable {
         if (proximityAlertRadius != null && (proximityAlertRadius < 1 || proximityAlertRadius > 100000)) {
             throw new TelegramApiValidationException("Approaching notification distance parameter must be between 1 and 100000", this);
         }
+        if (livePeriod != null && (livePeriod < 60 || livePeriod > 86400) && livePeriod != 0x7FFFFFFF) {
+            throw new TelegramApiValidationException("Live period parameter must be between 60 and 86400 or be 0x7FFFFFFF", this);
+        }
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
     }
 
-    public static class EditMessageLiveLocationBuilder {
-
+    public static abstract class EditMessageLiveLocationBuilder<C extends EditMessageLiveLocation, B extends EditMessageLiveLocationBuilder<C, B>> extends BotApiMethodSerializableBuilder<C, B> {
         @Tolerate
-        public EditMessageLiveLocationBuilder chatId(Long chatId) {
+        public EditMessageLiveLocationBuilder<C, B> chatId(Long chatId) {
             this.chatId = chatId == null ? null : chatId.toString();
             return this;
         }

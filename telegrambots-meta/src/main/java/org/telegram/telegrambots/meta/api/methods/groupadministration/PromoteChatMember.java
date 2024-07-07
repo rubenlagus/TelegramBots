@@ -1,16 +1,17 @@
 package org.telegram.telegrambots.meta.api.methods.groupadministration;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -27,9 +28,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PromoteChatMember extends BotApiMethodBoolean {
     public static final String PATH = "promoteChatMember";
 
@@ -44,9 +46,12 @@ public class PromoteChatMember extends BotApiMethodBoolean {
     private static final String CANPINMESSAGES_FIELD = "can_pin_messages";
     private static final String CANPROMOTEMEMBERS_FIELD = "can_promote_members";
     private static final String ISANONYMOUS_FIELD = "is_anonymous";
-    private static final String CANMANAGECHAT_FIELD = "can_manage_chat";
+    private static final String CAN_MANAGE_CHAT_FIELD = "can_manage_chat";
     private static final String CANMANAGEVIDEOCHATS_FIELD = "can_manage_video_chats";
     private static final String CANMANAGETOPICS_FIELD = "can_manage_topics";
+    private static final String CAN_POST_STORIES_FIELD = "can_post_stories";
+    private static final String CAN_EDIT_STORIES_FIELD = "can_edit_stories";
+    private static final String CAN_DELETE_STORIES_FIELD = "can_delete_stories";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -80,7 +85,7 @@ public class PromoteChatMember extends BotApiMethodBoolean {
      *
      * Implied by any other administrator privilege
      */
-    @JsonProperty(CANMANAGECHAT_FIELD)
+    @JsonProperty(CAN_MANAGE_CHAT_FIELD)
     private Boolean canManageChat;
     /**
      * Optional
@@ -94,6 +99,25 @@ public class PromoteChatMember extends BotApiMethodBoolean {
      */
     @JsonProperty(CANMANAGETOPICS_FIELD)
     private Boolean canManageTopics;
+    /**
+     * Optional
+     * True if the administrator can post stories to the chat
+     */
+    @JsonProperty(CAN_POST_STORIES_FIELD)
+    private Boolean canPostStories;
+    /**
+     * Optional
+     * True if the administrator can edit stories posted by other users
+     */
+    @JsonProperty(CAN_EDIT_STORIES_FIELD)
+    private Boolean canEditStories;
+    /**
+     * Optional
+     * Pass True if the administrator can edit stories posted by other users,
+     * post stories to the chat page, pin chat stories, and access the chat's story archive
+     */
+    @JsonProperty(CAN_DELETE_STORIES_FIELD)
+    private Boolean canDeleteStories;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
@@ -115,10 +139,9 @@ public class PromoteChatMember extends BotApiMethodBoolean {
         }
     }
 
-    public static class PromoteChatMemberBuilder {
-
+    public static abstract class PromoteChatMemberBuilder<C extends PromoteChatMember, B extends PromoteChatMemberBuilder<C, B>> extends BotApiMethodBooleanBuilder<C, B> {
         @Tolerate
-        public PromoteChatMemberBuilder chatId(@NonNull Long chatId) {
+        public PromoteChatMemberBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }

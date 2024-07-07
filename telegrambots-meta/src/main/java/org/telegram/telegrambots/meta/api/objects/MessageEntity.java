@@ -1,16 +1,17 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
@@ -25,9 +26,10 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MessageEntity implements BotApiObject {
     private static final String TYPE_FIELD = "type";
     private static final String OFFSET_FIELD = "offset";
@@ -39,23 +41,25 @@ public class MessageEntity implements BotApiObject {
     /**
      * Type of the entity.
      * Currently, can be:
-     * - “mention” (@username)
-     * - “hashtag” (#hashtag)
-     * - “cashtag” ($USD)
-     * - “bot_command” (/start@jobs_bot)
-     * - “url” (https://telegram.org)
-     * - “email” (do-not-reply@telegram.org)
-     * - “phone_number” (+1-212-555-0123),
-     * - “bold” (bold text)
-     * - “italic” (italic text)
-     * - “underline” (underlined text)
-     * - “strikethrough” (strikethrough text)
-     * - “spoiler” (spoiler message)
-     * - “code” (monowidth string)
-     * - “pre” (monowidth block)
-     * - “text_link” (for clickable text URLs)
-     * - “text_mention” (for users without usernames)
-     * - "custom_emoji"  (for inline custom emoji stickers)
+     * “mention” (@username),
+     * “hashtag” (#hashtag),
+     * “cashtag” ($USD),
+     * “bot_command” (/start@jobs_bot),
+     * “url” (https://telegram.org),
+     * “email” (do-not-reply@telegram.org),
+     * “phone_number” (+1-212-555-0123),
+     * “bold” (bold text),
+     * “italic” (italic text),
+     * “underline” (underlined text),
+     * “strikethrough” (strikethrough text),
+     * “spoiler” (spoiler message),
+     * “blockquote” (block quotation),
+     * “expandable_blockquote” (collapsed-by-default block quotation),
+     * “code” (monowidth string),
+     * “pre” (monowidth block),
+     * “text_link” (for clickable text URLs),
+     * “text_mention” (for users without usernames),
+     * “custom_emoji” (for inline custom emoji stickers)
      */
     @JsonProperty(TYPE_FIELD)
     @NonNull
@@ -103,7 +107,7 @@ public class MessageEntity implements BotApiObject {
     @JsonIgnore
     private String text;
 
-    protected void computeText(String message) {
+    public void computeText(String message) {
         if (message != null) {
             text = message.substring(offset, offset + length);
         }
