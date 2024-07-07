@@ -13,6 +13,7 @@ public class TelegramUrl {
     private String schema;
     private String host;
     private int port;
+    private boolean testServer;
 
-    public static final TelegramUrl DEFAULT_URL = new TelegramUrl("https", "api.telegram.org", 443);
+    public static final TelegramUrl DEFAULT_URL = new TelegramUrl("https", "api.telegram.org", 443, false);
 }

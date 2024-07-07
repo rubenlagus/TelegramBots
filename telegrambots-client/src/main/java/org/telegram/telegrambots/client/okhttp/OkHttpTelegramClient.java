@@ -572,14 +572,20 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
     }
 
     private HttpUrl buildUrl(String methodPath) {
-        return new HttpUrl
+        HttpUrl.Builder builder = new HttpUrl
                 .Builder()
                 .scheme(telegramUrl.getSchema())
                 .host(telegramUrl.getHost())
                 .port(telegramUrl.getPort())
-                .addPathSegment("bot" + botToken)
-                .addPathSegment(methodPath)
-                .build();
+                .addPathSegment("bot" + botToken);
+
+        if (telegramUrl.isTestServer()) {
+            builder.addPathSegment("test");
+        }
+
+        builder.addPathSegment(methodPath);
+
+        return builder.build();
     }
 
     private void addInputData(TelegramMultipartBuilder builder, String mediaField, InputMedia media, boolean addField) throws IOException {
