@@ -51,6 +51,7 @@ import org.telegram.telegrambots.meta.api.objects.giveaway.GiveawayWinners;
 import org.telegram.telegrambots.meta.api.objects.messageorigin.MessageOrigin;
 import org.telegram.telegrambots.meta.api.objects.passport.PassportData;
 import org.telegram.telegrambots.meta.api.objects.payments.Invoice;
+import org.telegram.telegrambots.meta.api.objects.payments.RefundedPayment;
 import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import org.telegram.telegrambots.meta.api.objects.payments.paidmedia.PaidMediaInfo;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
@@ -173,6 +174,7 @@ public class Message implements MaybeInaccessibleMessage {
     private static final String EFFECT_ID_FIELD = "effect_id";
     private static final String SHOW_CAPTION_ABOVE_MEDIA_FIELD = "show_caption_above_media";
     private static final String PAID_MEDIA_FIELD = "paid_media";
+    private static final String REFUNDED_PAYMENT_FIELD = "refunded_payment";
 
     /**
      * Integer	Unique message identifier
@@ -743,6 +745,12 @@ public class Message implements MaybeInaccessibleMessage {
      */
     @JsonProperty(PAID_MEDIA_FIELD)
     private PaidMediaInfo paidMedia;
+    /**
+     * 	Optional.
+     * 	Message is a service message about a refunded payment, information about the payment.
+     */
+    @JsonProperty(REFUNDED_PAYMENT_FIELD)
+    private RefundedPayment refundedPayment;
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {
