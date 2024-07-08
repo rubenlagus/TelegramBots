@@ -27,7 +27,6 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Abstract client implementation which delegates all synchronous methods to the async methods. Preferable for implementations
@@ -223,14 +222,6 @@ public abstract class AbstractTelegramClient implements TelegramClient {
     }
 
     private TelegramApiException mapException(Exception e, String method) {
-        if (e instanceof ExecutionException) {
-            if (e.getCause() instanceof TelegramApiException) {
-                return (TelegramApiException) e.getCause();
-            } else {
-                return new TelegramApiException("Unable to execute" + method + "method", e.getCause());
-            }
-        } else {
-            return new TelegramApiException("Unable to execute" + method + "method", e.getCause());
-        }
+        return new TelegramApiException("Unable to execute " + method + " method", e.getCause());
     }
 }
