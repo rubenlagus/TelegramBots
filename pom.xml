@@ -73,18 +73,18 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <jackson.version>2.16.1</jackson.version>
+        <jackson.version>2.17.2</jackson.version>
         <slf4j.version>2.0.12</slf4j.version>
-        <lombok.version>1.18.30</lombok.version>
-        <guava.version>33.0.0-jre</guava.version>
+        <lombok.version>1.18.34</lombok.version>
+        <guava.version>33.2.1-jre</guava.version>
         <commons-lang.version>3.14.0</commons-lang.version>
-        <commons-io.version>2.15.1</commons-io.version>
+        <commons-io.version>2.16.1</commons-io.version>
         <okhttp.version>4.12.0</okhttp.version>
 
-        <junit.version>5.10.2</junit.version>
-        <mockito.version>5.10.0</mockito.version>
-        <mockitojupiter.version>5.10.0</mockitojupiter.version>
-        <awaitability.version>4.2.0</awaitability.version>
+        <junit.version>5.10.3</junit.version>
+        <mockito.version>5.12.0</mockito.version>
+        <mockitojupiter.version>5.12.0</mockitojupiter.version>
+        <awaitability.version>4.2.1</awaitability.version>
     </properties>
 
     <dependencyManagement>
