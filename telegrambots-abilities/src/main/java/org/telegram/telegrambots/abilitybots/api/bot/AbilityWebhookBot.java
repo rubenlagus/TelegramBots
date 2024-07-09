@@ -20,17 +20,34 @@ public abstract class AbilityWebhookBot extends BaseAbilityBot implements Telegr
 
     private final String botPath;
 
-    protected AbilityWebhookBot(TelegramClient telegramClient, String botUsername, String botPath, DBContext db, AbilityToggle toggle) {
-        super(telegramClient, botUsername, db, toggle);
+    protected AbilityWebhookBot(TelegramClient telegramClient, String botUsername, String botPath, DBContext db, AbilityToggle toggle, boolean isDebugMode) {
+        super(telegramClient, botUsername, db, toggle, isDebugMode);
         this.botPath = botPath;
+    }
+
+    protected AbilityWebhookBot(TelegramClient telegramClient, String botUsername, String botPath, DBContext db, AbilityToggle toggle) {
+        super(telegramClient, botUsername, db, toggle, false);
+        this.botPath = botPath;
+    }
+
+    protected AbilityWebhookBot(TelegramClient telegramClient, String botUsername, String botPath, AbilityToggle toggle, boolean isDebugMode) {
+        this(telegramClient, botUsername, botPath, onlineInstance(botUsername), toggle, isDebugMode);
     }
 
     protected AbilityWebhookBot(TelegramClient telegramClient, String botUsername, String botPath, AbilityToggle toggle) {
         this(telegramClient, botUsername, botPath, onlineInstance(botUsername), toggle);
     }
 
+    protected AbilityWebhookBot(TelegramClient telegramClient, String botUsername, String botPath, DBContext db, boolean isDebugMode) {
+        this(telegramClient, botUsername, botPath, db, new DefaultToggle(), isDebugMode);
+    }
+
     protected AbilityWebhookBot(TelegramClient telegramClient, String botUsername, String botPath, DBContext db) {
         this(telegramClient, botUsername, botPath, db, new DefaultToggle());
+    }
+
+    protected AbilityWebhookBot(TelegramClient telegramClient, String botUsername, String botPath, boolean isDebugMode) {
+        this(telegramClient, botUsername, botPath, onlineInstance(botUsername), isDebugMode);
     }
 
     protected AbilityWebhookBot(TelegramClient telegramClient, String botUsername, String botPath) {

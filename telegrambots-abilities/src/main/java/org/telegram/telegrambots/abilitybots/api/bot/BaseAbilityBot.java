@@ -127,14 +127,17 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
     // Reply registry
     private List<Reply> replies;
 
+    private final boolean isDebugMode;
+
     public abstract long creatorId();
 
-    protected BaseAbilityBot(TelegramClient telegramClient, String botUsername, DBContext db, AbilityToggle toggle) {
+    protected BaseAbilityBot(TelegramClient telegramClient, String botUsername, DBContext db, AbilityToggle toggle, boolean isDebugMode) {
         this.telegramClient = telegramClient;
         this.botUsername = botUsername;
         this.db = db;
         this.toggle = toggle;
         this.silent = new SilentSender(telegramClient);
+        this.isDebugMode = isDebugMode;
     }
 
     public void onRegister() {
@@ -634,7 +637,7 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
         } catch(Exception ex) {
             String msg = format("Reply [%s] failed to check for conditions. " +
                     "Make sure you're safeguarding against all possible updates.", name);
-            if (log.isDebugEnabled()) {
+            if (this.isDebugMode) {
                 log.error(msg, ex);
             } else {
                 log.error(msg);

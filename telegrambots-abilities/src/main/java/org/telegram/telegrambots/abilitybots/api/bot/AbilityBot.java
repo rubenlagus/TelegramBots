@@ -16,16 +16,32 @@ import static org.telegram.telegrambots.abilitybots.api.db.MapDBContext.onlineIn
  * @author Abbas Abou Daya
  */
 public abstract class AbilityBot extends BaseAbilityBot {
+    protected AbilityBot(TelegramClient telegramClient, String botUsername, DBContext db, AbilityToggle toggle, boolean isDebugMode) {
+        super(telegramClient, botUsername, db, toggle, isDebugMode);
+    }
+
     protected AbilityBot(TelegramClient telegramClient, String botUsername, DBContext db, AbilityToggle toggle) {
-        super(telegramClient, botUsername, db, toggle);
+        super(telegramClient, botUsername, db, toggle, false);
+    }
+
+    protected AbilityBot(TelegramClient telegramClient, String botUsername, AbilityToggle toggle, boolean isDebugMode) {
+        this(telegramClient, botUsername, onlineInstance(botUsername), toggle, isDebugMode);
     }
 
     protected AbilityBot(TelegramClient telegramClient, String botUsername, AbilityToggle toggle) {
         this(telegramClient, botUsername, onlineInstance(botUsername), toggle);
     }
 
+    protected AbilityBot(TelegramClient telegramClient, String botUsername, DBContext db, boolean isDebugMode) {
+        this(telegramClient, botUsername, db, new DefaultToggle(), isDebugMode);
+    }
+
     protected AbilityBot(TelegramClient telegramClient, String botUsername, DBContext db) {
         this(telegramClient, botUsername, db, new DefaultToggle());
+    }
+
+    protected AbilityBot(TelegramClient telegramClient, String botUsername, boolean isDebugMode) {
+        this(telegramClient, botUsername, onlineInstance(botUsername), isDebugMode);
     }
 
     protected AbilityBot(TelegramClient telegramClient, String botUsername) {
