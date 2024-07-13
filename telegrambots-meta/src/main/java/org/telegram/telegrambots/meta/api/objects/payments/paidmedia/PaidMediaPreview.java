@@ -25,7 +25,7 @@ import org.telegram.telegrambots.meta.api.objects.payments.transactionpartner.Tr
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 @SuperBuilder
-public class PaidMediaPreview implements TransactionPartner {
+public class PaidMediaPreview implements PaidMedia {
     private static final String TYPE_FIELD = "type";
     private static final String WIDTH_FIELD = "width";
     private static final String HEIGHT_FIELD = "height";
