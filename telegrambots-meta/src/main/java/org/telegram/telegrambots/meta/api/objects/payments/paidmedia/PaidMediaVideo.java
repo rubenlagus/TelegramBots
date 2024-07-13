@@ -11,7 +11,6 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.objects.Video;
-import org.telegram.telegrambots.meta.api.objects.payments.transactionpartner.TransactionPartner;
 
 /**
  * @author Ruben Bermudez
@@ -27,7 +26,7 @@ import org.telegram.telegrambots.meta.api.objects.payments.transactionpartner.Tr
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 @SuperBuilder
-public class PaidMediaVideo implements TransactionPartner {
+public class PaidMediaVideo implements PaidMedia {
     private static final String TYPE_FIELD = "type";
     private static final String VIDEO_FIELD = "video";
 

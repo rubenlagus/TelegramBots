@@ -29,7 +29,7 @@ import java.util.List;
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 @SuperBuilder
-public class PaidMediaPhoto implements TransactionPartner {
+public class PaidMediaPhoto implements PaidMedia {
     private static final String TYPE_FIELD = "type";
     private static final String PHOTO_FIELD = "photo";
 
