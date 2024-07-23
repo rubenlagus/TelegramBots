@@ -39,7 +39,7 @@ https://telegram.me/SnowcrashBot (**Webhook support**)
 You can see code for those bots at [TelegramBotsExample](https://github.com/rubenlagus/TelegramBotsExample) project.
 
 ## Telegram Bot API
-This library use [Telegram bot API](https://core.telegram.org/bots), you can find more information following the link.
+This library uses [Telegram bot API](https://core.telegram.org/bots), you can find more information following the link.
 
 ## Questions or Suggestions
 Feel free to create issues [here](https://github.com/rubenlagus/TelegramBots/issues) as you need or join the [chat](https://telegram.me/JavaBotsApi)
