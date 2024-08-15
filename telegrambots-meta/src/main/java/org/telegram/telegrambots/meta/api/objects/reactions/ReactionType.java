@@ -17,9 +17,11 @@ import org.telegram.telegrambots.meta.api.interfaces.Validable;
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = ReactionTypeEmoji.class, name = ReactionType.EMOJI_TYPE),
-        @JsonSubTypes.Type(value = ReactionTypeCustomEmoji.class, name = ReactionType.CUSTOM_EMOJI_TYPE)
+        @JsonSubTypes.Type(value = ReactionTypeCustomEmoji.class, name = ReactionType.CUSTOM_EMOJI_TYPE),
+        @JsonSubTypes.Type(value = ReactionTypePaid.class, name = ReactionType.PAID)
 })
 public interface ReactionType extends Validable, BotApiObject {
     String EMOJI_TYPE = "emoji";
     String CUSTOM_EMOJI_TYPE = "custom_emoji";
+    String PAID = "paid";
 }
