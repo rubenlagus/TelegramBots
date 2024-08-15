@@ -31,7 +31,9 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.EXISTING_PROPERTY,
-        property = "type")
+        property = "type",
+        defaultImpl = Void.class
+)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = MenuButtonDefault.class, name = "default"),
         @JsonSubTypes.Type(value = MenuButtonWebApp.class, name = "web_app"),
