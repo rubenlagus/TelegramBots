@@ -42,7 +42,8 @@ import java.io.InputStream;
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.EXISTING_PROPERTY,
-        property = "type"
+        property = "type",
+        defaultImpl = Void.class
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = InputPaidMediaPhoto.class, name = "photo"),

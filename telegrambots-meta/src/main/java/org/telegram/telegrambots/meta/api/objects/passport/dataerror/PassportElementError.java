@@ -23,7 +23,8 @@ import org.telegram.telegrambots.meta.api.interfaces.Validable;
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.EXISTING_PROPERTY,
-        property = "source"
+        property = "source",
+        defaultImpl = Void.class
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PassportElementErrorDataField.class, name = "data"),
