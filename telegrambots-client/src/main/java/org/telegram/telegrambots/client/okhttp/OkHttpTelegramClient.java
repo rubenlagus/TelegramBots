@@ -261,6 +261,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                     .addPart(SendPaidMedia.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendPaidMedia.getShowCaptionAboveMedia())
                     .addPart(SendPaidMedia.DISABLE_NOTIFICATION_FIELD, sendPaidMedia.getDisableNotification())
                     .addPart(SendPaidMedia.PROTECT_CONTENT_FIELD, sendPaidMedia.getProtectContent())
+                    .addPart(SendPaidMedia.BUSINESS_CONNECTION_ID_FIELD, sendPaidMedia.getBusinessConnectionId())
                     .addJsonPart(SendPaidMedia.CAPTION_ENTITIES_FIELD, sendPaidMedia.getCaptionEntities())
                     .addJsonPart(SendPaidMedia.REPLY_MARKUP_FIELD, sendPaidMedia.getReplyMarkup())
                     .addJsonPart(SendPaidMedia.REPLY_PARAMETERS_FIELD, sendPaidMedia.getReplyParameters());

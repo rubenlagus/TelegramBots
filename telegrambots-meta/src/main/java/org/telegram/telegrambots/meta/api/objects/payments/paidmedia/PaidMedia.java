@@ -21,7 +21,8 @@ import org.telegram.telegrambots.meta.api.objects.payments.transactionpartner.Tr
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.EXISTING_PROPERTY,
-        property = "type"
+        property = "type",
+        defaultImpl = Void.class
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PaidMediaPreview.class, name = "preview"),

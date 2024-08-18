@@ -53,9 +53,12 @@ public class SendPaidMedia extends PartialBotApiMethod<ArrayList<Message>> {
     public static final String PROTECT_CONTENT_FIELD = "protect_content";
     public static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
     public static final String REPLY_MARKUP_FIELD = "reply_markup";
+    public static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
 
     /**
-     * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * Unique identifier for the target chat or username of the target channel (in the format @channelusername).
+     * If the chat is a channel, all Telegram Star proceeds from this media will be credited to the chat's balance.
+     * Otherwise, they will be credited to the bot's balance.
      */
     @NonNull
     private String chatId;
@@ -111,6 +114,11 @@ public class SendPaidMedia extends PartialBotApiMethod<ArrayList<Message>> {
      * instructions to remove a reply keyboard or to force a reply from the user
      */
     private ReplyKeyboard replyMarkup;
+    /**
+     * Optional
+     * Unique identifier of the business connection on behalf of which the message will be sent
+     */
+    private String businessConnectionId;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

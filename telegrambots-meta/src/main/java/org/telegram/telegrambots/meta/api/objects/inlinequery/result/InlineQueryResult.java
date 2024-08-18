@@ -25,7 +25,10 @@ import java.util.List;
  * @apiNote All URLs passed in inline query results will be available to end users and therefore must be assumed to be public.
  */
 //@JsonDeserialize(using = InlineQueryResultDeserializer.class)
-@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.DEDUCTION,
+        defaultImpl = Void.class
+)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = InlineQueryResultArticle.class),
         @JsonSubTypes.Type(value = InlineQueryResultAudio.class),

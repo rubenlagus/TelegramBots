@@ -32,7 +32,8 @@ public class TestData {
             null,
             false,
             null,
-            null
+            null,
+            false
     );
     public static final Chat PRIVATE_CHAT = ChatFullInfo
             .builder()
@@ -55,6 +56,7 @@ public class TestData {
             false,
             null,
             false,
-            null
+            null,
+            false
     );
 }

@@ -11,6 +11,9 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.payments.paidmedia.PaidMedia;
+
+import java.util.List;
 
 /**
  * @author Ruben Bermudez
@@ -31,6 +34,7 @@ public class TransactionPartnerUser implements TransactionPartner {
     private static final String TYPE_FIELD = "type";
     private static final String USER_FIELD = "user";
     private static final String INVOICE_PAYLOAD_FIELD = "invoice_payload";
+    private static final String PAID_MEDIA_FIELD = "paid_media";
 
     /**
      * Type of the transaction partner, always “user”
@@ -49,4 +53,10 @@ public class TransactionPartnerUser implements TransactionPartner {
      */
     @JsonProperty(INVOICE_PAYLOAD_FIELD)
     private String invoicePayload;
+    /**
+     * Optional.
+     * Information about the paid media bought by the user
+     */
+    @JsonProperty(PAID_MEDIA_FIELD)
+    private List<PaidMedia> paidMedia;
 }
