@@ -36,22 +36,37 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 public class PinChatMessage extends BotApiMethodBoolean {
     public static final String PATH = "pinChatMessage";
 
-    private static final String CHATID_FIELD = "chat_id";
-    private static final String MESSAGEID_FIELD = "message_id";
-    private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
+    private static final String CHAT_ID_FIELD = "chat_id";
+    private static final String MESSAGE_ID_FIELD = "message_id";
+    private static final String DISABLE_NOTIFICATION_FIELD = "disable_notification";
+    private static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
 
-    @JsonProperty(CHATID_FIELD)
+    /**
+     * Required.
+     * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     */
+    @JsonProperty(CHAT_ID_FIELD)
     @NonNull
-    private String chatId; ///< Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-    @JsonProperty(MESSAGEID_FIELD)
+    private String chatId;
+    /**
+     * Required.
+     * Identifier of a message to pin
+     */
+    @JsonProperty(MESSAGE_ID_FIELD)
     @NonNull
-    private Integer messageId; ///< Required. Identifier of a message to pin
+    private Integer messageId;
     /**
      * Pass True, if it is not necessary to send a notification to all chat members about the new pinned message.
      * Notifications are always disabled in channels.
      */
-    @JsonProperty(DISABLENOTIFICATION_FIELD)
+    @JsonProperty(DISABLE_NOTIFICATION_FIELD)
     private Boolean disableNotification;
+    /**
+     * Optional
+     * Unique identifier of the business connection on behalf of which the message will be pinned
+     */
+    @JsonProperty(BUSINESS_CONNECTION_ID_FIELD)
+    private String businessConnectionId;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
