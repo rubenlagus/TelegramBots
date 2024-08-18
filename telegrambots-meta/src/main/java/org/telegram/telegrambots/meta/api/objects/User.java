@@ -40,6 +40,7 @@ public class User implements BotApiObject {
     private static final String IS_PREMIUM_FIELD = "is_premium";
     private static final String ADDED_TO_ATTACHMENT_MENU_FIELD = "added_to_attachment_menu";
     private static final String CAN_CONNECT_TO_BUSINESS_FIELD = "can_connect_to_business";
+    private static final String HAS_MAIN_WEB_APP_FIELD = "has_main_web_app";
 
     /**
      * Unique identifier for this user or bot.
@@ -112,9 +113,9 @@ public class User implements BotApiObject {
     private Boolean addedToAttachmentMenu;
     /**
      * Optional.
-     * True, if the bot can be connected to a Telegram Business account to receive its messages.
-     * Returned only in getMe.
+     * True, if the bot has a main Web App.
+     * @apiNote Returned only in getMe.
      */
-    @JsonProperty(CAN_CONNECT_TO_BUSINESS_FIELD)
-    private Boolean canConnectToBusiness;
+    @JsonProperty(HAS_MAIN_WEB_APP_FIELD)
+    private Boolean hasMainWebApp;
 }

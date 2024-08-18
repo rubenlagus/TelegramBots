@@ -37,20 +37,32 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 public class UnpinChatMessage extends BotApiMethodBoolean {
     public static final String PATH = "unpinChatMessage";
 
-    private static final String CHATID_FIELD = "chat_id";
-    private static final String MESSAGEID_FIELD = "message_id";
+    private static final String CHAT_ID_FIELD = "chat_id";
+    private static final String MESSAGE_ID_FIELD = "message_id";
+    private static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
 
-    @JsonProperty(CHATID_FIELD)
-    @NonNull
-    private String chatId; ///< Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     /**
-     * Optional.
-     * Identifier of a message to unpin.
-     *
-     * @apiNote If not specified, the most recent pinned message (by send date) will be unpinned.
+     * Required.
+     * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      */
-    @JsonProperty(MESSAGEID_FIELD)
+    @JsonProperty(CHAT_ID_FIELD)
+    @NonNull
+    private String chatId;
+    /**
+     * Optional
+     * Identifier of the message to unpin.
+     *
+     * @apiNote Required if business_connection_id is specified.
+     * @apiNote If not specified, the most recent pinned message (by sending date) will be unpinned.
+     */
+    @JsonProperty(MESSAGE_ID_FIELD)
     private Integer messageId;
+    /**
+     * Optional
+     * Unique identifier of the business connection on behalf of which the message will be unpinned
+     */
+    @JsonProperty(BUSINESS_CONNECTION_ID_FIELD)
+    private String businessConnectionId;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
