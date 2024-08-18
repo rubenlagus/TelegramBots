@@ -28,6 +28,8 @@ import java.util.List;
  * In albums, bots must react to the first message.
  *
  * Returns True on success.
+ *
+ * @apiNote Bots can't use paid reactions
  */
 @SuppressWarnings("unused")
 @EqualsAndHashCode(callSuper = false)
@@ -64,6 +66,7 @@ public class SetMessageReaction extends BotApiMethodBoolean {
      * New list of reaction types to set on the message.
      * Currently, as non-premium users, bots can set up to one reaction per message.
      * A custom emoji reaction can be used if it is either already present on the message or explicitly allowed by chat administrators.
+     * @apiNote Paid reactions can't be used by bots.
      */
     @JsonProperty(REACTION_FIELD)
     private List<ReactionType> reactionTypes;
@@ -73,7 +76,6 @@ public class SetMessageReaction extends BotApiMethodBoolean {
      */
     @JsonProperty(IS_BIG_FIELD)
     private Boolean isBig;
-
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
@@ -92,6 +94,9 @@ public class SetMessageReaction extends BotApiMethodBoolean {
         }
         if (reactionTypes != null) {
             for (ReactionType reactionType : reactionTypes) {
+                if (ReactionType.PAID_TYPE.equals(reactionType.getType())) {
+                    throw new TelegramApiValidationException("ReactionType can't be paid", this);
+                }
                 reactionType.validate();
             }
         }

@@ -82,17 +82,17 @@ import java.util.List;
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Message implements MaybeInaccessibleMessage {
-    private static final String MESSAGEID_FIELD = "message_id";
-    private static final String MESSAGETHREADID_FIELD = "message_thread_id";
+    private static final String MESSAGE_ID_FIELD = "message_id";
+    private static final String MESSAGE_THREAD_ID_FIELD = "message_thread_id";
     private static final String FROM_FIELD = "from";
     private static final String DATE_FIELD = "date";
     private static final String CHAT_FIELD = "chat";
-    private static final String FORWARDFROM_FIELD = "forward_from";
-    private static final String FORWARDFROMCHAT_FIELD = "forward_from_chat";
-    private static final String FORWARDDATE_FIELD = "forward_date";
+    private static final String FORWARD_FROM_FIELD = "forward_from";
+    private static final String FORWARD_FROM_CHAT_FIELD = "forward_from_chat";
+    private static final String FORWARD_DATE_FIELD = "forward_date";
     private static final String TEXT_FIELD = "text";
     private static final String ENTITIES_FIELD = "entities";
-    private static final String CAPTIONENTITIES_FIELD = "caption_entities";
+    private static final String CAPTION_ENTITIES_FIELD = "caption_entities";
     private static final String AUDIO_FIELD = "audio";
     private static final String DOCUMENT_FIELD = "document";
     private static final String PHOTO_FIELD = "photo";
@@ -103,58 +103,57 @@ public class Message implements MaybeInaccessibleMessage {
     private static final String VENUE_FIELD = "venue";
     private static final String ANIMATION_FIELD = "animation";
     private static final String PINNED_MESSAGE_FIELD = "pinned_message";
-    private static final String NEWCHATMEMBERS_FIELD = "new_chat_members";
-    private static final String LEFTCHATMEMBER_FIELD = "left_chat_member";
-    private static final String NEWCHATTITLE_FIELD = "new_chat_title";
-    private static final String NEWCHATPHOTO_FIELD = "new_chat_photo";
-    private static final String DELETECHATPHOTO_FIELD = "delete_chat_photo";
-    private static final String GROUPCHATCREATED_FIELD = "group_chat_created";
+    private static final String NEW_CHAT_MEMBERS_FIELD = "new_chat_members";
+    private static final String LEFT_CHAT_MEMBER_FIELD = "left_chat_member";
+    private static final String NEW_CHAT_TITLE_FIELD = "new_chat_title";
+    private static final String NEW_CHAT_PHOTO_FIELD = "new_chat_photo";
+    private static final String DELETE_CHAT_PHOTO_FIELD = "delete_chat_photo";
+    private static final String GROUP_CHAT_CREATED_FIELD = "group_chat_created";
     private static final String REPLY_TO_MESSAGE_FIELD = "reply_to_message";
     private static final String VOICE_FIELD = "voice";
     private static final String CAPTION_FIELD = "caption";
-    private static final String SUPERGROUPCREATED_FIELD = "supergroup_chat_created";
-    private static final String CHANNELCHATCREATED_FIELD = "channel_chat_created";
-    private static final String MIGRATETOCHAT_FIELD = "migrate_to_chat_id";
-    private static final String MIGRATEFROMCHAT_FIELD = "migrate_from_chat_id";
-    private static final String EDITDATE_FIELD = "edit_date";
+    private static final String SUPER_GROUP_CREATED_FIELD = "supergroup_chat_created";
+    private static final String CHANNEL_CHAT_CREATED_FIELD = "channel_chat_created";
+    private static final String MIGRATE_TO_CHAT_FIELD = "migrate_to_chat_id";
+    private static final String MIGRATE_FROM_CHAT_FIELD = "migrate_from_chat_id";
+    private static final String EDIT_DATE_FIELD = "edit_date";
     private static final String GAME_FIELD = "game";
-    private static final String FORWARDFROMMESSAGEID_FIELD = "forward_from_message_id";
+    private static final String FORWARD_FROM_MESSAGE_ID_FIELD = "forward_from_message_id";
     private static final String INVOICE_FIELD = "invoice";
     private static final String SUCCESSFUL_PAYMENT_FIELD = "successful_payment";
     private static final String VIDEO_NOTE_FIELD = "video_note";
-    private static final String AUTHORSIGNATURE_FIELD = "author_signature";
-    private static final String FORWARDSIGNATURE_FIELD = "forward_signature";
-    private static final String MEDIAGROUPID_FIELD = "media_group_id";
-    private static final String CONNECTEDWEBSITE_FIELD = "connected_website";
-    private static final String PASSPORTDATA_FIELD = "passport_data";
-    private static final String FORWARDSENDERNAME_FIELD = "forward_sender_name";
+    private static final String AUTHOR_SIGNATURE_FIELD = "author_signature";
+    private static final String FORWARD_SIGNATURE_FIELD = "forward_signature";
+    private static final String MEDIA_GROUP_ID_FIELD = "media_group_id";
+    private static final String CONNECTED_WEBSITE_FIELD = "connected_website";
+    private static final String PASSPORT_DATA_FIELD = "passport_data";
+    private static final String FORWARD_SENDER_NAME_FIELD = "forward_sender_name";
     private static final String POLL_FIELD = "poll";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String DICE_FIELD = "dice";
-    private static final String VIABOT_FIELD = "via_bot";
-    private static final String SENDERCHAT_FIELD = "sender_chat";
-    private static final String PROXIMITYALERTTRIGGERED_FIELD = "proximity_alert_triggered";
-    private static final String MESSAGEAUTODELETETIMERCHANGED_FIELD = "message_auto_delete_timer_changed";
-    private static final String ISAUTOMATICFORWARD_FIELD = "is_automatic_forward";
-    private static final String HASPROTECTEDCONTENT_FIELD = "has_protected_content";
-    private static final String WEBAPPDATA_FIELD = "web_app_data";
-    private static final String VIDEOCHATSCHEDULED_FIELD = "video_chat_scheduled";
-    private static final String VIDEOCHATSTARTED_FIELD = "video_chat_started";
-    private static final String VIDEOCHATENDED_FIELD = "video_chat_ended";
-    private static final String VIDEOCHATPARTICIPANTSINVITED_FIELD = "video_chat_participants_invited";
-    private static final String ISTOPICMESSAGE_FIELD = "is_topic_message";
-    private static final String FORUMTOPICCREATED_FIELD = "forum_topic_created";
-    private static final String FORUMTOPICCLOSED_FIELD = "forum_topic_closed";
-    private static final String FORUMTOPICREOPENED_FIELD = "forum_topic_reopened";
-    private static final String FORUMTOPICEDITED_FIELD = "forum_topic_edited";
-    private static final String GENERALFORUMTOPICHIDDEN_FIELD = "general_forum_topic_hidden";
-    private static final String GENERALFORUMTOPICUNHIDDEN_FIELD = "general_forum_topic_unhidden";
-    private static final String WRITEACCESSALLOWED_FIELD = "write_access_allowed";
-    private static final String HASMEDIASPOILER_FIELD = "has_media_spoiler";
-    private static final String USERSHARED_FIELD = "user_shared";
-    private static final String CHATSHARED_FIELD = "chat_shared";
-    private static final String STORY_FIELD = "story";
+    private static final String VIA_BOT_FIELD = "via_bot";
+    private static final String SENDER_CHAT_FIELD = "sender_chat";
+    private static final String PROXIMITY_ALERT_TRIGGERED_FIELD = "proximity_alert_triggered";
+    private static final String MESSAGE_AUTO_DELETE_TIMER_CHANGED_FIELD = "message_auto_delete_timer_changed";
+    private static final String IS_AUTOMATIC_FORWARD_FIELD = "is_automatic_forward";
+    private static final String HAS_PROTECTED_CONTENT_FIELD = "has_protected_content";
+    private static final String WEB_APP_DATA_FIELD = "web_app_data";
+    private static final String VIDEO_CHAT_SCHEDULED_FIELD = "video_chat_scheduled";
+    private static final String VIDEO_CHAT_STARTED_FIELD = "video_chat_started";
+    private static final String VIDEO_CHAT_ENDED_FIELD = "video_chat_ended";
+    private static final String VIDEO_CHAT_PARTICIPANTS_INVITED_FIELD = "video_chat_participants_invited";
+    private static final String IS_TOPIC_MESSAGE_FIELD = "is_topic_message";
+    private static final String FORUM_TOPIC_CREATED_FIELD = "forum_topic_created";
+    private static final String FORUM_TOPIC_CLOSED_FIELD = "forum_topic_closed";
+    private static final String FORUM_TOPIC_REOPENED_FIELD = "forum_topic_reopened";
+    private static final String FORUM_TOPIC_EDITED_FIELD = "forum_topic_edited";
+    private static final String GENERAL_FORUM_TOPIC_HIDDEN_FIELD = "general_forum_topic_hidden";
+    private static final String GENERAL_FORUM_TOPIC_UNHIDDEN_FIELD = "general_forum_topic_unhidden";
     private static final String WRITE_ACCESS_ALLOWED_FIELD = "write_access_allowed";
+    private static final String HAS_MEDIA_SPOILER_FIELD = "has_media_spoiler";
+    private static final String USER_SHARED_FIELD = "user_shared";
+    private static final String CHAT_SHARED_FIELD = "chat_shared";
+    private static final String STORY_FIELD = "story";
     private static final String EXTERNAL_REPLY_FIELD = "external_reply";
     private static final String FORWARD_ORIGIN_FIELD = "forward_origin";
     private static final String LINK_PREVIEW_OPTIONS_FIELD = "link_preview_options";
@@ -179,18 +178,19 @@ public class Message implements MaybeInaccessibleMessage {
     /**
      * Integer	Unique message identifier
      */
-    @JsonProperty(MESSAGEID_FIELD)
+    @JsonProperty(MESSAGE_ID_FIELD)
     private Integer messageId;
     /**
      * Optional.
      * Unique identifier of a message thread or a forum topic to which the message belongs;
      * for supergroups only
      */
-    @JsonProperty(MESSAGETHREADID_FIELD)
+    @JsonProperty(MESSAGE_THREAD_ID_FIELD)
     private Integer messageThreadId;
     /**
      * Optional.
-     * Sender, can be empty for messages sent to channels
+     * Sender of the message; may be empty for messages sent to channels.
+     * For backward compatibility, if the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats
      */
     @JsonProperty(FROM_FIELD)
     private User from;
@@ -208,19 +208,19 @@ public class Message implements MaybeInaccessibleMessage {
      * Optional.
      * For forwarded messages, sender of the original message
      */
-    @JsonProperty(FORWARDFROM_FIELD)
+    @JsonProperty(FORWARD_FROM_FIELD)
     private User forwardFrom;  
     /**
      * Optional.
      * For messages forwarded from channels or from anonymous administrators, information about the original sender chat
      */
-    @JsonProperty(FORWARDFROMCHAT_FIELD)
+    @JsonProperty(FORWARD_FROM_CHAT_FIELD)
     private Chat forwardFromChat;
     /**
      * Optional.
      * For forwarded messages, date the original message was sent
      */
-    @JsonProperty(FORWARDDATE_FIELD)
+    @JsonProperty(FORWARD_DATE_FIELD)
     private Integer forwardDate;
     /**
      * Optional.
@@ -240,7 +240,7 @@ public class Message implements MaybeInaccessibleMessage {
      * For messages with a caption, special entities like usernames,
      * URLs, bot commands, etc. that appear in the caption
      */
-    @JsonProperty(CAPTIONENTITIES_FIELD)
+    @JsonProperty(CAPTION_ENTITIES_FIELD)
     private List<MessageEntity> captionEntities;
     /**
      * Optional.
@@ -307,37 +307,37 @@ public class Message implements MaybeInaccessibleMessage {
      * Optional.
      * New members were added to the group or supergroup, information about them (the bot itself may be one of these members)
      */
-    @JsonProperty(NEWCHATMEMBERS_FIELD)
+    @JsonProperty(NEW_CHAT_MEMBERS_FIELD)
     private List<User> newChatMembers;
     /**
      * Optional.
      * A member was removed from the group, information about them (this member may be bot itself)
      */
-    @JsonProperty(LEFTCHATMEMBER_FIELD)
+    @JsonProperty(LEFT_CHAT_MEMBER_FIELD)
     private User leftChatMember;  
     /**
      * Optional.
      * A chat title was changed to this value
      */
-    @JsonProperty(NEWCHATTITLE_FIELD)
+    @JsonProperty(NEW_CHAT_TITLE_FIELD)
     private String newChatTitle;  
     /**
      * Optional.
      * A chat photo was change to this value
      */
-    @JsonProperty(NEWCHATPHOTO_FIELD)
+    @JsonProperty(NEW_CHAT_PHOTO_FIELD)
     private List<PhotoSize> newChatPhoto;
     /**
      * Optional.
      * Informs that the chat photo was deleted
      */
-    @JsonProperty(DELETECHATPHOTO_FIELD)
+    @JsonProperty(DELETE_CHAT_PHOTO_FIELD)
     private Boolean deleteChatPhoto;  
     /**
      * Optional.
      * Informs that the group has been created
      */
-    @JsonProperty(GROUPCHATCREATED_FIELD)
+    @JsonProperty(GROUP_CHAT_CREATED_FIELD)
     private Boolean groupchatCreated;
     /**
      * Optional.
@@ -365,7 +365,7 @@ public class Message implements MaybeInaccessibleMessage {
      * It can only be found in reply_to_message
      * if someone replies to a very first message in a directly created supergroup.
      */
-    @JsonProperty(SUPERGROUPCREATED_FIELD)
+    @JsonProperty(SUPER_GROUP_CREATED_FIELD)
     private Boolean superGroupCreated;
     /**
      * Optional. Service message: the channel has been created.
@@ -374,7 +374,7 @@ public class Message implements MaybeInaccessibleMessage {
      * It can only be found in reply_to_message if someone
      * replies to a very first message in a channel.
      */
-    @JsonProperty(CHANNELCHATCREATED_FIELD)
+    @JsonProperty(CHANNEL_CHAT_CREATED_FIELD)
     private Boolean channelChatCreated;
     /**
      * Optional. The group has been migrated to a supergroup with the specified identifier.
@@ -383,7 +383,7 @@ public class Message implements MaybeInaccessibleMessage {
      * But it smaller than 52 bits, so a signed 64 bit integer or double-precision
      * float type are safe for storing this identifier.
      */
-    @JsonProperty(MIGRATETOCHAT_FIELD)
+    @JsonProperty(MIGRATE_TO_CHAT_FIELD)
     private Long migrateToChatId;  
     /**
      * Optional. The supergroup has been migrated from a group with the specified identifier.
@@ -392,13 +392,13 @@ public class Message implements MaybeInaccessibleMessage {
      * But it smaller than 52 bits, so a signed 64 bit integer or double-precision
      * float type are safe for storing this identifier.
      */
-    @JsonProperty(MIGRATEFROMCHAT_FIELD)
+    @JsonProperty(MIGRATE_FROM_CHAT_FIELD)
     private Long migrateFromChatId;
     /**
      * Optional.
      * Date the message was last edited in Unix time
      */
-    @JsonProperty(EDITDATE_FIELD)
+    @JsonProperty(EDIT_DATE_FIELD)
     private Integer editDate;
     /**
      * Optional.
@@ -410,7 +410,7 @@ public class Message implements MaybeInaccessibleMessage {
      * Optional.
      * For forwarded channel posts, identifier of the original message in the channel
      */
-    @JsonProperty(FORWARDFROMMESSAGEID_FIELD)
+    @JsonProperty(FORWARD_FROM_MESSAGE_ID_FIELD)
     private Integer forwardFromMessageId;
     /**
      * Optional.
@@ -434,37 +434,37 @@ public class Message implements MaybeInaccessibleMessage {
      * Optional.
      * Signature of the post author for messages in channels, or the custom title of an anonymous group administrator
      */
-    @JsonProperty(AUTHORSIGNATURE_FIELD)
+    @JsonProperty(AUTHOR_SIGNATURE_FIELD)
     private String authorSignature;
     /**
      * Optional.
      * Post author signature for messages forwarded from channel chats
      */
-    @JsonProperty(FORWARDSIGNATURE_FIELD)
+    @JsonProperty(FORWARD_SIGNATURE_FIELD)
     private String forwardSignature;
     /**
      * Optional.
      * The unique identifier of a media message group this message belongs to
      */
-    @JsonProperty(MEDIAGROUPID_FIELD)
+    @JsonProperty(MEDIA_GROUP_ID_FIELD)
     private String mediaGroupId;  
     /**
      * Optional.
      * The domain name of the website on which the user has logged in
      */
-    @JsonProperty(CONNECTEDWEBSITE_FIELD)
+    @JsonProperty(CONNECTED_WEBSITE_FIELD)
     private String connectedWebsite;  
     /**
      * Optional.
      * Telegram Passport data
      */
-    @JsonProperty(PASSPORTDATA_FIELD)
+    @JsonProperty(PASSPORT_DATA_FIELD)
     private PassportData passportData; 
     /**
      * Optional.
      * Sender's name for messages forwarded from users who disallow adding a link to their account in forwarded messages.
      */
-    @JsonProperty(FORWARDSENDERNAME_FIELD)
+    @JsonProperty(FORWARD_SENDER_NAME_FIELD)
     private String forwardSenderName;
     /**
      * Optional.
@@ -489,137 +489,139 @@ public class Message implements MaybeInaccessibleMessage {
      * Optional.
      * Bot through which the message was sent
      */
-    @JsonProperty(VIABOT_FIELD)
+    @JsonProperty(VIA_BOT_FIELD)
     private User viaBot;
     /**
      * Optional.
-     * Sender of the message, sent on behalf of a chat. The channel itself for channel messages.
-     * The supergroup itself for messages from anonymous group administrators.
-     * The linked channel for messages automatically forwarded to the discussion group
+     * Sender of the message when sent on behalf of a chat.
+     * For example, the supergroup itself for messages sent by its anonymous administrators or a linked channel
+     * for messages automatically forwarded to the channel's discussion group.
+     * For backward compatibility, if the message was sent on behalf of a chat,
+     * the field from contains a fake sender user in non-channel chats.
      */
-    @JsonProperty(SENDERCHAT_FIELD)
+    @JsonProperty(SENDER_CHAT_FIELD)
     private Chat senderChat;
     /**
      * Optional.
      * Service message.
      * A user in the chat triggered another user's proximity alert while sharing Live Location.
      */
-    @JsonProperty(PROXIMITYALERTTRIGGERED_FIELD)
+    @JsonProperty(PROXIMITY_ALERT_TRIGGERED_FIELD)
     private ProximityAlertTriggered proximityAlertTriggered;
     /**
      * Optional.
      * Service message: auto-delete timer settings changed in the chat
      */
-    @JsonProperty(MESSAGEAUTODELETETIMERCHANGED_FIELD)
+    @JsonProperty(MESSAGE_AUTO_DELETE_TIMER_CHANGED_FIELD)
     private MessageAutoDeleteTimerChanged messageAutoDeleteTimerChanged;
     /**
      * Optional.
      * True, if the message is a channel post that was automatically forwarded to the connected discussion group
      */
-    @JsonProperty(ISAUTOMATICFORWARD_FIELD)
+    @JsonProperty(IS_AUTOMATIC_FORWARD_FIELD)
     private Boolean isAutomaticForward;
     /**
      * Optional.
      * True, if the message can't be forwarded
      */
-    @JsonProperty(HASPROTECTEDCONTENT_FIELD)
+    @JsonProperty(HAS_PROTECTED_CONTENT_FIELD)
     private Boolean hasProtectedContent;
     /**
      * Optional.
      * Service message: data sent by a web app
      */
-    @JsonProperty(WEBAPPDATA_FIELD)
+    @JsonProperty(WEB_APP_DATA_FIELD)
     private WebAppData webAppData;  
     /**
      * Optional.
      * Service message: video chat started
      */
-    @JsonProperty(VIDEOCHATSTARTED_FIELD)
+    @JsonProperty(VIDEO_CHAT_STARTED_FIELD)
     private VideoChatStarted videoChatStarted;
     /**
      * Optional.
      * Service message: video chat ended
      */
-    @JsonProperty(VIDEOCHATENDED_FIELD)
+    @JsonProperty(VIDEO_CHAT_ENDED_FIELD)
     private VideoChatEnded videoChatEnded;  
     /**
      * Optional.
      * Service message: new participants invited to a video chat
      */
-    @JsonProperty(VIDEOCHATPARTICIPANTSINVITED_FIELD)
+    @JsonProperty(VIDEO_CHAT_PARTICIPANTS_INVITED_FIELD)
     private VideoChatParticipantsInvited videoChatParticipantsInvited;
     /**
      * Optional.
      * Service message: video chat scheduled
      */
-    @JsonProperty(VIDEOCHATSCHEDULED_FIELD)
+    @JsonProperty(VIDEO_CHAT_SCHEDULED_FIELD)
     private VideoChatScheduled videoChatScheduled;
     /**
      * Optional.
      * True, if the message is sent to a forum topic
      */
-    @JsonProperty(ISTOPICMESSAGE_FIELD)
+    @JsonProperty(IS_TOPIC_MESSAGE_FIELD)
     private Boolean isTopicMessage;
     /**
      * Optional.
      * Service message: forum topic created
      */
-    @JsonProperty(FORUMTOPICCREATED_FIELD)
+    @JsonProperty(FORUM_TOPIC_CREATED_FIELD)
     private ForumTopicCreated forumTopicCreated;
     /**
      * Optional.
      * Service message: forum topic closed
      */
-    @JsonProperty(FORUMTOPICCLOSED_FIELD)
+    @JsonProperty(FORUM_TOPIC_CLOSED_FIELD)
     private ForumTopicClosed forumTopicClosed;
     /**
      * Optional.
      * Service message: forum topic reopened
      */
-    @JsonProperty(FORUMTOPICREOPENED_FIELD)
+    @JsonProperty(FORUM_TOPIC_REOPENED_FIELD)
     private ForumTopicReopened forumTopicReopened;
     /**
      * Optional.
      * Service message: forum topic edited
      */
-    @JsonProperty(FORUMTOPICEDITED_FIELD)
+    @JsonProperty(FORUM_TOPIC_EDITED_FIELD)
     private ForumTopicEdited forumTopicEdited;
     /**
      * Optional.
      * Service message: General forum topic hidden
      */
-    @JsonProperty(GENERALFORUMTOPICHIDDEN_FIELD)
+    @JsonProperty(GENERAL_FORUM_TOPIC_HIDDEN_FIELD)
     private GeneralForumTopicHidden generalForumTopicHidden;
     /**
      * Optional.
      * Service message: General forum topic unhidden
      */
-    @JsonProperty(GENERALFORUMTOPICUNHIDDEN_FIELD)
+    @JsonProperty(GENERAL_FORUM_TOPIC_UNHIDDEN_FIELD)
     private GeneralForumTopicUnhidden generalForumTopicUnhidden;
     /**
      * 	Optional.
      * 	Service message: the user allowed the bot to write messages after adding it to the attachment or side menu,
      * 	launching a Web App from a link, or accepting an explicit request from a Web App sent by the method requestWriteAccess
      */
-    @JsonProperty(WRITEACCESSALLOWED_FIELD)
+    @JsonProperty(WRITE_ACCESS_ALLOWED_FIELD)
     private WriteAccessAllowed writeAccessAllowed;
     /**
      * Optional.
      * True, if the message media is covered by a spoiler animation
      */
-    @JsonProperty(HASMEDIASPOILER_FIELD)
+    @JsonProperty(HAS_MEDIA_SPOILER_FIELD)
     private Boolean hasMediaSpoiler;
     /**
      * Optional.
      * Service message: a user was shared with the bot
      */
-    @JsonProperty(USERSHARED_FIELD)
+    @JsonProperty(USER_SHARED_FIELD)
     private UserShared userShared;
     /**
      * Optional.
      * Service message: a chat was shared with the bot
      */
-    @JsonProperty(CHATSHARED_FIELD)
+    @JsonProperty(CHAT_SHARED_FIELD)
     private ChatShared chatShared;
     /**
      * Optional.
