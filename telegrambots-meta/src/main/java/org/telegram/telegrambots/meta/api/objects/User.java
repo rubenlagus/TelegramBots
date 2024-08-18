@@ -113,6 +113,13 @@ public class User implements BotApiObject {
     private Boolean addedToAttachmentMenu;
     /**
      * Optional.
+     * True, if the bot can be connected to a Telegram Business account to receive its messages.
+     * Returned only in getMe.
+     */
+    @JsonProperty(CAN_CONNECT_TO_BUSINESS_FIELD)
+    private Boolean canConnectToBusiness;
+    /**
+     * Optional.
      * True, if the bot has a main Web App.
      * @apiNote Returned only in getMe.
      */
