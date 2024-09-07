@@ -54,6 +54,7 @@ public class SendPaidMedia extends PartialBotApiMethod<ArrayList<Message>> {
     public static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
     public static final String REPLY_MARKUP_FIELD = "reply_markup";
     public static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
+    public static final String PAYLOAD_FIELD = "payload";
 
     /**
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername).
@@ -119,6 +120,12 @@ public class SendPaidMedia extends PartialBotApiMethod<ArrayList<Message>> {
      * Unique identifier of the business connection on behalf of which the message will be sent
      */
     private String businessConnectionId;
+    /**
+     * Optional
+     * Bot-defined paid media payload, 0-128 bytes.
+     * This will not be displayed to the user, use it for your internal processes.
+     */
+    private String payload;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

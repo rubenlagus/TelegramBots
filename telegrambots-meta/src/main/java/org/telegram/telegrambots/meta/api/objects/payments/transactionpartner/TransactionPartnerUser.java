@@ -35,6 +35,7 @@ public class TransactionPartnerUser implements TransactionPartner {
     private static final String USER_FIELD = "user";
     private static final String INVOICE_PAYLOAD_FIELD = "invoice_payload";
     private static final String PAID_MEDIA_FIELD = "paid_media";
+    private static final String PAID_MEDIA_PAYLOAD_FIELD = "paid_media_payload";
 
     /**
      * Type of the transaction partner, always “user”
@@ -59,4 +60,11 @@ public class TransactionPartnerUser implements TransactionPartner {
      */
     @JsonProperty(PAID_MEDIA_FIELD)
     private List<PaidMedia> paidMedia;
+
+    /**
+     * Optional.
+     * Bot-specified paid media payload
+     */
+    @JsonProperty(PAID_MEDIA_PAYLOAD_FIELD)
+    private String paidMediaPayload;
 }

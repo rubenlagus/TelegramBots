@@ -43,6 +43,7 @@ public class GiveawayWinners implements BotApiObject {
     public static final String ONLY_NEW_MEMBERS_FIELD = "only_new_members";
     public static final String WAS_REFUNDED_FIELD = "was_refunded";
     public static final String PRIZE_DESCRIPTION_FIELD = "prize_description";
+    public static final String PRIZE_STAR_COUNT_FIELD = "prize_star_count";
 
     /**
      * The chat that created the giveaway
@@ -77,7 +78,8 @@ public class GiveawayWinners implements BotApiObject {
     private Integer additionalChatCount;
     /**
      * Optional.
-     * The number of months the Telegram Premium subscription won from the giveaway will be active for
+     * The number of months the Telegram Premium subscription won from the giveaway will be active for;
+     * for Telegram Premium giveaways only
      */
     @JsonProperty(PREMIUM_SUBSCRIPTION_MONTH_COUNT_FIELD)
     private Integer premiumSubscriptionMonthCount;
@@ -105,7 +107,11 @@ public class GiveawayWinners implements BotApiObject {
      */
     @JsonProperty(PRIZE_DESCRIPTION_FIELD)
     private String prizeDescription;
-
-
-
+    /**
+     * Optional.
+     * The number of Telegram Stars that were split between giveaway winners;
+     * for Telegram Star giveaways only
+     */
+    @JsonProperty(PRIZE_STAR_COUNT_FIELD)
+    private Integer prizeStarCount;
 }

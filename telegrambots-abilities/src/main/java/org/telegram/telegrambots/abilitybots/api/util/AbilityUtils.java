@@ -96,6 +96,8 @@ public final class AbilityUtils {
       return update.getEditedBuinessMessage().getFrom();
     } else if (Flag.HAS_DELETED_BUSINESS_MESSAGE.test(update)) {
       return EMPTY_USER;
+    }else if (Flag.HAS_PAID_MEDIA_PURCHASED.test(update)) {
+      return update.getPaidMediaPurchased().getUser();
     } else if (Flag.POLL.test(update)) {
       return EMPTY_USER;
     } else {
@@ -191,6 +193,8 @@ public final class AbilityUtils {
       return update.getEditedBuinessMessage().getFrom().getId();
     } else if (Flag.HAS_DELETED_BUSINESS_MESSAGE.test(update)) {
       return EMPTY_USER.getId();
+    } else if (Flag.HAS_PAID_MEDIA_PURCHASED.test(update)) {
+      return update.getPaidMediaPurchased().getUser().getId();
     } else {
       throw new IllegalStateException("Could not retrieve originating chat ID from update");
     }
