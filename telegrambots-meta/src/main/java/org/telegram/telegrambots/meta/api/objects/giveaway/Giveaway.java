@@ -38,6 +38,7 @@ public class Giveaway implements BotApiObject {
     public static final String PRIZE_DESCRIPTION_FIELD = "prize_description";
     public static final String COUNTRY_CODES_FIELD = "country_codes";
     public static final String PREMIUM_SUBSCRIPTION_MONTH_COUNT_FIELD = "premium_subscription_month_count";
+    public static final String PRIZE_STAR_COUNT_FIELD = "prize_star_count";
 
     /**
      * The list of chats which the user must join to participate in the giveaway
@@ -83,9 +84,15 @@ public class Giveaway implements BotApiObject {
     private List<String> countryCodes;
     /**
      * Optional.
-     * The number of months the Telegram Premium subscription won from the giveaway will be active for
+     * The number of months the Telegram Premium subscription won from the giveaway will be active for;
+     * for Telegram Premium giveaways only
      */
     @JsonProperty(PREMIUM_SUBSCRIPTION_MONTH_COUNT_FIELD)
     private Integer premiumSubscriptionMonthCount;
-
+    /**
+     * Optional.
+     * The number of Telegram Stars to be split between giveaway winners; for Telegram Star giveaways only
+     */
+    @JsonProperty(PRIZE_STAR_COUNT_FIELD)
+    private Integer prizeStarCount;
 }

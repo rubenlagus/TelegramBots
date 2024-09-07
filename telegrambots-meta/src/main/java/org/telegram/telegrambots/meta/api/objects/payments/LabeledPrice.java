@@ -31,9 +31,12 @@ public class LabeledPrice implements Validable, BotApiObject {
     private static final String LABEL_FIELD = "label";
     private static final String AMOUNT_FIELD = "amount";
 
+    /**
+     * Portion label
+     */
     @JsonProperty(LABEL_FIELD)
     @NonNull
-    private String label; ///< Portion label
+    private String label;
     /**
      * Price of the product in the smallest units of the currency (integer, not float/double).
      * For example, for a price of US$ 1.45 pass amount = 145.
@@ -44,10 +47,10 @@ public class LabeledPrice implements Validable, BotApiObject {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (label == null || label.isEmpty()) {
+        if (label.isEmpty()) {
             throw new TelegramApiValidationException("Label parameter can't be empty", this);
         }
-        if (amount == null) {
+        if (amount < 0) {
             throw new TelegramApiValidationException("Amount parameter can't be empty", this);
         }
     }
