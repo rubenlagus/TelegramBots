@@ -32,6 +32,7 @@ public class GiveawayCompleted implements BotApiObject {
     public static final String WINNER_COUNT_FIELD = "winner_count";
     public static final String UNCLAIMED_PRIZE_COUNT_FIELD = "unclaimed_prize_count";
     public static final String GIVEAWAY_MESSAGE_FIELD = "giveaway_message";
+    public static final String IS_STAR_GIVEAWAY_FIELD = "is_star_giveaway";
 
     /**
      * Number of winners in the giveaway
@@ -50,4 +51,11 @@ public class GiveawayCompleted implements BotApiObject {
      */
     @JsonProperty(GIVEAWAY_MESSAGE_FIELD)
     private Message giveawayMessage;
+    /**
+     * Optional.
+     * True, if the giveaway is a Telegram Star giveaway.
+     * Otherwise, currently, the giveaway is a Telegram Premium giveaway.
+     */
+    @JsonProperty(IS_STAR_GIVEAWAY_FIELD)
+    private Boolean isStarGiveaway;
 }
