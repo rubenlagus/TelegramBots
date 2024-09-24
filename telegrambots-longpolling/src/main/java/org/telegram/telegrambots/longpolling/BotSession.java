@@ -80,7 +80,11 @@ public class BotSession implements AutoCloseable {
 
     public void stop() {
         if (runningPolling != null) {
-            runningPolling.cancel(false);
+            // this is not stop executor task,because createPollerTask() the fuction submit task and start task.
+            // maybe  this runningPolling.cancel(false) -> runningPolling.cancel(true);   or  add executor.shutdown(); 
+            // I hope the author can see and adopt it. I have been unable to exit the program due to this line of code
+            runningPolling.cancel(true);
+            
             runningPolling = null;
         }
     }
