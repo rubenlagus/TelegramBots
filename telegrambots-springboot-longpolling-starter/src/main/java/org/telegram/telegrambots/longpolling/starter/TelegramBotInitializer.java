@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.longpolling.starter;
 
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.telegram.telegrambots.longpolling.BotSession;
@@ -9,7 +10,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 @Slf4j
@@ -18,10 +18,8 @@ public class TelegramBotInitializer implements InitializingBean {
     private final TelegramBotsLongPollingApplication telegramBotsApplication;
     private final List<SpringLongPollingBot> longPollingBots;
 
-    public TelegramBotInitializer(TelegramBotsLongPollingApplication telegramBotsApplication,
-                                  List<SpringLongPollingBot> longPollingBots) {
-        Objects.requireNonNull(telegramBotsApplication);
-        Objects.requireNonNull(longPollingBots);
+    public TelegramBotInitializer(@NonNull TelegramBotsLongPollingApplication telegramBotsApplication,
+                                  @NonNull List<SpringLongPollingBot> longPollingBots) {
         this.telegramBotsApplication = telegramBotsApplication;
         this.longPollingBots = longPollingBots;
     }
