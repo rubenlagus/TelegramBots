@@ -454,13 +454,12 @@ public final class DefaultAbilities implements AbilityExtension {
     }
   }
 
-
   private Optional<Message> send(String message, MessageContext ctx, String... args) {
-    return bot.silent.send(getLocalizedMessage(message, ctx.user().getLanguageCode(), args), ctx.chatId());
+    return bot.silent.send(getLocalizedMessage(message, ctx.user().getLanguageCode(), (Object[]) args), ctx.chatId());
   }
 
   private Optional<Message> sendMd(String message, MessageContext ctx, String... args) {
-    return bot.silent.sendMd(getLocalizedMessage(message, ctx.user().getLanguageCode(), args), ctx.chatId());
+    return bot.silent.sendMd(getLocalizedMessage(message, ctx.user().getLanguageCode(), (Object[]) args), ctx.chatId());
   }
 
   private Optional<Message> send(String message, Update upd) {
