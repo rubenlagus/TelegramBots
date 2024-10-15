@@ -192,7 +192,11 @@ public class BotSession implements AutoCloseable {
         messageBuilder.append(", message: ").append(response.message());
 
         if(response.body() != null) {
-            messageBuilder.append(", response body: ").append(response.body());
+            try {
+                messageBuilder.append(", response body: ").append(response.body().string());
+            } catch (IOException e) {
+                log.error("Error reading response body", e);
+            }
         }
 
         return messageBuilder.toString();
