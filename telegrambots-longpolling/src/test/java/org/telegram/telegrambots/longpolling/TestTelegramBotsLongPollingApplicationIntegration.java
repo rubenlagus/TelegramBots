@@ -11,6 +11,8 @@ import okhttp3.mockwebserver.RecordedRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.telegram.telegrambots.longpolling.util.DefaultGetUpdatesGenerator;
@@ -21,6 +23,7 @@ import org.telegram.telegrambots.meta.TelegramUrl;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class TestTelegramBotsLongPollingApplicationIntegration {
     private MockWebServer webServer;
@@ -44,11 +46,17 @@ public class TestTelegramBotsLongPollingApplicationIntegration {
     @Spy
     private ExponentialBackOff exponentialBackOff = new ExponentialBackOff();
 
+    @Mock
+    private TelegramClient mockTelegramClient = Mockito.mock(TelegramClient.class);
+
     private AutoCloseable mockitoCloseable;
 
     @BeforeEach
     public void setUp() {
         mockitoCloseable = MockitoAnnotations.openMocks(this);
+
+        when(mockTelegramClient.getBotToken()).then(invocation -> "TOKEN");
+
         webServer = new MockWebServer();
         HttpUrl mockUrl = webServer.url("");
         telegramUrl = TelegramUrl.builder().schema(mockUrl.scheme()).host(mockUrl.host()).port(mockUrl.port()).build();
@@ -76,7 +84,7 @@ public class TestTelegramBotsLongPollingApplicationIntegration {
 
             assertTrue(application.isRunning());
 
-            application.registerBot("TOKEN",
+            application.registerBot(mockTelegramClient,
                     () -> telegramUrl,
                     new DefaultGetUpdatesGenerator(),
                     (LongPollingSingleThreadUpdateConsumer) update -> updateReceived.add(update));
@@ -134,7 +142,7 @@ public class TestTelegramBotsLongPollingApplicationIntegration {
 
             assertFalse(application.isRunning());
 
-            application.registerBot("TOKEN",
+            application.registerBot(mockTelegramClient,
                     () -> telegramUrl,
                     new DefaultGetUpdatesGenerator(),
                     (LongPollingSingleThreadUpdateConsumer) update -> updateReceived.add(update));
@@ -169,7 +177,7 @@ public class TestTelegramBotsLongPollingApplicationIntegration {
 
             application.stop();
 
-            application.registerBot("TOKEN",
+            application.registerBot(mockTelegramClient,
                     () -> telegramUrl,
                     new DefaultGetUpdatesGenerator(),
                     (LongPollingSingleThreadUpdateConsumer) update -> updateReceived.add(update));
@@ -195,14 +203,14 @@ public class TestTelegramBotsLongPollingApplicationIntegration {
 
             assertTrue(application.isRunning());
 
-            application.registerBot("TOKEN",
+            application.registerBot(mockTelegramClient,
                     () -> telegramUrl,
                     new DefaultGetUpdatesGenerator(),
                     (LongPollingSingleThreadUpdateConsumer) update -> {
 
                     });
 
-            application.registerBot("TOKEN",
+            application.registerBot(mockTelegramClient,
                     () -> telegramUrl,
                     new DefaultGetUpdatesGenerator(),
                     (LongPollingSingleThreadUpdateConsumer) update -> {
@@ -239,7 +247,7 @@ public class TestTelegramBotsLongPollingApplicationIntegration {
             Dispatcher dispatcher = getDispatcher(List.of(getFakeUpdates1()));
             webServer.setDispatcher(dispatcher);
 
-            application.registerBot("TOKEN",
+            application.registerBot(mockTelegramClient,
                     () -> telegramUrl,
                     new DefaultGetUpdatesGenerator(),
                     (LongPollingSingleThreadUpdateConsumer) update -> updateReceived.add(update));
@@ -258,7 +266,7 @@ public class TestTelegramBotsLongPollingApplicationIntegration {
             Dispatcher dispatcher = getDispatcher(List.of(getFakeUpdates1(), getFakeUpdates1(), getFakeUpdates2()));
             webServer.setDispatcher(dispatcher);
 
-            application.registerBot("TOKEN",
+            application.registerBot(mockTelegramClient,
                     () -> telegramUrl,
                     new DefaultGetUpdatesGenerator(),
                     (LongPollingSingleThreadUpdateConsumer) update -> updateReceived.add(update));
@@ -279,7 +287,7 @@ public class TestTelegramBotsLongPollingApplicationIntegration {
             Dispatcher dispatcher = getDispatcher(List.of("WRONGRESPONSE", getFakeUpdates1()));
             webServer.setDispatcher(dispatcher);
 
-            application.registerBot("TOKEN",
+            application.registerBot(mockTelegramClient,
                     () -> telegramUrl,
                     new DefaultGetUpdatesGenerator(),
                     (LongPollingSingleThreadUpdateConsumer) update -> updateReceived.add(update));

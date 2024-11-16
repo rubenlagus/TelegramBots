@@ -8,22 +8,18 @@ import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
 import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsumer;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
+import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.*;
 
 class TestTelegramBotStarterConfiguration {
 
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
             .withAllowBeanDefinitionOverriding(true)
             .withConfiguration(AutoConfigurations.of(MockTelegramBotsLongPollingApplication.class,
-                                                     TelegramBotStarterConfiguration.class));
+                    TelegramBotStarterConfiguration.class));
 
     @Test
     void createMockTelegramApplicationWithDefaultSettings() {
@@ -43,7 +39,7 @@ class TestTelegramBotStarterConfiguration {
 
                     TelegramBotsLongPollingApplication telegramApplication = context.getBean(TelegramBotsLongPollingApplication.class);
 
-                    verify(telegramApplication, times(1)).registerBot(anyString(), any(LongPollingUpdateConsumer.class));
+                    verify(telegramApplication, times(1)).registerBot(any(TelegramClient.class), any(LongPollingUpdateConsumer.class));
                     verifyNoMoreInteractions(telegramApplication);
                 });
     }
@@ -62,8 +58,9 @@ class TestTelegramBotStarterConfiguration {
         @Bean
         public SpringLongPollingBot longPollingBot() {
             SpringLongPollingBot springLongPollingBotMock = mock(SpringLongPollingBot.class);
-            doReturn("").when(springLongPollingBotMock).getBotToken();
-            doReturn((LongPollingSingleThreadUpdateConsumer) update -> {}).when(springLongPollingBotMock).getUpdatesConsumer();
+            doReturn(mock(TelegramClient.class)).when(springLongPollingBotMock).getTelegramClient();
+            doReturn((LongPollingSingleThreadUpdateConsumer) update -> {
+            }).when(springLongPollingBotMock).getUpdatesConsumer();
             return springLongPollingBotMock;
         }
     }

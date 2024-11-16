@@ -10,19 +10,11 @@ import org.telegram.telegrambots.longpolling.BotSession;
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
 import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsumer;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyString;
-import static org.mockito.Mockito.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class TestTelegramBotStarterRegistrationHooks {
 
@@ -30,14 +22,14 @@ class TestTelegramBotStarterRegistrationHooks {
     private static final TelegramBotsLongPollingApplication mockApplication = mock(TelegramBotsLongPollingApplication.class);
 
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-			.withAllowBeanDefinitionOverriding(true)
+            .withAllowBeanDefinitionOverriding(true)
             .withConfiguration(AutoConfigurations.of(MockTelegramBotsApi.class,
-                                                     TelegramBotStarterConfiguration.class));
+                    TelegramBotStarterConfiguration.class));
 
     @Test
-    void longPollingBotWithAnnotatedMethodshouldBeCalled() throws TelegramApiException {
+    void longPollingBotWithAnnotatedMethodShouldBeCalled() throws TelegramApiException {
 
-        when(mockApplication.registerBot(anyString(), any(LongPollingUpdateConsumer.class))).thenReturn(someBotSession);
+        when(mockApplication.registerBot(any(TelegramClient.class), any(LongPollingUpdateConsumer.class))).thenReturn(someBotSession);
 
         this.contextRunner.withUserConfiguration(LongPollingBotConfig.class)
                 .run((context) -> {
@@ -49,7 +41,8 @@ class TestTelegramBotStarterRegistrationHooks {
                     assertInstanceOf(AnnotatedLongPollingBot.class, bot);
                     assertTrue(((AnnotatedLongPollingBot) bot).isHookCalled());
                     assertEquals(someBotSession, ((AnnotatedLongPollingBot) bot).getHookCalledWithSession());
-                    verify(telegramBotsApi, times(1)).registerBot(eq(bot.getBotToken()), any(LongPollingUpdateConsumer.class));
+                    verify(telegramBotsApi, times(1))
+                            .registerBot(eq(bot.getTelegramClient()), any(LongPollingUpdateConsumer.class));
                     verifyNoMoreInteractions(telegramBotsApi);
                 });
     }
@@ -75,8 +68,12 @@ class TestTelegramBotStarterRegistrationHooks {
     public static class AnnotatedLongPollingBot implements SpringLongPollingBot {
         private boolean hookCalled = false;
         private BotSession hookCalledWithSession = null;
+        private final TelegramClient telegramClient;
 
         public AnnotatedLongPollingBot() {
+            TelegramClient telegramClient = mock(TelegramClient.class);
+            when(telegramClient.getBotToken()).then(invocationOnMock -> "");
+            this.telegramClient = telegramClient;
         }
 
         @AfterBotRegistration
@@ -90,13 +87,14 @@ class TestTelegramBotStarterRegistrationHooks {
         }
 
         @Override
-        public String getBotToken() {
-            return "";
+        public TelegramClient getTelegramClient() {
+            return telegramClient;
         }
 
         @Override
         public LongPollingUpdateConsumer getUpdatesConsumer() {
-            return update -> { };
+            return update -> {
+            };
         }
     }
 }

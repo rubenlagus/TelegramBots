@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.TelegramUrl;
 import org.telegram.telegrambots.meta.api.methods.updates.GetUpdates;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.longpolling.interfaces.BackOff;
+import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -59,14 +60,15 @@ public class TelegramBotsLongPollingApplication implements AutoCloseable {
         this.backOffSupplier = backOffSupplier;
     }
 
-    public BotSession registerBot(String botToken, LongPollingUpdateConsumer updatesConsumer) throws TelegramApiException {
-        return registerBot(botToken, () -> TelegramUrl.DEFAULT_URL, new DefaultGetUpdatesGenerator(), updatesConsumer);
+    public BotSession registerBot(TelegramClient telegramClient, LongPollingUpdateConsumer updatesConsumer) throws TelegramApiException {
+        return registerBot(telegramClient, () -> TelegramUrl.DEFAULT_URL, new DefaultGetUpdatesGenerator(), updatesConsumer);
     }
 
-    public BotSession registerBot(String botToken,
+    public BotSession registerBot(TelegramClient telegramClient,
                                   Supplier<TelegramUrl> telegramUrlSupplier,
                                   Function<Integer, GetUpdates> getUpdatesGenerator,
                                   LongPollingUpdateConsumer updatesConsumer) throws TelegramApiException {
+        final String botToken = telegramClient.getBotToken();
         if (botSessions.containsKey(botToken)) {
             throw new TelegramApiException("Bot is already registered");
         } else {
@@ -86,6 +88,11 @@ public class TelegramBotsLongPollingApplication implements AutoCloseable {
             }
             return botSession;
         }
+    }
+
+    public void unregisterBot(TelegramClient telegramClient) throws TelegramApiException {
+        final String botToken = telegramClient.getBotToken();
+        unregisterBot(botToken);
     }
 
     public void unregisterBot(String botToken) throws TelegramApiException {
