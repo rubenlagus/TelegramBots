@@ -14,6 +14,10 @@ import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
+import static java.util.Objects.nonNull;
+import static org.apache.commons.lang3.ObjectUtils.isEmpty;
+import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
+
 /**
  * @author Ruben Bermudez
  * @version 6.3
@@ -76,19 +80,16 @@ public class EditForumTopic extends BotApiMethodBoolean {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId.isEmpty()) {
+        if (isEmpty(chatId)) {
             throw new TelegramApiValidationException("ChatId can't be empty", this);
         }
-        if (name != null && !name.isEmpty()) {
+        if (isNotEmpty(name)) {
             if (name.length() > 128) {
                 throw new TelegramApiValidationException("Name must be less than 128 characters", this);
             }
         }
-        if (messageThreadId <= 0) {
+        if (isEmpty(messageThreadId) || messageThreadId <= 0) {
             throw new TelegramApiValidationException("Message Thread Id can't be empty", this);
-        }
-        if (iconCustomEmojiId.isEmpty()) {
-            throw new TelegramApiValidationException("Icon Custom Emoji Id can't be empty", this);
         }
     }
 
