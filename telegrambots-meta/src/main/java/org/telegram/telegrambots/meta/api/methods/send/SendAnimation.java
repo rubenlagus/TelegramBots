@@ -164,6 +164,12 @@ public class SendAnimation extends SendMediaBotMethod<Message> {
      * Pass True, if the caption must be shown above the message media
      */
     private Boolean showCaptionAboveMedia;
+    /**
+     * Optional
+     * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message.
+     * The relevant Stars will be withdrawn from the bot's balance
+     */
+    private Boolean allowPaidBroadcast;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
