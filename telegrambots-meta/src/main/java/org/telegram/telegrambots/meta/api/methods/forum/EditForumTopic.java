@@ -87,9 +87,6 @@ public class EditForumTopic extends BotApiMethodBoolean {
         if (messageThreadId <= 0) {
             throw new TelegramApiValidationException("Message Thread Id can't be empty", this);
         }
-        if (iconCustomEmojiId.isEmpty()) {
-            throw new TelegramApiValidationException("Icon Custom Emoji Id can't be empty", this);
-        }
     }
 
     @Override
