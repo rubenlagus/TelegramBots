@@ -66,6 +66,7 @@ public class SendPoll extends BotApiMethodMessage {
     private static final String QUESTION_PARSE_MODE_FIELD = "question_parse_mode";
     private static final String QUESTION_ENTITIES_FIELD = "question_entities";
     private static final String MESSAGE_EFFECT_ID_FIELD = "message_effect_id";
+    private static final String ALLOW_PAID_BROADCAST_FIELD = "allow_paid_broadcast";
 
     /**
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername).
@@ -223,7 +224,13 @@ public class SendPoll extends BotApiMethodMessage {
      */
     @JsonProperty(MESSAGE_EFFECT_ID_FIELD)
     private String messageEffectId;
-
+    /**
+     * Optional
+     * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message.
+     * The relevant Stars will be withdrawn from the bot's balance
+     */
+    @JsonProperty(ALLOW_PAID_BROADCAST_FIELD)
+    private Boolean allowPaidBroadcast;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

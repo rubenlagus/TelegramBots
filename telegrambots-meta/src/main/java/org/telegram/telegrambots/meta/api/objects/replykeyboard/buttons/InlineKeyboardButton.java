@@ -47,6 +47,7 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
     private static final String PAY_FIELD = "pay";
     private static final String LOGIN_URL_FIELD = "login_url";
     private static final String WEBAPP_FIELD = "web_app";
+    private static final String COPY_TEXT_FIELD = "copy_text";
 
     /**
      * Label text on the button
@@ -129,7 +130,12 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
      */
     @JsonProperty(SWITCH_INLINE_QUERY_CHOSEN_CHAT_FIELD)
     private SwitchInlineQueryChosenChat switchInlineQueryChosenChat;
-
+    /**
+     * Optional.
+     * Description of the button that copies the specified text to the clipboard.
+     */
+    @JsonProperty(COPY_TEXT_FIELD)
+    private CopyTextButton copyText;
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -147,6 +153,9 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
         }
         if (switchInlineQueryChosenChat != null) {
             switchInlineQueryChosenChat.validate();
+        }
+        if (copyText != null) {
+            copyText.validate();
         }
     }
 }

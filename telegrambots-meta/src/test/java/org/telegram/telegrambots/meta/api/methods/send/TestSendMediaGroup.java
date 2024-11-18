@@ -22,10 +22,9 @@ public class TestSendMediaGroup {
     @Test
     public void test() {
         try {
-            String expectedJson = "{\"chatId\":\"12345\",\"messageThreadId\":null,\"medias\":[{\"media\":\"attach://321.png\",\"caption_entities\":[],\"type\":\"photo\"}," +
-                    "{\"media\":\"attach://123.png\",\"caption_entities\":[],\"type\":\"photo\"}],\"replyToMessageId\":null,\"disableNotification\":null," +
-                    "\"allowSendingWithoutReply\":null,\"protectContent\":null,\"replyParameters\":null,\"businessConnectionId\":null," +
-                    "\"replyMarkup\":null,\"messageEffectId\":null,\"method\":\"sendMediaGroup\"}";
+            String expectedJson = "{\"chatId\":\"12345\",\"medias\":[{\"media\":\"attach://321.png\",\"caption_entities\":[],\"type\":\"photo\"}," +
+                    "{\"media\":\"attach://123.png\",\"caption_entities\":[],\"type\":\"photo\"}]," +
+                    "\"method\":\"sendMediaGroup\"}";
             InputStream is = new ByteArrayInputStream("RandomFileContent".getBytes());
             InputStream is2 = new ByteArrayInputStream("RandomFileContent2".getBytes());
 

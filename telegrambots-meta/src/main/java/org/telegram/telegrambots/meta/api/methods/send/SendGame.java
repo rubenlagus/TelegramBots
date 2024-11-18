@@ -51,34 +51,34 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 public class SendGame extends BotApiMethodMessage {
     public static final String PATH = "sendGame";
 
-    private static final String CHATID_FIELD = "chat_id";
-    private static final String MESSAGETHREADID_FIELD = "message_thread_id";
-
-    private static final String GAMESHORTNAME_FIELD = "game_short_name";
-    private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
-    private static final String REPLYTOMESSAGEID_FIELD = "reply_to_message_id";
+    private static final String CHAT_ID_FIELD = "chat_id";
+    private static final String MESSAGE_THREAD_ID_FIELD = "message_thread_id";
+    private static final String GAME_SHORT_NAME_FIELD = "game_short_name";
+    private static final String DISABLE_NOTIFICATION_FIELD = "disable_notification";
+    private static final String REPLY_TO_MESSAGE_ID_FIELD = "reply_to_message_id";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
-    private static final String ALLOWSENDINGWITHOUTREPLY_FIELD = "allow_sending_without_reply";
-    private static final String PROTECTCONTENT_FIELD = "protect_content";
+    private static final String ALLOW_SENDING_WITHOUT_REPLY_FIELD = "allow_sending_without_reply";
+    private static final String PROTECT_CONTENT_FIELD = "protect_content";
     private static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
     private static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
     private static final String MESSAGE_EFFECT_ID_FIELD = "message_effect_id";
+    private static final String ALLOW_PAID_BROADCAST_FIELD = "allow_paid_broadcast";
 
-    @JsonProperty(CHATID_FIELD)
+    @JsonProperty(CHAT_ID_FIELD)
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     /**
      * Unique identifier for the target message thread (topic) of the forum;
      * for forum supergroups only
      */
-    @JsonProperty(MESSAGETHREADID_FIELD)
+    @JsonProperty(MESSAGE_THREAD_ID_FIELD)
     private Integer messageThreadId;
-    @JsonProperty(GAMESHORTNAME_FIELD)
+    @JsonProperty(GAME_SHORT_NAME_FIELD)
     @NonNull
     private String gameShortName; ///< Short name of the game
-    @JsonProperty(DISABLENOTIFICATION_FIELD)
+    @JsonProperty(DISABLE_NOTIFICATION_FIELD)
     private Boolean disableNotification; ///< Optional. Sends the message silently. Users will receive a notification with no sound.
-    @JsonProperty(REPLYTOMESSAGEID_FIELD)
+    @JsonProperty(REPLY_TO_MESSAGE_ID_FIELD)
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
     /**
      * Optional.
@@ -88,9 +88,9 @@ public class SendGame extends BotApiMethodMessage {
      */
     @JsonProperty(REPLY_MARKUP_FIELD)
     private ReplyKeyboard replyMarkup;
-    @JsonProperty(ALLOWSENDINGWITHOUTREPLY_FIELD)
+    @JsonProperty(ALLOW_SENDING_WITHOUT_REPLY_FIELD)
     private Boolean allowSendingWithoutReply; ///< Optional	Pass True, if the message should be sent even if the specified replied-to message is not found
-    @JsonProperty(PROTECTCONTENT_FIELD)
+    @JsonProperty(PROTECT_CONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
     /**
      * Optional
@@ -110,7 +110,13 @@ public class SendGame extends BotApiMethodMessage {
      */
     @JsonProperty(MESSAGE_EFFECT_ID_FIELD)
     private String messageEffectId;
-
+    /**
+     * Optional
+     * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message.
+     * The relevant Stars will be withdrawn from the bot's balance
+     */
+    @JsonProperty(ALLOW_PAID_BROADCAST_FIELD)
+    private Boolean allowPaidBroadcast;
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
         this.chatId = chatId.toString();
