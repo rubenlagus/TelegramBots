@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.objects.giveaway;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -11,8 +10,8 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
-import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 
 import java.util.List;
 
@@ -30,7 +29,6 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class GiveawayWinners implements BotApiObject {
     public static final String CHAT_FIELD = "chat";
     public static final String GIVEAWAY_MESSAGE_ID_FIELD = "giveaway_message_id";
