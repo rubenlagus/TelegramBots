@@ -1,11 +1,9 @@
 package org.telegram.telegrambots.meta.api.objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
@@ -27,7 +25,6 @@ import org.telegram.telegrambots.meta.api.interfaces.Validable;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class LinkPreviewOptions implements BotApiObject, Validable {
     private static final String IS_DISABLED_FIELD = "is_disabled";
     private static final String URL_FIELD = "url";
