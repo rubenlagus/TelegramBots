@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.methods;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -41,7 +40,6 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class CopyMessage extends BotApiMethod<MessageId> {
     public static final String PATH = "copyMessage";
 
@@ -59,6 +57,7 @@ public class CopyMessage extends BotApiMethod<MessageId> {
     private static final String PROTECTCONTENT_FIELD = "protect_content";
     private static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
     private static final String SHOW_CAPTION_ABOVE_MEDIA_FIELD = "show_caption_above_media";
+    private static final String ALLOW_PAID_BROADCAST_FIELD = "allow_paid_broadcast";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -109,6 +108,13 @@ public class CopyMessage extends BotApiMethod<MessageId> {
      */
     @JsonProperty(SHOW_CAPTION_ABOVE_MEDIA_FIELD)
     private Boolean showCaptionAboveMedia;
+    /**
+     * Optional
+     * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message.
+     * The relevant Stars will be withdrawn from the bot's balance
+     */
+    @JsonProperty(ALLOW_PAID_BROADCAST_FIELD)
+    private Boolean allowPaidBroadcast;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

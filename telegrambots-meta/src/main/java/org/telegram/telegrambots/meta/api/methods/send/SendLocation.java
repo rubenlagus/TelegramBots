@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -30,7 +29,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class SendLocation extends BotApiMethodMessage {
     public static final String PATH = "sendlocation";
 
@@ -50,6 +48,7 @@ public class SendLocation extends BotApiMethodMessage {
     private static final String PROTECTCONTENT_FIELD = "protect_content";
     private static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
     private static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
+    private static final String ALLOW_PAID_BROADCAST_FIELD = "allow_paid_broadcast";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -126,6 +125,13 @@ public class SendLocation extends BotApiMethodMessage {
      * Unique identifier of the message effect to be added to the message
      */
     private String messageEffectId;
+    /**
+     * Optional
+     * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message.
+     * The relevant Stars will be withdrawn from the bot's balance
+     */
+    @JsonProperty(ALLOW_PAID_BROADCAST_FIELD)
+    private Boolean allowPaidBroadcast;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
