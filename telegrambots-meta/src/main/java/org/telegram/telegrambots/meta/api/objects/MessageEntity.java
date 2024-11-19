@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -29,7 +28,6 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class MessageEntity implements BotApiObject {
     private static final String TYPE_FIELD = "type";
     private static final String OFFSET_FIELD = "offset";
@@ -40,26 +38,26 @@ public class MessageEntity implements BotApiObject {
     private static final String CUSTOMEMOJI_FIELD = "custom_emoji_id";
     /**
      * Type of the entity.
-     * Currently, can be:
-     * “mention” (@username),
-     * “hashtag” (#hashtag),
-     * “cashtag” ($USD),
-     * “bot_command” (/start@jobs_bot),
-     * “url” (https://telegram.org),
-     * “email” (do-not-reply@telegram.org),
-     * “phone_number” (+1-212-555-0123),
-     * “bold” (bold text),
-     * “italic” (italic text),
-     * “underline” (underlined text),
-     * “strikethrough” (strikethrough text),
-     * “spoiler” (spoiler message),
-     * “blockquote” (block quotation),
-     * “expandable_blockquote” (collapsed-by-default block quotation),
-     * “code” (monowidth string),
-     * “pre” (monowidth block),
-     * “text_link” (for clickable text URLs),
-     * “text_mention” (for users without usernames),
-     * “custom_emoji” (for inline custom emoji stickers)
+     * Currently, can be
+     * - “mention” (@username),
+     * - “hashtag” (#hashtag or #hashtag@chatusername),
+     * - “cashtag” ($USD or $USD@chatusername),
+     * - “bot_command” (/start@jobs_bot),
+     * - “url” (https://telegram.org),
+     * - “email” (do-not-reply@telegram.org),
+     * - “phone_number” (+1-212-555-0123),
+     * - “bold” (bold text),
+     * - “italic” (italic text),
+     * - “underline” (underlined text),
+     * - “strikethrough” (strikethrough text),
+     * - “spoiler” (spoiler message),
+     * - “blockquote” (block quotation),
+     * - “expandable_blockquote” (collapsed-by-default block quotation),
+     * - “code” (monowidth string),
+     * - “pre” (monowidth block),
+     * - “text_link” (for clickable text URLs),
+     * - “text_mention” (for users without usernames),
+     * - “custom_emoji” (for inline custom emoji stickers)
      */
     @JsonProperty(TYPE_FIELD)
     @NonNull
