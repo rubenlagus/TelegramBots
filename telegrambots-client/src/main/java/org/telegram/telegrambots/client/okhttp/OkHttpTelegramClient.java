@@ -263,6 +263,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                     .addPart(SendPaidMedia.PROTECT_CONTENT_FIELD, sendPaidMedia.getProtectContent())
                     .addPart(SendPaidMedia.BUSINESS_CONNECTION_ID_FIELD, sendPaidMedia.getBusinessConnectionId())
                     .addPart(SendPaidMedia.PAYLOAD_FIELD, sendPaidMedia.getPayload())
+                    .addPart(SendPaidMedia.ALLOW_PAID_BROADCAST_FIELD, sendPaidMedia.getAllowPaidBroadcast())
                     .addJsonPart(SendPaidMedia.CAPTION_ENTITIES_FIELD, sendPaidMedia.getCaptionEntities())
                     .addJsonPart(SendPaidMedia.REPLY_MARKUP_FIELD, sendPaidMedia.getReplyMarkup())
                     .addJsonPart(SendPaidMedia.REPLY_PARAMETERS_FIELD, sendPaidMedia.getReplyParameters());
@@ -299,6 +300,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                     .addPart(SendMediaGroup.PROTECT_CONTENT_FIELD, sendMediaGroup.getProtectContent())
                     .addPart(SendMediaGroup.BUSINESS_CONNECTION_ID_FIELD, sendMediaGroup.getBusinessConnectionId())
                     .addPart(SendMediaGroup.MESSAGE_EFFECT_ID_FIELD, sendMediaGroup.getMessageEffectId())
+                    .addPart(SendMediaGroup.ALLOW_PAID_BROADCAST_FIELD, sendMediaGroup.getAllowSendingWithoutReply())
                     .addJsonPart(SendMediaGroup.REPLY_MARKUP_FIELD, sendMediaGroup.getReplyMarkup())
                     .addJsonPart(SendMediaGroup.REPLY_PARAMETERS_FIELD, sendMediaGroup.getReplyParameters());
 
@@ -589,6 +591,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                     .addPart(SendMediaBotMethod.PROTECT_CONTENT_FIELD, method.getProtectContent())
                     .addPart(SendMediaBotMethod.ALLOW_SENDING_WITHOUT_REPLY_FIELD, method.getAllowSendingWithoutReply())
                     .addPart(SendMediaBotMethod.MESSAGE_EFFECT_ID_FIELD, method.getMessageEffectId())
+                    .addPart(SendMediaBotMethod.ALLOW_PAID_BROADCAST_FIELD, method.getAllowPaidBroadcast())
                     .addJsonPart(SendMediaBotMethod.REPLY_PARAMETERS_FIELD, method.getReplyParameters())
                     .addJsonPart(SendMediaBotMethod.REPLY_MARKUP_FIELD, method.getReplyMarkup());
 

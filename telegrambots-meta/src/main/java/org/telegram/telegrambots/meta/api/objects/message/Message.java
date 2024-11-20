@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.message;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -80,7 +79,6 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Message implements MaybeInaccessibleMessage {
     private static final String MESSAGE_ID_FIELD = "message_id";
     private static final String MESSAGE_THREAD_ID_FIELD = "message_thread_id";
@@ -176,7 +174,9 @@ public class Message implements MaybeInaccessibleMessage {
     private static final String REFUNDED_PAYMENT_FIELD = "refunded_payment";
 
     /**
-     * Integer	Unique message identifier
+     * Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat),
+     * the server might automatically schedule a message instead of sending it immediately.
+     * In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent
      */
     @JsonProperty(MESSAGE_ID_FIELD)
     private Integer messageId;
