@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.extensions.bots.commandbot.commands.helpCommand;
 
+import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.ICommandRegistry;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -17,6 +18,7 @@ import java.util.Collection;
  * @version 1.0.0
  *
  */
+@Slf4j
 public class HelpCommand extends ManCommand {
 	
 	private static final String COMMAND_IDENTIFIER = "help";
@@ -100,14 +102,14 @@ public class HelpCommand extends ManCommand {
 				try {
 					telegramClient.execute(SendMessage.builder().chatId(chat.getId()).text(reply).parseMode("HTML").build());
 				} catch (TelegramApiException e) {
-					e.printStackTrace();
+					log.error(e.getLocalizedMessage(), e);
 				}
 			} else {
 				String reply = getHelpText(registry);
 				try {
 					telegramClient.execute(SendMessage.builder().chatId(chat.getId()).text(reply).parseMode("HTML").build());
 				} catch (TelegramApiException e) {
-					e.printStackTrace();
+					log.error(e.getLocalizedMessage(), e);
 				}
 			}
 		}
