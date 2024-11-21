@@ -467,7 +467,7 @@ public final class DefaultAbilities implements AbilityExtension {
     return bot.silent.send(getLocalizedMessage(message, AbilityUtils.getUser(upd).getLanguageCode()), chatId);
   }
 
-  protected File downloadFileWithId(String fileId) throws TelegramApiException {
+  private File downloadFileWithId(String fileId) throws TelegramApiException {
     return bot.telegramClient.downloadFile(bot.telegramClient.execute(GetFile.builder().fileId(fileId).build()));
   }
 }
