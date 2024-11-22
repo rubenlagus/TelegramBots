@@ -96,7 +96,13 @@ public class SendDocument extends SendMediaBotMethod<Message> {
      * Unique identifier of the message effect to be added to the message
      */
     private String messageEffectId;
-
+    /**
+     * Optional
+     * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message.
+     * The relevant Stars will be withdrawn from the bot's balance
+     */
+    private Boolean allowPaidBroadcast;
+    
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
         this.chatId = chatId.toString();
