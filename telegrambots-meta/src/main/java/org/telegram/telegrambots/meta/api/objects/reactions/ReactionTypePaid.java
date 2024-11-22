@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.objects.reactions;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -26,7 +25,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @RequiredArgsConstructor
 @SuperBuilder
 @Jacksonized
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class ReactionTypePaid implements ReactionType {
     private static final String TYPE_FIELD = "type";
 
