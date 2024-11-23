@@ -1,7 +1,5 @@
 package org.telegram.telegrambots.meta.api.objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -14,7 +12,6 @@ import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Ruben Bermudez
@@ -29,7 +26,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class UsersShared implements BotApiObject {
     private static final String REQUEST_ID_FIELD = "request_id";
     private static final String USERS_FIELD = "users";
@@ -44,16 +40,4 @@ public class UsersShared implements BotApiObject {
      */
     @JsonProperty(USERS_FIELD)
     private List<UserShared> users;
-
-    /**
-     * Use {{@link UsersShared#getUsers()}}
-     */
-    @Deprecated
-    @JsonIgnore
-    public List<Long> getUserIds() {
-        if (users == null) {
-            return null;
-        }
-        return users.stream().map(UserShared::getUserId).collect(Collectors.toList());
-    }
 }

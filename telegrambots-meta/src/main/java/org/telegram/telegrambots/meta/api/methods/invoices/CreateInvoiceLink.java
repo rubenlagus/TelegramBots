@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.methods.invoices;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -34,7 +33,6 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class CreateInvoiceLink extends BotApiMethod<String> {
     public static final String PATH = "createInvoiceLink";
 
@@ -58,6 +56,8 @@ public class CreateInvoiceLink extends BotApiMethod<String> {
     public static final String SEND_PHONE_NUMBER_TO_PROVIDER_FIELD = "send_phone_number_to_provider";
     public static final String SEND_EMAIL_TO_PROVIDER_FIELD = "send_email_to_provider";
     public static final String IS_FLEXIBLE_FIELD = "is_flexible";
+    public static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
+    public static final String SUBSCRIPTION_PERIOD_FIELD = "subscription_period";
 
     /**
      * Product name, 1-32 characters
@@ -201,6 +201,21 @@ public class CreateInvoiceLink extends BotApiMethod<String> {
     @JsonProperty(SUGGESTED_TIP_AMOUNTS_FIELD)
     @Singular
     private List<Integer> suggestedTipAmounts;
+    /**
+     * Optional
+     * Unique identifier of the business connection on behalf of which the invoice will be created
+     */
+    @JsonProperty(BUSINESS_CONNECTION_ID_FIELD)
+    private String businessConnectionId;
+    /**
+     * Optional
+     * The number of seconds the subscription will be active for before the next payment.
+     * The currency must be set to “XTR” (Telegram Stars) if the parameter is used.
+     *
+     * Currently, it must always be 2592000 (30 days) if specified.
+     */
+    @JsonProperty(SUBSCRIPTION_PERIOD_FIELD)
+    private Integer subscriptionPeriod;
 
     @Override
     public String getMethod() {

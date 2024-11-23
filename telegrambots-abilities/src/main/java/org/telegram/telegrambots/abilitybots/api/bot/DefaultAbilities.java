@@ -454,13 +454,12 @@ public final class DefaultAbilities implements AbilityExtension {
     }
   }
 
-
   private Optional<Message> send(String message, MessageContext ctx, String... args) {
-    return bot.silent.send(getLocalizedMessage(message, ctx.user().getLanguageCode(), args), ctx.chatId());
+    return bot.silent.send(getLocalizedMessage(message, ctx.user().getLanguageCode(), (Object[]) args), ctx.chatId());
   }
 
   private Optional<Message> sendMd(String message, MessageContext ctx, String... args) {
-    return bot.silent.sendMd(getLocalizedMessage(message, ctx.user().getLanguageCode(), args), ctx.chatId());
+    return bot.silent.sendMd(getLocalizedMessage(message, ctx.user().getLanguageCode(), (Object[]) args), ctx.chatId());
   }
 
   private Optional<Message> send(String message, Update upd) {
@@ -468,7 +467,7 @@ public final class DefaultAbilities implements AbilityExtension {
     return bot.silent.send(getLocalizedMessage(message, AbilityUtils.getUser(upd).getLanguageCode()), chatId);
   }
 
-  protected File downloadFileWithId(String fileId) throws TelegramApiException {
+  private File downloadFileWithId(String fileId) throws TelegramApiException {
     return bot.telegramClient.downloadFile(bot.telegramClient.execute(GetFile.builder().fileId(fileId).build()));
   }
 }

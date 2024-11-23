@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.methods;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -19,7 +18,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  * @author Ruben Bermudez
  * @version 1.0
  * Use this method to forward messages of any kind.
- *
  * Service messages and messages with protected content can't be forwarded.
  *
  * On success, the Message sent is returned.
@@ -32,7 +30,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class ForwardMessage extends BotApiMethodMessage {
     public static final String PATH = "forwardmessage";
 

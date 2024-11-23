@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.methods.stickers;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -14,7 +13,6 @@ import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.stickers.InputSticker;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -37,7 +35,6 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
     public static final String PATH = "createNewStickerSet";
 
@@ -90,32 +87,6 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
     @Override
     public String getMethod() {
         return PATH;
-    }
-
-    /**
-     * Returns the sticker format. Will only work if all stickers are of the same type, an exception is thrown otherwise
-     * @deprecated Use the format within each sticker
-     */
-    @Deprecated
-    public String getStickerFormat() throws TelegramApiException {
-        List<String> formats = stickers.stream().map(InputSticker::getFormat).distinct().toList();
-        if (formats.size() > 1) {
-            throw new TelegramApiException("Multiple format present in strickers");
-        }
-        return formats.isEmpty() ? null : formats.get(0);
-    }
-
-    /**
-     * Returns the sticker format.
-     * Will only work if no sticker with other format already exists in the list
-     * @deprecated Use the format within each sticker
-     */
-    @Deprecated
-    public void setStickerFormat(String stickerFormat) throws TelegramApiException {
-        String existingFormat = getStickerFormat();
-        if (existingFormat == null || !existingFormat.equals(stickerFormat)) {
-            this.stickers.forEach(x -> x.setFormat(stickerFormat));
-        }
     }
 
     @Override

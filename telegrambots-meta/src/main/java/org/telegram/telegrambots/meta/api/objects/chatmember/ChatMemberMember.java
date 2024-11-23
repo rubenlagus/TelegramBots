@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.objects.chatmember;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -29,7 +28,6 @@ import org.telegram.telegrambots.meta.api.objects.User;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class ChatMemberMember implements ChatMember {
     public static final String STATUS = "member";
 

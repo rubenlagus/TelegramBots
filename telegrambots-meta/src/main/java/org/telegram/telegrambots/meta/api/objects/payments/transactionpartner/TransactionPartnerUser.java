@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.objects.payments.transactionpartner;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -28,7 +27,6 @@ import java.util.List;
 @ToString
 @RequiredArgsConstructor
 @Jacksonized
-@JsonIgnoreProperties(ignoreUnknown = true)
 @SuperBuilder
 public class TransactionPartnerUser implements TransactionPartner {
     private static final String TYPE_FIELD = "type";
@@ -36,6 +34,8 @@ public class TransactionPartnerUser implements TransactionPartner {
     private static final String INVOICE_PAYLOAD_FIELD = "invoice_payload";
     private static final String PAID_MEDIA_FIELD = "paid_media";
     private static final String PAID_MEDIA_PAYLOAD_FIELD = "paid_media_payload";
+    private static final String GIFT_FIELD = "gift";
+    private static final String SUBSCRIPTION_PERIOD_FIELD = "subscription_period";
 
     /**
      * Type of the transaction partner, always “user”
@@ -67,4 +67,18 @@ public class TransactionPartnerUser implements TransactionPartner {
      */
     @JsonProperty(PAID_MEDIA_PAYLOAD_FIELD)
     private String paidMediaPayload;
+
+    /**
+     * Optional.
+     * The gift sent to the user by the bot
+     */
+    @JsonProperty(GIFT_FIELD)
+    private String gift;
+
+    /**
+     * Optional.
+     * The duration of the paid subscription
+     */
+    @JsonProperty(SUBSCRIPTION_PERIOD_FIELD)
+    private Integer subscriptionPeriod;
 }

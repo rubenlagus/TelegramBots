@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.client.okhttp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.NonNull;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -50,7 +51,6 @@ import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 public class OkHttpTelegramClient extends AbstractTelegramClient {
@@ -59,11 +59,11 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
     private final TelegramUrl telegramUrl;
     private final ObjectMapper objectMapper;
 
-    public OkHttpTelegramClient(ObjectMapper objectMapper, OkHttpClient client, String botToken, TelegramUrl telegramUrl) {
-        this.objectMapper = Objects.requireNonNull(objectMapper);
-        this.client = Objects.requireNonNull(client);
-        this.botToken = Objects.requireNonNull(botToken);
-        this.telegramUrl = Objects.requireNonNull(telegramUrl);
+    public OkHttpTelegramClient(@NonNull ObjectMapper objectMapper, @NonNull OkHttpClient client, @NonNull String botToken, @NonNull TelegramUrl telegramUrl) {
+        this.objectMapper = objectMapper;
+        this.client = client;
+        this.botToken = botToken;
+        this.telegramUrl = telegramUrl;
     }
 
     public OkHttpTelegramClient(OkHttpClient client, String botToken, TelegramUrl telegramUrl) {

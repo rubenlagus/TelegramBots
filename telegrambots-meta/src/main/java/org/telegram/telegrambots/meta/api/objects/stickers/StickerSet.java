@@ -53,18 +53,6 @@ public class StickerSet implements BotApiObject {
     @JsonProperty(STICKERS_FIELD)
     private List<Sticker> stickers;
     /**
-     * List of all set stickers
-     */
-    @JsonProperty(IS_ANIMATED_FIELD)
-    @Deprecated
-    private Boolean isAnimated;
-    /**
-     * True, if the sticker set contains video stickers
-     */
-    @JsonProperty(IS_VIDEO_FIELD)
-    @Deprecated
-    private Boolean isVideo;
-    /**
      * Optional.
      * Sticker set thumbnail in the .WEBP, .TGS, or .WEBM format
      */

@@ -18,5 +18,5 @@ import java.lang.annotation.Target;
 @JacksonAnnotationsInside
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public @interface BotApiMethodJsonAnnotated {
+public @interface BotApiJsonAnnotated {
 }

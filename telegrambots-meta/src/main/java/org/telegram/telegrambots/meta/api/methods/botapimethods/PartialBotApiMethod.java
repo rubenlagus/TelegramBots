@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.telegram.telegrambots.meta.annotations.BotApiMethodJsonAnnotated;
+import org.telegram.telegrambots.meta.annotations.BotApiJsonAnnotated;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
  */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
-@BotApiMethodJsonAnnotated
+@BotApiJsonAnnotated
 public abstract class PartialBotApiMethod<T extends Serializable> implements Validable {
     @JsonIgnore
     protected static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
@@ -72,6 +72,7 @@ public abstract class PartialBotApiMethod<T extends Serializable> implements Val
     @JsonProperty(BotApiMethod.METHOD_FIELD)
     public abstract String getMethod();
 
+    @BotApiJsonAnnotated
     public static abstract class PartialBotApiMethodBuilder<T extends Serializable, C extends PartialBotApiMethod<T>, B extends PartialBotApiMethodBuilder<T, C, B>> {
 
     }
