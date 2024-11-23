@@ -35,6 +35,9 @@ public class SuccessfulPayment implements BotApiObject {
     private static final String ORDER_INFO_FIELD = "order_info";
     private static final String TELEGRAM_PAYMENT_CHARGE_ID_FIELD = "telegram_payment_charge_id";
     private static final String PROVIDER_PAYMENT_CHARGE_ID_FIELD = "provider_payment_charge_id";
+    private static final String SUBSCRIPTION_EXPIRATION_DATE_FIELD = "subscription_expiration_date";
+    private static final String IS_RECURRING_FIELD = "is_recurring";
+    private static final String IS_FIRST_RECURRING_FIELD = "is_first_recurring";
 
     /**
      * Three-letter ISO 4217 currency code, or “XTR” for payments in Telegram Stars
@@ -74,4 +77,22 @@ public class SuccessfulPayment implements BotApiObject {
      */
     @JsonProperty(PROVIDER_PAYMENT_CHARGE_ID_FIELD)
     private String providerPaymentChargeId;
+    /**
+     * Optional.
+     * Expiration date of the subscription, in Unix time; for recurring payments only
+     */
+    @JsonProperty(SUBSCRIPTION_EXPIRATION_DATE_FIELD)
+    private Integer subscriptionExpirationDate;
+    /**
+     * Optional.
+     * True, if the payment is a recurring payment for a subscription
+     */
+    @JsonProperty(IS_RECURRING_FIELD)
+    private Boolean isRecurring;
+    /**
+     * Optional.
+     * True, if the payment is the first payment for a subscription
+     */
+    @JsonProperty(IS_FIRST_RECURRING_FIELD)
+    private Boolean isFirstRecurring;
 }

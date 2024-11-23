@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.message;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -80,7 +79,6 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Message implements MaybeInaccessibleMessage {
     private static final String MESSAGE_ID_FIELD = "message_id";
     private static final String MESSAGE_THREAD_ID_FIELD = "message_thread_id";
