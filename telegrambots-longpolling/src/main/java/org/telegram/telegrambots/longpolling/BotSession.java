@@ -152,7 +152,7 @@ public class BotSession implements AutoCloseable {
                     throw new TelegramApiErrorResponseException(response.code(), response.message());
                 }
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new TelegramApiErrorResponseException(e);
         }
 
