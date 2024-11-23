@@ -15,7 +15,9 @@ import org.telegram.telegrambots.meta.api.objects.User;
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.EXISTING_PROPERTY,
-        property = "status")
+        property = "status",
+        defaultImpl = Void.class
+)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = ChatMemberAdministrator.class, name = "administrator"),
         @JsonSubTypes.Type(value = ChatMemberBanned.class, name = "kicked"),

@@ -1,7 +1,5 @@
 package org.telegram.telegrambots.meta.api.methods.botapimethods;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -13,8 +11,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
  *
  * A method of Telegram Bots Api that is fully supported in json format
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
 public abstract class BotApiMethodBoolean extends BotApiMethod<Boolean> {

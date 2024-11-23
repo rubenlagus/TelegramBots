@@ -75,14 +75,4 @@ public class TelegramOkHttpClientFactory {
             return okHttpClientBuilder.build();
         }
     }
-
-    /**
-     * @deprecated Use {@link HttpProxyOkHttpClientCreator} instead
-     */
-    @Deprecated
-    public static class ProxyOkHttpClientCreator extends HttpProxyOkHttpClientCreator {
-        public ProxyOkHttpClientCreator(Supplier<Proxy> proxySupplier, Supplier<Authenticator> authenticatorSupplier) {
-            super(proxySupplier, authenticatorSupplier);
-        }
-    }
 }

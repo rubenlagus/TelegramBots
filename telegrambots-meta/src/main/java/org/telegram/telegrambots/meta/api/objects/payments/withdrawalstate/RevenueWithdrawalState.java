@@ -17,7 +17,8 @@ import org.telegram.telegrambots.meta.api.interfaces.Validable;
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.EXISTING_PROPERTY,
-        property = "type"
+        property = "type",
+        defaultImpl = Void.class
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = RevenueWithdrawalStatePending.class, name = "pending"),

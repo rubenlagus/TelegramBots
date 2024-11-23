@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.methods.forum;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -30,7 +29,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @RequiredArgsConstructor
 @SuperBuilder
 @Jacksonized
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class EditForumTopic extends BotApiMethodBoolean {
     public static final String PATH = "editForumTopic";
 
@@ -86,9 +84,6 @@ public class EditForumTopic extends BotApiMethodBoolean {
         }
         if (messageThreadId <= 0) {
             throw new TelegramApiValidationException("Message Thread Id can't be empty", this);
-        }
-        if (iconCustomEmojiId.isEmpty()) {
-            throw new TelegramApiValidationException("Icon Custom Emoji Id can't be empty", this);
         }
     }
 
