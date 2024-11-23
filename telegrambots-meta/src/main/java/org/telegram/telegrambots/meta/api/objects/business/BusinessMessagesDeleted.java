@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.objects.business;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -28,7 +27,6 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class BusinessMessagesDeleted implements BotApiObject {
     private static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
     private static final String CHAT_FIELD = "chat";
