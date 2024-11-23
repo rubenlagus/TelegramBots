@@ -83,6 +83,11 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
     }
 
     @Override
+    public String getBotToken() {
+        return botToken;
+    }
+
+    @Override
     public <T extends Serializable, Method extends BotApiMethod<T>> CompletableFuture<T> executeAsync(Method method) throws TelegramApiException {
         if (method == null) {
             throw new TelegramApiException("Parameter method can not be null");
