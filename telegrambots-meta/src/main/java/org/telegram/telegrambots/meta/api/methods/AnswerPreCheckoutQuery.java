@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.methods;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -32,7 +31,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class AnswerPreCheckoutQuery extends BotApiMethodBoolean {
     public static final String PATH = "answerPreCheckoutQuery";
 

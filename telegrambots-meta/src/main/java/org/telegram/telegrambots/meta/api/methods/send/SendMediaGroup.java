@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -43,7 +42,6 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
     public static final String PATH = "sendMediaGroup";
 
@@ -58,6 +56,7 @@ public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
     public static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
     public static final String REPLY_MARKUP_FIELD = "reply_markup";
     public static final String MESSAGE_EFFECT_ID_FIELD = "message_effect_id";
+    public static final String ALLOW_PAID_BROADCAST_FIELD = "allow_paid_broadcast";
 
     /**
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -117,6 +116,12 @@ public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
      * Unique identifier of the message effect to be added to the message
      */
     private String messageEffectId;
+    /**
+     * Optional
+     * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message.
+     * The relevant Stars will be withdrawn from the bot's balance
+     */
+    private Boolean allowPaidBroadcast;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

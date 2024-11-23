@@ -13,7 +13,9 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.EXISTING_PROPERTY,
-        property = "type")
+        property = "type",
+        defaultImpl = Void.class
+)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = BackgroundTypeFill.class, name = "fill"),
         @JsonSubTypes.Type(value = BackgroundTypeWallpaper.class, name = "wallpaper"),
