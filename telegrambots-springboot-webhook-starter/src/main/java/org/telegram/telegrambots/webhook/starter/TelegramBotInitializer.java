@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.webhook.starter;
 
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -7,7 +8,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 @Slf4j
@@ -16,10 +16,8 @@ public class TelegramBotInitializer implements InitializingBean {
     private final TelegramBotsSpringWebhookApplication telegramBotsApplication;
     private final List<SpringTelegramWebhookBot> webhookBots;
 
-    public TelegramBotInitializer(TelegramBotsSpringWebhookApplication telegramBotsApplication,
-                                  List<SpringTelegramWebhookBot> webhookBots) {
-        Objects.requireNonNull(telegramBotsApplication);
-        Objects.requireNonNull(webhookBots);
+    public TelegramBotInitializer(@NonNull TelegramBotsSpringWebhookApplication telegramBotsApplication,
+                                  @NonNull List<SpringTelegramWebhookBot> webhookBots) {
         this.telegramBotsApplication = telegramBotsApplication;
         this.webhookBots = webhookBots;
     }
