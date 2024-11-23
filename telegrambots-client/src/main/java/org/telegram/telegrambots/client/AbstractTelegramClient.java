@@ -2,21 +2,8 @@ package org.telegram.telegrambots.client;
 
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
-import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
-import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
-import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
-import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
-import org.telegram.telegrambots.meta.api.methods.send.SendPaidMedia;
-import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
-import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
-import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
-import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
-import org.telegram.telegrambots.meta.api.methods.send.SendVoice;
-import org.telegram.telegrambots.meta.api.methods.stickers.AddStickerToSet;
-import org.telegram.telegrambots.meta.api.methods.stickers.CreateNewStickerSet;
-import org.telegram.telegrambots.meta.api.methods.stickers.ReplaceStickerInSet;
-import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumbnail;
-import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
+import org.telegram.telegrambots.meta.api.methods.send.*;
+import org.telegram.telegrambots.meta.api.methods.stickers.*;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.File;
@@ -227,10 +214,10 @@ public abstract class AbstractTelegramClient implements TelegramClient {
             if (e.getCause() instanceof TelegramApiException) {
                 return (TelegramApiException) e.getCause();
             } else {
-                return new TelegramApiException("Unable to execute" + method + "method", e.getCause());
+                return new TelegramApiException("Unable to execute " + method + " method", e.getCause());
             }
         } else {
-            return new TelegramApiException("Unable to execute" + method + "method", e.getCause());
+            return new TelegramApiException("Unable to execute " + method + " method", e);
         }
     }
 }
