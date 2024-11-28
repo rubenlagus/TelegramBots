@@ -12,6 +12,7 @@ import lombok.experimental.Tolerate;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 /**
  * @author Ruben Bermudez
@@ -74,9 +75,7 @@ public class EditForumTopic extends BotApiMethodBoolean {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId.isEmpty()) {
-            throw new TelegramApiValidationException("ChatId can't be empty", this);
-        }
+        Validations.requiredChatId(chatId, this);
         if (name != null && !name.isEmpty()) {
             if (name.length() > 128) {
                 throw new TelegramApiValidationException("Name must be less than 128 characters", this);

@@ -14,6 +14,7 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.boost.UserChatBoosts;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 /**
  * @author Ruben Bermudez
@@ -59,12 +60,8 @@ public class GetUserChatBoosts extends BotApiMethod<UserChatBoosts> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId.isEmpty()) {
-            throw new TelegramApiValidationException("ChatId parameter can't be empty string", this);
-        }
-        if (userId <= 0) {
-            throw new TelegramApiValidationException("userId can't be empty", this);
-        }
+        Validations.requiredChatId(chatId, this);
+        Validations.requiredUserId(userId, this);
     }
 
     public static class GetUserChatBoostsBuilder {

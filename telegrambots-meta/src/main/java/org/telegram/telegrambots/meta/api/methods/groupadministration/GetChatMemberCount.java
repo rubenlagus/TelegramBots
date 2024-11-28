@@ -13,6 +13,7 @@ import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 /**
  * @author Ruben Bermudez
@@ -52,9 +53,7 @@ public class GetChatMemberCount extends BotApiMethod<Integer> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId.isEmpty()) {
-            throw new TelegramApiValidationException("ChatId can't be empty", this);
-        }
+        Validations.requiredChatId(chatId, this);
     }
 
     public static abstract class GetChatMemberCountBuilder<C extends GetChatMemberCount, B extends GetChatMemberCountBuilder<C, B>> extends BotApiMethodBuilder<Integer, C, B> {

@@ -12,6 +12,7 @@ import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 /**
  * @author Ruben Bermudez
@@ -40,7 +41,7 @@ public class EditUserStarSubscription extends BotApiMethodBoolean {
      */
     @JsonProperty(USER_ID_FIELD)
     @NonNull
-    private Integer userId;
+    private Long userId;
     /**
      * Telegram payment identifier for the subscription
      */
@@ -63,9 +64,7 @@ public class EditUserStarSubscription extends BotApiMethodBoolean {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (userId == 0) {
-            throw new TelegramApiValidationException("UserId parameters must not be 0", this);
-        }
+        Validations.requiredUserId(userId, this);
         if (telegramPaymentChargeId.isEmpty()) {
             throw new TelegramApiValidationException("TelegramPaymentChargeId can´t be empty", this);
         }

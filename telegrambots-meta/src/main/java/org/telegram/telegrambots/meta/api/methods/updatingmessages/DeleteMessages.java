@@ -13,6 +13,7 @@ import lombok.experimental.Tolerate;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 import java.util.List;
 
@@ -67,9 +68,7 @@ public class DeleteMessages extends BotApiMethodBoolean {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId.isEmpty()) {
-            throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
-        }
+        Validations.requiredChatId(chatId, this);
         if (messageIds.isEmpty() || messageIds.size() > 100) {
             throw new TelegramApiValidationException("MessageIds parameter items count must be between 1 and 100", this);
         }

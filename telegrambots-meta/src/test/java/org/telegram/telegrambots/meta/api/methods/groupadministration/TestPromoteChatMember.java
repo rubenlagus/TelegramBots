@@ -3,6 +3,7 @@ package org.telegram.telegrambots.meta.api.methods.groupadministration;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,7 +36,7 @@ public class TestPromoteChatMember {
                 .build();
         assertEquals("promoteChatMember", promoteChatMember.getMethod());
         Throwable thrown = assertThrows(TelegramApiValidationException.class, promoteChatMember::validate);
-        assertEquals("ChatId can't be empty", thrown.getMessage());
+        assertEquals(Validations.CHAT_ID_VALIDATION, thrown.getMessage());
     }
 
     @Test
@@ -47,7 +48,7 @@ public class TestPromoteChatMember {
                 .build();
         assertEquals("promoteChatMember", promoteChatMember.getMethod());
         Throwable thrown = assertThrows(TelegramApiValidationException.class, promoteChatMember::validate);
-        assertEquals("UserId can't be empty", thrown.getMessage());
+        assertEquals(Validations.USER_ID_VALIDATION, thrown.getMessage());
     }
 
     @Test

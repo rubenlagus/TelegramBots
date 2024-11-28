@@ -13,6 +13,7 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMet
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 /**
  * @author Ruben Bermudez
@@ -58,9 +59,7 @@ public class SetChatPhoto extends PartialBotApiMethod<Boolean> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId.isEmpty()) {
-            throw new TelegramApiValidationException("ChatId can't be empty", this);
-        }
+        Validations.requiredChatId(chatId, this);
         if (!photo.isNew()) {
             throw new TelegramApiValidationException("Photo parameter is required and must be a new file to upload", this);
         }

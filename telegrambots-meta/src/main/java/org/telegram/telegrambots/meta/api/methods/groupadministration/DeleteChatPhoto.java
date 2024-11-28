@@ -12,6 +12,7 @@ import lombok.experimental.Tolerate;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 /**
  * @author Ruben Bermudez
@@ -50,9 +51,7 @@ public class DeleteChatPhoto extends BotApiMethodBoolean {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId.isEmpty()) {
-            throw new TelegramApiValidationException("ChatId can't be null", this);
-        }
+        Validations.requiredChatId(chatId, this);
     }
 
     public static abstract class DeleteChatPhotoBuilder<C extends DeleteChatPhoto, B extends DeleteChatPhotoBuilder<C, B>> extends BotApiMethodBooleanBuilder<C, B> {

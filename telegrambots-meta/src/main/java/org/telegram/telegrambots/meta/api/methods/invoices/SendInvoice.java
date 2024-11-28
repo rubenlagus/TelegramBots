@@ -18,6 +18,7 @@ import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
 import org.telegram.telegrambots.meta.api.objects.payments.LabeledPrice;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 import java.util.List;
 
@@ -293,9 +294,7 @@ public class SendInvoice extends BotApiMethodMessage {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (StringUtils.isEmpty(chatId)) {
-            throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
-        }
+        Validations.requiredChatId(chatId, this);
         if (StringUtils.isEmpty(title) || title.length() > 32) {
             throw new TelegramApiValidationException("Title parameter can't be empty or longer than 32 chars", this);
         }
