@@ -45,7 +45,7 @@ public class SavePreparedInlineMessage extends BotApiMethod<PreparedInlineMessag
      */
     @JsonProperty(USER_ID_FIELD)
     @NonNull
-    private Integer userId;
+    private Long userId;
     /**
      * A JSON-serialized object describing the message to be sent
      */
@@ -61,7 +61,7 @@ public class SavePreparedInlineMessage extends BotApiMethod<PreparedInlineMessag
      * Pass True if the message can be sent to private chats with bots
      */
     @JsonProperty(ALLOW_BOT_CHATS_FIELD)
-    private Integer allowBotChats;
+    private Boolean allowBotChats;
     /**
      * Pass True if the message can be sent to group and supergroup chats
      */
