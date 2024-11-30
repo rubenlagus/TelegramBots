@@ -6,8 +6,9 @@
 
     <groupId>org.telegram</groupId>
     <artifactId>Bots</artifactId>
+
     <packaging>pom</packaging>
-    <version>7.11.0</version>
+    <version>7.11.0-local-dev</version>
 
     <modules>
         <module>telegrambots-meta</module>
