@@ -34,7 +34,7 @@ public class EditUserStarSubscription extends BotApiMethodBoolean {
 
     private static final String USER_ID_FIELD = "user_id";
     private static final String TELEGRAM_PAYMENT_CHARGE_ID_FIELD = "telegram_payment_charge_id";
-    private static final String IS_CANCELLED_FIELD = "is_canceled";
+    private static final String IS_CANCELED_FIELD = "is_canceled";
 
     /**
      * Identifier of the user whose subscription will be edited
@@ -53,9 +53,9 @@ public class EditUserStarSubscription extends BotApiMethodBoolean {
      * the subscription must be active up to the end of the current subscription period.
      * Pass False to allow the user to re-enable a subscription that was previously canceled by the bot.
      */
-    @JsonProperty(IS_CANCELLED_FIELD)
+    @JsonProperty(IS_CANCELED_FIELD)
     @NonNull
-    private Boolean isCancelled;
+    private Boolean isCanceled;
 
     @Override
     public String getMethod() {
