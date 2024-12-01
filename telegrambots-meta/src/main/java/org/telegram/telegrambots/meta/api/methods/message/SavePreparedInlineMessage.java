@@ -62,7 +62,7 @@ public class SavePreparedInlineMessage extends BotApiMethod<PreparedInlineMessag
      * Pass True if the message can be sent to private chats with bots
      */
     @JsonProperty(ALLOW_BOT_CHATS_FIELD)
-    private Integer allowBotChats;
+    private Boolean allowBotChats;
     /**
      * Pass True if the message can be sent to group and supergroup chats
      */
