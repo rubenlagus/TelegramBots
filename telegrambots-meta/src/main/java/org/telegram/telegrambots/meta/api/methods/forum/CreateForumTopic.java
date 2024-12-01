@@ -15,6 +15,7 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.forum.ForumTopic;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 /**
  * @author Ruben Bermudez
@@ -74,9 +75,7 @@ public class CreateForumTopic extends BotApiMethod<ForumTopic> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId.isEmpty()) {
-            throw new TelegramApiValidationException("ChatId can't be empty", this);
-        }
+        Validations.requiredChatId(chatId, this);
         if (name.isEmpty() || name.length() > 128) {
             throw new TelegramApiValidationException("Name must be between 1 and 128 characters", this);
         }

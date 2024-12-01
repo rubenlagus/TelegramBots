@@ -32,6 +32,7 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMess
 import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 /**
  * @author Ruben Bermudez
@@ -135,9 +136,7 @@ public class SendGame extends BotApiMethodMessage {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId.isEmpty()) {
-            throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
-        }
+        Validations.requiredChatId(chatId, this);
         if (gameShortName.isEmpty()) {
             throw new TelegramApiValidationException("GameShortName parameter can't be empty", this);
         }
