@@ -15,6 +15,7 @@ import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.api.objects.ChatPermissions;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -115,9 +116,7 @@ public class RestrictChatMember extends BotApiMethodBoolean {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId.isEmpty()) {
-            throw new TelegramApiValidationException("ChatId can't be empty", this);
-        }
+        Validations.requiredChatId(chatId, this);
     }
 
     public static abstract class RestrictChatMemberBuilder<C extends RestrictChatMember, B extends RestrictChatMemberBuilder<C, B>> extends BotApiMethodBooleanBuilder<C, B> {

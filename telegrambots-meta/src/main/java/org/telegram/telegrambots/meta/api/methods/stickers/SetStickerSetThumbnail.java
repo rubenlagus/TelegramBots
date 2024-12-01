@@ -12,6 +12,7 @@ import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 import java.util.Arrays;
 
@@ -82,9 +83,7 @@ public class SetStickerSetThumbnail extends BotApiMethodBoolean {
         if (name.isEmpty()) {
             throw new TelegramApiValidationException("name can't be null", this);
         }
-        if (userId <= 0) {
-            throw new TelegramApiValidationException("userId can't be null", this);
-        }
+        Validations.requiredUserId(userId, this);
         if (!Arrays.asList("static", "animated", "video").contains(format)) {
             throw new TelegramApiValidationException("Format must be 'static', 'animated', 'video'", this);
         }
