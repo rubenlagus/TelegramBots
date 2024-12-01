@@ -2,7 +2,11 @@ package org.telegram.telegrambots.client.jetty;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.eclipse.jetty.client.*;
+import org.eclipse.jetty.client.InputStreamRequestContent;
+import org.eclipse.jetty.client.MultiPartRequestContent;
+import org.eclipse.jetty.client.PathRequestContent;
+import org.eclipse.jetty.client.Request;
+import org.eclipse.jetty.client.StringRequestContent;
 import org.eclipse.jetty.http.HttpFields;
 import org.eclipse.jetty.http.MultiPart;
 import org.telegram.telegrambots.meta.api.objects.InputFile;

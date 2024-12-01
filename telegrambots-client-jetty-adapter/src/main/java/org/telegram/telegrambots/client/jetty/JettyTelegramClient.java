@@ -1,21 +1,44 @@
 package org.telegram.telegrambots.client.jetty;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.NonNull;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
-import org.eclipse.jetty.client.*;
+import org.eclipse.jetty.client.CompletableResponseListener;
+import org.eclipse.jetty.client.HttpClient;
+import org.eclipse.jetty.client.InputStreamResponseListener;
+import org.eclipse.jetty.client.Request;
+import org.eclipse.jetty.client.StringRequestContent;
 import org.telegram.telegrambots.client.AbstractTelegramClient;
 import org.telegram.telegrambots.client.ThrowingConsumer;
 import org.telegram.telegrambots.meta.TelegramUrl;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
-import org.telegram.telegrambots.meta.api.methods.send.*;
-import org.telegram.telegrambots.meta.api.methods.stickers.*;
+import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
+import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
+import org.telegram.telegrambots.meta.api.methods.send.SendMediaBotMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
+import org.telegram.telegrambots.meta.api.methods.send.SendPaidMedia;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
+import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
+import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
+import org.telegram.telegrambots.meta.api.methods.send.SendVoice;
+import org.telegram.telegrambots.meta.api.methods.stickers.AddStickerToSet;
+import org.telegram.telegrambots.meta.api.methods.stickers.CreateNewStickerSet;
+import org.telegram.telegrambots.meta.api.methods.stickers.ReplaceStickerInSet;
+import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumbnail;
+import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.File;
-import org.telegram.telegrambots.meta.api.objects.media.*;
+import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaAnimation;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaAudio;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaDocument;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaVideo;
 import org.telegram.telegrambots.meta.api.objects.media.paid.InputPaidMedia;
 import org.telegram.telegrambots.meta.api.objects.media.paid.InputPaidMediaVideo;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
@@ -30,7 +53,6 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
@@ -44,11 +66,12 @@ public class JettyTelegramClient extends AbstractTelegramClient {
     private final TelegramUrl telegramUrl;
     private final ObjectMapper objectMapper;
 
-    public JettyTelegramClient(ObjectMapper objectMapper, HttpClient client, String botToken, TelegramUrl telegramUrl) {
-        this.objectMapper = Objects.requireNonNull(objectMapper);
-        this.client = Objects.requireNonNull(client);
-        this.botToken = Objects.requireNonNull(botToken);
-        this.telegramUrl = Objects.requireNonNull(telegramUrl);
+    public JettyTelegramClient(@NonNull ObjectMapper objectMapper, @NonNull HttpClient client,
+                               @NonNull String botToken, @NonNull TelegramUrl telegramUrl) {
+        this.objectMapper = objectMapper;
+        this.client = client;
+        this.botToken = botToken;
+        this.telegramUrl = telegramUrl;
     }
 
     public JettyTelegramClient(HttpClient client, String botToken, TelegramUrl telegramUrl) {
@@ -244,6 +267,9 @@ public class JettyTelegramClient extends AbstractTelegramClient {
                     .addPart(SendPaidMedia.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendPaidMedia.getShowCaptionAboveMedia())
                     .addPart(SendPaidMedia.DISABLE_NOTIFICATION_FIELD, sendPaidMedia.getDisableNotification())
                     .addPart(SendPaidMedia.PROTECT_CONTENT_FIELD, sendPaidMedia.getProtectContent())
+                    .addPart(SendPaidMedia.BUSINESS_CONNECTION_ID_FIELD, sendPaidMedia.getBusinessConnectionId())
+                    .addPart(SendPaidMedia.PAYLOAD_FIELD, sendPaidMedia.getPayload())
+                    .addPart(SendPaidMedia.ALLOW_PAID_BROADCAST_FIELD, sendPaidMedia.getAllowPaidBroadcast())
                     .addJsonPart(SendPaidMedia.CAPTION_ENTITIES_FIELD, sendPaidMedia.getCaptionEntities())
                     .addJsonPart(SendPaidMedia.REPLY_MARKUP_FIELD, sendPaidMedia.getReplyMarkup())
                     .addJsonPart(SendPaidMedia.REPLY_PARAMETERS_FIELD, sendPaidMedia.getReplyParameters());
@@ -280,6 +306,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
                     .addPart(SendMediaGroup.PROTECT_CONTENT_FIELD, sendMediaGroup.getProtectContent())
                     .addPart(SendMediaGroup.BUSINESS_CONNECTION_ID_FIELD, sendMediaGroup.getBusinessConnectionId())
                     .addPart(SendMediaGroup.MESSAGE_EFFECT_ID_FIELD, sendMediaGroup.getMessageEffectId())
+                    .addPart(SendMediaGroup.ALLOW_PAID_BROADCAST_FIELD, sendMediaGroup.getAllowSendingWithoutReply())
                     .addJsonPart(SendMediaGroup.REPLY_MARKUP_FIELD, sendMediaGroup.getReplyMarkup())
                     .addJsonPart(SendMediaGroup.REPLY_PARAMETERS_FIELD, sendMediaGroup.getReplyParameters());
 
