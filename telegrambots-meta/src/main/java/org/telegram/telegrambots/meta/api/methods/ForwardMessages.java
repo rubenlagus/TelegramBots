@@ -16,6 +16,7 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.MessageId;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,9 +101,7 @@ public class ForwardMessages extends BotApiMethod<ArrayList<MessageId>> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId.isEmpty()) {
-            throw new TelegramApiValidationException("ChatId can't be empty", this);
-        }
+        Validations.requiredChatId(chatId, this);
         if (fromChatId.isEmpty()) {
             throw new TelegramApiValidationException("FromChatId can't be empty", this);
         }

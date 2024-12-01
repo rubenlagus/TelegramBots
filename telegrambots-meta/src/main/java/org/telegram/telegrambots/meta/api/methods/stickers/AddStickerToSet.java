@@ -12,6 +12,7 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMet
 import org.telegram.telegrambots.meta.api.objects.stickers.InputSticker;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 /**
  * @author Ruben Bermudez
@@ -64,9 +65,7 @@ public class AddStickerToSet extends PartialBotApiMethod<Boolean> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (userId <= 0) {
-            throw new TelegramApiValidationException("userId can't be empty", this);
-        }
+        Validations.requiredUserId(userId, this);
         if (name.isEmpty()) {
             throw new TelegramApiValidationException("name can't be empty", this);
         }

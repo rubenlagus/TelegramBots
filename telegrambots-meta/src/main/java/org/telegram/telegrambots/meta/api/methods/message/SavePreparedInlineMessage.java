@@ -15,6 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQuery
 import org.telegram.telegrambots.meta.api.objects.message.PreparedInlineMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 /**
  * @author Ruben Bermudez
@@ -45,7 +46,7 @@ public class SavePreparedInlineMessage extends BotApiMethod<PreparedInlineMessag
      */
     @JsonProperty(USER_ID_FIELD)
     @NonNull
-    private Integer userId;
+    private Long userId;
     /**
      * A JSON-serialized object describing the message to be sent
      */
@@ -83,9 +84,7 @@ public class SavePreparedInlineMessage extends BotApiMethod<PreparedInlineMessag
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (userId == 0) {
-            throw new TelegramApiValidationException("UserId can't be empty", this);
-        }
+        Validations.requiredUserId(userId, this);
         result.validate();
     }
 

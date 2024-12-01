@@ -2,6 +2,7 @@ package org.telegram.telegrambots.meta.api.objects.commands.scope;
 
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -58,7 +59,7 @@ public class TestBotCommandScope {
                 .build();
         assertEquals("chat", botCommandScope.getType());
         Throwable thrown = assertThrows(TelegramApiValidationException.class, botCommandScope::validate);
-        assertEquals("ChatId parameter can't be empty", thrown.getMessage());
+        assertEquals(Validations.CHAT_ID_VALIDATION, thrown.getMessage());
     }
 
 
@@ -80,7 +81,7 @@ public class TestBotCommandScope {
                 .build();
         assertEquals("chat_administrators", botCommandScope.getType());
         Throwable thrown = assertThrows(TelegramApiValidationException.class, botCommandScope::validate);
-        assertEquals("ChatId parameter can't be empty", thrown.getMessage());
+        assertEquals(Validations.CHAT_ID_VALIDATION, thrown.getMessage());
     }
 
     @Test
@@ -103,7 +104,7 @@ public class TestBotCommandScope {
                 .build();
         assertEquals("chat_member", botCommandScope.getType());
         Throwable thrown = assertThrows(TelegramApiValidationException.class, botCommandScope::validate);
-        assertEquals("ChatId parameter can't be empty", thrown.getMessage());
+        assertEquals(Validations.CHAT_ID_VALIDATION, thrown.getMessage());
     }
 
     @Test
@@ -115,6 +116,6 @@ public class TestBotCommandScope {
                 .build();
         assertEquals("chat_member", botCommandScope.getType());
         Throwable thrown = assertThrows(TelegramApiValidationException.class, botCommandScope::validate);
-        assertEquals("UserId parameter can't be empty", thrown.getMessage());
+        assertEquals(Validations.USER_ID_VALIDATION, thrown.getMessage());
     }
 }
