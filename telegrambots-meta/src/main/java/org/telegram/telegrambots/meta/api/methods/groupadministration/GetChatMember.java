@@ -14,6 +14,7 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 /**
  * @author Ruben Bermudez
@@ -59,9 +60,7 @@ public class GetChatMember extends BotApiMethod<ChatMember> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId.isEmpty()) {
-            throw new TelegramApiValidationException("ChatId can't be empty", this);
-        }
+        Validations.requiredChatId(chatId, this);
     }
 
     public static abstract class GetChatMemberBuilder<C extends GetChatMember, B extends GetChatMemberBuilder<C, B>> extends BotApiMethodBuilder<ChatMember, C, B> {

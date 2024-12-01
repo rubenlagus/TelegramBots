@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +34,7 @@ public class TestSendInvoice {
         SendInvoice sendInvoice = createSendInvoiceObject();
         sendInvoice.setChatId("");
         Throwable thrown = assertThrows(TelegramApiValidationException.class, sendInvoice::validate);
-        assertEquals("ChatId parameter can't be empty", thrown.getMessage());
+        assertEquals(Validations.CHAT_ID_VALIDATION, thrown.getMessage());
     }
 
     @Test

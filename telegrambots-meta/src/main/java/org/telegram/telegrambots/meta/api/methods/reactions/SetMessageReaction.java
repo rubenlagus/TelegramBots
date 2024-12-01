@@ -14,6 +14,7 @@ import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.api.objects.reactions.ReactionType;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 import java.util.List;
 
@@ -87,9 +88,7 @@ public class SetMessageReaction extends BotApiMethodBoolean {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId.isEmpty()) {
-            throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
-        }
+        Validations.requiredChatId(chatId, this);
         if (reactionTypes != null) {
             for (ReactionType reactionType : reactionTypes) {
                 if (ReactionType.PAID_TYPE.equals(reactionType.getType())) {

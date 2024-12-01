@@ -12,6 +12,7 @@ import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 /**
  * @author Ruben Bermudez
@@ -33,14 +34,14 @@ public class EditUserStarSubscription extends BotApiMethodBoolean {
 
     private static final String USER_ID_FIELD = "user_id";
     private static final String TELEGRAM_PAYMENT_CHARGE_ID_FIELD = "telegram_payment_charge_id";
-    private static final String IS_CANCELLED_FIELD = "is_canceled";
+    private static final String IS_CANCELED_FIELD = "is_canceled";
 
     /**
      * Identifier of the user whose subscription will be edited
      */
     @JsonProperty(USER_ID_FIELD)
     @NonNull
-    private Integer userId;
+    private Long userId;
     /**
      * Telegram payment identifier for the subscription
      */
@@ -52,9 +53,9 @@ public class EditUserStarSubscription extends BotApiMethodBoolean {
      * the subscription must be active up to the end of the current subscription period.
      * Pass False to allow the user to re-enable a subscription that was previously canceled by the bot.
      */
-    @JsonProperty(IS_CANCELLED_FIELD)
+    @JsonProperty(IS_CANCELED_FIELD)
     @NonNull
-    private Boolean isCancelled;
+    private Boolean isCanceled;
 
     @Override
     public String getMethod() {
@@ -63,9 +64,7 @@ public class EditUserStarSubscription extends BotApiMethodBoolean {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (userId == 0) {
-            throw new TelegramApiValidationException("UserId parameters must not be 0", this);
-        }
+        Validations.requiredUserId(userId, this);
         if (telegramPaymentChargeId.isEmpty()) {
             throw new TelegramApiValidationException("TelegramPaymentChargeId can´t be empty", this);
         }

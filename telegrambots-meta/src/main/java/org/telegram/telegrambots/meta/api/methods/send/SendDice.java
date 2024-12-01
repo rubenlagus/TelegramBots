@@ -15,6 +15,7 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMess
 import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -134,9 +135,7 @@ public class SendDice extends BotApiMethodMessage {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId.isEmpty()) {
-            throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
-        }
+        Validations.requiredChatId(chatId, this);
         if (emoji != null && !VALIDEMOJIS.contains(emoji)) {
             throw new TelegramApiValidationException("Only \"\uD83C\uDFB2\", \"\uD83C\uDFAF\", \"\uD83C\uDFC0\", \"⚽\", \"\uD83C\uDFB0\" are allowed in Emoji field ", this);
         }

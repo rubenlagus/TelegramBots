@@ -15,6 +15,7 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMet
 import org.telegram.telegrambots.meta.api.objects.stickers.InputSticker;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 import java.util.Arrays;
 import java.util.List;
@@ -96,9 +97,7 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (userId <= 0) {
-            throw new TelegramApiValidationException("userId can't be empty", this);
-        }
+        Validations.requiredUserId(userId, this);
         if (name.isEmpty() || name.length() > 64) {
             throw new TelegramApiValidationException("name must be between 1 and 64 characters", this);
         }
@@ -106,7 +105,7 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
             throw new TelegramApiValidationException("title must be between 1 and 64 characters", this);
         }
         if (!Arrays.asList("regular", "mask", "custom_emoji").contains(stickerType)) {
-            throw new TelegramApiValidationException("Stickertype must be 'regular', 'mask' or 'custom_emoji'", this);
+            throw new TelegramApiValidationException("stickerType must be 'regular', 'mask' or 'custom_emoji'", this);
         }
         if (needsRepainting != null && !"custom_emoji".equals(stickerType)) {
             throw new TelegramApiValidationException("needsRepainting is only allowed with custom emojis", this);
