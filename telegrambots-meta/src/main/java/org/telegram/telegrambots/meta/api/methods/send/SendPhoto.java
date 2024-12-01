@@ -18,6 +18,7 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 import java.util.List;
 import java.util.Objects;
@@ -161,9 +162,7 @@ public class SendPhoto extends SendMediaBotMethod<Message> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (chatId.isEmpty()) {
-            throw new TelegramApiValidationException("ChatId parameter can't be empty", this);
-        }
+        Validations.requiredChatId(chatId, this);
 
         if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
             throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);

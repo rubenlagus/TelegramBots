@@ -14,6 +14,7 @@ import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class SendGift extends BotApiMethodBoolean {
      */
     @JsonProperty(USER_ID_FIELD)
     @NonNull
-    private Integer userId;
+    private Long userId;
     /**
      * Identifier of the gift
      */
@@ -81,9 +82,7 @@ public class SendGift extends BotApiMethodBoolean {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (userId == 0) {
-            throw new TelegramApiValidationException("UserId can't be empty", this);
-        }
+        Validations.requiredUserId(userId, this);
         if (giftId.isEmpty()) {
             throw new TelegramApiValidationException("GiftId can't be empty", this);
         }

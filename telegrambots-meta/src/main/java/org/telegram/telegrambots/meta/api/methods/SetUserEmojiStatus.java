@@ -12,6 +12,7 @@ import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.util.Validations;
 
 /**
  * @author Ruben Bermudez
@@ -43,7 +44,7 @@ public class SetUserEmojiStatus extends BotApiMethodBoolean {
      */
     @JsonProperty(USER_ID_FIELD)
     @NonNull
-    private Integer userId;
+    private Long userId;
     /**
      * Optional
      * Custom emoji identifier of the emoji status to set.
@@ -65,8 +66,6 @@ public class SetUserEmojiStatus extends BotApiMethodBoolean {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (userId == 0) {
-            throw new TelegramApiValidationException("UserId parameter can't be empty", this);
-        }
+        Validations.requiredUserId(userId, this);
     }
 }
