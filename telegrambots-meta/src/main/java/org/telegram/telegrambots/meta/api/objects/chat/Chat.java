@@ -2,6 +2,7 @@ package org.telegram.telegrambots.meta.api.objects.chat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,7 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 @SuperBuilder
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Chat implements BotApiObject {
     private static final String ID_FIELD = "id";
     private static final String TYPE_FIELD = "type";
