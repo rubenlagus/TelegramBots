@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.meta.api.objects.media.paid;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -28,6 +29,7 @@ import java.io.InputStream;
 @AllArgsConstructor
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @SuperBuilder
 public class InputPaidMediaPhoto extends InputPaidMedia {
     private static final String TYPE = "photo";

@@ -1,5 +1,7 @@
 package org.telegram.telegrambots.meta.api.objects.giveaway;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -29,6 +31,8 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class GiveawayWinners implements BotApiObject {
     public static final String CHAT_FIELD = "chat";
     public static final String GIVEAWAY_MESSAGE_ID_FIELD = "giveaway_message_id";

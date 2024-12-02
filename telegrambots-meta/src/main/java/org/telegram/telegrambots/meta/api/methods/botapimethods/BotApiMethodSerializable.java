@@ -1,5 +1,7 @@
 package org.telegram.telegrambots.meta.api.methods.botapimethods;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -19,6 +21,8 @@ import java.util.List;
  */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class BotApiMethodSerializable extends BotApiMethod<Serializable> {
     public Serializable deserializeResponseMessageOrBoolean(String answer) throws TelegramApiRequestException {
         return deserializeResponseFromPossibilities(answer, Arrays.asList(Message.class, Boolean.class));

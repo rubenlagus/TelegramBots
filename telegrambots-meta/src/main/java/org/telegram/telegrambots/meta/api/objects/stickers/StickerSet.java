@@ -1,5 +1,7 @@
 package org.telegram.telegrambots.meta.api.objects.stickers;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -23,14 +25,14 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class StickerSet implements BotApiObject {
     private static final String STICKER_TYPE_FIELD = "sticker_type";
     private static final String NAME_FIELD = "name";
     private static final String TITLE_FIELD = "title";
     private static final String STICKERS_FIELD = "stickers";
-    private static final String IS_ANIMATED_FIELD = "is_animated";
-    private static final String IS_VIDEO_FIELD = "is_video";
-    public static final String THUMBNAIL_FIELD = "thumbnail";
+    private static final String THUMBNAIL_FIELD = "thumbnail";
 
     /**
      * Type of stickers in the set, currently one of “regular”, “mask”, “custom_emoji”

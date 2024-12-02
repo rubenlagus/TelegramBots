@@ -1,5 +1,7 @@
 package org.telegram.telegrambots.meta.api.methods.gifts;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -24,6 +26,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 @ToString
 @AllArgsConstructor
 @Builder
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class GetAvailableGifts extends BotApiMethod<Gifts> {
     public static final String PATH = "getAvailableGifts";
 
