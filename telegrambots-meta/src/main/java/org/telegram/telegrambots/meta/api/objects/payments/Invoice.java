@@ -1,5 +1,7 @@
 package org.telegram.telegrambots.meta.api.objects.payments;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -26,6 +28,8 @@ import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Invoice implements BotApiObject {
     private static final String TITLE_FIELD = "title";
     private static final String DESCRIPTION_FIELD = "description";

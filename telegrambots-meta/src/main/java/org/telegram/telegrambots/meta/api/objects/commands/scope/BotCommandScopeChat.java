@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.meta.api.objects.commands.scope;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -28,6 +29,7 @@ import org.telegram.telegrambots.meta.util.Validations;
 @SuperBuilder
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BotCommandScopeChat implements BotCommandScope {
     private static final String TYPE_FIELD = "type";
     private static final String CHATID_FIELD = "chat_id";

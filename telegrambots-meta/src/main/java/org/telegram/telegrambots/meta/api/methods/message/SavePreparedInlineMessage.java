@@ -1,5 +1,7 @@
 package org.telegram.telegrambots.meta.api.methods.message;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -31,6 +33,8 @@ import org.telegram.telegrambots.meta.util.Validations;
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SavePreparedInlineMessage extends BotApiMethod<PreparedInlineMessage> {
     public static final String PATH = "savePreparedInlineMessage";
 
