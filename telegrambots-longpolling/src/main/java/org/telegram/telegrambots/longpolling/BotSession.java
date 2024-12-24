@@ -149,7 +149,8 @@ public class BotSession implements AutoCloseable {
                         }
                     }
                 } else {
-                    throw new TelegramApiErrorResponseException(response.code(), response.message());
+
+                    throw new TelegramApiErrorResponseException(extractApiErrorDetails(response));
                 }
             }
         } catch (Exception e) {
@@ -177,12 +178,28 @@ public class BotSession implements AutoCloseable {
                         }
                     }
                 } else {
-                    throw new TelegramApiErrorResponseException(response.code(), response.message());
+                    throw new TelegramApiErrorResponseException(extractApiErrorDetails(response));
                 }
             }
         } catch (IOException e) {
             throw new TelegramApiErrorResponseException("Unable to execute " + deleteWebhook.getMethod() + " method", e);
         }
+    }
+
+    private String extractApiErrorDetails(Response response) {
+        var messageBuilder = new StringBuilder();
+        messageBuilder.append("code: ").append(response.code());
+        messageBuilder.append(", message: ").append(response.message());
+
+        if(response.body() != null) {
+            try {
+                messageBuilder.append(", response body: ").append(response.body().string());
+            } catch (IOException e) {
+                log.error("Error reading response body", e);
+            }
+        }
+
+        return messageBuilder.toString();
     }
 
     @NonNull
