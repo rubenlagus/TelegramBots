@@ -117,7 +117,7 @@ public class BotSession implements AutoCloseable {
                 }
             } catch (TelegramApiErrorResponseException e) {
                 long backOffMillis = backOff.nextBackOffMillis();
-                log.error("Error received from Telegram GetUpdates Request, retrying in {} millis...", backOffMillis, e);
+                log.error("Error received from Telegram GetUpdates Request, retrying in {} millis...", backOffMillis);
                 try {
                     Thread.sleep(backOffMillis);
                 } catch (InterruptedException ex) {
