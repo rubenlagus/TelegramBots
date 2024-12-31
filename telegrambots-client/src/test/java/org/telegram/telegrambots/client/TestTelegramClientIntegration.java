@@ -29,11 +29,13 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
+import static org.junit.jupiter.api.Assertions.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-public class TestTelegramClientIntegration {
+class TestTelegramClientIntegration {
     private MockWebServer webServer;
 
     private static final String TOKEN = "testToken";
@@ -166,6 +168,29 @@ public class TestTelegramClientIntegration {
 
         Message parsedMessage = client.execute(method);
         assertEquals(responseMessage, parsedMessage);
+    }
+
+    @Test
+    void testDownloadFileAsStream() throws Exception {
+        try (InputStream is = client.downloadFileAsStream("someFile")) {
+            String text = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+            assertNotNull(text);
+            assertFalse(text.isEmpty());
+        }
+    }
+
+    @Test
+    void testDownloadFileAsStreamFuture() throws Exception {
+        client.downloadFileAsStreamAsync("someFile").thenAccept(is -> {
+            String text = null;
+            try {
+                text = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            assertNotNull(text);
+            assertFalse(text.isEmpty());
+        }).get();
     }
 
     @Test
