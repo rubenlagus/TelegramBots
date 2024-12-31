@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.client;
 
+import org.apache.commons.io.IOUtils;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.*;
@@ -11,6 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
@@ -203,7 +205,13 @@ public abstract class AbstractTelegramClient implements TelegramClient {
     @Override
     public InputStream downloadFileAsStream(File file) throws TelegramApiException {
         try {
-            return downloadFileAsStreamAsync(file).get();
+            return downloadFileAsStreamAsync(file).thenApply(is -> {
+                try {
+                    return IOUtils.toBufferedInputStream(is);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }).get();
         } catch (Exception e) {
             throw mapException(e, " download file ");
         }
