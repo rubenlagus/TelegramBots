@@ -14,6 +14,9 @@ import org.telegram.telegrambots.meta.api.interfaces.Validable;
  *  TransactionPartnerFragment
  *  TransactionPartnerUser
  *  TransactionPartnerOther
+ *  TransactionPartnerTelegramAds
+ *  TransactionPartnerTelegramApi
+ *  TransactionPartnerAffiliateProgram
  */
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -26,7 +29,8 @@ import org.telegram.telegrambots.meta.api.interfaces.Validable;
         @JsonSubTypes.Type(value = TransactionPartnerUser.class, name = "user"),
         @JsonSubTypes.Type(value = TransactionPartnerOther.class, name = "other"),
         @JsonSubTypes.Type(value = TransactionPartnerTelegramAds.class, name = "telegram_ads"),
-        @JsonSubTypes.Type(value = TransactionPartnerTelegramApi.class, name = "telegram_api")
+        @JsonSubTypes.Type(value = TransactionPartnerTelegramApi.class, name = "telegram_api"),
+        @JsonSubTypes.Type(value = TransactionPartnerAffiliateProgram.class, name = "affiliate_program")
 })
 public interface TransactionPartner extends Validable, BotApiObject {
 }

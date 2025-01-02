@@ -40,6 +40,7 @@ public class TransactionPartnerUser implements TransactionPartner {
     private static final String PAID_MEDIA_PAYLOAD_FIELD = "paid_media_payload";
     private static final String GIFT_FIELD = "gift";
     private static final String SUBSCRIPTION_PERIOD_FIELD = "subscription_period";
+    private static final String AFFILIATE_FIELD = "affiliate";
 
     /**
      * Type of the transaction partner, always “user”
@@ -85,4 +86,10 @@ public class TransactionPartnerUser implements TransactionPartner {
      */
     @JsonProperty(SUBSCRIPTION_PERIOD_FIELD)
     private Integer subscriptionPeriod;
+    /**
+     * Optional.
+     * Information about the affiliate that received a commission via this transaction
+     */
+    @JsonProperty(AFFILIATE_FIELD)
+    private AffiliateInfo affiliate;
 }
