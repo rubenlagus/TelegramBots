@@ -32,6 +32,7 @@ import org.telegram.telegrambots.meta.api.objects.payments.transactionpartner.Tr
 public class StarTransaction implements BotApiObject {
     private static final String ID_FIELD = "id";
     private static final String AMOUNT_FIELD = "amount";
+    private static final String NANO_STAR_AMOUNT_FIELD = "nanostar_amount";
     private static final String DATE_FIELD = "date";
     private static final String SOURCE_FIELD = "source";
     private static final String RECEIVER_FIELD = "receiver";
@@ -45,7 +46,7 @@ public class StarTransaction implements BotApiObject {
     @NonNull
     private String id;
     /**
-     * Number of Telegram Stars transferred by the transaction
+     * Integer amount of Telegram Stars transferred by the transaction
      */
     @JsonProperty(AMOUNT_FIELD)
     @NonNull
@@ -70,4 +71,10 @@ public class StarTransaction implements BotApiObject {
      */
     @JsonProperty(RECEIVER_FIELD)
     private TransactionPartner receiver;
+    /**
+     * Optional.
+     * The number of 1/1000000000 shares of Telegram Stars transferred by the transaction; from 0 to 999999999
+     */
+    @JsonProperty(NANO_STAR_AMOUNT_FIELD)
+    private Integer nanoStarAmount;
 }
