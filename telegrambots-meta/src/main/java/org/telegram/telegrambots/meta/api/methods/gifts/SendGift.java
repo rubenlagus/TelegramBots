@@ -46,6 +46,7 @@ public class SendGift extends BotApiMethodBoolean {
     private static final String TEXT_FIELD = "text";
     private static final String TEXT_PARSE_MODE_FIELD = "text_parse_mode";
     private static final String TEXT_ENTITIES_FIELD = "text_entities";
+    private static final String PAY_FOR_UPGRADE_FIELD = "pay_for_upgrade";
 
     /**
      * Unique identifier of the target user that will receive the gift
@@ -83,6 +84,12 @@ public class SendGift extends BotApiMethodBoolean {
     @JsonProperty(TEXT_ENTITIES_FIELD)
     @Singular
     private List<MessageEntity> textEntities;
+    /**
+     * Optional
+     * Pass True to pay for the gift upgrade from the bot's balance, thereby making the upgrade free for the receiver
+     */
+    @JsonProperty(PAY_FOR_UPGRADE_FIELD)
+    private Boolean payForUpgrade;
 
     @Override
     public void validate() throws TelegramApiValidationException {

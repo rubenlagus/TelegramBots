@@ -37,6 +37,7 @@ public class Gift implements BotApiObject {
     private static final String STAR_COUNT_FIELD = "star_count";
     private static final String TOTAL_COUNT_FIELD = "total_count";
     private static final String REMAINING_COUNT_FIELD = "remaining_count";
+    private static final String UPGRADE_STAR_COUNT_FIELD = "upgrade_star_count";
 
     /**
      * Unique identifier of the gift
@@ -67,6 +68,11 @@ public class Gift implements BotApiObject {
      * The number of remaining gifts of this type that can be sent; for limited gifts only
      */
     @JsonProperty(REMAINING_COUNT_FIELD)
-    @NonNull
     private Integer remainingCount;
+    /**
+     * Optional.
+     * The number of Telegram Stars that must be paid to upgrade the gift to a unique one
+     */
+    @JsonProperty(UPGRADE_STAR_COUNT_FIELD)
+    private Integer upgradeStarCount;
 }
