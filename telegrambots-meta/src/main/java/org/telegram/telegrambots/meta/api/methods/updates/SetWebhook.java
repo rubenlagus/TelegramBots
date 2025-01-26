@@ -101,9 +101,6 @@ public class SetWebhook extends PartialBotApiMethod<Boolean> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (url.isEmpty()) {
-            throw new TelegramApiValidationException("URL parameter can't be empty", this);
-        }
         if (certificate != null) {
             if (!certificate.isNew()) {
                 throw new TelegramApiValidationException("Certificate parameter must be a new file to upload", this);
