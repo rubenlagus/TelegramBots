@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
+import org.telegram.telegrambots.meta.TelegramUrl;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,8 +23,11 @@ public class TelegramBotStarterConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public TelegramBotInitializer telegramBotInitializer(TelegramBotsLongPollingApplication telegramBotsApplication,
-                                                         ObjectProvider<List<SpringLongPollingBot>> longPollingBots) {
+                                                         ObjectProvider<List<SpringLongPollingBot>> longPollingBots,
+                                                         ObjectProvider<TelegramUrl> telegramUrl) {
         return new TelegramBotInitializer(telegramBotsApplication,
-                longPollingBots.getIfAvailable(Collections::emptyList));
+                longPollingBots.getIfAvailable(Collections::emptyList),
+                telegramUrl.getIfAvailable(() -> TelegramUrl.DEFAULT_URL)
+        );
     }
 }
