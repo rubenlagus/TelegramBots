@@ -28,7 +28,7 @@ public class TelegramBotInitializer implements InitializingBean {
     public void afterPropertiesSet()  {
         try {
             for (SpringLongPollingBot longPollingBot : longPollingBots) {
-                BotSession session = telegramBotsApplication.registerBot(longPollingBot.getBotToken(), longPollingBot.getUpdatesConsumer());
+                BotSession session = telegramBotsApplication.registerBot(longPollingBot.getBotToken(), longPollingBot.getUpdatesConsumer(), longPollingBot.getAllowedUpdates());
                 handleAfterRegistrationHook(longPollingBot, session);
             }
         } catch (TelegramApiException e) {
