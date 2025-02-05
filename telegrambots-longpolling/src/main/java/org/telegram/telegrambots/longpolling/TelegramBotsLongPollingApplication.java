@@ -3,6 +3,7 @@ package org.telegram.telegrambots.longpolling;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
+import org.telegram.telegrambots.longpolling.interfaces.BackOff;
 import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsumer;
 import org.telegram.telegrambots.longpolling.util.DefaultGetUpdatesGenerator;
 import org.telegram.telegrambots.longpolling.util.ExponentialBackOff;
@@ -10,8 +11,8 @@ import org.telegram.telegrambots.longpolling.util.TelegramOkHttpClientFactory;
 import org.telegram.telegrambots.meta.TelegramUrl;
 import org.telegram.telegrambots.meta.api.methods.updates.GetUpdates;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.longpolling.interfaces.BackOff;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -61,6 +62,10 @@ public class TelegramBotsLongPollingApplication implements AutoCloseable {
 
     public BotSession registerBot(String botToken, LongPollingUpdateConsumer updatesConsumer) throws TelegramApiException {
         return registerBot(botToken, () -> TelegramUrl.DEFAULT_URL, new DefaultGetUpdatesGenerator(), updatesConsumer);
+    }
+
+    public BotSession registerBot(String botToken, LongPollingUpdateConsumer updatesConsumer, List<String> allowedUpdates) throws TelegramApiException {
+        return registerBot(botToken, () -> TelegramUrl.DEFAULT_URL, new DefaultGetUpdatesGenerator(allowedUpdates), updatesConsumer);
     }
 
     public BotSession registerBot(String botToken,
