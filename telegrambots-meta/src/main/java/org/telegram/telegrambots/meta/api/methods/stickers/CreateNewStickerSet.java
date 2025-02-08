@@ -59,7 +59,7 @@ public class CreateNewStickerSet extends PartialBotApiMethod<Boolean> {
      * Short name of sticker set, to be used in t.me/addstickers/ URLs (e.g., animals).
      * Can contain only English letters, digits and underscores.
      * Must begin with a letter, can't contain consecutive underscores and must end in
-     * "_by_<bot_username>". <bot_username> is case-insensitive. 1-64 characters.
+     * "_by_&lt;bot_username&gt;". &lt;bot_username&gt; is case-insensitive. 1-64 characters.
      */
     @NonNull
     private String name;
