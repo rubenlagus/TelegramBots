@@ -178,11 +178,16 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                     .addPart(SendVideo.HAS_SPOILER_FIELD, sendVideo.getHasSpoiler())
                     .addPart(SendVideo.BUSINESS_CONNECTION_ID_FIELD, sendVideo.getBusinessConnectionId())
                     .addPart(SendVideo.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendVideo.getShowCaptionAboveMedia())
+                    .addPart(SendVideo.START_TIMESTAMP_FIELD, sendVideo.getStartTimestamp())
                     .addJsonPart(SendVideo.CAPTION_ENTITIES_FIELD, sendVideo.getCaptionEntities());
 
             if (sendVideo.getThumbnail() != null) {
                 builder.addInputFile(SendVideo.THUMBNAIL_FIELD, sendVideo.getThumbnail(), false);
                 builder.addPart(SendVideo.THUMBNAIL_FIELD, sendVideo.getThumbnail().getAttachName());
+            }
+            if (sendVideo.getCover() != null) {
+                builder.addInputFile(SendVideo.COVER_FIELD, sendVideo.getCover(), false);
+                builder.addPart(SendVideo.COVER_FIELD, sendVideo.getCover().getAttachName());
             }
         });
     }
@@ -641,6 +646,9 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             if (video.getThumbnail() != null) {
                 builder.addInputFile(InputMediaVideo.THUMBNAIL_FIELD, video.getThumbnail(), false);
             }
+            if (video.getCover() != null) {
+                builder.addInputFile(InputMediaVideo.COVER_FIELD, video.getCover(), false);
+            }
         } else if (media instanceof InputMediaAnimation animation) {
             if (animation.getThumbnail() != null) {
                 builder.addInputFile(InputMediaAnimation.THUMBNAIL_FIELD, animation.getThumbnail(), false);
@@ -657,10 +665,14 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             builder.addMedia(media);
         }
 
-        if (media instanceof InputPaidMediaVideo document) {
-            if (document.getThumbnail() != null) {
-                builder.addInputFile(InputMediaDocument.THUMBNAIL_FIELD, document.getThumbnail(), false);
+        if (media instanceof InputPaidMediaVideo video) {
+            if (video.getThumbnail() != null) {
+                builder.addInputFile(InputPaidMediaVideo.THUMBNAIL_FIELD, video.getThumbnail(), false);
             }
+            if (video.getCover() != null) {
+                builder.addInputFile(InputPaidMediaVideo.COVER_FIELD, video.getCover(), false);
+            }
+
         }
 
         if (addField) {
