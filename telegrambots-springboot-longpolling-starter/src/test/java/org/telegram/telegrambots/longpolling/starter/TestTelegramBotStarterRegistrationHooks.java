@@ -37,7 +37,7 @@ class TestTelegramBotStarterRegistrationHooks {
     @Test
     void longPollingBotWithAnnotatedMethodshouldBeCalled() throws TelegramApiException {
 
-        when(mockApplication.registerBot(anyString(), any(LongPollingUpdateConsumer.class))).thenReturn(someBotSession);
+        when(mockApplication.registerBot(anyString(), any(), any(), any(LongPollingUpdateConsumer.class))).thenReturn(someBotSession);
 
         this.contextRunner.withUserConfiguration(LongPollingBotConfig.class)
                 .run((context) -> {
@@ -49,7 +49,7 @@ class TestTelegramBotStarterRegistrationHooks {
                     assertInstanceOf(AnnotatedLongPollingBot.class, bot);
                     assertTrue(((AnnotatedLongPollingBot) bot).isHookCalled());
                     assertEquals(someBotSession, ((AnnotatedLongPollingBot) bot).getHookCalledWithSession());
-                    verify(telegramBotsApi, times(1)).registerBot(eq(bot.getBotToken()), any(LongPollingUpdateConsumer.class));
+                    verify(telegramBotsApi, times(1)).registerBot(eq(bot.getBotToken()), any(), any(), any(LongPollingUpdateConsumer.class));
                     verifyNoMoreInteractions(telegramBotsApi);
                 });
     }
