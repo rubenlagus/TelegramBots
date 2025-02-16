@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.telegram.telegrambots.longpolling.BotSession;
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
+import org.telegram.telegrambots.longpolling.util.DefaultGetUpdatesGenerator;
+import org.telegram.telegrambots.meta.TelegramUrl;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.lang.reflect.InvocationTargetException;
@@ -17,18 +19,26 @@ public class TelegramBotInitializer implements InitializingBean {
 
     private final TelegramBotsLongPollingApplication telegramBotsApplication;
     private final List<SpringLongPollingBot> longPollingBots;
+    private final TelegramUrl telegramUrl;
 
     public TelegramBotInitializer(@NonNull TelegramBotsLongPollingApplication telegramBotsApplication,
                                   @NonNull List<SpringLongPollingBot> longPollingBots) {
+        this(telegramBotsApplication, longPollingBots, TelegramUrl.DEFAULT_URL);
+    }
+
+    public TelegramBotInitializer(@NonNull TelegramBotsLongPollingApplication telegramBotsApplication,
+                                  @NonNull List<SpringLongPollingBot> longPollingBots,
+                                  TelegramUrl telegramUrl) {
         this.telegramBotsApplication = telegramBotsApplication;
         this.longPollingBots = longPollingBots;
+        this.telegramUrl = telegramUrl;
     }
 
     @Override
-    public void afterPropertiesSet()  {
+    public void afterPropertiesSet() {
         try {
             for (SpringLongPollingBot longPollingBot : longPollingBots) {
-                BotSession session = telegramBotsApplication.registerBot(longPollingBot.getBotToken(), longPollingBot.getUpdatesConsumer());
+                BotSession session = telegramBotsApplication.registerBot(longPollingBot.getBotToken(), () -> telegramUrl, new DefaultGetUpdatesGenerator(), longPollingBot.getUpdatesConsumer());
                 handleAfterRegistrationHook(longPollingBot, session);
             }
         } catch (TelegramApiException e) {
