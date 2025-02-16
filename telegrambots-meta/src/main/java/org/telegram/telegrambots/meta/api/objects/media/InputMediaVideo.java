@@ -38,10 +38,12 @@ public class InputMediaVideo extends InputMedia {
     private static final String WIDTH_FIELD = "width";
     private static final String HEIGHT_FIELD = "height";
     private static final String DURATION_FIELD = "duration";
-    private static final String SUPPORTSSTREAMING_FIELD = "supports_streaming";
+    public static final String COVER_FIELD = "cover";
     public static final String THUMBNAIL_FIELD = "thumbnail";
-    private static final String HASSPOILER_FIELD = "has_spoiler";
+    private static final String SUPPORTS_STREAMING_FIELD = "supports_streaming";
     private static final String SHOW_CAPTION_ABOVE_MEDIA_FIELD = "show_caption_above_media";
+    private static final String HAS_SPOILER_FIELD = "has_spoiler";
+    private static final String START_TIMESTAMP_FIELD = "start_timestamp";
 
     @JsonProperty(WIDTH_FIELD)
     private Integer width; ///< Optional. Video width
@@ -49,7 +51,7 @@ public class InputMediaVideo extends InputMedia {
     private Integer height; ///< Optional. Video height
     @JsonProperty(DURATION_FIELD)
     private Integer duration; ///< Optional. Video duration
-    @JsonProperty(SUPPORTSSTREAMING_FIELD)
+    @JsonProperty(SUPPORTS_STREAMING_FIELD)
     private Boolean supportsStreaming; ///< Optional. Pass True, if the uploaded video is suitable for streaming
     /**
      * Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size.
@@ -64,7 +66,7 @@ public class InputMediaVideo extends InputMedia {
      * Optional.
      * Pass True if the video must be covered with a spoiler animation
      */
-    @JsonProperty(HASSPOILER_FIELD)
+    @JsonProperty(HAS_SPOILER_FIELD)
     private Boolean hasSpoiler;
     /**
      * Optional.
@@ -72,6 +74,21 @@ public class InputMediaVideo extends InputMedia {
      */
     @JsonProperty(SHOW_CAPTION_ABOVE_MEDIA_FIELD)
     private Boolean showCaptionAboveMedia;
+    /**
+     * Optional.
+     * Start timestamp for the video in the message
+     */
+    @JsonProperty(START_TIMESTAMP_FIELD)
+    private Integer startTimestamp;
+    /**
+     * Optional.
+     * Cover for the video in the message.
+     * Pass a file_id to send a file that exists on the Telegram servers (recommended),
+     * pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>”
+     * to upload a new one using multipart/form-data under <file_attach_name> name.
+     */
+    @JsonProperty(COVER_FIELD)
+    private InputFile cover;
 
     public InputMediaVideo(@NonNull String media) {
         super(media);
@@ -108,6 +125,10 @@ public class InputMediaVideo extends InputMedia {
     @Override
     public void validate() throws TelegramApiValidationException {
         super.validate();
+
+        if (cover !=null) {
+            cover.validate();
+        }
     }
 
 }

@@ -38,26 +38,27 @@ import org.telegram.telegrambots.meta.util.Validations;
 public class ForwardMessage extends BotApiMethodMessage {
     public static final String PATH = "forwardmessage";
 
-    private static final String CHATID_FIELD = "chat_id";
-    private static final String MESSAGETHREADID_FIELD = "message_thread_id";
-    private static final String FROMCHATID_FIELD = "from_chat_id";
-    private static final String MESSAGEID_FIELD = "message_id";
-    private static final String DISABLENOTIFICATION_FIELD = "disable_notification";
-    private static final String PROTECTCONTENT_FIELD = "protect_content";
+    private static final String CHAT_ID_FIELD = "chat_id";
+    private static final String MESSAGE_THREAD_ID_FIELD = "message_thread_id";
+    private static final String FROM_CHAT_ID_FIELD = "from_chat_id";
+    private static final String MESSAGE_ID_FIELD = "message_id";
+    private static final String DISABLE_NOTIFICATION_FIELD = "disable_notification";
+    private static final String PROTECT_CONTENT_FIELD = "protect_content";
+    private static final String VIDEO_START_TIMESTAMP_FIELD = "video_start_timestamp";
 
-    @JsonProperty(CHATID_FIELD)
+    @JsonProperty(CHAT_ID_FIELD)
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (or username for channels)
     /**
      * Unique identifier for the target message thread (topic) of the forum;
      * for forum supergroups only
      */
-    @JsonProperty(MESSAGETHREADID_FIELD)
+    @JsonProperty(MESSAGE_THREAD_ID_FIELD)
     private Integer messageThreadId;
-    @JsonProperty(FROMCHATID_FIELD)
+    @JsonProperty(FROM_CHAT_ID_FIELD)
     @NonNull
     private String fromChatId; ///< Unique identifier for the chat where the original message was sent — User or GroupChat id
-    @JsonProperty(MESSAGEID_FIELD)
+    @JsonProperty(MESSAGE_ID_FIELD)
     @NonNull
     private Integer messageId; ///< Unique message identifier
     /**
@@ -66,10 +67,16 @@ public class ForwardMessage extends BotApiMethodMessage {
      * Android users will receive a notification with no sound.
      * Other apps coming soon
      */
-    @JsonProperty(DISABLENOTIFICATION_FIELD)
+    @JsonProperty(DISABLE_NOTIFICATION_FIELD)
     private Boolean disableNotification;
-    @JsonProperty(PROTECTCONTENT_FIELD)
+    @JsonProperty(PROTECT_CONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
+    /**
+     * Optional
+     * New start timestamp for the copied video in the message
+     */
+    @JsonProperty(VIDEO_START_TIMESTAMP_FIELD)
+    private Boolean videoStartTimestamp;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
