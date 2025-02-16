@@ -15,9 +15,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 /**
  * @author Ruben Bermudez
  * @version 8.0
- * Returns the list of gifts that can be sent by the bot to users.
+ * Returns the list of gifts that can be sent by the bot to users and channel chats.
  * Requires no parameters.
- *
  * Returns a Gifts object.
  */
 @EqualsAndHashCode(callSuper = false)
