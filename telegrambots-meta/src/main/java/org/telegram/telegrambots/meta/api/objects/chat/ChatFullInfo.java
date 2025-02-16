@@ -75,6 +75,7 @@ public class ChatFullInfo extends Chat {
     private static final String BUSINESS_OPENING_HOURS_FIELD  = "business_opening_hours";
     private static final String PERSONAL_CHAT_FIELD  = "personal_chat";
     private static final String CAN_SEND_PAID_MEDIA_FIELD  = "can_send_paid_media";
+    private static final String CAN_SEND_GIFT_FIELD  = "can_send_gift";
 
     /**
      * Optional.
@@ -328,4 +329,10 @@ public class ChatFullInfo extends Chat {
      */
     @JsonProperty(CAN_SEND_PAID_MEDIA_FIELD)
     private Boolean canSendPaidMedia;
+    /**
+     * Optional.
+     * True, if gifts can be sent to the chat
+     */
+    @JsonProperty(CAN_SEND_GIFT_FIELD)
+    private Boolean canSendGift;
 }

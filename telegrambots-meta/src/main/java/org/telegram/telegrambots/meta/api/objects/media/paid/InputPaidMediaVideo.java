@@ -39,6 +39,8 @@ public class InputPaidMediaVideo extends InputPaidMedia {
     private static final String DURATION_FIELD = "duration";
     private static final String SUPPORTS_STREAMING_FIELD = "supports_streaming";
     public static final String THUMBNAIL_FIELD = "thumbnail";
+    public static final String COVER_FIELD = "cover";
+    private static final String START_TIMESTAMP_FIELD = "start_timestamp";
 
     /**
      * Optional.
@@ -75,6 +77,21 @@ public class InputPaidMediaVideo extends InputPaidMedia {
      */
     @JsonProperty(THUMBNAIL_FIELD)
     private InputFile thumbnail;
+    /**
+     * Optional.
+     * Start timestamp for the video in the message
+     */
+    @JsonProperty(START_TIMESTAMP_FIELD)
+    private Integer startTimestamp;
+    /**
+     * Optional.
+     * Cover for the video in the message.
+     * Pass a file_id to send a file that exists on the Telegram servers (recommended),
+     * pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>”
+     * to upload a new one using multipart/form-data under <file_attach_name> name.
+     */
+    @JsonProperty(COVER_FIELD)
+    private InputFile cover;
 
     public InputPaidMediaVideo(@NonNull String media) {
         super(media);
@@ -110,5 +127,9 @@ public class InputPaidMediaVideo extends InputPaidMedia {
     @Override
     public void validate() throws TelegramApiValidationException {
         super.validate();
+
+        if (cover !=null) {
+            cover.validate();
+        }
     }
 }
