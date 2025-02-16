@@ -12,6 +12,7 @@ import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import lombok.experimental.Tolerate;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
@@ -24,8 +25,8 @@ import java.util.List;
  * @author Ruben Bermudez
  * @version 8.0
  *
- * Sends a gift to the given user.
- * The gift can't be converted to Telegram Stars by the user.
+ * Sends a gift to the given user or channel chat.
+ * The gift can't be converted to Telegram Stars by the receiver.
  * Returns True on success.
  */
 @EqualsAndHashCode(callSuper = false)
@@ -42,6 +43,7 @@ public class SendGift extends BotApiMethodBoolean {
     public static final String PATH = "sendGift";
 
     private static final String USER_ID_FIELD = "user_id";
+    private static final String CHAT_ID_FIELD = "chat_id";
     private static final String GIFT_ID_FIELD = "gift_id";
     private static final String TEXT_FIELD = "text";
     private static final String TEXT_PARSE_MODE_FIELD = "text_parse_mode";
@@ -49,11 +51,19 @@ public class SendGift extends BotApiMethodBoolean {
     private static final String PAY_FOR_UPGRADE_FIELD = "pay_for_upgrade";
 
     /**
-     * Unique identifier of the target user that will receive the gift
+     * Optional
+     * Required if chat_id is not specified.
+     * Unique identifier of the target user who will receive the gift.
      */
     @JsonProperty(USER_ID_FIELD)
-    @NonNull
     private Long userId;
+    /**
+     * Optional
+     * Required if user_id is not specified. Unique identifier for the chat or username of the channel
+     * (in the format @channelusername) that will receive the gift.
+     */
+    @JsonProperty(CHAT_ID_FIELD)
+    private String chatId;
     /**
      * Identifier of the gift
      */
@@ -91,9 +101,14 @@ public class SendGift extends BotApiMethodBoolean {
     @JsonProperty(PAY_FOR_UPGRADE_FIELD)
     private Boolean payForUpgrade;
 
+    @Tolerate
+    public void setChatId(@NonNull Long chatId) {
+        this.chatId = chatId.toString();
+    }
+
     @Override
     public void validate() throws TelegramApiValidationException {
-        Validations.requiredUserId(userId, this);
+        Validations.requiredUserOrChatId(userId, chatId, this);
         if (giftId.isEmpty()) {
             throw new TelegramApiValidationException("GiftId can't be empty", this);
         }
@@ -105,5 +120,13 @@ public class SendGift extends BotApiMethodBoolean {
     @Override
     public String getMethod() {
         return PATH;
+    }
+
+    public static abstract class SendGiftBuilder<C extends SendGift, B extends SendGift.SendGiftBuilder<C, B>>  extends BotApiMethodBooleanBuilder<C, B> {
+        @Tolerate
+        public SendGift.SendGiftBuilder<C, B> chatId(@NonNull Long chatId) {
+            this.chatId = chatId.toString();
+            return this;
+        }
     }
 }
