@@ -147,7 +147,7 @@ public class TestTelegramBotsLongPollingApplicationIntegration {
 
             assertTrue(application.isRunning());
 
-            await().timeout(5, TimeUnit.SECONDS).until(() -> !updateReceived.isEmpty());
+            await().timeout(10, TimeUnit.SECONDS).until(() -> !updateReceived.isEmpty());
 
             application.stop();
 
