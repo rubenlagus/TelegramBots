@@ -9,6 +9,7 @@ public final class Validations {
 
     public static final String CHAT_ID_VALIDATION = "chatId can't be empty";
     public static final String USER_ID_VALIDATION = "userId can't be empty";
+    public static final String CHAT_OR_USER_ID_VALIDATION = "chatId and userId can't be empty";
 
     private Validations() { }
 
@@ -33,6 +34,12 @@ public final class Validations {
     public static void requiredChatId(@NonNull String chatId, BotApiObject object) throws TelegramApiValidationException {
         if (chatId.isEmpty()) {
             throw new TelegramApiValidationException(CHAT_ID_VALIDATION, object);
+        }
+    }
+
+    public static void requiredUserOrChatId(Long userId, String chatId, PartialBotApiMethod<?> method) throws TelegramApiValidationException {
+        if ((userId == null || userId == 0) && (chatId == null || chatId.isEmpty())) {
+            throw new TelegramApiValidationException(CHAT_OR_USER_ID_VALIDATION, method);
         }
     }
 }
