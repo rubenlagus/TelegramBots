@@ -85,7 +85,7 @@ public class SendAudio extends SendMediaBotMethod<Message> {
      * A thumbnail’s width and height should not exceed 320.
      * Ignored if the file is not uploaded using multipart/form-data.
      * Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass
-     * “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
+     * “attach://&lt;file_attach_name&gt;” if the thumbnail was uploaded using multipart/form-data under &lt;file_attach_name&gt;.
      */
     private InputFile thumbnail;
     @Singular
