@@ -14,6 +14,13 @@ import org.mockito.MockitoAnnotations;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.meta.TelegramUrl;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.commands.GetMyCommands;
+import org.telegram.telegrambots.meta.api.methods.description.GetMyDescription;
+import org.telegram.telegrambots.meta.api.methods.description.GetMyShortDescription;
+import org.telegram.telegrambots.meta.api.methods.description.SetMyDescription;
+import org.telegram.telegrambots.meta.api.methods.description.SetMyShortDescription;
+import org.telegram.telegrambots.meta.api.methods.name.GetMyName;
+import org.telegram.telegrambots.meta.api.methods.name.SetMyName;
 import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
@@ -24,16 +31,22 @@ import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
 import org.telegram.telegrambots.meta.api.methods.send.SendVoice;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
+import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
+import org.telegram.telegrambots.meta.api.objects.description.BotDescription;
+import org.telegram.telegrambots.meta.api.objects.description.BotShortDescription;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
+import org.telegram.telegrambots.meta.api.objects.name.BotName;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
+import static org.junit.jupiter.api.Assertions.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestTelegramClientIntegration {
+class TestTelegramClientIntegration {
     private MockWebServer webServer;
 
     private static final String TOKEN = "testToken";
@@ -166,6 +179,84 @@ public class TestTelegramClientIntegration {
 
         Message parsedMessage = client.execute(method);
         assertEquals(responseMessage, parsedMessage);
+    }
+
+    @Test
+    void testGetMyName() throws TelegramApiException {
+        var method = new GetMyName();
+
+        var expected = new BotName(TestData.BOT_USER.getFirstName());
+        mockMethod(method, expected);
+
+        var actual = client.execute(method);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testSetMyName() throws TelegramApiException {
+        var method = new SetMyName();
+        method.setName(TestData.BOT_USER.getFirstName());
+
+        mockMethod(method, Boolean.TRUE);
+
+        assertTrue(client.execute(method));
+    }
+
+    @Test
+    void testGetMyDescription() throws TelegramApiException {
+        var method = new GetMyDescription();
+
+        var expected = new BotDescription("description");
+        mockMethod(method, expected);
+
+        var actual = client.execute(method);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testSetMyDescription() throws TelegramApiException {
+        var method = new SetMyDescription();
+        method.setDescription("description");
+
+        mockMethod(method, Boolean.TRUE);
+
+        assertTrue(client.execute(method));
+    }
+
+    @Test
+    void testGetMyShortDescription() throws TelegramApiException {
+        var method = new GetMyShortDescription();
+
+        var expected = new BotShortDescription("short");
+        mockMethod(method, expected);
+
+        var actual = client.execute(method);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testSetMyShortDescription() throws TelegramApiException {
+        var method = new SetMyShortDescription();
+        method.setShortDescription("description");
+
+        mockMethod(method, Boolean.TRUE);
+
+        assertTrue(client.execute(method));
+    }
+
+    @Test
+    void testGetMyCommands() throws TelegramApiException {
+        var method = new GetMyCommands();
+
+        var expected = new ArrayList<BotCommand>();
+        expected.add(BotCommand.builder()
+                .command("command")
+                .description("description")
+                .build());
+        mockMethod(method, expected);
+
+        var actual = client.execute(method);
+        assertEquals(expected, actual);
     }
 
     @Test
