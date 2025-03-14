@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
@@ -20,7 +21,8 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 @ToString
 @AllArgsConstructor
 @Builder
-public class BotName implements BotApiObject  {
+@Jacksonized
+public class BotName implements BotApiObject {
     private static final String NAME_FIELD = "name";
 
     /**
