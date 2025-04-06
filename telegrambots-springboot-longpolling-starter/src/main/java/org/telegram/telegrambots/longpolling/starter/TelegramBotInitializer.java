@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.telegram.telegrambots.longpolling.BotSession;
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
-import org.telegram.telegrambots.longpolling.util.DefaultGetUpdatesGenerator;
 import org.telegram.telegrambots.meta.TelegramUrl;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -38,14 +37,18 @@ public class TelegramBotInitializer implements InitializingBean {
     public void afterPropertiesSet() {
         try {
             for (SpringLongPollingBot longPollingBot : longPollingBots) {
-                BotSession session = telegramBotsApplication.registerBot(longPollingBot.getBotToken(), () -> telegramUrl, new DefaultGetUpdatesGenerator(), longPollingBot.getUpdatesConsumer());
+                BotSession session = telegramBotsApplication.registerBot(
+                        longPollingBot.getBotToken(),
+                        () -> telegramUrl,
+                        longPollingBot.getGetUpdatesGenerator(),
+                        longPollingBot.getUpdatesConsumer()
+                );
                 handleAfterRegistrationHook(longPollingBot, session);
             }
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
         }
     }
-
 
     private void handleAfterRegistrationHook(Object bot, BotSession botSession) {
         Stream.of(bot.getClass().getMethods())
