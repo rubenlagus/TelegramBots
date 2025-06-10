@@ -3,7 +3,6 @@ package org.telegram.telegrambots.meta.api.objects.reactions;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
@@ -38,8 +37,7 @@ public class ReactionTypeEmoji implements ReactionType {
      */
     @JsonProperty(TYPE_FIELD)
     @NonNull
-    @Builder.Default
-    private String type = ReactionType.EMOJI_TYPE;
+    private final String type = ReactionType.EMOJI_TYPE;
     /**
      * Reaction emoji. Currently, it can be one of "👍", "👎", "❤", "🔥", "🥰", "👏", "😁", "🤔", "🤯", "😱", "🤬",
      * "😢", "🎉", "🤩", "🤮", "💩", "🙏", "👌", "🕊", "🤡", "🥱", "🥴", "😍", "🐳", "❤‍🔥", "🌚", "🌭", "💯", "🤣",
@@ -55,9 +53,6 @@ public class ReactionTypeEmoji implements ReactionType {
     public void validate() throws TelegramApiValidationException {
         if (emoji.isEmpty()) {
             throw new TelegramApiValidationException("Emoji parameter can't be empty", this);
-        }
-        if (!ReactionType.EMOJI_TYPE.equals(type)) {
-            throw new TelegramApiValidationException("Type must be \"emoji\"", this);
         }
     }
 }

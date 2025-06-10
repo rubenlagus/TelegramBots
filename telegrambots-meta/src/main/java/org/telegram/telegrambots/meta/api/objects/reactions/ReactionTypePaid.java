@@ -3,7 +3,6 @@ package org.telegram.telegrambots.meta.api.objects.reactions;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
@@ -12,7 +11,6 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
  * @author Ruben Bermudez
@@ -37,14 +35,5 @@ public class ReactionTypePaid implements ReactionType {
      */
     @JsonProperty(TYPE_FIELD)
     @NonNull
-    @Builder.Default
-    private String type = ReactionType.PAID_TYPE;
-
-
-    @Override
-    public void validate() throws TelegramApiValidationException {
-        if (!ReactionType.PAID_TYPE.equals(type)) {
-            throw new TelegramApiValidationException("Type must be \"paid\"", this);
-        }
-    }
+    private final String type = ReactionType.PAID_TYPE;
 }
