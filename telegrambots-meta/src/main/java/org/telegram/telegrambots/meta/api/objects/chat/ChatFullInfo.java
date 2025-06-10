@@ -17,6 +17,7 @@ import org.telegram.telegrambots.meta.api.objects.ChatPhoto;
 import org.telegram.telegrambots.meta.api.objects.business.BusinessIntro;
 import org.telegram.telegrambots.meta.api.objects.business.BusinessLocation;
 import org.telegram.telegrambots.meta.api.objects.business.BusinessOpeningHours;
+import org.telegram.telegrambots.meta.api.objects.gifts.AcceptedGiftTypes;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.reactions.ReactionType;
 
@@ -75,7 +76,7 @@ public class ChatFullInfo extends Chat {
     private static final String BUSINESS_OPENING_HOURS_FIELD  = "business_opening_hours";
     private static final String PERSONAL_CHAT_FIELD  = "personal_chat";
     private static final String CAN_SEND_PAID_MEDIA_FIELD  = "can_send_paid_media";
-    private static final String CAN_SEND_GIFT_FIELD  = "can_send_gift";
+    private static final String ACCEPTED_GIFT_TYPES_FIELD  = "accepted_gift_types";
 
     /**
      * Optional.
@@ -333,6 +334,6 @@ public class ChatFullInfo extends Chat {
      * Optional.
      * True, if gifts can be sent to the chat
      */
-    @JsonProperty(CAN_SEND_GIFT_FIELD)
-    private Boolean canSendGift;
+    @JsonProperty(ACCEPTED_GIFT_TYPES_FIELD)
+    private AcceptedGiftTypes acceptedGiftTypes;
 }
