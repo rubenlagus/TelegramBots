@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.telegram</groupId>
         <artifactId>Bots</artifactId>
-        <version>8.3.0</version>
+        <version>9.0.0</version>
     </parent>
 
     <artifactId>telegrambots-longpolling</artifactId>

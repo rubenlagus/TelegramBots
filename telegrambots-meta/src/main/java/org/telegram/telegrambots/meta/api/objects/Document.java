@@ -12,6 +12,7 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
+import org.telegram.telegrambots.meta.api.objects.photo.PhotoSize;
 
 /**
  * This object represents a general file (as opposed to photos and audio files).
