@@ -1,0 +1,66 @@
+import logging
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandler, Filters
+
+# 启用日志记录
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+
+# 定义一些全局变量（可以替换为数据库）
+user_points = {}  # 用户积分
+tng_balance = 1000  # TNG余额示例
+
+def start(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text(
+        "欢迎来到积分系统！使用 /points 检查您的积分，使用 /recharge 充值 TNG。"
+    )
+
+def points(update: Update, context: CallbackContext) -> None:
+    user_id = update.message.from_user.id
+    user_score = user_points.get(user_id, 0)
+    update.message.reply_text(f"您的积分为: {user_score}")
+
+def recharge(update: Update, context: CallbackContext) -> None:
+    global tng_balance
+    user_id = update.message.from_user.id
+    
+    if len(context.args) == 0:
+        update.message.reply_text("请输入充值金额，例如: /recharge 50")
+        return
+    
+    try:
+        amount = int(context.args[0])
+    except ValueError:
+        update.message.reply_text("请输入一个有效的金额.")
+        return
+
+    if amount <= 0:
+        update.message.reply_text("充值金额必须大于0.")
+        return
+
+    if tng_balance < amount:
+        update.message.reply_text("余额不足，无法完成充值。")
+        return
+
+    tng_balance -= amount
+    user_points[user_id] = user_points.get(user_id, 0) + amount * 10  # 根据充值转化积分
+    update.message.reply_text(f"成功充值 {amount}，您的新积分为: {user_points[user_id]}")
+
+def main():
+    # 替换为您的 token
+    updater = Updater(7908507350:AAFC_KT_KiA8W0ZglycSbj_ZnHOuRZnjLqE)
+
+    # 获取调度器以注册处理程序
+    dp = updater.dispatcher
+
+    dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(CommandHandler("points", points))
+    dp.add_handler(CommandHandler("recharge", recharge))
+
+    # 开始机器人
+    updater.start_polling()
+    
+    # 运行直到按下 Ctrl-C
+    updater.idle()
+
+if __name__ == '__main__':
+    main()
