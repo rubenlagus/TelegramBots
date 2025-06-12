@@ -14,6 +14,7 @@ import org.telegram.telegrambots.client.ThrowingConsumer;
 import org.telegram.telegrambots.meta.TelegramUrl;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.business.SetBusinessAccountProfilePhoto;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
@@ -42,6 +43,8 @@ import org.telegram.telegrambots.meta.api.objects.media.InputMediaVideo;
 import org.telegram.telegrambots.meta.api.objects.media.paid.InputPaidMedia;
 import org.telegram.telegrambots.meta.api.objects.media.paid.InputPaidMediaVideo;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
+import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoAnimated;
+import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoStatic;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
@@ -139,6 +142,40 @@ public class JettyTelegramClient extends AbstractTelegramClient {
                 .addPart(SendPhoto.BUSINESS_CONNECTION_ID_FIELD, sendPhoto.getBusinessConnectionId())
                 .addPart(SendPhoto.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendPhoto.getShowCaptionAboveMedia())
                 .addJsonPart(SendPhoto.CAPTION_ENTITIES_FIELD, sendPhoto.getCaptionEntities()));
+    }
+
+    @Override
+    public CompletableFuture<Boolean> executeAsync(SetBusinessAccountProfilePhoto setBusinessAccountProfilePhoto) {
+        try {
+            assertParamNotNull(setBusinessAccountProfilePhoto, "method");
+
+            setBusinessAccountProfilePhoto.validate();
+
+            URI url = buildUrl(setBusinessAccountProfilePhoto.getMethod());
+
+            JettyMultipartBuilder builder = new JettyMultipartBuilder(objectMapper);
+
+            builder.addPart(SetBusinessAccountProfilePhoto.BUSINESS_CONNECTION_ID_FIELD, setBusinessAccountProfilePhoto.getBusinessConnectionId())
+                    .addPart(SetBusinessAccountProfilePhoto.IS_PUBLIC_FIELD, setBusinessAccountProfilePhoto.getIsPublic());
+
+            if (InputProfilePhotoStatic.TYPE.equals(setBusinessAccountProfilePhoto.getPhoto().getType())) {
+                InputProfilePhotoStatic photo = (InputProfilePhotoStatic) setBusinessAccountProfilePhoto.getPhoto();
+                builder.addJsonPart(SetBusinessAccountProfilePhoto.PHOTO_FIELD, photo)
+                        .addInputFile(InputProfilePhotoStatic.PHOTO_FIELD, photo.getPhoto(), false);
+            } else if (InputProfilePhotoAnimated.TYPE.equals(setBusinessAccountProfilePhoto.getPhoto().getType())) {
+                InputProfilePhotoAnimated photo = (InputProfilePhotoAnimated) setBusinessAccountProfilePhoto.getPhoto();
+                builder.addJsonPart(SetBusinessAccountProfilePhoto.PHOTO_FIELD, photo)
+                        .addInputFile(InputProfilePhotoAnimated.ANIMATION_FIELD, photo.getAnimation(), false);
+            }
+
+            Request httpPost = client.POST(url).body(builder.build());
+
+            return sendRequest(setBusinessAccountProfilePhoto, httpPost);
+        } catch (TelegramApiException e) {
+            return CompletableFuture.failedFuture(e);
+        } catch (IOException e) {
+            return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + setBusinessAccountProfilePhoto.getMethod(), e));
+        }
     }
 
     @Override

@@ -19,6 +19,7 @@ import java.io.InputStream;
  * @author Ruben Bermudez
  * @version 4.0.0
  */
+@Getter
 @SuppressWarnings({"WeakerAccess", "UnusedReturnValue"})
 @JsonSerialize(using = InputFileSerializer.class, as = String.class)
 @EqualsAndHashCode(callSuper = false)
@@ -27,25 +28,21 @@ import java.io.InputStream;
 @AllArgsConstructor
 public class InputFile implements Validable, BotApiObject {
 
-    @Getter
     private String attachName;
 
     /**
      * Name of the media to upload
      */
-    @Getter
     @JsonIgnore
     private String mediaName;
     /**
      * New media file
      */
-    @Getter
     @JsonIgnore
     private File newMediaFile;
     /**
      * New media stream
      */
-    @Getter
     @JsonIgnore
     private InputStream newMediaStream;
     /**
@@ -136,10 +133,6 @@ public class InputFile implements Validable, BotApiObject {
         this.attachName = attachName;
         this.isNew = false;
         return this;
-    }
-
-    public boolean isNew() {
-        return isNew;
     }
 
     @Override

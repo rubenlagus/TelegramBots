@@ -14,9 +14,19 @@ import org.mockito.MockitoAnnotations;
 import org.telegram.telegrambots.client.jetty.JettyTelegramClient;
 import org.telegram.telegrambots.meta.TelegramUrl;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.send.*;
+import org.telegram.telegrambots.meta.api.methods.business.SetBusinessAccountProfilePhoto;
+import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
+import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
+import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
+import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
+import org.telegram.telegrambots.meta.api.methods.send.SendVoice;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
+import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoStatic;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
@@ -25,7 +35,10 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestTelegramClientIntegration {
     private MockWebServer webServer;
@@ -261,6 +274,43 @@ public class TestTelegramClientIntegration {
         assertEquals(404, exception.getErrorCode());
     }
 
+    @Test
+    void testSetBusinessAccountProfilePhoto() throws TelegramApiException {
+        InputFile inputFile = new InputFile(getTestFile());
+        InputProfilePhotoStatic profilePhoto = InputProfilePhotoStatic.builder()
+                .photo(inputFile)
+                .build();
+        
+        SetBusinessAccountProfilePhoto method = SetBusinessAccountProfilePhoto.builder()
+                .businessConnectionId("test-connection-id")
+                .photo(profilePhoto)
+                .isPublic(true)
+                .build();
+    
+        mockMethod(method, Boolean.TRUE);
+    
+        assertTrue(client.execute(method));
+    }
+    
+    @Test
+    void testSetBusinessAccountProfilePhotoException() {
+        InputFile inputFile = new InputFile(getTestFile());
+        InputProfilePhotoStatic profilePhoto = InputProfilePhotoStatic.builder()
+                .photo(inputFile)
+                .build();
+        
+        SetBusinessAccountProfilePhoto method = SetBusinessAccountProfilePhoto.builder()
+                .businessConnectionId("test-connection-id")
+                .photo(profilePhoto)
+                .isPublic(true)
+                .build();
+    
+        mockErrorMethod(method);
+    
+        TelegramApiRequestException exception = Assertions.assertThrows(TelegramApiRequestException.class, () -> client.execute(method));
+        assertEquals(404, exception.getErrorCode());
+    }
+    
     @NotNull
     private File getTestFile() {
         ClassLoader classLoader = getClass().getClassLoader();

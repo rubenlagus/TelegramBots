@@ -20,10 +20,8 @@ import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.EntityType;
 import org.telegram.telegrambots.meta.api.objects.ExternalReplyInfo;
 import org.telegram.telegrambots.meta.api.objects.LinkPreviewOptions;
-import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.MessageAutoDeleteTimerChanged;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
-import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.ProximityAlertTriggered;
 import org.telegram.telegrambots.meta.api.objects.TextQuote;
 import org.telegram.telegrambots.meta.api.objects.User;
@@ -45,16 +43,20 @@ import org.telegram.telegrambots.meta.api.objects.forum.GeneralForumTopicHidden;
 import org.telegram.telegrambots.meta.api.objects.forum.GeneralForumTopicUnhidden;
 import org.telegram.telegrambots.meta.api.objects.games.Animation;
 import org.telegram.telegrambots.meta.api.objects.games.Game;
+import org.telegram.telegrambots.meta.api.objects.gifts.GiftInfo;
+import org.telegram.telegrambots.meta.api.objects.gifts.UniqueGiftInfo;
 import org.telegram.telegrambots.meta.api.objects.giveaway.Giveaway;
 import org.telegram.telegrambots.meta.api.objects.giveaway.GiveawayCompleted;
 import org.telegram.telegrambots.meta.api.objects.giveaway.GiveawayCreated;
 import org.telegram.telegrambots.meta.api.objects.giveaway.GiveawayWinners;
+import org.telegram.telegrambots.meta.api.objects.location.Location;
 import org.telegram.telegrambots.meta.api.objects.messageorigin.MessageOrigin;
 import org.telegram.telegrambots.meta.api.objects.passport.PassportData;
 import org.telegram.telegrambots.meta.api.objects.payments.Invoice;
 import org.telegram.telegrambots.meta.api.objects.payments.RefundedPayment;
 import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import org.telegram.telegrambots.meta.api.objects.payments.paidmedia.PaidMediaInfo;
+import org.telegram.telegrambots.meta.api.objects.photo.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
@@ -176,6 +178,10 @@ public class Message implements MaybeInaccessibleMessage {
     private static final String SHOW_CAPTION_ABOVE_MEDIA_FIELD = "show_caption_above_media";
     private static final String PAID_MEDIA_FIELD = "paid_media";
     private static final String REFUNDED_PAYMENT_FIELD = "refunded_payment";
+    private static final String GIFT_FIELD = "gift";
+    private static final String UNIQUE_GIFT_FIELD = "unique_gift";
+    private static final String PAID_MESSAGE_PRICE_CHANGED_FIELD = "paid_message_price_changed";
+    private static final String PAID_STAR_COUNT_FIELD = "paid_star_count";
 
     /**
      * Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat),
@@ -757,6 +763,30 @@ public class Message implements MaybeInaccessibleMessage {
      */
     @JsonProperty(REFUNDED_PAYMENT_FIELD)
     private RefundedPayment refundedPayment;
+    /**
+     * 	Optional.
+     * 	Service message: a regular gift was sent or received
+     */
+    @JsonProperty(GIFT_FIELD)
+    private GiftInfo gift;
+    /**
+     * 	Optional.
+     * 	Service message: a unique gift was sent or received
+     */
+    @JsonProperty(UNIQUE_GIFT_FIELD)
+    private UniqueGiftInfo uniqueGift;
+    /**
+     * 	Optional.
+     * 	Service message: the price for paid messages has changed in the chat
+     */
+    @JsonProperty(PAID_MESSAGE_PRICE_CHANGED_FIELD)
+    private PaidMessagePriceChanged paidMessagePriceChanged;
+    /**
+     * 	Optional.
+     * 	The number of Telegram Stars that were paid by the sender of the message to send it
+     */
+    @JsonProperty(PAID_STAR_COUNT_FIELD)
+    private Integer paidStarCount;
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {
@@ -1012,5 +1042,25 @@ public class Message implements MaybeInaccessibleMessage {
     @JsonIgnore
     public boolean hasCaption() {
         return caption != null;
+    }
+
+    @JsonIgnore
+    public boolean hasGift() {
+        return gift != null;
+    }
+
+    @JsonIgnore
+    public boolean hasUniqueGift() {
+        return uniqueGift != null;
+    }
+
+    @JsonIgnore
+    public boolean hasPaidMessagePriceChanged() {
+        return paidMessagePriceChanged != null;
+    }
+
+    @JsonIgnore
+    public boolean hasPaidStarCount() {
+        return paidStarCount != null;
     }
 }

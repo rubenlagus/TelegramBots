@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.meta.TelegramUrl;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.business.SetBusinessAccountProfilePhoto;
 import org.telegram.telegrambots.meta.api.methods.commands.GetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.description.GetMyDescription;
 import org.telegram.telegrambots.meta.api.methods.description.GetMyShortDescription;
@@ -36,15 +37,16 @@ import org.telegram.telegrambots.meta.api.objects.description.BotDescription;
 import org.telegram.telegrambots.meta.api.objects.description.BotShortDescription;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.name.BotName;
+import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoStatic;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import static org.junit.jupiter.api.Assertions.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TestTelegramClientIntegration {
     private MockWebServer webServer;
@@ -349,6 +351,43 @@ class TestTelegramClientIntegration {
         assertEquals(404, exception.getErrorCode());
     }
 
+    @Test
+    void testSetBusinessAccountProfilePhoto() throws TelegramApiException {
+        InputFile inputFile = new InputFile(getTestFile());
+        InputProfilePhotoStatic profilePhoto = InputProfilePhotoStatic.builder()
+                .photo(inputFile)
+                .build();
+        
+        SetBusinessAccountProfilePhoto method = SetBusinessAccountProfilePhoto.builder()
+                .businessConnectionId("test-connection-id")
+                .photo(profilePhoto)
+                .isPublic(true)
+                .build();
+    
+        mockMethod(method, Boolean.TRUE);
+    
+        assertTrue(client.execute(method));
+    }
+    
+    @Test
+    void testSetBusinessAccountProfilePhotoException() {
+        InputFile inputFile = new InputFile(getTestFile());
+        InputProfilePhotoStatic profilePhoto = InputProfilePhotoStatic.builder()
+                .photo(inputFile)
+                .build();
+        
+        SetBusinessAccountProfilePhoto method = SetBusinessAccountProfilePhoto.builder()
+                .businessConnectionId("test-connection-id")
+                .photo(profilePhoto)
+                .isPublic(true)
+                .build();
+    
+        mockErrorMethod(method);
+    
+        TelegramApiRequestException exception = Assertions.assertThrows(TelegramApiRequestException.class, () -> client.execute(method));
+        assertEquals(404, exception.getErrorCode());
+    }
+    
     @NotNull
     private File getTestFile() {
         ClassLoader classLoader = getClass().getClassLoader();

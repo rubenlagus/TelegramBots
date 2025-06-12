@@ -68,6 +68,7 @@ public class TestStarTransactions {
                         .amount(100)
                         .source(TransactionPartnerUser
                                 .builder()
+                                .transactionType("gift_purchase")
                                 .user(User
                                         .builder()
                                         .id(1L)
@@ -77,6 +78,7 @@ public class TestStarTransactions {
                                 .build())
                         .receiver(TransactionPartnerUser
                                 .builder()
+                                .transactionType("gift_purchase")
                                 .user(User
                                         .builder()
                                         .id(1L)

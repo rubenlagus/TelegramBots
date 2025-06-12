@@ -80,14 +80,6 @@ public class InlineQueryResultArticle implements InlineQueryResult {
     @JsonProperty(URL_FIELD)
     private String url;
     /**
-     * @deprecated Pass an empty string as url instead.
-     * Optional.
-     * Pass True, if you don't want the URL to be shown in the message
-     */
-    @Deprecated
-    @JsonProperty(HIDE_URL_FIELD)
-    private Boolean hideUrl;
-    /**
      * Optional.
      * Short description of the result
      */

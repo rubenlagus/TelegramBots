@@ -2,7 +2,6 @@ package org.telegram.telegrambots.meta.api.objects.reactions;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
@@ -36,8 +35,7 @@ public class ReactionTypeCustomEmoji implements ReactionType {
      */
     @JsonProperty(TYPE_FIELD)
     @NonNull
-    @Builder.Default
-    private String type = ReactionType.CUSTOM_EMOJI_TYPE;
+    private final String type = ReactionType.CUSTOM_EMOJI_TYPE;
     /**
      * Custom emoji identifier
      */
@@ -49,9 +47,6 @@ public class ReactionTypeCustomEmoji implements ReactionType {
     public void validate() throws TelegramApiValidationException {
         if (customEmojiId.isEmpty()) {
             throw new TelegramApiValidationException("CustomEmojiId parameter can't be empty", this);
-        }
-        if (!ReactionType.CUSTOM_EMOJI_TYPE.equals(type)) {
-            throw new TelegramApiValidationException("Type must be \"custom_emoji\"", this);
         }
     }
 }
