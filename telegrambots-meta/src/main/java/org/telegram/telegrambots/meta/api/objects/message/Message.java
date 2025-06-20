@@ -866,11 +866,13 @@ public class Message implements MaybeInaccessibleMessage {
 
     @JsonIgnore
     public String getCommand() {
-        for (MessageEntity entity : entities) {
-            if (entity != null
-                    && NumberUtils.INTEGER_ZERO.equals(entity.getOffset())
-                    && EntityType.BOTCOMMAND.equals(entity.getType())) {
-                return entity.getText();
+        if (hasEntities()) {
+            for (MessageEntity entity : entities) {
+                if (entity != null
+                        && NumberUtils.INTEGER_ZERO.equals(entity.getOffset())
+                        && EntityType.BOTCOMMAND.equals(entity.getType())) {
+                    return entity.getText();
+                }
             }
         }
         return null;
