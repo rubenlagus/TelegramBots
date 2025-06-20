@@ -12,6 +12,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.telegram.telegrambots.meta.api.objects.Audio;
 import org.telegram.telegrambots.meta.api.objects.ChatShared;
 import org.telegram.telegrambots.meta.api.objects.Contact;
@@ -72,6 +73,7 @@ import java.util.List;
 
 /**
  * This object represents a message.
+ *
  * @author Ruben Bermudez
  * @version 1.0
  */
@@ -184,7 +186,8 @@ public class Message implements MaybeInaccessibleMessage {
     private static final String PAID_STAR_COUNT_FIELD = "paid_star_count";
 
     /**
-     * Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat),
+     * Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a
+     * big chat),
      * the server might automatically schedule a message instead of sending it immediately.
      * In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent
      */
@@ -200,7 +203,8 @@ public class Message implements MaybeInaccessibleMessage {
     /**
      * Optional.
      * Sender of the message; may be empty for messages sent to channels.
-     * For backward compatibility, if the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats
+     * For backward compatibility, if the message was sent on behalf of a chat, the field contains a fake sender user
+     * in non-channel chats
      */
     @JsonProperty(FROM_FIELD)
     private User from;
@@ -219,7 +223,7 @@ public class Message implements MaybeInaccessibleMessage {
      * For forwarded messages, sender of the original message
      */
     @JsonProperty(FORWARD_FROM_FIELD)
-    private User forwardFrom;  
+    private User forwardFrom;
     /**
      * Optional.
      * For messages forwarded from channels or from anonymous administrators, information about the original sender chat
@@ -237,7 +241,7 @@ public class Message implements MaybeInaccessibleMessage {
      * For text messages, the actual UTF-8 text of the message
      */
     @JsonProperty(TEXT_FIELD)
-    private String text;  
+    private String text;
     /**
      * Optional.
      * For text messages, special entities like usernames, URLs,
@@ -309,13 +313,15 @@ public class Message implements MaybeInaccessibleMessage {
     private Animation animation;
     /**
      * Optional.
-     * Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply.
+     * Specified message was pinned. Note that the Message object in this field will not contain further
+     * reply_to_message fields even if it is itself a reply.
      */
     @JsonProperty(PINNED_MESSAGE_FIELD)
     private MaybeInaccessibleMessage pinnedMessage;
     /**
      * Optional.
-     * New members were added to the group or supergroup, information about them (the bot itself may be one of these members)
+     * New members were added to the group or supergroup, information about them (the bot itself may be one of these
+     * members)
      */
     @JsonProperty(NEW_CHAT_MEMBERS_FIELD)
     private List<User> newChatMembers;
@@ -324,13 +330,13 @@ public class Message implements MaybeInaccessibleMessage {
      * A member was removed from the group, information about them (this member may be bot itself)
      */
     @JsonProperty(LEFT_CHAT_MEMBER_FIELD)
-    private User leftChatMember;  
+    private User leftChatMember;
     /**
      * Optional.
      * A chat title was changed to this value
      */
     @JsonProperty(NEW_CHAT_TITLE_FIELD)
-    private String newChatTitle;  
+    private String newChatTitle;
     /**
      * Optional.
      * A chat photo was change to this value
@@ -342,7 +348,7 @@ public class Message implements MaybeInaccessibleMessage {
      * Informs that the chat photo was deleted
      */
     @JsonProperty(DELETE_CHAT_PHOTO_FIELD)
-    private Boolean deleteChatPhoto;  
+    private Boolean deleteChatPhoto;
     /**
      * Optional.
      * Informs that the group has been created
@@ -352,7 +358,8 @@ public class Message implements MaybeInaccessibleMessage {
     /**
      * Optional.
      * For replies in the same chat and message thread, the original message.
-     * Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
+     * Note that the Message object in this field will not contain further reply_to_message fields even if it itself
+     * is a reply.
      */
     @JsonProperty(REPLY_TO_MESSAGE_FIELD)
     private Message replyToMessage;
@@ -367,7 +374,7 @@ public class Message implements MaybeInaccessibleMessage {
      * Caption for the document, photo or video, 0-200 characters
      */
     @JsonProperty(CAPTION_FIELD)
-    private String caption;  
+    private String caption;
     /**
      * Optional. Service message: the supergroup has been created.
      * This field can‘t be received in a message coming through updates,
@@ -394,7 +401,7 @@ public class Message implements MaybeInaccessibleMessage {
      * float type are safe for storing this identifier.
      */
     @JsonProperty(MIGRATE_TO_CHAT_FIELD)
-    private Long migrateToChatId;  
+    private Long migrateToChatId;
     /**
      * Optional. The supergroup has been migrated from a group with the specified identifier.
      * This number may be greater than 32 bits and some programming languages
@@ -415,7 +422,7 @@ public class Message implements MaybeInaccessibleMessage {
      * Message is a game, information about the game
      */
     @JsonProperty(GAME_FIELD)
-    private Game game;  
+    private Game game;
     /**
      * Optional.
      * For forwarded channel posts, identifier of the original message in the channel
@@ -427,7 +434,7 @@ public class Message implements MaybeInaccessibleMessage {
      * Message is an invoice for a payment, information about the invoice.
      */
     @JsonProperty(INVOICE_FIELD)
-    private Invoice invoice;  
+    private Invoice invoice;
     /**
      * Optional.
      * Message is a service message about a successful payment, information about the payment.
@@ -457,22 +464,23 @@ public class Message implements MaybeInaccessibleMessage {
      * The unique identifier of a media message group this message belongs to
      */
     @JsonProperty(MEDIA_GROUP_ID_FIELD)
-    private String mediaGroupId;  
+    private String mediaGroupId;
     /**
      * Optional.
      * The domain name of the website on which the user has logged in
      */
     @JsonProperty(CONNECTED_WEBSITE_FIELD)
-    private String connectedWebsite;  
+    private String connectedWebsite;
     /**
      * Optional.
      * Telegram Passport data
      */
     @JsonProperty(PASSPORT_DATA_FIELD)
-    private PassportData passportData; 
+    private PassportData passportData;
     /**
      * Optional.
-     * Sender's name for messages forwarded from users who disallow adding a link to their account in forwarded messages.
+     * Sender's name for messages forwarded from users who disallow adding a link to their account in forwarded
+     * messages.
      */
     @JsonProperty(FORWARD_SENDER_NAME_FIELD)
     private String forwardSenderName;
@@ -481,11 +489,9 @@ public class Message implements MaybeInaccessibleMessage {
      * Message is a native poll, information about the poll
      */
     @JsonProperty(POLL_FIELD)
-    private Poll poll;  
+    private Poll poll;
     /**
      * Inline keyboard attached to the message.
-     *
-     * @apiNote login_url buttons are represented as ordinary url buttons.
      */
     @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup;
@@ -541,7 +547,7 @@ public class Message implements MaybeInaccessibleMessage {
      * Service message: data sent by a web app
      */
     @JsonProperty(WEB_APP_DATA_FIELD)
-    private WebAppData webAppData;  
+    private WebAppData webAppData;
     /**
      * Optional.
      * Service message: video chat started
@@ -553,7 +559,7 @@ public class Message implements MaybeInaccessibleMessage {
      * Service message: video chat ended
      */
     @JsonProperty(VIDEO_CHAT_ENDED_FIELD)
-    private VideoChatEnded videoChatEnded;  
+    private VideoChatEnded videoChatEnded;
     /**
      * Optional.
      * Service message: new participants invited to a video chat
@@ -609,9 +615,10 @@ public class Message implements MaybeInaccessibleMessage {
     @JsonProperty(GENERAL_FORUM_TOPIC_UNHIDDEN_FIELD)
     private GeneralForumTopicUnhidden generalForumTopicUnhidden;
     /**
-     * 	Optional.
-     * 	Service message: the user allowed the bot to write messages after adding it to the attachment or side menu,
-     * 	launching a Web App from a link, or accepting an explicit request from a Web App sent by the method requestWriteAccess
+     * Optional.
+     * Service message: the user allowed the bot to write messages after adding it to the attachment or side menu,
+     * launching a Web App from a link, or accepting an explicit request from a Web App sent by the method
+     * requestWriteAccess
      */
     @JsonProperty(WRITE_ACCESS_ALLOWED_FIELD)
     private WriteAccessAllowed writeAccessAllowed;
@@ -653,7 +660,8 @@ public class Message implements MaybeInaccessibleMessage {
     private MessageOrigin forwardOrigin;
     /**
      * Optional.
-     * Options used for link preview generation for the message, if it is a text message and link preview options were changed
+     * Options used for link preview generation for the message, if it is a text message and link preview options
+     * were changed
      */
     @JsonProperty(LINK_PREVIEW_OPTIONS_FIELD)
     private LinkPreviewOptions linkPreviewOptions;
@@ -752,38 +760,38 @@ public class Message implements MaybeInaccessibleMessage {
     @JsonProperty(SHOW_CAPTION_ABOVE_MEDIA_FIELD)
     private Boolean showCaptionAboveMedia;
     /**
-     * 	Optional.
-     * 	Message contains paid media; information about the paid media
+     * Optional.
+     * Message contains paid media; information about the paid media
      */
     @JsonProperty(PAID_MEDIA_FIELD)
     private PaidMediaInfo paidMedia;
     /**
-     * 	Optional.
-     * 	Message is a service message about a refunded payment, information about the payment.
+     * Optional.
+     * Message is a service message about a refunded payment, information about the payment.
      */
     @JsonProperty(REFUNDED_PAYMENT_FIELD)
     private RefundedPayment refundedPayment;
     /**
-     * 	Optional.
-     * 	Service message: a regular gift was sent or received
+     * Optional.
+     * Service message: a regular gift was sent or received
      */
     @JsonProperty(GIFT_FIELD)
     private GiftInfo gift;
     /**
-     * 	Optional.
-     * 	Service message: a unique gift was sent or received
+     * Optional.
+     * Service message: a unique gift was sent or received
      */
     @JsonProperty(UNIQUE_GIFT_FIELD)
     private UniqueGiftInfo uniqueGift;
     /**
-     * 	Optional.
-     * 	Service message: the price for paid messages has changed in the chat
+     * Optional.
+     * Service message: the price for paid messages has changed in the chat
      */
     @JsonProperty(PAID_MESSAGE_PRICE_CHANGED_FIELD)
     private PaidMessagePriceChanged paidMessagePriceChanged;
     /**
-     * 	Optional.
-     * 	The number of Telegram Stars that were paid by the sender of the message to send it
+     * Optional.
+     * The number of Telegram Stars that were paid by the sender of the message to send it
      */
     @JsonProperty(PAID_STAR_COUNT_FIELD)
     private Integer paidStarCount;
@@ -853,15 +861,19 @@ public class Message implements MaybeInaccessibleMessage {
 
     @JsonIgnore
     public boolean isCommand() {
-        if (hasText() && entities != null) {
-            for (MessageEntity entity : entities) {
-                if (entity != null && entity.getOffset() == 0 &&
-                        EntityType.BOTCOMMAND.equals(entity.getType())) {
-                    return true;
-                }
+        return getCommand() != null;
+    }
+
+    @JsonIgnore
+    public String getCommand() {
+        for (MessageEntity entity : entities) {
+            if (entity != null
+                    && NumberUtils.INTEGER_ZERO.equals(entity.getOffset())
+                    && EntityType.BOTCOMMAND.equals(entity.getType())) {
+                return entity.getText();
             }
         }
-        return false;
+        return null;
     }
 
     @JsonIgnore
@@ -875,12 +887,12 @@ public class Message implements MaybeInaccessibleMessage {
     }
 
     @JsonIgnore
-    public boolean hasAudio(){
+    public boolean hasAudio() {
         return this.audio != null;
     }
 
     @JsonIgnore
-    public boolean hasVoice(){
+    public boolean hasVoice() {
         return this.voice != null;
     }
 
