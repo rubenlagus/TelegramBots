@@ -492,6 +492,8 @@ public class Message implements MaybeInaccessibleMessage {
     private Poll poll;
     /**
      * Inline keyboard attached to the message.
+     *
+     * @apiNote login_url buttons are represented as ordinary url buttons.
      */
     @JsonProperty(REPLY_MARKUP_FIELD)
     private InlineKeyboardMarkup replyMarkup;
