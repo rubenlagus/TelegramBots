@@ -147,7 +147,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
     @Override
     public CompletableFuture<Boolean> executeAsync(SetBusinessAccountProfilePhoto setBusinessAccountProfilePhoto) {
         try {
-            assertParamNotNull(setBusinessAccountProfilePhoto, "method");
+            assertParamNotNull(setBusinessAccountProfilePhoto, "setBusinessAccountProfilePhoto");
 
             setBusinessAccountProfilePhoto.validate();
 
@@ -181,7 +181,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
     @Override
     public CompletableFuture<Boolean> executeAsync(SetWebhook setWebhook) {
         try {
-            assertParamNotNull(setWebhook, "method");
+            assertParamNotNull(setWebhook, "setWebhook");
 
             setWebhook.validate();
 
