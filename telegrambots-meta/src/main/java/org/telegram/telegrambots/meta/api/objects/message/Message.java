@@ -69,7 +69,9 @@ import org.telegram.telegrambots.meta.api.objects.videochat.VideoChatStarted;
 import org.telegram.telegrambots.meta.api.objects.webapp.WebAppData;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * This object represents a message.
@@ -868,16 +870,13 @@ public class Message implements MaybeInaccessibleMessage {
 
     @JsonIgnore
     public String getCommand() {
-        if (hasEntities()) {
-            for (MessageEntity entity : entities) {
-                if (entity != null
-                        && NumberUtils.INTEGER_ZERO.equals(entity.getOffset())
-                        && EntityType.BOTCOMMAND.equals(entity.getType())) {
-                    return entity.getText();
-                }
-            }
-        }
-        return null;
+        return Stream.ofNullable(entities)
+                .flatMap(Collection::stream)
+                .filter(entity -> entity != null && NumberUtils.INTEGER_ZERO.equals(entity.getOffset()))
+                .findFirst()
+                .filter(entity -> EntityType.BOTCOMMAND.equals(entity.getType()))
+                .map(MessageEntity::getText)
+                .orElse(null);
     }
 
     @JsonIgnore
