@@ -108,6 +108,6 @@ public class Video implements BotApiObject {
      * Optional.
      * Timestamp in seconds from which the video will play in the message
      */
-    @JsonProperty(FILE_NAME_FIELD)
+    @JsonProperty(START_TIMESTAMP_FIELD)
     private Integer startTimestamp;
 }
