@@ -70,7 +70,6 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
         <telegrambots.version>9.0.0</telegrambots.version>
         <spring.version>3.2.3</spring.version>
     </properties>

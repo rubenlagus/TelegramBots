@@ -20,6 +20,7 @@
         <module>telegrambots-extensions</module>
         <module>telegrambots-abilities</module>
         <module>telegrambots-test-reports</module>
+        <module>telegrambost-springboot-mapping-starter</module>
     </modules>
 
     <licenses>

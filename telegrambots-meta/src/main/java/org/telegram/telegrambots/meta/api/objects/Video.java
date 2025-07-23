@@ -16,6 +16,8 @@ import org.telegram.telegrambots.meta.api.objects.photo.PhotoSize;
 
 import java.util.List;
 
+import java.util.List;
+
 /**
  * This object represents a video file.
  * @author Ruben Bermudez
