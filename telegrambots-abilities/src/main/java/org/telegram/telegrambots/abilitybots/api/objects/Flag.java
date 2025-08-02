@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 import static java.util.Objects.nonNull;
 
 /**
- * Flags are an conditions that are applied on an {@link Update}.
+ * Flags are a conditions that are applied on an {@link Update}.
  * <p>
  * They can be used on {@link AbilityBuilder#flag(Predicate[])} and on the post conditions in {@link AbilityBuilder#reply(BiConsumer, Predicate[])}.
  *
@@ -37,6 +37,8 @@ public enum Flag implements Predicate<Update> {
   HAS_EDITED_BUSINESS_MESSAGE(Update::hasEditedBusinessMessage),
   HAS_DELETED_BUSINESS_MESSAGE(Update::hasDeletedBusinessMessage),
   HAS_PAID_MEDIA_PURCHASED(Update::hasPaidMediaPurchased),
+  HAS_CHAT_BOOST(Update::hasChatBoost),
+  HAS_REMOVED_CHAT_BOOST(Update::hasRemovedChatBoost),
 
 
   // Message Flags
