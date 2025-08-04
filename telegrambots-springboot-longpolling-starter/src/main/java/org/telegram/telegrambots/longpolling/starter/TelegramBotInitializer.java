@@ -3,6 +3,7 @@ package org.telegram.telegrambots.longpolling.starter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.telegram.telegrambots.longpolling.BotSession;
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
 import org.telegram.telegrambots.longpolling.util.DefaultGetUpdatesGenerator;
@@ -49,7 +50,7 @@ public class TelegramBotInitializer implements InitializingBean {
 
     private void handleAfterRegistrationHook(Object bot, BotSession botSession) {
         Stream.of(bot.getClass().getMethods())
-                .filter(method -> method.getAnnotation(AfterBotRegistration.class) != null)
+                .filter(method -> AnnotationUtils.findAnnotation(method, AfterBotRegistration.class) != null)
                 .forEach(method -> handleAnnotatedMethod(bot, method, botSession));
 
     }
