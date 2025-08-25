@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 import static java.util.Objects.nonNull;
 
 /**
- * Flags are a conditions that are applied on an {@link Update}.
+ * Flags are conditions that are applied on an {@link Update}.
  * <p>
  * They can be used on {@link AbilityBuilder#flag(Predicate[])} and on the post conditions in {@link AbilityBuilder#reply(BiConsumer, Predicate[])}.
  *
