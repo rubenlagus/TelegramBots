@@ -18,6 +18,7 @@ import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostParameters;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 import org.telegram.telegrambots.meta.util.Validations;
@@ -63,6 +64,12 @@ public class SendAudio extends SendMediaBotMethod<Message> {
      * for forum supergroups only
      */
     private Integer messageThreadId;
+    /**
+     * Optional.
+     * Identifier of the direct messages topic to which the message will be sent;
+     * required if the message is sent to a direct messages chat
+     */
+    private Integer directMessagesTopicId;
     @NonNull
     private InputFile audio; ///< Audio file to send. file_id as String to resend an audio that is already on the Telegram servers or Url to upload it
     private Integer replyToMessageId; ///< Optional. If the message is a reply, ID of the original message
@@ -113,6 +120,13 @@ public class SendAudio extends SendMediaBotMethod<Message> {
      * The relevant Stars will be withdrawn from the bot's balance
      */
     private Boolean allowPaidBroadcast;
+
+    /**
+     * Optional
+     * A JSON-serialized object containing the parameters of the suggested post to send;
+     * for direct messages chats only
+     */
+    private SuggestedPostParameters suggestedPostParameters;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

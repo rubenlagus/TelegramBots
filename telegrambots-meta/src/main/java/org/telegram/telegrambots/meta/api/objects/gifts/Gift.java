@@ -13,6 +13,7 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
+import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 
 /**
@@ -38,6 +39,7 @@ public class Gift implements BotApiObject {
     private static final String TOTAL_COUNT_FIELD = "total_count";
     private static final String REMAINING_COUNT_FIELD = "remaining_count";
     private static final String UPGRADE_STAR_COUNT_FIELD = "upgrade_star_count";
+    private static final String PUBLISHER_CHAT_FIELD = "publisher_chat";
 
     /**
      * Unique identifier of the gift
@@ -75,4 +77,11 @@ public class Gift implements BotApiObject {
      */
     @JsonProperty(UPGRADE_STAR_COUNT_FIELD)
     private Integer upgradeStarCount;
+
+    /**
+     * Optional.
+     * Information about the chat that published the gift
+     */
+    @JsonProperty(PUBLISHER_CHAT_FIELD)
+    private Chat publisherChat;
 }

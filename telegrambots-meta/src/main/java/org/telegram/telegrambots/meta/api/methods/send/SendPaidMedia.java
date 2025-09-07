@@ -18,6 +18,7 @@ import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
 import org.telegram.telegrambots.meta.api.objects.media.paid.InputPaidMedia;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostParameters;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 import org.telegram.telegrambots.meta.util.Validations;
@@ -59,6 +60,8 @@ public class SendPaidMedia extends PartialBotApiMethod<ArrayList<Message>> {
     public static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
     public static final String PAYLOAD_FIELD = "payload";
     public static final String ALLOW_PAID_BROADCAST_FIELD = "allow_paid_broadcast";
+    public static final String DIRECT_MESSAGES_TOPIC_ID_FIELD = "direct_messages_topic_id";
+    public static final String SUGGESTED_POST_PARAMETERS_FIELD = "suggested_post_parameters";
 
     /**
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername).
@@ -67,6 +70,12 @@ public class SendPaidMedia extends PartialBotApiMethod<ArrayList<Message>> {
      */
     @NonNull
     private String chatId;
+    /**
+     * Optional.
+     * Identifier of the direct messages topic to which the message will be sent;
+     * required if the message is sent to a direct messages chat
+     */
+    private Integer directMessagesTopicId;
     /**
      * The number of Telegram Stars that must be paid to buy access to the media
      */
@@ -136,6 +145,13 @@ public class SendPaidMedia extends PartialBotApiMethod<ArrayList<Message>> {
      * The relevant Stars will be withdrawn from the bot's balance
      */
     private Boolean allowPaidBroadcast;
+
+    /**
+     * Optional
+     * A JSON-serialized object containing the parameters of the suggested post to send;
+     * for direct messages chats only
+     */
+    private SuggestedPostParameters suggestedPostParameters;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

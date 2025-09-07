@@ -16,6 +16,7 @@ import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMessage;
 import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostParameters;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 import org.telegram.telegrambots.meta.util.Validations;
 
@@ -45,6 +46,7 @@ public class SendDice extends BotApiMethodMessage {
 
     private static final String CHAT_ID_FIELD = "chat_id";
     private static final String MESSAGE_THREAD_ID_FIELD = "message_thread_id";
+    private static final String DIRECT_MESSAGES_TOPIC_ID_FIELD = "direct_messages_topic_id";
     private static final String EMOJI_FIELD = "emoji";
     private static final String DISABLE_NOTIFICATION_FIELD = "disable_notification";
     private static final String REPLY_TO_MESSAGE_ID_FIELD = "reply_to_message_id";
@@ -55,6 +57,7 @@ public class SendDice extends BotApiMethodMessage {
     private static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
     private static final String MESSAGE_EFFECT_ID_FIELD = "message_effect_id";
     private static final String ALLOW_PAID_BROADCAST_FIELD = "allow_paid_broadcast";
+    private static final String SUGGESTED_POST_PARAMETERS_FIELD = "suggested_post_parameters";
 
     /**
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -68,6 +71,13 @@ public class SendDice extends BotApiMethodMessage {
      */
     @JsonProperty(MESSAGE_THREAD_ID_FIELD)
     private Integer messageThreadId;
+    /**
+     * Optional.
+     * Identifier of the direct messages topic to which the message will be sent;
+     * required if the message is sent to a direct messages chat
+     */
+    @JsonProperty(DIRECT_MESSAGES_TOPIC_ID_FIELD)
+    private Integer directMessagesTopicId;
     /**
      * Optional.
      * Emoji on which the dice throw animation is based.
@@ -118,6 +128,14 @@ public class SendDice extends BotApiMethodMessage {
      */
     @JsonProperty(ALLOW_PAID_BROADCAST_FIELD)
     private Boolean allowPaidBroadcast;
+
+    /**
+     * Optional
+     * A JSON-serialized object containing the parameters of the suggested post to send;
+     * for direct messages chats only
+     */
+    @JsonProperty(SUGGESTED_POST_PARAMETERS_FIELD)
+    private SuggestedPostParameters suggestedPostParameters;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

@@ -45,6 +45,7 @@ public class ChatAdministratorRights implements BotApiObject, Validable {
     private static final String CAN_POST_STORIES_FIELD = "can_post_stories";
     private static final String CAN_EDIT_STORIES_FIELD = "can_edit_stories";
     private static final String CAN_DELETE_STORIES_FIELD = "can_delete_stories";
+    private static final String CAN_MANAGE_DIRECT_MESSAGES_FIELD = "can_manage_direct_messages";
 
     /**
      * True, if the user's presence in the chat is hidden
@@ -142,4 +143,11 @@ public class ChatAdministratorRights implements BotApiObject, Validable {
      */
     @JsonProperty(CAN_DELETE_STORIES_FIELD)
     private Boolean canDeleteStories;
+
+    /**
+     * Optional.
+     * True, if the administrator can manage direct messages of the channel and decline suggested posts; for channels only
+     */
+    @JsonProperty(CAN_MANAGE_DIRECT_MESSAGES_FIELD)
+    private Boolean canManageDirectMessages;
 }

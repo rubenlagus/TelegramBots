@@ -29,6 +29,7 @@ import java.util.List;
  * @version 1.0
  * Use this method to send a native poll.
  * A native poll can't be sent to a private chat.
+ * Polls can't be sent to channel direct messages chats.
  * <p>
  * On success, the sent Message is returned.
  */
@@ -74,6 +75,7 @@ public class SendPoll extends BotApiMethodMessage {
     /**
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername).
      * A native poll can't be sent to a private chat.
+     * Polls can't be sent to channel direct messages chats.
      */
     @JsonProperty(CHAT_ID_FIELD)
     @NonNull

@@ -39,7 +39,8 @@ public class BotCommandScopeChatMember implements BotCommandScope {
     @JsonProperty(TYPE_FIELD)
     private final String type = "chat_member";
     /**
-     * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername).
+     * Channel direct messages chats and channel chats aren't supported.
      */
     @JsonProperty(CHATID_FIELD)
     @NonNull

@@ -77,6 +77,8 @@ public class ChatFullInfo extends Chat {
     private static final String PERSONAL_CHAT_FIELD  = "personal_chat";
     private static final String CAN_SEND_PAID_MEDIA_FIELD  = "can_send_paid_media";
     private static final String ACCEPTED_GIFT_TYPES_FIELD  = "accepted_gift_types";
+    private static final String IS_DIRECT_MESSAGES_FIELD = "is_direct_messages";
+    private static final String PARENT_CHAT_FIELD = "parent_chat";
 
     /**
      * Optional.
@@ -336,4 +338,18 @@ public class ChatFullInfo extends Chat {
      */
     @JsonProperty(ACCEPTED_GIFT_TYPES_FIELD)
     private AcceptedGiftTypes acceptedGiftTypes;
+
+    /**
+     * Optional.
+     * True, if the chat is the direct messages chat of a channel
+     */
+    @JsonProperty(IS_DIRECT_MESSAGES_FIELD)
+    private Boolean isDirectMessages;
+
+    /**
+     * Optional.
+     * Information about the corresponding channel chat; for direct messages chats only
+     */
+    @JsonProperty(PARENT_CHAT_FIELD)
+    private Chat parentChat;
 }

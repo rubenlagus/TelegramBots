@@ -52,6 +52,7 @@ public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
 
     public static final String CHAT_ID_FIELD = "chat_id";
     public static final String MESSAGE_THREAD_ID_FIELD = "message_thread_id";
+    public static final String DIRECT_MESSAGES_TOPIC_ID_FIELD = "direct_messages_topic_id";
     public static final String MEDIA_FIELD = "media";
     public static final String REPLY_TO_MESSAGE_ID_FIELD = "reply_to_message_id";
     public static final String DISABLE_NOTIFICATION_FIELD = "disable_notification";
@@ -73,6 +74,12 @@ public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
      * for forum supergroups only
      */
     private Integer messageThreadId;
+    /**
+     * Optional.
+     * Identifier of the direct messages topic to which the messages will be sent;
+     * required if the messages are sent to a direct messages chat
+     */
+    private Integer directMessagesTopicId;
     /**
      * A JSON-serialized array describing photos and videos to be sent, must include 2–10 items
      */

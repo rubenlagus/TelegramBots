@@ -18,6 +18,7 @@ import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.MessageId;
 import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostParameters;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 import org.telegram.telegrambots.meta.util.Validations;
@@ -50,6 +51,7 @@ public class CopyMessage extends BotApiMethod<MessageId> {
 
     private static final String CHAT_ID_FIELD = "chat_id";
     private static final String MESSAGE_THREAD_ID_FIELD = "message_thread_id";
+    private static final String DIRECT_MESSAGES_TOPIC_ID_FIELD = "direct_messages_topic_id";
     private static final String FROM_CHAT_ID_FIELD = "from_chat_id";
     private static final String MESSAGE_ID_FIELD = "message_id";
     private static final String CAPTION_FIELD = "caption";
@@ -64,6 +66,7 @@ public class CopyMessage extends BotApiMethod<MessageId> {
     private static final String SHOW_CAPTION_ABOVE_MEDIA_FIELD = "show_caption_above_media";
     private static final String ALLOW_PAID_BROADCAST_FIELD = "allow_paid_broadcast";
     private static final String VIDEO_START_TIMESTAMP_FIELD = "video_start_timestamp";
+    private static final String SUGGESTED_POST_PARAMETERS_FIELD = "suggested_post_parameters";
 
     @JsonProperty(CHAT_ID_FIELD)
     @NonNull
@@ -74,6 +77,13 @@ public class CopyMessage extends BotApiMethod<MessageId> {
      */
     @JsonProperty(MESSAGE_THREAD_ID_FIELD)
     private Integer messageThreadId;
+    /**
+     * Optional.
+     * Identifier of the direct messages topic to which the message will be sent;
+     * required if the message is sent to a direct messages chat
+     */
+    @JsonProperty(DIRECT_MESSAGES_TOPIC_ID_FIELD)
+    private Integer directMessagesTopicId;
     @JsonProperty(FROM_CHAT_ID_FIELD)
     @NonNull
     private String fromChatId; ///< Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
@@ -127,6 +137,14 @@ public class CopyMessage extends BotApiMethod<MessageId> {
      */
     @JsonProperty(VIDEO_START_TIMESTAMP_FIELD)
     private Boolean videoStartTimestamp;
+
+    /**
+     * Optional
+     * A JSON-serialized object containing the parameters of the suggested post to send;
+     * for direct messages chats only
+     */
+    @JsonProperty(SUGGESTED_POST_PARAMETERS_FIELD)
+    private SuggestedPostParameters suggestedPostParameters;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

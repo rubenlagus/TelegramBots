@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.telegram</groupId>
         <artifactId>Bots</artifactId>
-        <version>9.1.0</version>
+        <version>9.2.0</version>
     </parent>
 
     <artifactId>telegrambots-extensions</artifactId>
@@ -78,12 +78,12 @@
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots-webhook</artifactId>
-            <version>9.1.0</version>
+            <version>9.2.0</version>
         </dependency>
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots-longpolling</artifactId>
-            <version>9.1.0</version>
+            <version>9.2.0</version>
         </dependency>
 
         <dependency>

@@ -48,6 +48,7 @@ public class ForwardMessages extends BotApiMethod<ArrayList<MessageId>> {
 
     private static final String CHAT_ID_FIELD = "chat_id";
     private static final String MESSAGE_THREAD_ID_FIELD = "message_thread_id";
+    private static final String DIRECT_MESSAGES_TOPIC_ID_FIELD = "direct_messages_topic_id";
     private static final String FROM_CHAT_ID_FIELD = "from_chat_id";
     private static final String MESSAGE_IDS_FIELD = "message_ids";
     private static final String DISABLE_NOTIFICATION_FIELD = "disable_notification";
@@ -65,6 +66,13 @@ public class ForwardMessages extends BotApiMethod<ArrayList<MessageId>> {
      */
     @JsonProperty(MESSAGE_THREAD_ID_FIELD)
     private Integer messageThreadId;
+    /**
+     * Optional.
+     * Identifier of the direct messages topic to which the messages will be forwarded;
+     * required if the messages are forwarded to a direct messages chat
+     */
+    @JsonProperty(DIRECT_MESSAGES_TOPIC_ID_FIELD)
+    private Integer directMessagesTopicId;
     /**
      * Unique identifier for the chat where the original messages were sent (or channel username in the format @channelusername)
      */

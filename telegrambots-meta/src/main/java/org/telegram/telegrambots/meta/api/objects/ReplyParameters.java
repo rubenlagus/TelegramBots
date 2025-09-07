@@ -39,6 +39,7 @@ public class ReplyParameters implements BotApiObject, Validable {
     private static final String QUOTE_FIELD = "quote";
     private static final String QUOTE_ENTITIES_FIELD = "quote_entities";
     private static final String QUOTE_POSITION_FIELD = "quote_position";
+    private static final String CHECKLIST_TASK_ID_FIELD = "checklist_task_id";
 
     /**
      * 	Identifier of the message that will be replied to in the current chat, or in the chat chat_id if it is specified
@@ -49,10 +50,17 @@ public class ReplyParameters implements BotApiObject, Validable {
     /**
      * Optional.
      * If the message to be replied to is from a different chat, unique identifier for the chat or username of the channel (in the format @channelusername)
-     * @apiNote Not supported for messages sent on behalf of a business account.
+     * @apiNote Not supported for messages sent on behalf of a business account and messages from channel direct messages chats.
      */
     @JsonProperty(CHAT_ID_FIELD)
     private String chatId;
+
+    /**
+     * Optional.
+     * Identifier of the specific checklist task to be replied to
+     */
+    @JsonProperty(CHECKLIST_TASK_ID_FIELD)
+    private Integer checklistTaskId;
 
     /**
      * Optional.
