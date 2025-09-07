@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.telegram</groupId>
         <artifactId>Bots</artifactId>
-        <version>9.1.0</version>
+        <version>9.2.0</version>
     </parent>
 
     <artifactId>telegrambots-springboot-longpolling-starter</artifactId>
@@ -60,8 +60,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <telegrambots.version>9.1.0</telegrambots.version>
-        <spring.version>3.2.3</spring.version>
+        <telegrambots.version>9.2.0</telegrambots.version>
+        <spring.version>3.5.5</spring.version>
     </properties>
 
     <dependencyManagement>

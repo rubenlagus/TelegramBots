@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMet
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostParameters;
 
 import java.io.Serializable;
 
@@ -15,6 +16,7 @@ import java.io.Serializable;
 public abstract class SendMediaBotMethod<T extends Serializable> extends PartialBotApiMethod<T> {
     public static final String CHAT_ID_FIELD = "chat_id";
     public static final String MESSAGE_THREAD_ID_FIELD = "message_thread_id";
+    public static final String DIRECT_MESSAGES_TOPIC_ID_FIELD = "direct_messages_topic_id";
     public static final String REPLY_TO_MESSAGE_ID_FIELD = "reply_to_message_id";
     public static final String DISABLE_NOTIFICATION_FIELD = "disable_notification";
     public static final String PROTECT_CONTENT_FIELD = "protect_content";
@@ -23,10 +25,13 @@ public abstract class SendMediaBotMethod<T extends Serializable> extends Partial
     public static final String REPLY_MARKUP_FIELD = "reply_markup";
     public static final String MESSAGE_EFFECT_ID_FIELD = "message_effect_id";
     public static final String ALLOW_PAID_BROADCAST_FIELD = "allow_paid_broadcast";
+    public static final String SUGGESTED_POST_PARAMETERS_FIELD = "suggested_post_parameters";
 
     public abstract String getChatId();
 
     public abstract Integer getMessageThreadId();
+
+    public abstract Integer getDirectMessagesTopicId();
 
     public abstract Integer getReplyToMessageId();
 
@@ -47,6 +52,8 @@ public abstract class SendMediaBotMethod<T extends Serializable> extends Partial
     public abstract String getMessageEffectId();
 
     public abstract Boolean getAllowPaidBroadcast();
+
+    public abstract SuggestedPostParameters getSuggestedPostParameters();
 
     public static abstract class SendMediaBotMethodBuilder<T extends Serializable, C extends SendMediaBotMethod<T>, B extends SendMediaBotMethodBuilder<T, C, B>> extends PartialBotApiMethodBuilder<T, C, B> {
 
