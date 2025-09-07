@@ -13,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.chat.Chat;
+import org.telegram.telegrambots.meta.api.objects.checklist.Checklist;
 import org.telegram.telegrambots.meta.api.objects.games.Animation;
 import org.telegram.telegrambots.meta.api.objects.games.Game;
 import org.telegram.telegrambots.meta.api.objects.giveaway.Giveaway;
@@ -67,6 +68,7 @@ public class ExternalReplyInfo implements BotApiObject {
     private static final String POLL_FIELD = "poll";
     private static final String VENUE_FIELD = "venue";
     private static final String PAID_MEDIA_FIELD = "paid_media";
+    private static final String CHECKLIST_FIELD = "checklist";
 
     /**
      * Origin of the message replied to by the given message
@@ -211,6 +213,12 @@ public class ExternalReplyInfo implements BotApiObject {
      */
     @JsonProperty(PAID_MEDIA_FIELD)
     private PaidMediaInfo paidMedia;
+    /**
+     * Optional.
+     * Message is a checklist
+     */
+    @JsonProperty(CHECKLIST_FIELD)
+    private Checklist checklist;
 
 
     @JsonIgnore
@@ -311,5 +319,10 @@ public class ExternalReplyInfo implements BotApiObject {
     @JsonIgnore
     private boolean hasStory() {
         return story != null;
+    }
+
+    @JsonIgnore
+    public boolean hasChecklist() {
+        return checklist != null;
     }
 }
