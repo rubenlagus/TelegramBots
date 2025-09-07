@@ -48,7 +48,7 @@ public class SendPoll extends BotApiMethodMessage {
     private static final String CHAT_ID_FIELD = "chat_id";
     private static final String MESSAGE_THREAD_ID_FIELD = "message_thread_id";
     private static final String QUESTION_FIELD = "question";
-    private static final String OPTIONS_FIELD = "options"; // TODO
+    private static final String OPTIONS_FIELD = "options";
     private static final String IS_ANONYMOUS_FIELD = "is_anonymous";
     private static final String TYPE_FIELD = "type";
     private static final String ALLOW_MULTIPLE_ANSWERS_FIELD = "allows_multiple_answers";
@@ -91,7 +91,7 @@ public class SendPoll extends BotApiMethodMessage {
     @NonNull
     private String question;
     /**
-     * A JSON-serialized list of 2-10 answer options
+     * A JSON-serialized list of 2-12 answer options
      */
     @JsonProperty(OPTIONS_FIELD)
     @Singular
@@ -268,8 +268,8 @@ public class SendPoll extends BotApiMethodMessage {
         if (explanation != null && explanation.length() > 200) {
             throw new TelegramApiValidationException("Explanation can only have up to 200 characters", this);
         }
-        if (options.size() < 2 || options.size() > 10) {
-            throw new TelegramApiValidationException("Options parameter must be between 2 and 10 item", this);
+        if (options.size() < 2 || options.size() > 12) {
+            throw new TelegramApiValidationException("Options parameter must be between 2 and 12 item", this);
         }
         for (InputPollOption option : options) {
             option.validate();
