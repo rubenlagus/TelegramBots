@@ -20,11 +20,10 @@ import org.telegram.telegrambots.meta.util.Validations;
  * @author Ruben Bermudez
  * @version 3.1
  * Use this method to clear the list of pinned messages in a chat.
+ * In private chats and channel direct messages chats, no additional rights are required to unpin all pinned messages.
+ * Conversely, the bot must be an administrator with the 'can_pin_messages' right or the 'can_edit_messages' right
+ * to unpin all pinned messages in groups and channels respectively.
  * Returns True on success.
- *
- * @apiNote If the chat is not a private chat, the bot must be an administrator in the chat for this to
- * work and must have the 'can_pin_messages' admin right in a supergroup or 'can_edit_messages' admin
- * right in a channel.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -42,7 +41,7 @@ public class UnpinAllChatMessages extends BotApiMethodBoolean {
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
-    private String chatId; ///< Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+    private String chatId; ///< Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername). In private chats and channel direct messages chats, no additional rights are required.
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
