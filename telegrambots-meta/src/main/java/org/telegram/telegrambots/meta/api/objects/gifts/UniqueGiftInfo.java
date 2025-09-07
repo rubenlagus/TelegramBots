@@ -35,6 +35,8 @@ public class UniqueGiftInfo implements BotApiObject {
     private static final String ORIGIN_FIELD = "origin";
     private static final String OWNED_GIFT_ID_FIELD = "owned_gift_id";
     private static final String TRANSFER_STAR_COUNT_FIELD = "transfer_star_count";
+    private static final String LAST_RESALE_STAR_COUNT_FIELD = "last_resale_star_count";
+    private static final String NEXT_TRANSFER_DATE_FIELD = "next_transfer_date";
 
     /**
      * Information about the gift
@@ -62,4 +64,18 @@ public class UniqueGiftInfo implements BotApiObject {
     @JsonProperty(TRANSFER_STAR_COUNT_FIELD)
     @NonNull
     private Integer transferStarCount;
+
+    /**
+     * Optional.
+     * For gifts bought from other users, the price paid for the gift
+     */
+    @JsonProperty(LAST_RESALE_STAR_COUNT_FIELD)
+    private Integer lastResaleStarCount;
+
+    /**
+     * Optional.
+     * Point in time (Unix timestamp) when the gift can be transferred. If it is in the past, then the gift can be transferred now
+     */
+    @JsonProperty(NEXT_TRANSFER_DATE_FIELD)
+    private String nextTransferDate;
 }

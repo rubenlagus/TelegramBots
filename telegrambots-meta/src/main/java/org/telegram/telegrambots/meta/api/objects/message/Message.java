@@ -35,6 +35,9 @@ import org.telegram.telegrambots.meta.api.objects.WriteAccessAllowed;
 import org.telegram.telegrambots.meta.api.objects.boost.ChatBoostAdded;
 import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 import org.telegram.telegrambots.meta.api.objects.chat.background.ChatBackground;
+import org.telegram.telegrambots.meta.api.objects.checklist.Checklist;
+import org.telegram.telegrambots.meta.api.objects.checklist.ChecklistTasksAdded;
+import org.telegram.telegrambots.meta.api.objects.checklist.ChecklistTasksDone;
 import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicClosed;
 import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicCreated;
 import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicEdited;
@@ -52,6 +55,7 @@ import org.telegram.telegrambots.meta.api.objects.giveaway.GiveawayWinners;
 import org.telegram.telegrambots.meta.api.objects.location.Location;
 import org.telegram.telegrambots.meta.api.objects.messageorigin.MessageOrigin;
 import org.telegram.telegrambots.meta.api.objects.passport.PassportData;
+import org.telegram.telegrambots.meta.api.objects.payments.DirectMessagePriceChanged;
 import org.telegram.telegrambots.meta.api.objects.payments.Invoice;
 import org.telegram.telegrambots.meta.api.objects.payments.RefundedPayment;
 import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
@@ -182,6 +186,10 @@ public class Message implements MaybeInaccessibleMessage {
     private static final String UNIQUE_GIFT_FIELD = "unique_gift";
     private static final String PAID_MESSAGE_PRICE_CHANGED_FIELD = "paid_message_price_changed";
     private static final String PAID_STAR_COUNT_FIELD = "paid_star_count";
+    private static final String DIRECT_MESSAGE_PRICE_CHANGED_FIELD = "direct_message_price_changed";
+    private static final String CHECKLIST_FIELD = "checklist";
+    private static final String CHECKLIST_TASKS_DONE_FIELD = "checklist_tasks_done";
+    private static final String CHECKLIST_TASKS_ADDED_FIELD = "checklist_tasks_added";
 
     /**
      * Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat),
@@ -787,6 +795,30 @@ public class Message implements MaybeInaccessibleMessage {
      */
     @JsonProperty(PAID_STAR_COUNT_FIELD)
     private Integer paidStarCount;
+    /**
+     * Optional.
+     * Service message: the price for paid messages in the corresponding direct messages chat of a channel has changed
+     */
+    @JsonProperty(DIRECT_MESSAGE_PRICE_CHANGED_FIELD)
+    private DirectMessagePriceChanged directMessagePriceChanged;
+    /**
+     * Optional.
+     * Message is a checklist
+     */
+    @JsonProperty(CHECKLIST_FIELD)
+    private Checklist checklist;
+    /**
+     * Optional.
+     * Service message: some tasks in a checklist were marked as done or not done
+     */
+    @JsonProperty(CHECKLIST_TASKS_DONE_FIELD)
+    private ChecklistTasksDone checklistTasksDone;
+    /**
+     * Optional.
+     * Service message: tasks were added to a checklist
+     */
+    @JsonProperty(CHECKLIST_TASKS_ADDED_FIELD)
+    private ChecklistTasksAdded checklistTasksAdded;
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {
@@ -1062,5 +1094,25 @@ public class Message implements MaybeInaccessibleMessage {
     @JsonIgnore
     public boolean hasPaidStarCount() {
         return paidStarCount != null;
+    }
+
+    @JsonIgnore
+    public boolean hasDirectMessagePriceChanged() {
+        return directMessagePriceChanged != null;
+    }
+
+    @JsonIgnore
+    public boolean hasChecklist() {
+        return checklist != null;
+    }
+
+    @JsonIgnore
+    public boolean hasChecklistTasksDone() {
+        return checklistTasksDone != null;
+    }
+
+    @JsonIgnore
+    public boolean hasChecklistTasksAdded() {
+        return checklistTasksAdded != null;
     }
 }

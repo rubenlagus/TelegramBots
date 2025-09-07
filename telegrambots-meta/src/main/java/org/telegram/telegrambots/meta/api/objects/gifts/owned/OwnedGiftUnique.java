@@ -39,6 +39,7 @@ public class OwnedGiftUnique extends OwnedGift {
     private static final String GIFT_FIELD = "gift";
     private static final String CAN_BE_TRANSFERRED_FIELD = "can_be_transferred";
     private static final String TRANSFER_STAR_COUNT_FIELD = "transfer_star_count";
+    private static final String NEXT_TRANSFER_DATE_FIELD = "next_transfer_date";
 
     /**
      * Information about the unique gift
@@ -60,6 +61,14 @@ public class OwnedGiftUnique extends OwnedGift {
      */
     @JsonProperty(TRANSFER_STAR_COUNT_FIELD)
     private Integer transferStarCount;
+
+    /**
+     * Optional.
+     * Point in time (Unix timestamp) when the gift can be transferred.
+     * If it is in the past, then the gift can be transferred now
+     */
+    @JsonProperty(NEXT_TRANSFER_DATE_FIELD)
+    private String nextTransferDate;
 
     @Override
     public String getType() {
