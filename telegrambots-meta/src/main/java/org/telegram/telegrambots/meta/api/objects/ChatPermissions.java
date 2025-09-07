@@ -86,7 +86,7 @@ public class ChatPermissions implements BotApiObject {
     private Boolean canSendVoiceNotes;
     /**
      * Optional.
-     * True, if the user is allowed to send polls, implies can_send_messages
+     * True, if the user is allowed to send polls and checklists
      */
     @JsonProperty(CAN_SEND_POLLS_FIELD)
     private Boolean canSendPolls;

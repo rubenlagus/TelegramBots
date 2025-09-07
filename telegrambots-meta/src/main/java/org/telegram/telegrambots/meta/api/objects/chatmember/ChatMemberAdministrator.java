@@ -76,15 +76,15 @@ public class ChatMemberAdministrator implements ChatMember {
     @JsonProperty(ISANONYMOUS_FIELD)
     private Boolean isAnonymous;
     /**
-     * True, if the administrator can access the chat event log, get boost list,
-     * see hidden supergroup and channel members, report spam messages and ignore slow mode.
-     *
-     * Implied by any other administrator privilege.
+     * True, if the administrator can access the chat event log, get boost list, see hidden supergroup 
+     * and channel members, report spam messages, ignore slow mode, and send messages to the chat 
+     * without paying Telegram Stars. Implied by any other administrator privilege.
      */
     @JsonProperty(CAN_MANAGE_CHAT_FIELD)
     private Boolean canManageChat;
     /**
-     * True, if the administrator can post messages in the channel; channels only
+     * True, if the administrator can post messages in the channel, approve suggested posts, 
+     * or access channel statistics; for channels only
      */
     @JsonProperty(CANPOSTMESSAGES_FIELD)
     private Boolean canPostMessages;

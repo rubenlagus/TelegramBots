@@ -64,8 +64,13 @@ public class PromoteChatMember extends BotApiMethodBoolean {
     private Long userId; ///< Required. Unique identifier of the target user
     @JsonProperty(CANCHANGEINFORMATION_FIELD)
     private Boolean canChangeInformation; ///< Optional. Pass True, if the administrator can change chat title, photo and other settings
+    /**
+     * Optional.
+     * Pass True if the administrator can post messages in the channel, approve suggested posts, 
+     * or access channel statistics; for channels only
+     */
     @JsonProperty(CANPOSTMESSAGES_FIELD)
-    private Boolean canPostMessages; ///< Optional. Pass True, if the administrator can create channel posts, channels only
+    private Boolean canPostMessages;
     @JsonProperty(CANEDITMESSAGES_FIELD)
     private Boolean canEditMessages; ///< Optional. Pass True, if the administrator can edit messages of other users, channels only
     @JsonProperty(CANDELETEMESSAGES_FIELD)
@@ -83,10 +88,9 @@ public class PromoteChatMember extends BotApiMethodBoolean {
     /**
      * Optional
      *
-     * Pass True, if the administrator can access the chat event log, chat statistics, message statistics in channels,
-     * see channel members, see anonymous administrators in supergoups and ignore slow mode.
-     *
-     * Implied by any other administrator privilege
+     * Pass True if the administrator can access the chat event log, get boost list, see hidden supergroup 
+     * and channel members, report spam messages, ignore slow mode, and send messages to the chat 
+     * without paying Telegram Stars. Implied by any other administrator privilege.
      */
     @JsonProperty(CAN_MANAGE_CHAT_FIELD)
     private Boolean canManageChat;
