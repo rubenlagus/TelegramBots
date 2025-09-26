@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.telegram</groupId>
         <artifactId>Bots</artifactId>
-        <version>9.1.0</version>
+        <version>9.2.0</version>
     </parent>
 
     <artifactId>telegrambots-longpolling</artifactId>
@@ -89,7 +89,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.5.0</version>
+            <version>1.5.18</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -24,6 +24,7 @@ import org.telegram.telegrambots.meta.util.Validations;
  * Use this method when you need to tell the user that something is happening on the bot's
  * side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram
  * clients clear its typing status).
+ * Channel chats and channel direct messages chats aren't supported.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -45,7 +46,7 @@ public class SendChatAction extends BotApiMethodBoolean {
 
     @JsonProperty(CHAT_ID_FIELD)
     @NonNull
-    private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
+    private String chatId; ///< Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername). Channel chats and channel direct messages chats aren't supported.
     /**
      * Type of action to broadcast. Choose one, depending on what the user is about to receive:
      * typing for text messages
