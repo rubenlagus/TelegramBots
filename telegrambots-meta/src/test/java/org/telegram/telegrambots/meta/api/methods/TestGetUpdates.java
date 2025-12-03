@@ -1,7 +1,9 @@
 package org.telegram.telegrambots.meta.api.methods;
 
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.updates.GetUpdates;
@@ -20,7 +22,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class TestGetUpdates {
 
     private GetUpdates getUpdates;
-    private ObjectMapper mapper = new ObjectMapper();
+    private ObjectMapper mapper = JsonMapper.builder()
+            .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
+            .build();
 
     @BeforeEach
     void setUp() {
@@ -34,7 +38,7 @@ class TestGetUpdates {
     void testGetUpdatesMustBeSerializable() throws Exception {
         String json = mapper.writeValueAsString(getUpdates);
         assertNotNull(json);
-        assertEquals("{\"offset\":15,\"limit\":100,\"timeout\":50,\"method\":\"getupdates\"}", json);
+        assertEquals("{\"limit\":100,\"method\":\"getupdates\",\"offset\":15,\"timeout\":50}", json);
     }
 
     @Test
