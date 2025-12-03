@@ -1,6 +1,8 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
@@ -16,14 +18,16 @@ public class TestSendMediaGroup {
 
     @BeforeEach
     void setUp() {
-        mapper = new ObjectMapper();
+        mapper = JsonMapper.builder()
+                .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
+                .build();
     }
 
     @Test
     public void test() {
         try {
-            String expectedJson = "{\"chatId\":\"12345\",\"medias\":[{\"media\":\"attach://321.png\",\"caption_entities\":[],\"type\":\"photo\"}," +
-                    "{\"media\":\"attach://123.png\",\"caption_entities\":[],\"type\":\"photo\"}]," +
+            String expectedJson = "{\"chatId\":\"12345\",\"medias\":[{\"caption_entities\":[],\"media\":\"attach://321.png\",\"type\":\"photo\"}," +
+                    "{\"caption_entities\":[],\"media\":\"attach://123.png\",\"type\":\"photo\"}]," +
                     "\"method\":\"sendMediaGroup\"}";
             InputStream is = new ByteArrayInputStream("RandomFileContent".getBytes());
             InputStream is2 = new ByteArrayInputStream("RandomFileContent2".getBytes());

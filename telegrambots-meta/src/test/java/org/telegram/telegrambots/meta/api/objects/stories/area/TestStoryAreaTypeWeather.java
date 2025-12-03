@@ -1,6 +1,8 @@
 package org.telegram.telegrambots.meta.api.objects.stories.area;
 
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -13,12 +15,14 @@ import static org.junit.jupiter.api.Assertions.fail;
  * @version 9.0
  */
 public class TestStoryAreaTypeWeather {
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = JsonMapper.builder()
+            .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
+            .build();
 
     @Test
     public void testJsonSerialization() {
         try {
-            String expectedJson = "{\"temperature\":25.5,\"emoji\":\"☀️\",\"background_color\":16777215,\"type\":\"weather\"}";
+            String expectedJson = "{\"background_color\":16777215,\"emoji\":\"☀️\",\"temperature\":25.5,\"type\":\"weather\"}";
             
             StoryAreaTypeWeather storyAreaTypeWeather = StoryAreaTypeWeather.builder()
                     .temperature(25.5f)
