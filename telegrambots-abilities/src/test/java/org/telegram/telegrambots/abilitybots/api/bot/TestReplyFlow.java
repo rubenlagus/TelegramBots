@@ -18,6 +18,7 @@ import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -159,6 +160,85 @@ public class TestReplyFlow {
     assertTrue(replyNames.containsAll(newHashSet("FIRST", "SECOND")));
   }
 
+  @Test
+  void testValidationFailPreventsStateChange() {
+    Reply dummyReply = Reply.of((b, u) -> {}, upd -> false);
+    ReplyFlow flow = ReplyFlow.builder(db, 1)
+            .action((bot, upd) -> silent.send("Message is good, lets go further", getChatId(upd)))
+            .validate(
+                    upd -> false,
+                    (bot, upd) -> silent.send("Validation Failed", getChatId(upd))
+            )
+            .next(dummyReply)
+            .build();
+
+    Update update = TestUtils.mockFullUpdate(bot, TestUtils.USER, "bad message puk kek");
+    long chatId = getChatId(update);
+
+    flow.actOn(bot, update);
+
+    verify(silent).send("Validation Failed", chatId);
+    verify(silent, never()).send("Message is good, lets go further", chatId);
+
+    assertFalse(db.<Long, Integer>getMap(ReplyFlow.ReplyFlowBuilder.STATES).containsKey(chatId),
+            "State should NOT be updated if validation fails");
+  }
+
+  @Test
+  void testValidationPassChangesState() {
+    Reply dummyReply = Reply.of((b, u) -> {}, upd -> false);
+    ReplyFlow flow = ReplyFlow.builder(db, 1)
+            .action((bot, upd) -> silent.send("Message is good, lets go further", getChatId(upd)))
+            .validate(
+                    upd -> true,
+                    (bot, upd) -> silent.send("Validation Failed", getChatId(upd))
+            )
+            .next(dummyReply)
+            .build();
+
+    Update update = TestUtils.mockFullUpdate(bot, TestUtils.USER, "good message mheh kek");
+    long chatId = getChatId(update);
+
+    flow.actOn(bot, update);
+
+    verify(silent).send("Message is good, lets go further", chatId);
+    verify(silent, never()).send("Validation Failed", chatId);
+
+    Map<Long, Integer> states = db.getMap(ReplyFlow.ReplyFlowBuilder.STATES);
+    assertTrue(states.containsKey(chatId), "State should be present after successful validation");
+    assertEquals(1, states.get(chatId), "User should be in state 1");
+  }
+
+  @Test
+  void testIntegratedValidationFailPreventsStateChange() {
+    Update upd = TestUtils.mockFullUpdate(bot, TestUtils.USER, "validate me right now >:)");
+    long chatId = getChatId(upd);
+
+    // filterReply returns false coz ReplyFlow ate upd
+    assertFalse(bot.filterReply(upd));
+
+    verify(silent, never()).send("Validated", chatId);
+
+    Map<Long, Integer> states = db.getMap(ReplyFlow.ReplyFlowBuilder.STATES);
+    assertFalse(states.containsKey(chatId),
+            "State should NOT be updated if validation fails");
+  }
+
+  @Test
+  void testIntegratedValidationPassChangesState() {
+    Update upd = TestUtils.mockFullUpdate(bot, TestUtils.USER, "validate meee pleaseeee");
+    long chatId = getChatId(upd);
+
+    assertFalse(bot.filterReply(upd));
+
+    verify(silent).send("Validated", chatId);
+    verify(silent, never()).send("Say magic word :P", chatId);
+
+    Map<Long, Integer> states = db.getMap(ReplyFlow.ReplyFlowBuilder.STATES);
+    assertTrue(states.containsKey(chatId), "State should be present after successful validation");
+    assertEquals(3, states.get(chatId), "User should be in state 3");
+  }
+
   public static class ReplyFlowBot extends AbilityBot {
 
     private ReplyFlowBot(TelegramClient telegramClient, String botUsername, DBContext db) {
@@ -198,6 +278,20 @@ public class TestReplyFlow {
           (upd) -> {
             throw new RuntimeException("Throwing an exception inside the reply conditions (flags)");
           });
+    }
+
+    public ReplyFlow validationFlow() {
+      Reply nextStep = Reply.of((b, u) -> {}, hasMessageWith("bomboclot"));
+
+      return ReplyFlow.builder(db, 3)
+              .action((bot, upd) -> silent.send("Validated", getChatId(upd)))
+              .onlyIf(upd -> Flag.MESSAGE.test(upd) && upd.getMessage().getText().toLowerCase().startsWith("validate me"))
+              .validate(
+                      update -> update.getMessage().getText().toLowerCase().contains("please"),
+                      (bot, upd) -> silent.send("Say magic word :P", getChatId(upd))
+              )
+              .next(nextStep)
+              .build();
     }
 
     public Ability replyFlowsWithAbility() {
