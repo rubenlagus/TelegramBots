@@ -12,7 +12,6 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.telegram.telegrambots.meta.api.objects.Audio;
 import org.telegram.telegrambots.meta.api.objects.ChatShared;
 import org.telegram.telegrambots.meta.api.objects.Contact;
@@ -69,9 +68,8 @@ import org.telegram.telegrambots.meta.api.objects.videochat.VideoChatStarted;
 import org.telegram.telegrambots.meta.api.objects.webapp.WebAppData;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.Objects;
 
 /**
  * This object represents a message.
@@ -870,13 +868,21 @@ public class Message implements MaybeInaccessibleMessage {
 
     @JsonIgnore
     public String getCommand() {
-        return Stream.ofNullable(entities)
-                .flatMap(Collection::stream)
-                .filter(entity -> entity != null && NumberUtils.INTEGER_ZERO.equals(entity.getOffset()))
-                .findFirst()
-                .filter(entity -> EntityType.BOTCOMMAND.equals(entity.getType()))
-                .map(MessageEntity::getText)
-                .orElse(null);
+        if (entities == null) {
+            return null;
+        }
+
+        for (var entity : entities) {
+            if (entity != null && Objects.equals(entity.getOffset(), 0)) {
+                if (EntityType.BOTCOMMAND.equals(entity.getType())) {
+                    return entity.getText();
+                }
+
+                break;
+            }
+        }
+
+        return null;
     }
 
     @JsonIgnore
