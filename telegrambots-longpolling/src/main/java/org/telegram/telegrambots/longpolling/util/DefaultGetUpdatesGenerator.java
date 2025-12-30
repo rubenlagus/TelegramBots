@@ -9,12 +9,16 @@ import java.util.function.Function;
 @AllArgsConstructor
 public class DefaultGetUpdatesGenerator implements Function<Integer, GetUpdates> {
 
-    public static final DefaultGetUpdatesGenerator INSTANCE = new DefaultGetUpdatesGenerator(List.of());
+    public static final DefaultGetUpdatesGenerator INSTANCE = new DefaultGetUpdatesGenerator();
 
     private static final int GET_UPDATES_LIMIT = 100;
     private static final int GET_UPDATES_TIMEOUT = 50;
 
     private final List<String> allowedUpdates;
+
+    public DefaultGetUpdatesGenerator() {
+        this(List.of());
+    }
 
     @Override
     public GetUpdates apply(Integer lastReceivedUpdate) {
