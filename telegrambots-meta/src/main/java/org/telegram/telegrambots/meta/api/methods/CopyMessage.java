@@ -136,7 +136,7 @@ public class CopyMessage extends BotApiMethod<MessageId> {
      * New start timestamp for the copied video in the message
      */
     @JsonProperty(VIDEO_START_TIMESTAMP_FIELD)
-    private Boolean videoStartTimestamp;
+    private Integer videoStartTimestamp;
 
     /**
      * Optional
