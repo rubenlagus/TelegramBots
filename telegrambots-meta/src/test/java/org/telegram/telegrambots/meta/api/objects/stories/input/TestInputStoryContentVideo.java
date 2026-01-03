@@ -1,6 +1,8 @@
 package org.telegram.telegrambots.meta.api.objects.stories.input;
 
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -13,12 +15,14 @@ import static org.junit.jupiter.api.Assertions.fail;
  * @version 9.0
  */
 public class TestInputStoryContentVideo {
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = JsonMapper.builder()
+            .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
+            .build();
 
     @Test
     public void testJsonSerialization() {
         try {
-            String expectedJson = "{\"video\":\"test_video.mp4\",\"duration\":30.5,\"cover_frame_timestamp\":10.5,\"is_animation\":true,\"type\":\"video\"}";
+            String expectedJson = "{\"cover_frame_timestamp\":10.5,\"duration\":30.5,\"is_animation\":true,\"type\":\"video\",\"video\":\"test_video.mp4\"}";
             
             InputStoryContentVideo inputStoryContentVideo = InputStoryContentVideo.builder()
                     .video("test_video.mp4")
