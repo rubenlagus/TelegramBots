@@ -1,5 +1,7 @@
 package org.telegram.telegrambots.meta.api.methods.stories;
 
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -13,12 +15,14 @@ import static org.junit.jupiter.api.Assertions.fail;
  * @version 9.0
  */
 public class TestDeleteStory {
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = JsonMapper.builder()
+            .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
+            .build();
 
     @Test
     public void testJsonSerialization() {
         try {
-            String expectedJson = "{\"business_connection_id\":\"12345\",\"story_id\":67890,\"method\":\"deleteStory\"}";
+            String expectedJson = "{\"business_connection_id\":\"12345\",\"method\":\"deleteStory\",\"story_id\":67890}";
             
             DeleteStory deleteStory = DeleteStory.builder()
                     .businessConnectionId("12345")
