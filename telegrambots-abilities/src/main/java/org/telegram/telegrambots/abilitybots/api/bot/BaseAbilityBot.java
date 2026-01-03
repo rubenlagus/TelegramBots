@@ -210,6 +210,7 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
     public Privacy getPrivacy(Update update, long id) {
         return isCreator(id) ?
             Privacy.CREATOR : isAdmin(id) ?
+            Privacy.ADMIN : (update.hasChannelPost() || update.hasEditedChannelPost()) ?
             Privacy.ADMIN : (isGroupUpdate(update) || isSuperGroupUpdate(update)) && isGroupAdmin(update, id) ?
             Privacy.GROUP_ADMIN : Privacy.PUBLIC;
     }
@@ -591,8 +592,8 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
     Trio<Update, Ability, String[]> getAbility(Update update) {
         // Handle updates without messages
         // Passing through this function means that the global flags have passed
-        Message msg = update.getMessage();
-        if (!update.hasMessage() || !msg.hasText())
+        Message msg = AbilityUtils.getMessage(update);
+        if (msg == null || !msg.hasText())
             return Trio.of(update, abilities.get(DEFAULT), new String[]{});
 
         Ability ability;
@@ -652,6 +653,7 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
     private boolean hasUser(Update update) {
         // Valid updates without users should return an empty user
         // Updates that are not recognized by the getUser method will throw an exception
+        if (update.hasChannelPost() || update.hasEditedChannelPost()) return true;
         return !AbilityUtils.getUser(update).equals(EMPTY_USER);
     }
 
