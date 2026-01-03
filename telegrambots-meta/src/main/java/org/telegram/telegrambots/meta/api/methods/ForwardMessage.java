@@ -86,7 +86,15 @@ public class ForwardMessage extends BotApiMethodMessage {
      * New start timestamp for the copied video in the message
      */
     @JsonProperty(VIDEO_START_TIMESTAMP_FIELD)
-    private Boolean videoStartTimestamp;
+    private Integer videoStartTimestamp;
+
+    /**
+     * Optional
+     * A JSON-serialized object containing the parameters of the suggested post to send;
+     * for direct messages chats only
+     */
+    @JsonProperty(SUGGESTED_POST_PARAMETERS_FIELD)
+    private SuggestedPostParameters suggestedPostParameters;
 
     /**
      * Optional
