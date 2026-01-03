@@ -21,10 +21,10 @@ import org.telegram.telegrambots.meta.util.Validations;
  * @author Ruben Bermudez
  * @version 3.1
  * Use this method to add a message to the list of pinned messages in a chat.
+ * In private chats and channel direct messages chats, all non-service messages can be pinned.
+ * Conversely, the bot must be an administrator with the 'can_pin_messages' right or the 'can_edit_messages' right
+ * to pin messages in groups and channels respectively.
  * Returns True on success.
- *
- * @apiNote If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must
- * have the 'can_pin_messages' admin right in a supergroup or 'can_edit_messages' admin right in a channel.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -46,7 +46,9 @@ public class PinChatMessage extends BotApiMethodBoolean {
 
     /**
      * Required.
-     * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * Unique identifier for the target chat or username of the target channel (in the format @channelusername).
+     * In private chats and channel direct messages chats, all non-service messages can be pinned.
+     * In groups and channels, the bot must be an administrator with appropriate rights.
      */
     @JsonProperty(CHAT_ID_FIELD)
     @NonNull

@@ -41,7 +41,8 @@ public class VerifyChat extends BotApiMethodBoolean {
     private static final String CUSTOM_DESCRIPTION_FIELD = "custom_description";
 
     /**
-     * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * Unique identifier for the target chat or username of the target channel (in the format @channelusername).
+     * Channel direct messages chats can't be verified.
      */
     @JsonProperty(CHAT_ID_FIELD)
     @NonNull

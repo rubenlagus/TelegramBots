@@ -1,7 +1,9 @@
 package org.telegram.telegrambots.meta.test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.Data;
 import org.junit.jupiter.api.Test;
@@ -22,7 +24,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @version 1.0
  */
 public class TestSerialization {
-    private ObjectMapper mapper = new ObjectMapper();
+    private ObjectMapper mapper = JsonMapper.builder()
+            .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
+            .build();
 
     static {
         System.setProperty("user.timezone", "EST");
@@ -47,7 +51,9 @@ public class TestSerialization {
 
     //@BeforeEach
     void setUp() {
-        mapper = new ObjectMapper();
+        mapper = JsonMapper.builder()
+                .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
+                .build();
     }
 
     @Test
@@ -69,7 +75,7 @@ public class TestSerialization {
         String json = mapper.writeValueAsString(location);
 
         assertNotNull(json);
-        assertEquals("{\"chat_id\":\"12345\",\"latitude\":20.758069,\"longitude\":-0.005702,\"disable_notification\":true,\"reply_to_message_id\":1,\"live_period\":100,\"allow_sending_without_reply\":true,\"horizontal_accuracy\":65.0,\"heading\":125,\"proximity_alert_radius\":100,\"method\":\"sendlocation\"}",
+        assertEquals("{\"allow_sending_without_reply\":true,\"chat_id\":\"12345\",\"disable_notification\":true,\"heading\":125,\"horizontal_accuracy\":65.0,\"latitude\":20.758069,\"live_period\":100,\"longitude\":-0.005702,\"method\":\"sendlocation\",\"proximity_alert_radius\":100,\"reply_to_message_id\":1}",
                 json);
     }
 
@@ -103,7 +109,7 @@ public class TestSerialization {
         String json = mapper.writeValueAsString(inlineQuery);
 
         assertNotNull(json);
-        assertEquals("{\"inline_query_id\":\"12345\",\"results\":[{\"type\":\"article\",\"id\":\"1\",\"title\":\"Title\",\"input_message_content\":{\"latitude\":20.758069,\"longitude\":-0.005702,\"horizontal_accuracy\":65.0}}],\"cache_time\":1,\"is_personal\":true,\"next_offset\":\"2\",\"button\":{\"text\":\"switch\",\"start_parameter\":\"parameter\"},\"method\":\"answerInlineQuery\"}",
+        assertEquals("{\"button\":{\"start_parameter\":\"parameter\",\"text\":\"switch\"},\"cache_time\":1,\"inline_query_id\":\"12345\",\"is_personal\":true,\"method\":\"answerInlineQuery\",\"next_offset\":\"2\",\"results\":[{\"id\":\"1\",\"input_message_content\":{\"horizontal_accuracy\":65.0,\"latitude\":20.758069,\"longitude\":-0.005702},\"title\":\"Title\",\"type\":\"article\"}]}",
                 json);
     }
 }

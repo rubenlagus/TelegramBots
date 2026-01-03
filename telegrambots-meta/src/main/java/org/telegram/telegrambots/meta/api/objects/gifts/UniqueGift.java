@@ -13,6 +13,7 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
+import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 
 /**
  * @author Ruben Bermudez
@@ -37,6 +38,7 @@ public class UniqueGift implements BotApiObject {
     private static final String MODEL_FIELD = "model";
     private static final String SYMBOL_FIELD = "symbol";
     private static final String BACKDROP_FIELD = "backdrop";
+    private static final String PUBLISHER_CHAT_FIELD = "publisher_chat";
 
     /**
      * Human-readable name of the regular gift from which this unique gift was upgraded
@@ -71,4 +73,11 @@ public class UniqueGift implements BotApiObject {
      */
     @JsonProperty(BACKDROP_FIELD)
     private UniqueGiftBackdrop backdrop;
+
+    /**
+     * Optional.
+     * Information about the chat that published the gift
+     */
+    @JsonProperty(PUBLISHER_CHAT_FIELD)
+    private Chat publisherChat;
 }

@@ -52,6 +52,8 @@ public class ReplyFlow extends Reply {
     private BiConsumer<BaseAbilityBot, Update> action;
     private Set<Reply> nextReplies;
     private String name;
+    private Predicate<Update> validator;
+    private BiConsumer<BaseAbilityBot, Update> failureAction;
 
     private ReplyFlowBuilder(DBContext db, int id) {
       conds = new ArrayList<>();
@@ -66,6 +68,30 @@ public class ReplyFlow extends Reply {
 
     public ReplyFlowBuilder action(BiConsumer<BaseAbilityBot, Update> action) {
       this.action = action;
+      return this;
+    }
+
+    /**
+     * This is validation step of the flow
+     * <p>
+     * Executes by the folloiwng steps {@code onlyIf} -> {@code validate} -> {@code action}
+     * </p>
+     * <p>
+     * Behavior:
+     * <ul>
+     * <li>If {@code validator} returns {@code true}:  flow proceeds normally (executes main action, updates state).</li>
+     * <li>If {@code validator} returns {@code false}: The {@code failureAction} is executed, the main action is skipped,
+     * and the user's state remains unchanged (it is <b>NOT</b> updated to the new state ID).</li>
+     * </ul>
+     * </p>
+     *
+     * @param validator     a predicate to check the update (like verifying a password).
+     * @param failureAction the callback to execute if validation fails (like sending an error message to the user).
+     * @return current {@link ReplyFlowBuilder} instance for chaining
+     */
+    public ReplyFlowBuilder validate(Predicate<Update> validator, BiConsumer<BaseAbilityBot, Update> failureAction) {
+      this.validator = validator;
+      this.failureAction = failureAction;
       return this;
     }
 
@@ -103,18 +129,29 @@ public class ReplyFlow extends Reply {
       if (action == null)
         action = (bot, upd) -> {};
 
-      BiConsumer<BaseAbilityBot, Update> statefulAction;
+      BiConsumer<BaseAbilityBot, Update> stateTransition;
       if (nextReplies.size() > 0) {
-        statefulAction = action.andThen((bot, upd) -> {
+         stateTransition = (bot, upd) -> {
           Long chatId = AbilityUtils.getChatId(upd);
           db.<Long, Integer>getMap(STATES).put(chatId, id);
-        });
+        };
       } else {
-        statefulAction = action.andThen((bot, upd) -> {
+        stateTransition = (bot, upd) -> {
           Long chatId = AbilityUtils.getChatId(upd);
           db.<Long, Integer>getMap(STATES).remove(chatId);
-        });
+        };
       }
+
+      BiConsumer<BaseAbilityBot, Update> statefulAction = (bot, upd) -> {
+        if (validator == null || validator.test(upd)) {
+          action.accept(bot, upd);
+          stateTransition.accept(bot, upd);
+        } else {
+          if (failureAction != null) {
+            failureAction.accept(bot, upd);
+          }
+        }
+      };
 
       return new ReplyFlow(conds, statefulAction, nextReplies, name);
     }

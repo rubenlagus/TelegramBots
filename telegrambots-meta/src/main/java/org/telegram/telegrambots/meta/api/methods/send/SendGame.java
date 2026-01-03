@@ -40,6 +40,7 @@ import org.telegram.telegrambots.meta.util.Validations;
  * @author Ruben Bermudez
  * @version 1.0
  * Use this method to send a game. On success, the sent Message is returned.
+ * Games can't be sent to channel direct messages chats and channel chats.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -56,6 +57,7 @@ public class SendGame extends BotApiMethodMessage {
 
     private static final String CHAT_ID_FIELD = "chat_id";
     private static final String MESSAGE_THREAD_ID_FIELD = "message_thread_id";
+    private static final String DIRECT_MESSAGES_TOPIC_ID_FIELD = "direct_messages_topic_id";
     private static final String GAME_SHORT_NAME_FIELD = "game_short_name";
     private static final String DISABLE_NOTIFICATION_FIELD = "disable_notification";
     private static final String REPLY_TO_MESSAGE_ID_FIELD = "reply_to_message_id";
@@ -69,13 +71,20 @@ public class SendGame extends BotApiMethodMessage {
 
     @JsonProperty(CHAT_ID_FIELD)
     @NonNull
-    private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
+    private String chatId; ///< Unique identifier for the target chat. Games can't be sent to channel direct messages chats and channel chats.
     /**
      * Unique identifier for the target message thread (topic) of the forum;
      * for forum supergroups only
      */
     @JsonProperty(MESSAGE_THREAD_ID_FIELD)
     private Integer messageThreadId;
+    /**
+     * Optional.
+     * Identifier of the direct messages topic to which the message will be sent;
+     * required if the message is sent to a direct messages chat
+     */
+    @JsonProperty(DIRECT_MESSAGES_TOPIC_ID_FIELD)
+    private Integer directMessagesTopicId;
     @JsonProperty(GAME_SHORT_NAME_FIELD)
     @NonNull
     private String gameShortName; ///< Short name of the game
