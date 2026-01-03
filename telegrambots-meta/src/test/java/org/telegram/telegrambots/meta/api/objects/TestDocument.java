@@ -1,6 +1,8 @@
 package org.telegram.telegrambots.meta.api.objects;
 
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.photo.PhotoSize;
@@ -13,7 +15,9 @@ public class TestDocument {
 
     @BeforeEach
     void setUp() {
-        mapper = new ObjectMapper();
+        mapper = JsonMapper.builder()
+                .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
+                .build();
     }
 
     @Test
@@ -21,7 +25,7 @@ public class TestDocument {
         String expected = "{" +
                 "\"file_id\":\"docFileId\"," +
                 "\"file_unique_id\":\"docFileUniqueId\"," +
-                "\"thumbnail\":{\"file_id\":\"fileId\",\"file_unique_id\":\"fileUniqueId\",\"width\":200,\"height\":100,\"file_size\":150}" +
+                "\"thumbnail\":{\"file_id\":\"fileId\",\"file_size\":150,\"file_unique_id\":\"fileUniqueId\",\"height\":100,\"width\":200}" +
                 "}";
         Document document = Document
                 .builder()

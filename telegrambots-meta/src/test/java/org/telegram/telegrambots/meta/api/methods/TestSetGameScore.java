@@ -1,6 +1,8 @@
 package org.telegram.telegrambots.meta.api.methods;
 
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.games.SetGameScore;
@@ -20,7 +22,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class TestSetGameScore {
 
     private SetGameScore setGameScore;
-    private ObjectMapper mapper = new ObjectMapper();
+    private ObjectMapper mapper = JsonMapper.builder()
+            .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
+            .build();
 
     @BeforeEach
     void setUp() {
@@ -34,7 +38,7 @@ class TestSetGameScore {
     void TestGetUpdatesMustBeSerializable() throws Exception {
         String json = mapper.writeValueAsString(setGameScore);
         assertNotNull(json);
-        assertEquals("{\"chat_id\":\"12345\",\"message_id\":54321,\"disable_edit_message\":true,\"user_id\":98765,\"score\":12,\"method\":\"setGameScore\"}", json);
+        assertEquals("{\"chat_id\":\"12345\",\"disable_edit_message\":true,\"message_id\":54321,\"method\":\"setGameScore\",\"score\":12,\"user_id\":98765}", json);
     }
 
     @Test

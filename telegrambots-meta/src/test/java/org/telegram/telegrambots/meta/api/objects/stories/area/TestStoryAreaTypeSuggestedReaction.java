@@ -1,6 +1,8 @@
 package org.telegram.telegrambots.meta.api.objects.stories.area;
 
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.reactions.ReactionType;
 import org.telegram.telegrambots.meta.api.objects.reactions.ReactionTypeEmoji;
@@ -14,12 +16,14 @@ import static org.junit.jupiter.api.Assertions.fail;
  * @version 9.0
  */
 public class TestStoryAreaTypeSuggestedReaction {
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = JsonMapper.builder()
+            .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
+            .build();
 
     @Test
     public void testJsonSerialization() {
         try {
-            String expectedJson = "{\"reaction_type\":{\"type\":\"emoji\",\"emoji\":\"👍\"},\"is_dark\":true,\"is_flipped\":true,\"type\":\"suggested_reaction\"}";
+            String expectedJson = "{\"is_dark\":true,\"is_flipped\":true,\"reaction_type\":{\"emoji\":\"👍\",\"type\":\"emoji\"},\"type\":\"suggested_reaction\"}";
             
             ReactionType reactionType = new ReactionTypeEmoji("👍");
             StoryAreaTypeSuggestedReaction storyAreaTypeSuggestedReaction = StoryAreaTypeSuggestedReaction.builder()

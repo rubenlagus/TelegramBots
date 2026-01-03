@@ -34,7 +34,7 @@ public class DirectMessagesTopic implements BotApiObject {
      */
     @JsonProperty(TOPIC_ID_FIELD)
     @NonNull
-    private Integer topicId;
+    private Long topicId;
 
     /**
      * Optional.
