@@ -6,6 +6,7 @@ import org.telegram.telegrambots.abilitybots.api.objects.MessageContext;
 import org.telegram.telegrambots.abilitybots.api.objects.Flag;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 
 import java.text.MessageFormat;
 import java.util.Locale;
@@ -325,5 +326,23 @@ public final class AbilityUtils {
   public static boolean isValidCommandName(String commandName){
     if (commandName == null || commandName.length() > 31) return false;
     return commandName.matches("[A-Za-z_0-9]+");
+  }
+
+  /**
+   * Extracts the Message from the Update regardless of the type (Message, ChannelPost, etc).
+   * @param update Telegram {@link Update}
+   * @return Message object or null if not found
+   */
+  public static Message getMessage(Update update){
+    if (Flag.MESSAGE.test(update)) {
+      return update.getMessage();
+    } else if (Flag.EDITED_MESSAGE.test(update)) {
+      return update.getEditedMessage();
+    } else if (Flag.CHANNEL_POST.test(update)){
+      return update.getChannelPost();
+    } else if (Flag.EDITED_CHANNEL_POST.test(update)) {
+      return update.getEditedChannelPost();
+    }
+    return null;
   }
 }
