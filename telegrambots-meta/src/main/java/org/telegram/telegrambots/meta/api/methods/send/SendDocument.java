@@ -18,6 +18,7 @@ import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostParameters;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 import org.telegram.telegrambots.meta.util.Validations;
@@ -57,6 +58,12 @@ public class SendDocument extends SendMediaBotMethod<Message> {
      * for forum supergroups only
      */
     private Integer messageThreadId;
+    /**
+     * Optional.
+     * Identifier of the direct messages topic to which the message will be sent;
+     * required if the message is sent to a direct messages chat
+     */
+    private Integer directMessagesTopicId;
     @NonNull
     private InputFile document; ///< File file to send. file_id as String to resend a file that is already on the Telegram servers or Url to upload it
     private String caption; ///< Optional. Document caption (may also be used when resending documents by file_id), 0-200 characters
@@ -106,6 +113,13 @@ public class SendDocument extends SendMediaBotMethod<Message> {
      */
     private Boolean allowPaidBroadcast;
     
+    /**
+     * Optional
+     * A JSON-serialized object containing the parameters of the suggested post to send;
+     * for direct messages chats only
+     */
+    private SuggestedPostParameters suggestedPostParameters;
+
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
         this.chatId = chatId.toString();
