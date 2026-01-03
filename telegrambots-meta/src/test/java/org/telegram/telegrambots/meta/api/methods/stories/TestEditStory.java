@@ -1,6 +1,8 @@
 package org.telegram.telegrambots.meta.api.methods.stories;
 
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.stories.StoryArea;
@@ -20,7 +22,9 @@ import static org.junit.jupiter.api.Assertions.fail;
  * @version 9.0
  */
 public class TestEditStory {
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = JsonMapper.builder()
+            .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
+            .build();
 
     @Test
     public void testJsonSerialization() {
@@ -45,12 +49,13 @@ public class TestEditStory {
                             .build())
                     .build();
             
-            String expectedJson = "{\"business_connection_id\":\"12345\",\"story_id\":67890,\"content\":{\"photo\":" +
-                    "\"test_photo.jpg\",\"type\":\"photo\"},\"caption\":\"Test Caption\",\"parse_mode\":\"HTML\"," +
-                    "\"caption_entities\":[{\"type\":\"bold\",\"offset\":0,\"length\":4}],\"areas\":[{\"position\":" +
-                    "{\"x_percentage\":0.1,\"y_percentage\":0.2,\"width_percentage\":0.3,\"height_percentage\":0.4," +
-                    "\"rotation_angle\":0.0,\"corner_radius_percentage\":0.0},\"type\":{\"url\":\"https://t.me/test\"," +
-                    "\"type\":\"link\"}}],\"method\":\"editStory\"}";
+            String expectedJson = "{\"areas\":[{\"position\":{\"corner_radius_percentage\":0.0," +
+                    "\"height_percentage\":0.4,\"rotation_angle\":0.0,\"width_percentage\":0.3," +
+                    "\"x_percentage\":0.1,\"y_percentage\":0.2},\"type\":{\"type\":\"link\",\"url\":" +
+                    "\"https://t.me/test\"}}],\"business_connection_id\":\"12345\",\"caption\":\"Test Caption\"," +
+                    "\"caption_entities\":[{\"length\":4,\"offset\":0,\"type\":\"bold\"}],\"content\":" +
+                    "{\"photo\":\"test_photo.jpg\",\"type\":\"photo\"},\"method\":\"editStory\"," +
+                    "\"parse_mode\":\"HTML\",\"story_id\":67890}";
             
             EditStory editStory = EditStory.builder()
                     .businessConnectionId("12345")
