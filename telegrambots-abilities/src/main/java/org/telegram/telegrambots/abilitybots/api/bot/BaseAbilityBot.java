@@ -21,11 +21,11 @@ import org.telegram.telegrambots.abilitybots.api.util.Pair;
 import org.telegram.telegrambots.abilitybots.api.util.Trio;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdministrators;
-import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberAdministrator;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberOwner;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 import java.lang.reflect.InvocationTargetException;
@@ -143,14 +143,14 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
     }
 
     /**
-     * @return the map of <ID,User>
+     * @return the map of {@code <ID, User>}
      */
     public Map<Long, User> users() {
         return db.getMap(USERS);
     }
 
     /**
-     * @return the map of <Username,ID>
+     * @return the map of {@code <Username, ID>}
      */
     public Map<String, Long> userIds() {
         return db.getMap(USER_ID);
