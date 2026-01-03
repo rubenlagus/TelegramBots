@@ -96,14 +96,6 @@ public class ForwardMessage extends BotApiMethodMessage {
     @JsonProperty(SUGGESTED_POST_PARAMETERS_FIELD)
     private SuggestedPostParameters suggestedPostParameters;
 
-    /**
-     * Optional
-     * A JSON-serialized object containing the parameters of the suggested post to send;
-     * for direct messages chats only
-     */
-    @JsonProperty(SUGGESTED_POST_PARAMETERS_FIELD)
-    private SuggestedPostParameters suggestedPostParameters;
-
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
         this.chatId = chatId.toString();
