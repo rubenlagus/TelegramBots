@@ -971,7 +971,7 @@ public class Message implements MaybeInaccessibleMessage {
 
     @JsonIgnore
     public String getCommand() {
-        if (entities == null) {
+        if (!hasEntities() || !hasText()) {
             return null;
         }
 
