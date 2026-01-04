@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.telegram</groupId>
         <artifactId>Bots</artifactId>
-        <version>9.0.0</version>
+        <version>9.2.1</version>
     </parent>
 
     <artifactId>telegrambots-webhook</artifactId>
@@ -39,17 +39,6 @@
         </license>
     </licenses>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
-
     <properties>
         <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -58,7 +47,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <javalin.version>6.1.3</javalin.version>
+        <javalin.version>6.7.0</javalin.version>
         <log4j.version>2.18.0</log4j.version>
     </properties>
 
@@ -128,7 +117,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.5.0</version>
+            <version>1.5.18</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

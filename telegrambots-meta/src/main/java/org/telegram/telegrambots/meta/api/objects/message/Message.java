@@ -35,6 +35,9 @@ import org.telegram.telegrambots.meta.api.objects.WriteAccessAllowed;
 import org.telegram.telegrambots.meta.api.objects.boost.ChatBoostAdded;
 import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 import org.telegram.telegrambots.meta.api.objects.chat.background.ChatBackground;
+import org.telegram.telegrambots.meta.api.objects.checklist.Checklist;
+import org.telegram.telegrambots.meta.api.objects.checklist.ChecklistTasksAdded;
+import org.telegram.telegrambots.meta.api.objects.checklist.ChecklistTasksDone;
 import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicClosed;
 import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicCreated;
 import org.telegram.telegrambots.meta.api.objects.forum.ForumTopicEdited;
@@ -52,6 +55,7 @@ import org.telegram.telegrambots.meta.api.objects.giveaway.GiveawayWinners;
 import org.telegram.telegrambots.meta.api.objects.location.Location;
 import org.telegram.telegrambots.meta.api.objects.messageorigin.MessageOrigin;
 import org.telegram.telegrambots.meta.api.objects.passport.PassportData;
+import org.telegram.telegrambots.meta.api.objects.payments.DirectMessagePriceChanged;
 import org.telegram.telegrambots.meta.api.objects.payments.Invoice;
 import org.telegram.telegrambots.meta.api.objects.payments.RefundedPayment;
 import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
@@ -61,6 +65,12 @@ import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 import org.telegram.telegrambots.meta.api.objects.stories.Story;
+import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostApprovalFailed;
+import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostApproved;
+import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostDeclined;
+import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostInfo;
+import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostPaid;
+import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostRefunded;
 import org.telegram.telegrambots.meta.api.objects.videochat.VideoChatEnded;
 import org.telegram.telegrambots.meta.api.objects.videochat.VideoChatParticipantsInvited;
 import org.telegram.telegrambots.meta.api.objects.videochat.VideoChatScheduled;
@@ -184,6 +194,19 @@ public class Message implements MaybeInaccessibleMessage {
     private static final String UNIQUE_GIFT_FIELD = "unique_gift";
     private static final String PAID_MESSAGE_PRICE_CHANGED_FIELD = "paid_message_price_changed";
     private static final String PAID_STAR_COUNT_FIELD = "paid_star_count";
+    private static final String DIRECT_MESSAGE_PRICE_CHANGED_FIELD = "direct_message_price_changed";
+    private static final String CHECKLIST_FIELD = "checklist";
+    private static final String CHECKLIST_TASKS_DONE_FIELD = "checklist_tasks_done";
+    private static final String CHECKLIST_TASKS_ADDED_FIELD = "checklist_tasks_added";
+    private static final String REPLY_TO_CHECKLIST_TASK_ID_FIELD = "reply_to_checklist_task_id";
+    private static final String IS_PAID_POST_FIELD = "is_paid_post";
+    private static final String DIRECT_MESSAGES_TOPIC_FIELD = "direct_messages_topic";
+    private static final String SUGGESTED_POST_INFO_FIELD = "suggested_post_info";
+    private static final String SUGGESTED_POST_APPROVED_FIELD = "suggested_post_approved";
+    private static final String SUGGESTED_POST_APPROVAL_FAILED_FIELD = "suggested_post_approval_failed";
+    private static final String SUGGESTED_POST_DECLINED_FIELD = "suggested_post_declined";
+    private static final String SUGGESTED_POST_PAID_FIELD = "suggested_post_paid";
+    private static final String SUGGESTED_POST_REFUNDED_FIELD = "suggested_post_refunded";
 
     /**
      * Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a
@@ -797,6 +820,86 @@ public class Message implements MaybeInaccessibleMessage {
      */
     @JsonProperty(PAID_STAR_COUNT_FIELD)
     private Integer paidStarCount;
+    /**
+     * Optional.
+     * Service message: the price for paid messages in the corresponding direct messages chat of a channel has changed
+     */
+    @JsonProperty(DIRECT_MESSAGE_PRICE_CHANGED_FIELD)
+    private DirectMessagePriceChanged directMessagePriceChanged;
+    /**
+     * Optional.
+     * Message is a checklist
+     */
+    @JsonProperty(CHECKLIST_FIELD)
+    private Checklist checklist;
+    /**
+     * Optional.
+     * Service message: some tasks in a checklist were marked as done or not done
+     */
+    @JsonProperty(CHECKLIST_TASKS_DONE_FIELD)
+    private ChecklistTasksDone checklistTasksDone;
+    /**
+     * Optional.
+     * Service message: tasks were added to a checklist
+     */
+    @JsonProperty(CHECKLIST_TASKS_ADDED_FIELD)
+    private ChecklistTasksAdded checklistTasksAdded;
+    /**
+     * Optional.
+     * Identifier of the specific checklist task that is being replied to
+     */
+    @JsonProperty(REPLY_TO_CHECKLIST_TASK_ID_FIELD)
+    private Integer replyToChecklistTaskId;
+    /**
+     * Optional.
+     * True, if the message is a paid post. Note that such posts must not be deleted for 24 hours
+     * to receive the payment and can't be edited.
+     */
+    @JsonProperty(IS_PAID_POST_FIELD)
+    private Boolean isPaidPost;
+    /**
+     * Optional.
+     * Information about the direct messages chat topic that contains the message
+     */
+    @JsonProperty(DIRECT_MESSAGES_TOPIC_FIELD)
+    private DirectMessagesTopic directMessagesTopic;
+    /**
+     * Optional.
+     * Information about suggested post parameters if the message is a suggested post in a channel direct messages chat.
+     * If the message is an approved or declined suggested post, then it can't be edited.
+     */
+    @JsonProperty(SUGGESTED_POST_INFO_FIELD)
+    private SuggestedPostInfo suggestedPostInfo;
+    /**
+     * Optional.
+     * Service message: a suggested post was approved
+     */
+    @JsonProperty(SUGGESTED_POST_APPROVED_FIELD)
+    private SuggestedPostApproved suggestedPostApproved;
+    /**
+     * Optional.
+     * Service message: approval of a suggested post has failed
+     */
+    @JsonProperty(SUGGESTED_POST_APPROVAL_FAILED_FIELD)
+    private SuggestedPostApprovalFailed suggestedPostApprovalFailed;
+    /**
+     * Optional.
+     * Service message: a suggested post was declined
+     */
+    @JsonProperty(SUGGESTED_POST_DECLINED_FIELD)
+    private SuggestedPostDeclined suggestedPostDeclined;
+    /**
+     * Optional.
+     * Service message: payment for a suggested post was received
+     */
+    @JsonProperty(SUGGESTED_POST_PAID_FIELD)
+    private SuggestedPostPaid suggestedPostPaid;
+    /**
+     * Optional.
+     * Service message: payment for a suggested post was refunded
+     */
+    @JsonProperty(SUGGESTED_POST_REFUNDED_FIELD)
+    private SuggestedPostRefunded suggestedPostRefunded;
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {
@@ -1083,5 +1186,70 @@ public class Message implements MaybeInaccessibleMessage {
     @JsonIgnore
     public boolean hasPaidStarCount() {
         return paidStarCount != null;
+    }
+
+    @JsonIgnore
+    public boolean hasDirectMessagePriceChanged() {
+        return directMessagePriceChanged != null;
+    }
+
+    @JsonIgnore
+    public boolean hasChecklist() {
+        return checklist != null;
+    }
+
+    @JsonIgnore
+    public boolean hasChecklistTasksDone() {
+        return checklistTasksDone != null;
+    }
+
+    @JsonIgnore
+    public boolean hasChecklistTasksAdded() {
+        return checklistTasksAdded != null;
+    }
+
+    @JsonIgnore
+    public boolean hasReplyToChecklistTaskId() {
+        return replyToChecklistTaskId != null;
+    }
+
+    @JsonIgnore
+    public boolean isPaidPost() {
+        return isPaidPost != null && isPaidPost;
+    }
+
+    @JsonIgnore
+    public boolean hasDirectMessagesTopic() {
+        return directMessagesTopic != null;
+    }
+
+    @JsonIgnore
+    public boolean hasSuggestedPostInfo() {
+        return suggestedPostInfo != null;
+    }
+
+    @JsonIgnore
+    public boolean hasSuggestedPostApproved() {
+        return suggestedPostApproved != null;
+    }
+
+    @JsonIgnore
+    public boolean hasSuggestedPostApprovalFailed() {
+        return suggestedPostApprovalFailed != null;
+    }
+
+    @JsonIgnore
+    public boolean hasSuggestedPostDeclined() {
+        return suggestedPostDeclined != null;
+    }
+
+    @JsonIgnore
+    public boolean hasSuggestedPostPaid() {
+        return suggestedPostPaid != null;
+    }
+
+    @JsonIgnore
+    public boolean hasSuggestedPostRefunded() {
+        return suggestedPostRefunded != null;
     }
 }

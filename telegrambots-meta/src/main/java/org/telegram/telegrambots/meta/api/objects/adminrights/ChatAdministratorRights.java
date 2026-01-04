@@ -45,6 +45,7 @@ public class ChatAdministratorRights implements BotApiObject, Validable {
     private static final String CAN_POST_STORIES_FIELD = "can_post_stories";
     private static final String CAN_EDIT_STORIES_FIELD = "can_edit_stories";
     private static final String CAN_DELETE_STORIES_FIELD = "can_delete_stories";
+    private static final String CAN_MANAGE_DIRECT_MESSAGES_FIELD = "can_manage_direct_messages";
 
     /**
      * True, if the user's presence in the chat is hidden
@@ -53,9 +54,9 @@ public class ChatAdministratorRights implements BotApiObject, Validable {
     @NonNull
     private Boolean isAnonymous;
     /**
-     * True, if the administrator can access the chat event log, get boost list,
-     * see hidden supergroup and channel members, report spam messages and ignore slow mode.
-     * Implied by any other administrator privilege.
+     * True, if the administrator can access the chat event log, get boost list, see hidden supergroup 
+     * and channel members, report spam messages, ignore slow mode, and send messages to the chat 
+     * without paying Telegram Stars. Implied by any other administrator privilege.
      */
     @JsonProperty(CAN_MANAGE_CHAT_FIELD)
     @NonNull
@@ -100,7 +101,8 @@ public class ChatAdministratorRights implements BotApiObject, Validable {
     private Boolean canInviteUsers;
     /**
      * Optional.
-     * True, if the administrator can post messages in the channel; channels only
+     * True, if the administrator can post messages in the channel, approve suggested posts, 
+     * or access channel statistics; for channels only
      */
     @JsonProperty(CANPOSTMESSAGES_FIELD)
     private Boolean canPostMessages;
@@ -141,4 +143,11 @@ public class ChatAdministratorRights implements BotApiObject, Validable {
      */
     @JsonProperty(CAN_DELETE_STORIES_FIELD)
     private Boolean canDeleteStories;
+
+    /**
+     * Optional.
+     * True, if the administrator can manage direct messages of the channel and decline suggested posts; for channels only
+     */
+    @JsonProperty(CAN_MANAGE_DIRECT_MESSAGES_FIELD)
+    private Boolean canManageDirectMessages;
 }

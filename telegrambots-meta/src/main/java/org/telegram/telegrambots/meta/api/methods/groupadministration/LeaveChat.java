@@ -20,6 +20,7 @@ import org.telegram.telegrambots.meta.util.Validations;
  * @author Ruben Bermudez
  * @version 1.0
  * Use this method for your bot to leave a group, supergroup or channel. Returns True on success.
+ * Channel direct messages chats aren't supported; leave the corresponding channel instead.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -37,7 +38,7 @@ public class LeaveChat extends BotApiMethodBoolean {
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
-    private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
+    private String chatId; ///< Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername). Channel direct messages chats aren't supported; leave the corresponding channel instead.
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

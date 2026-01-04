@@ -55,6 +55,7 @@ public class PromoteChatMember extends BotApiMethodBoolean {
     private static final String CAN_POST_STORIES_FIELD = "can_post_stories";
     private static final String CAN_EDIT_STORIES_FIELD = "can_edit_stories";
     private static final String CAN_DELETE_STORIES_FIELD = "can_delete_stories";
+    private static final String CAN_MANAGE_DIRECT_MESSAGES_FIELD = "can_manage_direct_messages";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -64,8 +65,13 @@ public class PromoteChatMember extends BotApiMethodBoolean {
     private Long userId; ///< Required. Unique identifier of the target user
     @JsonProperty(CANCHANGEINFORMATION_FIELD)
     private Boolean canChangeInformation; ///< Optional. Pass True, if the administrator can change chat title, photo and other settings
+    /**
+     * Optional.
+     * Pass True if the administrator can post messages in the channel, approve suggested posts, 
+     * or access channel statistics; for channels only
+     */
     @JsonProperty(CANPOSTMESSAGES_FIELD)
-    private Boolean canPostMessages; ///< Optional. Pass True, if the administrator can create channel posts, channels only
+    private Boolean canPostMessages;
     @JsonProperty(CANEDITMESSAGES_FIELD)
     private Boolean canEditMessages; ///< Optional. Pass True, if the administrator can edit messages of other users, channels only
     @JsonProperty(CANDELETEMESSAGES_FIELD)
@@ -83,10 +89,9 @@ public class PromoteChatMember extends BotApiMethodBoolean {
     /**
      * Optional
      *
-     * Pass True, if the administrator can access the chat event log, chat statistics, message statistics in channels,
-     * see channel members, see anonymous administrators in supergoups and ignore slow mode.
-     *
-     * Implied by any other administrator privilege
+     * Pass True if the administrator can access the chat event log, get boost list, see hidden supergroup 
+     * and channel members, report spam messages, ignore slow mode, and send messages to the chat 
+     * without paying Telegram Stars. Implied by any other administrator privilege.
      */
     @JsonProperty(CAN_MANAGE_CHAT_FIELD)
     private Boolean canManageChat;
@@ -121,6 +126,13 @@ public class PromoteChatMember extends BotApiMethodBoolean {
      */
     @JsonProperty(CAN_DELETE_STORIES_FIELD)
     private Boolean canDeleteStories;
+
+    /**
+     * Optional
+     * Pass True if the administrator can manage direct messages within the channel and decline suggested posts; for channels only
+     */
+    @JsonProperty(CAN_MANAGE_DIRECT_MESSAGES_FIELD)
+    private Boolean canManageDirectMessages;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

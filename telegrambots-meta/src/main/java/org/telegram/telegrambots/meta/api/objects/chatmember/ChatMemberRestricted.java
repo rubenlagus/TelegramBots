@@ -102,7 +102,7 @@ public class ChatMemberRestricted implements ChatMember {
     @JsonProperty(CANSENDVOICENOTES_FIELD)
     private Boolean canSendVoiceNotes;
     /**
-     * True, if the user is allowed to send polls
+     * True, if the user is allowed to send polls and checklists
      */
     @JsonProperty(CANSENDPOLLS_FIELD)
     private Boolean canSendPolls;

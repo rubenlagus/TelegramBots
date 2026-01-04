@@ -21,11 +21,11 @@ import org.telegram.telegrambots.abilitybots.api.util.Pair;
 import org.telegram.telegrambots.abilitybots.api.util.Trio;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdministrators;
-import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberAdministrator;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberOwner;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 import java.lang.reflect.InvocationTargetException;
@@ -143,14 +143,14 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
     }
 
     /**
-     * @return the map of <ID,User>
+     * @return the map of {@code <ID, User>}
      */
     public Map<Long, User> users() {
         return db.getMap(USERS);
     }
 
     /**
-     * @return the map of <Username,ID>
+     * @return the map of {@code <Username, ID>}
      */
     public Map<String, Long> userIds() {
         return db.getMap(USER_ID);
@@ -210,6 +210,7 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
     public Privacy getPrivacy(Update update, long id) {
         return isCreator(id) ?
             Privacy.CREATOR : isAdmin(id) ?
+            Privacy.ADMIN : (update.hasChannelPost() || update.hasEditedChannelPost()) ?
             Privacy.ADMIN : (isGroupUpdate(update) || isSuperGroupUpdate(update)) && isGroupAdmin(update, id) ?
             Privacy.GROUP_ADMIN : Privacy.PUBLIC;
     }
@@ -489,13 +490,30 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
         boolean isOk = abilityTokens == 0 || (tokens.length > 0 && tokens.length == abilityTokens);
 
         if (!isOk)
-            silent.send(
-                    getLocalizedMessage(
-                            CHECK_INPUT_FAIL,
-                            AbilityUtils.getUser(trio.a()).getLanguageCode(),
-                            abilityTokens, abilityTokens == 1 ? "input" : "inputs"),
-                    getChatId(trio.a()));
+            onInputViolation(trio.a(), trio.b());
         return isOk;
+    }
+
+    /**
+     * Called when user input doesn't match the required number of arguments for the ability.
+     * <p>
+     *  Deafult implementation sends  localized
+     * {@link org.telegram.telegrambots.abilitybots.api.util.AbilityMessageCodes#CHECK_INPUT_FAIL}
+     * message to the user.
+     * <p>
+     * Override this method to custom handle input errors (e.g. send usage example or do nothing).
+     *
+     * @param update  update that caused the violation
+     * @param ability ability that was attempted to be executed
+     */
+    protected void onInputViolation(Update update, Ability ability) {
+        int abilityTokens = ability.tokens();
+        silent.send(
+                getLocalizedMessage(
+                        CHECK_INPUT_FAIL,
+                        AbilityUtils.getUser(update).getLanguageCode(),
+                        abilityTokens, abilityTokens == 1 ? "input" : "inputs"),
+                getChatId(update));
     }
 
     boolean checkLocality(Trio<Update, Ability, String[]> trio) {
@@ -506,13 +524,30 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
         boolean isOk = abilityLocality == Locality.ALL || locality == abilityLocality;
 
         if (!isOk)
-            silent.send(
-                    getLocalizedMessage(
-                            CHECK_LOCALITY_FAIL,
-                            AbilityUtils.getUser(trio.a()).getLanguageCode(),
-                            abilityLocality.toString().toLowerCase()),
-                    getChatId(trio.a()));
+            onLocalityViolation(trio.a(), trio.b());
         return isOk;
+    }
+
+    /**
+     * Called when the user tries to use ability in locality that isn't allowed
+     * (e.g. using {@link Locality#GROUP} ability in private chat).
+     * <p>
+     * Deafult implementation sends localized
+     * {@link org.telegram.telegrambots.abilitybots.api.util.AbilityMessageCodes#CHECK_LOCALITY_FAIL}
+     * message to the user.
+     * <p>
+     * Override this method to custom handle locality errors (e.g. silent ignore in groups).
+     *
+     * @param update   update that caused the violation
+     * @param ability ability that was attempted to be executed
+     */
+    protected void onLocalityViolation(Update update, Ability ability) {
+        silent.send(
+                getLocalizedMessage(
+                        CHECK_LOCALITY_FAIL,
+                        AbilityUtils.getUser(update).getLanguageCode(),
+                        ability.locality().toString().toLowerCase()),
+                getChatId(update));
     }
 
     boolean checkPrivacy(Trio<Update, Ability, String[]> trio) {
@@ -526,12 +561,28 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
         boolean isOk = privacy.compareTo(trio.b().privacy()) >= 0;
 
         if (!isOk)
-            silent.send(
-                    getLocalizedMessage(
-                            CHECK_PRIVACY_FAIL,
-                            AbilityUtils.getUser(trio.a()).getLanguageCode()),
-                    getChatId(trio.a()));
+            onPrivacyViolation(trio.a(), trio.b());
         return isOk;
+    }
+
+    /**
+     * Called when the user doesn't have required {@link Privacy} level to execute the ability.
+     * <p>
+     * Deafult implementation sends localized
+     * {@link org.telegram.telegrambots.abilitybots.api.util.AbilityMessageCodes#CHECK_PRIVACY_FAIL}
+     * message to the user.
+     * <p>
+     * Override this method to custom handle privacy errors (e.g. log the attempt or ban the user).
+     *
+     * @param update  update that caused the violation
+     * @param ability ability that was attempted to be executed
+     */
+    protected void onPrivacyViolation(Update update, Ability ability) {
+        silent.send(
+                getLocalizedMessage(
+                        CHECK_PRIVACY_FAIL,
+                        AbilityUtils.getUser(update).getLanguageCode()),
+                getChatId(update));
     }
 
     boolean validateAbility(Trio<Update, Ability, String[]> trio) {
@@ -541,8 +592,8 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
     Trio<Update, Ability, String[]> getAbility(Update update) {
         // Handle updates without messages
         // Passing through this function means that the global flags have passed
-        Message msg = update.getMessage();
-        if (!update.hasMessage() || !msg.hasText())
+        Message msg = AbilityUtils.getMessage(update);
+        if (msg == null || !msg.hasText())
             return Trio.of(update, abilities.get(DEFAULT), new String[]{});
 
         Ability ability;
@@ -602,6 +653,7 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
     private boolean hasUser(Update update) {
         // Valid updates without users should return an empty user
         // Updates that are not recognized by the getUser method will throw an exception
+        if (update.hasChannelPost() || update.hasEditedChannelPost()) return true;
         return !AbilityUtils.getUser(update).equals(EMPTY_USER);
     }
 

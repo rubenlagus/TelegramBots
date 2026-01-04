@@ -7,7 +7,7 @@
     <groupId>org.telegram</groupId>
     <artifactId>Bots</artifactId>
     <packaging>pom</packaging>
-    <version>9.0.0</version>
+    <version>9.2.1</version>
 
     <modules>
         <module>telegrambots-meta</module>
@@ -54,17 +54,6 @@
         </developer>
     </developers>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
-
     <properties>
         <java.version>17</java.version>
         <maven.compiler.release>17</maven.compiler.release>
@@ -78,11 +67,11 @@
         <slf4j.version>2.0.12</slf4j.version>
         <lombok.version>1.18.34</lombok.version>
         <guava.version>33.2.1-jre</guava.version>
-        <commons-lang.version>3.14.0</commons-lang.version>
+        <commons-lang.version>3.18.0</commons-lang.version>
         <commons-io.version>2.16.1</commons-io.version>
         <okhttp.version>4.12.0</okhttp.version>
 
-        <junit.version>5.10.3</junit.version>
+        <junit.version>5.12.2</junit.version>
         <mockito.version>5.12.0</mockito.version>
         <mockitojupiter.version>5.12.0</mockitojupiter.version>
         <awaitability.version>4.2.1</awaitability.version>
@@ -119,6 +108,16 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
             <dependency>
@@ -208,11 +207,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
                     <version>3.1.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.sonatype.plugins</groupId>
-                    <artifactId>nexus-staging-maven-plugin</artifactId>
-                    <version>1.6.13</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-clean-plugin</artifactId>
@@ -321,6 +315,17 @@
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>0.8.11</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.sonatype.central</groupId>
+                    <artifactId>central-publishing-maven-plugin</artifactId>
+                    <version>0.8.0</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <publishingServerId>central</publishingServerId>
+                        <autoPublish>true</autoPublish>
+                        <waitUntil>published</waitUntil>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -377,16 +382,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
                 <executions>
@@ -405,6 +400,10 @@
                         </requireMavenVersion>
                     </rules>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
