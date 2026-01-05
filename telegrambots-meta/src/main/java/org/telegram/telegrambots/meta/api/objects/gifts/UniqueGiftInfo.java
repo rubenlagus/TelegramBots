@@ -62,7 +62,6 @@ public class UniqueGiftInfo implements BotApiObject {
      * Number of Telegram Stars that must be paid to transfer the gift; omitted if the bot cannot transfer the gift
      */
     @JsonProperty(TRANSFER_STAR_COUNT_FIELD)
-    @NonNull
     private Integer transferStarCount;
 
     /**
