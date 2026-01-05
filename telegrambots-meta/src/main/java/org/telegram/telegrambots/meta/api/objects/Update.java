@@ -285,4 +285,12 @@ public class Update implements BotApiObject {
     public boolean hasPaidMediaPurchased() {
         return paidMediaPurchased != null;
     }
+
+    public boolean hasChatBoost() {
+        return chatBoost != null;
+    }
+
+    public boolean hasRemovedChatBoost() {
+        return removedChatBoost != null;
+    }
 }
