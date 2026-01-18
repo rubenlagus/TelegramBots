@@ -22,11 +22,11 @@ import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdm
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.File;
-import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberAdministrator;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
@@ -371,7 +371,7 @@ public class TestAbilityBot {
     String newFirstName = USER.getFirstName() + "-test";
     String newLastName = USER.getLastName() + "-test";
     long sameId = USER.getId();
-    User changedUser = new User(sameId, newFirstName, false, newLastName, newUsername, "en", false, false, false, false, false, false, false);
+    User changedUser = new User(sameId, newFirstName, false, newLastName, newUsername, "en", false, false, false, false, false, false, false, false);
 
     mockAlternateUser(update, message, changedUser);
 

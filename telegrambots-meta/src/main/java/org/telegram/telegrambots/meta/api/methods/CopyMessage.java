@@ -63,6 +63,7 @@ public class CopyMessage extends BotApiMethod<MessageId> {
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
     private static final String PROTECT_CONTENT_FIELD = "protect_content";
     private static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
+    private static final String MESSAGE_EFFECT_ID_FIELD = "message_effect_id";
     private static final String SHOW_CAPTION_ABOVE_MEDIA_FIELD = "show_caption_above_media";
     private static final String ALLOW_PAID_BROADCAST_FIELD = "allow_paid_broadcast";
     private static final String VIDEO_START_TIMESTAMP_FIELD = "video_start_timestamp";
@@ -118,6 +119,12 @@ public class CopyMessage extends BotApiMethod<MessageId> {
      */
     @JsonProperty(REPLY_PARAMETERS_FIELD)
     private ReplyParameters replyParameters;
+    /**
+     * Optional.
+     * Unique identifier of the message effect to be added to the message; only available when copying to private chats
+     */
+    @JsonProperty(MESSAGE_EFFECT_ID_FIELD)
+    private String messageEffectId;
     /**
      * Optional.
      * Pass True, if the caption must be shown above the message media

@@ -42,6 +42,8 @@ public class GiftInfo implements BotApiObject {
     private static final String TEXT_FIELD = "text";
     private static final String ENTITIES_FIELD = "entities";
     private static final String IS_PRIVATE_FIELD = "is_private";
+    private static final String IS_UPGRADE_SEPARATE_FIELD = "is_upgrade_separate";
+    private static final String UNIQUE_GIFT_NUMBER_FIELD = "unique_gift_number";
 
     /**
      * Information about the gift
@@ -92,4 +94,16 @@ public class GiftInfo implements BotApiObject {
      */
     @JsonProperty(IS_PRIVATE_FIELD)
     private Boolean isPrivate;
+    /**
+     * Optional.
+     * True, if the gift's upgrade was purchased after the gift was sent
+     */
+    @JsonProperty(IS_UPGRADE_SEPARATE_FIELD)
+    private Boolean isUpgradeSeparate;
+    /**
+     * Optional.
+     * Unique number reserved for this gift when upgraded. See the number field in UniqueGift
+     */
+    @JsonProperty(UNIQUE_GIFT_NUMBER_FIELD)
+    private Integer uniqueGiftNumber;
 }

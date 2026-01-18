@@ -190,6 +190,7 @@ public class Message implements MaybeInaccessibleMessage {
     private static final String REFUNDED_PAYMENT_FIELD = "refunded_payment";
     private static final String GIFT_FIELD = "gift";
     private static final String UNIQUE_GIFT_FIELD = "unique_gift";
+    private static final String GIFT_UPGRADE_SENT_FIELD = "gift_upgrade_sent";
     private static final String PAID_MESSAGE_PRICE_CHANGED_FIELD = "paid_message_price_changed";
     private static final String PAID_STAR_COUNT_FIELD = "paid_star_count";
     private static final String DIRECT_MESSAGE_PRICE_CHANGED_FIELD = "direct_message_price_changed";
@@ -215,8 +216,8 @@ public class Message implements MaybeInaccessibleMessage {
     private Integer messageId;
     /**
      * Optional.
-     * Unique identifier of a message thread or a forum topic to which the message belongs;
-     * for supergroups only
+     * Unique identifier of a message thread or forum topic to which the message belongs;
+     * for supergroups and private chats only
      */
     @JsonProperty(MESSAGE_THREAD_ID_FIELD)
     private Integer messageThreadId;
@@ -591,7 +592,7 @@ public class Message implements MaybeInaccessibleMessage {
     private VideoChatScheduled videoChatScheduled;
     /**
      * Optional.
-     * True, if the message is sent to a forum topic
+     * True, if the message is sent to a topic in a forum supergroup or a private chat with the bot
      */
     @JsonProperty(IS_TOPIC_MESSAGE_FIELD)
     private Boolean isTopicMessage;
@@ -798,6 +799,12 @@ public class Message implements MaybeInaccessibleMessage {
      */
     @JsonProperty(UNIQUE_GIFT_FIELD)
     private UniqueGiftInfo uniqueGift;
+    /**
+     * 	Optional.
+     * 	Service message: upgrade of a gift was purchased after the gift was sent
+     */
+    @JsonProperty(GIFT_UPGRADE_SENT_FIELD)
+    private GiftInfo giftUpgradeSent;
     /**
      * 	Optional.
      * 	Service message: the price for paid messages has changed in the chat

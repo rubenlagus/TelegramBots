@@ -32,6 +32,7 @@ public class AcceptedGiftTypes implements BotApiObject {
     private static final String LIMITED_GIFTS_FIELD = "limited_gifts";
     private static final String UNIQUE_GIFTS_FIELD = "unique_gifts";
     private static final String PREMIUM_SUBSCRIPTION_FIELD = "premium_subscription";
+    private static final String GIFTS_FROM_CHANNELS_FIELD = "gifts_from_channels";
 
     /**
      * True, if unlimited regular gifts are accepted
@@ -53,4 +54,9 @@ public class AcceptedGiftTypes implements BotApiObject {
      */
     @JsonProperty(PREMIUM_SUBSCRIPTION_FIELD)
     private Boolean primalSubscription;
+    /**
+     * True, if transfers of unique gifts from channels are accepted
+     */
+    @JsonProperty(GIFTS_FROM_CHANNELS_FIELD)
+    private Boolean giftsFromChannels;
 }
