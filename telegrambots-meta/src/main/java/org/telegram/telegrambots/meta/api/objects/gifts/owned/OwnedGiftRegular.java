@@ -47,6 +47,8 @@ public class OwnedGiftRegular extends OwnedGift {
     private static final String CAN_BE_UPGRADED_FIELD = "can_be_upgraded";
     private static final String CONVERT_STAR_COUNT_FIELD = "convert_star_count";
     private static final String PREPAID_UPGRADE_STAR_COUNT_FIELD = "prepaid_upgrade_star_count";
+    private static final String IS_UPGRADE_SEPARATE_FIELD = "is_upgrade_separate";
+    private static final String UNIQUE_GIFT_NUMBER_FIELD = "unique_gift_number";
 
     /**
      * Information about the regular gift
@@ -99,6 +101,19 @@ public class OwnedGiftRegular extends OwnedGift {
      */
     @JsonProperty(PREPAID_UPGRADE_STAR_COUNT_FIELD)
     private Integer prepaidUpgradeStarCount;
+
+    /**
+     * Optional. True, if the gift's upgrade was purchased after the gift was sent;
+     * for gifts received on behalf of business accounts only
+     */
+    @JsonProperty(IS_UPGRADE_SEPARATE_FIELD)
+    private Boolean isUpgradeSeparate;
+
+    /**
+     * Optional. Unique number reserved for this gift when upgraded. See the number field in UniqueGift
+     */
+    @JsonProperty(UNIQUE_GIFT_NUMBER_FIELD)
+    private Integer uniqueGiftNumber;
 
     @Override
     public String getType() {

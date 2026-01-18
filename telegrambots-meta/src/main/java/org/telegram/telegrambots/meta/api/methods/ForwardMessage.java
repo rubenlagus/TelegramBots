@@ -46,6 +46,7 @@ public class ForwardMessage extends BotApiMethodMessage {
     private static final String MESSAGE_ID_FIELD = "message_id";
     private static final String DISABLE_NOTIFICATION_FIELD = "disable_notification";
     private static final String PROTECT_CONTENT_FIELD = "protect_content";
+    private static final String MESSAGE_EFFECT_ID_FIELD = "message_effect_id";
     private static final String VIDEO_START_TIMESTAMP_FIELD = "video_start_timestamp";
     private static final String SUGGESTED_POST_PARAMETERS_FIELD = "suggested_post_parameters";
 
@@ -81,6 +82,12 @@ public class ForwardMessage extends BotApiMethodMessage {
     private Boolean disableNotification;
     @JsonProperty(PROTECT_CONTENT_FIELD)
     private Boolean protectContent; ///< Optional. Protects the contents of sent messages from forwarding and saving
+    /**
+     * Optional.
+     * Unique identifier of the message effect to be added to the message; only available when forwarding to private chats
+     */
+    @JsonProperty(MESSAGE_EFFECT_ID_FIELD)
+    private String messageEffectId;
     /**
      * Optional
      * New start timestamp for the copied video in the message

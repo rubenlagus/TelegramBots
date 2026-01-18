@@ -16,6 +16,7 @@ import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 
 import java.util.List;
 
@@ -41,6 +42,7 @@ public class ChecklistTask implements BotApiObject {
     private static final String TEXT_FIELD = "text";
     private static final String TEXT_ENTITIES_FIELD = "text_entities";
     private static final String COMPLETED_BY_USER_FIELD = "completed_by_user";
+    private static final String COMPLETED_BY_CHAT_FIELD = "completed_by_chat";
     private static final String COMPLETION_DATE_FIELD = "completion_date";
 
     /**
@@ -64,10 +66,16 @@ public class ChecklistTask implements BotApiObject {
     private List<MessageEntity> textEntities;
 
     /**
-     * Optional. User that completed the task; omitted if the task wasn't completed
+     * Optional. User that completed the task; omitted if the task wasn't completed by a user
      */
     @JsonProperty(COMPLETED_BY_USER_FIELD)
     private User completedByUser;
+
+    /**
+     * Optional. Chat that completed the task; omitted if the task wasn't completed by a chat
+     */
+    @JsonProperty(COMPLETED_BY_CHAT_FIELD)
+    private Chat completedByChat;
 
     /**
      * Optional. Point in time (Unix timestamp) when the task was completed; 0 if the task wasn't completed

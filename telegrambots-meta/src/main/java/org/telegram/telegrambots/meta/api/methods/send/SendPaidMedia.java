@@ -77,7 +77,7 @@ public class SendPaidMedia extends PartialBotApiMethod<ArrayList<Message>> {
      */
     private Integer directMessagesTopicId;
     /**
-     * The number of Telegram Stars that must be paid to buy access to the media
+     * The number of Telegram Stars that must be paid to buy access to the media; 1-25000
      */
     @NonNull
     private Integer starCount;
@@ -174,6 +174,10 @@ public class SendPaidMedia extends PartialBotApiMethod<ArrayList<Message>> {
     @Override
     public void validate() throws TelegramApiValidationException {
         Validations.requiredChatId(chatId, this);
+
+        if (starCount == null || starCount < 1 || starCount > 25000) {
+            throw new TelegramApiValidationException("StarCount must be between 1 and 25000", this);
+        }
 
         if (media.isEmpty()) {
             throw new TelegramApiValidationException("Media parameter can't be empty", this);
