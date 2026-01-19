@@ -60,7 +60,7 @@ public class TelegramBotsLongPollingApplication implements AutoCloseable {
     }
 
     public BotSession registerBot(String botToken, LongPollingUpdateConsumer updatesConsumer) throws TelegramApiException {
-        return registerBot(botToken, () -> TelegramUrl.DEFAULT_URL, new DefaultGetUpdatesGenerator(), updatesConsumer);
+        return registerBot(botToken, () -> TelegramUrl.DEFAULT_URL, DefaultGetUpdatesGenerator.INSTANCE, updatesConsumer);
     }
 
     public BotSession registerBot(String botToken,
