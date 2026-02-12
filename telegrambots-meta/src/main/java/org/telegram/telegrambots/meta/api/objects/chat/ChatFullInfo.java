@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
+import org.telegram.telegrambots.meta.api.objects.Audio;
 import org.telegram.telegrambots.meta.api.objects.Birthdate;
 import org.telegram.telegrambots.meta.api.objects.ChatLocation;
 import org.telegram.telegrambots.meta.api.objects.ChatPermissions;
@@ -381,5 +382,5 @@ public class ChatFullInfo extends Chat {
      * For private chats, the first audio added to the profile of the user
      */
     @JsonProperty(FIRST_PROFILE_AUDIO_FIELD)
-    private org.telegram.telegrambots.meta.api.objects.Audio firstProfileAudio;
+    private Audio firstProfileAudio;
 }
