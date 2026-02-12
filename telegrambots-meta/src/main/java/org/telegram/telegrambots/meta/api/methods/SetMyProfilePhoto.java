@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.InputFile;
+import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhoto;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -34,7 +34,7 @@ public class SetMyProfilePhoto extends PartialBotApiMethod<Boolean> {
      * The new profile photo to set
      */
     @JsonProperty(PHOTO_FIELD)
-    private InputFile photo;
+    private InputProfilePhoto photo;
 
     @Override
     public String getMethod() {

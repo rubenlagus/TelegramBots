@@ -2,6 +2,8 @@ package org.telegram.telegrambots.meta.api.methods;
 
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
+import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhoto;
+import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoStatic;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -21,7 +23,9 @@ public class TestSetMyProfilePhoto {
 
     @Test
     public void testSetMyProfilePhotoMethod() {
-        InputFile photo = new InputFile(new File("photo.jpg"));
+        InputProfilePhoto photo = InputProfilePhotoStatic.builder()
+                .photo(new InputFile(new File("photo.jpg")))
+                .build();
         SetMyProfilePhoto setMyProfilePhoto = SetMyProfilePhoto.builder()
                 .photo(photo)
                 .build();
@@ -32,7 +36,9 @@ public class TestSetMyProfilePhoto {
 
     @Test
     public void testSetMyProfilePhotoValidation() throws TelegramApiValidationException {
-        InputFile photo = new InputFile(new File("photo.jpg"));
+        InputProfilePhoto photo = InputProfilePhotoStatic.builder()
+                .photo(new InputFile(new File("photo.jpg")))
+                .build();
         SetMyProfilePhoto setMyProfilePhoto = SetMyProfilePhoto.builder()
                 .photo(photo)
                 .build();
@@ -53,7 +59,9 @@ public class TestSetMyProfilePhoto {
     public void testSetMyProfilePhotoDeserializeValidResponse() {
         String responseText = "{\"ok\":true,\"result\":true}";
 
-        InputFile photo = new InputFile(new File("photo.jpg"));
+        InputProfilePhoto photo = InputProfilePhotoStatic.builder()
+                .photo(new InputFile(new File("photo.jpg")))
+                .build();
         SetMyProfilePhoto setMyProfilePhoto = SetMyProfilePhoto.builder()
                 .photo(photo)
                 .build();
@@ -71,7 +79,9 @@ public class TestSetMyProfilePhoto {
     public void testSetMyProfilePhotoErrorResponse() {
         String responseText = "{\"ok\":false,\"error_code\":400,\"description\":\"Bad Request: invalid photo\"}";
 
-        InputFile photo = new InputFile(new File("photo.jpg"));
+        InputProfilePhoto photo = InputProfilePhotoStatic.builder()
+                .photo(new InputFile(new File("photo.jpg")))
+                .build();
         SetMyProfilePhoto setMyProfilePhoto = SetMyProfilePhoto.builder()
                 .photo(photo)
                 .build();
