@@ -10,6 +10,7 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.webhook.TelegramWebhookBot;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,7 +26,7 @@ import java.util.function.Function;
 public class TelegramBotsSpringWebhookApplication implements AutoCloseable {
     private final AtomicBoolean isRunning = new AtomicBoolean(false);
 
-    private final ConcurrentHashMap<String, SpringTelegramWebhookBot> registeredBots = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, TelegramWebhookBot> registeredBots = new ConcurrentHashMap<>();
 
     public TelegramBotsSpringWebhookApplication() throws TelegramApiException {
         isRunning.set(true);
@@ -62,7 +63,7 @@ public class TelegramBotsSpringWebhookApplication implements AutoCloseable {
      */
     public void unregisterBot(String botPath) throws TelegramApiException {
         if (isRunning()) {
-            SpringTelegramWebhookBot removedBot = registeredBots.remove(botPath);
+            TelegramWebhookBot removedBot = registeredBots.remove(botPath);
             if (removedBot != null) {
                 removedBot.runDeleteWebhook();
             }
@@ -78,7 +79,7 @@ public class TelegramBotsSpringWebhookApplication implements AutoCloseable {
      * @implNote Bots can only be registered while server is running
      * @implNote This will trigger a restart of the webhook server if the path already exists
      */
-    public void registerBot(SpringTelegramWebhookBot telegramWebhookBot) throws TelegramApiException {
+    public void registerBot(TelegramWebhookBot telegramWebhookBot) throws TelegramApiException {
         if (isRunning()) {
             registeredBots.put(telegramWebhookBot.getBotPath(), telegramWebhookBot);
             telegramWebhookBot.runSetWebhook();
@@ -106,7 +107,7 @@ public class TelegramBotsSpringWebhookApplication implements AutoCloseable {
         if (isRunning.get()) {
             throw new TelegramApiException("Server already running");
         }
-        for (Map.Entry<String, SpringTelegramWebhookBot> bot : registeredBots.entrySet()) {
+        for (Map.Entry<String, TelegramWebhookBot> bot : registeredBots.entrySet()) {
             bot.getValue().runSetWebhook();
         }
         isRunning.set(true);
@@ -115,7 +116,7 @@ public class TelegramBotsSpringWebhookApplication implements AutoCloseable {
     public void stop() throws TelegramApiException {
         if (isRunning.get()) {
             if (isRunning.get()) {
-                for (Map.Entry<String, SpringTelegramWebhookBot> bot : registeredBots.entrySet()) {
+                for (Map.Entry<String, TelegramWebhookBot> bot : registeredBots.entrySet()) {
                     bot.getValue().runDeleteWebhook();
                 }
                 isRunning.set(false);
@@ -137,7 +138,7 @@ public class TelegramBotsSpringWebhookApplication implements AutoCloseable {
         if (!isRunning.get()) {
             throw new HttpServerErrorException(HttpStatus.SERVICE_UNAVAILABLE, "Service is not running");
         }
-        SpringTelegramWebhookBot responsibleBot = registeredBots.get(botPath);
+        TelegramWebhookBot responsibleBot = registeredBots.get(botPath);
         if (responsibleBot != null) {
             return responsibleBot.consumeUpdate(update);
         }
