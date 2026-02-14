@@ -12,6 +12,7 @@ import org.eclipse.jetty.client.StringRequestContent;
 import org.telegram.telegrambots.client.AbstractTelegramClient;
 import org.telegram.telegrambots.client.ThrowingConsumer;
 import org.telegram.telegrambots.meta.TelegramUrl;
+import org.telegram.telegrambots.meta.api.methods.SetMyProfilePhoto;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.business.SetBusinessAccountProfilePhoto;
@@ -175,6 +176,37 @@ public class JettyTelegramClient extends AbstractTelegramClient {
             return CompletableFuture.failedFuture(e);
         } catch (IOException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + setBusinessAccountProfilePhoto.getMethod(), e));
+        }
+    }
+
+    @Override
+    public CompletableFuture<Boolean> executeAsync(SetMyProfilePhoto setMyProfilePhoto) {
+        try {
+            assertParamNotNull(setMyProfilePhoto, "setMyProfilePhoto");
+
+            setMyProfilePhoto.validate();
+
+            URI url = buildUrl(setMyProfilePhoto.getMethod());
+
+            JettyMultipartBuilder builder = new JettyMultipartBuilder(objectMapper);
+
+            if (InputProfilePhotoStatic.TYPE.equals(setMyProfilePhoto.getPhoto().getType())) {
+                InputProfilePhotoStatic photo = (InputProfilePhotoStatic) setMyProfilePhoto.getPhoto();
+                builder.addJsonPart(SetMyProfilePhoto.PHOTO_FIELD, photo)
+                        .addInputFile(InputProfilePhotoStatic.PHOTO_FIELD, photo.getPhoto(), false);
+            } else if (InputProfilePhotoAnimated.TYPE.equals(setMyProfilePhoto.getPhoto().getType())) {
+                InputProfilePhotoAnimated photo = (InputProfilePhotoAnimated) setMyProfilePhoto.getPhoto();
+                builder.addJsonPart(SetMyProfilePhoto.PHOTO_FIELD, photo)
+                        .addInputFile(InputProfilePhotoAnimated.ANIMATION_FIELD, photo.getAnimation(), false);
+            }
+
+            Request httpPost = client.POST(url).body(builder.build());
+
+            return sendRequest(setMyProfilePhoto, httpPost);
+        } catch (TelegramApiException e) {
+            return CompletableFuture.failedFuture(e);
+        } catch (IOException e) {
+            return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + setMyProfilePhoto.getMethod(), e));
         }
     }
 

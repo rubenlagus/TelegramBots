@@ -34,6 +34,8 @@ import org.telegram.telegrambots.meta.api.objects.Voice;
 import org.telegram.telegrambots.meta.api.objects.WriteAccessAllowed;
 import org.telegram.telegrambots.meta.api.objects.boost.ChatBoostAdded;
 import org.telegram.telegrambots.meta.api.objects.chat.Chat;
+import org.telegram.telegrambots.meta.api.objects.chat.ChatOwnerChanged;
+import org.telegram.telegrambots.meta.api.objects.chat.ChatOwnerLeft;
 import org.telegram.telegrambots.meta.api.objects.chat.background.ChatBackground;
 import org.telegram.telegrambots.meta.api.objects.checklist.Checklist;
 import org.telegram.telegrambots.meta.api.objects.checklist.ChecklistTasksAdded;
@@ -206,6 +208,8 @@ public class Message implements MaybeInaccessibleMessage {
     private static final String SUGGESTED_POST_DECLINED_FIELD = "suggested_post_declined";
     private static final String SUGGESTED_POST_PAID_FIELD = "suggested_post_paid";
     private static final String SUGGESTED_POST_REFUNDED_FIELD = "suggested_post_refunded";
+    private static final String CHAT_OWNER_LEFT_FIELD = "chat_owner_left";
+    private static final String CHAT_OWNER_CHANGED_FIELD = "chat_owner_changed";
 
     /**
      * Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat),
@@ -897,6 +901,18 @@ public class Message implements MaybeInaccessibleMessage {
      */
     @JsonProperty(SUGGESTED_POST_REFUNDED_FIELD)
     private SuggestedPostRefunded suggestedPostRefunded;
+    /**
+     * Optional.
+     * Service message: chat owner has left
+     */
+    @JsonProperty(CHAT_OWNER_LEFT_FIELD)
+    private ChatOwnerLeft chatOwnerLeft;
+    /**
+     * Optional.
+     * Service message: chat owner has changed
+     */
+    @JsonProperty(CHAT_OWNER_CHANGED_FIELD)
+    private ChatOwnerChanged chatOwnerChanged;
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {
@@ -1238,4 +1254,16 @@ public class Message implements MaybeInaccessibleMessage {
     public boolean hasSuggestedPostRefunded() {
         return suggestedPostRefunded != null;
     }
+
+    @JsonIgnore
+    public boolean hasChatOwnerChanged() {
+        return chatOwnerChanged != null;
+    }
+
+    @JsonIgnore
+    public boolean hasChatOwnerLeft() {
+        return chatOwnerLeft != null;
+    }
+
+
 }
