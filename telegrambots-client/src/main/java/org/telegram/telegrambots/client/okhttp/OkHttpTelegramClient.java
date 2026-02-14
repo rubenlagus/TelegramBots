@@ -13,6 +13,7 @@ import org.telegram.telegrambots.client.AbstractTelegramClient;
 import org.telegram.telegrambots.client.TelegramMultipartBuilder;
 import org.telegram.telegrambots.client.ThrowingConsumer;
 import org.telegram.telegrambots.meta.TelegramUrl;
+import org.telegram.telegrambots.meta.api.methods.SetMyProfilePhoto;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.business.SetBusinessAccountProfilePhoto;
@@ -116,11 +117,11 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
         try {
             assertParamNotNull(setBusinessAccountProfilePhoto, "setBusinessAccountProfilePhoto");
             setBusinessAccountProfilePhoto.validate();
-    
+
             HttpUrl url = buildUrl(setBusinessAccountProfilePhoto.getMethod());
-    
+
             TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
-    
+
             builder.addPart(SetBusinessAccountProfilePhoto.BUSINESS_CONNECTION_ID_FIELD, setBusinessAccountProfilePhoto.getBusinessConnectionId())
                     .addPart(SetBusinessAccountProfilePhoto.IS_PUBLIC_FIELD, setBusinessAccountProfilePhoto.getIsPublic());
 
@@ -133,7 +134,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                 builder.addJsonPart(SetBusinessAccountProfilePhoto.PHOTO_FIELD, photo)
                         .addInputFile(InputProfilePhotoAnimated.ANIMATION_FIELD, photo.getAnimation(), false);
             }
-    
+
             Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
             return sendRequest(setBusinessAccountProfilePhoto, httpPost);
         } catch (TelegramApiException e) {
@@ -142,7 +143,36 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + setBusinessAccountProfilePhoto.getMethod(), e));
         }
     }
-    
+
+    @Override
+    public CompletableFuture<Boolean> executeAsync(SetMyProfilePhoto setMyProfilePhoto) {
+        try {
+            assertParamNotNull(setMyProfilePhoto, "setMyProfilePhoto");
+            setMyProfilePhoto.validate();
+
+            HttpUrl url = buildUrl(setMyProfilePhoto.getMethod());
+
+            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
+
+            if (InputProfilePhotoStatic.TYPE.equals(setMyProfilePhoto.getPhoto().getType())) {
+                InputProfilePhotoStatic photo = (InputProfilePhotoStatic) setMyProfilePhoto.getPhoto();
+                builder.addJsonPart(SetMyProfilePhoto.PHOTO_FIELD, photo)
+                        .addInputFile(InputProfilePhotoStatic.PHOTO_FIELD, photo.getPhoto(), false);
+            } else if (InputProfilePhotoAnimated.TYPE.equals(setMyProfilePhoto.getPhoto().getType())) {
+                InputProfilePhotoAnimated photo = (InputProfilePhotoAnimated) setMyProfilePhoto.getPhoto();
+                builder.addJsonPart(SetMyProfilePhoto.PHOTO_FIELD, photo)
+                        .addInputFile(InputProfilePhotoAnimated.ANIMATION_FIELD, photo.getAnimation(), false);
+            }
+
+            Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
+            return sendRequest(setMyProfilePhoto, httpPost);
+        } catch (TelegramApiException e) {
+            return CompletableFuture.failedFuture(e);
+        } catch (IOException e) {
+            return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + setMyProfilePhoto.getMethod(), e));
+        }
+    }
+
     @Override
     public CompletableFuture<Message> executeAsync(SendDocument sendDocument) {
         return executeMediaMethod(sendDocument, builder -> {

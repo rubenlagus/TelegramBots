@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.generics;
 
+import org.telegram.telegrambots.meta.api.methods.SetMyProfilePhoto;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.business.SetBusinessAccountProfilePhoto;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
@@ -49,6 +50,15 @@ public interface TelegramClient {
     Message execute(SendSticker sendSticker) throws TelegramApiException;
 
     Boolean execute(SetBusinessAccountProfilePhoto setBusinessAccountProfilePhoto) throws TelegramApiException;
+
+    /**
+     * Set bot profile photo
+     * @param setMyProfilePhoto Information to set the photo
+     * @return If success, true is returned
+     * @throws TelegramApiException If there is any error setting the photo.
+     * @see <a href="https://core.telegram.org/bots/api#setMyProfilePhoto">https://core.telegram.org/bots/api#setMyProfilePhoto</a>
+     */
+    Boolean execute(SetMyProfilePhoto setMyProfilePhoto) throws TelegramApiException;
 
     /**
      * Sends a file using Send Audio method
@@ -278,6 +288,14 @@ public interface TelegramClient {
      * @return True on success
      */
     CompletableFuture<Boolean> executeAsync(SetBusinessAccountProfilePhoto setBusinessAccountProfilePhoto);
+
+    /**
+     * Set bot profile photo
+     * @param setMyProfilePhoto Information to set the photo
+     * @return If success, true is returned
+     * @see <a href="https://core.telegram.org/bots/api#setMyProfilePhoto">https://core.telegram.org/bots/api#setMyProfilePhoto</a>
+     */
+    CompletableFuture<Boolean> executeAsync(SetMyProfilePhoto setMyProfilePhoto);
 
     CompletableFuture<java.io.File> downloadFileAsync(File file);
 
