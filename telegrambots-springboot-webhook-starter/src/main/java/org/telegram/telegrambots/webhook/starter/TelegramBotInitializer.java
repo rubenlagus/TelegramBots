@@ -4,6 +4,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.webhook.TelegramWebhookBot;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -14,10 +15,10 @@ import java.util.stream.Stream;
 public class TelegramBotInitializer implements InitializingBean {
 
     private final TelegramBotsSpringWebhookApplication telegramBotsApplication;
-    private final List<SpringTelegramWebhookBot> webhookBots;
+    private final List<TelegramWebhookBot> webhookBots;
 
     public TelegramBotInitializer(@NonNull TelegramBotsSpringWebhookApplication telegramBotsApplication,
-                                  @NonNull List<SpringTelegramWebhookBot> webhookBots) {
+                                  @NonNull List<TelegramWebhookBot> webhookBots) {
         this.telegramBotsApplication = telegramBotsApplication;
         this.webhookBots = webhookBots;
     }
@@ -25,7 +26,7 @@ public class TelegramBotInitializer implements InitializingBean {
     @Override
     public void afterPropertiesSet()  {
         try {
-            for (SpringTelegramWebhookBot webhookBot : webhookBots) {
+            for (TelegramWebhookBot webhookBot : webhookBots) {
                 telegramBotsApplication.registerBot(webhookBot);
                 handleAfterRegistrationHook(webhookBot);
             }
