@@ -28,7 +28,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 public class SetMyProfilePhoto extends PartialBotApiMethod<Boolean> {
     public static final String PATH = "setMyProfilePhoto";
 
-    private static final String PHOTO_FIELD = "photo";
+    public static final String PHOTO_FIELD = "photo";
 
     /**
      * The new profile photo to set
