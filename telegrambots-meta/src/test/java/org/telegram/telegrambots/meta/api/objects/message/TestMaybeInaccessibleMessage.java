@@ -1,23 +1,22 @@
 package org.telegram.telegrambots.meta.api.objects.message;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tools.jackson.databind.json.JsonMapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 public class TestMaybeInaccessibleMessage {
-    private ObjectMapper mapper;
+    private JsonMapper mapper;
 
     @BeforeEach
     void setUp() {
-        mapper = new ObjectMapper();
+        mapper = new JsonMapper();
     }
 
     @Test
-    public void testInaccessibleMessage() throws JsonProcessingException {
+    public void testInaccessibleMessage() {
         String text = "{\n" +
                 "    \"date\": 0,\n" +
                 "    \"message_id\": 123456,\n" +

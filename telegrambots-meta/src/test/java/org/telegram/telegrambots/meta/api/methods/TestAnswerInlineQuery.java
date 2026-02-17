@@ -1,12 +1,12 @@
 package org.telegram.telegrambots.meta.api.methods;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultPhoto;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultsButton;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.cached.InlineQueryResultCachedPhoto;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +20,11 @@ import static org.junit.jupiter.api.Assertions.fail;
  */
 class TestAnswerInlineQuery {
     private AnswerInlineQuery answerInlineQuery;
-    private ObjectMapper objectMapper;
+    private JsonMapper objectMapper;
 
     @BeforeEach
     void setUp() {
-        objectMapper = new ObjectMapper();
+        objectMapper = new JsonMapper();
         answerInlineQuery = new AnswerInlineQuery("", new ArrayList<>());
     }
 
