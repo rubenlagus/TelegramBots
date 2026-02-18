@@ -43,6 +43,7 @@ public class UniqueGift implements BotApiObject {
     private static final String IS_PREMIUM_FIELD = "is_premium";
     private static final String IS_FROM_BLOCKCHAIN_FIELD = "is_from_blockchain";
     private static final String COLORS_FIELD = "colors";
+    private static final String IS_BURNED_FIELD = "is_burned";
 
     /**
      * Human-readable name of the regular gift from which this unique gift was upgraded
@@ -109,4 +110,10 @@ public class UniqueGift implements BotApiObject {
      */
     @JsonProperty(COLORS_FIELD)
     private UniqueGiftColors colors;
+    /**
+     * Optional.
+     * True, if the gift was used to craft another gift and isn't available anymore
+     */
+    @JsonProperty(IS_BURNED_FIELD)
+    private Boolean isBurned;
 }

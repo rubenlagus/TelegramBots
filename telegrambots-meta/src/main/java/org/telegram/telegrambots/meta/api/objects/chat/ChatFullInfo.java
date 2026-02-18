@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
+import org.telegram.telegrambots.meta.api.objects.Audio;
 import org.telegram.telegrambots.meta.api.objects.Birthdate;
 import org.telegram.telegrambots.meta.api.objects.ChatLocation;
 import org.telegram.telegrambots.meta.api.objects.ChatPermissions;
@@ -84,6 +85,7 @@ public class ChatFullInfo extends Chat {
     private static final String RATING_FIELD = "rating";
     private static final String UNIQUE_GIFT_COLORS_FIELD = "unique_gift_colors";
     private static final String PAID_MESSAGE_STAR_COUNT_FIELD = "paid_message_star_count";
+    private static final String FIRST_PROFILE_AUDIO_FIELD = "first_profile_audio";
 
     /**
      * Optional.
@@ -375,4 +377,10 @@ public class ChatFullInfo extends Chat {
      */
     @JsonProperty(PAID_MESSAGE_STAR_COUNT_FIELD)
     private Integer paidMessageStarCount;
+    /**
+     * Optional.
+     * For private chats, the first audio added to the profile of the user
+     */
+    @JsonProperty(FIRST_PROFILE_AUDIO_FIELD)
+    private Audio firstProfileAudio;
 }
