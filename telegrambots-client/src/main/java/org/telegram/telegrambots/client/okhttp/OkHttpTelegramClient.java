@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.client.okhttp;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
@@ -47,6 +46,8 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoAnimated;
 import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoStatic;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,17 +61,17 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
     final OkHttpClient client;
     private final String botToken;
     private final TelegramUrl telegramUrl;
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
 
-    public OkHttpTelegramClient(@NonNull ObjectMapper objectMapper, @NonNull OkHttpClient client, @NonNull String botToken, @NonNull TelegramUrl telegramUrl) {
-        this.objectMapper = objectMapper;
+    public OkHttpTelegramClient(@NonNull JsonMapper jsonMapper, @NonNull OkHttpClient client, @NonNull String botToken, @NonNull TelegramUrl telegramUrl) {
+        this.jsonMapper = jsonMapper;
         this.client = client;
         this.botToken = botToken;
         this.telegramUrl = telegramUrl;
     }
 
     public OkHttpTelegramClient(OkHttpClient client, String botToken, TelegramUrl telegramUrl) {
-        this(new ObjectMapper(), client, botToken, telegramUrl);
+        this(new JsonMapper(), client, botToken, telegramUrl);
     }
 
     public OkHttpTelegramClient(OkHttpClient client, String botToken) {
@@ -94,7 +95,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
         try {
             HttpUrl url = buildUrl(method.getMethod());
-            String body = objectMapper.writeValueAsString(method);
+            String body = jsonMapper.writeValueAsString(method);
             Headers headers = new Headers.Builder()
                     .add("charset", StandardCharsets.UTF_8.name())
                     .add("content-type", "application/json").build();
@@ -106,7 +107,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                     .build();
 
             return sendRequest(method, request);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new TelegramApiException("Unable to execute " + method.getMethod() + " method", e);
         }
     }
@@ -119,7 +120,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
     
             HttpUrl url = buildUrl(setBusinessAccountProfilePhoto.getMethod());
     
-            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
+            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(jsonMapper);
     
             builder.addPart(SetBusinessAccountProfilePhoto.BUSINESS_CONNECTION_ID_FIELD, setBusinessAccountProfilePhoto.getBusinessConnectionId())
                     .addPart(SetBusinessAccountProfilePhoto.IS_PUBLIC_FIELD, setBusinessAccountProfilePhoto.getIsPublic());
@@ -138,7 +139,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             return sendRequest(setBusinessAccountProfilePhoto, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + setBusinessAccountProfilePhoto.getMethod(), e));
         }
     }
@@ -179,7 +180,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
             HttpUrl url = buildUrl(setWebhook.getMethod());
 
-            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
+            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(jsonMapper);
 
             builder.addPart(SetWebhook.URL_FIELD, setWebhook.getUrl())
                     .addPart(SetWebhook.MAX_CONNECTIONS_FIELD, setWebhook.getMaxConnections())
@@ -195,7 +196,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             return sendRequest(setWebhook, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + setWebhook.getMethod(), e));
         }
     }
@@ -290,7 +291,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
             HttpUrl url = buildUrl(sendPaidMedia.getMethod());
 
-            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
+            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(jsonMapper);
 
             addPaidInputData(builder, SendPaidMedia.MEDIA_FIELD, sendPaidMedia.getMedia());
 
@@ -315,7 +316,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             return sendRequest(sendPaidMedia, httpPost).thenApply(list -> list);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + sendPaidMedia.getMethod(), e));
         }
     }
@@ -328,7 +329,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
             HttpUrl url = buildUrl(sendMediaGroup.getMethod());
 
-            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
+            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(jsonMapper);
 
             addInputData(builder, SendMediaGroup.MEDIA_FIELD, sendMediaGroup.getMedias());
 
@@ -352,7 +353,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             return sendRequest(sendMediaGroup, httpPost).thenApply(list -> list);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + sendMediaGroup.getMethod(), e));
         }
     }
@@ -388,7 +389,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
             HttpUrl url = buildUrl(setChatPhoto.getMethod());
 
-            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
+            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(jsonMapper);
 
             builder.addPart(SetChatPhoto.CHATID_FIELD, setChatPhoto.getChatId());
 
@@ -411,7 +412,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
             HttpUrl url = buildUrl(addStickerToSet.getMethod());
 
-            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
+            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(jsonMapper);
 
             builder.addPart(AddStickerToSet.USERID_FIELD, addStickerToSet.getUserId())
                     .addPart(AddStickerToSet.NAME_FIELD, addStickerToSet.getName());
@@ -422,7 +423,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             return sendRequest(addStickerToSet, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + addStickerToSet.getMethod(), e));
         }
     }
@@ -435,7 +436,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
             HttpUrl url = buildUrl(replaceStickerInSet.getMethod());
 
-            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
+            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(jsonMapper);
 
             builder.addPart(ReplaceStickerInSet.USERID_FIELD, replaceStickerInSet.getUserId())
                     .addPart(ReplaceStickerInSet.OLD_STICKER_FIELD, replaceStickerInSet.getOldSticker())
@@ -447,7 +448,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             return sendRequest(replaceStickerInSet, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + replaceStickerInSet.getMethod(), e));
         }
     }
@@ -460,7 +461,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
             HttpUrl url = buildUrl(setStickerSetThumbnail.getMethod());
 
-            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
+            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(jsonMapper);
 
             builder.addPart(SetStickerSetThumbnail.USER_ID_FIELD, setStickerSetThumbnail.getUserId())
                     .addPart(SetStickerSetThumbnail.NAME_FIELD, setStickerSetThumbnail.getName())
@@ -482,7 +483,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
             HttpUrl url = buildUrl(createNewStickerSet.getMethod());
 
-            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
+            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(jsonMapper);
 
             builder.addPart(CreateNewStickerSet.USER_ID_FIELD, createNewStickerSet.getUserId())
                     .addPart(CreateNewStickerSet.NAME_FIELD, createNewStickerSet.getName())
@@ -495,7 +496,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             return sendRequest(createNewStickerSet, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + createNewStickerSet.getMethod(), e));
         }
     }
@@ -508,7 +509,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
             HttpUrl url = buildUrl(uploadStickerFile.getMethod());
 
-            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
+            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(jsonMapper);
 
             builder
                     .addPart(UploadStickerFile.USERID_FIELD, uploadStickerFile.getUserId())
@@ -532,7 +533,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
             HttpUrl url = buildUrl(editMessageMedia.getMethod());
 
-            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
+            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(jsonMapper);
 
             builder.addPart(EditMessageMedia.CHAT_ID_FIELD, editMessageMedia.getChatId())
                     .addPart(EditMessageMedia.MESSAGE_ID_FIELD, editMessageMedia.getMessageId())
@@ -546,7 +547,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             return sendRequest(editMessageMedia, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + editMessageMedia.getMethod(), e));
         }
     }
@@ -621,7 +622,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
             HttpUrl url = buildUrl(method.getMethod());
 
-            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
+            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(jsonMapper);
 
             builder.addInputFile(method.getFileField(), method.getFile(), true);
 
@@ -645,7 +646,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             return sendRequest(method, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + method.getMethod(), e));
         }
     }
@@ -667,7 +668,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
         return builder.build();
     }
 
-    private void addInputData(TelegramMultipartBuilder builder, String mediaField, InputMedia media, boolean addField) throws IOException {
+    private void addInputData(TelegramMultipartBuilder builder, String mediaField, InputMedia media, boolean addField) throws IOException, JacksonException {
         if (media.isNewMedia()) {
             builder.addMedia(media);
         }
@@ -698,7 +699,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
         }
     }
 
-    private void addInputData(TelegramMultipartBuilder builder, String mediaField, InputPaidMedia media, boolean addField) throws IOException {
+    private void addInputData(TelegramMultipartBuilder builder, String mediaField, InputPaidMedia media, boolean addField) throws IOException, JacksonException {
         if (media.isNewMedia()) {
             builder.addMedia(media);
         }
@@ -718,7 +719,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
         }
     }
 
-    private void addPaidInputData(TelegramMultipartBuilder builder, String mediaField, List<InputPaidMedia> media) throws IOException {
+    private void addPaidInputData(TelegramMultipartBuilder builder, String mediaField, List<InputPaidMedia> media) throws IOException, JacksonException {
         for (InputPaidMedia inputMedia : media) {
             addInputData(builder, null, inputMedia, false);
         }
@@ -726,7 +727,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
         builder.addJsonPart(mediaField, media);
     }
 
-    private void addInputData(TelegramMultipartBuilder builder, String mediaField, List<InputMedia> media) throws IOException {
+    private void addInputData(TelegramMultipartBuilder builder, String mediaField, List<InputMedia> media) throws IOException, JacksonException {
         for (InputMedia inputMedia : media) {
             addInputData(builder, null, inputMedia, false);
         }
