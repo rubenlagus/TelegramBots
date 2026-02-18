@@ -20,11 +20,11 @@ import static org.junit.jupiter.api.Assertions.fail;
  */
 class TestAnswerInlineQuery {
     private AnswerInlineQuery answerInlineQuery;
-    private JsonMapper objectMapper;
+    private JsonMapper jsonMapper;
 
     @BeforeEach
     void setUp() {
-        objectMapper = new JsonMapper();
+        jsonMapper = new JsonMapper();
         answerInlineQuery = new AnswerInlineQuery("", new ArrayList<>());
     }
 
@@ -157,9 +157,9 @@ class TestAnswerInlineQuery {
                             .build()
             ));
 
-            String serializedObject = objectMapper.writeValueAsString(answerInlineQuery);
+            String serializedObject = jsonMapper.writeValueAsString(answerInlineQuery);
 
-            AnswerInlineQuery deserializedObject = objectMapper.readValue(serializedObject, AnswerInlineQuery.class);
+            AnswerInlineQuery deserializedObject = jsonMapper.readValue(serializedObject, AnswerInlineQuery.class);
 
             assertEquals(answerInlineQuery, deserializedObject);
         } catch (Exception e) {

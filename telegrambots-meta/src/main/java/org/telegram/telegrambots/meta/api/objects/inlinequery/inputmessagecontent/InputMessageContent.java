@@ -7,9 +7,11 @@ import org.telegram.telegrambots.meta.api.interfaces.Validable;
 
 /**
  * @author Ruben Bermudez
- * @version 1.0 This object represents the content of a message to be sent as a result of an inline query.
+ * @version 1.0
+ * This object represents the content of a message to be sent as a result of an inline
+ * query.
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION, defaultImpl = Void.class)
+@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
 @JsonSubTypes({
         @JsonSubTypes.Type(InputTextMessageContent.class),
         @JsonSubTypes.Type(InputVenueMessageContent.class),
