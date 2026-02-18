@@ -152,7 +152,7 @@ public class TelegramBotsWebhookApplication implements AutoCloseable {
         }
     }
 
-    private void startServerInternal() throws TelegramApiException {
+    private void startServerInternal() {
         app = Javalin
                 .create(javalinConfig -> {
                     SslPlugin sslPlugin = new SslPlugin(conf -> {
@@ -175,6 +175,7 @@ public class TelegramBotsWebhookApplication implements AutoCloseable {
                             log.info("Webhook {} request received from {}", ctx.method(), ctx.req().getRemoteAddr());
                         }
                     });
+                    javalinConfig.jsonMapper(new Jackson3Mapper());
                 })
                 .events(events -> {
                     events.serverStarted(() -> log.info("Webhook server started"));
