@@ -1,7 +1,5 @@
 package org.telegram.telegrambots.longpolling;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import okhttp3.HttpUrl;
 import okhttp3.mockwebserver.Dispatcher;
@@ -21,6 +19,7 @@ import org.telegram.telegrambots.meta.TelegramUrl;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +36,7 @@ import static org.mockito.Mockito.verify;
 
 public class TestTelegramBotsLongPollingApplicationIntegration {
     private MockWebServer webServer;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final JsonMapper jsonMapper = new JsonMapper();
     private TelegramUrl telegramUrl;
     private TelegramBotsLongPollingApplication application;
 
@@ -53,7 +52,7 @@ public class TestTelegramBotsLongPollingApplicationIntegration {
         HttpUrl mockUrl = webServer.url("");
         telegramUrl = TelegramUrl.builder().schema(mockUrl.scheme()).host(mockUrl.host()).port(mockUrl.port()).build();
         application = new TelegramBotsLongPollingApplication(
-                ObjectMapper::new,
+                JsonMapper::new,
                 new TelegramOkHttpClientFactory.DefaultOkHttpClientCreator(),
                 Executors::newSingleThreadScheduledExecutor,
                 () -> exponentialBackOff
@@ -318,11 +317,11 @@ public class TestTelegramBotsLongPollingApplicationIntegration {
         };
     }
 
-    private MockResponse mockResponse(Object responseObject) throws JsonProcessingException {
+    private MockResponse mockResponse(Object responseObject) {
         return new MockResponse()
                 .addHeader("Content-Type", "application/json; charset=utf-8")
                 .addHeader("Cache-Control", "no-cache")
-                .setBody(objectMapper.writeValueAsString(responseObject));
+                .setBody(jsonMapper.writeValueAsString(responseObject));
     }
 
     private ApiResponse<List<Update>> getFakeUpdates1() {
