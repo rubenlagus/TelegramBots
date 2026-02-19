@@ -54,7 +54,7 @@ public class Jackson3Mapper implements io.javalin.json.JsonMapper {
         }
 
         return pipedStreamExecutor.getInputStream(pipedOutputStream -> {
-            mapper.createGenerator(pipedOutputStream).writePOJO(obj);
+            mapper.writeValue(pipedOutputStream, obj);
 
             return Unit.INSTANCE;
         });
@@ -62,8 +62,8 @@ public class Jackson3Mapper implements io.javalin.json.JsonMapper {
 
     @Override
     public void writeToOutputStream(@NotNull Stream<?> stream, @NotNull OutputStream outputStream) {
-        var sequenceWriter = mapper.writer().writeValuesAsArray(outputStream);
-
-        stream.forEach(sequenceWriter::write);
+        try (var sequenceWriter = mapper.writer().writeValuesAsArray(outputStream)) {
+            stream.forEach(sequenceWriter::write);
+        }
     }
 }
