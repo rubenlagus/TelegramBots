@@ -1,7 +1,5 @@
 package org.telegram.telegrambots.client.jetty;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.jetty.client.InputStreamRequestContent;
 import org.eclipse.jetty.client.MultiPartRequestContent;
 import org.eclipse.jetty.client.PathRequestContent;
@@ -13,6 +11,8 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
 import org.telegram.telegrambots.meta.api.objects.media.paid.InputPaidMedia;
 import org.telegram.telegrambots.meta.api.objects.stickers.InputSticker;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,9 +23,9 @@ import java.util.List;
  */
 public class JettyMultipartBuilder {
     private final MultiPartRequestContent multiPart = new MultiPartRequestContent();
-    private final ObjectMapper mapper;
+    private final JsonMapper mapper;
 
-    public JettyMultipartBuilder(ObjectMapper mapper) {
+    public JettyMultipartBuilder(JsonMapper mapper) {
         this.mapper = mapper;
     }
 
@@ -66,7 +66,7 @@ public class JettyMultipartBuilder {
      * @param value the nullable value to add
      * @return the builder
      */
-    public JettyMultipartBuilder addJsonPart(String fieldName, Object value) throws JsonProcessingException {
+    public JettyMultipartBuilder addJsonPart(String fieldName, Object value) throws JacksonException {
         if (value != null) {
             this.addPart(fieldName, mapper.writeValueAsString(value));
         }
@@ -137,7 +137,7 @@ public class JettyMultipartBuilder {
         return this;
     }
 
-    public JettyMultipartBuilder addInputStickers(String stickersField, List<InputSticker> stickers) throws IOException {
+    public JettyMultipartBuilder addInputStickers(String stickersField, List<InputSticker> stickers) throws IOException, JacksonException {
         for (InputSticker sticker : stickers) {
             addInputFile(null, sticker.getSticker(), false);
         }

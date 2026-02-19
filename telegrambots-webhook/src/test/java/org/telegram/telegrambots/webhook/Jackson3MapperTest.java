@@ -85,8 +85,7 @@ class Jackson3MapperTest {
                     "field1": "value2",
                     "field2": 43
                   }
-                ]
-                """
+                ]"""
         );
 
         try (var outputStream = new ByteArrayOutputStream()) {
