@@ -18,8 +18,7 @@ class Jackson3MapperTest {
                                        {
                                          "field1": "value1",
                                          "field2": 42
-                                       }
-                                       """;
+                                       }""";
 
     @Test
     void testFromJsonString() {

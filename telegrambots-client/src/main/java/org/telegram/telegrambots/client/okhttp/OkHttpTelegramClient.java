@@ -153,7 +153,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
             HttpUrl url = buildUrl(setMyProfilePhoto.getMethod());
 
-            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
+            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(jsonMapper);
 
             if (InputProfilePhotoStatic.TYPE.equals(setMyProfilePhoto.getPhoto().getType())) {
                 InputProfilePhotoStatic photo = (InputProfilePhotoStatic) setMyProfilePhoto.getPhoto();
