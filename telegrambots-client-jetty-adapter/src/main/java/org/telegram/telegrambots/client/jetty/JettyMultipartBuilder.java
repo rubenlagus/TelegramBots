@@ -61,7 +61,7 @@ public class JettyMultipartBuilder {
     }
 
     /**
-     * Add field to the builder if value is not null. The value is converted using ObjectMapper.writeValueAsString()
+     * Add field to the builder if value is not null. The value is converted using JsonMapper.writeValueAsString()
      * @param fieldName the field name to add to the multipart
      * @param value the nullable value to add
      * @return the builder
