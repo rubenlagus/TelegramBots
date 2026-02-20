@@ -120,9 +120,9 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             setBusinessAccountProfilePhoto.validate();
 
             HttpUrl url = buildUrl(setBusinessAccountProfilePhoto.getMethod());
-    
+
             TelegramMultipartBuilder builder = new TelegramMultipartBuilder(jsonMapper);
-    
+
             builder.addPart(SetBusinessAccountProfilePhoto.BUSINESS_CONNECTION_ID_FIELD, setBusinessAccountProfilePhoto.getBusinessConnectionId())
                     .addPart(SetBusinessAccountProfilePhoto.IS_PUBLIC_FIELD, setBusinessAccountProfilePhoto.getIsPublic());
 
