@@ -1,17 +1,25 @@
 package org.telegram.telegrambots.abilitybots.api.db;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.mapdb.Atomic;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
 import org.mapdb.Serializer;
 import org.telegram.telegrambots.abilitybots.api.util.Pair;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.DefaultTyping;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import tools.jackson.databind.jsontype.PolymorphicTypeValidator;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.StringJoiner;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
@@ -31,13 +39,19 @@ import static org.mapdb.Serializer.JAVA;
 @Slf4j
 public class MapDBContext implements DBContext {
   private final DB db;
-  private final ObjectMapper objectMapper;
+  private final JsonMapper jsonMapper;
 
   public MapDBContext(DB db) {
     this.db = db;
 
-    objectMapper = new ObjectMapper();
-    objectMapper.activateDefaultTyping(objectMapper.getPolymorphicTypeValidator());
+    PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
+            .allowIfSubType("org.telegram.telegrambots")
+            .allowIfSubType("java")
+            .build();
+
+    this.jsonMapper = JsonMapper.builder()
+            .activateDefaultTyping(ptv, DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY)
+            .build();
   }
 
   /**
@@ -114,11 +128,11 @@ public class MapDBContext implements DBContext {
     Map<String, Object> snapshot = localCopy();
 
     try {
-      Map<String, Object> backupData = objectMapper.readValue(backup.toString(), new TypeReference<HashMap<String, Object>>() {
+      Map<String, Object> backupData = jsonMapper.readValue(backup.toString(), new TypeReference<HashMap<String, Object>>() {
       });
       doRecover(backupData);
       return true;
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       log.error(format("Could not recover DB data from file with String representation %s", backup), e);
       // Attempt to fallback to data snapshot before recovery
       doRecover(snapshot);
@@ -210,8 +224,8 @@ public class MapDBContext implements DBContext {
 
   private String writeAsString(Object obj) {
     try {
-      return objectMapper.writeValueAsString(obj);
-    } catch (JsonProcessingException e) {
+      return jsonMapper.writeValueAsString(obj);
+    } catch (JacksonException e) {
       log.info(format("Failed to read the JSON representation of object: %s", obj), e);
       return "Error reading required data...";
     }

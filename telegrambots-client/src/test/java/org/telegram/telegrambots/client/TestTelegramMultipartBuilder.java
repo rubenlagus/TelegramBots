@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.client;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.MultipartBody;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.location.Location;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaDocument;
 import org.telegram.telegrambots.meta.api.objects.stickers.InputSticker;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.File;
 import java.io.InputStream;
@@ -23,7 +23,7 @@ public class TestTelegramMultipartBuilder {
 
     @BeforeEach
     public void setUp() {
-        multipartBuilder = new TelegramMultipartBuilder(new ObjectMapper());
+        multipartBuilder = new TelegramMultipartBuilder(new JsonMapper());
     }
 
     @Test

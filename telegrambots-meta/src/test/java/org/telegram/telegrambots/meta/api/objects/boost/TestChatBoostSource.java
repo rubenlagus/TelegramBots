@@ -1,20 +1,20 @@
 package org.telegram.telegrambots.meta.api.objects.boost;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.User;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestChatBoostSource {
-    private ObjectMapper mapper;
+    private JsonMapper mapper;
 
     @BeforeEach
     void setUp() {
-        mapper = new ObjectMapper();
+        mapper = new JsonMapper();
     }
 
     @Test

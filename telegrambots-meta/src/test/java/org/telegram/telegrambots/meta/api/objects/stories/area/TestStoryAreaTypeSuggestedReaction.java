@@ -1,12 +1,11 @@
 package org.telegram.telegrambots.meta.api.objects.stories.area;
 
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.reactions.ReactionType;
 import org.telegram.telegrambots.meta.api.objects.reactions.ReactionTypeEmoji;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import tools.jackson.databind.MapperFeature;
+import tools.jackson.databind.json.JsonMapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -16,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.fail;
  * @version 9.0
  */
 public class TestStoryAreaTypeSuggestedReaction {
-    private final ObjectMapper mapper = JsonMapper.builder()
+    private final JsonMapper mapper = JsonMapper.builder()
             .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
             .build();
 

@@ -17,7 +17,6 @@
 
 package org.telegram.telegrambots.meta.exceptions;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.ResponseParameters;
@@ -30,11 +29,6 @@ import org.telegram.telegrambots.meta.api.objects.ResponseParameters;
  */
 @Getter
 public class TelegramApiRequestException extends TelegramApiException {
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    private static final String ERRORDESCRIPTIONFIELD = "description";
-    private static final String ERRORCODEFIELD = "error_code";
-    private static final String PARAMETERSFIELD = "parameters";
-
     private String apiResponse = null;
     private Integer errorCode = 0;
     private ResponseParameters parameters;
