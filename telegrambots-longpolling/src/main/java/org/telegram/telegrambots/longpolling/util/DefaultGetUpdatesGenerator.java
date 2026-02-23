@@ -1,20 +1,24 @@
 package org.telegram.telegrambots.longpolling.util;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.telegram.telegrambots.meta.api.methods.updates.GetUpdates;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
 @AllArgsConstructor
-@NoArgsConstructor
 public class DefaultGetUpdatesGenerator implements Function<Integer, GetUpdates> {
+
+    public static final DefaultGetUpdatesGenerator INSTANCE = new DefaultGetUpdatesGenerator();
+
     private static final int GET_UPDATES_LIMIT = 100;
     private static final int GET_UPDATES_TIMEOUT = 50;
 
-    private List<String> allowedUpdates = new ArrayList<>();
+    private final List<String> allowedUpdates;
+
+    public DefaultGetUpdatesGenerator() {
+        this(List.of());
+    }
 
     @Override
     public GetUpdates apply(Integer lastReceivedUpdate) {
