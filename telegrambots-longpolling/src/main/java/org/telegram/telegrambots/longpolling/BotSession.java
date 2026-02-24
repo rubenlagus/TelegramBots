@@ -24,6 +24,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.longpolling.interfaces.BackOff;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
@@ -117,7 +118,12 @@ public class BotSession implements AutoCloseable {
                 }
             } catch (TelegramApiErrorResponseException e) {
                 long backOffMillis = backOff.nextBackOffMillis();
-                log.error("Error received from Telegram GetUpdates Request, retrying in {} millis...", backOffMillis, e);
+                if (e.getCause() != null && e.getCause() instanceof SocketException ee) {
+                    log.error("Error received during Telegram GetUpdates Request, some SocketException: {}. Retrying in {} millis...",
+                            ee.getMessage(), backOffMillis);
+                } else {
+					log.error("Error received from Telegram GetUpdates Request, retrying in {} millis...", backOffMillis, e);
+				}
                 try {
                     Thread.sleep(backOffMillis);
                 } catch (InterruptedException ex) {
