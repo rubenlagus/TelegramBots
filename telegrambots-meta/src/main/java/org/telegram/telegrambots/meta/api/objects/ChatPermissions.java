@@ -45,6 +45,7 @@ public class ChatPermissions implements BotApiObject {
     private static final String CAN_INVITE_USERS_FIELD = "can_invite_users";
     private static final String CAN_PIN_MESSAGES_FIELD = "can_pin_messages";
     private static final String CANMANAGETOPICS_FIELD = "can_manage_topics";
+    private static final String CANEDITTAG_FIELD = "can_edit_tag";
 
     private static final String CAN_SEND_MEDIA_MESSAGES_FIELD = "can_send_media_messages";
 
@@ -126,4 +127,10 @@ public class ChatPermissions implements BotApiObject {
      */
     @JsonProperty(CANMANAGETOPICS_FIELD)
     private Boolean canManageTopics;
+    /**
+     * Optional.
+     * True, if the user is allowed to edit their own tag
+     */
+    @JsonProperty(CANEDITTAG_FIELD)
+    private Boolean canEditTag;
 }
