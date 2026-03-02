@@ -33,6 +33,7 @@ public class UniqueGiftModel implements BotApiObject {
     private static final String NAME_FIELD = "name";
     private static final String STICKER_FIELD = "sticker";
     private static final String RARITY_PER_MILLE_FIELD = "rarity_per_mille";
+    private static final String RARITY_FIELD = "rarity";
 
     /**
      * Name of the model
@@ -47,9 +48,17 @@ public class UniqueGiftModel implements BotApiObject {
     @NonNull
     private Sticker sticker;
     /**
-     * The number of unique gifts that receive this model for every 1000 gifts upgraded
+     * The number of unique gifts that receive this model for every 1000 gifts upgraded.
+     * Always 0 for crafted gifts.
      */
     @JsonProperty(RARITY_PER_MILLE_FIELD)
     @NonNull
     private Integer rarityPerMille;
+    /**
+     * Optional.
+     * Rarity of the model if it is a crafted model.
+     * Currently, can be "uncommon", "rare", "epic", or "legendary".
+     */
+    @JsonProperty(RARITY_FIELD)
+    private String rarity;
 }

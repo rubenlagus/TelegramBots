@@ -10,14 +10,17 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
+import org.telegram.telegrambots.meta.api.objects.Audio;
 import org.telegram.telegrambots.meta.api.objects.Birthdate;
 import org.telegram.telegrambots.meta.api.objects.ChatLocation;
 import org.telegram.telegrambots.meta.api.objects.ChatPermissions;
 import org.telegram.telegrambots.meta.api.objects.ChatPhoto;
+import org.telegram.telegrambots.meta.api.objects.UserRating;
 import org.telegram.telegrambots.meta.api.objects.business.BusinessIntro;
 import org.telegram.telegrambots.meta.api.objects.business.BusinessLocation;
 import org.telegram.telegrambots.meta.api.objects.business.BusinessOpeningHours;
 import org.telegram.telegrambots.meta.api.objects.gifts.AcceptedGiftTypes;
+import org.telegram.telegrambots.meta.api.objects.gifts.UniqueGiftColors;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.reactions.ReactionType;
 
@@ -79,6 +82,10 @@ public class ChatFullInfo extends Chat {
     private static final String ACCEPTED_GIFT_TYPES_FIELD  = "accepted_gift_types";
     private static final String IS_DIRECT_MESSAGES_FIELD = "is_direct_messages";
     private static final String PARENT_CHAT_FIELD = "parent_chat";
+    private static final String RATING_FIELD = "rating";
+    private static final String UNIQUE_GIFT_COLORS_FIELD = "unique_gift_colors";
+    private static final String PAID_MESSAGE_STAR_COUNT_FIELD = "paid_message_star_count";
+    private static final String FIRST_PROFILE_AUDIO_FIELD = "first_profile_audio";
 
     /**
      * Optional.
@@ -352,4 +359,28 @@ public class ChatFullInfo extends Chat {
      */
     @JsonProperty(PARENT_CHAT_FIELD)
     private Chat parentChat;
+    /**
+     * Optional.
+     * For private chats, the rating of the user if any
+     */
+    @JsonProperty(RATING_FIELD)
+    private UserRating rating;
+    /**
+     * Optional.
+     * The color scheme based on a unique gift that must be used for the chat's name, message replies and link previews
+     */
+    @JsonProperty(UNIQUE_GIFT_COLORS_FIELD)
+    private UniqueGiftColors uniqueGiftColors;
+    /**
+     * Optional.
+     * The number of Telegram Stars a general user have to pay to send a message to the chat
+     */
+    @JsonProperty(PAID_MESSAGE_STAR_COUNT_FIELD)
+    private Integer paidMessageStarCount;
+    /**
+     * Optional.
+     * For private chats, the first audio added to the profile of the user
+     */
+    @JsonProperty(FIRST_PROFILE_AUDIO_FIELD)
+    private Audio firstProfileAudio;
 }

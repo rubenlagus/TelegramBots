@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
@@ -32,6 +31,7 @@ public class ForumTopicCreated implements BotApiObject {
     private static final String NAME_FIELD = "name";
     private static final String ICONCOLOR_FIELD = "icon_color";
     private static final String ICONCUSTOMEMOJIID_FIELD = "icon_custom_emoji_id";
+    private static final String IS_NAME_IMPLICIT_FIELD = "is_name_implicit";
 
 
     /**
@@ -50,5 +50,11 @@ public class ForumTopicCreated implements BotApiObject {
      */
     @JsonProperty(ICONCUSTOMEMOJIID_FIELD)
     private String iconCustomEmojiId;
+    /**
+     * Optional.
+     * True, if the name of the topic wasn't specified explicitly by its creator and likely needs to be changed by the bot
+     */
+    @JsonProperty(IS_NAME_IMPLICIT_FIELD)
+    private Boolean isNameImplicit;
 
 }

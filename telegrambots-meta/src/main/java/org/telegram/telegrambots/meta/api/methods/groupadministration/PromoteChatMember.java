@@ -56,6 +56,7 @@ public class PromoteChatMember extends BotApiMethodBoolean {
     private static final String CAN_EDIT_STORIES_FIELD = "can_edit_stories";
     private static final String CAN_DELETE_STORIES_FIELD = "can_delete_stories";
     private static final String CAN_MANAGE_DIRECT_MESSAGES_FIELD = "can_manage_direct_messages";
+    private static final String CAN_MANAGE_TAGS_FIELD = "can_manage_tags";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -78,8 +79,13 @@ public class PromoteChatMember extends BotApiMethodBoolean {
     private Boolean canDeleteMessages; ///< Optional. Pass True, if the administrator can delete messages of other users
     @JsonProperty(CANINVITEUSERS_FIELD)
     private Boolean canInviteUsers; ///< Optional. Pass True, if the administrator can invite new users to the chat
+    /**
+     * Optional.
+     * Pass True if the administrator can restrict, ban or unban chat members, or access supergroup statistics.
+     * For backward compatibility, defaults to True for promotions of channel administrators
+     */
     @JsonProperty(CANRESTRICTMEMBERS_FIELD)
-    private Boolean canRestrictMembers; ///< Optional. Pass True, if the administrator can restrict, ban or unban chat members
+    private Boolean canRestrictMembers;
     @JsonProperty(CANPINMESSAGES_FIELD)
     private Boolean canPinMessages; ///< Optional. Pass True, if the administrator can pin messages
     @JsonProperty(CANPROMOTEMEMBERS_FIELD)
@@ -133,6 +139,12 @@ public class PromoteChatMember extends BotApiMethodBoolean {
      */
     @JsonProperty(CAN_MANAGE_DIRECT_MESSAGES_FIELD)
     private Boolean canManageDirectMessages;
+    /**
+     * Optional
+     * Pass True if the administrator can edit the tags of regular members; for groups and supergroups only
+     */
+    @JsonProperty(CAN_MANAGE_TAGS_FIELD)
+    private Boolean canManageTags;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

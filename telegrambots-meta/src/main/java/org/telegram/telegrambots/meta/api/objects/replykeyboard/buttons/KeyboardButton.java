@@ -50,6 +50,8 @@ public class KeyboardButton implements Validable, BotApiObject {
     private static final String REQUESTUSER_FIELD = "request_user";
     private static final String REQUESTCHAT_FIELD = "request_chat";
     private static final String REQUEST_USERS_FIELD = "request_users";
+    private static final String ICON_CUSTOM_EMOJI_ID_FIELD = "icon_custom_emoji_id";
+    private static final String STYLE_FIELD = "style";
     /**
      * Text of the button.
      * If none of the optional fields are used, it will be sent to the bot as a message when the button is pressed
@@ -105,11 +107,26 @@ public class KeyboardButton implements Validable, BotApiObject {
     /**
      * Optional.
      * If specified, pressing the button will open a list of suitable users.
-     * Identifiers of selected users will be sent to the bot in a “users_shared” service message.
+     * Identifiers of selected users will be sent to the bot in a "users_shared" service message.
      * Available in private chats only.
      */
     @JsonProperty(REQUEST_USERS_FIELD)
     private KeyboardButtonRequestUsers requestUsers;
+    /**
+     * Optional.
+     * Unique identifier of the custom emoji shown before the text of the button.
+     * Can only be used by bots that purchased additional usernames on Fragment or in the messages directly sent
+     * by the bot to private, group and supergroup chats if the owner of the bot has a Telegram Premium subscription.
+     */
+    @JsonProperty(ICON_CUSTOM_EMOJI_ID_FIELD)
+    private String iconCustomEmojiId;
+    /**
+     * Optional.
+     * Style of the button. Must be one of "danger" (red), "success" (green) or "primary" (blue).
+     * If omitted, then an app-specific style is used.
+     */
+    @JsonProperty(STYLE_FIELD)
+    private String style;
 
     @Override
     public void validate() throws TelegramApiValidationException {

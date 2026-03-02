@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.client;
 
+import org.telegram.telegrambots.meta.api.methods.SetMyProfilePhoto;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.business.SetBusinessAccountProfilePhoto;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
@@ -103,6 +104,15 @@ public abstract class AbstractTelegramClient implements TelegramClient {
             return executeAsync(setBusinessAccountProfilePhoto).get();
         } catch (Exception e) {
             throw mapException(e, setBusinessAccountProfilePhoto.getMethod());
+        }
+    }
+
+    @Override
+    public Boolean execute(SetMyProfilePhoto setMyProfilePhoto) throws TelegramApiException {
+        try {
+            return executeAsync(setMyProfilePhoto).get();
+        } catch (Exception e) {
+            throw mapException(e, setMyProfilePhoto.getMethod());
         }
     }
 

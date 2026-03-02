@@ -1,7 +1,7 @@
 package org.telegram.telegrambots.client;
 
-import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 import org.telegram.telegrambots.meta.api.objects.chat.ChatFullInfo;
 
 public class TestData {
@@ -33,6 +33,7 @@ public class TestData {
             false,
             null,
             null,
+            false,
             false
     );
     public static final Chat PRIVATE_CHAT = ChatFullInfo
@@ -57,6 +58,7 @@ public class TestData {
             null,
             false,
             null,
+            false,
             false
     );
 }

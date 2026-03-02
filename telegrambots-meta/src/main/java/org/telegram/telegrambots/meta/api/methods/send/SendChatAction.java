@@ -63,8 +63,9 @@ public class SendChatAction extends BotApiMethodBoolean {
     @NonNull
     private String action;
     /**
-     * Optional
-     * Unique identifier for the target message thread; supergroups only
+     * Optional.
+     * Unique identifier for the target message thread or topic of a forum;
+     * for supergroups and private chats of bots with forum topic mode enabled only
      */
     @JsonProperty(MESSAGE_THREAD_ID_FIELD)
     private Integer messageThreadId;

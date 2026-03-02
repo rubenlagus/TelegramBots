@@ -65,7 +65,7 @@ public class SendGift extends BotApiMethodBoolean {
     @JsonProperty(CHAT_ID_FIELD)
     private String chatId;
     /**
-     * Identifier of the gift
+     * Identifier of the gift; limited gifts can't be sent to channel chats
      */
     @JsonProperty(GIFT_ID_FIELD)
     @NonNull

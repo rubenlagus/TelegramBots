@@ -3,17 +3,17 @@ package org.telegram.telegrambots.abilitybots.api.bot;
 import org.jetbrains.annotations.NotNull;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.abilitybots.api.objects.MessageContext;
-import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.telegram.telegrambots.abilitybots.api.objects.MessageContext.newContext;
 
 public final class TestUtils {
-  public static final User USER = new User(1L, "first", false, "last", "username", null, false, false, false, false, false, false, false);
-  public static final User CREATOR = new User(1337L, "creatorFirst", false, "creatorLast", "creatorUsername", null, false, false, false, false, false, false, false);
+  public static final User USER = new User(1L, "first", false, "last", "username", null, false, false, false, false, false, false, false, false);
+  public static final User CREATOR = new User(1337L, "creatorFirst", false, "creatorLast", "creatorUsername", null, false, false, false, false, false, false, false, false);
 
   private TestUtils() {
 
@@ -35,7 +35,7 @@ public final class TestUtils {
     when(message.getText()).thenReturn(args);
     when(message.hasText()).thenReturn(true);
     when(message.isUserMessage()).thenReturn(true);
-    when(message.getChatId()).thenReturn((long) user.getId());
+    when(message.getChatId()).thenReturn(user.getId());
     when(update.getMessage()).thenReturn(message);
     return update;
   }

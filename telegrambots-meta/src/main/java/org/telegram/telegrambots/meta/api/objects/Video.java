@@ -44,6 +44,7 @@ public class Video implements BotApiObject {
     private static final String FILE_NAME_FIELD = "file_name";
     private static final String COVER_FIELD = "cover";
     private static final String START_TIMESTAMP_FIELD = "start_timestamp";
+    private static final String QUALITIES_FIELD = "qualities";
 
     /**
      * Identifier for this file, which can be used to download or reuse the file
@@ -108,4 +109,10 @@ public class Video implements BotApiObject {
      */
     @JsonProperty(START_TIMESTAMP_FIELD)
     private Integer startTimestamp;
+    /**
+     * Optional.
+     * List of available qualities of the video.
+     */
+    @JsonProperty(QUALITIES_FIELD)
+    private List<VideoQuality> qualities;
 }

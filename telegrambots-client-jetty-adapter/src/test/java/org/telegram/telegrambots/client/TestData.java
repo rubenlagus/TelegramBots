@@ -33,6 +33,7 @@ public class TestData {
             false,
             null,
             null,
+            false,
             false
     );
     public static final Chat PRIVATE_CHAT = ChatFullInfo
@@ -57,6 +58,7 @@ public class TestData {
             null,
             false,
             null,
+            false,
             false
     );
 }

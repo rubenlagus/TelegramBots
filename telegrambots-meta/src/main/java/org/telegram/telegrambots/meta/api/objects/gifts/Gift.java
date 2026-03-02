@@ -38,8 +38,14 @@ public class Gift implements BotApiObject {
     private static final String STAR_COUNT_FIELD = "star_count";
     private static final String TOTAL_COUNT_FIELD = "total_count";
     private static final String REMAINING_COUNT_FIELD = "remaining_count";
+    private static final String PERSONAL_TOTAL_COUNT_FIELD = "personal_total_count";
+    private static final String PERSONAL_REMAINING_COUNT_FIELD = "personal_remaining_count";
     private static final String UPGRADE_STAR_COUNT_FIELD = "upgrade_star_count";
     private static final String PUBLISHER_CHAT_FIELD = "publisher_chat";
+    private static final String IS_PREMIUM_FIELD = "is_premium";
+    private static final String HAS_COLORS_FIELD = "has_colors";
+    private static final String BACKGROUND_FIELD = "background";
+    private static final String UNIQUE_GIFT_VARIANT_COUNT_FIELD = "unique_gift_variant_count";
 
     /**
      * Unique identifier of the gift
@@ -73,15 +79,50 @@ public class Gift implements BotApiObject {
     private Integer remainingCount;
     /**
      * Optional.
+     * The total number of gifts of this type that can be sent by the bot; for limited gifts only
+     */
+    @JsonProperty(PERSONAL_TOTAL_COUNT_FIELD)
+    private Integer personalTotalCount;
+    /**
+     * Optional.
+     * The number of remaining gifts of this type that can be sent by the bot; for limited gifts only
+     */
+    @JsonProperty(PERSONAL_REMAINING_COUNT_FIELD)
+    private Integer personalRemainingCount;
+    /**
+     * Optional.
      * The number of Telegram Stars that must be paid to upgrade the gift to a unique one
      */
     @JsonProperty(UPGRADE_STAR_COUNT_FIELD)
     private Integer upgradeStarCount;
-
     /**
      * Optional.
      * Information about the chat that published the gift
      */
     @JsonProperty(PUBLISHER_CHAT_FIELD)
     private Chat publisherChat;
+    /**
+     * Optional.
+     * True, if the gift can only be purchased by Telegram Premium subscribers
+     */
+    @JsonProperty(IS_PREMIUM_FIELD)
+    private Boolean isPremium;
+    /**
+     * Optional.
+     * True, if the gift can be used (after being upgraded) to customize a user's appearance
+     */
+    @JsonProperty(HAS_COLORS_FIELD)
+    private Boolean hasColors;
+    /**
+     * Optional.
+     * Background of the gift
+     */
+    @JsonProperty(BACKGROUND_FIELD)
+    private GiftBackground background;
+    /**
+     * Optional.
+     * The total number of different unique gifts that can be obtained by upgrading the gift
+     */
+    @JsonProperty(UNIQUE_GIFT_VARIANT_COUNT_FIELD)
+    private Integer uniqueGiftVariantCount;
 }

@@ -43,6 +43,8 @@ public class User implements BotApiObject {
     private static final String ADDED_TO_ATTACHMENT_MENU_FIELD = "added_to_attachment_menu";
     private static final String CAN_CONNECT_TO_BUSINESS_FIELD = "can_connect_to_business";
     private static final String HAS_MAIN_WEB_APP_FIELD = "has_main_web_app";
+    private static final String HAS_TOPICS_ENABLED_FIELD = "has_topics_enabled";
+    private static final String ALLOWS_USERS_TO_CREATE_TOPICS_FIELD = "allows_users_to_create_topics";
 
     /**
      * Unique identifier for this user or bot.
@@ -127,4 +129,68 @@ public class User implements BotApiObject {
      */
     @JsonProperty(HAS_MAIN_WEB_APP_FIELD)
     private Boolean hasMainWebApp;
+    /**
+     * Optional.
+     * True, if the bot has forum topic mode enabled in private chats.
+     * @apiNote Returned only in getMe.
+     */
+    @JsonProperty(HAS_TOPICS_ENABLED_FIELD)
+    private Boolean hasTopicsEnabled;
+    /**
+     * Optional.
+     * True, if the bot allows users to create and delete topics in private chats.
+     * @apiNote Returned only in getMe.
+     */
+    @JsonProperty(ALLOWS_USERS_TO_CREATE_TOPICS_FIELD)
+    private Boolean allowsUsersToCreateTopics;
+
+    /**
+     * @deprecated Use constructor with hasTopicsEnabled and allowsUsersToCreateTopics parameters or builder pattern instead
+     */
+    @Deprecated
+    public User(Long id, String firstName, Boolean isBot, String lastName, String userName,
+                String languageCode, Boolean canJoinGroups, Boolean canReadAllGroupMessages,
+                Boolean supportInlineQueries, Boolean isPremium, Boolean addedToAttachmentMenu,
+                Boolean canConnectToBusiness, Boolean hasMainWebApp) {
+        this.id = id;
+        this.firstName = firstName;
+        this.isBot = isBot;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.languageCode = languageCode;
+        this.canJoinGroups = canJoinGroups;
+        this.canReadAllGroupMessages = canReadAllGroupMessages;
+        this.supportInlineQueries = supportInlineQueries;
+        this.isPremium = isPremium;
+        this.addedToAttachmentMenu = addedToAttachmentMenu;
+        this.canConnectToBusiness = canConnectToBusiness;
+        this.hasMainWebApp = hasMainWebApp;
+        this.hasTopicsEnabled = null;
+        this.allowsUsersToCreateTopics = null;
+    }
+
+    /**
+     * @deprecated Use builder pattern instead
+     */
+    @Deprecated
+    public User(Long id, String firstName, Boolean isBot, String lastName, String userName,
+                String languageCode, Boolean canJoinGroups, Boolean canReadAllGroupMessages,
+                Boolean supportInlineQueries, Boolean isPremium, Boolean addedToAttachmentMenu,
+                Boolean canConnectToBusiness, Boolean hasMainWebApp, Boolean hasTopicsEnabled) {
+        this.id = id;
+        this.firstName = firstName;
+        this.isBot = isBot;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.languageCode = languageCode;
+        this.canJoinGroups = canJoinGroups;
+        this.canReadAllGroupMessages = canReadAllGroupMessages;
+        this.supportInlineQueries = supportInlineQueries;
+        this.isPremium = isPremium;
+        this.addedToAttachmentMenu = addedToAttachmentMenu;
+        this.canConnectToBusiness = canConnectToBusiness;
+        this.hasMainWebApp = hasMainWebApp;
+        this.hasTopicsEnabled = hasTopicsEnabled;
+        this.allowsUsersToCreateTopics = null;
+    }
 }

@@ -39,6 +39,11 @@ public class UniqueGift implements BotApiObject {
     private static final String SYMBOL_FIELD = "symbol";
     private static final String BACKDROP_FIELD = "backdrop";
     private static final String PUBLISHER_CHAT_FIELD = "publisher_chat";
+    private static final String GIFT_ID_FIELD = "gift_id";
+    private static final String IS_PREMIUM_FIELD = "is_premium";
+    private static final String IS_FROM_BLOCKCHAIN_FIELD = "is_from_blockchain";
+    private static final String COLORS_FIELD = "colors";
+    private static final String IS_BURNED_FIELD = "is_burned";
 
     /**
      * Human-readable name of the regular gift from which this unique gift was upgraded
@@ -80,4 +85,35 @@ public class UniqueGift implements BotApiObject {
      */
     @JsonProperty(PUBLISHER_CHAT_FIELD)
     private Chat publisherChat;
+    /**
+     * Identifier of the regular gift from which the gift was upgraded
+     */
+    @JsonProperty(GIFT_ID_FIELD)
+    @NonNull
+    private String giftId;
+    /**
+     * Optional.
+     * True, if the original regular gift was exclusively purchaseable by Telegram Premium subscribers
+     */
+    @JsonProperty(IS_PREMIUM_FIELD)
+    private Boolean isPremium;
+    /**
+     * Optional.
+     * True, if the gift is assigned from the TON blockchain and can't be resold or transferred in Telegram
+     */
+    @JsonProperty(IS_FROM_BLOCKCHAIN_FIELD)
+    private Boolean isFromBlockchain;
+    /**
+     * Optional.
+     * The color scheme that can be used by the gift's owner for the chat's name, replies to messages and link previews;
+     * for business account gifts and gifts that are currently on sale only
+     */
+    @JsonProperty(COLORS_FIELD)
+    private UniqueGiftColors colors;
+    /**
+     * Optional.
+     * True, if the gift was used to craft another gift and isn't available anymore
+     */
+    @JsonProperty(IS_BURNED_FIELD)
+    private Boolean isBurned;
 }

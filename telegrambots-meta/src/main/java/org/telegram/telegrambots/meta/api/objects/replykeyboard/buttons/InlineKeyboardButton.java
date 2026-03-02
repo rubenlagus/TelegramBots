@@ -48,6 +48,8 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
     private static final String LOGIN_URL_FIELD = "login_url";
     private static final String WEBAPP_FIELD = "web_app";
     private static final String COPY_TEXT_FIELD = "copy_text";
+    private static final String ICON_CUSTOM_EMOJI_ID_FIELD = "icon_custom_emoji_id";
+    private static final String STYLE_FIELD = "style";
 
     /**
      * Label text on the button
@@ -136,6 +138,21 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
      */
     @JsonProperty(COPY_TEXT_FIELD)
     private CopyTextButton copyText;
+    /**
+     * Optional.
+     * Unique identifier of the custom emoji shown before the text of the button.
+     * Can only be used by bots that purchased additional usernames on Fragment or in the messages directly sent
+     * by the bot to private, group and supergroup chats if the owner of the bot has a Telegram Premium subscription.
+     */
+    @JsonProperty(ICON_CUSTOM_EMOJI_ID_FIELD)
+    private String iconCustomEmojiId;
+    /**
+     * Optional.
+     * Style of the button. Must be one of "danger" (red), "success" (green) or "primary" (blue).
+     * If omitted, then an app-specific style is used.
+     */
+    @JsonProperty(STYLE_FIELD)
+    private String style;
 
     @Override
     public void validate() throws TelegramApiValidationException {

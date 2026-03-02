@@ -25,13 +25,15 @@ public class TestChatMember {
                 "            \"username\": \"UserName\",\n" +
                 "            \"language_code\": \"en\",\n" +
                 "            \"is_bot\": false" +
-                "        }\n" +
+                "        },\n" +
+                "        \"tag\": \"VIP\"\n" +
                 "    }\n" +
                 "}";
         ChatMember chatMember = new GetChatMember("1", 1L).deserializeResponse(text);
         assertEquals("member", chatMember.getStatus());
         ChatMemberMember chatMemberMember = (ChatMemberMember) chatMember;
         assertEquals(getUser(), chatMemberMember.getUser());
+        assertEquals("VIP", chatMemberMember.getTag());
     }
 
     @Test
@@ -132,7 +134,8 @@ public class TestChatMember {
                 "        \"can_promote_members\": true,\n" +
                 "        \"can_change_info\": true,\n" +
                 "        \"can_invite_users\": true,\n" +
-                "        \"can_pin_messages\": true\n" +
+                "        \"can_pin_messages\": true,\n" +
+                "        \"can_manage_tags\": true\n" +
                 "    }\n" +
                 "}";
         ChatMember chatMember = new GetChatMember("1", 1L).deserializeResponse(text);
@@ -152,6 +155,7 @@ public class TestChatMember {
         assertEquals(true, chatMemberAdministrator.getCanChangeInfo());
         assertEquals(true, chatMemberAdministrator.getCanInviteUsers());
         assertEquals(true, chatMemberAdministrator.getCanPinMessages());
+        assertEquals(true, chatMemberAdministrator.getCanManageTags());
     }
 
     @Test
@@ -177,7 +181,9 @@ public class TestChatMember {
                 "        \"can_send_polls\": true,\n" +
                 "        \"can_send_other_messages\": true,\n" +
                 "        \"can_add_web_page_previews\": true,\n" +
-                "        \"until_date\": 100\n" +
+                "        \"until_date\": 100,\n" +
+                "        \"tag\": \"Moderator\",\n" +
+                "        \"can_edit_tag\": true\n" +
                 "    }\n" +
                 "}";
         ChatMember chatMember = new GetChatMember("1", 1L).deserializeResponse(text);
@@ -193,6 +199,8 @@ public class TestChatMember {
         assertEquals(true, chatMemberRestricted.getCanSendOtherMessages());
         assertEquals(true, chatMemberRestricted.getCanAddWebpagePreviews());
         assertEquals(100, chatMemberRestricted.getUntilDate());
+        assertEquals("Moderator", chatMemberRestricted.getTag());
+        assertEquals(true, chatMemberRestricted.getCanEditTag());
     }
 
 
