@@ -56,6 +56,7 @@ public class PromoteChatMember extends BotApiMethodBoolean {
     private static final String CAN_EDIT_STORIES_FIELD = "can_edit_stories";
     private static final String CAN_DELETE_STORIES_FIELD = "can_delete_stories";
     private static final String CAN_MANAGE_DIRECT_MESSAGES_FIELD = "can_manage_direct_messages";
+    private static final String CAN_MANAGE_TAGS_FIELD = "can_manage_tags";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
@@ -138,6 +139,12 @@ public class PromoteChatMember extends BotApiMethodBoolean {
      */
     @JsonProperty(CAN_MANAGE_DIRECT_MESSAGES_FIELD)
     private Boolean canManageDirectMessages;
+    /**
+     * Optional
+     * Pass True if the administrator can edit the tags of regular members; for groups and supergroups only
+     */
+    @JsonProperty(CAN_MANAGE_TAGS_FIELD)
+    private Boolean canManageTags;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

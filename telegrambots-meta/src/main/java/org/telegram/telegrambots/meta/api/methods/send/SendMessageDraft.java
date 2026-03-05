@@ -20,9 +20,9 @@ import java.util.List;
 
 /**
  * @author Ruben Bermudez
- * @version 9.3
- * Use this method to stream a partial message to a user while the message is being generated;
- * supported only for bots with forum topic mode enabled. Returns True on success.
+ * @version 9.5
+ * Use this method to stream a partial message to a user while the message is being generated.
+ * Returns True on success.
  */
 @SuppressWarnings("unused")
 @EqualsAndHashCode(callSuper = false)
