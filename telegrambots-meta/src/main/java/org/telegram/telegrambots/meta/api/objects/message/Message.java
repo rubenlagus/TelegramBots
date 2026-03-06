@@ -184,6 +184,7 @@ public class Message implements MaybeInaccessibleMessage {
     private static final String SENDER_BOOST_COUNT_FIELD = "sender_boost_count";
     private static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
     private static final String SENDER_BUSINESS_BOT_FIELD = "sender_business_bot";
+    private static final String SENDER_TAG_FIELD = "sender_tag";
     private static final String IS_FROM_OFFLINE_FIELD = "is_from_offline";
     private static final String CHAT_BACKGROUND_SET_FIELD = "chat_background_set";
     private static final String EFFECT_ID_FIELD = "effect_id";
@@ -756,6 +757,12 @@ public class Message implements MaybeInaccessibleMessage {
     private User senderBusinessBot;
     /**
      * Optional.
+     * Tag or custom title of the sender of the message; for supergroups only
+     */
+    @JsonProperty(SENDER_TAG_FIELD)
+    private String senderTag;
+    /**
+     * Optional.
      * True, if the message was sent by an implicit action, for example, as an away or a greeting business message,
      * or as a scheduled message
      */
@@ -1263,6 +1270,11 @@ public class Message implements MaybeInaccessibleMessage {
     @JsonIgnore
     public boolean hasChatOwnerLeft() {
         return chatOwnerLeft != null;
+    }
+
+    @JsonIgnore
+    public boolean hasSenderTag() {
+        return senderTag != null;
     }
 
 
