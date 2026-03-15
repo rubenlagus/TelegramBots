@@ -40,6 +40,8 @@ public class MessageEntity implements BotApiObject {
     private static final String USER_FIELD = "user";
     private static final String LANGUAGE_FIELD = "language";
     private static final String CUSTOMEMOJI_FIELD = "custom_emoji_id";
+    private static final String UNIX_TIME_FIELD = "unix_time";
+    private static final String DATE_TIME_FORMAT_FIELD = "date_time_format";
     /**
      * Type of the entity.
      * Currently, can be
@@ -58,10 +60,11 @@ public class MessageEntity implements BotApiObject {
      * - “blockquote” (block quotation),
      * - “expandable_blockquote” (collapsed-by-default block quotation),
      * - “code” (monowidth string),
-     * - “pre” (monowidth block),
-     * - “text_link” (for clickable text URLs),
-     * - “text_mention” (for users without usernames),
-     * - “custom_emoji” (for inline custom emoji stickers)
+     * - "pre" (monowidth block),
+     * - "text_link" (for clickable text URLs),
+     * - "text_mention" (for users without usernames),
+     * - "custom_emoji" (for inline custom emoji stickers),
+     * - "date_time" (for formatted date and time)
      */
     @JsonProperty(TYPE_FIELD)
     @NonNull
@@ -98,11 +101,24 @@ public class MessageEntity implements BotApiObject {
     private String language;
     /**
      * Optional.
-     * For “custom_emoji” only, unique identifier of the custom emoji.
+     * For "custom_emoji" only, unique identifier of the custom emoji.
      * Use getCustomEmojiStickers to get full information about the sticker
      */
     @JsonProperty(CUSTOMEMOJI_FIELD)
     private String customEmojiId;
+    /**
+     * Optional.
+     * For "date_time" only, the Unix time associated with the entity
+     */
+    @JsonProperty(UNIX_TIME_FIELD)
+    private Integer unixTime;
+    /**
+     * Optional.
+     * For "date_time" only, the string that defines the formatting of the date and time.
+     * See date-time entity formatting for more details.
+     */
+    @JsonProperty(DATE_TIME_FORMAT_FIELD)
+    private String dateTimeFormat;
     /**
      * Text present in the entity. Computed from offset and length
      */

@@ -48,6 +48,8 @@ public class ChatMemberRestricted implements ChatMember {
     private static final String CANPINMESSAGES_FIELD = "can_pin_messages";
     private static final String CANMANAGETOPICS_FIELD = "can_manage_topics";
     private static final String UNTILDATE_FIELD = "until_date";
+    private static final String TAG_FIELD = "tag";
+    private static final String CANEDITTAG_FIELD = "can_edit_tag";
 
     private static final String CANSENDMEDIAMESSAGES_FIELD = "can_send_media_messages";
 
@@ -141,4 +143,15 @@ public class ChatMemberRestricted implements ChatMember {
      */
     @JsonProperty(UNTILDATE_FIELD)
     private Integer untilDate;
+    /**
+     * Optional.
+     * Tag of the member
+     */
+    @JsonProperty(TAG_FIELD)
+    private String tag;
+    /**
+     * True, if the user is allowed to edit their own tag
+     */
+    @JsonProperty(CANEDITTAG_FIELD)
+    private Boolean canEditTag;
 }
