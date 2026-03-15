@@ -38,6 +38,7 @@ public class ChatMemberMember implements ChatMember {
     private static final String STATUS_FIELD = "status";
     private static final String USER_FIELD = "user";
     private static final String UNTIL_DATE_FIELD = "until_date";
+    private static final String TAG_FIELD = "tag";
 
     /**
      * The member's status in the chat, always “member”
@@ -56,4 +57,10 @@ public class ChatMemberMember implements ChatMember {
      */
     @JsonProperty(UNTIL_DATE_FIELD)
     private Integer untilDate;
+    /**
+     * Optional.
+     * Tag of the member
+     */
+    @JsonProperty(TAG_FIELD)
+    private String tag;
 }
