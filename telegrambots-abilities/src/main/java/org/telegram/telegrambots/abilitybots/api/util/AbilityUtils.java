@@ -101,6 +101,10 @@ public final class AbilityUtils {
       return update.getPaidMediaPurchased().getUser();
     } else if (Flag.POLL.test(update)) {
       return EMPTY_USER;
+    } else if (Flag.HAS_CHAT_BOOST.test(update)) {
+      return update.getChatBoost().getBoost().getSource().getUser();
+    } else if (Flag.HAS_REMOVED_CHAT_BOOST.test(update)) {
+      return update.getRemovedChatBoost().getSource().getUser();
     } else {
       throw new IllegalStateException("Could not retrieve originating user from update");
     }
@@ -203,7 +207,7 @@ public final class AbilityUtils {
 
   /**
    * @param update a Telegram {@link Update}
-   * @return <tt>true</tt> if the update contains contains a private user message
+   * @return <tt>true</tt> if the update contains a private user message
    */
   public static boolean isUserMessage(Update update) {
     if (Flag.MESSAGE.test(update)) {
