@@ -6,6 +6,10 @@ import org.telegram.telegrambots.abilitybots.api.objects.MessageContext;
 import org.telegram.telegrambots.abilitybots.api.objects.Flag;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.boost.ChatBoostSource;
+import org.telegram.telegrambots.meta.api.objects.boost.ChatBoostSourceGiftCode;
+import org.telegram.telegrambots.meta.api.objects.boost.ChatBoostSourceGiveaway;
+import org.telegram.telegrambots.meta.api.objects.boost.ChatBoostSourcePremium;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 
 import java.text.MessageFormat;
@@ -99,11 +103,31 @@ public final class AbilityUtils {
       return EMPTY_USER;
     }else if (Flag.HAS_PAID_MEDIA_PURCHASED.test(update)) {
       return update.getPaidMediaPurchased().getUser();
+    } else if (Flag.HAS_CHAT_BOOST.test(update)) {
+      return extractUserFromBoostSource(update.getChatBoost().getBoost().getSource());
+    } else if (Flag.HAS_REMOVED_CHAT_BOOST.test(update)) {
+      return extractUserFromBoostSource(update.getRemovedChatBoost().getSource());
     } else if (Flag.POLL.test(update)) {
       return EMPTY_USER;
     } else {
       throw new IllegalStateException("Could not retrieve originating user from update");
     }
+  }
+
+  /**
+   * Extracts the {@link User} associated with a {@link ChatBoostSource}.
+   * Returns {@link #EMPTY_USER} when the source has no user (anonymous giveaways, or an
+   * unrecognised subtype).
+   */
+  private static User extractUserFromBoostSource(ChatBoostSource source) {
+    if (source instanceof ChatBoostSourcePremium premium) {
+      return defaultIfNull(premium.getUser(), EMPTY_USER);
+    } else if (source instanceof ChatBoostSourceGiftCode giftCode) {
+      return defaultIfNull(giftCode.getUser(), EMPTY_USER);
+    } else if (source instanceof ChatBoostSourceGiveaway giveaway) {
+      return defaultIfNull(giveaway.getUser(), EMPTY_USER);
+    }
+    return EMPTY_USER;
   }
 
   /**
@@ -196,6 +220,10 @@ public final class AbilityUtils {
       return EMPTY_USER.getId();
     } else if (Flag.HAS_PAID_MEDIA_PURCHASED.test(update)) {
       return update.getPaidMediaPurchased().getUser().getId();
+    } else if (Flag.HAS_CHAT_BOOST.test(update)) {
+      return update.getChatBoost().getChat().getId();
+    } else if (Flag.HAS_REMOVED_CHAT_BOOST.test(update)) {
+      return update.getRemovedChatBoost().getChat().getId();
     } else {
       throw new IllegalStateException("Could not retrieve originating chat ID from update");
     }

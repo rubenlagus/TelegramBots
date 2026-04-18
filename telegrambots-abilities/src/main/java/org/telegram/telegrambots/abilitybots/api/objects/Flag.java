@@ -37,6 +37,8 @@ public enum Flag implements Predicate<Update> {
   HAS_EDITED_BUSINESS_MESSAGE(Update::hasEditedBusinessMessage),
   HAS_DELETED_BUSINESS_MESSAGE(Update::hasDeletedBusinessMessage),
   HAS_PAID_MEDIA_PURCHASED(Update::hasPaidMediaPurchased),
+  HAS_CHAT_BOOST(Update::hasChatBoost),
+  HAS_REMOVED_CHAT_BOOST(Update::hasRemovedChatBoost),
 
 
   // Message Flags
