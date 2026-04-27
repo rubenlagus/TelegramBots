@@ -45,6 +45,7 @@ public class User implements BotApiObject {
     private static final String HAS_MAIN_WEB_APP_FIELD = "has_main_web_app";
     private static final String HAS_TOPICS_ENABLED_FIELD = "has_topics_enabled";
     private static final String ALLOWS_USERS_TO_CREATE_TOPICS_FIELD = "allows_users_to_create_topics";
+    private static final String CAN_MANAGE_BOTS_FIELD = "can_manage_bots";
 
     /**
      * Unique identifier for this user or bot.
@@ -143,6 +144,13 @@ public class User implements BotApiObject {
      */
     @JsonProperty(ALLOWS_USERS_TO_CREATE_TOPICS_FIELD)
     private Boolean allowsUsersToCreateTopics;
+    /**
+     * Optional.
+     * True, if other bots can be created to be controlled by the bot.
+     * @apiNote Returned only in getMe.
+     */
+    @JsonProperty(CAN_MANAGE_BOTS_FIELD)
+    private Boolean canManageBots;
 
     /**
      * @deprecated Use constructor with hasTopicsEnabled and allowsUsersToCreateTopics parameters or builder pattern instead

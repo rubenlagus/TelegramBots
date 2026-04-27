@@ -55,6 +55,7 @@ import org.telegram.telegrambots.meta.api.objects.giveaway.GiveawayCompleted;
 import org.telegram.telegrambots.meta.api.objects.giveaway.GiveawayCreated;
 import org.telegram.telegrambots.meta.api.objects.giveaway.GiveawayWinners;
 import org.telegram.telegrambots.meta.api.objects.location.Location;
+import org.telegram.telegrambots.meta.api.objects.managed.ManagedBotCreated;
 import org.telegram.telegrambots.meta.api.objects.messageorigin.MessageOrigin;
 import org.telegram.telegrambots.meta.api.objects.passport.PassportData;
 import org.telegram.telegrambots.meta.api.objects.payments.DirectMessagePriceChanged;
@@ -64,6 +65,8 @@ import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import org.telegram.telegrambots.meta.api.objects.payments.paidmedia.PaidMediaInfo;
 import org.telegram.telegrambots.meta.api.objects.photo.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
+import org.telegram.telegrambots.meta.api.objects.polls.PollOptionAdded;
+import org.telegram.telegrambots.meta.api.objects.polls.PollOptionDeleted;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 import org.telegram.telegrambots.meta.api.objects.stories.Story;
@@ -211,6 +214,10 @@ public class Message implements MaybeInaccessibleMessage {
     private static final String SUGGESTED_POST_REFUNDED_FIELD = "suggested_post_refunded";
     private static final String CHAT_OWNER_LEFT_FIELD = "chat_owner_left";
     private static final String CHAT_OWNER_CHANGED_FIELD = "chat_owner_changed";
+    private static final String REPLY_TO_POLL_OPTION_ID_FIELD = "reply_to_poll_option_id";
+    private static final String MANAGED_BOT_CREATED_FIELD = "managed_bot_created";
+    private static final String POLL_OPTION_ADDED_FIELD = "poll_option_added";
+    private static final String POLL_OPTION_DELETED_FIELD = "poll_option_deleted";
 
     /**
      * Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat),
@@ -920,6 +927,30 @@ public class Message implements MaybeInaccessibleMessage {
      */
     @JsonProperty(CHAT_OWNER_CHANGED_FIELD)
     private ChatOwnerChanged chatOwnerChanged;
+    /**
+     * Optional.
+     * Persistent identifier of the specific poll option that is being replied to
+     */
+    @JsonProperty(REPLY_TO_POLL_OPTION_ID_FIELD)
+    private String replyToPollOptionId;
+    /**
+     * Optional.
+     * Service message: user created a bot that will be managed by the current bot
+     */
+    @JsonProperty(MANAGED_BOT_CREATED_FIELD)
+    private ManagedBotCreated managedBotCreated;
+    /**
+     * Optional.
+     * Service message: answer option was added to a poll
+     */
+    @JsonProperty(POLL_OPTION_ADDED_FIELD)
+    private PollOptionAdded pollOptionAdded;
+    /**
+     * Optional.
+     * Service message: answer option was deleted from a poll
+     */
+    @JsonProperty(POLL_OPTION_DELETED_FIELD)
+    private PollOptionDeleted pollOptionDeleted;
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {

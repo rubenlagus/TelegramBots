@@ -53,7 +53,11 @@ public class SendPoll extends BotApiMethodMessage {
     private static final String IS_ANONYMOUS_FIELD = "is_anonymous";
     private static final String TYPE_FIELD = "type";
     private static final String ALLOW_MULTIPLE_ANSWERS_FIELD = "allows_multiple_answers";
-    private static final String CORRECT_OPTION_ID_FIELD = "correct_option_id";
+    private static final String CORRECT_OPTION_IDS_FIELD = "correct_option_ids";
+    private static final String ALLOWS_REVOTING_FIELD = "allows_revoting";
+    private static final String SHUFFLE_OPTIONS_FIELD = "shuffle_options";
+    private static final String ALLOW_ADDING_OPTIONS_FIELD = "allow_adding_options";
+    private static final String HIDE_RESULTS_UNTIL_CLOSES_FIELD = "hide_results_until_closes";
     private static final String IS_CLOSED_FIELD = "is_closed";
     private static final String DISABLE_NOTIFICATION_FIELD = "disable_notification";
     private static final String REPLY_TO_MESSAGE_ID_FIELD = "reply_to_message_id";
@@ -63,6 +67,9 @@ public class SendPoll extends BotApiMethodMessage {
     private static final String EXPLANATION_FIELD = "explanation";
     private static final String EXPLANATION_PARSE_MODE_FIELD = "explanation_parse_mode";
     private static final String EXPLANATION_ENTITIES_FIELD = "explanation_entities";
+    private static final String DESCRIPTION_FIELD = "description";
+    private static final String DESCRIPTION_PARSE_MODE_FIELD = "description_parse_mode";
+    private static final String DESCRIPTION_ENTITIES_FIELD = "description_entities";
     private static final String ALLOW_SENDING_WITHOUT_REPLY_FIELD = "allow_sending_without_reply";
     private static final String PROTECT_CONTENT_FIELD = "protect_content";
     private static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
@@ -113,16 +120,41 @@ public class SendPoll extends BotApiMethodMessage {
     private String type;
     /**
      * Optional
-     * True, if the poll allows multiple answers, ignored for polls in quiz mode, defaults to False
+     * True, if the poll allows multiple answers, defaults to False
      */
     @JsonProperty(ALLOW_MULTIPLE_ANSWERS_FIELD)
     private Boolean allowMultipleAnswers;
     /**
      * Optional
-     * 0-based identifier of the correct answer option, required for polls in quiz mode
+     * A JSON-serialized list of monotonically increasing 0-based identifiers of the correct answer options,
+     * required for polls in quiz mode
      */
-    @JsonProperty(CORRECT_OPTION_ID_FIELD)
-    private Integer correctOptionId;
+    @JsonProperty(CORRECT_OPTION_IDS_FIELD)
+    private List<Integer> correctOptionIds;
+    /**
+     * Optional
+     * Pass True, if the poll allows to change chosen answer options, defaults to False for quizzes and to True for regular polls
+     */
+    @JsonProperty(ALLOWS_REVOTING_FIELD)
+    private Boolean allowsRevoting;
+    /**
+     * Optional
+     * Pass True, if the poll options must be shown in random order
+     */
+    @JsonProperty(SHUFFLE_OPTIONS_FIELD)
+    private Boolean shuffleOptions;
+    /**
+     * Optional
+     * Pass True, if answer options can be added to the poll after creation; not supported for anonymous polls and quizzes
+     */
+    @JsonProperty(ALLOW_ADDING_OPTIONS_FIELD)
+    private Boolean allowAddingOptions;
+    /**
+     * Optional
+     * Pass True, if poll results must be shown only after the poll closes
+     */
+    @JsonProperty(HIDE_RESULTS_UNTIL_CLOSES_FIELD)
+    private Boolean hideResultsUntilCloses;
     /**
      * Optional
      * Pass True, if the poll needs to be immediately closed
@@ -184,6 +216,25 @@ public class SendPoll extends BotApiMethodMessage {
      */
     @JsonProperty(EXPLANATION_ENTITIES_FIELD)
     private List<MessageEntity> explanationEntities;
+    /**
+     * Optional
+     * Description of the poll to be sent, 0-1024 characters after entities parsing
+     */
+    @JsonProperty(DESCRIPTION_FIELD)
+    private String description;
+    /**
+     * Optional
+     * Mode for parsing entities in the poll description. See formatting options for more details.
+     */
+    @JsonProperty(DESCRIPTION_PARSE_MODE_FIELD)
+    private String descriptionParseMode;
+    /**
+     * Optional
+     * A JSON-serialized list of special entities that appear in the poll description,
+     * which can be specified instead of description_parse_mode
+     */
+    @JsonProperty(DESCRIPTION_ENTITIES_FIELD)
+    private List<MessageEntity> descriptionEntities;
     /**
      * Optional
      * Pass True, if the message should be sent even if the specified replied-to message is not found
@@ -264,8 +315,8 @@ public class SendPoll extends BotApiMethodMessage {
         if (openPeriod != null && closeDate != null) {
             throw new TelegramApiValidationException("Only one of Open Period and Close Date are allowed", this);
         }
-        if (openPeriod != null && (openPeriod < 5 || openPeriod > 600)) {
-            throw new TelegramApiValidationException("Open period can only be between 5 and 600", this);
+        if (openPeriod != null && (openPeriod < 5 || openPeriod > 2628000)) {
+            throw new TelegramApiValidationException("Open period can only be between 5 and 2628000", this);
         }
         if (explanation != null && explanation.length() > 200) {
             throw new TelegramApiValidationException("Explanation can only have up to 200 characters", this);
@@ -281,6 +332,9 @@ public class SendPoll extends BotApiMethodMessage {
         }
         if (questionParseMode != null && (questionEntities != null && !questionEntities.isEmpty())) {
             throw new TelegramApiValidationException("Question Parse mode can't be enabled if Entities are provided", this);
+        }
+        if (descriptionParseMode != null && (descriptionEntities != null && !descriptionEntities.isEmpty())) {
+            throw new TelegramApiValidationException("Description Parse mode can't be enabled if Entities are provided", this);
         }
         if (replyMarkup != null) {
             replyMarkup.validate();

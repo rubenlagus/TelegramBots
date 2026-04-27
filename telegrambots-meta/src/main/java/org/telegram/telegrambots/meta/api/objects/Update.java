@@ -15,6 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.business.BusinessMessagesDelet
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberUpdated;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.ChosenInlineQuery;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
+import org.telegram.telegrambots.meta.api.objects.managed.ManagedBotUpdated;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.payments.PaidMediaPurchased;
 import org.telegram.telegrambots.meta.api.objects.payments.PreCheckoutQuery;
@@ -61,6 +62,7 @@ public class Update implements BotApiObject {
     private static final String EDITED_BUSINESS_MESSAGE_FIELD = "edited_business_message";
     private static final String DELETED_BUSINESS_MESSAGES_FIELD = "deleted_business_messages";
     private static final String PURCHASED_PAID_MEDIA_FIELD = "purchased_paid_media";
+    private static final String MANAGED_BOT_FIELD = "managed_bot";
 
     @JsonProperty(UPDATEID_FIELD)
     private Integer updateId;
@@ -209,6 +211,12 @@ public class Update implements BotApiObject {
      */
     @JsonProperty(PURCHASED_PAID_MEDIA_FIELD)
     private PaidMediaPurchased paidMediaPurchased;
+    /**
+     * Optional.
+     * A new bot was created to be managed by the bot or token of a bot was changed
+     */
+    @JsonProperty(MANAGED_BOT_FIELD)
+    private ManagedBotUpdated managedBot;
 
     public boolean hasMessage() {
         return message != null;
@@ -284,5 +292,9 @@ public class Update implements BotApiObject {
 
     public boolean hasPaidMediaPurchased() {
         return paidMediaPurchased != null;
+    }
+
+    public boolean hasManagedBot() {
+        return managedBot != null;
     }
 }

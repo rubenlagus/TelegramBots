@@ -2,8 +2,8 @@ package org.telegram.telegrambots.abilitybots.api.util;
 
 import com.google.common.base.Strings;
 import org.telegram.telegrambots.abilitybots.api.db.DBContext;
-import org.telegram.telegrambots.abilitybots.api.objects.MessageContext;
 import org.telegram.telegrambots.abilitybots.api.objects.Flag;
+import org.telegram.telegrambots.abilitybots.api.objects.MessageContext;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
@@ -97,8 +97,10 @@ public final class AbilityUtils {
       return update.getEditedBuinessMessage().getFrom();
     } else if (Flag.HAS_DELETED_BUSINESS_MESSAGE.test(update)) {
       return EMPTY_USER;
-    }else if (Flag.HAS_PAID_MEDIA_PURCHASED.test(update)) {
+    } else if (Flag.HAS_PAID_MEDIA_PURCHASED.test(update)) {
       return update.getPaidMediaPurchased().getUser();
+    } else if (Flag.HAS_MANAGED_BOT.test(update)) {
+      return update.getManagedBot().getUser();
     } else if (Flag.POLL.test(update)) {
       return EMPTY_USER;
     } else {
@@ -196,6 +198,8 @@ public final class AbilityUtils {
       return EMPTY_USER.getId();
     } else if (Flag.HAS_PAID_MEDIA_PURCHASED.test(update)) {
       return update.getPaidMediaPurchased().getUser().getId();
+    } else if (Flag.HAS_MANAGED_BOT.test(update)) {
+      return update.getManagedBot().getUser().getId();
     } else {
       throw new IllegalStateException("Could not retrieve originating chat ID from update");
     }

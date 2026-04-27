@@ -39,12 +39,15 @@ public class Poll implements BotApiObject {
     private static final String IS_ANONYMOUS_FIELD = "is_anonymous";
     private static final String TYPE_FIELD = "type";
     private static final String ALLOWS_MULTIPLE_ANSWERS_FIELD = "allows_multiple_answers";
-    private static final String CORRECT_OPTION_ID_FIELD = "correct_option_id";
+    private static final String CORRECT_OPTION_IDS_FIELD = "correct_option_ids";
+    private static final String ALLOWS_REVOTING_FIELD = "allows_revoting";
     private static final String OPEN_PERIOD_FIELD = "open_period";
     private static final String CLOSE_DATE_FIELD = "close_date";
     private static final String EXPLANATION_FIELD = "explanation";
     private static final String EXPLANATION_ENTITIES_FIELD = "explanation_entities";
     private static final String QUESTION_ENTITIES_FIELD = "question_entities";
+    private static final String DESCRIPTION_FIELD = "description";
+    private static final String DESCRIPTION_ENTITIES_FIELD = "description_entities";
 
     /**
      * Unique poll identifier
@@ -87,13 +90,19 @@ public class Poll implements BotApiObject {
     @JsonProperty(ALLOWS_MULTIPLE_ANSWERS_FIELD)
     private Boolean allowMultipleAnswers;
     /**
-     * Optional. 0-based identifier of the correct answer option.
+     * Optional. Array of 0-based identifiers of the correct answer options.
      *
      * @apiNote Available only for polls in the quiz mode,
      * which are closed or was sent (not forwarded) to the private chat with the bot.
      */
-    @JsonProperty(CORRECT_OPTION_ID_FIELD)
-    private Integer correctOptionId;
+    @JsonProperty(CORRECT_OPTION_IDS_FIELD)
+    private List<Integer> correctOptionIds;
+    /**
+     * Optional.
+     * True, if the poll allows to change the chosen answer options
+     */
+    @JsonProperty(ALLOWS_REVOTING_FIELD)
+    private Boolean allowsRevoting;
     /**
      * Optional.
      * Amount of time in seconds the poll will be active after creation
@@ -125,4 +134,16 @@ public class Poll implements BotApiObject {
      */
     @JsonProperty(QUESTION_ENTITIES_FIELD)
     private List<MessageEntity> questionEntities;
+    /**
+     * Optional.
+     * Description of the poll; for polls inside the Message object only
+     */
+    @JsonProperty(DESCRIPTION_FIELD)
+    private String description;
+    /**
+     * Optional.
+     * Special entities like usernames, URLs, bot commands, etc. that appear in the description
+     */
+    @JsonProperty(DESCRIPTION_ENTITIES_FIELD)
+    private List<MessageEntity> descriptionEntities;
 }

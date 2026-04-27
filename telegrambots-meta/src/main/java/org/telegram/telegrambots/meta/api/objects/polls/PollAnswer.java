@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
-import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 
 import java.util.List;
 
@@ -30,6 +30,7 @@ public class PollAnswer implements BotApiObject {
     private static final String USER_FIELD = "user";
     private static final String OPTION_IDS_FIELD = "option_ids";
     private static final String VOTER_CHAT_FIELD = "voter_chat";
+    private static final String OPTION_PERSISTENT_IDS_FIELD = "option_persistent_ids";
 
     /**
      * Unique poll identifier
@@ -53,4 +54,10 @@ public class PollAnswer implements BotApiObject {
      */
     @JsonProperty(VOTER_CHAT_FIELD)
     private Chat voterChat;
+    /**
+     * Persistent identifiers of the chosen answer options.
+     * May be empty if the vote was retracted.
+     */
+    @JsonProperty(OPTION_PERSISTENT_IDS_FIELD)
+    private List<String> optionPersistentIds;
 }
