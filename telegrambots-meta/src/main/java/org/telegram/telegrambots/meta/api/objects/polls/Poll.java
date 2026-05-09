@@ -48,6 +48,10 @@ public class Poll implements BotApiObject {
     private static final String QUESTION_ENTITIES_FIELD = "question_entities";
     private static final String DESCRIPTION_FIELD = "description";
     private static final String DESCRIPTION_ENTITIES_FIELD = "description_entities";
+    private static final String MEDIA_FIELD = "media";
+    private static final String EXPLANATION_MEDIA_FIELD = "explanation_media";
+    private static final String MEMBERS_ONLY_FIELD = "members_only";
+    private static final String COUNTRY_CODES_FIELD = "country_codes";
 
     /**
      * Unique poll identifier
@@ -146,4 +150,24 @@ public class Poll implements BotApiObject {
      */
     @JsonProperty(DESCRIPTION_ENTITIES_FIELD)
     private List<MessageEntity> descriptionEntities;
+    /**
+     * Optional. Media added to the poll description; for polls inside the Message object only
+     */
+    @JsonProperty(MEDIA_FIELD)
+    private PollMedia media;
+    /**
+     * Optional. Media added to the quiz explanation
+     */
+    @JsonProperty(EXPLANATION_MEDIA_FIELD)
+    private PollMedia explanationMedia;
+    /**
+     * Optional. True if voting is limited to users who have been members of the chat where the poll was originally sent for more than 24 hours
+     */
+    @JsonProperty(MEMBERS_ONLY_FIELD)
+    private Boolean membersOnly;
+    /**
+     * Optional. A list of two-letter ISO 3166-1 alpha-2 country codes indicating the countries from which users can vote in the poll.
+     */
+    @JsonProperty(COUNTRY_CODES_FIELD)
+    private List<String> countryCodes;
 }

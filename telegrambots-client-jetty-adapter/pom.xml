@@ -41,6 +41,11 @@
     <dependencies>
         <dependency>
             <groupId>org.telegram</groupId>
+            <artifactId>telegrambots-client</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.telegram</groupId>
             <artifactId>telegrambots-meta</artifactId>
             <version>${project.parent.version}</version>
         </dependency>

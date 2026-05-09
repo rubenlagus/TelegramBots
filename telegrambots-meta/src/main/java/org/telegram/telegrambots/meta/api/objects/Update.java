@@ -57,6 +57,7 @@ public class Update implements BotApiObject {
     private static final String MESSAGE_REACTION_COUNT_FIELD = "message_reaction_count";
     private static final String CHAT_BOOST_FIELD = "chat_boost";
     private static final String REMOVED_CHAT_BOOST_FIELD = "removed_chat_boost";
+    private static final String GUEST_MESSAGE_FIELD = "guest_message";
     private static final String BUSINESS_CONNECTION_FIELD = "business_connection";
     private static final String BUSINESS_MESSAGE_FIELD = "business_message";
     private static final String EDITED_BUSINESS_MESSAGE_FIELD = "edited_business_message";
@@ -181,6 +182,12 @@ public class Update implements BotApiObject {
      */
     @JsonProperty(REMOVED_CHAT_BOOST_FIELD)
     private ChatBoostRemoved removedChatBoost;
+    /**
+     * Optional. New guest message.
+     * The bot can use the field Message.guest_query_id and the method answerGuestQuery to send a message in response.
+     */
+    @JsonProperty(GUEST_MESSAGE_FIELD)
+    private Message guestMessage;
     /**
      * Optional.
      * The bot was connected to or disconnected from a business account, or a user edited an existing connection with the bot
@@ -312,5 +319,9 @@ public class Update implements BotApiObject {
 
     public boolean hasRemovedChatBoost() {
         return removedChatBoost != null;
+    }
+
+    public boolean hasGuestMessage() {
+        return guestMessage != null;
     }
 }

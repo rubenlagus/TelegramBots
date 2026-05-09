@@ -42,6 +42,7 @@ public enum Flag implements Predicate<Update> {
   MESSAGE_REACTION_COUNT(Update::hasMessageReactionCount),
   CHAT_BOOST(Update::hasChatBoost),
   REMOVED_CHAT_BOOST(Update::hasRemovedChatBoost),
+  GUEST_MESSAGE(Update::hasGuestMessage),
 
 
   // Message Flags
@@ -59,7 +60,8 @@ public enum Flag implements Predicate<Update> {
   POLL_MESSAGE(upd -> MESSAGE.test(upd) && upd.getMessage().hasPoll()),
   DICE(upd -> MESSAGE.test(upd) && upd.getMessage().hasDice()),
   GIFT(upd -> MESSAGE.test(upd) && upd.getMessage().hasGift()),
-  PAID_MEDIA(upd -> MESSAGE.test(upd) && upd.getMessage().hasPaidMedia());
+  PAID_MEDIA(upd -> MESSAGE.test(upd) && upd.getMessage().hasPaidMedia()),
+  LIVE_PHOTO(upd -> MESSAGE.test(upd) && upd.getMessage().hasLivePhoto());
 
   private final Predicate<Update> predicate;
 

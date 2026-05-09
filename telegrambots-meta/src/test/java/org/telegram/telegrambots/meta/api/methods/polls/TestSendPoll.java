@@ -38,14 +38,25 @@ public class TestSendPoll {
     }
 
     @Test
-    public void testSendPollValidation() {
+    public void testSendPollValidationOneOption() {
         SendPoll sendPoll = SendPoll.builder()
                 .chatId("123456789")
                 .question("Test question?")
-                .options(buildOptions())
+                .options(List.of(InputPollOption.builder().text("Option 1").build()))
                 .build();
 
         assertDoesNotThrow(sendPoll::validate);
+    }
+
+    @Test
+    public void testSendPollValidationNoOptions() {
+        SendPoll sendPoll = SendPoll.builder()
+                .chatId("123456789")
+                .question("Test question?")
+                .options(new ArrayList<>())
+                .build();
+
+        assertThrows(TelegramApiValidationException.class, sendPoll::validate);
     }
 
     @Test

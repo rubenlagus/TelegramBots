@@ -17,6 +17,7 @@ import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMessage;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
+import org.telegram.telegrambots.meta.api.objects.polls.input.InputPollMedia;
 import org.telegram.telegrambots.meta.api.objects.polls.input.InputPollOption;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -78,6 +79,10 @@ public class SendPoll extends BotApiMethodMessage {
     private static final String QUESTION_ENTITIES_FIELD = "question_entities";
     private static final String MESSAGE_EFFECT_ID_FIELD = "message_effect_id";
     private static final String ALLOW_PAID_BROADCAST_FIELD = "allow_paid_broadcast";
+    private static final String MEDIA_FIELD = "media";
+    private static final String EXPLANATION_MEDIA_FIELD = "explanation_media";
+    private static final String MEMBERS_ONLY_FIELD = "members_only";
+    private static final String COUNTRY_CODES_FIELD = "country_codes";
 
     /**
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername).
@@ -287,6 +292,32 @@ public class SendPoll extends BotApiMethodMessage {
      */
     @JsonProperty(ALLOW_PAID_BROADCAST_FIELD)
     private Boolean allowPaidBroadcast;
+    /**
+     * Optional
+     * Media added to the poll description
+     */
+    @JsonProperty(MEDIA_FIELD)
+    private InputPollMedia media;
+    /**
+     * Optional
+     * Media added to the quiz explanation
+     */
+    @JsonProperty(EXPLANATION_MEDIA_FIELD)
+    private InputPollMedia explanationMedia;
+    /**
+     * Optional
+     * Pass True, if voting is limited to users who have been members of the chat where the poll is being sent for more than 24 hours; for channel chats only
+     */
+    @JsonProperty(MEMBERS_ONLY_FIELD)
+    private Boolean membersOnly;
+    /**
+     * Optional
+     * A JSON-serialized list of 0-12 two-letter ISO 3166-1 alpha-2 country codes indicating the countries from which users can vote in the poll;
+     * for channel chats only. If omitted or empty, then users from any country can participate in the poll.
+     */
+    @JsonProperty(COUNTRY_CODES_FIELD)
+    @Singular
+    private List<String> countryCodes;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
@@ -321,8 +352,8 @@ public class SendPoll extends BotApiMethodMessage {
         if (explanation != null && explanation.length() > 200) {
             throw new TelegramApiValidationException("Explanation can only have up to 200 characters", this);
         }
-        if (options.size() < 2 || options.size() > 12) {
-            throw new TelegramApiValidationException("Options parameter must be between 2 and 12 item", this);
+        if (options.size() < 1 || options.size() > 12) {
+            throw new TelegramApiValidationException("Options must be between 1 and 12", this);
         }
         for (InputPollOption option : options) {
             option.validate();

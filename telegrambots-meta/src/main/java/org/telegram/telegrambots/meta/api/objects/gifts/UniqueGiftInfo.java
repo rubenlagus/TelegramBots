@@ -85,49 +85,4 @@ public class UniqueGiftInfo implements BotApiObject {
      */
     @JsonProperty(NEXT_TRANSFER_DATE_FIELD)
     private String nextTransferDate;
-
-    /**
-     * @deprecated Use lastResaleCurrency and lastResaleAmount fields instead
-     */
-    @Deprecated
-    public Integer getLastResaleStarCount() {
-        if ("XTR".equals(lastResaleCurrency)) {
-            return lastResaleAmount;
-        }
-        return null;
-    }
-
-    /**
-     * @deprecated Use lastResaleCurrency and lastResaleAmount fields instead
-     */
-    @Deprecated
-    public void setLastResaleStarCount(Integer lastResaleStarCount) {
-        if (lastResaleStarCount != null) {
-            this.lastResaleCurrency = "XTR";
-            this.lastResaleAmount = lastResaleStarCount;
-        } else {
-            this.lastResaleCurrency = null;
-            this.lastResaleAmount = null;
-        }
-    }
-
-    /**
-     * Builder helper class for SuperBuilder pattern
-     */
-    public abstract static class UniqueGiftInfoBuilder<C extends UniqueGiftInfo, B extends UniqueGiftInfoBuilder<C, B>> {
-        /**
-         * @deprecated Use lastResaleCurrency and lastResaleAmount builder methods instead
-         */
-        @Deprecated
-        public B lastResaleStarCount(Integer lastResaleStarCount) {
-            if (lastResaleStarCount != null) {
-                this.lastResaleCurrency = "XTR";
-                this.lastResaleAmount = lastResaleStarCount;
-            } else {
-                this.lastResaleCurrency = null;
-                this.lastResaleAmount = null;
-            }
-            return self();
-        }
-    }
 }

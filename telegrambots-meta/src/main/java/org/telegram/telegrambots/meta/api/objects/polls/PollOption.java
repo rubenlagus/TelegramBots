@@ -40,6 +40,7 @@ public class PollOption implements BotApiObject {
     private static final String ADDED_BY_USER_FIELD = "added_by_user";
     private static final String ADDED_BY_CHAT_FIELD = "added_by_chat";
     private static final String ADDITION_DATE_FIELD = "addition_date";
+    private static final String MEDIA_FIELD = "media";
 
     /**
      * Option text, 1-100 characters
@@ -81,4 +82,9 @@ public class PollOption implements BotApiObject {
      */
     @JsonProperty(ADDITION_DATE_FIELD)
     private Integer additionDate;
+    /**
+     * Optional. Media added to the poll option
+     */
+    @JsonProperty(MEDIA_FIELD)
+    private PollMedia media;
 }

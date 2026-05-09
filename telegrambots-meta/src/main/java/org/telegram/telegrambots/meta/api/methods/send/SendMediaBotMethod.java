@@ -33,11 +33,23 @@ public abstract class SendMediaBotMethod<T extends Serializable> extends Partial
 
     public abstract Integer getDirectMessagesTopicId();
 
-    public abstract Integer getReplyToMessageId();
+    /**
+     * @deprecated Use {@link #getReplyParameters()} instead
+     */
+    @Deprecated
+    public Integer getReplyToMessageId() {
+        return getReplyParameters() != null ? getReplyParameters().getMessageId() : null;
+    }
 
     public abstract Boolean getDisableNotification();
 
-    public abstract Boolean getAllowSendingWithoutReply();
+    /**
+     * @deprecated Use {@link #getReplyParameters()} instead
+     */
+    @Deprecated
+    public Boolean getAllowSendingWithoutReply() {
+        return getReplyParameters() != null ? getReplyParameters().getAllowSendingWithoutReply() : null;
+    }
 
     public abstract Boolean getProtectContent();
 

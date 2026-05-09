@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPho
 import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
+import org.telegram.telegrambots.meta.api.methods.send.SendLivePhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
 import org.telegram.telegrambots.meta.api.methods.send.SendPaidMedia;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
@@ -179,6 +180,14 @@ public interface TelegramClient {
      */
     Message execute(SendAnimation sendAnimation) throws TelegramApiException;
 
+    /**
+     * Send live photo
+     * @param sendLivePhoto Information of the live photo
+     * @return Sent message
+     * @throws TelegramApiException If there is any error sending live photo
+     */
+    Message execute(SendLivePhoto sendLivePhoto) throws TelegramApiException;
+
     CompletableFuture<Message> executeAsync(SendDocument sendDocument);
 
     CompletableFuture<Message> executeAsync(SendPhoto sendPhoto);
@@ -281,6 +290,13 @@ public interface TelegramClient {
      * @return Sent message
      */
     CompletableFuture<Message> executeAsync(SendAnimation sendAnimation);
+
+    /**
+     * Send live photo
+     * @param sendLivePhoto Information of the live photo
+     * @return Sent message
+     */
+    CompletableFuture<Message> executeAsync(SendLivePhoto sendLivePhoto);
 
     /**
      * Set Business Account Profile Photo

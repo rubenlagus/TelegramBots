@@ -46,6 +46,7 @@ public class User implements BotApiObject {
     private static final String HAS_TOPICS_ENABLED_FIELD = "has_topics_enabled";
     private static final String ALLOWS_USERS_TO_CREATE_TOPICS_FIELD = "allows_users_to_create_topics";
     private static final String CAN_MANAGE_BOTS_FIELD = "can_manage_bots";
+    private static final String SUPPORTS_GUEST_QUERIES_FIELD = "supports_guest_queries";
 
     /**
      * Unique identifier for this user or bot.
@@ -151,54 +152,11 @@ public class User implements BotApiObject {
      */
     @JsonProperty(CAN_MANAGE_BOTS_FIELD)
     private Boolean canManageBots;
-
     /**
-     * @deprecated Use constructor with hasTopicsEnabled and allowsUsersToCreateTopics parameters or builder pattern instead
+     * Optional.
+     * True, if the bot supports guest queries from chats it is not a member of.
+     * @apiNote Returned only in getMe.
      */
-    @Deprecated
-    public User(Long id, String firstName, Boolean isBot, String lastName, String userName,
-                String languageCode, Boolean canJoinGroups, Boolean canReadAllGroupMessages,
-                Boolean supportInlineQueries, Boolean isPremium, Boolean addedToAttachmentMenu,
-                Boolean canConnectToBusiness, Boolean hasMainWebApp) {
-        this.id = id;
-        this.firstName = firstName;
-        this.isBot = isBot;
-        this.lastName = lastName;
-        this.userName = userName;
-        this.languageCode = languageCode;
-        this.canJoinGroups = canJoinGroups;
-        this.canReadAllGroupMessages = canReadAllGroupMessages;
-        this.supportInlineQueries = supportInlineQueries;
-        this.isPremium = isPremium;
-        this.addedToAttachmentMenu = addedToAttachmentMenu;
-        this.canConnectToBusiness = canConnectToBusiness;
-        this.hasMainWebApp = hasMainWebApp;
-        this.hasTopicsEnabled = null;
-        this.allowsUsersToCreateTopics = null;
-    }
-
-    /**
-     * @deprecated Use builder pattern instead
-     */
-    @Deprecated
-    public User(Long id, String firstName, Boolean isBot, String lastName, String userName,
-                String languageCode, Boolean canJoinGroups, Boolean canReadAllGroupMessages,
-                Boolean supportInlineQueries, Boolean isPremium, Boolean addedToAttachmentMenu,
-                Boolean canConnectToBusiness, Boolean hasMainWebApp, Boolean hasTopicsEnabled) {
-        this.id = id;
-        this.firstName = firstName;
-        this.isBot = isBot;
-        this.lastName = lastName;
-        this.userName = userName;
-        this.languageCode = languageCode;
-        this.canJoinGroups = canJoinGroups;
-        this.canReadAllGroupMessages = canReadAllGroupMessages;
-        this.supportInlineQueries = supportInlineQueries;
-        this.isPremium = isPremium;
-        this.addedToAttachmentMenu = addedToAttachmentMenu;
-        this.canConnectToBusiness = canConnectToBusiness;
-        this.hasMainWebApp = hasMainWebApp;
-        this.hasTopicsEnabled = hasTopicsEnabled;
-        this.allowsUsersToCreateTopics = null;
-    }
+    @JsonProperty(SUPPORTS_GUEST_QUERIES_FIELD)
+    private Boolean supportsGuestQueries;
 }

@@ -107,6 +107,8 @@ public final class AbilityUtils {
       return defaultIfNull(update.getChatBoost().getBoost().getSource().getUser(), EMPTY_USER);
     } else if (Flag.REMOVED_CHAT_BOOST.test(update)) {
       return defaultIfNull(update.getRemovedChatBoost().getSource().getUser(), EMPTY_USER);
+    } else if (Flag.GUEST_MESSAGE.test(update)) {
+      return update.getGuestMessage().getFrom();
     } else if (Flag.POLL.test(update) || Flag.MESSAGE_REACTION_COUNT.test(update)) {
       return EMPTY_USER;
     } else {
@@ -131,6 +133,8 @@ public final class AbilityUtils {
       return update.getEditedChannelPost().isGroupMessage();
     } else if (Flag.EDITED_MESSAGE.test(update)) {
       return update.getEditedMessage().isGroupMessage();
+    } else if (Flag.GUEST_MESSAGE.test(update)) {
+      return update.getGuestMessage().isGroupMessage();
     } else {
       return false;
     }
@@ -153,6 +157,8 @@ public final class AbilityUtils {
       return update.getEditedChannelPost().isSuperGroupMessage();
     } else if (Flag.EDITED_MESSAGE.test(update)) {
       return update.getEditedMessage().isSuperGroupMessage();
+    } else if (Flag.GUEST_MESSAGE.test(update)) {
+      return update.getGuestMessage().isSuperGroupMessage();
     } else {
       return false;
     }
@@ -178,6 +184,8 @@ public final class AbilityUtils {
       return update.getEditedChannelPost().getChatId();
     } else if (Flag.EDITED_MESSAGE.test(update)) {
       return update.getEditedMessage().getChatId();
+    } else if (Flag.GUEST_MESSAGE.test(update)) {
+      return update.getGuestMessage().getChatId();
     } else if (Flag.CHOSEN_INLINE_QUERY.test(update)) {
       return update.getChosenInlineQuery().getFrom().getId();
     } else if (Flag.SHIPPING_QUERY.test(update)) {
@@ -360,6 +368,8 @@ public final class AbilityUtils {
       return update.getChannelPost();
     } else if (Flag.EDITED_CHANNEL_POST.test(update)) {
       return update.getEditedChannelPost();
+    } else if (Flag.GUEST_MESSAGE.test(update)) {
+      return update.getGuestMessage();
     }
     return null;
   }

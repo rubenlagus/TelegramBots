@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPho
 import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
+import org.telegram.telegrambots.meta.api.methods.send.SendLivePhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
 import org.telegram.telegrambots.meta.api.methods.send.SendPaidMedia;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
@@ -225,6 +226,15 @@ public abstract class AbstractTelegramClient implements TelegramClient {
     }
 
     @Override
+    public Message execute(SendLivePhoto sendLivePhoto) throws TelegramApiException {
+        try {
+            return executeAsync(sendLivePhoto).get();
+        } catch (Exception e) {
+            throw mapException(e, sendLivePhoto.getMethod());
+        }
+    }
+
+    @Override
     public java.io.File downloadFile(File file) throws TelegramApiException {
         try {
             return downloadFileAsync(file).get();
@@ -242,7 +252,7 @@ public abstract class AbstractTelegramClient implements TelegramClient {
         }
     }
 
-    private TelegramApiException mapException(Exception e, String method) {
+    public TelegramApiException mapException(Exception e, String method) {
         if (e instanceof ExecutionException) {
             if (e.getCause() instanceof TelegramApiException) {
                 return (TelegramApiException) e.getCause();

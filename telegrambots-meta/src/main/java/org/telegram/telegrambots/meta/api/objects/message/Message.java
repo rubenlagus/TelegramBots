@@ -20,6 +20,7 @@ import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.EntityType;
 import org.telegram.telegrambots.meta.api.objects.ExternalReplyInfo;
 import org.telegram.telegrambots.meta.api.objects.LinkPreviewOptions;
+import org.telegram.telegrambots.meta.api.objects.LivePhoto;
 import org.telegram.telegrambots.meta.api.objects.MessageAutoDeleteTimerChanged;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.ProximityAlertTriggered;
@@ -188,6 +189,10 @@ public class Message implements MaybeInaccessibleMessage {
     private static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
     private static final String SENDER_BUSINESS_BOT_FIELD = "sender_business_bot";
     private static final String SENDER_TAG_FIELD = "sender_tag";
+    private static final String GUEST_BOT_CALLER_USER_FIELD = "guest_bot_caller_user";
+    private static final String GUEST_BOT_CALLER_CHAT_FIELD = "guest_bot_caller_chat";
+    private static final String GUEST_QUERY_ID_FIELD = "guest_query_id";
+    private static final String LIVE_PHOTO_FIELD = "live_photo";
     private static final String IS_FROM_OFFLINE_FIELD = "is_from_offline";
     private static final String CHAT_BACKGROUND_SET_FIELD = "chat_background_set";
     private static final String EFFECT_ID_FIELD = "effect_id";
@@ -769,6 +774,27 @@ public class Message implements MaybeInaccessibleMessage {
     @JsonProperty(SENDER_TAG_FIELD)
     private String senderTag;
     /**
+     * Optional. For a message sent by a guest bot, this is the user whose original message triggered the bot's response.
+     */
+    @JsonProperty(GUEST_BOT_CALLER_USER_FIELD)
+    private User guestBotCallerUser;
+    /**
+     * Optional. For a message sent by a guest bot, this is the chat whose original message triggered the bot's response.
+     */
+    @JsonProperty(GUEST_BOT_CALLER_CHAT_FIELD)
+    private Chat guestBotCallerChat;
+    /**
+     * Optional. The unique identifier for the guest query. Use this identifier with the method answerGuestQuery to send a response message.
+     */
+    @JsonProperty(GUEST_QUERY_ID_FIELD)
+    private String guestQueryId;
+    /**
+     * Optional. Message is a live photo, information about the live photo.
+     * For backward compatibility, when this field is set, the photo field will also be set
+     */
+    @JsonProperty(LIVE_PHOTO_FIELD)
+    private LivePhoto livePhoto;
+    /**
      * Optional.
      * True, if the message was sent by an implicit action, for example, as an away or a greeting business message,
      * or as a scheduled message
@@ -1306,6 +1332,10 @@ public class Message implements MaybeInaccessibleMessage {
     @JsonIgnore
     public boolean hasSenderTag() {
         return senderTag != null;
+    }
+
+    public boolean hasLivePhoto() {
+        return livePhoto != null;
     }
 
 
