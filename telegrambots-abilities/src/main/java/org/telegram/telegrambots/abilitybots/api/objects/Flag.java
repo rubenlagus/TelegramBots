@@ -38,6 +38,10 @@ public enum Flag implements Predicate<Update> {
   HAS_DELETED_BUSINESS_MESSAGE(Update::hasDeletedBusinessMessage),
   HAS_PAID_MEDIA_PURCHASED(Update::hasPaidMediaPurchased),
   HAS_MANAGED_BOT(Update::hasManagedBot),
+  MESSAGE_REACTION(Update::hasMessageReaction),
+  MESSAGE_REACTION_COUNT(Update::hasMessageReactionCount),
+  CHAT_BOOST(Update::hasChatBoost),
+  REMOVED_CHAT_BOOST(Update::hasRemovedChatBoost),
 
 
   // Message Flags
@@ -46,7 +50,16 @@ public enum Flag implements Predicate<Update> {
   TEXT(upd -> MESSAGE.test(upd) && upd.getMessage().hasText()),
   PHOTO(upd -> MESSAGE.test(upd) && upd.getMessage().hasPhoto()),
   LOCATION(upd -> MESSAGE.test(upd) && upd.getMessage().hasLocation()),
-  CAPTION(upd -> MESSAGE.test(upd) && nonNull(upd.getMessage().getCaption()));
+  CAPTION(upd -> MESSAGE.test(upd) && nonNull(upd.getMessage().getCaption())),
+  STICKER(upd -> MESSAGE.test(upd) && upd.getMessage().hasSticker()),
+  VIDEO(upd -> MESSAGE.test(upd) && upd.getMessage().hasVideo()),
+  AUDIO(upd -> MESSAGE.test(upd) && upd.getMessage().hasAudio()),
+  VOICE(upd -> MESSAGE.test(upd) && upd.getMessage().hasVoice()),
+  CONTACT(upd -> MESSAGE.test(upd) && upd.getMessage().hasContact()),
+  POLL_MESSAGE(upd -> MESSAGE.test(upd) && upd.getMessage().hasPoll()),
+  DICE(upd -> MESSAGE.test(upd) && upd.getMessage().hasDice()),
+  GIFT(upd -> MESSAGE.test(upd) && upd.getMessage().hasGift()),
+  PAID_MEDIA(upd -> MESSAGE.test(upd) && upd.getMessage().hasPaidMedia());
 
   private final Predicate<Update> predicate;
 

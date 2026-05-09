@@ -101,7 +101,13 @@ public final class AbilityUtils {
       return update.getPaidMediaPurchased().getUser();
     } else if (Flag.HAS_MANAGED_BOT.test(update)) {
       return update.getManagedBot().getUser();
-    } else if (Flag.POLL.test(update)) {
+    } else if (Flag.MESSAGE_REACTION.test(update)) {
+      return update.getMessageReaction().getUser();
+    } else if (Flag.CHAT_BOOST.test(update)) {
+      return defaultIfNull(update.getChatBoost().getBoost().getSource().getUser(), EMPTY_USER);
+    } else if (Flag.REMOVED_CHAT_BOOST.test(update)) {
+      return defaultIfNull(update.getRemovedChatBoost().getSource().getUser(), EMPTY_USER);
+    } else if (Flag.POLL.test(update) || Flag.MESSAGE_REACTION_COUNT.test(update)) {
       return EMPTY_USER;
     } else {
       throw new IllegalStateException("Could not retrieve originating user from update");
@@ -200,6 +206,14 @@ public final class AbilityUtils {
       return update.getPaidMediaPurchased().getUser().getId();
     } else if (Flag.HAS_MANAGED_BOT.test(update)) {
       return update.getManagedBot().getUser().getId();
+    } else if (Flag.MESSAGE_REACTION.test(update)) {
+      return update.getMessageReaction().getChat().getId();
+    } else if (Flag.MESSAGE_REACTION_COUNT.test(update)) {
+      return update.getMessageReactionCount().getChat().getId();
+    } else if (Flag.CHAT_BOOST.test(update)) {
+      return update.getChatBoost().getChat().getId();
+    } else if (Flag.REMOVED_CHAT_BOOST.test(update)) {
+      return update.getRemovedChatBoost().getChat().getId();
     } else {
       throw new IllegalStateException("Could not retrieve originating chat ID from update");
     }
