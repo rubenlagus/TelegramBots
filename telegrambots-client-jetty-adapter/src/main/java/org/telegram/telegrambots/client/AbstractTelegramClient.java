@@ -144,7 +144,7 @@ public abstract class AbstractTelegramClient implements TelegramClient {
     }
 
     @Override
-    public List<Message> execute(SendPaidMedia sendPaidMedia) throws TelegramApiException {
+    public Message execute(SendPaidMedia sendPaidMedia) throws TelegramApiException {
         try {
             return executeAsync(sendPaidMedia).get();
         } catch (Exception e) {

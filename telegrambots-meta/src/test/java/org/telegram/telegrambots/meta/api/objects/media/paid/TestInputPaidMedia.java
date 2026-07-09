@@ -27,7 +27,7 @@ public class TestInputPaidMedia {
     @Test
     public void testInputPaidMediaVideoType() {
         InputPaidMediaVideo inputPaidMediaVideo = new InputPaidMediaVideo("test-media-id");
-        assertEquals("photo", inputPaidMediaVideo.getType());
+        assertEquals("video", inputPaidMediaVideo.getType());
     }
 
     @Test
