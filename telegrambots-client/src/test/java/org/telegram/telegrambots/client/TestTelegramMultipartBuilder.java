@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.location.Location;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaDocument;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaLivePhoto;
 import org.telegram.telegrambots.meta.api.objects.stickers.InputSticker;
 
 import java.io.File;
@@ -24,6 +25,20 @@ public class TestTelegramMultipartBuilder {
     @BeforeEach
     public void setUp() {
         multipartBuilder = new TelegramMultipartBuilder(new ObjectMapper());
+    }
+
+    @Test
+    public void testAddInputMediaLivePhoto() {
+        try {
+            ClassLoader classLoader = getClass().getClassLoader();
+            File file = new File(classLoader.getResource("test_file.txt").getFile());
+            InputMediaLivePhoto inputMedia = new InputMediaLivePhoto(file, "live_photo.mp4", "attach://photo.jpg");
+            MultipartBody result = multipartBuilder.addMedia(inputMedia).build();
+            assertNotNull(result);
+            assertEquals(1, result.size()); // It only adds the main media to the builder
+        } catch (Exception e) {
+            fail(e);
+        }
     }
 
     @Test

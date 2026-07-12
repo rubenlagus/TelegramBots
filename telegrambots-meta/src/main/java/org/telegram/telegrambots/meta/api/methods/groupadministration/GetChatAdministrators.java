@@ -42,10 +42,18 @@ public class GetChatAdministrators extends BotApiMethod<ArrayList<ChatMember>> {
     public static final String PATH = "getChatAdministrators";
 
     private static final String CHATID_FIELD = "chat_id";
+    private static final String RETURN_BOTS_FIELD = "return_bots";
 
     @JsonProperty(CHATID_FIELD)
     @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
+    /**
+     * Optional.
+     * Pass True to additionally receive all bots that are administrators of the chat.
+     * By default, bots other than the current bot are omitted.
+     */
+    @JsonProperty(RETURN_BOTS_FIELD)
+    private Boolean returnBots;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {

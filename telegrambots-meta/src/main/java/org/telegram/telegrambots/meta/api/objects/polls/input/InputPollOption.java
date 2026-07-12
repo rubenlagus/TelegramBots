@@ -38,6 +38,7 @@ public class InputPollOption implements BotApiObject, Validable {
     private static final String TEXT_FIELD = "text";
     private static final String TEXT_PARSE_MODE_FIELD = "text_parse_mode";
     private static final String TEXT_ENTITIES_FIELD = "text_entities";
+    private static final String MEDIA_FIELD = "media";
 
     /**
      * Option text, 1-100 characters
@@ -61,6 +62,11 @@ public class InputPollOption implements BotApiObject, Validable {
     @JsonProperty(TEXT_ENTITIES_FIELD)
     @Singular
     private List<MessageEntity> textEntities;
+    /**
+     * Optional. Media added to the poll option
+     */
+    @JsonProperty(MEDIA_FIELD)
+    private InputPollOptionMedia media;
 
     @Override
     public void validate() throws TelegramApiValidationException {

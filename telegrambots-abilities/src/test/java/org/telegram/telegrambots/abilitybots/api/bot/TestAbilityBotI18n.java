@@ -20,8 +20,38 @@ import static org.telegram.telegrambots.abilitybots.api.bot.TestUtils.mockContex
 import static org.telegram.telegrambots.abilitybots.api.db.MapDBContext.offlineInstance;
 
 class TestAbilityBotI18n {
-  private static final User NO_LANGUAGE_USER = new User(1L, "first", false, "last", "username", null, false, false, false, false, false, false, false, false);
-  private static final User ITALIAN_USER = new User(2L, "first", false, "last", "username", "it-IT", false, false, false, false, false, false, false, false);
+  private static final User NO_LANGUAGE_USER = User.builder()
+          .id(1L)
+          .firstName("first")
+          .isBot(false)
+          .lastName("last")
+          .userName("username")
+          .languageCode(null)
+          .canJoinGroups(false)
+          .canReadAllGroupMessages(false)
+          .supportInlineQueries(false)
+          .isPremium(false)
+          .addedToAttachmentMenu(false)
+          .canConnectToBusiness(false)
+          .hasMainWebApp(false)
+          .hasTopicsEnabled(false)
+          .build();
+  private static final User ITALIAN_USER = User.builder()
+          .id(2L)
+          .firstName("first")
+          .isBot(false)
+          .lastName("last")
+          .userName("username")
+          .languageCode("it-IT")
+          .canJoinGroups(false)
+          .canReadAllGroupMessages(false)
+          .supportInlineQueries(false)
+          .isPremium(false)
+          .addedToAttachmentMenu(false)
+          .canConnectToBusiness(false)
+          .hasMainWebApp(false)
+          .hasTopicsEnabled(false)
+          .build();
 
   private DBContext db;
   private NoPublicCommandsBot bot;

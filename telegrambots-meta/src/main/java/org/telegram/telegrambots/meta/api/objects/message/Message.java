@@ -20,6 +20,7 @@ import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.EntityType;
 import org.telegram.telegrambots.meta.api.objects.ExternalReplyInfo;
 import org.telegram.telegrambots.meta.api.objects.LinkPreviewOptions;
+import org.telegram.telegrambots.meta.api.objects.LivePhoto;
 import org.telegram.telegrambots.meta.api.objects.MessageAutoDeleteTimerChanged;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.ProximityAlertTriggered;
@@ -55,6 +56,8 @@ import org.telegram.telegrambots.meta.api.objects.giveaway.GiveawayCompleted;
 import org.telegram.telegrambots.meta.api.objects.giveaway.GiveawayCreated;
 import org.telegram.telegrambots.meta.api.objects.giveaway.GiveawayWinners;
 import org.telegram.telegrambots.meta.api.objects.location.Location;
+import org.telegram.telegrambots.meta.api.objects.managed.ManagedBotCreated;
+import org.telegram.telegrambots.meta.api.objects.richtext.RichMessage;
 import org.telegram.telegrambots.meta.api.objects.messageorigin.MessageOrigin;
 import org.telegram.telegrambots.meta.api.objects.passport.PassportData;
 import org.telegram.telegrambots.meta.api.objects.payments.DirectMessagePriceChanged;
@@ -64,6 +67,8 @@ import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import org.telegram.telegrambots.meta.api.objects.payments.paidmedia.PaidMediaInfo;
 import org.telegram.telegrambots.meta.api.objects.photo.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
+import org.telegram.telegrambots.meta.api.objects.polls.PollOptionAdded;
+import org.telegram.telegrambots.meta.api.objects.polls.PollOptionDeleted;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 import org.telegram.telegrambots.meta.api.objects.stories.Story;
@@ -185,6 +190,10 @@ public class Message implements MaybeInaccessibleMessage {
     private static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
     private static final String SENDER_BUSINESS_BOT_FIELD = "sender_business_bot";
     private static final String SENDER_TAG_FIELD = "sender_tag";
+    private static final String GUEST_BOT_CALLER_USER_FIELD = "guest_bot_caller_user";
+    private static final String GUEST_BOT_CALLER_CHAT_FIELD = "guest_bot_caller_chat";
+    private static final String GUEST_QUERY_ID_FIELD = "guest_query_id";
+    private static final String LIVE_PHOTO_FIELD = "live_photo";
     private static final String IS_FROM_OFFLINE_FIELD = "is_from_offline";
     private static final String CHAT_BACKGROUND_SET_FIELD = "chat_background_set";
     private static final String EFFECT_ID_FIELD = "effect_id";
@@ -211,6 +220,11 @@ public class Message implements MaybeInaccessibleMessage {
     private static final String SUGGESTED_POST_REFUNDED_FIELD = "suggested_post_refunded";
     private static final String CHAT_OWNER_LEFT_FIELD = "chat_owner_left";
     private static final String CHAT_OWNER_CHANGED_FIELD = "chat_owner_changed";
+    private static final String REPLY_TO_POLL_OPTION_ID_FIELD = "reply_to_poll_option_id";
+    private static final String MANAGED_BOT_CREATED_FIELD = "managed_bot_created";
+    private static final String POLL_OPTION_ADDED_FIELD = "poll_option_added";
+    private static final String POLL_OPTION_DELETED_FIELD = "poll_option_deleted";
+    private static final String RICH_MESSAGE_FIELD = "rich_message";
 
     /**
      * Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat),
@@ -762,6 +776,27 @@ public class Message implements MaybeInaccessibleMessage {
     @JsonProperty(SENDER_TAG_FIELD)
     private String senderTag;
     /**
+     * Optional. For a message sent by a guest bot, this is the user whose original message triggered the bot's response.
+     */
+    @JsonProperty(GUEST_BOT_CALLER_USER_FIELD)
+    private User guestBotCallerUser;
+    /**
+     * Optional. For a message sent by a guest bot, this is the chat whose original message triggered the bot's response.
+     */
+    @JsonProperty(GUEST_BOT_CALLER_CHAT_FIELD)
+    private Chat guestBotCallerChat;
+    /**
+     * Optional. The unique identifier for the guest query. Use this identifier with the method answerGuestQuery to send a response message.
+     */
+    @JsonProperty(GUEST_QUERY_ID_FIELD)
+    private String guestQueryId;
+    /**
+     * Optional. Message is a live photo, information about the live photo.
+     * For backward compatibility, when this field is set, the photo field will also be set
+     */
+    @JsonProperty(LIVE_PHOTO_FIELD)
+    private LivePhoto livePhoto;
+    /**
      * Optional.
      * True, if the message was sent by an implicit action, for example, as an away or a greeting business message,
      * or as a scheduled message
@@ -920,6 +955,36 @@ public class Message implements MaybeInaccessibleMessage {
      */
     @JsonProperty(CHAT_OWNER_CHANGED_FIELD)
     private ChatOwnerChanged chatOwnerChanged;
+    /**
+     * Optional.
+     * Persistent identifier of the specific poll option that is being replied to
+     */
+    @JsonProperty(REPLY_TO_POLL_OPTION_ID_FIELD)
+    private String replyToPollOptionId;
+    /**
+     * Optional.
+     * Service message: user created a bot that will be managed by the current bot
+     */
+    @JsonProperty(MANAGED_BOT_CREATED_FIELD)
+    private ManagedBotCreated managedBotCreated;
+    /**
+     * Optional.
+     * Service message: answer option was added to a poll
+     */
+    @JsonProperty(POLL_OPTION_ADDED_FIELD)
+    private PollOptionAdded pollOptionAdded;
+    /**
+     * Optional.
+     * Service message: answer option was deleted from a poll
+     */
+    @JsonProperty(POLL_OPTION_DELETED_FIELD)
+    private PollOptionDeleted pollOptionDeleted;
+    /**
+     * Optional.
+     * Message is a rich formatted message
+     */
+    @JsonProperty(RICH_MESSAGE_FIELD)
+    private RichMessage richMessage;
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {
@@ -1275,6 +1340,10 @@ public class Message implements MaybeInaccessibleMessage {
     @JsonIgnore
     public boolean hasSenderTag() {
         return senderTag != null;
+    }
+
+    public boolean hasLivePhoto() {
+        return livePhoto != null;
     }
 
 

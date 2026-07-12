@@ -46,6 +46,7 @@ public class ChatPermissions implements BotApiObject {
     private static final String CAN_PIN_MESSAGES_FIELD = "can_pin_messages";
     private static final String CANMANAGETOPICS_FIELD = "can_manage_topics";
     private static final String CANEDITTAG_FIELD = "can_edit_tag";
+    private static final String CAN_REACT_TO_MESSAGES_FIELD = "can_react_to_messages";
 
     private static final String CAN_SEND_MEDIA_MESSAGES_FIELD = "can_send_media_messages";
 
@@ -133,4 +134,9 @@ public class ChatPermissions implements BotApiObject {
      */
     @JsonProperty(CANEDITTAG_FIELD)
     private Boolean canEditTag;
+    /**
+     * Optional. True, if the user is allowed to react to messages. If omitted, defaults to the value of can_send_messages.
+     */
+    @JsonProperty(CAN_REACT_TO_MESSAGES_FIELD)
+    private Boolean canReactToMessages;
 }

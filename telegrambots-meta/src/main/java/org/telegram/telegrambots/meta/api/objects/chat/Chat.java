@@ -2,6 +2,7 @@ package org.telegram.telegrambots.meta.api.objects.chat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.telegram.telegrambots.meta.api.objects.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
@@ -42,6 +43,7 @@ public class Chat implements BotApiObject {
     private static final String FIRST_NAME_FIELD = "first_name";
     private static final String LAST_NAME_FIELD = "last_name";
     private static final String IS_FORUM_FIELD  = "is_forum";
+    private static final String GUARD_BOT_FIELD = "guard_bot";
 
     private static final String USER_CHAT_TYPE = "private";
     private static final String GROUP_CHAT_TYPE = "group";
@@ -93,6 +95,13 @@ public class Chat implements BotApiObject {
      */
     @JsonProperty(IS_FORUM_FIELD)
     private Boolean isForum;
+    /**
+     * Optional.
+     * The bot that processes join request queries in the chat.
+     * The field is only available to chat administrators.
+     */
+    @JsonProperty(GUARD_BOT_FIELD)
+    private User guardBot;
 
     @JsonIgnore
     public Boolean isGroupChat() {
