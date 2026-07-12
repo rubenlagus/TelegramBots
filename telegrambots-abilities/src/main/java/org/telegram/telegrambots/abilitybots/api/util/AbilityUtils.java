@@ -2,8 +2,8 @@ package org.telegram.telegrambots.abilitybots.api.util;
 
 import com.google.common.base.Strings;
 import org.telegram.telegrambots.abilitybots.api.db.DBContext;
-import org.telegram.telegrambots.abilitybots.api.objects.MessageContext;
 import org.telegram.telegrambots.abilitybots.api.objects.Flag;
+import org.telegram.telegrambots.abilitybots.api.objects.MessageContext;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
@@ -97,9 +97,19 @@ public final class AbilityUtils {
       return update.getEditedBuinessMessage().getFrom();
     } else if (Flag.HAS_DELETED_BUSINESS_MESSAGE.test(update)) {
       return EMPTY_USER;
-    }else if (Flag.HAS_PAID_MEDIA_PURCHASED.test(update)) {
+    } else if (Flag.HAS_PAID_MEDIA_PURCHASED.test(update)) {
       return update.getPaidMediaPurchased().getUser();
-    } else if (Flag.POLL.test(update)) {
+    } else if (Flag.HAS_MANAGED_BOT.test(update)) {
+      return update.getManagedBot().getUser();
+    } else if (Flag.MESSAGE_REACTION.test(update)) {
+      return update.getMessageReaction().getUser();
+    } else if (Flag.CHAT_BOOST.test(update)) {
+      return defaultIfNull(update.getChatBoost().getBoost().getSource().getUser(), EMPTY_USER);
+    } else if (Flag.REMOVED_CHAT_BOOST.test(update)) {
+      return defaultIfNull(update.getRemovedChatBoost().getSource().getUser(), EMPTY_USER);
+    } else if (Flag.GUEST_MESSAGE.test(update)) {
+      return update.getGuestMessage().getFrom();
+    } else if (Flag.POLL.test(update) || Flag.MESSAGE_REACTION_COUNT.test(update)) {
       return EMPTY_USER;
     } else {
       throw new IllegalStateException("Could not retrieve originating user from update");
@@ -123,6 +133,8 @@ public final class AbilityUtils {
       return update.getEditedChannelPost().isGroupMessage();
     } else if (Flag.EDITED_MESSAGE.test(update)) {
       return update.getEditedMessage().isGroupMessage();
+    } else if (Flag.GUEST_MESSAGE.test(update)) {
+      return update.getGuestMessage().isGroupMessage();
     } else {
       return false;
     }
@@ -145,6 +157,8 @@ public final class AbilityUtils {
       return update.getEditedChannelPost().isSuperGroupMessage();
     } else if (Flag.EDITED_MESSAGE.test(update)) {
       return update.getEditedMessage().isSuperGroupMessage();
+    } else if (Flag.GUEST_MESSAGE.test(update)) {
+      return update.getGuestMessage().isSuperGroupMessage();
     } else {
       return false;
     }
@@ -170,6 +184,8 @@ public final class AbilityUtils {
       return update.getEditedChannelPost().getChatId();
     } else if (Flag.EDITED_MESSAGE.test(update)) {
       return update.getEditedMessage().getChatId();
+    } else if (Flag.GUEST_MESSAGE.test(update)) {
+      return update.getGuestMessage().getChatId();
     } else if (Flag.CHOSEN_INLINE_QUERY.test(update)) {
       return update.getChosenInlineQuery().getFrom().getId();
     } else if (Flag.SHIPPING_QUERY.test(update)) {
@@ -196,6 +212,16 @@ public final class AbilityUtils {
       return EMPTY_USER.getId();
     } else if (Flag.HAS_PAID_MEDIA_PURCHASED.test(update)) {
       return update.getPaidMediaPurchased().getUser().getId();
+    } else if (Flag.HAS_MANAGED_BOT.test(update)) {
+      return update.getManagedBot().getUser().getId();
+    } else if (Flag.MESSAGE_REACTION.test(update)) {
+      return update.getMessageReaction().getChat().getId();
+    } else if (Flag.MESSAGE_REACTION_COUNT.test(update)) {
+      return update.getMessageReactionCount().getChat().getId();
+    } else if (Flag.CHAT_BOOST.test(update)) {
+      return update.getChatBoost().getChat().getId();
+    } else if (Flag.REMOVED_CHAT_BOOST.test(update)) {
+      return update.getRemovedChatBoost().getChat().getId();
     } else {
       throw new IllegalStateException("Could not retrieve originating chat ID from update");
     }
@@ -342,6 +368,8 @@ public final class AbilityUtils {
       return update.getChannelPost();
     } else if (Flag.EDITED_CHANNEL_POST.test(update)) {
       return update.getEditedChannelPost();
+    } else if (Flag.GUEST_MESSAGE.test(update)) {
+      return update.getGuestMessage();
     }
     return null;
   }

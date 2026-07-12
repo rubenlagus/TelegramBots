@@ -23,6 +23,7 @@ public class ChatJoinRequest implements BotApiObject {
     private static final String BIO_FIELD = "bio";
     private static final String INVITELINK_FIELD = "invite_link";
     private static final String USERCHATID_FIELD = "user_chat_id";
+    private static final String QUERY_ID_FIELD = "query_id";
 
     /**
      * Chat to which the request was sent
@@ -59,4 +60,11 @@ public class ChatJoinRequest implements BotApiObject {
      */
     @JsonProperty(USERCHATID_FIELD)
     private Long userChatId;
+    /**
+     * Optional.
+     * Identifier of the join request query.
+     * If present, then the bot must call sendChatJoinRequestWebApp or directly call answerChatJoinRequestQuery within 10 seconds.
+     */
+    @JsonProperty(QUERY_ID_FIELD)
+    private String queryId;
 }

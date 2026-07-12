@@ -50,6 +50,7 @@ public class ChatMemberRestricted implements ChatMember {
     private static final String UNTILDATE_FIELD = "until_date";
     private static final String TAG_FIELD = "tag";
     private static final String CANEDITTAG_FIELD = "can_edit_tag";
+    private static final String CAN_REACT_TO_MESSAGES_FIELD = "can_react_to_messages";
 
     private static final String CANSENDMEDIAMESSAGES_FIELD = "can_send_media_messages";
 
@@ -154,4 +155,9 @@ public class ChatMemberRestricted implements ChatMember {
      */
     @JsonProperty(CANEDITTAG_FIELD)
     private Boolean canEditTag;
+    /**
+     * True, if the user is allowed to react to messages
+     */
+    @JsonProperty(CAN_REACT_TO_MESSAGES_FIELD)
+    private Boolean canReactToMessages;
 }

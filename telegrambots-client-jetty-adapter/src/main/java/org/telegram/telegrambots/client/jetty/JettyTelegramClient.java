@@ -20,6 +20,7 @@ import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPho
 import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
+import org.telegram.telegrambots.meta.api.methods.send.SendLivePhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendMediaBotMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
 import org.telegram.telegrambots.meta.api.methods.send.SendPaidMedia;
@@ -36,12 +37,15 @@ import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.File;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaAnimation;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaAudio;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaDocument;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaLivePhoto;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaVideo;
 import org.telegram.telegrambots.meta.api.objects.media.paid.InputPaidMedia;
+import org.telegram.telegrambots.meta.api.objects.media.paid.InputPaidMediaLivePhoto;
 import org.telegram.telegrambots.meta.api.objects.media.paid.InputPaidMediaVideo;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoAnimated;
@@ -374,16 +378,19 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
             builder.addPart(SendMediaGroup.CHAT_ID_FIELD, sendMediaGroup.getChatId())
                     .addPart(SendMediaGroup.DISABLE_NOTIFICATION_FIELD, sendMediaGroup.getDisableNotification())
-                    .addPart(SendMediaGroup.REPLY_TO_MESSAGE_ID_FIELD, sendMediaGroup.getReplyToMessageId())
                     .addPart(SendMediaGroup.MESSAGE_THREAD_ID_FIELD, sendMediaGroup.getMessageThreadId())
-                    .addPart(SendMediaGroup.ALLOW_SENDING_WITHOUT_REPLY_FIELD, sendMediaGroup.getAllowSendingWithoutReply())
                     .addPart(SendMediaGroup.PROTECT_CONTENT_FIELD, sendMediaGroup.getProtectContent())
                     .addPart(SendMediaGroup.BUSINESS_CONNECTION_ID_FIELD, sendMediaGroup.getBusinessConnectionId())
                     .addPart(SendMediaGroup.MESSAGE_EFFECT_ID_FIELD, sendMediaGroup.getMessageEffectId())
-                    .addPart(SendMediaGroup.ALLOW_PAID_BROADCAST_FIELD, sendMediaGroup.getAllowSendingWithoutReply())
+                    .addPart(SendMediaGroup.ALLOW_PAID_BROADCAST_FIELD, sendMediaGroup.getAllowPaidBroadcast())
                     .addPart(SendMediaGroup.DIRECT_MESSAGES_TOPIC_ID_FIELD, sendMediaGroup.getDirectMessagesTopicId())
                     .addJsonPart(SendMediaGroup.REPLY_MARKUP_FIELD, sendMediaGroup.getReplyMarkup())
                     .addJsonPart(SendMediaGroup.REPLY_PARAMETERS_FIELD, sendMediaGroup.getReplyParameters());
+
+            if (sendMediaGroup.getReplyParameters() == null) {
+                builder.addPart(SendMediaGroup.REPLY_TO_MESSAGE_ID_FIELD, sendMediaGroup.getReplyToMessageId())
+                        .addPart(SendMediaGroup.ALLOW_SENDING_WITHOUT_REPLY_FIELD, sendMediaGroup.getAllowSendingWithoutReply());
+            }
 
 
             Request httpPost = client.POST(url).body(builder.build());
@@ -415,6 +422,40 @@ public class JettyTelegramClient extends AbstractTelegramClient {
                         builder.addInputFile(SendAnimation.THUMBNAIL_FIELD, sendAnimation.getThumbnail(), false);
                         builder.addPart(SendAnimation.THUMBNAIL_FIELD, sendAnimation.getThumbnail().getAttachName());
                     }
+                }
+
+        );
+    }
+
+    @Override
+    public Message execute(SendLivePhoto sendLivePhoto) throws TelegramApiException {
+        try {
+            return executeAsync(sendLivePhoto).get();
+        } catch (Exception e) {
+            if (e instanceof java.util.concurrent.ExecutionException) {
+                if (e.getCause() instanceof TelegramApiException) {
+                    throw (TelegramApiException) e.getCause();
+                } else {
+                    throw new TelegramApiException("Unable to execute " + sendLivePhoto.getMethod() + " method", e.getCause());
+                }
+            } else {
+                throw new TelegramApiException("Unable to execute " + sendLivePhoto.getMethod() + " method", e);
+            }
+        }
+    }
+
+    @Override
+    public CompletableFuture<Message> executeAsync(SendLivePhoto sendLivePhoto) {
+        return executeMediaMethod(sendLivePhoto, builder -> {
+                    builder.addPart(SendLivePhoto.CAPTION_FIELD, sendLivePhoto.getCaption())
+                            .addJsonPart(SendLivePhoto.CAPTION_ENTITIES_FIELD, sendLivePhoto.getCaptionEntities())
+                            .addPart(SendLivePhoto.PARSE_MODE_FIELD, sendLivePhoto.getParseMode())
+                            .addPart(SendLivePhoto.HAS_SPOILER_FIELD, sendLivePhoto.getHasSpoiler())
+                            .addPart(SendLivePhoto.BUSINESS_CONNECTION_ID_FIELD, sendLivePhoto.getBusinessConnectionId())
+                            .addPart(SendLivePhoto.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendLivePhoto.getShowCaptionAboveMedia())
+                            .addJsonPart(SendLivePhoto.REPLY_MARKUP_FIELD, sendLivePhoto.getReplyMarkup());
+
+                    builder.addInputFile("photo", sendLivePhoto.getPhoto(), true);
                 }
 
         );
@@ -667,15 +708,18 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
             builder.addPart(SendMediaBotMethod.CHAT_ID_FIELD, method.getChatId())
                     .addPart(SendMediaBotMethod.MESSAGE_THREAD_ID_FIELD, method.getMessageThreadId())
-                    .addPart(SendMediaBotMethod.REPLY_TO_MESSAGE_ID_FIELD, method.getReplyToMessageId())
                     .addPart(SendMediaBotMethod.DISABLE_NOTIFICATION_FIELD, method.getDisableNotification())
                     .addPart(SendMediaBotMethod.PROTECT_CONTENT_FIELD, method.getProtectContent())
-                    .addPart(SendMediaBotMethod.ALLOW_SENDING_WITHOUT_REPLY_FIELD, method.getAllowSendingWithoutReply())
                     .addPart(SendMediaBotMethod.MESSAGE_EFFECT_ID_FIELD, method.getMessageEffectId())
                     .addPart(SendMediaBotMethod.DIRECT_MESSAGES_TOPIC_ID_FIELD, method.getDirectMessagesTopicId())
                     .addPart(SendMediaBotMethod.SUGGESTED_POST_PARAMETERS_FIELD, method.getSuggestedPostParameters())
                     .addJsonPart(SendMediaBotMethod.REPLY_PARAMETERS_FIELD, method.getReplyParameters())
                     .addJsonPart(SendMediaBotMethod.REPLY_MARKUP_FIELD, method.getReplyMarkup());
+
+            if (method.getReplyParameters() == null) {
+                builder.addPart(SendMediaBotMethod.REPLY_TO_MESSAGE_ID_FIELD, method.getReplyToMessageId())
+                        .addPart(SendMediaBotMethod.ALLOW_SENDING_WITHOUT_REPLY_FIELD, method.getAllowSendingWithoutReply());
+            }
 
             setup.accept(builder);
 
@@ -726,6 +770,8 @@ public class JettyTelegramClient extends AbstractTelegramClient {
             if (animation.getThumbnail() != null) {
                 builder.addInputFile(InputMediaAnimation.THUMBNAIL_FIELD, animation.getThumbnail(), false);
             }
+        } else if (media instanceof InputMediaLivePhoto livePhoto) {
+            builder.addInputFile("photo", new InputFile(livePhoto.getPhoto()), false);
         }
 
         if (addField) {
@@ -745,6 +791,8 @@ public class JettyTelegramClient extends AbstractTelegramClient {
             if (video.getCover() != null) {
                 builder.addInputFile(InputPaidMediaVideo.COVER_FIELD, video.getCover(), false);
             }
+        } else if (media instanceof InputPaidMediaLivePhoto livePhoto) {
+            builder.addInputFile("photo", new InputFile(livePhoto.getPhoto()), false);
         }
 
         if (addField) {

@@ -81,7 +81,7 @@ public class SendGift extends BotApiMethodBoolean {
      * Mode for parsing entities in the text.
      * See formatting options for more details.
      *
-     * @apiNote Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and “custom_emoji” are ignored.
+     * @apiNote Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “custom_emoji”, and “date_time” are ignored.
      */
     @JsonProperty(TEXT_PARSE_MODE_FIELD)
     private String textParseMode;
@@ -89,7 +89,7 @@ public class SendGift extends BotApiMethodBoolean {
      * Optional
      * A JSON-serialized list of special entities that appear in the gift text.
      * It can be specified instead of text_parse_mode.
-     * @apiNote  Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and “custom_emoji” are ignored.
+     * @apiNote  Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “custom_emoji”, and “date_time” are ignored.
      */
     @JsonProperty(TEXT_ENTITIES_FIELD)
     @Singular

@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
@@ -16,6 +14,7 @@ import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodSerializable;
 import org.telegram.telegrambots.meta.api.objects.LinkPreviewOptions;
+import org.telegram.telegrambots.meta.api.objects.richtext.InputRichMessage;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -37,7 +36,6 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
 @Jacksonized
@@ -56,6 +54,7 @@ public class EditMessageText extends BotApiMethodSerializable {
     private static final String ENTITIES_FIELD = "entities";
     private static final String LINK_PREVIEW_OPTIONS_FIELD = "link_preview_options";
     private static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
+    private static final String RICH_MESSAGE_FIELD = "rich_message";
 
     /**
      * Required if inline_message_id is not specified. Unique identifier for the chat to send the
@@ -74,10 +73,9 @@ public class EditMessageText extends BotApiMethodSerializable {
     @JsonProperty(INLINE_MESSAGE_ID_FIELD)
     private String inlineMessageId;
     /**
-     * New text of the message
+     * Optional. New text of the message, 1-4096 characters after entity parsing; required if rich_message isn't specified
      */
     @JsonProperty(TEXT_FIELD)
-    @NonNull
     private String text;
     /**
      * Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width
@@ -115,6 +113,12 @@ public class EditMessageText extends BotApiMethodSerializable {
      */
     @JsonProperty(BUSINESS_CONNECTION_ID_FIELD)
     private String businessConnectionId;
+    /**
+     * Optional.
+     * New rich content of the message; required if text isn't specified
+     */
+    @JsonProperty(RICH_MESSAGE_FIELD)
+    private InputRichMessage richMessage;
 
     public void disableWebPagePreview() {
         disableWebPagePreview = true;
@@ -172,7 +176,13 @@ public class EditMessageText extends BotApiMethodSerializable {
                 throw new TelegramApiValidationException("MessageId parameter must be empty if inlineMessageId is provided", this);
             }
         }
-        if (text.isEmpty()) {
+        if (text == null && richMessage == null) {
+            throw new TelegramApiValidationException("Either text or richMessage parameter must be provided", this);
+        }
+        if (richMessage != null) {
+            richMessage.validate();
+        }
+        if (text != null && text.isEmpty()) {
             throw new TelegramApiValidationException("Text parameter can't be empty", this);
         }
         if (parseMode != null && (entities != null && !entities.isEmpty()) ) {

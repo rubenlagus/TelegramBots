@@ -40,6 +40,7 @@ public class ReplyParameters implements BotApiObject, Validable {
     private static final String QUOTE_ENTITIES_FIELD = "quote_entities";
     private static final String QUOTE_POSITION_FIELD = "quote_position";
     private static final String CHECKLIST_TASK_ID_FIELD = "checklist_task_id";
+    private static final String POLL_OPTION_ID_FIELD = "poll_option_id";
 
     /**
      * 	Identifier of the message that will be replied to in the current chat, or in the chat chat_id if it is specified
@@ -61,6 +62,12 @@ public class ReplyParameters implements BotApiObject, Validable {
      */
     @JsonProperty(CHECKLIST_TASK_ID_FIELD)
     private Integer checklistTaskId;
+    /**
+     * Optional.
+     * Persistent identifier of the specific poll option to be replied to
+     */
+    @JsonProperty(POLL_OPTION_ID_FIELD)
+    private String pollOptionId;
 
     /**
      * Optional.
@@ -73,7 +80,7 @@ public class ReplyParameters implements BotApiObject, Validable {
     /**
      * Optional.
      * Quoted part of the message to be replied to; 0-1024 characters after entities parsing.
-     * The quote must be an exact substring of the message to be replied to, including bold, italic, underline, strikethrough, spoiler, and custom_emoji entities.
+     * The quote must be an exact substring of the message to be replied to, including bold, italic, underline, strikethrough, spoiler, custom_emoji, and date_time entities.
      * The message will fail to send if the quote isn't found in the original message.
      */
     @JsonProperty(QUOTE_FIELD)
