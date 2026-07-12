@@ -19,6 +19,7 @@
         <module>telegrambots-springboot-webhook-starter</module>
         <module>telegrambots-extensions</module>
         <module>telegrambots-abilities</module>
+        <module>telegrambots-bom</module>
         <module>telegrambots-test-reports</module>
     </modules>
 
