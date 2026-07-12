@@ -92,6 +92,11 @@ public class BotSession implements AutoCloseable {
     @Override
     public void close() throws TelegramApiException {
         stop();
+        try {
+            updatesConsumer.close();
+        } catch (Exception e) {
+            log.warn("Failed to close updates consumer", e);
+        }
     }
 
     @NonNull

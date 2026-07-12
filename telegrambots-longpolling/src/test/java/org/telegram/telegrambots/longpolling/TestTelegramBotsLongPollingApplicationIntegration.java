@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsumer;
 import org.telegram.telegrambots.longpolling.util.DefaultGetUpdatesGenerator;
 import org.telegram.telegrambots.longpolling.util.ExponentialBackOff;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -291,6 +293,50 @@ public class TestTelegramBotsLongPollingApplicationIntegration {
         } catch (Exception e) {
             fail(e);
         }
+    }
+
+    @Test
+    public void testConsumerIsClosedOnUnregisterBot() throws Exception {
+        AtomicBoolean closed = new AtomicBoolean(false);
+        LongPollingUpdateConsumer consumer = new LongPollingUpdateConsumer() {
+            @Override
+            public void consume(List<Update> updates) {}
+
+            @Override
+            public void close() {
+                closed.set(true);
+            }
+        };
+
+        Dispatcher dispatcher = getDispatcher(List.of(getFakeUpdates1()));
+        webServer.setDispatcher(dispatcher);
+
+        application.registerBot("TOKEN", () -> telegramUrl, new DefaultGetUpdatesGenerator(), consumer);
+        application.unregisterBot("TOKEN");
+
+        assertTrue(closed.get(), "Consumer close() should be called when bot is unregistered");
+    }
+
+    @Test
+    public void testConsumerIsClosedOnApplicationClose() throws Exception {
+        AtomicBoolean closed = new AtomicBoolean(false);
+        LongPollingUpdateConsumer consumer = new LongPollingUpdateConsumer() {
+            @Override
+            public void consume(List<Update> updates) {}
+
+            @Override
+            public void close() {
+                closed.set(true);
+            }
+        };
+
+        Dispatcher dispatcher = getDispatcher(List.of(getFakeUpdates1()));
+        webServer.setDispatcher(dispatcher);
+
+        application.registerBot("TOKEN", () -> telegramUrl, new DefaultGetUpdatesGenerator(), consumer);
+        application.close();
+
+        assertTrue(closed.get(), "Consumer close() should be called when application is closed");
     }
 
     @NonNull
