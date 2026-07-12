@@ -57,6 +57,11 @@ public class InputMessageContentDeserializer extends StdDeserializer<InputMessag
                     new com.fasterxml.jackson.core.type.TypeReference<InputInvoiceMessageContent>(){});
         }
 
+        if (node.has("rich_message")) {
+            return objectMapper.readValue(node.toString(),
+                    new com.fasterxml.jackson.core.type.TypeReference<InputRichMessageContent>(){});
+        }
+
         return null;
     }
 }

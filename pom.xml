@@ -7,7 +7,7 @@
     <groupId>org.telegram</groupId>
     <artifactId>Bots</artifactId>
     <packaging>pom</packaging>
-    <version>9.5.0</version>
+    <version>10.1.0</version>
 
     <modules>
         <module>telegrambots-meta</module>
@@ -70,6 +70,7 @@
         <commons-lang.version>3.18.0</commons-lang.version>
         <commons-io.version>2.16.1</commons-io.version>
         <okhttp.version>4.12.0</okhttp.version>
+        <kotlin.version>1.9.22</kotlin.version>
 
         <junit.version>5.12.2</junit.version>
         <mockito.version>5.12.0</mockito.version>
@@ -124,6 +125,11 @@
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-jsr310</artifactId>
                 <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-stdlib-jdk8</artifactId>
+                <version>${kotlin.version}</version>
             </dependency>
 
 
