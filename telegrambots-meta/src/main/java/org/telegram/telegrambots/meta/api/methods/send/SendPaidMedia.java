@@ -43,7 +43,7 @@ import java.util.List;
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SendPaidMedia extends PartialBotApiMethod<ArrayList<Message>> {
+public class SendPaidMedia extends PartialBotApiMethod<Message> {
     public static final String PATH = "sendPaidMedia";
 
     public static final String CHAT_ID_FIELD = "chat_id";
@@ -167,8 +167,8 @@ public class SendPaidMedia extends PartialBotApiMethod<ArrayList<Message>> {
     }
 
     @Override
-    public ArrayList<Message> deserializeResponse(String answer) throws TelegramApiRequestException {
-        return deserializeResponseArray(answer, Message.class);
+    public Message deserializeResponse(String answer) throws TelegramApiRequestException {
+        return deserializeResponse(answer, Message.class);
     }
 
     @Override
@@ -181,8 +181,8 @@ public class SendPaidMedia extends PartialBotApiMethod<ArrayList<Message>> {
 
         if (media.isEmpty()) {
             throw new TelegramApiValidationException("Media parameter can't be empty", this);
-        } else if (media.size() < 2 || media.size() > 10) {
-            throw new TelegramApiValidationException("Number of media should be between 2 and 10", this);
+        } else if (media.size() > 10) {
+            throw new TelegramApiValidationException("Number of media must be up to 10", this);
         }
 
         for (InputPaidMedia inputMedia : media) {
@@ -206,7 +206,7 @@ public class SendPaidMedia extends PartialBotApiMethod<ArrayList<Message>> {
         return PATH;
     }
 
-    public static abstract class SendPaidMediaBuilder<C extends SendPaidMedia, B extends SendPaidMediaBuilder<C, B>> extends PartialBotApiMethodBuilder<ArrayList<Message>, C, B> {
+    public static abstract class SendPaidMediaBuilder<C extends SendPaidMedia, B extends SendPaidMediaBuilder<C, B>> extends PartialBotApiMethodBuilder<Message, C, B> {
         @Tolerate
         public SendPaidMediaBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();

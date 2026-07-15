@@ -90,11 +90,11 @@ public interface TelegramClient {
 
     /**
      * Send a paid media
-     * @return If success, list of generated messages
+     * @return If success, generated message
      * @throws TelegramApiException If there is any error sending the media group
      * @see <a href="https://core.telegram.org/bots/api#sendMediaGroup">https://core.telegram.org/bots/api#sendMediaGroup</a>
      */
-    List<Message> execute(SendPaidMedia sendPaidMedia) throws TelegramApiException;
+    Message execute(SendPaidMedia sendPaidMedia) throws TelegramApiException;
 
     /**
      * Set chat profile photo
@@ -224,10 +224,10 @@ public interface TelegramClient {
 
     /**
      * Send a paid media
-     * @return If success, list of generated messages
+     * @return If success, generated message
      * @see <a href="https://core.telegram.org/bots/api#sendMediaGroup">https://core.telegram.org/bots/api#sendMediaGroup</a>
      */
-    CompletableFuture<List<Message>> executeAsync(SendPaidMedia sendPaidMedia);
+    CompletableFuture<Message> executeAsync(SendPaidMedia sendPaidMedia);
 
     /**
      * Set chat profile photo
