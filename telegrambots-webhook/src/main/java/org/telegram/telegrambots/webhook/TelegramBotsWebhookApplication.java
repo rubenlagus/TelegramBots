@@ -175,10 +175,8 @@ public class TelegramBotsWebhookApplication implements AutoCloseable {
                             log.info("Webhook {} request received from {}", ctx.method(), ctx.req().getRemoteAddr());
                         }
                     });
-                })
-                .events(events -> {
-                    events.serverStarted(() -> log.info("Webhook server started"));
-                    events.serverStopped(() -> log.info("Webhook server stopped"));
+                    javalinConfig.events.serverStarted(() -> log.info("Webhook server started"));
+                    javalinConfig.events.serverStopped(() -> log.info("Webhook server stopped"));
                 })
                 .start();
         for (Map.Entry<String, TelegramWebhookBot> bot : registeredBots.entrySet()) {
@@ -187,7 +185,7 @@ public class TelegramBotsWebhookApplication implements AutoCloseable {
     }
 
     private void setPostHandler(TelegramWebhookBot telegramWebhookBot) {
-        app.post(telegramWebhookBot.getBotPath(), ctx -> {
+        app.unsafe.routes.post(telegramWebhookBot.getBotPath(), ctx -> {
             Update update = ctx.bodyStreamAsClass(Update.class);
             BotApiMethod<?> response = telegramWebhookBot.consumeUpdate(update);
             if (response != null) {

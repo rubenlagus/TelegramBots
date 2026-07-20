@@ -52,6 +52,7 @@ public class KeyboardButton implements Validable, BotApiObject {
     private static final String REQUEST_USERS_FIELD = "request_users";
     private static final String ICON_CUSTOM_EMOJI_ID_FIELD = "icon_custom_emoji_id";
     private static final String STYLE_FIELD = "style";
+    private static final String REQUEST_MANAGED_BOT_FIELD = "request_managed_bot";
     /**
      * Text of the button.
      * If none of the optional fields are used, it will be sent to the bot as a message when the button is pressed
@@ -127,6 +128,14 @@ public class KeyboardButton implements Validable, BotApiObject {
      */
     @JsonProperty(STYLE_FIELD)
     private String style;
+    /**
+     * Optional.
+     * If specified, pressing the button will ask the user to create and share a bot that will be managed by the current bot.
+     * Available for bots that enabled management of other bots in the @BotFather Mini App.
+     * Available in private chats only.
+     */
+    @JsonProperty(REQUEST_MANAGED_BOT_FIELD)
+    private KeyboardButtonRequestManagedBot requestManagedBot;
 
     @Override
     public void validate() throws TelegramApiValidationException {
@@ -142,8 +151,9 @@ public class KeyboardButton implements Validable, BotApiObject {
         requestsProvided += (requestUser == null ? 0 : 1);
         requestsProvided += (requestChat == null ? 0 : 1);
         requestsProvided += (requestUsers == null ? 0 : 1);
+        requestsProvided += (requestManagedBot == null ? 0 : 1);
         if (requestsProvided > 1) {
-            throw new TelegramApiValidationException("The optional fields web_app, request_user, request_users, request_chat, request_contact, request_location, and request_poll are mutually exclusive", this);
+            throw new TelegramApiValidationException("The optional fields web_app, request_user, request_users, request_chat, request_contact, request_location, request_poll, and request_managed_bot are mutually exclusive", this);
         }
         if (webApp != null) {
             webApp.validate();

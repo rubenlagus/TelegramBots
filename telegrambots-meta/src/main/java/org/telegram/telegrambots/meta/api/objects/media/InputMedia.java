@@ -19,6 +19,8 @@ import lombok.experimental.SuperBuilder;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
+import org.telegram.telegrambots.meta.api.objects.polls.input.InputPollMedia;
+import org.telegram.telegrambots.meta.api.objects.polls.input.InputPollOptionMedia;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.File;
@@ -51,9 +53,13 @@ import java.util.List;
         @JsonSubTypes.Type(value = InputMediaAudio.class, name = "audio"),
         @JsonSubTypes.Type(value = InputMediaDocument.class, name = "document"),
         @JsonSubTypes.Type(value = InputMediaPhoto.class, name = "photo"),
-        @JsonSubTypes.Type(value = InputMediaVideo.class, name = "video")
+        @JsonSubTypes.Type(value = InputMediaVideo.class, name = "video"),
+        @JsonSubTypes.Type(value = InputMediaLivePhoto.class, name = "live_photo"),
+        @JsonSubTypes.Type(value = InputMediaLocation.class, name = "location"),
+        @JsonSubTypes.Type(value = InputMediaVenue.class, name = "venue"),
+        @JsonSubTypes.Type(value = InputMediaSticker.class, name = "sticker")
 })
-public abstract class InputMedia implements Validable, BotApiObject {
+public abstract class InputMedia implements Validable, BotApiObject, InputPollMedia, InputPollOptionMedia {
     public static final String TYPE_FIELD = "type";
     public static final String MEDIA_FIELD = "media";
     public static final String CAPTION_FIELD = "caption";

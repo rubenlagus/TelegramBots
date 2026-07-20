@@ -371,7 +371,22 @@ public class TestAbilityBot {
     String newFirstName = USER.getFirstName() + "-test";
     String newLastName = USER.getLastName() + "-test";
     long sameId = USER.getId();
-    User changedUser = new User(sameId, newFirstName, false, newLastName, newUsername, "en", false, false, false, false, false, false, false, false);
+    User changedUser = User.builder()
+            .id(sameId)
+            .firstName(newFirstName)
+            .isBot(false)
+            .lastName(newLastName)
+            .userName(newUsername)
+            .languageCode("en")
+            .canJoinGroups(false)
+            .canReadAllGroupMessages(false)
+            .supportInlineQueries(false)
+            .isPremium(false)
+            .addedToAttachmentMenu(false)
+            .canConnectToBusiness(false)
+            .hasMainWebApp(false)
+            .hasTopicsEnabled(false)
+            .build();
 
     mockAlternateUser(update, message, changedUser);
 

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -46,6 +47,7 @@ public class TestUser {
                 .hasMainWebApp(false)
                 .hasTopicsEnabled(true)
                 .allowsUsersToCreateTopics(true)
+                .canManageBots(true)
                 .build();
 
         assertEquals(12345L, user.getId());
@@ -59,5 +61,29 @@ public class TestUser {
         assertTrue(user.getCanConnectToBusiness());
         assertTrue(user.getHasTopicsEnabled());
         assertTrue(user.getAllowsUsersToCreateTopics());
+        assertTrue(user.getCanManageBots());
+    }
+
+    @Test
+    public void testUserSupportsJoinRequestQueries() {
+        User user = User.builder()
+                .id(12345L)
+                .firstName("TestBot")
+                .isBot(true)
+                .supportsJoinRequestQueries(true)
+                .build();
+
+        assertTrue(user.getSupportsJoinRequestQueries());
+    }
+
+    @Test
+    public void testUserSupportsJoinRequestQueriesNullByDefault() {
+        User user = User.builder()
+                .id(12345L)
+                .firstName("TestBot")
+                .isBot(true)
+                .build();
+
+        assertNull(user.getSupportsJoinRequestQueries());
     }
 }

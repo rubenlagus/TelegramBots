@@ -45,7 +45,8 @@ import java.io.InputStream;
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = InputPaidMediaPhoto.class, name = "photo"),
-        @JsonSubTypes.Type(value = InputPaidMediaVideo.class, name = "video")
+        @JsonSubTypes.Type(value = InputPaidMediaVideo.class, name = "video"),
+        @JsonSubTypes.Type(value = InputPaidMediaLivePhoto.class, name = "live_photo")
 })
 public abstract class InputPaidMedia implements Validable, BotApiObject {
     public static final String TYPE_FIELD = "type";

@@ -54,6 +54,7 @@ public class ExternalReplyInfo implements BotApiObject {
     private static final String PHOTO_FIELD = "photo";
     private static final String STICKER_FIELD = "sticker";
     private static final String STORY_FIELD = "story";
+    private static final String LIVE_PHOTO_FIELD = "live_photo";
     private static final String VIDEO_FIELD = "video";
     private static final String VIDEO_NOTE_FIELD = "video_note";
     private static final String VOICE_FIELD = "voice";
@@ -129,6 +130,11 @@ public class ExternalReplyInfo implements BotApiObject {
      */
     @JsonProperty(STORY_FIELD)
     private Story story;
+    /**
+     * Optional. Message is a live photo, information about the live photo
+     */
+    @JsonProperty(LIVE_PHOTO_FIELD)
+    private LivePhoto livePhoto;
     /**
      * Optional.
      * Message is a video, information about the video
@@ -319,6 +325,11 @@ public class ExternalReplyInfo implements BotApiObject {
     @JsonIgnore
     private boolean hasStory() {
         return story != null;
+    }
+
+    @JsonIgnore
+    public boolean hasLivePhoto() {
+        return livePhoto != null;
     }
 
     @JsonIgnore

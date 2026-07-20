@@ -91,7 +91,7 @@ public class TelegramBotsLongPollingApplication implements AutoCloseable {
     public void unregisterBot(String botToken) throws TelegramApiException {
         if (botSessions.containsKey(botToken)) {
             BotSession botSession = botSessions.remove(botToken);
-            botSession.stop();
+            botSession.close();
         } else {
             throw new TelegramApiException("Bot is not registered");
         }
