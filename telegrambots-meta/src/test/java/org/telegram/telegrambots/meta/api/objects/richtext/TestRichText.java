@@ -446,4 +446,39 @@ public class TestRichText {
         assertInstanceOf(RichTextReferenceLink.class, deserialized);
         assertEquals(obj, deserialized);
     }
+
+    // --- Plain ---
+
+    @Test
+    public void testRichTextPlainTypeConstant() {
+        assertEquals("plain", RichTextPlain.TYPE);
+    }
+
+    @Test
+    public void testRichTextPlainBuilder() {
+        RichTextPlain plain = RichTextPlain.builder().text("Hello, world!").build();
+
+        assertEquals("plain", plain.getType());
+        assertEquals("Hello, world!", plain.getText());
+    }
+
+    @Test
+    public void testRichTextPlainRoundTrip() throws IOException {
+        RichTextPlain obj = RichTextPlain.builder().text("Hello, world!").build();
+
+        String json = mapper.writeValueAsString(obj);
+        RichText deserialized = mapper.readValue(json, RichText.class);
+
+        assertInstanceOf(RichTextPlain.class, deserialized);
+        assertEquals(obj, deserialized);
+    }
+
+    @Test
+    public void testRichTextPlainPolymorphicDeserialization() throws IOException {
+        String json = "{\"type\":\"plain\",\"text\":\"Hello, world!\"}";
+        RichText deserialized = mapper.readValue(json, RichText.class);
+
+        assertInstanceOf(RichTextPlain.class, deserialized);
+        assertEquals("Hello, world!", ((RichTextPlain) deserialized).getText());
+    }
 }
