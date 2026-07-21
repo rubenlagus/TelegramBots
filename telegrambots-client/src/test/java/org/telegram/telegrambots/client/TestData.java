@@ -20,22 +20,17 @@ public class TestData {
             .title("My Group Chat")
             .build();
 
-    public static final User TEST_USER = new User(
-            1000L,
-            "Test",
-            false,
-            "User",
-            "testUser",
-            "en",
-            null,
-            null,
-            null,
-            false,
-            null,
-            null,
-            false,
-            false
-    );
+    public static final User TEST_USER = User.builder()
+            .id(1000L)
+            .firstName("Test")
+            .isBot(false)
+            .lastName("User")
+            .userName("testUser")
+            .languageCode("en")
+            .isPremium(false)
+            .hasMainWebApp(false)
+            .hasTopicsEnabled(false)
+            .build();
     public static final Chat PRIVATE_CHAT = ChatFullInfo
             .builder()
             .id(TEST_USER.getId())
@@ -45,20 +40,16 @@ public class TestData {
             .userName(TEST_USER.getUserName())
             .build();
 
-    public static final User BOT_USER = new User(
-            5000L,
-            "My Bot",
-            true,
-            null,
-            "myBot",
-            null,
-            true,
-            true,
-            false,
-            null,
-            false,
-            null,
-            false,
-            false
-    );
+    public static final User BOT_USER = User.builder()
+            .id(5000L)
+            .firstName("My Bot")
+            .isBot(true)
+            .userName("myBot")
+            .canJoinGroups(true)
+            .canReadAllGroupMessages(true)
+            .supportInlineQueries(false)
+            .addedToAttachmentMenu(false)
+            .hasMainWebApp(false)
+            .hasTopicsEnabled(false)
+            .build();
 }

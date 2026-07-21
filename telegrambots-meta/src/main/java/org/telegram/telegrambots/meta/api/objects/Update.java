@@ -15,6 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.business.BusinessMessagesDelet
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberUpdated;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.ChosenInlineQuery;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
+import org.telegram.telegrambots.meta.api.objects.managed.ManagedBotUpdated;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.payments.PaidMediaPurchased;
 import org.telegram.telegrambots.meta.api.objects.payments.PreCheckoutQuery;
@@ -56,11 +57,13 @@ public class Update implements BotApiObject {
     private static final String MESSAGE_REACTION_COUNT_FIELD = "message_reaction_count";
     private static final String CHAT_BOOST_FIELD = "chat_boost";
     private static final String REMOVED_CHAT_BOOST_FIELD = "removed_chat_boost";
+    private static final String GUEST_MESSAGE_FIELD = "guest_message";
     private static final String BUSINESS_CONNECTION_FIELD = "business_connection";
     private static final String BUSINESS_MESSAGE_FIELD = "business_message";
     private static final String EDITED_BUSINESS_MESSAGE_FIELD = "edited_business_message";
     private static final String DELETED_BUSINESS_MESSAGES_FIELD = "deleted_business_messages";
     private static final String PURCHASED_PAID_MEDIA_FIELD = "purchased_paid_media";
+    private static final String MANAGED_BOT_FIELD = "managed_bot";
 
     @JsonProperty(UPDATEID_FIELD)
     private Integer updateId;
@@ -180,6 +183,12 @@ public class Update implements BotApiObject {
     @JsonProperty(REMOVED_CHAT_BOOST_FIELD)
     private ChatBoostRemoved removedChatBoost;
     /**
+     * Optional. New guest message.
+     * The bot can use the field Message.guest_query_id and the method answerGuestQuery to send a message in response.
+     */
+    @JsonProperty(GUEST_MESSAGE_FIELD)
+    private Message guestMessage;
+    /**
      * Optional.
      * The bot was connected to or disconnected from a business account, or a user edited an existing connection with the bot
      */
@@ -209,6 +218,12 @@ public class Update implements BotApiObject {
      */
     @JsonProperty(PURCHASED_PAID_MEDIA_FIELD)
     private PaidMediaPurchased paidMediaPurchased;
+    /**
+     * Optional.
+     * A new bot was created to be managed by the bot or token of a bot was changed
+     */
+    @JsonProperty(MANAGED_BOT_FIELD)
+    private ManagedBotUpdated managedBot;
 
     public boolean hasMessage() {
         return message != null;
@@ -284,5 +299,29 @@ public class Update implements BotApiObject {
 
     public boolean hasPaidMediaPurchased() {
         return paidMediaPurchased != null;
+    }
+
+    public boolean hasManagedBot() {
+        return managedBot != null;
+    }
+
+    public boolean hasMessageReaction() {
+        return messageReaction != null;
+    }
+
+    public boolean hasMessageReactionCount() {
+        return messageReactionCount != null;
+    }
+
+    public boolean hasChatBoost() {
+        return chatBoost != null;
+    }
+
+    public boolean hasRemovedChatBoost() {
+        return removedChatBoost != null;
+    }
+
+    public boolean hasGuestMessage() {
+        return guestMessage != null;
     }
 }

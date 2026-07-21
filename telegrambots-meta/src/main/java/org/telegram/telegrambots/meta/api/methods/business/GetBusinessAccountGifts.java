@@ -134,49 +134,4 @@ public class GetBusinessAccountGifts extends BotApiMethod<OwnedGifts> {
             throw new TelegramApiValidationException("Limit parameter must be between 1 and 100", this);
         }
     }
-
-    /**
-     * @deprecated Use excludeLimitedUpgradable and excludeLimitedNonUpgradable fields instead
-     */
-    @Deprecated
-    public Boolean getExcludeLimited() {
-        if (Boolean.TRUE.equals(excludeLimitedUpgradable) && Boolean.TRUE.equals(excludeLimitedNonUpgradable)) {
-            return true;
-        }
-        return null;
-    }
-
-    /**
-     * @deprecated Use excludeLimitedUpgradable and excludeLimitedNonUpgradable fields instead
-     */
-    @Deprecated
-    public void setExcludeLimited(Boolean excludeLimited) {
-        if (Boolean.TRUE.equals(excludeLimited)) {
-            this.excludeLimitedUpgradable = true;
-            this.excludeLimitedNonUpgradable = true;
-        } else {
-            this.excludeLimitedUpgradable = null;
-            this.excludeLimitedNonUpgradable = null;
-        }
-    }
-
-    /**
-     * Builder helper class for backward compatibility
-     */
-    public static class GetBusinessAccountGiftsBuilder {
-        /**
-         * @deprecated Use excludeLimitedUpgradable and excludeLimitedNonUpgradable builder methods instead
-         */
-        @Deprecated
-        public GetBusinessAccountGiftsBuilder excludeLimited(Boolean excludeLimited) {
-            if (Boolean.TRUE.equals(excludeLimited)) {
-                this.excludeLimitedUpgradable = true;
-                this.excludeLimitedNonUpgradable = true;
-            } else {
-                this.excludeLimitedUpgradable = null;
-                this.excludeLimitedNonUpgradable = null;
-            }
-            return this;
-        }
-    }
 }

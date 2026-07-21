@@ -68,10 +68,11 @@ public class SendMessageDraft extends BotApiMethodBoolean {
     private Integer draftId;
 
     /**
-     * Text of the message to be sent, 1-4096 characters after entities parsing
+     * Optional.
+     * Text of the message to be sent, 0-4096 characters after entities parsing.
+     * Pass an empty text to show a “Thinking…” placeholder.
      */
     @JsonProperty(TEXT_FIELD)
-    @NonNull
     private String text;
 
     /**
@@ -102,10 +103,7 @@ public class SendMessageDraft extends BotApiMethodBoolean {
         if (draftId == null || draftId == 0) {
             throw new TelegramApiValidationException("DraftId can't be empty and must be non-zero", this);
         }
-        if (text == null || text.isEmpty()) {
-            throw new TelegramApiValidationException("Text can't be empty", this);
-        }
-        if (text.length() > 4096) {
+        if (text != null && text.length() > 4096) {
             throw new TelegramApiValidationException("Text can't be longer than 4096 characters", this);
         }
     }

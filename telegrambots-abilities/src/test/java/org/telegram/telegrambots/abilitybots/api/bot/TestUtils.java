@@ -12,8 +12,38 @@ import static org.mockito.Mockito.when;
 import static org.telegram.telegrambots.abilitybots.api.objects.MessageContext.newContext;
 
 public final class TestUtils {
-  public static final User USER = new User(1L, "first", false, "last", "username", null, false, false, false, false, false, false, false, false);
-  public static final User CREATOR = new User(1337L, "creatorFirst", false, "creatorLast", "creatorUsername", null, false, false, false, false, false, false, false, false);
+  public static final User USER = User.builder()
+          .id(1L)
+          .firstName("first")
+          .isBot(false)
+          .lastName("last")
+          .userName("username")
+          .languageCode(null)
+          .canJoinGroups(false)
+          .canReadAllGroupMessages(false)
+          .supportInlineQueries(false)
+          .isPremium(false)
+          .addedToAttachmentMenu(false)
+          .canConnectToBusiness(false)
+          .hasMainWebApp(false)
+          .hasTopicsEnabled(false)
+          .build();
+  public static final User CREATOR = User.builder()
+          .id(1337L)
+          .firstName("creatorFirst")
+          .isBot(false)
+          .lastName("creatorLast")
+          .userName("creatorUsername")
+          .languageCode(null)
+          .canJoinGroups(false)
+          .canReadAllGroupMessages(false)
+          .supportInlineQueries(false)
+          .isPremium(false)
+          .addedToAttachmentMenu(false)
+          .canConnectToBusiness(false)
+          .hasMainWebApp(false)
+          .hasTopicsEnabled(false)
+          .build();
 
   private TestUtils() {
 

@@ -46,6 +46,7 @@ public class TestUser {
                 .hasMainWebApp(false)
                 .hasTopicsEnabled(true)
                 .allowsUsersToCreateTopics(true)
+                .canManageBots(true)
                 .build();
 
         assertEquals(12345L, user.getId());
@@ -59,5 +60,6 @@ public class TestUser {
         assertTrue(user.getCanConnectToBusiness());
         assertTrue(user.getHasTopicsEnabled());
         assertTrue(user.getAllowsUsersToCreateTopics());
+        assertTrue(user.getCanManageBots());
     }
 }

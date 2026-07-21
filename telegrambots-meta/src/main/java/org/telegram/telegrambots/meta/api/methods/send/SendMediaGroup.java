@@ -32,7 +32,7 @@ import java.util.List;
  * @author Ruben Bermudez
  * @version 3.5
  *
- * Use this method to send a group of photos, videos, documents or audios as an album.
+ * Use this method to send a group of photos, live photos, videos, documents or audios as an album.
  * Documents and audio files can be only group in an album with messages of the same type.
  * On success, an array of Messages that were sent is returned.
  */
@@ -89,7 +89,9 @@ public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
     /**
      * Optional.
      * If the messages are a reply, ID of the original message
+     * @deprecated Use {@link #replyParameters} instead
      */
+    @Deprecated
     private Integer replyToMessageId;
     /**
      * Optional.
@@ -99,7 +101,9 @@ public class SendMediaGroup extends PartialBotApiMethod<ArrayList<Message>> {
     /**
      * Optional
      * Pass True, if the message should be sent even if the specified replied-to message is not found
+     * @deprecated Use {@link #replyParameters} instead
      */
+    @Deprecated
     private Boolean allowSendingWithoutReply;
     /**
      *  Optional.
