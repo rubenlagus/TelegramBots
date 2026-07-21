@@ -20,7 +20,7 @@ import java.io.InputStream;
  * @author Ruben Bermudez
  * @version 7.5
  *
- * The paid media to send is a photo.
+ * The paid media to send is a video.
  */
 @SuppressWarnings("unused")
 @EqualsAndHashCode(callSuper = true)
@@ -32,7 +32,7 @@ import java.io.InputStream;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @SuperBuilder
 public class InputPaidMediaVideo extends InputPaidMedia {
-    private static final String TYPE = "photo";
+    private static final String TYPE = "video";
 
     private static final String WIDTH_FIELD = "width";
     private static final String HEIGHT_FIELD = "height";

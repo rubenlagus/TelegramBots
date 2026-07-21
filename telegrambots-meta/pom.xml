@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.telegram</groupId>
         <artifactId>Bots</artifactId>
-        <version>10.0.0</version>
+        <version>10.1.0</version>
     </parent>
 
     <artifactId>telegrambots-meta</artifactId>
@@ -74,6 +74,12 @@
             <artifactId>checker-qual</artifactId>
             <version>3.41.0</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

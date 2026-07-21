@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaAnimation;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaLink;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaLivePhoto;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaLocation;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
@@ -27,6 +28,7 @@ import org.telegram.telegrambots.meta.api.objects.media.InputMediaVideo;
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = InputMediaAnimation.class, name = "animation"),
+        @JsonSubTypes.Type(value = InputMediaLink.class, name = "link"),
         @JsonSubTypes.Type(value = InputMediaLivePhoto.class, name = "live_photo"),
         @JsonSubTypes.Type(value = InputMediaLocation.class, name = "location"),
         @JsonSubTypes.Type(value = InputMediaPhoto.class, name = "photo"),

@@ -47,6 +47,7 @@ public class User implements BotApiObject {
     private static final String ALLOWS_USERS_TO_CREATE_TOPICS_FIELD = "allows_users_to_create_topics";
     private static final String CAN_MANAGE_BOTS_FIELD = "can_manage_bots";
     private static final String SUPPORTS_GUEST_QUERIES_FIELD = "supports_guest_queries";
+    private static final String SUPPORTS_JOIN_REQUEST_QUERIES_FIELD = "supports_join_request_queries";
 
     /**
      * Unique identifier for this user or bot.
@@ -159,4 +160,11 @@ public class User implements BotApiObject {
      */
     @JsonProperty(SUPPORTS_GUEST_QUERIES_FIELD)
     private Boolean supportsGuestQueries;
+    /**
+     * Optional.
+     * True, if the bot supports join request queries and can be assigned to process them.
+     * @apiNote Returned only in getMe.
+     */
+    @JsonProperty(SUPPORTS_JOIN_REQUEST_QUERIES_FIELD)
+    private Boolean supportsJoinRequestQueries;
 }

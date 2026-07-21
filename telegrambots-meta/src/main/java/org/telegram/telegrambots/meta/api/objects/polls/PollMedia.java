@@ -13,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.Audio;
+import org.telegram.telegrambots.meta.api.objects.Link;
 import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.LivePhoto;
 import org.telegram.telegrambots.meta.api.objects.Venue;
@@ -49,6 +50,7 @@ public class PollMedia implements BotApiObject {
     private static final String STICKER_FIELD = "sticker";
     private static final String VENUE_FIELD = "venue";
     private static final String VIDEO_FIELD = "video";
+    private static final String LINK_FIELD = "link";
 
     /**
      * Optional. Media is an animation, information about the animation
@@ -95,4 +97,9 @@ public class PollMedia implements BotApiObject {
      */
     @JsonProperty(VIDEO_FIELD)
     private Video video;
+    /**
+     * Optional. The HTTP link attached to the poll option
+     */
+    @JsonProperty(LINK_FIELD)
+    private Link link;
 }

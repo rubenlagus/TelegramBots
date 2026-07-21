@@ -328,7 +328,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
     }
 
     @Override
-    public CompletableFuture<List<Message>> executeAsync(SendPaidMedia sendPaidMedia) {
+    public CompletableFuture<Message> executeAsync(SendPaidMedia sendPaidMedia) {
         try {
             assertParamNotNull(sendPaidMedia, "sendPaidMedia");
             sendPaidMedia.validate();

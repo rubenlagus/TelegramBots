@@ -84,4 +84,24 @@ public class TestPollMedia {
 
         assertEquals(video, pollMedia.getVideo());
     }
+
+    @Test
+    public void testPollMediaWithLink() {
+        org.telegram.telegrambots.meta.api.objects.Link link =
+                org.telegram.telegrambots.meta.api.objects.Link.builder()
+                        .url("https://example.com")
+                        .build();
+        PollMedia pollMedia = PollMedia.builder()
+                .link(link)
+                .build();
+
+        assertEquals(link, pollMedia.getLink());
+    }
+
+    @Test
+    public void testPollMediaLinkNullByDefault() {
+        PollMedia pollMedia = new PollMedia();
+
+        assertNull(pollMedia.getLink());
+    }
 }
