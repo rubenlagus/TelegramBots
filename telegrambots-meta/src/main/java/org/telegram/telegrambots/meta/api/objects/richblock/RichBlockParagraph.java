@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
@@ -40,6 +39,5 @@ public class RichBlockParagraph implements RichBlock {
      * Text of the block
      */
     @JsonProperty(TEXT_FIELD)
-    @NonNull
     private RichText text;
 }

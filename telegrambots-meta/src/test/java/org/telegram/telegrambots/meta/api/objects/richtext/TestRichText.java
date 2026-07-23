@@ -481,4 +481,75 @@ public class TestRichText {
         assertInstanceOf(RichTextPlain.class, deserialized);
         assertEquals("Hello, world!", ((RichTextPlain) deserialized).getText());
     }
+
+    // --- Raw JSON string form ("Politics" → plain text node) ---
+
+    @Test
+    public void testRichTextRawStringDeserialization() throws IOException {
+        String json = "\"Politics\"";
+        RichText deserialized = mapper.readValue(json, RichText.class);
+
+        assertInstanceOf(RichTextPlain.class, deserialized);
+        assertEquals("Politics", ((RichTextPlain) deserialized).getText());
+    }
+
+    // --- Raw JSON array form (["Hello ", {bold}, "!"]) ---
+
+    @Test
+    public void testRichTextRawArrayDeserialization() throws IOException {
+        String json = "[\"Hello \", {\"type\":\"bold\",\"text\":{\"type\":\"plain\",\"text\":\"world\"}}, \"!\"]";
+        RichText deserialized = mapper.readValue(json, RichText.class);
+
+        assertInstanceOf(RichTextConcat.class, deserialized);
+        RichTextConcat concat = (RichTextConcat) deserialized;
+        assertEquals(3, concat.getTexts().size());
+        assertInstanceOf(RichTextPlain.class, concat.getTexts().get(0));
+        assertInstanceOf(RichTextBold.class, concat.getTexts().get(1));
+        assertInstanceOf(RichTextPlain.class, concat.getTexts().get(2));
+    }
+
+    @Test
+    public void testRichTextConcatRoundTrip() throws IOException {
+        RichTextConcat concat = RichTextConcat.builder()
+                .texts(java.util.List.of(
+                        RichTextPlain.builder().text("Hello ").build(),
+                        RichTextBold.builder().text(RichTextPlain.builder().text("world").build()).build(),
+                        RichTextPlain.builder().text("!").build()
+                ))
+                .build();
+
+        String json = mapper.writeValueAsString(concat);
+        RichText deserialized = mapper.readValue(json, RichText.class);
+
+        assertInstanceOf(RichTextConcat.class, deserialized);
+        assertEquals(3, ((RichTextConcat) deserialized).getTexts().size());
+    }
+
+    // --- End-to-end: message with heading (raw string) and paragraph (array) ---
+
+    @Test
+    public void testRichMessageBlocksWithStringAndArrayText() throws IOException {
+        String json = "{\"blocks\":["
+                + "{\"type\":\"heading\",\"size\":2,\"text\":\"Politics\"},"
+                + "{\"type\":\"paragraph\",\"text\":[\"Hello \",{\"type\":\"bold\",\"text\":{\"type\":\"plain\",\"text\":\"world\"}},\"!\"]}"
+                + "]}";
+
+        org.telegram.telegrambots.meta.api.objects.richtext.RichMessage msg =
+                mapper.readValue(json, org.telegram.telegrambots.meta.api.objects.richtext.RichMessage.class);
+
+        assertNotNull(msg);
+        assertEquals(2, msg.getBlocks().size());
+
+        // First block: heading with plain string text
+        org.telegram.telegrambots.meta.api.objects.richblock.RichBlockSectionHeading heading =
+                (org.telegram.telegrambots.meta.api.objects.richblock.RichBlockSectionHeading) msg.getBlocks().get(0);
+        assertInstanceOf(RichTextPlain.class, heading.getText());
+        assertEquals("Politics", ((RichTextPlain) heading.getText()).getText());
+
+        // Second block: paragraph with array text
+        org.telegram.telegrambots.meta.api.objects.richblock.RichBlockParagraph para =
+                (org.telegram.telegrambots.meta.api.objects.richblock.RichBlockParagraph) msg.getBlocks().get(1);
+        assertInstanceOf(RichTextConcat.class, para.getText());
+        assertEquals(3, ((RichTextConcat) para.getText()).getTexts().size());
+    }
 }
