@@ -493,6 +493,21 @@ public class TestRichText {
         assertEquals("Politics", ((RichTextPlain) deserialized).getText());
     }
 
+    // --- Typed RichText object with bare-string text (issue #1593) ---
+
+    @Test
+    public void testRichTextBoldWithBareStringText() throws IOException {
+        // Exact form from issue #1593: {"type":"bold","text":"world"} where text is a bare string,
+        // not a typed object. RichTextDeserializer must handle this recursively.
+        String json = "{\"type\":\"bold\",\"text\":\"world\"}";
+        RichText deserialized = mapper.readValue(json, RichText.class);
+
+        assertInstanceOf(RichTextBold.class, deserialized);
+        RichTextBold bold = (RichTextBold) deserialized;
+        assertInstanceOf(RichTextPlain.class, bold.getText());
+        assertEquals("world", ((RichTextPlain) bold.getText()).getText());
+    }
+
     // --- Raw JSON array form (["Hello ", {bold}, "!"]) ---
 
     @Test
@@ -506,6 +521,25 @@ public class TestRichText {
         assertInstanceOf(RichTextPlain.class, concat.getTexts().get(0));
         assertInstanceOf(RichTextBold.class, concat.getTexts().get(1));
         assertInstanceOf(RichTextPlain.class, concat.getTexts().get(2));
+    }
+
+    @Test
+    public void testRichTextArrayWithBoldHavingBareStringText() throws IOException {
+        // Exact array form from issue #1593: strings and bold-with-bare-string mixed
+        String json = "[\"Hello \", {\"type\":\"bold\",\"text\":\"world\"}, \"!\"]";
+        RichText deserialized = mapper.readValue(json, RichText.class);
+
+        assertInstanceOf(RichTextConcat.class, deserialized);
+        RichTextConcat concat = (RichTextConcat) deserialized;
+        assertEquals(3, concat.getTexts().size());
+        assertInstanceOf(RichTextPlain.class, concat.getTexts().get(0));
+        assertEquals("Hello ", ((RichTextPlain) concat.getTexts().get(0)).getText());
+        assertInstanceOf(RichTextBold.class, concat.getTexts().get(1));
+        RichTextBold bold = (RichTextBold) concat.getTexts().get(1);
+        assertInstanceOf(RichTextPlain.class, bold.getText());
+        assertEquals("world", ((RichTextPlain) bold.getText()).getText());
+        assertInstanceOf(RichTextPlain.class, concat.getTexts().get(2));
+        assertEquals("!", ((RichTextPlain) concat.getTexts().get(2)).getText());
     }
 
     @Test
@@ -551,5 +585,30 @@ public class TestRichText {
                 (org.telegram.telegrambots.meta.api.objects.richblock.RichBlockParagraph) msg.getBlocks().get(1);
         assertInstanceOf(RichTextConcat.class, para.getText());
         assertEquals(3, ((RichTextConcat) para.getText()).getTexts().size());
+    }
+
+    @Test
+    public void testRichMessageBlocksWithBoldHavingBareStringText() throws IOException {
+        // Issue #1593 exact paragraph payload: bold.text is a bare string, not a typed object
+        String json = "{\"blocks\":["
+                + "{\"type\":\"heading\",\"size\":2,\"text\":\"Politics\"},"
+                + "{\"type\":\"paragraph\",\"text\":[\"Hello \",{\"type\":\"bold\",\"text\":\"world\"},\"!\"]}"
+                + "]}";
+
+        org.telegram.telegrambots.meta.api.objects.richtext.RichMessage msg =
+                mapper.readValue(json, org.telegram.telegrambots.meta.api.objects.richtext.RichMessage.class);
+
+        assertNotNull(msg);
+        assertEquals(2, msg.getBlocks().size());
+
+        org.telegram.telegrambots.meta.api.objects.richblock.RichBlockParagraph para =
+                (org.telegram.telegrambots.meta.api.objects.richblock.RichBlockParagraph) msg.getBlocks().get(1);
+        assertInstanceOf(RichTextConcat.class, para.getText());
+        RichTextConcat concat = (RichTextConcat) para.getText();
+        assertEquals(3, concat.getTexts().size());
+        assertInstanceOf(RichTextBold.class, concat.getTexts().get(1));
+        RichTextBold bold = (RichTextBold) concat.getTexts().get(1);
+        assertInstanceOf(RichTextPlain.class, bold.getText());
+        assertEquals("world", ((RichTextPlain) bold.getText()).getText());
     }
 }

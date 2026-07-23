@@ -463,4 +463,175 @@ public class TestRichBlock {
         assertInstanceOf(RichBlockThinking.class, deserialized);
         assertEquals(obj, deserialized);
     }
+
+    // ===========================================================================
+    // Plain-string "text" wire form — the root cause of the webhook queue-poisoning
+    // bug. Each of the 8 blocks whose text field had @NonNull removed must survive
+    // deserialization when Telegram sends a raw JSON string instead of a typed object.
+    // ===========================================================================
+
+    @Test
+    public void testRichBlockSectionHeadingWithStringText() throws IOException {
+        String json = "{\"type\":\"heading\",\"size\":1,\"text\":\"Карусель\"}";
+        RichBlock deserialized = mapper.readValue(json, RichBlock.class);
+
+        assertInstanceOf(RichBlockSectionHeading.class, deserialized);
+        RichBlockSectionHeading heading = (RichBlockSectionHeading) deserialized;
+        assertInstanceOf(org.telegram.telegrambots.meta.api.objects.richtext.RichTextPlain.class, heading.getText());
+        assertEquals("Карусель", ((org.telegram.telegrambots.meta.api.objects.richtext.RichTextPlain) heading.getText()).getText());
+    }
+
+    @Test
+    public void testRichBlockParagraphWithStringText() throws IOException {
+        String json = "{\"type\":\"paragraph\",\"text\":\"Hello world\"}";
+        RichBlock deserialized = mapper.readValue(json, RichBlock.class);
+
+        assertInstanceOf(RichBlockParagraph.class, deserialized);
+        assertInstanceOf(org.telegram.telegrambots.meta.api.objects.richtext.RichTextPlain.class,
+                ((RichBlockParagraph) deserialized).getText());
+    }
+
+    @Test
+    public void testRichBlockFooterWithStringText() throws IOException {
+        String json = "{\"type\":\"footer\",\"text\":\"© 2026\"}";
+        RichBlock deserialized = mapper.readValue(json, RichBlock.class);
+
+        assertInstanceOf(RichBlockFooter.class, deserialized);
+        assertInstanceOf(org.telegram.telegrambots.meta.api.objects.richtext.RichTextPlain.class,
+                ((RichBlockFooter) deserialized).getText());
+    }
+
+    @Test
+    public void testRichBlockPreformattedWithStringText() throws IOException {
+        String json = "{\"type\":\"pre\",\"text\":\"System.out.println(\\\"hi\\\");\"}";
+        RichBlock deserialized = mapper.readValue(json, RichBlock.class);
+
+        assertInstanceOf(RichBlockPreformatted.class, deserialized);
+        assertInstanceOf(org.telegram.telegrambots.meta.api.objects.richtext.RichTextPlain.class,
+                ((RichBlockPreformatted) deserialized).getText());
+    }
+
+    @Test
+    public void testRichBlockPullQuotationWithStringText() throws IOException {
+        String json = "{\"type\":\"pullquote\",\"text\":\"To be or not to be\"}";
+        RichBlock deserialized = mapper.readValue(json, RichBlock.class);
+
+        assertInstanceOf(RichBlockPullQuotation.class, deserialized);
+        assertInstanceOf(org.telegram.telegrambots.meta.api.objects.richtext.RichTextPlain.class,
+                ((RichBlockPullQuotation) deserialized).getText());
+    }
+
+    @Test
+    public void testRichBlockThinkingWithStringText() throws IOException {
+        String json = "{\"type\":\"thinking\",\"text\":\"Thinking…\"}";
+        RichBlock deserialized = mapper.readValue(json, RichBlock.class);
+
+        assertInstanceOf(RichBlockThinking.class, deserialized);
+        assertInstanceOf(org.telegram.telegrambots.meta.api.objects.richtext.RichTextPlain.class,
+                ((RichBlockThinking) deserialized).getText());
+    }
+
+    @Test
+    public void testRichBlockCaptionWithStringText() throws IOException {
+        // RichBlockCaption is not a RichBlock subtype, deserialize directly
+        String json = "{\"text\":\"Caption text\"}";
+        RichBlockCaption deserialized = mapper.readValue(json, RichBlockCaption.class);
+
+        assertInstanceOf(org.telegram.telegrambots.meta.api.objects.richtext.RichTextPlain.class, deserialized.getText());
+        assertEquals("Caption text", ((org.telegram.telegrambots.meta.api.objects.richtext.RichTextPlain) deserialized.getText()).getText());
+    }
+
+    @Test
+    public void testRichBlockDetailsWithStringSummary() throws IOException {
+        String json = "{\"type\":\"details\",\"summary\":\"Click to expand\",\"blocks\":[{\"type\":\"divider\"}]}";
+        RichBlock deserialized = mapper.readValue(json, RichBlock.class);
+
+        assertInstanceOf(RichBlockDetails.class, deserialized);
+        assertInstanceOf(org.telegram.telegrambots.meta.api.objects.richtext.RichTextPlain.class,
+                ((RichBlockDetails) deserialized).getSummary());
+    }
+
+    // --- Array wire form in block context ---
+
+    @Test
+    public void testRichBlockParagraphWithArrayText() throws IOException {
+        String json = "{\"type\":\"paragraph\",\"text\":[\"Hello \",{\"type\":\"bold\",\"text\":{\"type\":\"plain\",\"text\":\"world\"}},\"!\"]}";
+        RichBlock deserialized = mapper.readValue(json, RichBlock.class);
+
+        assertInstanceOf(RichBlockParagraph.class, deserialized);
+        assertInstanceOf(org.telegram.telegrambots.meta.api.objects.richtext.RichTextConcat.class,
+                ((RichBlockParagraph) deserialized).getText());
+        assertEquals(3, ((org.telegram.telegrambots.meta.api.objects.richtext.RichTextConcat)
+                ((RichBlockParagraph) deserialized).getText()).getTexts().size());
+    }
+
+    // --- Unknown RichText type → null, no NPE (future-proof defence) ---
+
+    @Test
+    public void testRichBlockSectionHeadingWithUnknownRichTextTypeYieldsNullWithoutNpe() throws IOException {
+        String json = "{\"type\":\"heading\",\"size\":2,\"text\":{\"type\":\"future_xyz\",\"value\":\"test\"}}";
+        RichBlock deserialized = mapper.readValue(json, RichBlock.class);
+
+        assertInstanceOf(RichBlockSectionHeading.class, deserialized);
+        // Unknown type → safe null, not an exception
+        assertNull(((RichBlockSectionHeading) deserialized).getText());
+    }
+
+    @Test
+    public void testRichBlockParagraphWithUnknownRichTextTypeYieldsNullWithoutNpe() throws IOException {
+        String json = "{\"type\":\"paragraph\",\"text\":{\"type\":\"future_xyz\",\"value\":\"test\"}}";
+        RichBlock deserialized = mapper.readValue(json, RichBlock.class);
+
+        assertInstanceOf(RichBlockParagraph.class, deserialized);
+        assertNull(((RichBlockParagraph) deserialized).getText());
+    }
+
+    // --- Exact webhook scenario from bug report ---
+
+    @Test
+    public void testWebhookChannelPostWithHeadingStringAndSlideshow() throws IOException {
+        // Reproduces the exact payload that caused queue-poisoning:
+        // heading with plain-string text + slideshow with nested photo blocks.
+        String json = "{"
+                + "\"type\":\"heading\",\"size\":1,"
+                + "\"text\":\"Карусель\""
+                + "}";
+        RichBlock heading = mapper.readValue(json, RichBlock.class);
+
+        assertInstanceOf(RichBlockSectionHeading.class, heading);
+        RichBlockSectionHeading h = (RichBlockSectionHeading) heading;
+        assertEquals(1, h.getSize());
+        assertInstanceOf(org.telegram.telegrambots.meta.api.objects.richtext.RichTextPlain.class, h.getText());
+        assertEquals("Карусель", ((org.telegram.telegrambots.meta.api.objects.richtext.RichTextPlain) h.getText()).getText());
+    }
+
+    @Test
+    public void testFullRichMessageWithHeadingStringAndSlideshowBlocks() throws IOException {
+        // Full rich_message structure as received from Telegram in the webhook scenario.
+        String json = "{"
+                + "\"blocks\":["
+                + "{\"type\":\"heading\",\"size\":1,\"text\":\"Карусель\"},"
+                + "{\"type\":\"slideshow\",\"blocks\":["
+                + "  {\"type\":\"photo\",\"photo\":[{\"file_id\":\"abc\",\"file_unique_id\":\"xyz\",\"width\":800,\"height\":600}]}"
+                + "]}"
+                + "]}";
+
+        org.telegram.telegrambots.meta.api.objects.richtext.RichMessage msg =
+                mapper.readValue(json, org.telegram.telegrambots.meta.api.objects.richtext.RichMessage.class);
+
+        assertNotNull(msg);
+        assertEquals(2, msg.getBlocks().size());
+
+        // Heading block: plain-string text must deserialize correctly
+        assertInstanceOf(RichBlockSectionHeading.class, msg.getBlocks().get(0));
+        RichBlockSectionHeading heading = (RichBlockSectionHeading) msg.getBlocks().get(0);
+        assertInstanceOf(org.telegram.telegrambots.meta.api.objects.richtext.RichTextPlain.class, heading.getText());
+        assertEquals("Карусель", ((org.telegram.telegrambots.meta.api.objects.richtext.RichTextPlain) heading.getText()).getText());
+
+        // Slideshow block: nested photo blocks parse fine
+        assertInstanceOf(RichBlockSlideshow.class, msg.getBlocks().get(1));
+        RichBlockSlideshow slideshow = (RichBlockSlideshow) msg.getBlocks().get(1);
+        assertEquals(1, slideshow.getBlocks().size());
+        assertInstanceOf(RichBlockPhoto.class, slideshow.getBlocks().get(0));
+    }
 }
