@@ -21,7 +21,7 @@ public class TestChat {
                 .isBot(true)
                 .build();
 
-        Chat chat = Chat.builder()
+        ChatFullInfo chat = ChatFullInfo.builder()
                 .id(12345L)
                 .type("supergroup")
                 .guardBot(guardBot)
@@ -34,7 +34,7 @@ public class TestChat {
 
     @Test
     public void testChatGuardBotNullByDefault() {
-        Chat chat = Chat.builder()
+        ChatFullInfo chat = ChatFullInfo.builder()
                 .id(12345L)
                 .type("supergroup")
                 .build();
