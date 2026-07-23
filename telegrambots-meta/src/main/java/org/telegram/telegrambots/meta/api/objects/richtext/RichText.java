@@ -40,7 +40,8 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
         @JsonSubTypes.Type(value = RichTextAnchor.class, name = "anchor"),
         @JsonSubTypes.Type(value = RichTextAnchorLink.class, name = "anchor_link"),
         @JsonSubTypes.Type(value = RichTextReference.class, name = "reference"),
-        @JsonSubTypes.Type(value = RichTextReferenceLink.class, name = "reference_link")
+        @JsonSubTypes.Type(value = RichTextReferenceLink.class, name = "reference_link"),
+        @JsonSubTypes.Type(value = RichTextPlain.class, name = "plain")
 })
 public interface RichText extends BotApiObject {
     String getType();
