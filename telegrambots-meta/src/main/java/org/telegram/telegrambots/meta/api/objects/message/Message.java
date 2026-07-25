@@ -36,6 +36,8 @@ import org.telegram.telegrambots.meta.api.objects.Voice;
 import org.telegram.telegrambots.meta.api.objects.WriteAccessAllowed;
 import org.telegram.telegrambots.meta.api.objects.boost.ChatBoostAdded;
 import org.telegram.telegrambots.meta.api.objects.chat.Chat;
+import org.telegram.telegrambots.meta.api.objects.community.CommunityChatAdded;
+import org.telegram.telegrambots.meta.api.objects.community.CommunityChatRemoved;
 import org.telegram.telegrambots.meta.api.objects.chat.ChatOwnerChanged;
 import org.telegram.telegrambots.meta.api.objects.chat.ChatOwnerLeft;
 import org.telegram.telegrambots.meta.api.objects.chat.background.ChatBackground;
@@ -229,6 +231,8 @@ public class Message implements MaybeInaccessibleMessage {
     private static final String RICH_MESSAGE_FIELD = "rich_message";
     private static final String RECEIVER_USER_FIELD = "receiver_user";
     private static final String EPHEMERAL_MESSAGE_ID_FIELD = "ephemeral_message_id";
+    private static final String COMMUNITY_CHAT_ADDED_FIELD = "community_chat_added";
+    private static final String COMMUNITY_CHAT_REMOVED_FIELD = "community_chat_removed";
 
     /**
      * Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a
@@ -1010,6 +1014,18 @@ public class Message implements MaybeInaccessibleMessage {
      */
     @JsonProperty(EPHEMERAL_MESSAGE_ID_FIELD)
     private Integer ephemeralMessageId;
+    /**
+     * Optional.
+     * Service message: chat added to a Community
+     */
+    @JsonProperty(COMMUNITY_CHAT_ADDED_FIELD)
+    private CommunityChatAdded communityChatAdded;
+    /**
+     * Optional.
+     * Service message: chat removed from a Community
+     */
+    @JsonProperty(COMMUNITY_CHAT_REMOVED_FIELD)
+    private CommunityChatRemoved communityChatRemoved;
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {
@@ -1388,6 +1404,16 @@ public class Message implements MaybeInaccessibleMessage {
     @JsonIgnore
     public boolean hasEphemeralMessageId() {
         return ephemeralMessageId != null;
+    }
+
+    @JsonIgnore
+    public boolean hasCommunityChatAdded() {
+        return communityChatAdded != null;
+    }
+
+    @JsonIgnore
+    public boolean hasCommunityChatRemoved() {
+        return communityChatRemoved != null;
     }
 
 
