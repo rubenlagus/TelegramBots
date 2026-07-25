@@ -1,0 +1,57 @@
+package org.telegram.telegrambots.meta.api.objects.richblock;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
+
+import java.util.List;
+
+/**
+ * @author Ruben Bermudez
+ * @version 10.2
+ * A collage, corresponding to the custom HTML tag &lt;tg-collage&gt;.
+ */
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class InputRichBlockCollage implements InputRichBlock {
+    public static final String TYPE = "collage";
+    private static final String TYPE_FIELD = "type";
+    private static final String BLOCKS_FIELD = "blocks";
+    private static final String CAPTION_FIELD = "caption";
+
+    /**
+     * Type of the block, always "collage"
+     */
+    @JsonProperty(TYPE_FIELD)
+    private final String type = TYPE;
+
+    /**
+     * Elements of the collage
+     */
+    @JsonProperty(BLOCKS_FIELD)
+    @NonNull
+    private List<InputRichBlock> blocks;
+
+    /**
+     * Optional. Caption of the block
+     */
+    @JsonProperty(CAPTION_FIELD)
+    private RichBlockCaption caption;
+}
