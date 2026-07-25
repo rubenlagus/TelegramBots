@@ -26,6 +26,8 @@ public abstract class SendMediaBotMethod<T extends Serializable> extends Partial
     public static final String MESSAGE_EFFECT_ID_FIELD = "message_effect_id";
     public static final String ALLOW_PAID_BROADCAST_FIELD = "allow_paid_broadcast";
     public static final String SUGGESTED_POST_PARAMETERS_FIELD = "suggested_post_parameters";
+    public static final String RECEIVER_USER_ID_FIELD = "receiver_user_id";
+    public static final String CALLBACK_QUERY_ID_FIELD = "callback_query_id";
 
     public abstract String getChatId();
 
@@ -66,6 +68,22 @@ public abstract class SendMediaBotMethod<T extends Serializable> extends Partial
     public abstract Boolean getAllowPaidBroadcast();
 
     public abstract SuggestedPostParameters getSuggestedPostParameters();
+
+    /**
+     * For outgoing ephemeral messages, unique identifier of the user who will receive the message.
+     * Only supported by the methods that accept ephemeral messages; defaults to null otherwise.
+     */
+    public Long getReceiverUserId() {
+        return null;
+    }
+
+    /**
+     * For outgoing ephemeral messages, identifier of the callback query which triggered the message if any.
+     * Only supported by the methods that accept ephemeral messages; defaults to null otherwise.
+     */
+    public String getCallbackQueryId() {
+        return null;
+    }
 
     public static abstract class SendMediaBotMethodBuilder<T extends Serializable, C extends SendMediaBotMethod<T>, B extends SendMediaBotMethodBuilder<T, C, B>> extends PartialBotApiMethodBuilder<T, C, B> {
 

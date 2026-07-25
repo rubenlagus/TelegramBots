@@ -129,6 +129,18 @@ public class SendSticker extends SendMediaBotMethod<Message> {
      * for direct messages chats only
      */
     private SuggestedPostParameters suggestedPostParameters;
+    /**
+     * Optional.
+     * For outgoing ephemeral messages, unique identifier of the user who will receive the message;
+     * for group and supergroup chats only. It is not guaranteed that the user will receive the message,
+     * especially if they are offline.
+     */
+    private Long receiverUserId;
+    /**
+     * Optional.
+     * For outgoing ephemeral messages, identifier of the callback query which triggered the message if any
+     */
+    private String callbackQueryId;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
