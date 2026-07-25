@@ -101,6 +101,8 @@ public final class AbilityUtils {
       return update.getPaidMediaPurchased().getUser();
     } else if (Flag.HAS_MANAGED_BOT.test(update)) {
       return update.getManagedBot().getUser();
+    } else if (Flag.HAS_SUBSCRIPTION.test(update)) {
+      return update.getSubscription().getUser();
     } else if (Flag.MESSAGE_REACTION.test(update)) {
       return update.getMessageReaction().getUser();
     } else if (Flag.CHAT_BOOST.test(update)) {
@@ -214,6 +216,8 @@ public final class AbilityUtils {
       return update.getPaidMediaPurchased().getUser().getId();
     } else if (Flag.HAS_MANAGED_BOT.test(update)) {
       return update.getManagedBot().getUser().getId();
+    } else if (Flag.HAS_SUBSCRIPTION.test(update)) {
+      return update.getSubscription().getUser().getId();
     } else if (Flag.MESSAGE_REACTION.test(update)) {
       return update.getMessageReaction().getChat().getId();
     } else if (Flag.MESSAGE_REACTION_COUNT.test(update)) {
