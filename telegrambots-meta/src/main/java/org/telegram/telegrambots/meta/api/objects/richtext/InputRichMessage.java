@@ -13,12 +13,16 @@ import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlock;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+
+import java.util.List;
 
 /**
  * @author Ruben Bermudez
- * @version 10.1
- * Describes a rich message to be sent. Exactly one of the fields html or markdown must be used.
+ * @version 10.2
+ * Describes a rich message to be sent.
+ * Exactly one of the fields html, markdown, or blocks must be used.
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -35,6 +39,8 @@ public class InputRichMessage implements BotApiObject, Validable {
     private static final String MARKDOWN_FIELD = "markdown";
     private static final String IS_RTL_FIELD = "is_rtl";
     private static final String SKIP_ENTITY_DETECTION_FIELD = "skip_entity_detection";
+    private static final String BLOCKS_FIELD = "blocks";
+    private static final String MEDIA_FIELD = "media";
 
     /**
      * Optional. Content of the rich message to send described using HTML formatting.
@@ -60,13 +66,36 @@ public class InputRichMessage implements BotApiObject, Validable {
     @JsonProperty(SKIP_ENTITY_DETECTION_FIELD)
     private Boolean skipEntityDetection;
 
+    /**
+     * Optional. Content of the rich message to send described as a list of blocks
+     */
+    @JsonProperty(BLOCKS_FIELD)
+    private List<InputRichBlock> blocks;
+
+    /**
+     * Optional. List of media that are specified in the markdown or html fields
+     * using tg://photo?id=, tg://video?id=, and tg://audio?id= links
+     */
+    @JsonProperty(MEDIA_FIELD)
+    private List<InputRichMessageMedia> media;
+
     @Override
     public void validate() throws TelegramApiValidationException {
-        if ((html == null || html.isEmpty()) && (markdown == null || markdown.isEmpty())) {
-            throw new TelegramApiValidationException("Either html or markdown parameter must be provided", this);
+        int providedCount = 0;
+        if (html != null && !html.isEmpty()) {
+            providedCount++;
         }
-        if (html != null && !html.isEmpty() && markdown != null && !markdown.isEmpty()) {
-            throw new TelegramApiValidationException("Only one of html or markdown parameter can be provided", this);
+        if (markdown != null && !markdown.isEmpty()) {
+            providedCount++;
+        }
+        if (blocks != null && !blocks.isEmpty()) {
+            providedCount++;
+        }
+        if (providedCount == 0) {
+            throw new TelegramApiValidationException("Exactly one of html, markdown or blocks parameter must be provided", this);
+        }
+        if (providedCount > 1) {
+            throw new TelegramApiValidationException("Only one of html, markdown or blocks parameter can be provided", this);
         }
     }
 }
