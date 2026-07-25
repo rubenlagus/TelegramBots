@@ -41,7 +41,6 @@ public class RichBlockSectionHeading implements RichBlock {
      * Text of the block
      */
     @JsonProperty(TEXT_FIELD)
-    @NonNull
     private RichText text;
 
     /**

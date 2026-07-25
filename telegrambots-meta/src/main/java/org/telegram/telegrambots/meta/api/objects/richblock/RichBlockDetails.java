@@ -46,7 +46,6 @@ public class RichBlockDetails implements RichBlock {
      * Always shown summary of the block
      */
     @JsonProperty(SUMMARY_FIELD)
-    @NonNull
     private RichText summary;
 
     /**

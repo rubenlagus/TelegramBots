@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
@@ -36,7 +35,6 @@ public class RichBlockCaption implements BotApiObject {
      * Block caption
      */
     @JsonProperty(TEXT_FIELD)
-    @NonNull
     private RichText text;
 
     /**
