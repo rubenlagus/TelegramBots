@@ -227,6 +227,8 @@ public class Message implements MaybeInaccessibleMessage {
     private static final String POLL_OPTION_ADDED_FIELD = "poll_option_added";
     private static final String POLL_OPTION_DELETED_FIELD = "poll_option_deleted";
     private static final String RICH_MESSAGE_FIELD = "rich_message";
+    private static final String RECEIVER_USER_FIELD = "receiver_user";
+    private static final String EPHEMERAL_MESSAGE_ID_FIELD = "ephemeral_message_id";
 
     /**
      * Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a
@@ -995,6 +997,19 @@ public class Message implements MaybeInaccessibleMessage {
      */
     @JsonProperty(RICH_MESSAGE_FIELD)
     private RichMessage richMessage;
+    /**
+     * Optional.
+     * For ephemeral messages, the user who received the message
+     */
+    @JsonProperty(RECEIVER_USER_FIELD)
+    private User receiverUser;
+    /**
+     * Optional.
+     * For ephemeral messages, identifier of the ephemeral message inside this chat.
+     * The identifier may be reused for another ephemeral message after the message is deleted or expires.
+     */
+    @JsonProperty(EPHEMERAL_MESSAGE_ID_FIELD)
+    private Integer ephemeralMessageId;
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {
@@ -1363,6 +1378,16 @@ public class Message implements MaybeInaccessibleMessage {
 
     public boolean hasLivePhoto() {
         return livePhoto != null;
+    }
+
+    @JsonIgnore
+    public boolean hasReceiverUser() {
+        return receiverUser != null;
+    }
+
+    @JsonIgnore
+    public boolean hasEphemeralMessageId() {
+        return ephemeralMessageId != null;
     }
 
 

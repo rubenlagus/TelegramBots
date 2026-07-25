@@ -3,6 +3,7 @@ package org.telegram.telegrambots.meta.api.objects.commands;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
@@ -25,6 +26,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @Setter
 @ToString
 @RequiredArgsConstructor
+@AllArgsConstructor
 @SuperBuilder
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -32,6 +34,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 public class BotCommand implements BotApiObject, Validable {
     private static final String COMMAND_FIELD = "command";
     private static final String DESCRIPTION_FIELD = "description";
+    private static final String IS_EPHEMERAL_FIELD = "is_ephemeral";
 
     /**
      * Text of the command. Can contain only lowercase English letters, digits and underscores. 1-32 characters.
@@ -45,6 +48,12 @@ public class BotCommand implements BotApiObject, Validable {
     @JsonProperty(DESCRIPTION_FIELD)
     @NonNull
     private String description;
+    /**
+     * Optional. True, if the command sends an ephemeral message,
+     * which can be seen only by the sender of the message and the bot
+     */
+    @JsonProperty(IS_EPHEMERAL_FIELD)
+    private Boolean isEphemeral;
 
     @Override
     public void validate() throws TelegramApiValidationException {
