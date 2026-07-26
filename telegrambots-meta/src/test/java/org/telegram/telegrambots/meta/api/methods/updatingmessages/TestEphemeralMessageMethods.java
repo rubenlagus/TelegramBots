@@ -3,8 +3,12 @@ package org.telegram.telegrambots.meta.api.methods.updatingmessages;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
@@ -73,6 +77,92 @@ public class TestEphemeralMessageMethods {
                 .receiverUserId(67890L)
                 .ephemeralMessageId(7)
                 .media(new InputMediaPhoto(""))
+                .build();
+
+        assertThrows(TelegramApiValidationException.class, method::validate);
+    }
+
+    @Test
+    public void testEditEphemeralMessageMediaSerialization() throws IOException {
+        EditEphemeralMessageMedia method = EditEphemeralMessageMedia.builder()
+                .chatId(-100123L)
+                .receiverUserId(67890L)
+                .ephemeralMessageId(7)
+                .media(new InputMediaPhoto("photoFileId"))
+                .build();
+
+        assertDoesNotThrow(method::validate);
+        assertEquals("editEphemeralMessageMedia", method.getMethod());
+
+        String json = mapper.writeValueAsString(method);
+        assertTrue(json.contains("\"chat_id\":\"-100123\""), json);
+        assertTrue(json.contains("\"receiver_user_id\":67890"), json);
+        assertTrue(json.contains("\"ephemeral_message_id\":7"), json);
+        assertTrue(json.contains("\"media\":\"photoFileId\""), json);
+    }
+
+    @Test
+    public void testEditEphemeralMessageCaptionSerialization() throws IOException {
+        EditEphemeralMessageCaption method = EditEphemeralMessageCaption.builder()
+                .chatId(-100123L)
+                .receiverUserId(67890L)
+                .ephemeralMessageId(7)
+                .caption("New caption")
+                .parseMode("HTML")
+                .build();
+
+        assertDoesNotThrow(method::validate);
+        assertEquals("editEphemeralMessageCaption", method.getMethod());
+
+        String json = mapper.writeValueAsString(method);
+        assertTrue(json.contains("\"chat_id\":\"-100123\""), json);
+        assertTrue(json.contains("\"receiver_user_id\":67890"), json);
+        assertTrue(json.contains("\"ephemeral_message_id\":7"), json);
+        assertTrue(json.contains("\"caption\":\"New caption\""), json);
+    }
+
+    @Test
+    public void testEditEphemeralMessageCaptionRejectsParseModeWithEntities() {
+        EditEphemeralMessageCaption method = EditEphemeralMessageCaption.builder()
+                .chatId("12345")
+                .receiverUserId(67890L)
+                .ephemeralMessageId(7)
+                .caption("New caption")
+                .parseMode("HTML")
+                .captionEntity(MessageEntity.builder().type("bold").offset(0).length(3).build())
+                .build();
+
+        assertThrows(TelegramApiValidationException.class, method::validate);
+    }
+
+    @Test
+    public void testEditEphemeralMessageReplyMarkupSerialization() throws IOException {
+        EditEphemeralMessageReplyMarkup method = EditEphemeralMessageReplyMarkup.builder()
+                .chatId(-100123L)
+                .receiverUserId(67890L)
+                .ephemeralMessageId(7)
+                .replyMarkup(InlineKeyboardMarkup.builder()
+                        .keyboardRow(new InlineKeyboardRow(
+                                InlineKeyboardButton.builder().text("Click").callbackData("data").build()))
+                        .build())
+                .build();
+
+        assertDoesNotThrow(method::validate);
+        assertEquals("editEphemeralMessageReplyMarkup", method.getMethod());
+
+        String json = mapper.writeValueAsString(method);
+        assertTrue(json.contains("\"chat_id\":\"-100123\""), json);
+        assertTrue(json.contains("\"receiver_user_id\":67890"), json);
+        assertTrue(json.contains("\"ephemeral_message_id\":7"), json);
+        assertTrue(json.contains("\"reply_markup\""), json);
+    }
+
+    @Test
+    public void testEditEphemeralMessageReplyMarkupRejectsEmptyChatId() {
+        EditEphemeralMessageReplyMarkup method = EditEphemeralMessageReplyMarkup.builder()
+                .chatId("")
+                .receiverUserId(67890L)
+                .ephemeralMessageId(7)
                 .build();
 
         assertThrows(TelegramApiValidationException.class, method::validate);

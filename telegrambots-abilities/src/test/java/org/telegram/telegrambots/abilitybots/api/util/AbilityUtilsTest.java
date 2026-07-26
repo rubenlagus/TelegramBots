@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.boost.ChatBoostSourcePremium;
 import org.telegram.telegrambots.meta.api.objects.boost.ChatBoostUpdated;
 import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
+import org.telegram.telegrambots.meta.api.objects.payments.BotSubscriptionUpdated;
 import org.telegram.telegrambots.meta.api.objects.reactions.MessageReactionCountUpdated;
 import org.telegram.telegrambots.meta.api.objects.reactions.MessageReactionUpdated;
 
@@ -91,5 +92,29 @@ class AbilityUtilsTest {
         Update update = new Update();
         update.setChatBoost(ChatBoostUpdated.builder().chat(chat).build());
         assertEquals(456L, AbilityUtils.getChatId(update));
+    }
+
+    @Test
+    void testGetUserFromSubscription() {
+        User user = User.builder().id(123L).firstName("John").isBot(false).build();
+        Update update = new Update();
+        update.setSubscription(BotSubscriptionUpdated.builder()
+                .user(user)
+                .invoicePayload("monthly-plan")
+                .state("canceled")
+                .build());
+        assertEquals(user, AbilityUtils.getUser(update));
+    }
+
+    @Test
+    void testGetChatIdFromSubscription() {
+        User user = User.builder().id(123L).firstName("John").isBot(false).build();
+        Update update = new Update();
+        update.setSubscription(BotSubscriptionUpdated.builder()
+                .user(user)
+                .invoicePayload("monthly-plan")
+                .state("active")
+                .build());
+        assertEquals(123L, AbilityUtils.getChatId(update));
     }
 }
