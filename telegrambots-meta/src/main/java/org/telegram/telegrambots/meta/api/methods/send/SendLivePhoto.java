@@ -87,6 +87,20 @@ public class SendLivePhoto extends SendMediaBotMethod<Message> {
     private String messageEffectId;
     @JsonProperty(SUGGESTED_POST_PARAMETERS_FIELD)
     private SuggestedPostParameters suggestedPostParameters;
+    /**
+     * Optional.
+     * For outgoing ephemeral messages, unique identifier of the user who will receive the message;
+     * for group and supergroup chats only. It is not guaranteed that the user will receive the message,
+     * especially if they are offline.
+     */
+    @JsonProperty(RECEIVER_USER_ID_FIELD)
+    private Long receiverUserId;
+    /**
+     * Optional.
+     * For outgoing ephemeral messages, identifier of the callback query which triggered the message if any
+     */
+    @JsonProperty(CALLBACK_QUERY_ID_FIELD)
+    private String callbackQueryId;
     @JsonProperty(REPLY_PARAMETERS_FIELD)
     private ReplyParameters replyParameters;
     @JsonProperty(REPLY_MARKUP_FIELD)
