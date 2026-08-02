@@ -7,7 +7,6 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -26,17 +25,18 @@ class OkHttpFutureCallback<T extends Serializable, Method extends PartialBotApiM
     }
 
     @Override
-    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+    public void onResponse(@NonNull Call call, @NonNull Response response) {
+        T result;
         try(ResponseBody body = response.body()) {
             if (body == null) {
                 completeExceptionally(new TelegramApiException("Telegram api returned empty response"));
-            } else {
-                try {
-                    complete(method.deserializeResponse(body.string()));
-                } catch (TelegramApiRequestException e) {
-                    completeExceptionally(e);
-                }
+                return;
             }
+            result = method.deserializeResponse(body.string());
+        } catch (Exception e) {
+            completeExceptionally(e);
+            return;
         }
+        complete(result);
     }
 }
