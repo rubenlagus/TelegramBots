@@ -17,6 +17,7 @@ import org.telegram.telegrambots.meta.api.objects.inlinequery.ChosenInlineQuery;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
 import org.telegram.telegrambots.meta.api.objects.managed.ManagedBotUpdated;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
+import org.telegram.telegrambots.meta.api.objects.payments.BotSubscriptionUpdated;
 import org.telegram.telegrambots.meta.api.objects.payments.PaidMediaPurchased;
 import org.telegram.telegrambots.meta.api.objects.payments.PreCheckoutQuery;
 import org.telegram.telegrambots.meta.api.objects.payments.ShippingQuery;
@@ -64,6 +65,7 @@ public class Update implements BotApiObject {
     private static final String DELETED_BUSINESS_MESSAGES_FIELD = "deleted_business_messages";
     private static final String PURCHASED_PAID_MEDIA_FIELD = "purchased_paid_media";
     private static final String MANAGED_BOT_FIELD = "managed_bot";
+    private static final String SUBSCRIPTION_FIELD = "subscription";
 
     @JsonProperty(UPDATEID_FIELD)
     private Integer updateId;
@@ -224,6 +226,12 @@ public class Update implements BotApiObject {
      */
     @JsonProperty(MANAGED_BOT_FIELD)
     private ManagedBotUpdated managedBot;
+    /**
+     * Optional.
+     * User payment subscription has changed
+     */
+    @JsonProperty(SUBSCRIPTION_FIELD)
+    private BotSubscriptionUpdated subscription;
 
     public boolean hasMessage() {
         return message != null;
@@ -323,5 +331,9 @@ public class Update implements BotApiObject {
 
     public boolean hasGuestMessage() {
         return guestMessage != null;
+    }
+
+    public boolean hasSubscription() {
+        return subscription != null;
     }
 }

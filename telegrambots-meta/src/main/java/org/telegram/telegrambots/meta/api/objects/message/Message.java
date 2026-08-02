@@ -36,6 +36,8 @@ import org.telegram.telegrambots.meta.api.objects.Voice;
 import org.telegram.telegrambots.meta.api.objects.WriteAccessAllowed;
 import org.telegram.telegrambots.meta.api.objects.boost.ChatBoostAdded;
 import org.telegram.telegrambots.meta.api.objects.chat.Chat;
+import org.telegram.telegrambots.meta.api.objects.community.CommunityChatAdded;
+import org.telegram.telegrambots.meta.api.objects.community.CommunityChatRemoved;
 import org.telegram.telegrambots.meta.api.objects.chat.ChatOwnerChanged;
 import org.telegram.telegrambots.meta.api.objects.chat.ChatOwnerLeft;
 import org.telegram.telegrambots.meta.api.objects.chat.background.ChatBackground;
@@ -227,6 +229,10 @@ public class Message implements MaybeInaccessibleMessage {
     private static final String POLL_OPTION_ADDED_FIELD = "poll_option_added";
     private static final String POLL_OPTION_DELETED_FIELD = "poll_option_deleted";
     private static final String RICH_MESSAGE_FIELD = "rich_message";
+    private static final String RECEIVER_USER_FIELD = "receiver_user";
+    private static final String EPHEMERAL_MESSAGE_ID_FIELD = "ephemeral_message_id";
+    private static final String COMMUNITY_CHAT_ADDED_FIELD = "community_chat_added";
+    private static final String COMMUNITY_CHAT_REMOVED_FIELD = "community_chat_removed";
 
     /**
      * Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a
@@ -995,6 +1001,31 @@ public class Message implements MaybeInaccessibleMessage {
      */
     @JsonProperty(RICH_MESSAGE_FIELD)
     private RichMessage richMessage;
+    /**
+     * Optional.
+     * For ephemeral messages, the user who received the message
+     */
+    @JsonProperty(RECEIVER_USER_FIELD)
+    private User receiverUser;
+    /**
+     * Optional.
+     * For ephemeral messages, identifier of the ephemeral message inside this chat.
+     * The identifier may be reused for another ephemeral message after the message is deleted or expires.
+     */
+    @JsonProperty(EPHEMERAL_MESSAGE_ID_FIELD)
+    private Integer ephemeralMessageId;
+    /**
+     * Optional.
+     * Service message: chat added to a Community
+     */
+    @JsonProperty(COMMUNITY_CHAT_ADDED_FIELD)
+    private CommunityChatAdded communityChatAdded;
+    /**
+     * Optional.
+     * Service message: chat removed from a Community
+     */
+    @JsonProperty(COMMUNITY_CHAT_REMOVED_FIELD)
+    private CommunityChatRemoved communityChatRemoved;
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {
@@ -1363,6 +1394,26 @@ public class Message implements MaybeInaccessibleMessage {
 
     public boolean hasLivePhoto() {
         return livePhoto != null;
+    }
+
+    @JsonIgnore
+    public boolean hasReceiverUser() {
+        return receiverUser != null;
+    }
+
+    @JsonIgnore
+    public boolean hasEphemeralMessageId() {
+        return ephemeralMessageId != null;
+    }
+
+    @JsonIgnore
+    public boolean hasCommunityChatAdded() {
+        return communityChatAdded != null;
+    }
+
+    @JsonIgnore
+    public boolean hasCommunityChatRemoved() {
+        return communityChatRemoved != null;
     }
 
 

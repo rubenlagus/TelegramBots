@@ -62,6 +62,8 @@ public class SendMessage extends BotApiMethodMessage {
     private static final String MESSAGE_EFFECT_ID_FIELD = "message_effect_id";
     private static final String ALLOW_PAID_BROADCAST_FIELD = "allow_paid_broadcast";
     private static final String SUGGESTED_POST_PARAMETERS_FIELD = "suggested_post_parameters";
+    private static final String RECEIVER_USER_ID_FIELD = "receiver_user_id";
+    private static final String CALLBACK_QUERY_ID_FIELD = "callback_query_id";
 
     @JsonProperty(CHAT_ID_FIELD)
     @NonNull
@@ -144,6 +146,20 @@ public class SendMessage extends BotApiMethodMessage {
      */
     @JsonProperty(SUGGESTED_POST_PARAMETERS_FIELD)
     private SuggestedPostParameters suggestedPostParameters;
+    /**
+     * Optional.
+     * For outgoing ephemeral messages, unique identifier of the user who will receive the message;
+     * for group and supergroup chats only. It is not guaranteed that the user will receive the message,
+     * especially if they are offline.
+     */
+    @JsonProperty(RECEIVER_USER_ID_FIELD)
+    private Long receiverUserId;
+    /**
+     * Optional.
+     * For outgoing ephemeral messages, identifier of the callback query which triggered the message if any
+     */
+    @JsonProperty(CALLBACK_QUERY_ID_FIELD)
+    private String callbackQueryId;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
