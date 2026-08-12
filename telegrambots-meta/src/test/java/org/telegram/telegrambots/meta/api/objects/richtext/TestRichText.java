@@ -482,6 +482,50 @@ public class TestRichText {
         assertEquals("Hello, world!", ((RichTextPlain) deserialized).getText());
     }
 
+    // --- Plain text must serialize as a bare JSON string (issue #1599) ---
+    // The Bot API defines RichText as "either a String for plain text, an Array of RichText, or
+    // any of the following types" - there is no "plain" type on the wire. Emitting
+    // {"type":"plain",...} makes Telegram answer "Unsupported rich text type".
+
+    @Test
+    public void testRichTextPlainSerializesAsBareString() throws IOException {
+        RichTextPlain plain = RichTextPlain.builder().text("Иван").build();
+
+        assertEquals("\"Иван\"", mapper.writeValueAsString(plain));
+    }
+
+    @Test
+    public void testRichTextPlainNestedInBoldSerializesAsBareString() throws IOException {
+        RichTextBold bold = RichTextBold.builder()
+                .text(RichTextPlain.builder().text("Иван").build())
+                .build();
+
+        assertEquals("{\"type\":\"bold\",\"text\":\"Иван\"}", mapper.writeValueAsString(bold));
+    }
+
+    @Test
+    public void testRichTextPlainNestedInBoldDeclaredAsRichTextSerializesAsBareString() throws IOException {
+        RichText bold = RichTextBold.builder()
+                .text(RichTextPlain.builder().text("Иван").build())
+                .build();
+
+        assertEquals("{\"type\":\"bold\",\"text\":\"Иван\"}", mapper.writeValueAsString(bold));
+    }
+
+    @Test
+    public void testRichTextConcatSerializesPlainChildrenAsBareStrings() throws IOException {
+        RichTextConcat concat = RichTextConcat.builder()
+                .texts(java.util.List.of(
+                        RichTextPlain.builder().text("Hello ").build(),
+                        RichTextBold.builder().text(RichTextPlain.builder().text("world").build()).build(),
+                        RichTextPlain.builder().text("!").build()
+                ))
+                .build();
+
+        assertEquals("[\"Hello \",{\"type\":\"bold\",\"text\":\"world\"},\"!\"]",
+                mapper.writeValueAsString(concat));
+    }
+
     // --- Raw JSON string form ("Politics" → plain text node) ---
 
     @Test
