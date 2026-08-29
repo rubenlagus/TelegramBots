@@ -296,7 +296,7 @@
                     <configuration>
                         <includes>
                             <include>**/Test*.java</include>
-                            <forkCount>0</forkCount>
+                            <include>**/*Test.java</include>
                         </includes>
                     </configuration>
                 </plugin>
