@@ -37,6 +37,7 @@ public class InputRichBlockTable implements InputRichBlock {
     private static final String CELLS_FIELD = "cells";
     private static final String IS_BORDERED_FIELD = "is_bordered";
     private static final String IS_STRIPED_FIELD = "is_striped";
+    private static final String IS_COMPACT_FIELD = "is_compact";
     private static final String CAPTION_FIELD = "caption";
 
     /**
@@ -63,6 +64,11 @@ public class InputRichBlockTable implements InputRichBlock {
      */
     @JsonProperty(IS_STRIPED_FIELD)
     private Boolean isStriped;
+    /**
+     * Optional. Pass True if table cells must have smaller indents
+     */
+    @JsonProperty(IS_COMPACT_FIELD)
+    private Boolean isCompact;
 
     /**
      * Optional. Caption of the table

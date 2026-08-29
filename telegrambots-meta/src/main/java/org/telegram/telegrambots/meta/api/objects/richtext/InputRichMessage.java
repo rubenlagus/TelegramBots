@@ -74,7 +74,7 @@ public class InputRichMessage implements BotApiObject, Validable {
 
     /**
      * Optional. List of media that are specified in the markdown or html fields
-     * using tg://photo?id=, tg://video?id=, and tg://audio?id= links
+     * using tg://photo?id=, tg://video?id=, tg://document?id=, and tg://audio?id= links
      */
     @JsonProperty(MEDIA_FIELD)
     private List<InputRichMessageMedia> media;
@@ -96,6 +96,11 @@ public class InputRichMessage implements BotApiObject, Validable {
         }
         if (providedCount > 1) {
             throw new TelegramApiValidationException("Only one of html, markdown or blocks parameter can be provided", this);
+        }
+        if (blocks != null) {
+            for (InputRichBlock block : blocks) {
+                block.validate();
+            }
         }
     }
 }
