@@ -47,6 +47,7 @@ public class ChatAdministratorRights implements BotApiObject, Validable {
     private static final String CAN_DELETE_STORIES_FIELD = "can_delete_stories";
     private static final String CAN_MANAGE_DIRECT_MESSAGES_FIELD = "can_manage_direct_messages";
     private static final String CAN_MANAGE_TAGS_FIELD = "can_manage_tags";
+    private static final String CAN_SEND_WELCOME_MESSAGES_FIELD = "can_send_welcome_messages";
 
     /**
      * True, if the user's presence in the chat is hidden
@@ -158,4 +159,11 @@ public class ChatAdministratorRights implements BotApiObject, Validable {
      */
     @JsonProperty(CAN_MANAGE_TAGS_FIELD)
     private Boolean canManageTags;
+    /**
+     * Optional.
+     * True, if the administrator can manage chat welcome messages or directly send them
+     * in the case of bots
+     */
+    @JsonProperty(CAN_SEND_WELCOME_MESSAGES_FIELD)
+    private Boolean canSendWelcomeMessages;
 }
