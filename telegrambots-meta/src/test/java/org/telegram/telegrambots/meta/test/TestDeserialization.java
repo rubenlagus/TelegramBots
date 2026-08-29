@@ -459,6 +459,12 @@ class TestDeserialization {
     }
 
     @Test
+    void TestMessageEntityTextComputedOnDeserialization() throws Exception {
+        Message message = mapper.readValue(TelegramBotsHelper.GetCommandMessage(), Message.class);
+        assertNotNull(message.getCommand());
+    }
+
+    @Test
     void TestUpdateDeserializationWithInlineKeyboard() throws Exception {
         Update update = mapper.readValue(TelegramBotsHelper.GetUpdateWithMessageInCallbackQuery(), Update.class);
         assertNotNull(update);
