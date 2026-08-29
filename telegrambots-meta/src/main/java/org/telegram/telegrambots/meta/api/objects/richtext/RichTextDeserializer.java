@@ -49,7 +49,8 @@ public class RichTextDeserializer extends StdDeserializer<RichText> {
             Map.entry(RichTextAnchorLink.TYPE, RichTextAnchorLink.class),
             Map.entry(RichTextReference.TYPE, RichTextReference.class),
             Map.entry(RichTextReferenceLink.TYPE, RichTextReferenceLink.class),
-            Map.entry(RichTextPlain.TYPE, RichTextPlain.class)
+            Map.entry(RichTextPlain.TYPE, RichTextPlain.class),
+            Map.entry(RichTextButton.TYPE, RichTextButton.class)
     );
 
     public RichTextDeserializer() {
