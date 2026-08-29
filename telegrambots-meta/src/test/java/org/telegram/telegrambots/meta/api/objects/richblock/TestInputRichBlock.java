@@ -266,6 +266,25 @@ public class TestInputRichBlock {
         assertFalse(mapper.writeValueAsString(table).contains("is_compact"));
     }
 
+    /**
+     * InputRichBlockTable is an outbound object, so emitting is_compact is the direction that
+     * reaches Telegram. The omitted-when-unset case above cannot show that it serializes at all.
+     */
+    @Test
+    public void testInputTableIsCompactSerializesAndRoundTrips() throws IOException {
+        InputRichBlockTable table = InputRichBlockTable.builder()
+                .cells(List.of())
+                .isCompact(true)
+                .build();
+
+        String json = mapper.writeValueAsString(table);
+
+        assertTrue(json.contains("\"is_compact\":true"), json);
+
+        InputRichBlockTable parsed = mapper.readValue(json, InputRichBlockTable.class);
+        assertTrue(parsed.getIsCompact());
+    }
+
     @Test
     public void testInputRichMessageValidatesNestedButtons() {
         InputRichMessage message = InputRichMessage.builder()
