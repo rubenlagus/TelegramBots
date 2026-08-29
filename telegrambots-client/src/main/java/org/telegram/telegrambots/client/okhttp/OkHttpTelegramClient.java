@@ -703,7 +703,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                     .addPart(SendMediaBotMethod.MESSAGE_EFFECT_ID_FIELD, method.getMessageEffectId())
                     .addPart(SendMediaBotMethod.ALLOW_PAID_BROADCAST_FIELD, method.getAllowPaidBroadcast())
                     .addPart(SendMediaBotMethod.DIRECT_MESSAGES_TOPIC_ID_FIELD, method.getDirectMessagesTopicId())
-                    .addPart(SendMediaBotMethod.SUGGESTED_POST_PARAMETERS_FIELD, method.getSuggestedPostParameters())
+                    .addJsonPart(SendMediaBotMethod.SUGGESTED_POST_PARAMETERS_FIELD, method.getSuggestedPostParameters())
                     .addPart(SendMediaBotMethod.RECEIVER_USER_ID_FIELD, method.getReceiverUserId())
                     .addPart(SendMediaBotMethod.CALLBACK_QUERY_ID_FIELD, method.getCallbackQueryId())
                     .addJsonPart(SendMediaBotMethod.REPLY_PARAMETERS_FIELD, method.getReplyParameters())
