@@ -713,6 +713,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
                     .addPart(SendMediaBotMethod.MESSAGE_EFFECT_ID_FIELD, method.getMessageEffectId())
                     .addPart(SendMediaBotMethod.DIRECT_MESSAGES_TOPIC_ID_FIELD, method.getDirectMessagesTopicId())
                     .addJsonPart(SendMediaBotMethod.SUGGESTED_POST_PARAMETERS_FIELD, method.getSuggestedPostParameters())
+                    .addJsonPart(SendMediaBotMethod.EPHEMERAL_MESSAGE_PARAMETERS_FIELD, method.getEphemeralMessageParameters())
                     .addJsonPart(SendMediaBotMethod.REPLY_PARAMETERS_FIELD, method.getReplyParameters())
                     .addJsonPart(SendMediaBotMethod.REPLY_MARKUP_FIELD, method.getReplyMarkup());
 

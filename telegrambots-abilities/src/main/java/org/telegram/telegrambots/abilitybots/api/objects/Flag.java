@@ -44,6 +44,7 @@ public enum Flag implements Predicate<Update> {
   REMOVED_CHAT_BOOST(Update::hasRemovedChatBoost),
   GUEST_MESSAGE(Update::hasGuestMessage),
   HAS_SUBSCRIPTION(Update::hasSubscription),
+  STOPPED_MESSAGE_GENERATION(Update::hasStoppedMessageGeneration),
 
 
   // Message Flags
