@@ -18,6 +18,7 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBool
 import org.telegram.telegrambots.meta.api.objects.LinkPreviewOptions;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.richtext.InputRichMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 import org.telegram.telegrambots.meta.util.Validations;
 
@@ -25,8 +26,8 @@ import java.util.List;
 
 /**
  * @author Ruben Bermudez
- * @version 10.2
- * Use this method to edit an ephemeral text message.
+ * @version 10.3
+ * Use this method to edit an ephemeral text or rich message.
  * Note that it is not guaranteed that the user will receive the message edit event,
  * especially if they are offline. On success, True is returned.
  */
@@ -47,6 +48,7 @@ public class EditEphemeralMessageText extends BotApiMethodBoolean {
     private static final String RECEIVER_USER_ID_FIELD = "receiver_user_id";
     private static final String EPHEMERAL_MESSAGE_ID_FIELD = "ephemeral_message_id";
     private static final String TEXT_FIELD = "text";
+    private static final String RICH_MESSAGE_FIELD = "rich_message";
     private static final String PARSE_MODE_FIELD = "parse_mode";
     private static final String ENTITIES_FIELD = "entities";
     private static final String LINK_PREVIEW_OPTIONS_FIELD = "link_preview_options";
@@ -72,11 +74,16 @@ public class EditEphemeralMessageText extends BotApiMethodBoolean {
     @NonNull
     private Integer ephemeralMessageId;
     /**
-     * New text of the message, 1-4096 characters after entity parsing
+     * Optional. New text of the message, 1-4096 characters after entity parsing;
+     * required if richMessage isn't specified
      */
     @JsonProperty(TEXT_FIELD)
-    @NonNull
     private String text;
+    /**
+     * Optional. New rich content of the message; required if text isn't specified
+     */
+    @JsonProperty(RICH_MESSAGE_FIELD)
+    private InputRichMessage richMessage;
     /**
      * Optional. Mode for parsing entities in the message text
      */
@@ -87,6 +94,7 @@ public class EditEphemeralMessageText extends BotApiMethodBoolean {
      * which can be specified instead of parseMode
      */
     @JsonProperty(ENTITIES_FIELD)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @Singular
     private List<MessageEntity> entities;
     /**
@@ -113,11 +121,20 @@ public class EditEphemeralMessageText extends BotApiMethodBoolean {
     @Override
     public void validate() throws TelegramApiValidationException {
         Validations.requiredChatId(chatId, this);
-        if (text.isEmpty()) {
+        if (text == null && richMessage == null) {
+            throw new TelegramApiValidationException("One of Text or RichMessage parameter is required", this);
+        }
+        if (text != null && richMessage != null) {
+            throw new TelegramApiValidationException("Only one of Text or RichMessage can be provided", this);
+        }
+        if (text != null && text.isEmpty()) {
             throw new TelegramApiValidationException("Text parameter can't be empty", this);
         }
         if (parseMode != null && (entities != null && !entities.isEmpty())) {
             throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
+        }
+        if (richMessage != null) {
+            richMessage.validate();
         }
         if (linkPreviewOptions != null) {
             linkPreviewOptions.validate();
