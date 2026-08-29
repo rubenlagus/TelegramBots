@@ -32,11 +32,13 @@ import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
 import org.telegram.telegrambots.meta.api.methods.send.SendVoice;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditEphemeralMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.ephemeral.EphemeralMessageParameters;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.description.BotDescription;
 import org.telegram.telegrambots.meta.api.objects.description.BotShortDescription;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.name.BotName;
 import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostParameters;
@@ -467,6 +469,30 @@ class TestTelegramClientIntegration {
         assertTrue(body.contains("name=\"suggested_post_parameters\""), body);
         assertTrue(body.contains("\"send_date\":1700000000"), body);
         assertFalse(body.contains("SuggestedPostParameters("), body);
+    }
+
+    /**
+     * Bot API 10.3 made editEphemeralMessageMedia a PartialBotApiMethod so a brand-new file can be
+     * uploaded. Asserts the multipart body carries the media part and the scalar parameters.
+     */
+    @Test
+    void testEditEphemeralMessageMediaUploadsNewFile() throws Exception {
+        EditEphemeralMessageMedia method = EditEphemeralMessageMedia.builder()
+                .chatId("someChatId")
+                .receiverUserId(99L)
+                .ephemeralMessageId(7)
+                .media(new InputMediaPhoto(getTestFile(), "photo.jpg"))
+                .build();
+
+        mockMethod(method, true);
+
+        assertTrue(client.execute(method));
+
+        String body = webServer.takeRequest().getBody().readUtf8();
+        assertTrue(body.contains("name=\"media\""), body);
+        assertTrue(body.contains("name=\"chat_id\""), body);
+        assertTrue(body.contains("name=\"receiver_user_id\""), body);
+        assertTrue(body.contains("name=\"ephemeral_message_id\""), body);
     }
 
     @NotNull

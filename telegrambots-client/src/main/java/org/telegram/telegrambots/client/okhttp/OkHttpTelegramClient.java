@@ -36,6 +36,7 @@ import org.telegram.telegrambots.meta.api.methods.stickers.ReplaceStickerInSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumbnail;
 import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditEphemeralMessageMedia;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -619,6 +620,32 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             return CompletableFuture.failedFuture(e);
         } catch (IOException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + editMessageMedia.getMethod(), e));
+        }
+    }
+
+    @Override
+    public CompletableFuture<Boolean> executeAsync(EditEphemeralMessageMedia editEphemeralMessageMedia) {
+        try {
+            assertParamNotNull(editEphemeralMessageMedia, "editEphemeralMessageMedia");
+            editEphemeralMessageMedia.validate();
+
+            HttpUrl url = buildUrl(editEphemeralMessageMedia.getMethod());
+
+            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
+
+            builder.addPart(EditEphemeralMessageMedia.CHAT_ID_FIELD, editEphemeralMessageMedia.getChatId())
+                    .addPart(EditEphemeralMessageMedia.RECEIVER_USER_ID_FIELD, editEphemeralMessageMedia.getReceiverUserId())
+                    .addPart(EditEphemeralMessageMedia.EPHEMERAL_MESSAGE_ID_FIELD, editEphemeralMessageMedia.getEphemeralMessageId())
+                    .addJsonPart(EditEphemeralMessageMedia.REPLY_MARKUP_FIELD, editEphemeralMessageMedia.getReplyMarkup());
+
+            addInputData(builder, EditEphemeralMessageMedia.MEDIA_FIELD, editEphemeralMessageMedia.getMedia(), true);
+
+            Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
+            return sendRequest(editEphemeralMessageMedia, httpPost);
+        } catch (TelegramApiException e) {
+            return CompletableFuture.failedFuture(e);
+        } catch (IOException e) {
+            return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + editEphemeralMessageMedia.getMethod(), e));
         }
     }
 

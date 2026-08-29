@@ -21,6 +21,7 @@ import org.telegram.telegrambots.meta.api.methods.stickers.ReplaceStickerInSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumbnail;
 import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditEphemeralMessageMedia;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
@@ -158,6 +159,14 @@ public interface TelegramClient {
      */
     Serializable execute(EditMessageMedia editMessageMedia) throws TelegramApiException;
 
+    /**
+     * Edit media of an ephemeral message
+     * @param editEphemeralMessageMedia Information of the new media
+     * @return True on success
+     * @throws TelegramApiException If there is any error editing the media
+     */
+    Boolean execute(EditEphemeralMessageMedia editEphemeralMessageMedia) throws TelegramApiException;
+
     java.io.File downloadFile(File file) throws TelegramApiException;
 
     @SuppressWarnings("unused")
@@ -283,6 +292,13 @@ public interface TelegramClient {
      * @return If the edited message is not an inline message, the edited Message is returned, otherwise True is returned
      */
     CompletableFuture<Serializable> executeAsync(EditMessageMedia editMessageMedia);
+
+    /**
+     * Edit media of an ephemeral message
+     * @param editEphemeralMessageMedia Information of the new media
+     * @return True on success
+     */
+    CompletableFuture<Boolean> executeAsync(EditEphemeralMessageMedia editEphemeralMessageMedia);
 
     /**
      * Send animation

@@ -10,6 +10,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardRow;
 import org.telegram.telegrambots.meta.api.objects.richtext.InputRichMessage;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
@@ -17,6 +19,7 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -285,5 +288,42 @@ public class TestEphemeralMessageMethods {
                 .build();
 
         assertTrue(mapper.writeValueAsString(method).contains("\"show_caption_above_media\":true"));
+    }
+
+    @Test
+    public void testEditEphemeralMessageMediaIsPartialMethod() {
+        EditEphemeralMessageMedia method = EditEphemeralMessageMedia.builder()
+                .chatId(1L)
+                .receiverUserId(2L)
+                .ephemeralMessageId(3)
+                .media(new InputMediaPhoto("file-id"))
+                .build();
+
+        assertInstanceOf(PartialBotApiMethod.class, method);
+        assertEquals("editEphemeralMessageMedia", method.getMethod());
+    }
+
+    @Test
+    public void testEditEphemeralMessageMediaDeserializesBooleanResponse() throws TelegramApiRequestException {
+        EditEphemeralMessageMedia method = EditEphemeralMessageMedia.builder()
+                .chatId(1L)
+                .receiverUserId(2L)
+                .ephemeralMessageId(3)
+                .media(new InputMediaPhoto("file-id"))
+                .build();
+
+        assertTrue(method.deserializeResponse("{\"ok\":true,\"result\":true}"));
+    }
+
+    @Test
+    public void testEditEphemeralMessageMediaAcceptsNewFileUpload() {
+        EditEphemeralMessageMedia method = EditEphemeralMessageMedia.builder()
+                .chatId(1L)
+                .receiverUserId(2L)
+                .ephemeralMessageId(3)
+                .media(new InputMediaPhoto(new java.io.File("pom.xml"), "photo.jpg"))
+                .build();
+
+        assertDoesNotThrow(method::validate);
     }
 }
