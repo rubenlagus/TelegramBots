@@ -25,6 +25,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMediaBotMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
 import org.telegram.telegrambots.meta.api.methods.send.SendPaidMedia;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.methods.send.SendRichMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
@@ -50,6 +51,13 @@ import org.telegram.telegrambots.meta.api.objects.media.paid.InputPaidMediaVideo
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoAnimated;
 import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoStatic;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlock;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockAudio;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockPhoto;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockVideo;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockVoiceNote;
+import org.telegram.telegrambots.meta.api.objects.richtext.InputRichMessage;
+import org.telegram.telegrambots.meta.api.objects.richtext.InputRichMessageMedia;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
@@ -59,10 +67,13 @@ import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.stream.Stream;
 
 /**
  * @author Valeriy Kucherenko
@@ -441,6 +452,40 @@ public class JettyTelegramClient extends AbstractTelegramClient {
             } else {
                 throw new TelegramApiException("Unable to execute " + sendLivePhoto.getMethod() + " method", e);
             }
+        }
+    }
+
+    @Override
+    public CompletableFuture<Message> executeAsync(SendRichMessage sendRichMessage) {
+        try {
+            assertParamNotNull(sendRichMessage, "sendRichMessage");
+            sendRichMessage.validate();
+
+            URI url = buildUrl(sendRichMessage.getMethod());
+            JettyMultipartBuilder builder = new JettyMultipartBuilder(objectMapper);
+
+            builder.addPart(SendRichMessage.CHAT_ID_FIELD, sendRichMessage.getChatId())
+                    .addPart(SendRichMessage.BUSINESS_CONNECTION_ID_FIELD, sendRichMessage.getBusinessConnectionId())
+                    .addPart(SendRichMessage.MESSAGE_THREAD_ID_FIELD, sendRichMessage.getMessageThreadId())
+                    .addPart(SendRichMessage.DIRECT_MESSAGES_TOPIC_ID_FIELD, sendRichMessage.getDirectMessagesTopicId())
+                    .addPart(SendRichMessage.DISABLE_NOTIFICATION_FIELD, sendRichMessage.getDisableNotification())
+                    .addPart(SendRichMessage.PROTECT_CONTENT_FIELD, sendRichMessage.getProtectContent())
+                    .addPart(SendRichMessage.ALLOW_PAID_BROADCAST_FIELD, sendRichMessage.getAllowPaidBroadcast())
+                    .addPart(SendRichMessage.MESSAGE_EFFECT_ID_FIELD, sendRichMessage.getMessageEffectId())
+                    .addJsonPart(SendRichMessage.SUGGESTED_POST_PARAMETERS_FIELD, sendRichMessage.getSuggestedPostParameters())
+                    .addJsonPart(SendRichMessage.REPLY_PARAMETERS_FIELD, sendRichMessage.getReplyParameters())
+                    .addJsonPart(SendRichMessage.REPLY_MARKUP_FIELD, sendRichMessage.getReplyMarkup())
+                    .addJsonPart(SendRichMessage.RICH_MESSAGE_FIELD, sendRichMessage.getRichMessage());
+
+            List<InputMedia> media = extractMedia(sendRichMessage.getRichMessage());
+            addInputData(builder, InputRichMessage.MEDIA_FIELD, media);
+
+            Request httpPost = client.POST(url).body(builder.build());
+            return sendRequest(sendRichMessage, httpPost);
+        } catch (TelegramApiException e) {
+            return CompletableFuture.failedFuture(e);
+        } catch (IOException e) {
+            return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + sendRichMessage.getMethod(), e));
         }
     }
 
@@ -835,5 +880,41 @@ public class JettyTelegramClient extends AbstractTelegramClient {
         HttpClient httpClient = new HttpClient();
         httpClient.start();
         return httpClient;
+    }
+
+    private List<InputMedia> extractMedia(InputRichMessage inputRichMessage) {
+        List<InputMedia> mediaFromField = inputRichMessage.getMedia().stream()
+                .map(InputRichMessageMedia::getMedia)
+                .toList();
+
+        List<InputMedia> mediaFromBlocks = extractMedia(inputRichMessage.getBlocks());
+
+        return Stream.concat(mediaFromField.stream(), mediaFromBlocks.stream())
+                .toList();
+    }
+
+    private List<InputMedia> extractMedia(List<InputRichBlock> blocks) {
+        List<InputMedia> media = new ArrayList<>();
+
+        if (Objects.isNull(blocks) || blocks.isEmpty()) {
+            return media;
+        }
+
+        for (InputRichBlock block : blocks) {
+            if (block instanceof InputRichBlockPhoto photo) {
+                media.add(photo.getPhoto());
+            }
+            if (block instanceof InputRichBlockAudio audio) {
+                media.add(audio.getAudio());
+            }
+            if (block instanceof InputRichBlockVideo video) {
+                media.add(video.getVideo());
+            }
+            if (block instanceof InputRichBlockVoiceNote voiceNote) {
+                media.add(voiceNote.getVoiceNote());
+            }
+        }
+
+        return media;
     }
 }

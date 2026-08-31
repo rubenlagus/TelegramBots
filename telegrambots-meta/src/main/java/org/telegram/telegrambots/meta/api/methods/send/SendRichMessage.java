@@ -13,11 +13,13 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
 import lombok.extern.jackson.Jacksonized;
-import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMessage;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.richtext.InputRichMessage;
 import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostParameters;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 import org.telegram.telegrambots.meta.util.Validations;
 
@@ -37,21 +39,21 @@ import org.telegram.telegrambots.meta.util.Validations;
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SendRichMessage extends BotApiMethodMessage {
+public class SendRichMessage extends PartialBotApiMethod<Message> {
     public static final String PATH = "sendRichMessage";
 
-    private static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
-    private static final String CHAT_ID_FIELD = "chat_id";
-    private static final String MESSAGE_THREAD_ID_FIELD = "message_thread_id";
-    private static final String DIRECT_MESSAGES_TOPIC_ID_FIELD = "direct_messages_topic_id";
-    private static final String RICH_MESSAGE_FIELD = "rich_message";
-    private static final String DISABLE_NOTIFICATION_FIELD = "disable_notification";
-    private static final String PROTECT_CONTENT_FIELD = "protect_content";
-    private static final String ALLOW_PAID_BROADCAST_FIELD = "allow_paid_broadcast";
-    private static final String MESSAGE_EFFECT_ID_FIELD = "message_effect_id";
-    private static final String SUGGESTED_POST_PARAMETERS_FIELD = "suggested_post_parameters";
-    private static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
-    private static final String REPLY_MARKUP_FIELD = "reply_markup";
+    public static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
+    public static final String CHAT_ID_FIELD = "chat_id";
+    public static final String MESSAGE_THREAD_ID_FIELD = "message_thread_id";
+    public static final String DIRECT_MESSAGES_TOPIC_ID_FIELD = "direct_messages_topic_id";
+    public static final String RICH_MESSAGE_FIELD = "rich_message";
+    public static final String DISABLE_NOTIFICATION_FIELD = "disable_notification";
+    public static final String PROTECT_CONTENT_FIELD = "protect_content";
+    public static final String ALLOW_PAID_BROADCAST_FIELD = "allow_paid_broadcast";
+    public static final String MESSAGE_EFFECT_ID_FIELD = "message_effect_id";
+    public static final String SUGGESTED_POST_PARAMETERS_FIELD = "suggested_post_parameters";
+    public static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
+    public static final String REPLY_MARKUP_FIELD = "reply_markup";
 
     /**
      * Optional. Unique identifier of the business connection on behalf of which the message will be sent
@@ -133,6 +135,11 @@ public class SendRichMessage extends BotApiMethodMessage {
     }
 
     @Override
+    public Message deserializeResponse(String answer) throws TelegramApiRequestException {
+        return deserializeResponse(answer, Message.class);
+    }
+
+    @Override
     public String getMethod() {
         return PATH;
     }
@@ -152,7 +159,7 @@ public class SendRichMessage extends BotApiMethodMessage {
         }
     }
 
-    public static abstract class SendRichMessageBuilder<C extends SendRichMessage, B extends SendRichMessageBuilder<C, B>> extends BotApiMethodMessageBuilder<C, B> {
+    public static abstract class SendRichMessageBuilder<C extends SendRichMessage, B extends SendRichMessageBuilder<C, B>> extends PartialBotApiMethodBuilder<Message, C, B> {
         @Tolerate
         public SendRichMessageBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();

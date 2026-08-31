@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendLivePhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
 import org.telegram.telegrambots.meta.api.methods.send.SendPaidMedia;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.methods.send.SendRichMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
@@ -23,14 +24,25 @@ import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.File;
+import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlock;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockAudio;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockPhoto;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockVideo;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockVoiceNote;
+import org.telegram.telegrambots.meta.api.objects.richtext.InputRichMessage;
+import org.telegram.telegrambots.meta.api.objects.richtext.InputRichMessageMedia;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Stream;
 
 /**
  * Abstract client implementation which delegates all synchronous methods to the async methods. Preferable for implementations
@@ -42,6 +54,15 @@ public abstract class AbstractTelegramClient implements TelegramClient {
             return executeAsync(method).get();
         } catch (Exception e) {
             throw mapException(e, method.getMethod());
+        }
+    }
+
+    @Override
+    public Message execute(SendRichMessage sendRichMessage) throws TelegramApiException {
+        try {
+            return executeAsync(sendRichMessage).get();
+        } catch (Exception e) {
+            throw mapException(e, sendRichMessage.getMethod());
         }
     }
 

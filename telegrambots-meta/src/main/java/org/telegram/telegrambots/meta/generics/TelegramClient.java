@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendLivePhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
 import org.telegram.telegrambots.meta.api.methods.send.SendPaidMedia;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.methods.send.SendRichMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
@@ -36,6 +37,8 @@ public interface TelegramClient {
     <T extends Serializable, Method extends BotApiMethod<T>> CompletableFuture<T> executeAsync(Method method) throws TelegramApiException;
 
     <T extends Serializable, Method extends BotApiMethod<T>> T execute(Method method) throws TelegramApiException;
+
+    Message execute(SendRichMessage sendRichMessage) throws TelegramApiException;
 
     // Specific Send Requests
     Message execute(SendDocument sendDocument) throws TelegramApiException;
@@ -187,6 +190,8 @@ public interface TelegramClient {
      * @throws TelegramApiException If there is any error sending live photo
      */
     Message execute(SendLivePhoto sendLivePhoto) throws TelegramApiException;
+
+    CompletableFuture<Message> executeAsync(SendRichMessage sendRichMessage);
 
     CompletableFuture<Message> executeAsync(SendDocument sendDocument);
 
