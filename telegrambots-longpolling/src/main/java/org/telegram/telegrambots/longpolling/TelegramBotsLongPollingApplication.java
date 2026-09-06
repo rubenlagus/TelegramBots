@@ -1,8 +1,8 @@
 package org.telegram.telegrambots.longpolling;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
+import org.telegram.telegrambots.longpolling.interfaces.BackOff;
 import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsumer;
 import org.telegram.telegrambots.longpolling.util.DefaultGetUpdatesGenerator;
 import org.telegram.telegrambots.longpolling.util.ExponentialBackOff;
@@ -10,7 +10,7 @@ import org.telegram.telegrambots.longpolling.util.TelegramOkHttpClientFactory;
 import org.telegram.telegrambots.meta.TelegramUrl;
 import org.telegram.telegrambots.meta.api.methods.updates.GetUpdates;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.longpolling.interfaces.BackOff;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 public class TelegramBotsLongPollingApplication implements AutoCloseable {
     private final AtomicBoolean isAppRunning = new AtomicBoolean(true);
 
-    private final Supplier<ObjectMapper> objectMapperSupplier;
+    private final Supplier<JsonMapper> jsonMapperSupplier;
     private final Supplier<OkHttpClient> okHttpClientCreator;
     private final Supplier<ScheduledExecutorService> executorSupplier;
     private final Supplier<BackOff> backOffSupplier;
@@ -32,28 +32,30 @@ public class TelegramBotsLongPollingApplication implements AutoCloseable {
     private final ConcurrentHashMap<String, BotSession> botSessions = new ConcurrentHashMap<>();
 
     public TelegramBotsLongPollingApplication() {
-        this(ObjectMapper::new);
+        this(JsonMapper::new);
     }
 
-    public TelegramBotsLongPollingApplication(Supplier<ObjectMapper> objectMapperSupplier) {
-        this(objectMapperSupplier, new TelegramOkHttpClientFactory.DefaultOkHttpClientCreator());
+    public TelegramBotsLongPollingApplication(Supplier<JsonMapper> jsonMapperSupplier) {
+        this(jsonMapperSupplier, new TelegramOkHttpClientFactory.DefaultOkHttpClientCreator());
     }
 
-    public TelegramBotsLongPollingApplication(Supplier<ObjectMapper> objectMapperSupplier, Supplier<OkHttpClient> okHttpClientCreator) {
-        this(objectMapperSupplier, okHttpClientCreator, Executors::newSingleThreadScheduledExecutor);
+    public TelegramBotsLongPollingApplication(Supplier<JsonMapper> jsonMapperSupplier, Supplier<OkHttpClient> okHttpClientCreator) {
+        this(jsonMapperSupplier, okHttpClientCreator, Executors::newSingleThreadScheduledExecutor);
     }
 
-    public TelegramBotsLongPollingApplication(Supplier<ObjectMapper> objectMapperSupplier,
+    public TelegramBotsLongPollingApplication(
+            Supplier<JsonMapper> jsonMapperSupplier,
                                               Supplier<OkHttpClient> okHttpClientCreator,
                                               Supplier<ScheduledExecutorService> executorSupplier) {
-        this(objectMapperSupplier, okHttpClientCreator, executorSupplier, ExponentialBackOff::new);
+        this(jsonMapperSupplier, okHttpClientCreator, executorSupplier, ExponentialBackOff::new);
     }
 
-    public TelegramBotsLongPollingApplication(Supplier<ObjectMapper> objectMapperSupplier,
+    public TelegramBotsLongPollingApplication(
+            Supplier<JsonMapper> jsonMapperSupplier,
                                               Supplier<OkHttpClient> okHttpClientCreator,
                                               Supplier<ScheduledExecutorService> executorSupplier,
                                               Supplier<BackOff> backOffSupplier) {
-        this.objectMapperSupplier = objectMapperSupplier;
+        this.jsonMapperSupplier = jsonMapperSupplier;
         this.okHttpClientCreator = okHttpClientCreator;
         this.executorSupplier = executorSupplier;
         this.backOffSupplier = backOffSupplier;
@@ -71,7 +73,7 @@ public class TelegramBotsLongPollingApplication implements AutoCloseable {
             throw new TelegramApiException("Bot is already registered");
         } else {
             BotSession botSession = new BotSession(
-                    objectMapperSupplier.get(),
+                    jsonMapperSupplier.get(),
                     okHttpClientCreator.get(),
                     executorSupplier.get(),
                     botToken,

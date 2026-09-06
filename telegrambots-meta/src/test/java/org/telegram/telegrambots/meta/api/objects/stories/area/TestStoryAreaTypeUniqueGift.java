@@ -1,8 +1,8 @@
 package org.telegram.telegrambots.meta.api.objects.stories.area;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import tools.jackson.databind.json.JsonMapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.fail;
  * @version 9.0
  */
 public class TestStoryAreaTypeUniqueGift {
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final JsonMapper mapper = new JsonMapper();
 
     @Test
     public void testJsonSerialization() {

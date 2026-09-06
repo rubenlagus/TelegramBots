@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.client.jetty;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
@@ -53,6 +52,8 @@ import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoA
 import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoStatic;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -73,18 +74,18 @@ public class JettyTelegramClient extends AbstractTelegramClient {
     private final HttpClient client;
     private final String botToken;
     private final TelegramUrl telegramUrl;
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
 
-    public JettyTelegramClient(@NonNull ObjectMapper objectMapper, @NonNull HttpClient client,
+    public JettyTelegramClient(@NonNull JsonMapper jsonMapper, @NonNull HttpClient client,
                                @NonNull String botToken, @NonNull TelegramUrl telegramUrl) {
-        this.objectMapper = objectMapper;
+        this.jsonMapper = jsonMapper;
         this.client = client;
         this.botToken = botToken;
         this.telegramUrl = telegramUrl;
     }
 
     public JettyTelegramClient(HttpClient client, String botToken, TelegramUrl telegramUrl) {
-        this(new ObjectMapper(), client, botToken, telegramUrl);
+        this(new JsonMapper(), client, botToken, telegramUrl);
     }
 
     public JettyTelegramClient(HttpClient client, String botToken) {
@@ -108,7 +109,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
         try {
             URI url = buildUrl(method.getMethod());
-            String body = objectMapper.writeValueAsString(method);
+            String body = jsonMapper.writeValueAsString(method);
 
             Request request = client.POST(url)
                     .headers(httpFields -> {
@@ -118,7 +119,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
                     .body(new StringRequestContent("application/json", body));
 
             return sendRequest(method, request);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new TelegramApiException("Unable to execute " + method.getMethod() + " method", e);
         }
     }
@@ -159,7 +160,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
             URI url = buildUrl(setBusinessAccountProfilePhoto.getMethod());
 
-            JettyMultipartBuilder builder = new JettyMultipartBuilder(objectMapper);
+            JettyMultipartBuilder builder = new JettyMultipartBuilder(jsonMapper);
 
             builder.addPart(SetBusinessAccountProfilePhoto.BUSINESS_CONNECTION_ID_FIELD, setBusinessAccountProfilePhoto.getBusinessConnectionId())
                     .addPart(SetBusinessAccountProfilePhoto.IS_PUBLIC_FIELD, setBusinessAccountProfilePhoto.getIsPublic());
@@ -179,7 +180,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
             return sendRequest(setBusinessAccountProfilePhoto, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + setBusinessAccountProfilePhoto.getMethod(), e));
         }
     }
@@ -193,7 +194,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
             URI url = buildUrl(setMyProfilePhoto.getMethod());
 
-            JettyMultipartBuilder builder = new JettyMultipartBuilder(objectMapper);
+            JettyMultipartBuilder builder = new JettyMultipartBuilder(jsonMapper);
 
             if (InputProfilePhotoStatic.TYPE.equals(setMyProfilePhoto.getPhoto().getType())) {
                 InputProfilePhotoStatic photo = (InputProfilePhotoStatic) setMyProfilePhoto.getPhoto();
@@ -224,7 +225,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
             URI url = buildUrl(setWebhook.getMethod());
 
-            JettyMultipartBuilder builder = new JettyMultipartBuilder(objectMapper);
+            JettyMultipartBuilder builder = new JettyMultipartBuilder(jsonMapper);
 
             builder.addPart(SetWebhook.URL_FIELD, setWebhook.getUrl())
                     .addPart(SetWebhook.MAX_CONNECTIONS_FIELD, setWebhook.getMaxConnections())
@@ -240,7 +241,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
             return sendRequest(setWebhook, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + setWebhook.getMethod(), e));
         }
     }
@@ -335,7 +336,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
             URI url = buildUrl(sendPaidMedia.getMethod());
 
-            JettyMultipartBuilder builder = new JettyMultipartBuilder(objectMapper);
+            JettyMultipartBuilder builder = new JettyMultipartBuilder(jsonMapper);
 
             addPaidInputData(builder, SendPaidMedia.MEDIA_FIELD, sendPaidMedia.getMedia());
 
@@ -360,7 +361,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
             return sendRequest(sendPaidMedia, httpPost).thenApply(list -> list);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + sendPaidMedia.getMethod(), e));
         }
     }
@@ -373,7 +374,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
             URI url = buildUrl(sendMediaGroup.getMethod());
 
-            JettyMultipartBuilder builder = new JettyMultipartBuilder(objectMapper);
+            JettyMultipartBuilder builder = new JettyMultipartBuilder(jsonMapper);
 
             addInputData(builder, SendMediaGroup.MEDIA_FIELD, sendMediaGroup.getMedias());
 
@@ -400,7 +401,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
             return sendRequest(sendMediaGroup, httpPost).thenApply(list -> list);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + sendMediaGroup.getMethod(), e));
         }
     }
@@ -470,7 +471,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
             URI url = buildUrl(setChatPhoto.getMethod());
 
-            JettyMultipartBuilder builder = new JettyMultipartBuilder(objectMapper);
+            JettyMultipartBuilder builder = new JettyMultipartBuilder(jsonMapper);
 
             builder.addPart(SetChatPhoto.CHATID_FIELD, setChatPhoto.getChatId());
 
@@ -493,7 +494,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
             URI url = buildUrl(addStickerToSet.getMethod());
 
-            JettyMultipartBuilder builder = new JettyMultipartBuilder(objectMapper);
+            JettyMultipartBuilder builder = new JettyMultipartBuilder(jsonMapper);
 
             builder.addPart(AddStickerToSet.USERID_FIELD, addStickerToSet.getUserId())
                     .addPart(AddStickerToSet.NAME_FIELD, addStickerToSet.getName());
@@ -504,7 +505,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
             return sendRequest(addStickerToSet, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + addStickerToSet.getMethod(), e));
         }
     }
@@ -517,7 +518,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
             URI url = buildUrl(replaceStickerInSet.getMethod());
 
-            JettyMultipartBuilder builder = new JettyMultipartBuilder(objectMapper);
+            JettyMultipartBuilder builder = new JettyMultipartBuilder(jsonMapper);
 
             builder.addPart(ReplaceStickerInSet.USERID_FIELD, replaceStickerInSet.getUserId())
                     .addPart(ReplaceStickerInSet.OLD_STICKER_FIELD, replaceStickerInSet.getOldSticker())
@@ -529,7 +530,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
             return sendRequest(replaceStickerInSet, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + replaceStickerInSet.getMethod(), e));
         }
     }
@@ -542,7 +543,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
             URI url = buildUrl(setStickerSetThumbnail.getMethod());
 
-            JettyMultipartBuilder builder = new JettyMultipartBuilder(objectMapper);
+            JettyMultipartBuilder builder = new JettyMultipartBuilder(jsonMapper);
 
             builder.addPart(SetStickerSetThumbnail.USER_ID_FIELD, setStickerSetThumbnail.getUserId())
                     .addPart(SetStickerSetThumbnail.NAME_FIELD, setStickerSetThumbnail.getName())
@@ -564,7 +565,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
             URI url = buildUrl(createNewStickerSet.getMethod());
 
-            JettyMultipartBuilder builder = new JettyMultipartBuilder(objectMapper);
+            JettyMultipartBuilder builder = new JettyMultipartBuilder(jsonMapper);
 
             builder.addPart(CreateNewStickerSet.USER_ID_FIELD, createNewStickerSet.getUserId())
                     .addPart(CreateNewStickerSet.NAME_FIELD, createNewStickerSet.getName())
@@ -577,7 +578,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
             return sendRequest(createNewStickerSet, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + createNewStickerSet.getMethod(), e));
         }
     }
@@ -590,7 +591,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
             URI url = buildUrl(uploadStickerFile.getMethod());
 
-            JettyMultipartBuilder builder = new JettyMultipartBuilder(objectMapper);
+            JettyMultipartBuilder builder = new JettyMultipartBuilder(jsonMapper);
 
             builder
                     .addPart(UploadStickerFile.USERID_FIELD, uploadStickerFile.getUserId())
@@ -614,7 +615,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
             URI url = buildUrl(editMessageMedia.getMethod());
 
-            JettyMultipartBuilder builder = new JettyMultipartBuilder(objectMapper);
+            JettyMultipartBuilder builder = new JettyMultipartBuilder(jsonMapper);
 
             builder.addPart(EditMessageMedia.CHAT_ID_FIELD, editMessageMedia.getChatId())
                     .addPart(EditMessageMedia.MESSAGE_ID_FIELD, editMessageMedia.getMessageId())
@@ -628,7 +629,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
             return sendRequest(editMessageMedia, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + editMessageMedia.getMethod(), e));
         }
     }
@@ -729,7 +730,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
             URI url = buildUrl(method.getMethod());
 
-            JettyMultipartBuilder builder = new JettyMultipartBuilder(objectMapper);
+            JettyMultipartBuilder builder = new JettyMultipartBuilder(jsonMapper);
 
             builder.addInputFile(method.getFileField(), method.getFile(), true);
 
@@ -756,7 +757,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
             return sendRequest(method, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + method.getMethod(), e));
         }
     }
@@ -774,7 +775,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
         return uri;
     }
 
-    private void addInputData(JettyMultipartBuilder builder, String mediaField, InputMedia media, boolean addField) throws IOException {
+    private void addInputData(JettyMultipartBuilder builder, String mediaField, InputMedia media, boolean addField) throws IOException, JacksonException {
         if (media.isNewMedia()) {
             builder.addMedia(media);
         }
@@ -807,7 +808,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
         }
     }
 
-    private void addInputData(JettyMultipartBuilder builder, String mediaField, InputPaidMedia media, boolean addField) throws IOException {
+    private void addInputData(JettyMultipartBuilder builder, String mediaField, InputPaidMedia media, boolean addField) throws IOException, JacksonException {
         if (media.isNewMedia()) {
             builder.addMedia(media);
         }
@@ -828,7 +829,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
         }
     }
 
-    private void addPaidInputData(JettyMultipartBuilder builder, String mediaField, List<InputPaidMedia> media) throws IOException {
+    private void addPaidInputData(JettyMultipartBuilder builder, String mediaField, List<InputPaidMedia> media) throws IOException, JacksonException {
         for (InputPaidMedia inputMedia : media) {
             addInputData(builder, null, inputMedia, false);
         }
@@ -836,7 +837,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
         builder.addJsonPart(mediaField, media);
     }
 
-    private void addInputData(JettyMultipartBuilder builder, String mediaField, List<InputMedia> media) throws IOException {
+    private void addInputData(JettyMultipartBuilder builder, String mediaField, List<InputMedia> media) throws IOException, JacksonException {
         for (InputMedia inputMedia : media) {
             addInputData(builder, null, inputMedia, false);
         }

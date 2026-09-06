@@ -1,13 +1,12 @@
 package org.telegram.telegrambots.meta.api.objects.richtext;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.JsonToken;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.deser.std.StdDeserializer;
+import tools.jackson.databind.jsontype.TypeDeserializer;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -65,12 +64,12 @@ public class RichTextDeserializer extends StdDeserializer<RichText> {
      */
     @Override
     public RichText deserializeWithType(JsonParser p, DeserializationContext ctx,
-                                        TypeDeserializer typeDeserializer) throws IOException {
+                                        TypeDeserializer typeDeserializer) {
         return deserialize(p, ctx);
     }
 
     @Override
-    public RichText deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
+    public RichText deserialize(JsonParser p, DeserializationContext ctx) {
         JsonToken token = p.currentToken();
 
         if (token == JsonToken.VALUE_STRING) {

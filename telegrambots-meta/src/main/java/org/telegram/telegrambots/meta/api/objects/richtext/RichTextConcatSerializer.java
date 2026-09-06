@@ -1,11 +1,9 @@
 package org.telegram.telegrambots.meta.api.objects.richtext;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-
-import java.io.IOException;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.jsontype.TypeSerializer;
+import tools.jackson.databind.ser.std.StdSerializer;
 
 /**
  * Serializes {@link RichTextConcat} as a bare JSON array of its child nodes.
@@ -23,15 +21,19 @@ public class RichTextConcatSerializer extends StdSerializer<RichTextConcat> {
      */
     @Override
     public void serializeWithType(RichTextConcat value, JsonGenerator gen,
-                                  SerializerProvider provider, TypeSerializer typeSer) throws IOException {
-        serialize(value, gen, provider);
+                                  SerializationContext ctxt, TypeSerializer typeSer) {
+        serialize(value, gen, ctxt);
     }
 
     @Override
-    public void serialize(RichTextConcat value, JsonGenerator gen, SerializerProvider provider) throws IOException {
+    public void serialize(RichTextConcat value, JsonGenerator gen, SerializationContext ctxt) {
         gen.writeStartArray();
         for (RichText text : value.getTexts()) {
-            provider.defaultSerializeValue(text, gen);
+            if (text == null) {
+                ctxt.defaultSerializeNullValue(gen);
+            } else {
+                ctxt.findValueSerializer(text.getClass()).serialize(text, gen, ctxt);
+            }
         }
         gen.writeEndArray();
     }

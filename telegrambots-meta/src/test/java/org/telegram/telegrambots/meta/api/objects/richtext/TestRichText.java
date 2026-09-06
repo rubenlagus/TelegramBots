@@ -1,8 +1,8 @@
 package org.telegram.telegrambots.meta.api.objects.richtext;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 
@@ -19,11 +19,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @version 10.1
  */
 public class TestRichText {
-    private ObjectMapper mapper;
+    private JsonMapper mapper;
 
     @BeforeEach
     void setUp() {
-        mapper = new ObjectMapper();
+        mapper = new JsonMapper();
     }
 
     @Test
