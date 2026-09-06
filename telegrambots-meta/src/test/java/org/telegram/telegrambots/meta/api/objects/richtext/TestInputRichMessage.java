@@ -1,10 +1,19 @@
 package org.telegram.telegrambots.meta.api.objects.richtext;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.telegram.telegrambots.meta.api.methods.send.SendRichMessage;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockParagraph;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockTable;
+import org.telegram.telegrambots.meta.api.objects.richblock.RichBlockTableCell;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -99,7 +108,7 @@ public class TestInputRichMessage {
         InputRichMessage message = new InputRichMessage();
 
         TelegramApiValidationException ex = assertThrows(TelegramApiValidationException.class, message::validate);
-        assertEquals("Either html or markdown parameter must be provided", ex.getMessage());
+        assertEquals("Exactly one of html, markdown or blocks parameter must be provided", ex.getMessage());
     }
 
     @Test
@@ -110,7 +119,7 @@ public class TestInputRichMessage {
                 .build();
 
         TelegramApiValidationException ex = assertThrows(TelegramApiValidationException.class, message::validate);
-        assertEquals("Only one of html or markdown parameter can be provided", ex.getMessage());
+        assertEquals("Only one of html, markdown or blocks parameter can be provided", ex.getMessage());
     }
 
     @Test
@@ -120,6 +129,86 @@ public class TestInputRichMessage {
                 .build();
 
         TelegramApiValidationException ex = assertThrows(TelegramApiValidationException.class, message::validate);
-        assertTrue(ex.getMessage().contains("Either html or markdown"));
+        assertTrue(ex.getMessage().contains("Exactly one of html, markdown or blocks"));
+    }
+
+    @Test
+    public void testValidateWithOnlyBlocksDoesNotThrow() {
+        InputRichMessage message = InputRichMessage.builder()
+                .blocks(List.of(new InputRichBlockParagraph(new RichTextPlain("Hello"))))
+                .build();
+
+        assertDoesNotThrow(message::validate);
+    }
+
+    @Test
+    public void testValidateWithBlocksAndHtmlThrows() {
+        InputRichMessage message = InputRichMessage.builder()
+                .html("<p>Hello</p>")
+                .blocks(List.of(new InputRichBlockParagraph(new RichTextPlain("Hello"))))
+                .build();
+
+        TelegramApiValidationException ex = assertThrows(TelegramApiValidationException.class, message::validate);
+        assertEquals("Only one of html, markdown or blocks parameter can be provided", ex.getMessage());
+    }
+
+    @Test
+    public void testValidateWithEmptyBlocksThrows() {
+        InputRichMessage message = InputRichMessage.builder()
+                .blocks(List.of())
+                .build();
+
+        TelegramApiValidationException ex = assertThrows(TelegramApiValidationException.class, message::validate);
+        assertEquals("Exactly one of html, markdown or blocks parameter must be provided", ex.getMessage());
+    }
+
+    @Test
+    public void testSendRichMessageWithTableSerializesPlainCellTextAsBareString() throws Exception {
+        // Issue #1599: a table whose cells hold RichTextBold(RichTextPlain(...)). Telegram rejected the
+        // payload with "Can't parse PageBlockTableCell: Unsupported rich text type" because the plain
+        // node was written as {"type":"plain","text":...} instead of a bare JSON string.
+        InputRichBlockTable table = InputRichBlockTable.builder()
+                .cells(List.of(
+                        List.of(header("Иван")),
+                        List.of(header("500"))
+                ))
+                .build();
+
+        SendRichMessage sendRichMessage = SendRichMessage.builder()
+                .chatId("12345")
+                .richMessage(InputRichMessage.builder().blocks(List.of(table)).build())
+                .build();
+
+        assertDoesNotThrow(sendRichMessage::validate);
+
+        String json = new ObjectMapper().writeValueAsString(sendRichMessage);
+        assertFalse(json.contains("\"plain\""), "plain is not a Bot API rich text type: " + json);
+        assertTrue(json.contains(
+                "{\"text\":{\"type\":\"bold\",\"text\":\"Иван\"},\"is_header\":true,\"align\":\"left\",\"valign\":\"middle\"}"),
+                json);
+        assertTrue(json.contains(
+                "{\"text\":{\"type\":\"bold\",\"text\":\"500\"},\"is_header\":true,\"align\":\"left\",\"valign\":\"middle\"}"),
+                json);
+    }
+
+    private RichBlockTableCell header(String text) {
+        return RichBlockTableCell.builder()
+                .text(new RichTextBold(new RichTextPlain(text)))
+                .isHeader(true)
+                .align("left")
+                .valign("middle")
+                .build();
+    }
+
+    @Test
+    public void testInputRichMessageWithMedia() {
+        InputRichMessage message = InputRichMessage.builder()
+                .html("<img src=\"tg://photo?id=pic1\"/>")
+                .media(List.of(new InputRichMessageMedia("pic1", new InputMediaPhoto("fileId"))))
+                .build();
+
+        assertDoesNotThrow(message::validate);
+        assertEquals(1, message.getMedia().size());
+        assertEquals("pic1", message.getMedia().get(0).getId());
     }
 }

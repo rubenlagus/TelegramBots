@@ -57,7 +57,8 @@ import java.util.List;
         @JsonSubTypes.Type(value = InputMediaLivePhoto.class, name = "live_photo"),
         @JsonSubTypes.Type(value = InputMediaLocation.class, name = "location"),
         @JsonSubTypes.Type(value = InputMediaVenue.class, name = "venue"),
-        @JsonSubTypes.Type(value = InputMediaSticker.class, name = "sticker")
+        @JsonSubTypes.Type(value = InputMediaSticker.class, name = "sticker"),
+        @JsonSubTypes.Type(value = InputMediaVoiceNote.class, name = "voice_note")
 })
 public abstract class InputMedia implements Validable, BotApiObject, InputPollMedia, InputPollOptionMedia {
     public static final String TYPE_FIELD = "type";

@@ -27,5 +27,7 @@ public final class AllowedUpdates {
     public static final String CHATJOINREQUEST = "chat_join_request";
     public static final String CHATBOOST = "chat_boost";
     public static final String REMOVEDCHATBOOST = "removed_chat_boost";
+    public static final String SUBSCRIPTION = "subscription";
+    public static final String STOPPEDMESSAGEGENERATION = "stopped_message_generation";
 
 }

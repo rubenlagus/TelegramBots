@@ -196,4 +196,8 @@ public final class TelegramBotsHelper {
     public static String GetSetGameScoreMessageResponse() {
         return "{\"ok\": true,\"result\": {\"date\": 1441645532,\"chat\": {\"last_name\": \"Test Lastname\",\"id\": 1111111,\"type\": \"private\",\"first_name\": \"Test Firstname\",\"username\": \"Testusername\"},\"message_id\": 1365,\"from\": {\"last_name\": \"Test Lastname\",\"id\": 1111111,\"first_name\": \"Test Firstname\",\"username\": \"Testusername\",\"is_bot\": false},\"text\": \"Original\"}}";
     }
+
+    public static String GetCommandMessage() {
+        return "{\"message_id\": 1, \"date\": 1, \"text\": \"/debug\", \"entities\": [{\"type\": \"bot_command\", \"offset\": 0, \"length\": 6}]}";
+    }
 }

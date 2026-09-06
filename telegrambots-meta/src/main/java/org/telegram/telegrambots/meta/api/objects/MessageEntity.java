@@ -127,6 +127,9 @@ public class MessageEntity implements BotApiObject {
 
     public void computeText(String message) {
         if (message != null) {
+            if (text != null) {
+                return;
+            }
             text = message.substring(offset, offset + length);
         }
     }

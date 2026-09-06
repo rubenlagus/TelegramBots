@@ -25,9 +25,13 @@ import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
 import org.telegram.telegrambots.meta.api.methods.send.SendVoice;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditEphemeralMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
+import org.telegram.telegrambots.meta.api.objects.ephemeral.EphemeralMessageParameters;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoStatic;
+import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostParameters;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
@@ -343,6 +347,74 @@ public class TestTelegramClientIntegration {
 
         TelegramApiRequestException exception = Assertions.assertThrows(TelegramApiRequestException.class, () -> client.execute(method));
         assertEquals(404, exception.getErrorCode());
+    }
+
+    /**
+     * Bot API 10.3 wire contract: the ephemeral parameters must reach the server as a single JSON
+     * part named ephemeral_message_parameters, and the 10.2 flat parts must be gone. Also pins
+     * suggested_post_parameters as JSON rather than a Lombok toString().
+     */
+    @Test
+    void testSendPhotoWritesEphemeralParametersAsJsonPart() throws Exception {
+        SendPhoto method = SendPhoto.builder()
+                .chatId("someChatId")
+                .photo(new InputFile(getTestFile()))
+                .ephemeralMessageParameters(EphemeralMessageParameters.builder()
+                        .receiverUserId(99L)
+                        .callbackQueryId("cq-1")
+                        .replaceCallbackQueryMessage(true)
+                        .build())
+                .suggestedPostParameters(SuggestedPostParameters.builder().sendDate(1700000000).build())
+                .build();
+
+        Message responseMessage = new Message();
+        responseMessage.setChat(TestData.GROUP_CHAT);
+        responseMessage.setFrom(TestData.TEST_USER);
+        responseMessage.setText("someText");
+        mockMethod(method, responseMessage);
+
+        client.execute(method);
+
+        String body = webServer.takeRequest().getBody().readUtf8();
+
+        // 1. the nested object is present as a JSON part
+        assertTrue(body.contains("name=\"ephemeral_message_parameters\""), body);
+        assertTrue(body.contains("\"receiver_user_id\":99"), body);
+        assertTrue(body.contains("\"callback_query_id\":\"cq-1\""), body);
+        assertTrue(body.contains("\"replace_callback_query_message\":true"), body);
+
+        // 2. the 10.2 flat parts must not exist any more
+        assertFalse(body.contains("name=\"receiver_user_id\""), body);
+        assertFalse(body.contains("name=\"callback_query_id\""), body);
+
+        // 3. suggested_post_parameters is JSON, not Lombok's toString()
+        assertTrue(body.contains("name=\"suggested_post_parameters\""), body);
+        assertTrue(body.contains("\"send_date\":1700000000"), body);
+        assertFalse(body.contains("SuggestedPostParameters("), body);
+    }
+
+    /**
+     * Bot API 10.3 made editEphemeralMessageMedia a PartialBotApiMethod so a brand-new file can be
+     * uploaded. Asserts the multipart body carries the media part and the scalar parameters.
+     */
+    @Test
+    void testEditEphemeralMessageMediaUploadsNewFile() throws Exception {
+        EditEphemeralMessageMedia method = EditEphemeralMessageMedia.builder()
+                .chatId("someChatId")
+                .receiverUserId(99L)
+                .ephemeralMessageId(7)
+                .media(new InputMediaPhoto(getTestFile(), "photo.jpg"))
+                .build();
+
+        mockMethod(method, true);
+
+        assertTrue(client.execute(method));
+
+        String body = webServer.takeRequest().getBody().readUtf8();
+        assertTrue(body.contains("name=\"media\""), body);
+        assertTrue(body.contains("name=\"chat_id\""), body);
+        assertTrue(body.contains("name=\"receiver_user_id\""), body);
+        assertTrue(body.contains("name=\"ephemeral_message_id\""), body);
     }
 
     @NotNull

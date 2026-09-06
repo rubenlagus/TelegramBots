@@ -6,9 +6,13 @@ import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.DisabledButton;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Ruben Bermudez
@@ -482,6 +486,50 @@ public class TestRichText {
         assertEquals("Hello, world!", ((RichTextPlain) deserialized).getText());
     }
 
+    // --- Plain text must serialize as a bare JSON string (issue #1599) ---
+    // The Bot API defines RichText as "either a String for plain text, an Array of RichText, or
+    // any of the following types" - there is no "plain" type on the wire. Emitting
+    // {"type":"plain",...} makes Telegram answer "Unsupported rich text type".
+
+    @Test
+    public void testRichTextPlainSerializesAsBareString() throws IOException {
+        RichTextPlain plain = RichTextPlain.builder().text("Иван").build();
+
+        assertEquals("\"Иван\"", mapper.writeValueAsString(plain));
+    }
+
+    @Test
+    public void testRichTextPlainNestedInBoldSerializesAsBareString() throws IOException {
+        RichTextBold bold = RichTextBold.builder()
+                .text(RichTextPlain.builder().text("Иван").build())
+                .build();
+
+        assertEquals("{\"type\":\"bold\",\"text\":\"Иван\"}", mapper.writeValueAsString(bold));
+    }
+
+    @Test
+    public void testRichTextPlainNestedInBoldDeclaredAsRichTextSerializesAsBareString() throws IOException {
+        RichText bold = RichTextBold.builder()
+                .text(RichTextPlain.builder().text("Иван").build())
+                .build();
+
+        assertEquals("{\"type\":\"bold\",\"text\":\"Иван\"}", mapper.writeValueAsString(bold));
+    }
+
+    @Test
+    public void testRichTextConcatSerializesPlainChildrenAsBareStrings() throws IOException {
+        RichTextConcat concat = RichTextConcat.builder()
+                .texts(java.util.List.of(
+                        RichTextPlain.builder().text("Hello ").build(),
+                        RichTextBold.builder().text(RichTextPlain.builder().text("world").build()).build(),
+                        RichTextPlain.builder().text("!").build()
+                ))
+                .build();
+
+        assertEquals("[\"Hello \",{\"type\":\"bold\",\"text\":\"world\"},\"!\"]",
+                mapper.writeValueAsString(concat));
+    }
+
     // --- Raw JSON string form ("Politics" → plain text node) ---
 
     @Test
@@ -610,5 +658,70 @@ public class TestRichText {
         RichTextBold bold = (RichTextBold) concat.getTexts().get(1);
         assertInstanceOf(RichTextPlain.class, bold.getText());
         assertEquals("world", ((RichTextPlain) bold.getText()).getText());
+    }
+
+    @Test
+    public void testRichTextButtonTypeConstant() {
+        assertEquals("button", RichTextButton.TYPE);
+    }
+
+    @Test
+    public void testSerializeRichTextButton() throws IOException {
+        RichTextButton button = RichTextButton.builder()
+                .button(RichMessageButton.builder()
+                        .text(new RichTextPlain("Press me"))
+                        .callbackData("cb")
+                        .style("primary")
+                        .build())
+                .build();
+
+        String json = mapper.writeValueAsString(button);
+
+        assertTrue(json.contains("\"type\":\"button\""), json);
+        assertTrue(json.contains("\"callback_data\":\"cb\""), json);
+        assertTrue(json.contains("\"style\":\"primary\""), json);
+        assertTrue(json.contains("\"text\":\"Press me\""), json);
+    }
+
+    /**
+     * Guards the two-place registration: RichText is deserialized by RichTextDeserializer, not by
+     * JsonSubTypes, so a subtype missing from RichTextDeserializer.TYPE_MAP deserializes to null.
+     */
+    @Test
+    public void testDeserializeRichTextButtonAsRichText() throws IOException {
+        String json = "{\"type\":\"button\",\"button\":{\"text\":\"Press me\",\"callback_data\":\"cb\"}}";
+
+        RichText result = mapper.readValue(json, RichText.class);
+
+        assertNotNull(result, "RichTextButton missing from RichTextDeserializer.TYPE_MAP");
+        assertInstanceOf(RichTextButton.class, result);
+        RichMessageButton button = ((RichTextButton) result).getButton();
+        assertEquals("cb", button.getCallbackData());
+        assertInstanceOf(RichTextPlain.class, button.getText());
+        assertEquals("Press me", ((RichTextPlain) button.getText()).getText());
+    }
+
+    @Test
+    public void testRichMessageButtonOptionalFieldsOmitted() throws IOException {
+        RichMessageButton button = RichMessageButton.builder()
+                .text(new RichTextPlain("bare"))
+                .build();
+
+        String json = mapper.writeValueAsString(button);
+
+        assertFalse(json.contains("style"), json);
+        assertFalse(json.contains("url"), json);
+        assertFalse(json.contains("callback_data"), json);
+        assertFalse(json.contains("disabled"), json);
+    }
+
+    @Test
+    public void testRichMessageButtonWithDisabled() throws IOException {
+        RichMessageButton button = RichMessageButton.builder()
+                .text(new RichTextPlain("nope"))
+                .disabled(new DisabledButton())
+                .build();
+
+        assertTrue(mapper.writeValueAsString(button).contains("\"disabled\":{}"));
     }
 }

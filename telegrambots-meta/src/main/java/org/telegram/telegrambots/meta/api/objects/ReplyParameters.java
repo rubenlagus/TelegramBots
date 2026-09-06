@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
@@ -21,18 +20,18 @@ import java.util.List;
 /**
  * Describes reply parameters for the message that is being sent.
  * @author Ruben Bermudez
- * @version 7.0
+ * @version 10.2
  */
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-@RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 public class ReplyParameters implements BotApiObject, Validable {
     private static final String MESSAGE_ID_FIELD = "message_id";
+    private static final String EPHEMERAL_MESSAGE_ID_FIELD = "ephemeral_message_id";
     private static final String CHAT_ID_FIELD = "chat_id";
     private static final String ALLOW_SENDING_WITHOUT_REPLY_FIELD = "allow_sending_without_reply";
     private static final String QUOTE_PARSE_MODE_FIELD = "quote_parse_mode";
@@ -43,11 +42,21 @@ public class ReplyParameters implements BotApiObject, Validable {
     private static final String POLL_OPTION_ID_FIELD = "poll_option_id";
 
     /**
-     * 	Identifier of the message that will be replied to in the current chat, or in the chat chat_id if it is specified
+     * Optional.
+     * Identifier of the message that will be replied to in the current chat, or in the chat chat_id if it is specified
+     * @apiNote Required if ephemeralMessageId isn't specified.
      */
-    @NonNull
     @JsonProperty(MESSAGE_ID_FIELD)
     private Integer messageId;
+    /**
+     * Optional.
+     * Identifier of the incoming ephemeral message that will be replied to in the current chat.
+     * A reply to an ephemeral message must itself be an ephemeral message.
+     * An ephemeral message may only be replied to within 15 seconds of being sent.
+     * @apiNote Required if messageId isn't specified.
+     */
+    @JsonProperty(EPHEMERAL_MESSAGE_ID_FIELD)
+    private Integer ephemeralMessageId;
     /**
      * Optional.
      * If the message to be replied to is from a different chat, unique identifier for the chat or username of the channel (in the format @channelusername)
@@ -105,8 +114,15 @@ public class ReplyParameters implements BotApiObject, Validable {
     @JsonProperty(QUOTE_POSITION_FIELD)
     private Integer quotePosition;
 
+    public ReplyParameters(Integer messageId) {
+        this.messageId = messageId;
+    }
+
     @Override
     public void validate() throws TelegramApiValidationException {
+        if (messageId == null && ephemeralMessageId == null) {
+            throw new TelegramApiValidationException("Either messageId or ephemeralMessageId parameter must be provided", this);
+        }
         if (chatId != null && chatId.isEmpty()) {
             throw new TelegramApiValidationException("ChatId parameter can't be empty string", this);
         }
