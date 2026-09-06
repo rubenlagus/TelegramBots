@@ -4,16 +4,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.location.Location;
+import org.telegram.telegrambots.meta.api.objects.LoginUrl;
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaDocument;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaVoiceNote;
+import org.telegram.telegrambots.meta.api.objects.richtext.InputRichMessage;
+import org.telegram.telegrambots.meta.api.objects.richtext.RichMessageButton;
 import org.telegram.telegrambots.meta.api.objects.richtext.RichTextPlain;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -200,5 +207,95 @@ public class TestInputRichBlock {
         String json = mapper.writeValueAsString(voiceNote);
         assertTrue(json.contains("\"type\":\"voice_note\""), json);
         assertTrue(json.contains("\"duration\":42"), json);
+    }
+
+    @Test
+    public void testNewTypeConstants() {
+        assertEquals("buttons", InputRichBlockButtons.TYPE);
+        assertEquals("expandable_blockquote", InputRichBlockExpandableBlockQuotation.TYPE);
+        assertEquals("document", InputRichBlockDocument.TYPE);
+    }
+
+    @Test
+    public void testSerializeButtonsBlock() throws IOException {
+        InputRichBlockButtons block = InputRichBlockButtons.builder()
+                .buttons(List.of(RichMessageButton.builder()
+                        .text(new RichTextPlain("Yes"))
+                        .callbackData("y")
+                        .build()))
+                .align("left")
+                .build();
+
+        String json = mapper.writeValueAsString(block);
+
+        assertTrue(json.contains("\"type\":\"buttons\""), json);
+        assertTrue(json.contains("\"align\":\"left\""), json);
+        assertTrue(json.contains("\"callback_data\":\"y\""), json);
+    }
+
+    @Test
+    public void testSerializeExpandableBlockQuotation() throws IOException {
+        InputRichBlockExpandableBlockQuotation block = InputRichBlockExpandableBlockQuotation.builder()
+                .text(new RichTextPlain("Quoted"))
+                .build();
+
+        String json = mapper.writeValueAsString(block);
+
+        assertTrue(json.contains("\"type\":\"expandable_blockquote\""), json);
+        assertFalse(json.contains("credit"), json);
+    }
+
+    @Test
+    public void testSerializeDocumentBlock() throws IOException {
+        InputRichBlockDocument block = InputRichBlockDocument.builder()
+                .document(new InputMediaDocument("file-id"))
+                .build();
+
+        String json = mapper.writeValueAsString(block);
+
+        assertTrue(json.contains("\"type\":\"document\""), json);
+        assertFalse(json.contains("caption"), json);
+    }
+
+    @Test
+    public void testInputTableIsCompactOmittedWhenUnset() throws IOException {
+        InputRichBlockTable table = InputRichBlockTable.builder()
+                .cells(List.of())
+                .build();
+
+        assertFalse(mapper.writeValueAsString(table).contains("is_compact"));
+    }
+
+    /**
+     * InputRichBlockTable is an outbound object, so emitting is_compact is the direction that
+     * reaches Telegram. The omitted-when-unset case above cannot show that it serializes at all.
+     */
+    @Test
+    public void testInputTableIsCompactSerializesAndRoundTrips() throws IOException {
+        InputRichBlockTable table = InputRichBlockTable.builder()
+                .cells(List.of())
+                .isCompact(true)
+                .build();
+
+        String json = mapper.writeValueAsString(table);
+
+        assertTrue(json.contains("\"is_compact\":true"), json);
+
+        InputRichBlockTable parsed = mapper.readValue(json, InputRichBlockTable.class);
+        assertTrue(parsed.getIsCompact());
+    }
+
+    @Test
+    public void testInputRichMessageValidatesNestedButtons() {
+        InputRichMessage message = InputRichMessage.builder()
+                .blocks(List.of(InputRichBlockButtons.builder()
+                        .buttons(List.of(RichMessageButton.builder()
+                                .text(new RichTextPlain("x"))
+                                .loginUrl(new LoginUrl(""))   // invalid: empty url
+                                .build()))
+                        .build()))
+                .build();
+
+        assertThrows(TelegramApiValidationException.class, message::validate);
     }
 }

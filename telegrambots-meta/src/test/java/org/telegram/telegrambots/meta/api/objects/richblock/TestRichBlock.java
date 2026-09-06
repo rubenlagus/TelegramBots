@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.richtext.RichTextAnchor;
 import org.telegram.telegrambots.meta.api.objects.richtext.RichTextMathematicalExpression;
+import org.telegram.telegrambots.meta.api.objects.richtext.RichTextPlain;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Ruben Bermudez
@@ -633,5 +635,59 @@ public class TestRichBlock {
         RichBlockSlideshow slideshow = (RichBlockSlideshow) msg.getBlocks().get(1);
         assertEquals(1, slideshow.getBlocks().size());
         assertInstanceOf(RichBlockPhoto.class, slideshow.getBlocks().get(0));
+    }
+
+    @Test
+    public void testNewTypeConstants() {
+        assertEquals("buttons", RichBlockButtons.TYPE);
+        assertEquals("expandable_blockquote", RichBlockExpandableBlockQuotation.TYPE);
+        assertEquals("document", RichBlockDocument.TYPE);
+    }
+
+    @Test
+    public void testDeserializeButtonsBlock() throws IOException {
+        String json = "{\"type\":\"buttons\",\"align\":\"center\",\"buttons\":"
+                + "[{\"text\":\"Yes\",\"callback_data\":\"y\"},{\"text\":\"No\",\"callback_data\":\"n\"}]}";
+
+        RichBlock block = mapper.readValue(json, RichBlock.class);
+
+        assertInstanceOf(RichBlockButtons.class, block);
+        RichBlockButtons buttons = (RichBlockButtons) block;
+        assertEquals("center", buttons.getAlign());
+        assertEquals(2, buttons.getButtons().size());
+        assertEquals("y", buttons.getButtons().get(0).getCallbackData());
+    }
+
+    @Test
+    public void testDeserializeExpandableBlockQuotation() throws IOException {
+        String json = "{\"type\":\"expandable_blockquote\",\"text\":\"Quoted\",\"credit\":\"The Author\"}";
+
+        RichBlock block = mapper.readValue(json, RichBlock.class);
+
+        assertInstanceOf(RichBlockExpandableBlockQuotation.class, block);
+        RichBlockExpandableBlockQuotation quote = (RichBlockExpandableBlockQuotation) block;
+        assertInstanceOf(RichTextPlain.class, quote.getText());
+        assertEquals("Quoted", ((RichTextPlain) quote.getText()).getText());
+        assertEquals("The Author", ((RichTextPlain) quote.getCredit()).getText());
+    }
+
+    @Test
+    public void testDeserializeDocumentBlock() throws IOException {
+        String json = "{\"type\":\"document\",\"document\":{\"file_id\":\"abc\",\"file_unique_id\":\"u\"}}";
+
+        RichBlock block = mapper.readValue(json, RichBlock.class);
+
+        assertInstanceOf(RichBlockDocument.class, block);
+        assertEquals("abc", ((RichBlockDocument) block).getDocument().getFileId());
+    }
+
+    @Test
+    public void testTableIsCompact() throws IOException {
+        String json = "{\"type\":\"table\",\"cells\":[],\"is_compact\":true}";
+
+        RichBlock block = mapper.readValue(json, RichBlock.class);
+
+        assertInstanceOf(RichBlockTable.class, block);
+        assertTrue(((RichBlockTable) block).getIsCompact());
     }
 }

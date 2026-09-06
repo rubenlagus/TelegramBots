@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * @author Ruben Bermudez
- * @version 1.0
+ * @version 10.3
  * This object represents a custom keyboard with reply options (see Introduction to bots for details and examples).
  * @apiNote Not supported in channels and for messages sent on behalf of a Telegram Business account.
  */
@@ -41,6 +41,7 @@ public class ReplyKeyboardMarkup implements ReplyKeyboard {
     private static final String SELECTIVE_FIELD = "selective";
     private static final String INPUTFIELDPLACEHOLDER_FIELD = "input_field_placeholder";
     private static final String ISPERSISTENT_FIELD = "is_persistent";
+    private static final String FORCE_REPLY_FIELD = "force_reply";
 
     @JsonProperty(KEYBOARD_FIELD)
     @NonNull
@@ -72,6 +73,14 @@ public class ReplyKeyboardMarkup implements ReplyKeyboard {
      */
     @JsonProperty(ISPERSISTENT_FIELD)
     private Boolean isPersistent;
+    /**
+     * Optional.
+     * Pass True if the reply interface must be shown to the user, as if they had manually
+     * selected the bot's message and tapped 'Reply'
+     */
+    @JsonProperty(FORCE_REPLY_FIELD)
+    private Boolean forceReply;
+
     @Override
     public void validate() throws TelegramApiValidationException {
         if (inputFieldPlaceholder != null && (inputFieldPlaceholder.isEmpty() || inputFieldPlaceholder.length() > 64)) {

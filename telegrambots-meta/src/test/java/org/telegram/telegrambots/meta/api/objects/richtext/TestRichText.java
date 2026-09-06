@@ -6,9 +6,13 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.DisabledButton;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Ruben Bermudez
@@ -654,5 +658,70 @@ public class TestRichText {
         RichTextBold bold = (RichTextBold) concat.getTexts().get(1);
         assertInstanceOf(RichTextPlain.class, bold.getText());
         assertEquals("world", ((RichTextPlain) bold.getText()).getText());
+    }
+
+    @Test
+    public void testRichTextButtonTypeConstant() {
+        assertEquals("button", RichTextButton.TYPE);
+    }
+
+    @Test
+    public void testSerializeRichTextButton() throws IOException {
+        RichTextButton button = RichTextButton.builder()
+                .button(RichMessageButton.builder()
+                        .text(new RichTextPlain("Press me"))
+                        .callbackData("cb")
+                        .style("primary")
+                        .build())
+                .build();
+
+        String json = mapper.writeValueAsString(button);
+
+        assertTrue(json.contains("\"type\":\"button\""), json);
+        assertTrue(json.contains("\"callback_data\":\"cb\""), json);
+        assertTrue(json.contains("\"style\":\"primary\""), json);
+        assertTrue(json.contains("\"text\":\"Press me\""), json);
+    }
+
+    /**
+     * Guards the two-place registration: RichText is deserialized by RichTextDeserializer, not by
+     * JsonSubTypes, so a subtype missing from RichTextDeserializer.TYPE_MAP deserializes to null.
+     */
+    @Test
+    public void testDeserializeRichTextButtonAsRichText() throws IOException {
+        String json = "{\"type\":\"button\",\"button\":{\"text\":\"Press me\",\"callback_data\":\"cb\"}}";
+
+        RichText result = mapper.readValue(json, RichText.class);
+
+        assertNotNull(result, "RichTextButton missing from RichTextDeserializer.TYPE_MAP");
+        assertInstanceOf(RichTextButton.class, result);
+        RichMessageButton button = ((RichTextButton) result).getButton();
+        assertEquals("cb", button.getCallbackData());
+        assertInstanceOf(RichTextPlain.class, button.getText());
+        assertEquals("Press me", ((RichTextPlain) button.getText()).getText());
+    }
+
+    @Test
+    public void testRichMessageButtonOptionalFieldsOmitted() throws IOException {
+        RichMessageButton button = RichMessageButton.builder()
+                .text(new RichTextPlain("bare"))
+                .build();
+
+        String json = mapper.writeValueAsString(button);
+
+        assertFalse(json.contains("style"), json);
+        assertFalse(json.contains("url"), json);
+        assertFalse(json.contains("callback_data"), json);
+        assertFalse(json.contains("disabled"), json);
+    }
+
+    @Test
+    public void testRichMessageButtonWithDisabled() throws IOException {
+        RichMessageButton button = RichMessageButton.builder()
+                .text(new RichTextPlain("nope"))
+                .disabled(new DisabledButton())
+                .build();
+
+        assertTrue(mapper.writeValueAsString(button).contains("\"disabled\":{}"));
     }
 }

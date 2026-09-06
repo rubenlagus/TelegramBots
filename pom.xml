@@ -7,7 +7,7 @@
     <groupId>org.telegram</groupId>
     <artifactId>Bots</artifactId>
     <packaging>pom</packaging>
-    <version>10.2.1</version>
+    <version>10.3.0</version>
 
     <modules>
         <module>telegrambots-meta</module>
@@ -296,7 +296,7 @@
                     <configuration>
                         <includes>
                             <include>**/Test*.java</include>
-                            <forkCount>0</forkCount>
+                            <include>**/*Test.java</include>
                         </includes>
                     </configuration>
                 </plugin>

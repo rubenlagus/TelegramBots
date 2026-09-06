@@ -35,6 +35,7 @@ import org.telegram.telegrambots.meta.api.methods.stickers.ReplaceStickerInSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumbnail;
 import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditEphemeralMessageMedia;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -633,6 +634,32 @@ public class JettyTelegramClient extends AbstractTelegramClient {
     }
 
     @Override
+    public CompletableFuture<Boolean> executeAsync(EditEphemeralMessageMedia editEphemeralMessageMedia) {
+        try {
+            assertParamNotNull(editEphemeralMessageMedia, "editEphemeralMessageMedia");
+            editEphemeralMessageMedia.validate();
+
+            URI url = buildUrl(editEphemeralMessageMedia.getMethod());
+
+            JettyMultipartBuilder builder = new JettyMultipartBuilder(objectMapper);
+
+            builder.addPart(EditEphemeralMessageMedia.CHAT_ID_FIELD, editEphemeralMessageMedia.getChatId())
+                    .addPart(EditEphemeralMessageMedia.RECEIVER_USER_ID_FIELD, editEphemeralMessageMedia.getReceiverUserId())
+                    .addPart(EditEphemeralMessageMedia.EPHEMERAL_MESSAGE_ID_FIELD, editEphemeralMessageMedia.getEphemeralMessageId())
+                    .addJsonPart(EditEphemeralMessageMedia.REPLY_MARKUP_FIELD, editEphemeralMessageMedia.getReplyMarkup());
+
+            addInputData(builder, EditEphemeralMessageMedia.MEDIA_FIELD, editEphemeralMessageMedia.getMedia(), true);
+
+            Request httpPost = client.POST(url).body(builder.build());
+            return sendRequest(editEphemeralMessageMedia, httpPost);
+        } catch (TelegramApiException e) {
+            return CompletableFuture.failedFuture(e);
+        } catch (IOException e) {
+            return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + editEphemeralMessageMedia.getMethod(), e));
+        }
+    }
+
+    @Override
     public CompletableFuture<java.io.File> downloadFileAsync(File file) {
         return downloadFileAsStreamAsync(file).thenApply(stream -> {
             try {
@@ -712,7 +739,8 @@ public class JettyTelegramClient extends AbstractTelegramClient {
                     .addPart(SendMediaBotMethod.PROTECT_CONTENT_FIELD, method.getProtectContent())
                     .addPart(SendMediaBotMethod.MESSAGE_EFFECT_ID_FIELD, method.getMessageEffectId())
                     .addPart(SendMediaBotMethod.DIRECT_MESSAGES_TOPIC_ID_FIELD, method.getDirectMessagesTopicId())
-                    .addPart(SendMediaBotMethod.SUGGESTED_POST_PARAMETERS_FIELD, method.getSuggestedPostParameters())
+                    .addJsonPart(SendMediaBotMethod.SUGGESTED_POST_PARAMETERS_FIELD, method.getSuggestedPostParameters())
+                    .addJsonPart(SendMediaBotMethod.EPHEMERAL_MESSAGE_PARAMETERS_FIELD, method.getEphemeralMessageParameters())
                     .addJsonPart(SendMediaBotMethod.REPLY_PARAMETERS_FIELD, method.getReplyParameters())
                     .addJsonPart(SendMediaBotMethod.REPLY_MARKUP_FIELD, method.getReplyMarkup());
 
