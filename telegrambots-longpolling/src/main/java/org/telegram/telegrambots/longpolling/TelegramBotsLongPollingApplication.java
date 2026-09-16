@@ -39,6 +39,10 @@ public class TelegramBotsLongPollingApplication implements AutoCloseable {
         this(objectMapperSupplier, new TelegramOkHttpClientFactory.DefaultOkHttpClientCreator());
     }
 
+    public TelegramBotsLongPollingApplication(Supplier<OkHttpClient> okHttpClientCreator) {
+        this(ObjectMapper::new, okHttpClientCreator);
+    }
+
     public TelegramBotsLongPollingApplication(Supplier<ObjectMapper> objectMapperSupplier, Supplier<OkHttpClient> okHttpClientCreator) {
         this(objectMapperSupplier, okHttpClientCreator, Executors::newSingleThreadScheduledExecutor);
     }
