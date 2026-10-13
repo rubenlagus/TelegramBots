@@ -21,6 +21,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.methods.send.SendRichMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
@@ -30,7 +31,12 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.ephemeral.EphemeralMessageParameters;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
+import org.telegram.telegrambots.meta.api.objects.photo.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoStatic;
+import org.telegram.telegrambots.meta.api.objects.richblock.RichBlockPhoto;
+import org.telegram.telegrambots.meta.api.objects.richtext.InputRichMessage;
+import org.telegram.telegrambots.meta.api.objects.richtext.InputRichMessageMedia;
+import org.telegram.telegrambots.meta.api.objects.richtext.RichMessage;
 import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostParameters;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -39,6 +45,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -347,6 +354,42 @@ public class TestTelegramClientIntegration {
 
         TelegramApiRequestException exception = Assertions.assertThrows(TelegramApiRequestException.class, () -> client.execute(method));
         assertEquals(404, exception.getErrorCode());
+    }
+
+    @Test
+    void testSendRichMessage() throws TelegramApiException {
+        InputRichMessage inputRichMessage = InputRichMessage.builder()
+                .html("html")
+                .media(List.of(InputRichMessageMedia.builder()
+                        .id("someMediaId")
+                        .media(new InputMediaPhoto(getTestFile(), "someMediaFilename"))
+                        .build()))
+                .build();
+
+        SendRichMessage method = SendRichMessage.builder()
+                .chatId("someChatId")
+                .richMessage(inputRichMessage)
+                .build();
+
+        RichMessage richMessage = new RichMessage(List.of(RichBlockPhoto.builder()
+                .photo(List.of(PhotoSize.builder()
+                        .fileId("initial-file-id")
+                        .fileUniqueId("initial-file-unique-id")
+                        .width(800)
+                        .height(600)
+                        .build()))
+                .build()));
+
+        Message responseMessage = new Message();
+        responseMessage.setChat(TestData.GROUP_CHAT);
+        responseMessage.setFrom(TestData.TEST_USER);
+        responseMessage.setRichMessage(richMessage);
+        responseMessage.setText("html");
+
+        mockMethod(method, responseMessage);
+
+        Message parsedMessage = client.execute(method);
+        assertEquals(responseMessage, parsedMessage);
     }
 
     /**

@@ -40,7 +40,7 @@ public class InputRichMessage implements BotApiObject, Validable {
     private static final String IS_RTL_FIELD = "is_rtl";
     private static final String SKIP_ENTITY_DETECTION_FIELD = "skip_entity_detection";
     private static final String BLOCKS_FIELD = "blocks";
-    private static final String MEDIA_FIELD = "media";
+    public static final String MEDIA_FIELD = "media";
 
     /**
      * Optional. Content of the rich message to send described using HTML formatting.
