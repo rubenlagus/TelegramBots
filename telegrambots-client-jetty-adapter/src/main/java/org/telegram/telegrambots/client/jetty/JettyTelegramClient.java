@@ -642,7 +642,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
             URI url = buildUrl(editEphemeralMessageMedia.getMethod());
 
-            JettyMultipartBuilder builder = new JettyMultipartBuilder(objectMapper);
+            JettyMultipartBuilder builder = new JettyMultipartBuilder(jsonMapper);
 
             builder.addPart(EditEphemeralMessageMedia.CHAT_ID_FIELD, editEphemeralMessageMedia.getChatId())
                     .addPart(EditEphemeralMessageMedia.RECEIVER_USER_ID_FIELD, editEphemeralMessageMedia.getReceiverUserId())

@@ -632,7 +632,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
             HttpUrl url = buildUrl(editEphemeralMessageMedia.getMethod());
 
-            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
+            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(jsonMapper);
 
             builder.addPart(EditEphemeralMessageMedia.CHAT_ID_FIELD, editEphemeralMessageMedia.getChatId())
                     .addPart(EditEphemeralMessageMedia.RECEIVER_USER_ID_FIELD, editEphemeralMessageMedia.getReceiverUserId())

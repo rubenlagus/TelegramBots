@@ -504,7 +504,8 @@ public class TestRichText {
                 .text(RichTextPlain.builder().text("Иван").build())
                 .build();
 
-        assertEquals("{\"type\":\"bold\",\"text\":\"Иван\"}", mapper.writeValueAsString(bold));
+        assertEquals(mapper.readTree("{\"type\":\"bold\",\"text\":\"Иван\"}"),
+                mapper.readTree(mapper.writeValueAsString(bold)));
     }
 
     @Test
@@ -513,7 +514,8 @@ public class TestRichText {
                 .text(RichTextPlain.builder().text("Иван").build())
                 .build();
 
-        assertEquals("{\"type\":\"bold\",\"text\":\"Иван\"}", mapper.writeValueAsString(bold));
+        assertEquals(mapper.readTree("{\"type\":\"bold\",\"text\":\"Иван\"}"),
+                mapper.readTree(mapper.writeValueAsString(bold)));
     }
 
     @Test
@@ -526,8 +528,8 @@ public class TestRichText {
                 ))
                 .build();
 
-        assertEquals("[\"Hello \",{\"type\":\"bold\",\"text\":\"world\"},\"!\"]",
-                mapper.writeValueAsString(concat));
+        assertEquals(mapper.readTree("[\"Hello \",{\"type\":\"bold\",\"text\":\"world\"},\"!\"]"),
+                mapper.readTree(mapper.writeValueAsString(concat)));
     }
 
     // --- Raw JSON string form ("Politics" → plain text node) ---

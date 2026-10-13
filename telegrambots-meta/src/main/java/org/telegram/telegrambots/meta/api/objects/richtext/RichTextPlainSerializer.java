@@ -1,11 +1,9 @@
 package org.telegram.telegrambots.meta.api.objects.richtext;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-
-import java.io.IOException;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.jsontype.TypeSerializer;
+import tools.jackson.databind.ser.std.StdSerializer;
 
 /**
  * Serializes {@link RichTextPlain} as a bare JSON string.
@@ -27,12 +25,12 @@ public class RichTextPlainSerializer extends StdSerializer<RichTextPlain> {
      */
     @Override
     public void serializeWithType(RichTextPlain value, JsonGenerator gen,
-                                  SerializerProvider provider, TypeSerializer typeSer) throws IOException {
-        serialize(value, gen, provider);
+                                  SerializationContext ctxt, TypeSerializer typeSer) {
+        serialize(value, gen, ctxt);
     }
 
     @Override
-    public void serialize(RichTextPlain value, JsonGenerator gen, SerializerProvider provider) throws IOException {
+    public void serialize(RichTextPlain value, JsonGenerator gen, SerializationContext ctxt) {
         gen.writeString(value.getText());
     }
 }

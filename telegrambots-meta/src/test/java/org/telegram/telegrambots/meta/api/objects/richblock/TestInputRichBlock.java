@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.richblock;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.location.Location;
@@ -28,11 +28,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @version 10.2
  */
 public class TestInputRichBlock {
-    private ObjectMapper mapper;
+    private JsonMapper mapper;
 
     @BeforeEach
     void setUp() {
-        mapper = new ObjectMapper();
+        mapper = new JsonMapper();
     }
 
     @Test
