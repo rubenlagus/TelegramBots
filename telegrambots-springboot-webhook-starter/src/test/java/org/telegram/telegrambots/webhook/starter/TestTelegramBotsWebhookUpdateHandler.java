@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.webhook.starter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,9 +46,6 @@ public class TestTelegramBotsWebhookUpdateHandler {
 
     private static final AtomicBoolean setWebhookCalled = new AtomicBoolean(false);
     private static final AtomicBoolean deleteWebhookCalled = new AtomicBoolean(false);
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @LocalServerPort
     private int port;

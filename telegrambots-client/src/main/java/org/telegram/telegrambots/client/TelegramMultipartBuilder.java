@@ -1,7 +1,5 @@
 package org.telegram.telegrambots.client;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -9,15 +7,17 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
 import org.telegram.telegrambots.meta.api.objects.media.paid.InputPaidMedia;
 import org.telegram.telegrambots.meta.api.objects.stickers.InputSticker;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 import java.util.List;
 
 public class TelegramMultipartBuilder {
     public final MultipartBody.Builder internalBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
-    private final ObjectMapper mapper;
+    private final JsonMapper mapper;
 
-    public TelegramMultipartBuilder(ObjectMapper mapper) {
+    public TelegramMultipartBuilder(JsonMapper mapper) {
         this.mapper = mapper;
     }
 
@@ -52,12 +52,12 @@ public class TelegramMultipartBuilder {
     }
 
     /**
-     * Add field to the builder if value is not null. The value is converted using ObjectMapper.writeValueAsString()
+     * Add field to the builder if value is not null. The value is converted using JsonMapper.writeValueAsString()
      * @param fieldName the field name to add to the multipart
      * @param value the nullable value to add
      * @return the builder
      */
-    public TelegramMultipartBuilder addJsonPart(String fieldName, Object value) throws JsonProcessingException {
+    public TelegramMultipartBuilder addJsonPart(String fieldName, Object value) throws JacksonException {
         if (value != null) {
             internalBuilder.addFormDataPart(fieldName, mapper.writeValueAsString(value));
         }
@@ -131,7 +131,7 @@ public class TelegramMultipartBuilder {
         return this;
     }
 
-    public TelegramMultipartBuilder addInputStickers(String stickersField, List<InputSticker> stickers) throws IOException {
+    public TelegramMultipartBuilder addInputStickers(String stickersField, List<InputSticker> stickers) throws IOException, JacksonException {
         for (InputSticker sticker : stickers) {
             addInputFile(null, sticker.getSticker(), false);
         }

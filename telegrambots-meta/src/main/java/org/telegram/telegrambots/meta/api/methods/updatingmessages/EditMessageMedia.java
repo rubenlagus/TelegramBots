@@ -3,7 +3,6 @@ package org.telegram.telegrambots.meta.api.methods.updatingmessages;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -21,8 +20,9 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.type.TypeReference;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -105,16 +105,16 @@ public class EditMessageMedia extends PartialBotApiMethod<Serializable> {
     @Override
     public Serializable deserializeResponse(String answer) throws TelegramApiRequestException {
         try {
-            ApiResponse<Message> result = OBJECT_MAPPER.readValue(answer,
+            ApiResponse<Message> result = JSON_MAPPER.readValue(answer,
                     new TypeReference<ApiResponse<Message>>(){});
             if (result.getOk()) {
                 return result.getResult();
             } else {
                 throw new TelegramApiRequestException("Error editing message text", result);
             }
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             try {
-                ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
+                ApiResponse<Boolean> result = JSON_MAPPER.readValue(answer,
                         new TypeReference<ApiResponse<Boolean>>() {
                         });
                 if (result.getOk()) {
@@ -122,7 +122,7 @@ public class EditMessageMedia extends PartialBotApiMethod<Serializable> {
                 } else {
                     throw new TelegramApiRequestException("Error editing message text", result);
                 }
-            } catch (IOException e2) {
+            } catch (JacksonException e2) {
                 throw new TelegramApiRequestException("Unable to deserialize response", e);
             }
         }

@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.message;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,11 +19,11 @@ public class TestMessageCommunityFields {
     private static final String BASE_MESSAGE = "\"message_id\":1,\"date\":1752451200,"
             + "\"chat\":{\"id\":-100123,\"type\":\"supergroup\"}";
 
-    private ObjectMapper mapper;
+    private JsonMapper mapper;
 
     @BeforeEach
     void setUp() {
-        mapper = new ObjectMapper();
+        mapper = new JsonMapper();
     }
 
     @Test

@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -10,6 +9,7 @@ import lombok.ToString;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 import java.io.File;
 import java.io.InputStream;
@@ -21,7 +21,7 @@ import java.io.InputStream;
  */
 @Getter
 @SuppressWarnings({"WeakerAccess", "UnusedReturnValue"})
-@JsonSerialize(using = InputFileSerializer.class, as = String.class)
+@JsonSerialize(converter = InputFileConverter.class)
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @NoArgsConstructor

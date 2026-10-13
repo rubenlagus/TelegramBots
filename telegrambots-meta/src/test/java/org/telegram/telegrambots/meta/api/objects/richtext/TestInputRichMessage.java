@@ -1,6 +1,7 @@
 package org.telegram.telegrambots.meta.api.objects.richtext;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.send.SendRichMessage;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
@@ -181,14 +182,16 @@ public class TestInputRichMessage {
 
         assertDoesNotThrow(sendRichMessage::validate);
 
-        String json = new ObjectMapper().writeValueAsString(sendRichMessage);
+        JsonMapper mapper = new JsonMapper();
+        String json = mapper.writeValueAsString(sendRichMessage);
         assertFalse(json.contains("\"plain\""), "plain is not a Bot API rich text type: " + json);
-        assertTrue(json.contains(
+        JsonNode cells = mapper.readTree(json).at("/rich_message/blocks/0/cells");
+        assertEquals(mapper.readTree(
                 "{\"text\":{\"type\":\"bold\",\"text\":\"Иван\"},\"is_header\":true,\"align\":\"left\",\"valign\":\"middle\"}"),
-                json);
-        assertTrue(json.contains(
+                cells.at("/0/0"), json);
+        assertEquals(mapper.readTree(
                 "{\"text\":{\"type\":\"bold\",\"text\":\"500\"},\"is_header\":true,\"align\":\"left\",\"valign\":\"middle\"}"),
-                json);
+                cells.at("/1/0"), json);
     }
 
     private RichBlockTableCell header(String text) {

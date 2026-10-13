@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.PromoteChatMember;
@@ -18,11 +18,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @version 10.3
  */
 public class TestCanSendWelcomeMessages {
-    private ObjectMapper mapper;
+    private JsonMapper mapper;
 
     @BeforeEach
     void setUp() {
-        mapper = new ObjectMapper();
+        mapper = new JsonMapper();
     }
 
     /**

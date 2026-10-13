@@ -1,10 +1,10 @@
 package org.telegram.telegrambots.meta.api.objects.richblock;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.richtext.RichTextAnchor;
 import org.telegram.telegrambots.meta.api.objects.richtext.RichTextMathematicalExpression;
+import tools.jackson.databind.json.JsonMapper;
 import org.telegram.telegrambots.meta.api.objects.richtext.RichTextPlain;
 
 import java.io.IOException;
@@ -21,11 +21,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @version 10.1
  */
 public class TestRichBlock {
-    private ObjectMapper mapper;
+    private JsonMapper mapper;
 
     @BeforeEach
     void setUp() {
-        mapper = new ObjectMapper();
+        mapper = new JsonMapper();
     }
 
     @Test

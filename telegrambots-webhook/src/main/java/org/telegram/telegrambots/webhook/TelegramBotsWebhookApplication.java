@@ -3,6 +3,7 @@ package org.telegram.telegrambots.webhook;
 import io.javalin.Javalin;
 import io.javalin.community.ssl.SslPlugin;
 import io.javalin.http.ContentType;
+import io.javalin.json.JavalinJackson3;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -152,7 +153,7 @@ public class TelegramBotsWebhookApplication implements AutoCloseable {
         }
     }
 
-    private void startServerInternal() throws TelegramApiException {
+    private void startServerInternal() {
         app = Javalin
                 .create(javalinConfig -> {
                     SslPlugin sslPlugin = new SslPlugin(conf -> {
@@ -177,6 +178,7 @@ public class TelegramBotsWebhookApplication implements AutoCloseable {
                     });
                     javalinConfig.events.serverStarted(() -> log.info("Webhook server started"));
                     javalinConfig.events.serverStopped(() -> log.info("Webhook server stopped"));
+                    javalinConfig.jsonMapper(new JavalinJackson3());
                 })
                 .start();
         for (Map.Entry<String, TelegramWebhookBot> bot : registeredBots.entrySet()) {

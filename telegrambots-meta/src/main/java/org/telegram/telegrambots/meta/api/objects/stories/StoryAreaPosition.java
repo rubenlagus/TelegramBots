@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.stories;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +27,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE)
 public class StoryAreaPosition implements BotApiObject, Validable {
     private static final String X_PERCENTAGE_FIELD = "x_percentage";
     private static final String Y_PERCENTAGE_FIELD = "y_percentage";
