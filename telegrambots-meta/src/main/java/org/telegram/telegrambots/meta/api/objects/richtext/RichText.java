@@ -7,7 +7,7 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
  * @author Ruben Bermudez
- * @version 10.1
+ * @version 10.3
  * This object represents a rich formatted text.
  */
 @JsonDeserialize(using = RichTextDeserializer.class)
@@ -44,7 +44,8 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
         @JsonSubTypes.Type(value = RichTextReference.class, name = "reference"),
         @JsonSubTypes.Type(value = RichTextReferenceLink.class, name = "reference_link"),
         @JsonSubTypes.Type(value = RichTextPlain.class, name = "plain"),
-        @JsonSubTypes.Type(value = RichTextConcat.class, name = "concat")
+        @JsonSubTypes.Type(value = RichTextConcat.class, name = "concat"),
+        @JsonSubTypes.Type(value = RichTextButton.class, name = "button")
 })
 public interface RichText extends BotApiObject {
     String getType();

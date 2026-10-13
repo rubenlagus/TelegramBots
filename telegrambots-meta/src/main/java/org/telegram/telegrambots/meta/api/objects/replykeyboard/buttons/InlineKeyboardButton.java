@@ -20,7 +20,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
  * @author Ruben Bermudez
- * @version 6.1
+ * @version 10.3
  * This object represents one button of an inline keyboard.
  * @apiNote You must use exactly one of the optional fields.
  * @apiNote This will only work in Telegram versions released after 9 April, 2016. Older clients will
@@ -50,6 +50,7 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
     private static final String COPY_TEXT_FIELD = "copy_text";
     private static final String ICON_CUSTOM_EMOJI_ID_FIELD = "icon_custom_emoji_id";
     private static final String STYLE_FIELD = "style";
+    private static final String DISABLED_FIELD = "disabled";
 
     /**
      * Label text on the button
@@ -112,6 +113,7 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
      * Optional.
      * An HTTPS URL used to automatically authorize the user.
      * @apiNote Can be used as a replacement for the Telegram Login Widget.
+     * @apiNote Not supported for ephemeral messages.
      */
     @JsonProperty(LOGIN_URL_FIELD)
     private LoginUrl loginUrl;
@@ -153,6 +155,12 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
      */
     @JsonProperty(STYLE_FIELD)
     private String style;
+    /**
+     * Optional.
+     * If set, then the button is disabled and does nothing
+     */
+    @JsonProperty(DISABLED_FIELD)
+    private DisabledButton disabled;
 
     @Override
     public void validate() throws TelegramApiValidationException {

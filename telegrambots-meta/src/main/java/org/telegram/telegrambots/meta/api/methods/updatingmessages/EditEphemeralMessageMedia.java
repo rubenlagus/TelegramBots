@@ -13,15 +13,16 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
 import lombok.extern.jackson.Jacksonized;
-import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 import org.telegram.telegrambots.meta.util.Validations;
 
 /**
  * @author Ruben Bermudez
- * @version 10.2
+ * @version 10.3
  * Use this method to edit the media of an ephemeral message.
  * Note that it is not guaranteed that the user will receive the message edit event,
  * especially if they are offline. On success, True is returned.
@@ -36,14 +37,14 @@ import org.telegram.telegrambots.meta.util.Validations;
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class EditEphemeralMessageMedia extends BotApiMethodBoolean {
+public class EditEphemeralMessageMedia extends PartialBotApiMethod<Boolean> {
     public static final String PATH = "editEphemeralMessageMedia";
 
-    private static final String CHAT_ID_FIELD = "chat_id";
-    private static final String RECEIVER_USER_ID_FIELD = "receiver_user_id";
-    private static final String EPHEMERAL_MESSAGE_ID_FIELD = "ephemeral_message_id";
-    private static final String MEDIA_FIELD = "media";
-    private static final String REPLY_MARKUP_FIELD = "reply_markup";
+    public static final String CHAT_ID_FIELD = "chat_id";
+    public static final String RECEIVER_USER_ID_FIELD = "receiver_user_id";
+    public static final String EPHEMERAL_MESSAGE_ID_FIELD = "ephemeral_message_id";
+    public static final String MEDIA_FIELD = "media";
+    public static final String REPLY_MARKUP_FIELD = "reply_markup";
 
     /**
      * Unique identifier for the target chat or username of the target supergroup
@@ -65,8 +66,7 @@ public class EditEphemeralMessageMedia extends BotApiMethodBoolean {
     @NonNull
     private Integer ephemeralMessageId;
     /**
-     * A JSON-serialized object for the new media content of the message.
-     * A new file can't be uploaded; use a previously uploaded file via its fileId or specify a URL.
+     * A JSON-serialized object for the new media content of the message
      */
     @JsonProperty(MEDIA_FIELD)
     @NonNull
@@ -88,6 +88,11 @@ public class EditEphemeralMessageMedia extends BotApiMethodBoolean {
     }
 
     @Override
+    public Boolean deserializeResponse(String answer) throws TelegramApiRequestException {
+        return deserializeResponse(answer, Boolean.class);
+    }
+
+    @Override
     public void validate() throws TelegramApiValidationException {
         Validations.requiredChatId(chatId, this);
         media.validate();
@@ -96,7 +101,7 @@ public class EditEphemeralMessageMedia extends BotApiMethodBoolean {
         }
     }
 
-    public static abstract class EditEphemeralMessageMediaBuilder<C extends EditEphemeralMessageMedia, B extends EditEphemeralMessageMediaBuilder<C, B>> extends BotApiMethodBooleanBuilder<C, B> {
+    public static abstract class EditEphemeralMessageMediaBuilder<C extends EditEphemeralMessageMedia, B extends EditEphemeralMessageMediaBuilder<C, B>> extends PartialBotApiMethodBuilder<Boolean, C, B> {
         @Tolerate
         public EditEphemeralMessageMediaBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();

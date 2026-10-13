@@ -13,6 +13,9 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
+
+import java.util.List;
 
 /**
  * @author Ruben Bermudez
@@ -38,6 +41,9 @@ public class UniqueGiftInfo implements BotApiObject {
     private static final String LAST_RESALE_CURRENCY_FIELD = "last_resale_currency";
     private static final String LAST_RESALE_AMOUNT_FIELD = "last_resale_amount";
     private static final String NEXT_TRANSFER_DATE_FIELD = "next_transfer_date";
+    private static final String TEXT_FIELD = "text";
+    private static final String ENTITIES_FIELD = "entities";
+    private static final String IS_PRIVATE_FIELD = "is_private";
 
     /**
      * Information about the gift
@@ -85,4 +91,23 @@ public class UniqueGiftInfo implements BotApiObject {
      */
     @JsonProperty(NEXT_TRANSFER_DATE_FIELD)
     private String nextTransferDate;
+    /**
+     * Optional.
+     * Text of the message that was added to the gift
+     */
+    @JsonProperty(TEXT_FIELD)
+    private String text;
+    /**
+     * Optional.
+     * Special entities that appear in the text
+     */
+    @JsonProperty(ENTITIES_FIELD)
+    private List<MessageEntity> entities;
+    /**
+     * Optional.
+     * True, if the sender and gift text are shown only to the gift receiver;
+     * otherwise, everyone will be able to see them
+     */
+    @JsonProperty(IS_PRIVATE_FIELD)
+    private Boolean isPrivate;
 }

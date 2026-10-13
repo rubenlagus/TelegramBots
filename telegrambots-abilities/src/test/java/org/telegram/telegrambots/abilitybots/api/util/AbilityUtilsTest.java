@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.boost.ChatBoostSourcePremium;
 import org.telegram.telegrambots.meta.api.objects.boost.ChatBoostUpdated;
 import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
+import org.telegram.telegrambots.meta.api.objects.message.MessageGenerationStopped;
 import org.telegram.telegrambots.meta.api.objects.payments.BotSubscriptionUpdated;
 import org.telegram.telegrambots.meta.api.objects.reactions.MessageReactionCountUpdated;
 import org.telegram.telegrambots.meta.api.objects.reactions.MessageReactionUpdated;
@@ -116,5 +117,29 @@ class AbilityUtilsTest {
                 .state("active")
                 .build());
         assertEquals(123L, AbilityUtils.getChatId(update));
+    }
+
+    @Test
+    void testGetChatIdFromStoppedMessageGeneration() {
+        Update update = new Update();
+        update.setStoppedMessageGeneration(MessageGenerationStopped.builder()
+                .chat(Chat.builder().id(456L).type("private").build())
+                .draftId(7)
+                .build());
+        assertEquals(456L, AbilityUtils.getChatId(update));
+    }
+
+    /**
+     * A stopped-generation update carries no originating user, so getUser must fall through to
+     * EMPTY_USER rather than throwing IllegalStateException.
+     */
+    @Test
+    void testGetUserFromStoppedMessageGenerationIsEmptyUser() {
+        Update update = new Update();
+        update.setStoppedMessageGeneration(MessageGenerationStopped.builder()
+                .chat(Chat.builder().id(456L).type("private").build())
+                .draftId(7)
+                .build());
+        assertEquals(AbilityUtils.EMPTY_USER, AbilityUtils.getUser(update));
     }
 }

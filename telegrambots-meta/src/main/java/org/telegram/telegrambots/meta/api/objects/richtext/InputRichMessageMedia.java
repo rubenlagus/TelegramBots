@@ -33,7 +33,8 @@ public class InputRichMessageMedia implements BotApiObject {
     private static final String MEDIA_FIELD = "media";
 
     /**
-     * Unique identifier of the media used in a tg://photo?id=, tg://video?id=, or tg://audio?id= link.
+     * Unique identifier of the media used in a tg://photo?id=, tg://video?id=,
+     * tg://document?id=, or tg://audio?id= link.
      * 1-64 characters, only A-Z, a-z, 0-9, _ and - are allowed.
      */
     @JsonProperty(ID_FIELD)

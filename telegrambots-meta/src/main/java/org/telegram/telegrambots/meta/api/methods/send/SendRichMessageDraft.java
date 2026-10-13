@@ -18,7 +18,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 /**
  * @author Ruben Bermudez
- * @version 10.1
+ * @version 10.3
  * Use this method to stream a partial rich message to a user while the message is being generated.
  * The streamed draft is ephemeral and acts as a temporary 30-second preview.
  * Returns True on success.
@@ -41,6 +41,8 @@ public class SendRichMessageDraft extends BotApiMethodBoolean {
     private static final String MESSAGE_THREAD_ID_FIELD = "message_thread_id";
     private static final String DRAFT_ID_FIELD = "draft_id";
     private static final String RICH_MESSAGE_FIELD = "rich_message";
+    private static final String CAN_STOP_FIELD = "can_stop";
+    private static final String KEEP_ON_STOP_FIELD = "keep_on_stop";
 
     /**
      * Unique identifier for the target private chat
@@ -69,6 +71,23 @@ public class SendRichMessageDraft extends BotApiMethodBoolean {
     @JsonProperty(RICH_MESSAGE_FIELD)
     @NonNull
     private InputRichMessage richMessage;
+
+    /**
+     * Optional.
+     * Pass True to show the user a button to stop further drafts.
+     * The bot will receive an Update "stopped_message_generation" if the user presses the button.
+     */
+    @JsonProperty(CAN_STOP_FIELD)
+    private Boolean canStop;
+
+    /**
+     * Optional.
+     * Pass True to keep the draft in the chat when the button is pressed.
+     * The draft will still disappear after a short time or if the bot sends a message.
+     * To fully preserve the partial draft, the bot should send it as a new message.
+     */
+    @JsonProperty(KEEP_ON_STOP_FIELD)
+    private Boolean keepOnStop;
 
     @Override
     public String getMethod() {

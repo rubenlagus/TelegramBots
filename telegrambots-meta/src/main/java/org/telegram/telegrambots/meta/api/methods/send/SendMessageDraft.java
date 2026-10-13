@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * @author Ruben Bermudez
- * @version 9.5
+ * @version 10.3
  * Use this method to stream a partial message to a user while the message is being generated.
  * Returns True on success.
  */
@@ -44,6 +44,8 @@ public class SendMessageDraft extends BotApiMethodBoolean {
     private static final String TEXT_FIELD = "text";
     private static final String PARSE_MODE_FIELD = "parse_mode";
     private static final String ENTITIES_FIELD = "entities";
+    private static final String CAN_STOP_FIELD = "can_stop";
+    private static final String KEEP_ON_STOP_FIELD = "keep_on_stop";
 
     /**
      * Unique identifier for the target private chat
@@ -89,6 +91,23 @@ public class SendMessageDraft extends BotApiMethodBoolean {
      */
     @JsonProperty(ENTITIES_FIELD)
     private List<MessageEntity> entities;
+
+    /**
+     * Optional.
+     * Pass True to show the user a button to stop further drafts.
+     * The bot will receive an Update "stopped_message_generation" if the user presses the button.
+     */
+    @JsonProperty(CAN_STOP_FIELD)
+    private Boolean canStop;
+
+    /**
+     * Optional.
+     * Pass True to keep the draft in the chat when the button is pressed.
+     * The draft will still disappear after a short time or if the bot sends a message.
+     * To fully preserve the partial draft, the bot should send it as a new message.
+     */
+    @JsonProperty(KEEP_ON_STOP_FIELD)
+    private Boolean keepOnStop;
 
     @Override
     public String getMethod() {

@@ -33,6 +33,7 @@ public class RichBlockTable implements RichBlock {
     private static final String CELLS_FIELD = "cells";
     private static final String IS_BORDERED_FIELD = "is_bordered";
     private static final String IS_STRIPED_FIELD = "is_striped";
+    private static final String IS_COMPACT_FIELD = "is_compact";
     private static final String CAPTION_FIELD = "caption";
 
     /**
@@ -59,6 +60,11 @@ public class RichBlockTable implements RichBlock {
      */
     @JsonProperty(IS_STRIPED_FIELD)
     private Boolean isStriped;
+    /**
+     * Optional. True, if table cells have smaller indents
+     */
+    @JsonProperty(IS_COMPACT_FIELD)
+    private Boolean isCompact;
 
     /**
      * Optional. Caption of the table

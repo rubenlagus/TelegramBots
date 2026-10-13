@@ -58,9 +58,11 @@ public class LoginUrl implements Validable, BotApiObject {
      * Optional. Username of a bot, which will be used for user authorization. See Setting up a bot for more details.
      * If not specified, the current bot's username will be assumed.
      * The url's domain must be the same as the domain linked with the bot.
+     *
+     * @apiNote Not supported in {@link org.telegram.telegrambots.meta.api.objects.richtext.RichMessageButton}.
      */
     @JsonProperty(BOT_USERNAME_FIELD)
-    private String botUsername; ///< Optional. Animation duration
+    private String botUsername;
     @JsonProperty(REQUEST_WRITE_ACCESS_FIELD)
     private Boolean requestWriteAccess; ///< Optional. Pass True to request the permission for your bot to send messages to the user.
 

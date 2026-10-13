@@ -16,6 +16,7 @@ import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberUpdated;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.ChosenInlineQuery;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
 import org.telegram.telegrambots.meta.api.objects.managed.ManagedBotUpdated;
+import org.telegram.telegrambots.meta.api.objects.message.MessageGenerationStopped;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.payments.BotSubscriptionUpdated;
 import org.telegram.telegrambots.meta.api.objects.payments.PaidMediaPurchased;
@@ -66,6 +67,7 @@ public class Update implements BotApiObject {
     private static final String PURCHASED_PAID_MEDIA_FIELD = "purchased_paid_media";
     private static final String MANAGED_BOT_FIELD = "managed_bot";
     private static final String SUBSCRIPTION_FIELD = "subscription";
+    private static final String STOPPED_MESSAGE_GENERATION_FIELD = "stopped_message_generation";
 
     @JsonProperty(UPDATEID_FIELD)
     private Integer updateId;
@@ -232,6 +234,12 @@ public class Update implements BotApiObject {
      */
     @JsonProperty(SUBSCRIPTION_FIELD)
     private BotSubscriptionUpdated subscription;
+    /**
+     * Optional.
+     * A user asked the bot to stop the generation of a message
+     */
+    @JsonProperty(STOPPED_MESSAGE_GENERATION_FIELD)
+    private MessageGenerationStopped stoppedMessageGeneration;
 
     public boolean hasMessage() {
         return message != null;
@@ -335,5 +343,9 @@ public class Update implements BotApiObject {
 
     public boolean hasSubscription() {
         return subscription != null;
+    }
+
+    public boolean hasStoppedMessageGeneration() {
+        return stoppedMessageGeneration != null;
     }
 }

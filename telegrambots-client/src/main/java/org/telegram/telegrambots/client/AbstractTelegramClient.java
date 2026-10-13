@@ -22,6 +22,7 @@ import org.telegram.telegrambots.meta.api.methods.stickers.ReplaceStickerInSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumbnail;
 import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditEphemeralMessageMedia;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
@@ -234,6 +235,15 @@ public abstract class AbstractTelegramClient implements TelegramClient {
             return executeAsync(editMessageMedia).get();
         } catch (Exception e) {
             throw mapException(e, editMessageMedia.getMethod());
+        }
+    }
+
+    @Override
+    public Boolean execute(EditEphemeralMessageMedia editEphemeralMessageMedia) throws TelegramApiException {
+        try {
+            return executeAsync(editEphemeralMessageMedia).get();
+        } catch (Exception e) {
+            throw mapException(e, editEphemeralMessageMedia.getMethod());
         }
     }
 

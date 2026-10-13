@@ -111,7 +111,8 @@ public final class AbilityUtils {
       return defaultIfNull(update.getRemovedChatBoost().getSource().getUser(), EMPTY_USER);
     } else if (Flag.GUEST_MESSAGE.test(update)) {
       return update.getGuestMessage().getFrom();
-    } else if (Flag.POLL.test(update) || Flag.MESSAGE_REACTION_COUNT.test(update)) {
+    } else if (Flag.POLL.test(update) || Flag.MESSAGE_REACTION_COUNT.test(update)
+            || Flag.STOPPED_MESSAGE_GENERATION.test(update)) {
       return EMPTY_USER;
     } else {
       throw new IllegalStateException("Could not retrieve originating user from update");
@@ -226,6 +227,8 @@ public final class AbilityUtils {
       return update.getChatBoost().getChat().getId();
     } else if (Flag.REMOVED_CHAT_BOOST.test(update)) {
       return update.getRemovedChatBoost().getChat().getId();
+    } else if (Flag.STOPPED_MESSAGE_GENERATION.test(update)) {
+      return update.getStoppedMessageGeneration().getChat().getId();
     } else {
       throw new IllegalStateException("Could not retrieve originating chat ID from update");
     }

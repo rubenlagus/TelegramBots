@@ -6,6 +6,7 @@ import lombok.experimental.SuperBuilder;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
+import org.telegram.telegrambots.meta.api.objects.ephemeral.EphemeralMessageParameters;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostParameters;
 
@@ -26,7 +27,17 @@ public abstract class SendMediaBotMethod<T extends Serializable> extends Partial
     public static final String MESSAGE_EFFECT_ID_FIELD = "message_effect_id";
     public static final String ALLOW_PAID_BROADCAST_FIELD = "allow_paid_broadcast";
     public static final String SUGGESTED_POST_PARAMETERS_FIELD = "suggested_post_parameters";
+    public static final String EPHEMERAL_MESSAGE_PARAMETERS_FIELD = "ephemeral_message_parameters";
+
+    /**
+     * @deprecated Bot API 10.3 replaced this parameter with {@code ephemeral_message_parameters}.
+     */
+    @Deprecated
     public static final String RECEIVER_USER_ID_FIELD = "receiver_user_id";
+    /**
+     * @deprecated Bot API 10.3 replaced this parameter with {@code ephemeral_message_parameters}.
+     */
+    @Deprecated
     public static final String CALLBACK_QUERY_ID_FIELD = "callback_query_id";
 
     public abstract String getChatId();
@@ -70,19 +81,27 @@ public abstract class SendMediaBotMethod<T extends Serializable> extends Partial
     public abstract SuggestedPostParameters getSuggestedPostParameters();
 
     /**
-     * For outgoing ephemeral messages, unique identifier of the user who will receive the message.
+     * A JSON-serialized object containing the parameters of the ephemeral message to send.
      * Only supported by the methods that accept ephemeral messages; defaults to null otherwise.
      */
-    public Long getReceiverUserId() {
+    public EphemeralMessageParameters getEphemeralMessageParameters() {
         return null;
     }
 
     /**
-     * For outgoing ephemeral messages, identifier of the callback query which triggered the message if any.
-     * Only supported by the methods that accept ephemeral messages; defaults to null otherwise.
+     * @deprecated Use {@link #getEphemeralMessageParameters()} instead
      */
+    @Deprecated
+    public Long getReceiverUserId() {
+        return getEphemeralMessageParameters() != null ? getEphemeralMessageParameters().getReceiverUserId() : null;
+    }
+
+    /**
+     * @deprecated Use {@link #getEphemeralMessageParameters()} instead
+     */
+    @Deprecated
     public String getCallbackQueryId() {
-        return null;
+        return getEphemeralMessageParameters() != null ? getEphemeralMessageParameters().getCallbackQueryId() : null;
     }
 
     public static abstract class SendMediaBotMethodBuilder<T extends Serializable, C extends SendMediaBotMethod<T>, B extends SendMediaBotMethodBuilder<T, C, B>> extends PartialBotApiMethodBuilder<T, C, B> {

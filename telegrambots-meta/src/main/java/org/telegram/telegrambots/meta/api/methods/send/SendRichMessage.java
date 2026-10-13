@@ -15,6 +15,7 @@ import lombok.experimental.Tolerate;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
+import org.telegram.telegrambots.meta.api.objects.ephemeral.EphemeralMessageParameters;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.richtext.InputRichMessage;
@@ -52,6 +53,7 @@ public class SendRichMessage extends PartialBotApiMethod<Message> {
     public static final String ALLOW_PAID_BROADCAST_FIELD = "allow_paid_broadcast";
     public static final String MESSAGE_EFFECT_ID_FIELD = "message_effect_id";
     public static final String SUGGESTED_POST_PARAMETERS_FIELD = "suggested_post_parameters";
+    public static final String EPHEMERAL_MESSAGE_PARAMETERS_FIELD = "ephemeral_message_parameters";
     public static final String REPLY_PARAMETERS_FIELD = "reply_parameters";
     public static final String REPLY_MARKUP_FIELD = "reply_markup";
 
@@ -120,6 +122,12 @@ public class SendRichMessage extends PartialBotApiMethod<Message> {
     /**
      * Optional. Description of the message to reply to
      */
+    /**
+     * Optional.
+     * A JSON-serialized object containing the parameters of the ephemeral message to send
+     */
+    @JsonProperty(EPHEMERAL_MESSAGE_PARAMETERS_FIELD)
+    private EphemeralMessageParameters ephemeralMessageParameters;
     @JsonProperty(REPLY_PARAMETERS_FIELD)
     private ReplyParameters replyParameters;
 
@@ -156,6 +164,9 @@ public class SendRichMessage extends PartialBotApiMethod<Message> {
         }
         if (replyParameters != null) {
             replyParameters.validate();
+        }
+        if (ephemeralMessageParameters != null) {
+            ephemeralMessageParameters.validate();
         }
     }
 

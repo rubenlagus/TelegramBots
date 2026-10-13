@@ -37,6 +37,7 @@ import org.telegram.telegrambots.meta.api.objects.WriteAccessAllowed;
 import org.telegram.telegrambots.meta.api.objects.boost.ChatBoostAdded;
 import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 import org.telegram.telegrambots.meta.api.objects.community.CommunityChatAdded;
+import org.telegram.telegrambots.meta.api.objects.community.CommunityChatJoined;
 import org.telegram.telegrambots.meta.api.objects.community.CommunityChatRemoved;
 import org.telegram.telegrambots.meta.api.objects.chat.ChatOwnerChanged;
 import org.telegram.telegrambots.meta.api.objects.chat.ChatOwnerLeft;
@@ -233,6 +234,7 @@ public class Message implements MaybeInaccessibleMessage {
     private static final String EPHEMERAL_MESSAGE_ID_FIELD = "ephemeral_message_id";
     private static final String COMMUNITY_CHAT_ADDED_FIELD = "community_chat_added";
     private static final String COMMUNITY_CHAT_REMOVED_FIELD = "community_chat_removed";
+    private static final String COMMUNITY_CHAT_JOINED_FIELD = "community_chat_joined";
 
     /**
      * Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a
@@ -1026,6 +1028,12 @@ public class Message implements MaybeInaccessibleMessage {
      */
     @JsonProperty(COMMUNITY_CHAT_REMOVED_FIELD)
     private CommunityChatRemoved communityChatRemoved;
+    /**
+     * Optional.
+     * Service message: chat was joined by a user from a Community
+     */
+    @JsonProperty(COMMUNITY_CHAT_JOINED_FIELD)
+    private CommunityChatJoined communityChatJoined;
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {
@@ -1414,6 +1422,11 @@ public class Message implements MaybeInaccessibleMessage {
     @JsonIgnore
     public boolean hasCommunityChatRemoved() {
         return communityChatRemoved != null;
+    }
+
+    @JsonIgnore
+    public boolean hasCommunityChatJoined() {
+        return communityChatJoined != null;
     }
 
 

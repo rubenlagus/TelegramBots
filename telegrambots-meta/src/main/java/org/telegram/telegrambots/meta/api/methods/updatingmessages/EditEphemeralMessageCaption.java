@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * @author Ruben Bermudez
- * @version 10.2
+ * @version 10.3
  * Use this method to edit the caption of an ephemeral message.
  * Note that it is not guaranteed that the user will receive the message edit event,
  * especially if they are offline. On success, True is returned.
@@ -48,6 +48,7 @@ public class EditEphemeralMessageCaption extends BotApiMethodBoolean {
     private static final String CAPTION_FIELD = "caption";
     private static final String PARSE_MODE_FIELD = "parse_mode";
     private static final String CAPTION_ENTITIES_FIELD = "caption_entities";
+    private static final String SHOW_CAPTION_ABOVE_MEDIA_FIELD = "show_caption_above_media";
     private static final String REPLY_MARKUP_FIELD = "reply_markup";
 
     /**
@@ -86,6 +87,13 @@ public class EditEphemeralMessageCaption extends BotApiMethodBoolean {
     @JsonProperty(CAPTION_ENTITIES_FIELD)
     @Singular
     private List<MessageEntity> captionEntities;
+    /**
+     * Optional. Pass True if the caption must be shown above the message media.
+     *
+     * @apiNote Supported only for animation, photo and video messages.
+     */
+    @JsonProperty(SHOW_CAPTION_ABOVE_MEDIA_FIELD)
+    private Boolean showCaptionAboveMedia;
     /**
      * Optional. A JSON-serialized object for an inline keyboard
      */

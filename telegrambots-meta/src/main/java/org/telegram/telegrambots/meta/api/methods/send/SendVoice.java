@@ -16,6 +16,7 @@ import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
+import org.telegram.telegrambots.meta.api.objects.ephemeral.EphemeralMessageParameters;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostParameters;
@@ -160,16 +161,9 @@ public class SendVoice extends SendMediaBotMethod<Message> {
     private SuggestedPostParameters suggestedPostParameters;
     /**
      * Optional.
-     * For outgoing ephemeral messages, unique identifier of the user who will receive the message;
-     * for group and supergroup chats only. It is not guaranteed that the user will receive the message,
-     * especially if they are offline.
+     * A JSON-serialized object containing the parameters of the ephemeral message to send
      */
-    private Long receiverUserId;
-    /**
-     * Optional.
-     * For outgoing ephemeral messages, identifier of the callback query which triggered the message if any
-     */
-    private String callbackQueryId;
+    private EphemeralMessageParameters ephemeralMessageParameters;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
@@ -204,6 +198,9 @@ public class SendVoice extends SendMediaBotMethod<Message> {
         if (replyParameters != null) {
             replyParameters.validate();
         }
+        if (ephemeralMessageParameters != null) {
+            ephemeralMessageParameters.validate();
+        }
     }
 
     @Override
@@ -221,11 +218,64 @@ public class SendVoice extends SendMediaBotMethod<Message> {
         return VOICE_FIELD;
     }
 
+    /**
+     * @deprecated Use {@link #setEphemeralMessageParameters(EphemeralMessageParameters)} instead
+     */
+    @Deprecated
+    @Tolerate
+    public void setReceiverUserId(Long receiverUserId) {
+        orCreateEphemeralMessageParameters().setReceiverUserId(receiverUserId);
+    }
+
+    /**
+     * @deprecated Use {@link #setEphemeralMessageParameters(EphemeralMessageParameters)} instead
+     */
+    @Deprecated
+    @Tolerate
+    public void setCallbackQueryId(String callbackQueryId) {
+        orCreateEphemeralMessageParameters().setCallbackQueryId(callbackQueryId);
+    }
+
+    private EphemeralMessageParameters orCreateEphemeralMessageParameters() {
+        if (ephemeralMessageParameters == null) {
+            ephemeralMessageParameters = new EphemeralMessageParameters();
+        }
+        return ephemeralMessageParameters;
+    }
+
     public static abstract class SendVoiceBuilder<C extends SendVoice, B extends SendVoiceBuilder<C, B>> extends SendMediaBotMethodBuilder<Message, C, B> {
         @Tolerate
         public SendVoiceBuilder<C, B> chatId(@NonNull Long chatId) {
             this.chatId = chatId.toString();
             return this;
         }
+
+        /**
+         * @deprecated Use {@link #ephemeralMessageParameters(EphemeralMessageParameters)} instead
+         */
+        @Deprecated
+        @Tolerate
+        public SendVoiceBuilder<C, B> receiverUserId(Long receiverUserId) {
+            orCreateEphemeralMessageParameters().setReceiverUserId(receiverUserId);
+            return this;
+        }
+
+        /**
+         * @deprecated Use {@link #ephemeralMessageParameters(EphemeralMessageParameters)} instead
+         */
+        @Deprecated
+        @Tolerate
+        public SendVoiceBuilder<C, B> callbackQueryId(String callbackQueryId) {
+            orCreateEphemeralMessageParameters().setCallbackQueryId(callbackQueryId);
+            return this;
+        }
+
+        private EphemeralMessageParameters orCreateEphemeralMessageParameters() {
+            if (this.ephemeralMessageParameters == null) {
+                this.ephemeralMessageParameters = new EphemeralMessageParameters();
+            }
+            return this.ephemeralMessageParameters;
+        }
+
     }
 }

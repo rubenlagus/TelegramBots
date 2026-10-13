@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,6 +16,7 @@ import lombok.experimental.Tolerate;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMessage;
 import org.telegram.telegrambots.meta.api.objects.ReplyParameters;
+import org.telegram.telegrambots.meta.api.objects.ephemeral.EphemeralMessageParameters;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostParameters;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
@@ -60,8 +62,7 @@ public class SendVenue extends BotApiMethodMessage {
     private static final String MESSAGE_EFFECT_ID_FIELD = "message_effect_id";
     private static final String ALLOW_PAID_BROADCAST_FIELD = "allow_paid_broadcast";
     private static final String SUGGESTED_POST_PARAMETERS_FIELD = "suggested_post_parameters";
-    private static final String RECEIVER_USER_ID_FIELD = "receiver_user_id";
-    private static final String CALLBACK_QUERY_ID_FIELD = "callback_query_id";
+    private static final String EPHEMERAL_MESSAGE_PARAMETERS_FIELD = "ephemeral_message_parameters";
 
     @JsonProperty(CHAT_ID_FIELD)
     @NonNull
@@ -150,18 +151,10 @@ public class SendVenue extends BotApiMethodMessage {
     private SuggestedPostParameters suggestedPostParameters;
     /**
      * Optional.
-     * For outgoing ephemeral messages, unique identifier of the user who will receive the message;
-     * for group and supergroup chats only. It is not guaranteed that the user will receive the message,
-     * especially if they are offline.
+     * A JSON-serialized object containing the parameters of the ephemeral message to send
      */
-    @JsonProperty(RECEIVER_USER_ID_FIELD)
-    private Long receiverUserId;
-    /**
-     * Optional.
-     * For outgoing ephemeral messages, identifier of the callback query which triggered the message if any
-     */
-    @JsonProperty(CALLBACK_QUERY_ID_FIELD)
-    private String callbackQueryId;
+    @JsonProperty(EPHEMERAL_MESSAGE_PARAMETERS_FIELD)
+    private EphemeralMessageParameters ephemeralMessageParameters;
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
@@ -193,6 +186,52 @@ public class SendVenue extends BotApiMethodMessage {
         if (replyParameters != null) {
             replyParameters.validate();
         }
+        if (ephemeralMessageParameters != null) {
+            ephemeralMessageParameters.validate();
+        }
+    }
+
+    /**
+     * @deprecated Use {@link #getEphemeralMessageParameters()} instead
+     */
+    @Deprecated
+    @JsonIgnore
+    public Long getReceiverUserId() {
+        return ephemeralMessageParameters != null ? ephemeralMessageParameters.getReceiverUserId() : null;
+    }
+
+    /**
+     * @deprecated Use {@link #getEphemeralMessageParameters()} instead
+     */
+    @Deprecated
+    @JsonIgnore
+    public String getCallbackQueryId() {
+        return ephemeralMessageParameters != null ? ephemeralMessageParameters.getCallbackQueryId() : null;
+    }
+
+    /**
+     * @deprecated Use {@link #setEphemeralMessageParameters(EphemeralMessageParameters)} instead
+     */
+    @Deprecated
+    @Tolerate
+    public void setReceiverUserId(Long receiverUserId) {
+        orCreateEphemeralMessageParameters().setReceiverUserId(receiverUserId);
+    }
+
+    /**
+     * @deprecated Use {@link #setEphemeralMessageParameters(EphemeralMessageParameters)} instead
+     */
+    @Deprecated
+    @Tolerate
+    public void setCallbackQueryId(String callbackQueryId) {
+        orCreateEphemeralMessageParameters().setCallbackQueryId(callbackQueryId);
+    }
+
+    private EphemeralMessageParameters orCreateEphemeralMessageParameters() {
+        if (ephemeralMessageParameters == null) {
+            ephemeralMessageParameters = new EphemeralMessageParameters();
+        }
+        return ephemeralMessageParameters;
     }
 
     public static abstract class SendVenueBuilder<C extends SendVenue, B extends SendVenueBuilder<C, B>> extends BotApiMethodMessageBuilder<C, B> {
@@ -201,5 +240,33 @@ public class SendVenue extends BotApiMethodMessage {
             this.chatId = chatId.toString();
             return this;
         }
+
+        /**
+         * @deprecated Use {@link #ephemeralMessageParameters(EphemeralMessageParameters)} instead
+         */
+        @Deprecated
+        @Tolerate
+        public SendVenueBuilder<C, B> receiverUserId(Long receiverUserId) {
+            orCreateEphemeralMessageParameters().setReceiverUserId(receiverUserId);
+            return this;
+        }
+
+        /**
+         * @deprecated Use {@link #ephemeralMessageParameters(EphemeralMessageParameters)} instead
+         */
+        @Deprecated
+        @Tolerate
+        public SendVenueBuilder<C, B> callbackQueryId(String callbackQueryId) {
+            orCreateEphemeralMessageParameters().setCallbackQueryId(callbackQueryId);
+            return this;
+        }
+
+        private EphemeralMessageParameters orCreateEphemeralMessageParameters() {
+            if (this.ephemeralMessageParameters == null) {
+                this.ephemeralMessageParameters = new EphemeralMessageParameters();
+            }
+            return this.ephemeralMessageParameters;
+        }
+
     }
 }

@@ -7,7 +7,9 @@ import org.telegram.telegrambots.meta.api.objects.boost.ChatBoostRemoved;
 import org.telegram.telegrambots.meta.api.objects.boost.ChatBoostUpdated;
 import org.telegram.telegrambots.meta.api.objects.gifts.Gift;
 import org.telegram.telegrambots.meta.api.objects.gifts.GiftInfo;
+import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
+import org.telegram.telegrambots.meta.api.objects.message.MessageGenerationStopped;
 import org.telegram.telegrambots.meta.api.objects.payments.BotSubscriptionUpdated;
 import org.telegram.telegrambots.meta.api.objects.reactions.MessageReactionCountUpdated;
 import org.telegram.telegrambots.meta.api.objects.reactions.MessageReactionUpdated;
@@ -71,5 +73,20 @@ class FlagTest {
     @Test
     void testSubscriptionFlagIsFalseWithoutSubscription() {
         assertFalse(Flag.HAS_SUBSCRIPTION.test(new Update()));
+    }
+
+    @Test
+    void testStoppedMessageGenerationFlag() {
+        Update update = new Update();
+        update.setStoppedMessageGeneration(MessageGenerationStopped.builder()
+                .chat(Chat.builder().id(456L).type("private").build())
+                .draftId(7)
+                .build());
+        assertTrue(Flag.STOPPED_MESSAGE_GENERATION.test(update));
+    }
+
+    @Test
+    void testStoppedMessageGenerationFlagIsFalseWithoutIt() {
+        assertFalse(Flag.STOPPED_MESSAGE_GENERATION.test(new Update()));
     }
 }

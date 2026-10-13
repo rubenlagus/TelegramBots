@@ -6,7 +6,7 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 
 /**
  * @author Ruben Bermudez
- * @version 10.1
+ * @version 10.3
  * This object represents a block in a rich formatted message.
  */
 @JsonTypeInfo(
@@ -36,7 +36,10 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
         @JsonSubTypes.Type(value = RichBlockPhoto.class, name = "photo"),
         @JsonSubTypes.Type(value = RichBlockVideo.class, name = "video"),
         @JsonSubTypes.Type(value = RichBlockVoiceNote.class, name = "voice_note"),
-        @JsonSubTypes.Type(value = RichBlockThinking.class, name = "thinking")
+        @JsonSubTypes.Type(value = RichBlockThinking.class, name = "thinking"),
+        @JsonSubTypes.Type(value = RichBlockExpandableBlockQuotation.class, name = "expandable_blockquote"),
+        @JsonSubTypes.Type(value = RichBlockDocument.class, name = "document"),
+        @JsonSubTypes.Type(value = RichBlockButtons.class, name = "buttons")
 })
 public interface RichBlock extends BotApiObject {
     String getType();

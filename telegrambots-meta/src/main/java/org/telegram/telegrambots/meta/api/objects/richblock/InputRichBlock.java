@@ -3,10 +3,11 @@ package org.telegram.telegrambots.meta.api.objects.richblock;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
+import org.telegram.telegrambots.meta.api.interfaces.Validable;
 
 /**
  * @author Ruben Bermudez
- * @version 10.2
+ * @version 10.3
  * This object represents a block in a rich formatted message to be sent.
  */
 @JsonTypeInfo(
@@ -36,8 +37,11 @@ import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
         @JsonSubTypes.Type(value = InputRichBlockPhoto.class, name = "photo"),
         @JsonSubTypes.Type(value = InputRichBlockVideo.class, name = "video"),
         @JsonSubTypes.Type(value = InputRichBlockVoiceNote.class, name = "voice_note"),
-        @JsonSubTypes.Type(value = InputRichBlockThinking.class, name = "thinking")
+        @JsonSubTypes.Type(value = InputRichBlockThinking.class, name = "thinking"),
+        @JsonSubTypes.Type(value = InputRichBlockExpandableBlockQuotation.class, name = "expandable_blockquote"),
+        @JsonSubTypes.Type(value = InputRichBlockDocument.class, name = "document"),
+        @JsonSubTypes.Type(value = InputRichBlockButtons.class, name = "buttons")
 })
-public interface InputRichBlock extends BotApiObject {
+public interface InputRichBlock extends BotApiObject, Validable {
     String getType();
 }

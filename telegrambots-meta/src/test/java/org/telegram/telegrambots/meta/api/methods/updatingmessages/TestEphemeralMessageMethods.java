@@ -9,18 +9,23 @@ import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardRow;
+import org.telegram.telegrambots.meta.api.objects.richtext.InputRichMessage;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Ruben Bermudez
- * @version 10.2
+ * @version 10.3
  */
 public class TestEphemeralMessageMethods {
     private ObjectMapper mapper;
@@ -218,5 +223,107 @@ public class TestEphemeralMessageMethods {
         TelegramApiValidationException ex =
                 assertThrows(TelegramApiValidationException.class, parameters::validate);
         assertTrue(ex.getMessage().contains("Either messageId or ephemeralMessageId"), ex.getMessage());
+    }
+
+    @Test
+    public void testEditEphemeralMessageTextWithRichMessage() throws IOException {
+        EditEphemeralMessageText method = EditEphemeralMessageText.builder()
+                .chatId(1L)
+                .receiverUserId(2L)
+                .ephemeralMessageId(3)
+                .richMessage(InputRichMessage.builder().html("<p>hi</p>").build())
+                .build();
+
+        assertDoesNotThrow(method::validate);
+        String json = mapper.writeValueAsString(method);
+        assertTrue(json.contains("\"rich_message\""), json);
+        assertFalse(json.contains("\"text\""), json);
+        assertFalse(json.contains("\"entities\""), json);
+    }
+
+    @Test
+    public void testEditEphemeralMessageTextWithTextOnly() {
+        EditEphemeralMessageText method = EditEphemeralMessageText.builder()
+                .chatId(1L)
+                .receiverUserId(2L)
+                .ephemeralMessageId(3)
+                .text("hi")
+                .build();
+
+        assertDoesNotThrow(method::validate);
+    }
+
+    @Test
+    public void testEditEphemeralMessageTextRejectsBothTextAndRichMessage() {
+        EditEphemeralMessageText method = EditEphemeralMessageText.builder()
+                .chatId(1L)
+                .receiverUserId(2L)
+                .ephemeralMessageId(3)
+                .text("hi")
+                .richMessage(InputRichMessage.builder().html("<p>hi</p>").build())
+                .build();
+
+        assertThrows(TelegramApiValidationException.class, method::validate);
+    }
+
+    @Test
+    public void testEditEphemeralMessageTextRejectsNeither() {
+        EditEphemeralMessageText method = EditEphemeralMessageText.builder()
+                .chatId(1L)
+                .receiverUserId(2L)
+                .ephemeralMessageId(3)
+                .build();
+
+        assertThrows(TelegramApiValidationException.class, method::validate);
+    }
+
+    @Test
+    public void testEditEphemeralMessageCaptionShowCaptionAboveMedia() throws IOException {
+        EditEphemeralMessageCaption method = EditEphemeralMessageCaption.builder()
+                .chatId(1L)
+                .receiverUserId(2L)
+                .ephemeralMessageId(3)
+                .caption("cap")
+                .showCaptionAboveMedia(true)
+                .build();
+
+        assertTrue(mapper.writeValueAsString(method).contains("\"show_caption_above_media\":true"));
+    }
+
+    @Test
+    public void testEditEphemeralMessageMediaIsPartialMethod() {
+        EditEphemeralMessageMedia method = EditEphemeralMessageMedia.builder()
+                .chatId(1L)
+                .receiverUserId(2L)
+                .ephemeralMessageId(3)
+                .media(new InputMediaPhoto("file-id"))
+                .build();
+
+        assertInstanceOf(PartialBotApiMethod.class, method);
+        assertEquals("editEphemeralMessageMedia", method.getMethod());
+    }
+
+    @Test
+    public void testEditEphemeralMessageMediaDeserializesBooleanResponse() throws TelegramApiRequestException {
+        EditEphemeralMessageMedia method = EditEphemeralMessageMedia.builder()
+                .chatId(1L)
+                .receiverUserId(2L)
+                .ephemeralMessageId(3)
+                .media(new InputMediaPhoto("file-id"))
+                .build();
+
+        assertTrue(method.deserializeResponse("{\"ok\":true,\"result\":true}"));
+    }
+
+    @Test
+    public void testEditEphemeralMessageMediaAcceptsNewFileUpload() {
+        EditEphemeralMessageMedia method = EditEphemeralMessageMedia.builder()
+                .chatId(1L)
+                .receiverUserId(2L)
+                .ephemeralMessageId(3)
+                .media(new InputMediaPhoto(new java.io.File("pom.xml"), "photo.jpg"))
+                .build();
+
+        assertDoesNotThrow(method::validate);
     }
 }
