@@ -464,7 +464,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
             sendRichMessage.validate();
 
             URI url = buildUrl(sendRichMessage.getMethod());
-            JettyMultipartBuilder builder = new JettyMultipartBuilder(objectMapper);
+            JettyMultipartBuilder builder = new JettyMultipartBuilder(jsonMapper);
 
             builder.addPart(SendRichMessage.CHAT_ID_FIELD, sendRichMessage.getChatId())
                     .addPart(SendRichMessage.BUSINESS_CONNECTION_ID_FIELD, sendRichMessage.getBusinessConnectionId())

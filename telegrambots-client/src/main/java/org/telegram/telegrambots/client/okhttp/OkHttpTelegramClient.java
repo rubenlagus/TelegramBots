@@ -136,7 +136,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             sendRichMessage.validate();
 
             HttpUrl url = buildUrl(sendRichMessage.getMethod());
-            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(objectMapper);
+            TelegramMultipartBuilder builder = new TelegramMultipartBuilder(jsonMapper);
 
             builder.addPart(SendRichMessage.CHAT_ID_FIELD, sendRichMessage.getChatId())
                     .addPart(SendRichMessage.BUSINESS_CONNECTION_ID_FIELD, sendRichMessage.getBusinessConnectionId())
