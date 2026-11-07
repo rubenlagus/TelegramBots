@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.webhook.TelegramWebhookBot;
 
 import java.util.function.Function;
 
@@ -15,7 +16,7 @@ import java.util.function.Function;
 @Data
 @Builder
 @RequiredArgsConstructor
-public class SpringTelegramWebhookBot {
+public class SpringTelegramWebhookBot implements TelegramWebhookBot {
     private final String botPath;
     private final Function<Update, BotApiMethod<?>> updateHandler;
     private final Runnable setWebhook;
