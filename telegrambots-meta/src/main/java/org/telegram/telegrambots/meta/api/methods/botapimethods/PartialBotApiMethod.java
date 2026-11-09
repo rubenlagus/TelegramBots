@@ -4,17 +4,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JavaType;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.type.CollectionType;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -29,7 +29,7 @@ import java.util.ArrayList;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class PartialBotApiMethod<T extends Serializable> implements Validable {
     @JsonIgnore
-    protected static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    protected static final JsonMapper JSON_MAPPER = new JsonMapper();
 
     /**
      * Deserialize a json answer to the response type to a method
@@ -39,30 +39,30 @@ public abstract class PartialBotApiMethod<T extends Serializable> implements Val
     public abstract T deserializeResponse(String answer) throws TelegramApiRequestException;
 
     public T deserializeResponse(String answer, Class<T> returnClass) throws TelegramApiRequestException {
-        JavaType type = OBJECT_MAPPER.getTypeFactory().constructType(returnClass);
+        JavaType type = JSON_MAPPER.getTypeFactory().constructType(returnClass);
         return deserializeResponseInternal(answer, type);
     }
 
     public <K extends Serializable> T deserializeResponseArray(String answer, Class<K> returnClass) throws TelegramApiRequestException {
-        CollectionType collectionType = OBJECT_MAPPER.getTypeFactory().constructCollectionType(ArrayList.class, returnClass);
+        CollectionType collectionType = JSON_MAPPER.getTypeFactory().constructCollectionType(ArrayList.class, returnClass);
         return deserializeResponseInternal(answer, collectionType);
     }
 
     protected <K extends Serializable> T deserializeResponseSerializable(String answer, Class<K> returnClass) throws TelegramApiRequestException {
-        JavaType type = OBJECT_MAPPER.getTypeFactory().constructType(returnClass);
+        JavaType type = JSON_MAPPER.getTypeFactory().constructType(returnClass);
         return deserializeResponseInternal(answer, type);
     }
 
     private T deserializeResponseInternal(String answer, JavaType type) throws TelegramApiRequestException {
         try {
-            JavaType responseType = OBJECT_MAPPER.getTypeFactory().constructParametricType(ApiResponse.class, type);
-            ApiResponse<T> result = OBJECT_MAPPER.readValue(answer, responseType);
+            JavaType responseType = JSON_MAPPER.getTypeFactory().constructParametricType(ApiResponse.class, type);
+            ApiResponse<T> result = JSON_MAPPER.readValue(answer, responseType);
             if (result.getOk()) {
                 return result.getResult();
             } else {
                 throw new TelegramApiRequestException(String.format("Error executing %s query", this.getClass().getName()), result);
             }
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new TelegramApiRequestException("Unable to deserialize response", e);
         }
     }

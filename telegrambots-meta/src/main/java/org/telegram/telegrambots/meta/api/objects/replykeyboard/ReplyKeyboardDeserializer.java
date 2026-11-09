@@ -1,12 +1,10 @@
 package org.telegram.telegrambots.meta.api.objects.replykeyboard;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
-
-import java.io.IOException;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.deser.std.StdDeserializer;
+import tools.jackson.databind.jsontype.TypeDeserializer;
 
 /**
  * Resolves a {@link ReplyKeyboard} by the marker key present in the payload.
@@ -26,12 +24,12 @@ public class ReplyKeyboardDeserializer extends StdDeserializer<ReplyKeyboard> {
 
     @Override
     public ReplyKeyboard deserializeWithType(JsonParser p, DeserializationContext ctx,
-                                             TypeDeserializer typeDeserializer) throws IOException {
+                                             TypeDeserializer typeDeserializer) {
         return deserialize(p, ctx);
     }
 
     @Override
-    public ReplyKeyboard deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
+    public ReplyKeyboard deserialize(JsonParser p, DeserializationContext ctx) {
         JsonNode node = ctx.readTree(p);
 
         if (node.has("inline_keyboard")) {

@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.payments;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -21,11 +21,11 @@ public class TestBotSubscriptionUpdated {
     private static final String SUBSCRIPTION_JSON = "{\"user\":{\"id\":12345,\"is_bot\":false,\"first_name\":\"John\"},"
             + "\"invoice_payload\":\"monthly-plan\",\"state\":\"canceled\"}";
 
-    private ObjectMapper mapper;
+    private JsonMapper mapper;
 
     @BeforeEach
     void setUp() {
-        mapper = new ObjectMapper();
+        mapper = new JsonMapper();
     }
 
     @Test

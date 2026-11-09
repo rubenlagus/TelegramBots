@@ -1,13 +1,12 @@
 package org.telegram.telegrambots.client;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.lang.reflect.Field;
 
 public class ApiResponseTestBuilder<T> {
-    private static ObjectMapper mapper = new ObjectMapper();
+    private static JsonMapper mapper = new JsonMapper();
     private ApiResponse<T> response = new ApiResponse<>();
 
     private final Field resultField;
@@ -38,11 +37,7 @@ public class ApiResponseTestBuilder<T> {
     }
 
     public String buildJson() {
-        try {
-            return mapper.writeValueAsString(response);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        return mapper.writeValueAsString(response);
     }
 
     public ApiResponseTestBuilder<T> setResult(T result) {

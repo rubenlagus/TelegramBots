@@ -1,13 +1,12 @@
 package org.telegram.telegrambots.meta.api.methods;
 
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.games.SetGameScore;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.test.TelegramBotsHelper;
+import tools.jackson.databind.MapperFeature;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.Serializable;
 
@@ -22,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class TestSetGameScore {
 
     private SetGameScore setGameScore;
-    private ObjectMapper mapper = JsonMapper.builder()
+    private JsonMapper mapper = JsonMapper.builder()
             .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
             .build();
 

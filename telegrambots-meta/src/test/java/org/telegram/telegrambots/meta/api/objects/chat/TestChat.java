@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.meta.api.objects.chat;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.community.Community;
@@ -61,7 +61,7 @@ public class TestChat {
 
     @Test
     public void testChatFullInfoCommunityDeserialization() throws IOException {
-        ChatFullInfo chat = new ObjectMapper().readValue(
+        ChatFullInfo chat = new JsonMapper().readValue(
                 "{\"id\":12345,\"type\":\"supergroup\",\"community\":{\"id\":987,\"name\":\"Java Developers\"}}",
                 ChatFullInfo.class);
 

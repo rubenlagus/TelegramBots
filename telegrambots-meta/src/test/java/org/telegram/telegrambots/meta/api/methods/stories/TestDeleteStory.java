@@ -1,10 +1,9 @@
 package org.telegram.telegrambots.meta.api.methods.stories;
 
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import tools.jackson.databind.MapperFeature;
+import tools.jackson.databind.json.JsonMapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -15,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.fail;
  * @version 9.0
  */
 public class TestDeleteStory {
-    private final ObjectMapper mapper = JsonMapper.builder()
+    private final JsonMapper mapper = JsonMapper.builder()
             .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
             .build();
 

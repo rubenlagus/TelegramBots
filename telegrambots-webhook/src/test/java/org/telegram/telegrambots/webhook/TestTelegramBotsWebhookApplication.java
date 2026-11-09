@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.webhook;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import okhttp3.Headers;
 import okhttp3.MediaType;
@@ -13,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -32,7 +32,7 @@ public class TestTelegramBotsWebhookApplication {
     // TODO Add test exceptions
     // TODO Add Tests HTTPS
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final JsonMapper jsonMapper = new JsonMapper();
     private TestTelegramWebhookBot telegramWebhookBot;
     private WebhookOptions webhookOptions;
     private OkHttpClient httpClient;
@@ -69,7 +69,7 @@ public class TestTelegramBotsWebhookApplication {
         Request request = new Request.Builder()
                 .url("http://127.0.0.1:" + webhookOptions.getPort() + "/test")
                 .headers(Headers.of(headers))
-                .post(RequestBody.create(objectMapper.writeValueAsString(update), MediaType.parse("application/json")))
+                .post(RequestBody.create(jsonMapper.writeValueAsString(update), MediaType.parse("application/json")))
                 .build();
 
         httpClient.newCall(request).execute();
@@ -92,7 +92,7 @@ public class TestTelegramBotsWebhookApplication {
         Request request = new Request.Builder()
                 .url("http://127.0.0.1:" + webhookOptions.getPort() + "/test")
                 .headers(Headers.of(headers))
-                .post(RequestBody.create(objectMapper.writeValueAsString(update), MediaType.parse("application/json")))
+                .post(RequestBody.create(jsonMapper.writeValueAsString(update), MediaType.parse("application/json")))
                 .build();
 
         httpClient.newCall(request).execute();
@@ -109,7 +109,7 @@ public class TestTelegramBotsWebhookApplication {
         Request request = new Request.Builder()
                 .url("http://127.0.0.1:" + webhookOptions.getPort() + "/test")
                 .headers(Headers.of(headers))
-                .post(RequestBody.create(objectMapper.writeValueAsString(update), MediaType.parse("application/json")))
+                .post(RequestBody.create(jsonMapper.writeValueAsString(update), MediaType.parse("application/json")))
                 .build();
 
         httpClient.newCall(request).execute();
@@ -128,7 +128,7 @@ public class TestTelegramBotsWebhookApplication {
         Request request = new Request.Builder()
                 .url("http://127.0.0.1:" + webhookOptions.getPort() + "/test")
                 .headers(Headers.of(headers))
-                .post(RequestBody.create(objectMapper.writeValueAsString(update), MediaType.parse("application/json")))
+                .post(RequestBody.create(jsonMapper.writeValueAsString(update), MediaType.parse("application/json")))
                 .build();
 
         httpClient.newCall(request).execute();
@@ -147,7 +147,7 @@ public class TestTelegramBotsWebhookApplication {
         Request request = new Request.Builder()
                 .url("http://127.0.0.1:" + webhookOptions.getPort() + "/test")
                 .headers(Headers.of(headers))
-                .post(RequestBody.create(objectMapper.writeValueAsString(update), MediaType.parse("application/json")))
+                .post(RequestBody.create(jsonMapper.writeValueAsString(update), MediaType.parse("application/json")))
                 .build();
 
         httpClient.newCall(request).execute();
@@ -164,7 +164,7 @@ public class TestTelegramBotsWebhookApplication {
         Request request = new Request.Builder()
                 .url("http://127.0.0.1:" + webhookOptions.getPort() + "/testWrong")
                 .headers(Headers.of(headers))
-                .post(RequestBody.create(objectMapper.writeValueAsString(update), MediaType.parse("application/json")))
+                .post(RequestBody.create(jsonMapper.writeValueAsString(update), MediaType.parse("application/json")))
                 .build();
 
         httpClient.newCall(request).execute();

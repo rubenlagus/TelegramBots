@@ -1,7 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -16,8 +15,9 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.type.TypeReference;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -85,16 +85,16 @@ public class StopMessageLiveLocation extends BotApiMethodSerializable {
     @Override
     public Serializable deserializeResponse(String answer) throws TelegramApiRequestException {
         try {
-            ApiResponse<Message> result = OBJECT_MAPPER.readValue(answer,
+            ApiResponse<Message> result = JSON_MAPPER.readValue(answer,
                     new TypeReference<ApiResponse<Message>>(){});
             if (result.getOk()) {
                 return result.getResult();
             } else {
                 throw new TelegramApiRequestException("Error stopping message live location", result);
             }
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             try {
-                ApiResponse<Boolean> result = OBJECT_MAPPER.readValue(answer,
+                ApiResponse<Boolean> result = JSON_MAPPER.readValue(answer,
                         new TypeReference<ApiResponse<Boolean>>() {
                         });
                 if (result.getOk()) {
@@ -102,7 +102,7 @@ public class StopMessageLiveLocation extends BotApiMethodSerializable {
                 } else {
                     throw new TelegramApiRequestException("Error stopping message live location", result);
                 }
-            } catch (IOException e2) {
+            } catch (JacksonException e2) {
                 throw new TelegramApiRequestException("Unable to deserialize response", e);
             }
         }

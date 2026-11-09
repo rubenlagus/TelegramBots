@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import tools.jackson.core.JacksonException;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
@@ -34,7 +34,7 @@ public abstract class BotApiMethodSerializable extends BotApiMethod<Serializable
             try {
                 return deserializeResponseSerializable(answer, possibleValue);
             } catch (TelegramApiRequestException e) {
-                if (e.getCause() instanceof IOException) {
+                if (e.getCause() instanceof JacksonException) {
                     lastException = e.getCause();
                 } else {
                     throw e;

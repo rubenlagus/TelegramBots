@@ -1,6 +1,5 @@
 package org.telegram.telegrambots.meta.api.objects.payments.star;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.User;
@@ -10,16 +9,17 @@ import org.telegram.telegrambots.meta.api.objects.payments.transactionpartner.Tr
 import org.telegram.telegrambots.meta.api.objects.payments.withdrawalstate.RevenueWithdrawalStateFailed;
 import org.telegram.telegrambots.meta.api.objects.payments.withdrawalstate.RevenueWithdrawalStatePending;
 import org.telegram.telegrambots.meta.api.objects.payments.withdrawalstate.RevenueWithdrawalStateSucceeded;
+import tools.jackson.databind.json.JsonMapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class TestStarTransactions {
-    private ObjectMapper mapper;
+    private JsonMapper mapper;
 
     @BeforeEach
     void setUp() {
-        mapper = new ObjectMapper();
+        mapper = new JsonMapper();
     }
 
     @Test
