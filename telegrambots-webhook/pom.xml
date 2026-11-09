@@ -47,7 +47,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <javalin.version>7.0.1</javalin.version>
+        <javalin.version>7.2.2</javalin.version>
         <log4j.version>2.18.0</log4j.version>
     </properties>
 

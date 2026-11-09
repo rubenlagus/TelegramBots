@@ -1,6 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 
@@ -83,7 +83,7 @@ public class TestSendLivePhoto {
                 .callbackQueryId("query_id")
                 .build();
 
-        String json = new ObjectMapper().writeValueAsString(sendLivePhoto);
+        String json = new JsonMapper().writeValueAsString(sendLivePhoto);
 
         assertTrue(json.contains("\"receiver_user_id\":98765"), json);
         assertTrue(json.contains("\"callback_query_id\":\"query_id\""), json);
