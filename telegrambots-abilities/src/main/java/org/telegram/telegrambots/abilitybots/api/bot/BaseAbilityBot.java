@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.abilitybots.api.db.DBContext;
 import org.telegram.telegrambots.abilitybots.api.objects.Ability;
+import org.telegram.telegrambots.abilitybots.api.objects.Flag;
 import org.telegram.telegrambots.abilitybots.api.objects.Locality;
 import org.telegram.telegrambots.abilitybots.api.objects.MessageContext;
 import org.telegram.telegrambots.abilitybots.api.objects.Privacy;
@@ -518,10 +519,16 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
 
     boolean checkLocality(Trio<Update, Ability, String[]> trio) {
         Update update = trio.a();
-        Locality locality = isUserMessage(update) ? Locality.USER : Locality.GROUP;
         Locality abilityLocality = trio.b().locality();
-
-        boolean isOk = abilityLocality == Locality.ALL || locality == abilityLocality;
+        Boolean widgetUserMessage = AbilityUtils.isWidgetQueryFromUserChat(update);
+        boolean widgetUpdate = Flag.WIDGET_QUERY.test(update) || Flag.SHARED_WIDGET_QUERY.test(update);
+        boolean isOk;
+        if (widgetUpdate && widgetUserMessage == null) {
+            isOk = abilityLocality == Locality.ALL;
+        } else {
+            Locality locality = (widgetUpdate ? widgetUserMessage : isUserMessage(update)) ? Locality.USER : Locality.GROUP;
+            isOk = abilityLocality == Locality.ALL || locality == abilityLocality;
+        }
 
         if (!isOk)
             onLocalityViolation(trio.a(), trio.b());
@@ -542,12 +549,15 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
      * @param ability ability that was attempted to be executed
      */
     protected void onLocalityViolation(Update update, Ability ability) {
-        silent.send(
-                getLocalizedMessage(
-                        CHECK_LOCALITY_FAIL,
-                        AbilityUtils.getUser(update).getLanguageCode(),
-                        ability.locality().toString().toLowerCase()),
-                getChatId(update));
+        Long chatId = getChatId(update);
+        if (chatId != null) {
+            silent.send(
+                    getLocalizedMessage(
+                            CHECK_LOCALITY_FAIL,
+                            AbilityUtils.getUser(update).getLanguageCode(),
+                            ability.locality().toString().toLowerCase()),
+                    chatId);
+        }
     }
 
     boolean checkPrivacy(Trio<Update, Ability, String[]> trio) {

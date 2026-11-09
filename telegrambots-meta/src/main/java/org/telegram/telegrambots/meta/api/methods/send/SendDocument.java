@@ -22,7 +22,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostParameters;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-import org.telegram.telegrambots.meta.util.Validations;
+import org.telegram.telegrambots.meta.util.SendMessageValidations;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ import java.util.List;
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SendDocument extends SendMediaBotMethod<Message> {
+public class SendDocument extends SendMediaBotMethod<Message> implements CallbackReplyMethod {
     public static final String PATH = "senddocument";
 
     public static final String DOCUMENT_FIELD = "document";
@@ -52,7 +52,6 @@ public class SendDocument extends SendMediaBotMethod<Message> {
     public static final String DISABLECONTENTTYPEDETECTION_FIELD = "disable_content_type_detection";
     public static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
 
-    @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to or Username for the channel to send the message to
     /**
      * Unique identifier for the target message thread (topic) of the forum;
@@ -127,6 +126,12 @@ public class SendDocument extends SendMediaBotMethod<Message> {
     private EphemeralMessageParameters ephemeralMessageParameters;
 
     @Tolerate
+    public SendDocument(String chatId, @NonNull InputFile document) {
+        this(document);
+        this.chatId = chatId;
+    }
+
+    @Tolerate
     public void setChatId(@NonNull Long chatId) {
         this.chatId = chatId.toString();
     }
@@ -146,7 +151,7 @@ public class SendDocument extends SendMediaBotMethod<Message> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        Validations.requiredChatId(chatId, this);
+        SendMessageValidations.validateChatId(chatId, businessConnectionId, ephemeralMessageParameters, this);
 
         if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
             throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
@@ -161,7 +166,7 @@ public class SendDocument extends SendMediaBotMethod<Message> {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-        if (replyParameters != null) {
+        if (replyParameters != null && !isCallbackOnly()) {
             replyParameters.validate();
         }
         if (ephemeralMessageParameters != null) {

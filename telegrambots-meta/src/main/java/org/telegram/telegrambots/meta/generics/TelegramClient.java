@@ -5,16 +5,21 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.business.SetBusinessAccountProfilePhoto;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
+import org.telegram.telegrambots.meta.api.methods.send.CallbackReplyMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
+import org.telegram.telegrambots.meta.api.methods.send.SendContact;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendLivePhoto;
+import org.telegram.telegrambots.meta.api.methods.send.SendLocation;
 import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPaidMedia;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendRichMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
+import org.telegram.telegrambots.meta.api.methods.send.SendVenue;
 import org.telegram.telegrambots.meta.api.methods.send.SendVoice;
 import org.telegram.telegrambots.meta.api.methods.stickers.AddStickerToSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.CreateNewStickerSet;
@@ -26,6 +31,7 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditEphemeral
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
+import org.telegram.telegrambots.meta.api.objects.message.SendMessageResult;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.InputStream;
@@ -39,19 +45,38 @@ public interface TelegramClient {
 
     <T extends Serializable, Method extends BotApiMethod<T>> T execute(Method method) throws TelegramApiException;
 
+    /**
+     * Send a supported request and return either a message or callback-only success.
+     * Custom clients must implement this opt-in capability.
+     */
+    default SendMessageResult executeWithResult(CallbackReplyMethod method) throws TelegramApiException {
+        throw new UnsupportedOperationException("This client does not support unified send results");
+    }
+
+    /** Asynchronous version of {@link #executeWithResult(CallbackReplyMethod)}. */
+    default CompletableFuture<SendMessageResult> executeWithResultAsync(CallbackReplyMethod method) throws TelegramApiException {
+        throw new UnsupportedOperationException("This client does not support unified send results");
+    }
+
+    @Deprecated
     Message execute(SendRichMessage sendRichMessage) throws TelegramApiException;
 
     // Specific Send Requests
+    @Deprecated
     Message execute(SendDocument sendDocument) throws TelegramApiException;
 
+    @Deprecated
     Message execute(SendPhoto sendPhoto) throws TelegramApiException;
 
     Boolean execute(SetWebhook setWebhook) throws TelegramApiException;
 
+    @Deprecated
     Message execute(SendVideo sendVideo) throws TelegramApiException;
 
+    @Deprecated
     Message execute(SendVideoNote sendVideoNote) throws TelegramApiException;
 
+    @Deprecated
     Message execute(SendSticker sendSticker) throws TelegramApiException;
 
     Boolean execute(SetBusinessAccountProfilePhoto setBusinessAccountProfilePhoto) throws TelegramApiException;
@@ -72,6 +97,7 @@ public interface TelegramClient {
      * @throws TelegramApiException If there is any error sending the audio
      * @see <a href="https://core.telegram.org/bots/api#sendaudio)">https://core.telegram.org/bots/api#sendaudio)</a>
      */
+    @Deprecated
     Message execute(SendAudio sendAudio) throws TelegramApiException;
 
     /**
@@ -82,6 +108,7 @@ public interface TelegramClient {
      * @throws TelegramApiException If there is any error sending the audio
      * @see <a href="https://core.telegram.org/bots/api#sendvoice">https://core.telegram.org/bots/api#sendvoice)</a>
      */
+    @Deprecated
     Message execute(SendVoice sendVoice) throws TelegramApiException;
 
     /**
@@ -190,6 +217,7 @@ public interface TelegramClient {
      * @return Sent message
      * @throws TelegramApiException If there is any error sending animation
      */
+    @Deprecated
     Message execute(SendAnimation sendAnimation) throws TelegramApiException;
 
     /**
@@ -198,20 +226,27 @@ public interface TelegramClient {
      * @return Sent message
      * @throws TelegramApiException If there is any error sending live photo
      */
+    @Deprecated
     Message execute(SendLivePhoto sendLivePhoto) throws TelegramApiException;
 
+    @Deprecated
     CompletableFuture<Message> executeAsync(SendRichMessage sendRichMessage);
 
+    @Deprecated
     CompletableFuture<Message> executeAsync(SendDocument sendDocument);
 
+    @Deprecated
     CompletableFuture<Message> executeAsync(SendPhoto sendPhoto);
 
     CompletableFuture<Boolean> executeAsync(SetWebhook setWebhook);
 
+    @Deprecated
     CompletableFuture<Message> executeAsync(SendVideo sendVideo);
 
+    @Deprecated
     CompletableFuture<Message> executeAsync(SendVideoNote sendVideoNote);
 
+    @Deprecated
     CompletableFuture<Message> executeAsync(SendSticker sendSticker);
 
     /**
@@ -219,6 +254,7 @@ public interface TelegramClient {
      * @param sendAudio Information to send
      * @return If success, the sent Message is returned
      */
+    @Deprecated
     CompletableFuture<Message> executeAsync(SendAudio sendAudio);
 
     /**
@@ -227,6 +263,7 @@ public interface TelegramClient {
      * @param sendVoice Information to send
      * @return If success, the sent Message is returned
      */
+    @Deprecated
     CompletableFuture<Message> executeAsync(SendVoice sendVoice);
 
     /**
@@ -310,6 +347,7 @@ public interface TelegramClient {
      * @param sendAnimation Information of the animation
      * @return Sent message
      */
+    @Deprecated
     CompletableFuture<Message> executeAsync(SendAnimation sendAnimation);
 
     /**
@@ -317,6 +355,7 @@ public interface TelegramClient {
      * @param sendLivePhoto Information of the live photo
      * @return Sent message
      */
+    @Deprecated
     CompletableFuture<Message> executeAsync(SendLivePhoto sendLivePhoto);
 
     /**

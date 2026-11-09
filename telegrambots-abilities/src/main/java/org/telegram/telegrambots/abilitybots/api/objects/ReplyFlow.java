@@ -6,6 +6,7 @@ import org.telegram.telegrambots.abilitybots.api.db.DBContext;
 import org.telegram.telegrambots.abilitybots.api.util.AbilityUtils;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -108,8 +109,10 @@ public class ReplyFlow extends Reply {
     public ReplyFlowBuilder next(Reply nextReply) {
       List<Predicate<Update>> statefulConditions = toStateful(nextReply.conditions());
       BiConsumer<BaseAbilityBot, Update> statefulAction = nextReply.action().andThen((unused, upd) -> {
-        Long chatId = AbilityUtils.getChatId(upd);
-        db.<Long, Integer>getMap(STATES).remove(chatId);
+        Serializable stateKey = AbilityUtils.getReplyFlowKey(upd);
+        if (stateKey != null) {
+          db.<Serializable, Integer>getMap(STATES).remove(stateKey);
+        }
       });
 
       Reply statefulReply = new Reply(statefulConditions, statefulAction, nextReply.name());
@@ -132,13 +135,17 @@ public class ReplyFlow extends Reply {
       BiConsumer<BaseAbilityBot, Update> stateTransition;
       if (nextReplies.size() > 0) {
          stateTransition = (bot, upd) -> {
-          Long chatId = AbilityUtils.getChatId(upd);
-          db.<Long, Integer>getMap(STATES).put(chatId, id);
+          Serializable stateKey = AbilityUtils.getReplyFlowKey(upd);
+          if (stateKey != null) {
+            db.<Serializable, Integer>getMap(STATES).put(stateKey, id);
+          }
         };
       } else {
         stateTransition = (bot, upd) -> {
-          Long chatId = AbilityUtils.getChatId(upd);
-          db.<Long, Integer>getMap(STATES).remove(chatId);
+          Serializable stateKey = AbilityUtils.getReplyFlowKey(upd);
+          if (stateKey != null) {
+            db.<Serializable, Integer>getMap(STATES).remove(stateKey);
+          }
         };
       }
 
@@ -160,8 +167,11 @@ public class ReplyFlow extends Reply {
     private List<Predicate<Update>> toStateful(List<Predicate<Update>> conditions) {
       List<Predicate<Update>> statefulConditions = newArrayList(conditions);
       statefulConditions.add(0, upd -> {
-        Long chatId = AbilityUtils.getChatId(upd);
-        int stateId = db.<Long, Integer>getMap(STATES).getOrDefault(chatId, -1);
+        Serializable stateKey = AbilityUtils.getReplyFlowKey(upd);
+        if (stateKey == null) {
+          return false;
+        }
+        int stateId = db.<Serializable, Integer>getMap(STATES).getOrDefault(stateKey, -1);
         return id == stateId;
       });
       return statefulConditions;

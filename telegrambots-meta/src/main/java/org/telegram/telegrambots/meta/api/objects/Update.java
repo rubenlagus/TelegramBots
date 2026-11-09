@@ -26,6 +26,8 @@ import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.api.objects.polls.PollAnswer;
 import org.telegram.telegrambots.meta.api.objects.reactions.MessageReactionCountUpdated;
 import org.telegram.telegrambots.meta.api.objects.reactions.MessageReactionUpdated;
+import org.telegram.telegrambots.meta.api.objects.widget.WidgetQuery;
+import org.telegram.telegrambots.meta.api.objects.widget.SharedWidgetQuery;
 
 /**
  * This object represents an incoming update.
@@ -240,6 +242,39 @@ public class Update implements BotApiObject {
      */
     @JsonProperty(STOPPED_MESSAGE_GENERATION_FIELD)
     private MessageGenerationStopped stoppedMessageGeneration;
+
+    /** Optional. Query from a widget in a message sent by or via the bot. */
+    @JsonProperty("widget_query")
+    private WidgetQuery widgetQuery;
+    /** Optional. Query from a forwarded shared widget. */
+    @JsonProperty("shared_widget_query")
+    private SharedWidgetQuery sharedWidgetQuery;
+
+    /** Preserves the 10.3 all-arguments constructor signature. */
+    public Update(Integer updateId, Message message, InlineQuery inlineQuery, ChosenInlineQuery chosenInlineQuery,
+                  CallbackQuery callbackQuery, Message editedMessage, Message channelPost, Message editedChannelPost,
+                  ShippingQuery shippingQuery, PreCheckoutQuery preCheckoutQuery, Poll poll, PollAnswer pollAnswer,
+                  ChatMemberUpdated myChatMember, ChatMemberUpdated chatMember, ChatJoinRequest chatJoinRequest,
+                  MessageReactionUpdated messageReaction, MessageReactionCountUpdated messageReactionCount,
+                  ChatBoostUpdated chatBoost, ChatBoostRemoved removedChatBoost, Message guestMessage,
+                  BusinessConnection businessConnection, Message businessMessage, Message editedBuinessMessage,
+                  BusinessMessagesDeleted deletedBusinessMessages, PaidMediaPurchased paidMediaPurchased,
+                  ManagedBotUpdated managedBot, BotSubscriptionUpdated subscription,
+                  MessageGenerationStopped stoppedMessageGeneration) {
+        this(updateId, message, inlineQuery, chosenInlineQuery, callbackQuery, editedMessage, channelPost, editedChannelPost,
+                shippingQuery, preCheckoutQuery, poll, pollAnswer, myChatMember, chatMember, chatJoinRequest, messageReaction,
+                messageReactionCount, chatBoost, removedChatBoost, guestMessage, businessConnection, businessMessage,
+                editedBuinessMessage, deletedBusinessMessages, paidMediaPurchased, managedBot, subscription,
+                stoppedMessageGeneration, null, null);
+    }
+
+    public boolean hasWidgetQuery() {
+        return widgetQuery != null;
+    }
+
+    public boolean hasSharedWidgetQuery() {
+        return sharedWidgetQuery != null;
+    }
 
     public boolean hasMessage() {
         return message != null;

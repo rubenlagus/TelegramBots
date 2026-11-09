@@ -18,7 +18,9 @@ import org.telegram.telegrambots.meta.api.interfaces.Validable;
         @JsonSubTypes.Type(InputLocationMessageContent.class),
         @JsonSubTypes.Type(InputContactMessageContent.class),
         @JsonSubTypes.Type(InputInvoiceMessageContent.class),
-        @JsonSubTypes.Type(InputRichMessageContent.class)
+        @JsonSubTypes.Type(InputRichMessageContent.class),
+        @JsonSubTypes.Type(InputWidgetMessageContent.class),
+        @JsonSubTypes.Type(InputSharedWidgetMessageContent.class)
 })
 public interface InputMessageContent extends Validable, BotApiObject {
 }

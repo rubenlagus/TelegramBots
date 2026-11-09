@@ -26,6 +26,7 @@ import org.telegram.telegrambots.meta.api.objects.photo.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 import org.telegram.telegrambots.meta.api.objects.stories.Story;
+import org.telegram.telegrambots.meta.api.objects.widget.Widget;
 
 import java.util.List;
 
@@ -225,6 +226,27 @@ public class ExternalReplyInfo implements BotApiObject {
      */
     @JsonProperty(CHECKLIST_FIELD)
     private Checklist checklist;
+
+    /** Optional. Information about the HTML widget in the original message. */
+    @JsonProperty("widget")
+    private Widget widget;
+
+    /** Preserves the 10.3 all-arguments constructor signature. */
+    public ExternalReplyInfo(MessageOrigin origin, Chat chat, Integer messageId, LinkPreviewOptions linkPreviewOptions,
+                             Animation animation, Audio audio, Document document, List<PhotoSize> photo, Sticker sticker,
+                             Story story, LivePhoto livePhoto, Video video, VideoNote videoNote, Voice voice,
+                             Boolean hasMediaSpoiler, Contact contact, Dice dice, Game game, Giveaway giveaway,
+                             GiveawayWinners giveawayWinners, Invoice invoice, Location location, Poll poll, Venue venue,
+                             PaidMediaInfo paidMedia, Checklist checklist) {
+        this(origin, chat, messageId, linkPreviewOptions, animation, audio, document, photo, sticker, story, livePhoto, video,
+                videoNote, voice, hasMediaSpoiler, contact, dice, game, giveaway, giveawayWinners, invoice, location, poll,
+                venue, paidMedia, checklist, null);
+    }
+
+    @JsonIgnore
+    public boolean hasWidget() {
+        return widget != null;
+    }
 
 
     @JsonIgnore

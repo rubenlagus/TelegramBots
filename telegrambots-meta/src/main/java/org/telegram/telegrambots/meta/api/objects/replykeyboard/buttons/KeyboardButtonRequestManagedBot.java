@@ -51,7 +51,9 @@ public class KeyboardButtonRequestManagedBot implements BotApiObject {
     private String suggestedName;
     /**
      * Optional.
-     * Suggested username for the bot
+     * Suggested username for the bot, normally ending in "bot". Premium users can instead suggest a
+     * secondary username ending in "agent", "ai", "app", "game", or "gay"; Telegram assigns a regular
+     * username ending in "bot" automatically in that case.
      */
     @JsonProperty(SUGGESTED_USERNAME_FIELD)
     private String suggestedUsername;

@@ -436,6 +436,26 @@ public class TestTelegramClientIntegration {
         assertFalse(body.contains("SuggestedPostParameters("), body);
     }
 
+    @Test
+    void testSendPhotoWritesAllowPaidBroadcastMultipartPart() throws Exception {
+        SendPhoto method = SendPhoto.builder()
+                .chatId("someChatId")
+                .photo(new InputFile(getTestFile()))
+                .allowPaidBroadcast(true)
+                .build();
+        Message responseMessage = new Message();
+        responseMessage.setChat(TestData.GROUP_CHAT);
+        responseMessage.setFrom(TestData.TEST_USER);
+        responseMessage.setText("someText");
+        mockMethod(method, responseMessage);
+
+        client.execute(method);
+
+        String body = webServer.takeRequest().getBody().readUtf8();
+        assertTrue(body.contains("name=\"allow_paid_broadcast\""), body);
+        assertTrue(body.contains("true"), body);
+    }
+
     /**
      * Bot API 10.3 made editEphemeralMessageMedia a PartialBotApiMethod so a brand-new file can be
      * uploaded. Asserts the multipart body carries the media part and the scalar parameters.

@@ -22,7 +22,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostParameters;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-import org.telegram.telegrambots.meta.util.Validations;
+import org.telegram.telegrambots.meta.util.SendMessageValidations;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ import java.util.List;
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SendVideo extends SendMediaBotMethod<Message> {
+public class SendVideo extends SendMediaBotMethod<Message> implements CallbackReplyMethod {
     public static final String PATH = "sendvideo";
 
     public static final String VIDEO_FIELD = "video";
@@ -60,7 +60,6 @@ public class SendVideo extends SendMediaBotMethod<Message> {
     public static final String COVER_FIELD = "cover";
     public static final String START_TIMESTAMP_FIELD = "start_timestamp";
 
-    @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     /**
      * Unique identifier for the target message thread (topic) of the forum;
@@ -161,6 +160,12 @@ public class SendVideo extends SendMediaBotMethod<Message> {
     private EphemeralMessageParameters ephemeralMessageParameters;
 
     @Tolerate
+    public SendVideo(String chatId, @NonNull InputFile video) {
+        this(video);
+        this.chatId = chatId;
+    }
+
+    @Tolerate
     public void setChatId(@NonNull Long chatId) {
         this.chatId = chatId.toString();
     }
@@ -180,7 +185,7 @@ public class SendVideo extends SendMediaBotMethod<Message> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        Validations.requiredChatId(chatId, this);
+        SendMessageValidations.validateChatId(chatId, businessConnectionId, ephemeralMessageParameters, this);
 
         if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
             throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
@@ -194,7 +199,7 @@ public class SendVideo extends SendMediaBotMethod<Message> {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-        if (replyParameters != null) {
+        if (replyParameters != null && !isCallbackOnly()) {
             replyParameters.validate();
         }
         if (ephemeralMessageParameters != null) {

@@ -80,10 +80,10 @@ public class TestEphemeralMessageParameters {
     }
 
     @Test
-    public void testValidateRejectsMissingReceiverUserId() {
+    public void testValidateRequiresReceiverOrCallbackQuery() {
         EphemeralMessageParameters parameters = new EphemeralMessageParameters();
-        parameters.setCallbackQueryId("q");
-
         assertThrows(TelegramApiValidationException.class, parameters::validate);
+        parameters.setCallbackQueryId("q");
+        assertDoesNotThrow(parameters::validate);
     }
 }

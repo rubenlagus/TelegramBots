@@ -1,6 +1,8 @@
 package org.telegram.telegrambots.abilitybots.api.util;
 
+import tools.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.Test;
+import org.telegram.telegrambots.abilitybots.api.objects.Flag;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.boost.ChatBoost;
@@ -14,9 +16,42 @@ import org.telegram.telegrambots.meta.api.objects.reactions.MessageReactionCount
 import org.telegram.telegrambots.meta.api.objects.reactions.MessageReactionUpdated;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AbilityUtilsTest {
+
+    @Test
+    void testWidgetQueryRouting() throws Exception {
+        JsonMapper mapper = new JsonMapper();
+        String query = "\"id\":\"q\",\"from\":{\"id\":123,\"first_name\":\"A\",\"is_bot\":false},"
+                + "\"chat_instance\":\"i\",\"type\":{\"type\":\"data\"},\"data\":\"a\"";
+        Update inGroup = mapper.readValue("{\"update_id\":1,\"widget_query\":{" + query
+                + ",\"chat\":{\"id\":456,\"type\":\"group\"}}}", Update.class);
+        assertTrue(Flag.WIDGET_QUERY.test(inGroup));
+        assertEquals(123L, AbilityUtils.getUser(inGroup).getId());
+        assertEquals(456L, AbilityUtils.getChatId(inGroup));
+        assertTrue(AbilityUtils.isGroupUpdate(inGroup));
+        assertEquals(456L, AbilityUtils.getReplyFlowKey(inGroup));
+        Update inline = mapper.readValue("{\"update_id\":2,\"widget_query\":{" + query
+                + ",\"chat_type\":\"group\"}}", Update.class);
+        assertEquals(null, AbilityUtils.getChatId(inline));
+        assertTrue(AbilityUtils.isGroupUpdate(inline));
+        assertEquals(Boolean.FALSE, AbilityUtils.isWidgetQueryFromUserChat(inline));
+        assertEquals("widget-chat-instance:i", AbilityUtils.getReplyFlowKey(inline));
+        Update shared = mapper.readValue("{\"update_id\":3,\"shared_widget_query\":{" + query
+                + ",\"widget_id\":\"w\"}}", Update.class);
+        assertTrue(Flag.SHARED_WIDGET_QUERY.test(shared));
+        assertEquals(123L, AbilityUtils.getUser(shared).getId());
+        assertEquals(null, AbilityUtils.getChatId(shared));
+        assertEquals(null, AbilityUtils.getReplyFlowKey(shared));
+        assertEquals(null, AbilityUtils.isWidgetQueryFromUserChat(shared));
+        Update privateInline = mapper.readValue("{\"update_id\":4,\"widget_query\":{" + query
+                + ",\"chat_type\":\"private\"}}", Update.class);
+        assertEquals(Boolean.TRUE, AbilityUtils.isWidgetQueryFromUserChat(privateInline));
+        Update unknown = mapper.readValue("{\"update_id\":5,\"widget_query\":{" + query + "}}", Update.class);
+        assertEquals(null, AbilityUtils.isWidgetQueryFromUserChat(unknown));
+    }
 
     @Test
     void testGetUserFromGuestMessage() {

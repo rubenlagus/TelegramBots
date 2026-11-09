@@ -3,6 +3,8 @@ package org.telegram.telegrambots.meta.api.methods.send;
 import tools.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
+import org.telegram.telegrambots.meta.api.objects.ephemeral.EphemeralMessageParameters;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
 
@@ -36,11 +38,26 @@ public class TestSendLivePhoto {
     }
 
     @Test
+    public void testSendLivePhotoRejectsEmptyFileIdentifiers() {
+        SendLivePhoto request = SendLivePhoto.builder()
+                .chatId("123456789")
+                .livePhoto(new InputFile(""))
+                .photo(new InputFile("photo_id"))
+                .ephemeralMessageParameters(EphemeralMessageParameters.builder().callbackQueryId("query").build())
+                .build();
+
+        assertThrows(TelegramApiValidationException.class, request::validate);
+    }
+
+    @Test
     public void testSendLivePhotoValidationMissingChatId() {
-        assertThrows(NullPointerException.class, () -> SendLivePhoto.builder()
+        SendLivePhoto request = SendLivePhoto.builder()
                 .livePhoto(new InputFile("live_photo_id"))
                 .photo(new InputFile("photo_id"))
-                .build());
+                .build();
+        assertThrows(TelegramApiValidationException.class, request::validate);
+        request.setEphemeralMessageParameters(EphemeralMessageParameters.builder().callbackQueryId("q").build());
+        assertDoesNotThrow(request::validate);
     }
 
     @Test

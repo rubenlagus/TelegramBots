@@ -6,8 +6,11 @@ import org.telegram.telegrambots.abilitybots.api.objects.Flag;
 import org.telegram.telegrambots.abilitybots.api.objects.MessageContext;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
+import org.telegram.telegrambots.meta.api.objects.widget.WidgetQuery;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
@@ -67,6 +70,10 @@ public final class AbilityUtils {
       return update.getMessage().getFrom();
     } else if (Flag.CALLBACK_QUERY.test(update)) {
       return update.getCallbackQuery().getFrom();
+    } else if (Flag.WIDGET_QUERY.test(update)) {
+      return update.getWidgetQuery().getFrom();
+    } else if (Flag.SHARED_WIDGET_QUERY.test(update)) {
+      return update.getSharedWidgetQuery().getFrom();
     } else if (Flag.INLINE_QUERY.test(update)) {
       return update.getInlineQuery().getFrom();
     } else if (Flag.CHANNEL_POST.test(update)) {
@@ -128,6 +135,9 @@ public final class AbilityUtils {
   public static boolean isGroupUpdate(Update update) {
     if (Flag.MESSAGE.test(update)) {
       return update.getMessage().isGroupMessage();
+    } else if (Flag.WIDGET_QUERY.test(update)) {
+      String chatType = widgetChatType(update.getWidgetQuery());
+      return "group".equals(chatType);
     } else if (Flag.CALLBACK_QUERY.test(update)) {
       return update.getCallbackQuery().getMessage().isGroupMessage();
     } else if (Flag.CHANNEL_POST.test(update)) {
@@ -152,6 +162,9 @@ public final class AbilityUtils {
   public static boolean isSuperGroupUpdate(Update update) {
     if (Flag.MESSAGE.test(update)) {
       return update.getMessage().isSuperGroupMessage();
+    } else if (Flag.WIDGET_QUERY.test(update)) {
+      String chatType = widgetChatType(update.getWidgetQuery());
+      return "supergroup".equals(chatType);
     } else if (Flag.CALLBACK_QUERY.test(update)) {
       return update.getCallbackQuery().getMessage().isSuperGroupMessage();
     } else if (Flag.CHANNEL_POST.test(update)) {
@@ -177,6 +190,10 @@ public final class AbilityUtils {
   public static Long getChatId(Update update) {
     if (Flag.MESSAGE.test(update)) {
       return update.getMessage().getChatId();
+    } else if (Flag.WIDGET_QUERY.test(update)) {
+      return update.getWidgetQuery().getChat() != null ? update.getWidgetQuery().getChat().getId() : null;
+    } else if (Flag.SHARED_WIDGET_QUERY.test(update)) {
+      return null;
     } else if (Flag.CALLBACK_QUERY.test(update)) {
       return update.getCallbackQuery().getMessage().getChatId();
     } else if (Flag.INLINE_QUERY.test(update)) {
@@ -235,12 +252,58 @@ public final class AbilityUtils {
   }
 
   /**
+   * Returns a stable identity for reply-flow state without treating a widget sender as its chat.
+   * Inline widget queries use their chat instance when Telegram does not include a chat object;
+   * forwarded shared-widget queries have no originating chat identity.
+   */
+  public static Serializable getReplyFlowKey(Update update) {
+    if (Flag.WIDGET_QUERY.test(update)) {
+      WidgetQuery query = update.getWidgetQuery();
+      Chat chat = query.getChat();
+      if (chat != null && chat.getId() != null) {
+        return chat.getId();
+      }
+      return query.getChatInstance() == null || query.getChatInstance().isEmpty()
+              ? null : "widget-chat-instance:" + query.getChatInstance();
+    }
+    if (Flag.SHARED_WIDGET_QUERY.test(update)) {
+      return null;
+    }
+    return getChatId(update);
+  }
+
+  /**
+   * Returns whether a widget query is known to originate in a private chat, or {@code null}
+   * when its locality cannot be determined.
+   */
+  public static Boolean isWidgetQueryFromUserChat(Update update) {
+    if (!Flag.WIDGET_QUERY.test(update)) {
+      return null;
+    }
+    String chatType = widgetChatType(update.getWidgetQuery());
+    if ("private".equals(chatType)) {
+      return true;
+    }
+    if ("group".equals(chatType) || "supergroup".equals(chatType)
+            || "channel".equals(chatType) || "sender".equals(chatType)) {
+      return false;
+    }
+    return null;
+  }
+
+  private static String widgetChatType(WidgetQuery query) {
+    return query.getChat() != null ? query.getChat().getType() : query.getChatType();
+  }
+
+  /**
    * @param update a Telegram {@link Update}
    * @return <tt>true</tt> if the update contains contains a private user message
    */
   public static boolean isUserMessage(Update update) {
     if (Flag.MESSAGE.test(update)) {
       return update.getMessage().isUserMessage();
+    } else if (Flag.WIDGET_QUERY.test(update)) {
+      return Boolean.TRUE.equals(isWidgetQueryFromUserChat(update));
     } else if (Flag.CALLBACK_QUERY.test(update)) {
       return update.getCallbackQuery().getMessage().isUserMessage();
     } else if (Flag.CHANNEL_POST.test(update)) {
