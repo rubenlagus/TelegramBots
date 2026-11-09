@@ -1,10 +1,5 @@
 package org.telegram.telegrambots.meta.test;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.Data;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
@@ -12,6 +7,8 @@ import org.telegram.telegrambots.meta.api.methods.send.SendLocation;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputLocationMessageContent;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultArticle;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultsButton;
+import tools.jackson.databind.MapperFeature;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.time.OffsetTime;
 
@@ -24,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @version 1.0
  */
 public class TestSerialization {
-    private ObjectMapper mapper = JsonMapper.builder()
+    private JsonMapper mapper = JsonMapper.builder()
             .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
             .build();
 
@@ -38,10 +35,8 @@ public class TestSerialization {
     }
 
     @Test
-    public void test() throws JsonProcessingException {
+    public void test() {
         String time = "{\"time\":\"14:30Z\"}";
-
-        mapper.registerModule(new JavaTimeModule());
 
         OffsetTime now = OffsetTime.now().withHour(9).withMinute(0).withNano(0).withSecond(0);
         OffsetTime myTime = mapper.readValue(time, MyClass.class).time;
@@ -57,7 +52,7 @@ public class TestSerialization {
     }
 
     @Test
-    void testSendLocation() throws JsonProcessingException {
+    void testSendLocation() {
         SendLocation location = SendLocation.builder()
                 .chatId(12345L)
                 .latitude(20.758069)
@@ -80,7 +75,7 @@ public class TestSerialization {
     }
 
     @Test
-    void testAnswerInlineLocation() throws JsonProcessingException {
+    void testAnswerInlineLocation() {
         AnswerInlineQuery inlineQuery = AnswerInlineQuery
                 .builder()
                 .inlineQueryId("12345")
