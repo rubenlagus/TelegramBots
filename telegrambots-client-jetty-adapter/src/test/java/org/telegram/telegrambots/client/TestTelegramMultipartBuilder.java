@@ -14,12 +14,14 @@ import tools.jackson.databind.json.JsonMapper;
 import java.io.File;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayDeque;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class TestTelegramMultipartBuilder {
@@ -160,6 +162,23 @@ public class TestTelegramMultipartBuilder {
             MultiPartRequestContent result = multipartBuilder.addInputStickers("testField", List.of(inputSticker)).build();
             assertNotNull(result);
             assertEquals(2, getPartsCount(result));
+        } catch (Exception e) {
+            fail(e);
+        }
+    }
+
+    @Test
+    public void testAddSingleStickerIsSentAsObject() {
+        try {
+            InputSticker inputSticker = InputSticker.builder()
+                    .sticker(new InputFile("FILE_ID"))
+                    .emoji("A")
+                    .format("static")
+                    .build();
+            MultiPartRequestContent result = multipartBuilder.addInputSticker("sticker", inputSticker).build();
+            assertEquals(1, getPartsCount(result));
+            MultiPart.Part part = (MultiPart.Part) ((ArrayDeque<?>) partsField.get(result)).getFirst();
+            assertTrue(part.getContentAsString(StandardCharsets.UTF_8).startsWith("{"));
         } catch (Exception e) {
             fail(e);
         }

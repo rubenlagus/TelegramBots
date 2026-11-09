@@ -131,7 +131,15 @@ public class TelegramMultipartBuilder {
         return this;
     }
 
-    public TelegramMultipartBuilder addInputStickers(String stickersField, List<InputSticker> stickers) throws IOException, JacksonException {
+    public TelegramMultipartBuilder addInputSticker(String stickerField, InputSticker sticker) throws IOException {
+        addInputFile(null, sticker.getSticker(), false);
+
+        addJsonPart(stickerField, sticker);
+
+        return this;
+    }
+
+    public TelegramMultipartBuilder addInputStickers(String stickersField, List<InputSticker> stickers) throws IOException {
         for (InputSticker sticker : stickers) {
             addInputFile(null, sticker.getSticker(), false);
         }

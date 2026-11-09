@@ -68,7 +68,6 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -535,7 +534,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             builder.addPart(AddStickerToSet.USERID_FIELD, addStickerToSet.getUserId())
                     .addPart(AddStickerToSet.NAME_FIELD, addStickerToSet.getName());
 
-            builder.addInputStickers(AddStickerToSet.STICKER_FIELD, Collections.singletonList(addStickerToSet.getSticker()));
+            builder.addInputSticker(AddStickerToSet.STICKER_FIELD, addStickerToSet.getSticker());
 
             Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
             return sendRequest(addStickerToSet, httpPost);
@@ -560,7 +559,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                     .addPart(ReplaceStickerInSet.OLD_STICKER_FIELD, replaceStickerInSet.getOldSticker())
                     .addPart(ReplaceStickerInSet.NAME_FIELD, replaceStickerInSet.getName());
 
-            builder.addInputStickers(ReplaceStickerInSet.STICKER_FIELD, Collections.singletonList(replaceStickerInSet.getSticker()));
+            builder.addInputSticker(ReplaceStickerInSet.STICKER_FIELD, replaceStickerInSet.getSticker());
 
             Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
             return sendRequest(replaceStickerInSet, httpPost);

@@ -70,7 +70,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -545,7 +544,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
             builder.addPart(AddStickerToSet.USERID_FIELD, addStickerToSet.getUserId())
                     .addPart(AddStickerToSet.NAME_FIELD, addStickerToSet.getName());
 
-            builder.addInputStickers(AddStickerToSet.STICKER_FIELD, Collections.singletonList(addStickerToSet.getSticker()));
+            builder.addInputSticker(AddStickerToSet.STICKER_FIELD, addStickerToSet.getSticker());
 
             Request httpPost = client.POST(url).body(builder.build());
             return sendRequest(addStickerToSet, httpPost);
@@ -570,7 +569,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
                     .addPart(ReplaceStickerInSet.OLD_STICKER_FIELD, replaceStickerInSet.getOldSticker())
                     .addPart(ReplaceStickerInSet.NAME_FIELD, replaceStickerInSet.getName());
 
-            builder.addInputStickers(ReplaceStickerInSet.STICKER_FIELD, Collections.singletonList(replaceStickerInSet.getSticker()));
+            builder.addInputSticker(ReplaceStickerInSet.STICKER_FIELD, replaceStickerInSet.getSticker());
 
             Request httpPost = client.POST(url).body(builder.build());
             return sendRequest(replaceStickerInSet, httpPost);
