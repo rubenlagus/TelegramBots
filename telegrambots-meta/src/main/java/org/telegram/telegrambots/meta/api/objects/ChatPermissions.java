@@ -94,7 +94,7 @@ public class ChatPermissions implements BotApiObject {
     private Boolean canSendPolls;
     /**
      * Optional.
-     * True, if the user is allowed to send animations, games, stickers and use inline bots, implies can_send_media_messages
+     * True, if the user is allowed to send animations, games, stickers, widgets and use inline bots
      */
     @JsonProperty(CAN_SEND_OTHER_MESSAGES_FIELD)
     private Boolean canSendOtherMessages;

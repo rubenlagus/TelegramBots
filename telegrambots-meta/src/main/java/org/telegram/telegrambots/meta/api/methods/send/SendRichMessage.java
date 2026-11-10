@@ -22,7 +22,7 @@ import org.telegram.telegrambots.meta.api.objects.richtext.InputRichMessage;
 import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostParameters;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-import org.telegram.telegrambots.meta.util.Validations;
+import org.telegram.telegrambots.meta.util.SendMessageValidations;
 
 /**
  * @author Ruben Bermudez
@@ -40,7 +40,7 @@ import org.telegram.telegrambots.meta.util.Validations;
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SendRichMessage extends PartialBotApiMethod<Message> {
+public class SendRichMessage extends PartialBotApiMethod<Message> implements CallbackReplyMethod {
     public static final String PATH = "sendRichMessage";
 
     public static final String BUSINESS_CONNECTION_ID_FIELD = "business_connection_id";
@@ -67,7 +67,6 @@ public class SendRichMessage extends PartialBotApiMethod<Message> {
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      */
     @JsonProperty(CHAT_ID_FIELD)
-    @NonNull
     private String chatId;
 
     /**
@@ -138,6 +137,12 @@ public class SendRichMessage extends PartialBotApiMethod<Message> {
     private ReplyKeyboard replyMarkup;
 
     @Tolerate
+    public SendRichMessage(String chatId, @NonNull InputRichMessage richMessage) {
+        this(richMessage);
+        this.chatId = chatId;
+    }
+
+    @Tolerate
     public void setChatId(@NonNull Long chatId) {
         this.chatId = chatId.toString();
     }
@@ -154,7 +159,7 @@ public class SendRichMessage extends PartialBotApiMethod<Message> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        Validations.requiredChatId(chatId, this);
+        SendMessageValidations.validateChatId(chatId, businessConnectionId, ephemeralMessageParameters, this);
         if (richMessage == null) {
             throw new TelegramApiValidationException("RichMessage parameter can't be null", this);
         }
@@ -162,7 +167,7 @@ public class SendRichMessage extends PartialBotApiMethod<Message> {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-        if (replyParameters != null) {
+        if (replyParameters != null && !isCallbackOnly()) {
             replyParameters.validate();
         }
         if (ephemeralMessageParameters != null) {

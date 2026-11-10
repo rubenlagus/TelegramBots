@@ -22,7 +22,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostParameters;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-import org.telegram.telegrambots.meta.util.Validations;
+import org.telegram.telegrambots.meta.util.SendMessageValidations;
 
 import java.util.List;
 import java.util.Objects;
@@ -42,7 +42,7 @@ import java.util.Objects;
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SendPhoto extends SendMediaBotMethod<Message> {
+public class SendPhoto extends SendMediaBotMethod<Message> implements CallbackReplyMethod {
     public static final String PATH = "sendphoto";
 
     public static final String PHOTO_FIELD = "photo";
@@ -56,7 +56,6 @@ public class SendPhoto extends SendMediaBotMethod<Message> {
     /**
      * Unique identifier for the chat to send the message to (Or username for channels)
      */
-    @NonNull
     private String chatId;
     /**
      * Unique identifier for the target message thread (topic) of the forum;
@@ -162,6 +161,12 @@ public class SendPhoto extends SendMediaBotMethod<Message> {
     private EphemeralMessageParameters ephemeralMessageParameters;
 
     @Tolerate
+    public SendPhoto(String chatId, @NonNull InputFile photo) {
+        this(photo);
+        this.chatId = chatId;
+    }
+
+    @Tolerate
     public void setChatId(@NonNull Long chatId) {
         this.chatId = chatId.toString();
     }
@@ -186,7 +191,7 @@ public class SendPhoto extends SendMediaBotMethod<Message> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        Validations.requiredChatId(chatId, this);
+        SendMessageValidations.validateChatId(chatId, businessConnectionId, ephemeralMessageParameters, this);
 
         if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
             throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
@@ -196,7 +201,7 @@ public class SendPhoto extends SendMediaBotMethod<Message> {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-        if (replyParameters != null) {
+        if (replyParameters != null && !isCallbackOnly()) {
             replyParameters.validate();
         }
         if (ephemeralMessageParameters != null) {

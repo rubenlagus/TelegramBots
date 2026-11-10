@@ -36,17 +36,18 @@ public class EphemeralMessageParameters implements BotApiObject, Validable {
     private static final String REPLACE_CALLBACK_QUERY_MESSAGE_FIELD = "replace_callback_query_message";
 
     /**
-     * Identifier of the user who will receive the message.
+     * Identifier of the user who will receive the message. Required unless callbackQueryId is provided.
      * It is not guaranteed that the user will receive the message, especially if they are offline.
      *
-     * @implNote Required by the Bot API, but not enforced by the constructor so that the deprecated
-     * per-field setters on the send methods can populate this object in any order.
-     * Enforced by {@link #validate()} instead.
+     * @implNote Validated by {@link #validate()} so the deprecated per-field setters on send
+     * methods can populate this object in any order.
      */
     @JsonProperty(RECEIVER_USER_ID_FIELD)
     private Long receiverUserId;
     /**
-     * Optional. Identifier of the callback query which triggered the message, if any
+     * Optional. Identifier of the callback query which triggered the message. When the receiver is omitted,
+     * the reply is visible only to the user who pressed the button; the chat ID is ignored. Callback replies
+     * cannot be sent in channel direct messages chats, and the callback query must still be answered.
      */
     @JsonProperty(CALLBACK_QUERY_ID_FIELD)
     private String callbackQueryId;
@@ -58,8 +59,8 @@ public class EphemeralMessageParameters implements BotApiObject, Validable {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        if (receiverUserId == null) {
-            throw new TelegramApiValidationException("ReceiverUserId parameter can't be empty", this);
+        if (receiverUserId == null && (callbackQueryId == null || callbackQueryId.isEmpty())) {
+            throw new TelegramApiValidationException("ReceiverUserId or CallbackQueryId parameter is required", this);
         }
     }
 }

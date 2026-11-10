@@ -110,7 +110,7 @@ public class ChatMemberRestricted implements ChatMember {
     @JsonProperty(CANSENDPOLLS_FIELD)
     private Boolean canSendPolls;
     /**
-     * True, if the user is allowed to send animations, games, stickers and use inline bots
+     * True, if the user is allowed to send animations, games, stickers, widgets and use inline bots
      */
     @JsonProperty(CANSENDOTHERMESSAGES_FIELD)
     private Boolean canSendOtherMessages;

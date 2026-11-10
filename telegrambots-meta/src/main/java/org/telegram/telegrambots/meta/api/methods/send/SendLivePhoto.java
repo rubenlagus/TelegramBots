@@ -22,7 +22,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostParameters;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-import org.telegram.telegrambots.meta.util.Validations;
+import org.telegram.telegrambots.meta.util.SendMessageValidations;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ import java.util.List;
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SendLivePhoto extends SendMediaBotMethod<Message> {
+public class SendLivePhoto extends SendMediaBotMethod<Message> implements CallbackReplyMethod {
     public static final String PATH = "sendLivePhoto";
 
     public static final String LIVE_PHOTO_FIELD = "live_photo";
@@ -56,7 +56,6 @@ public class SendLivePhoto extends SendMediaBotMethod<Message> {
     @JsonProperty(BUSINESS_CONNECTION_ID_FIELD)
     private String businessConnectionId;
     @JsonProperty(CHAT_ID_FIELD)
-    @NonNull
     private String chatId;
     @JsonProperty(MESSAGE_THREAD_ID_FIELD)
     private Integer messageThreadId;
@@ -100,6 +99,12 @@ public class SendLivePhoto extends SendMediaBotMethod<Message> {
     private ReplyKeyboard replyMarkup;
 
     @Tolerate
+    public SendLivePhoto(String chatId, @NonNull InputFile livePhoto, @NonNull InputFile photo) {
+        this(livePhoto, photo);
+        this.chatId = chatId;
+    }
+
+    @Tolerate
     public void setChatId(@NonNull Long chatId) {
         this.chatId = chatId.toString();
     }
@@ -126,17 +131,19 @@ public class SendLivePhoto extends SendMediaBotMethod<Message> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        Validations.requiredChatId(chatId, this);
+        SendMessageValidations.validateChatId(chatId, businessConnectionId, ephemeralMessageParameters, this);
         if (livePhoto == null) {
             throw new TelegramApiValidationException("LivePhoto can't be null", this);
         }
         if (photo == null) {
             throw new TelegramApiValidationException("Photo can't be null", this);
         }
+        livePhoto.validate();
+        photo.validate();
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-        if (replyParameters != null) {
+        if (replyParameters != null && !isCallbackOnly()) {
             replyParameters.validate();
         }
         if (ephemeralMessageParameters != null) {

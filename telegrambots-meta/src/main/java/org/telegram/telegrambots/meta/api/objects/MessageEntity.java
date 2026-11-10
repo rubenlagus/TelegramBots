@@ -52,6 +52,8 @@ public class MessageEntity implements BotApiObject {
      * - “url” (https://telegram.org),
      * - “email” (do-not-reply@telegram.org),
      * - “phone_number” (+1-212-555-0123),
+     * - “bank_card_number” (bank card number),
+     * - “ton_address” (address in the TON blockchain),
      * - “bold” (bold text),
      * - “italic” (italic text),
      * - “underline” (underlined text),

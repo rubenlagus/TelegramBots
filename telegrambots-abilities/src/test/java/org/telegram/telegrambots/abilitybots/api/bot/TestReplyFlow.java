@@ -14,12 +14,16 @@ import org.telegram.telegrambots.abilitybots.api.objects.ReplyFlow;
 import org.telegram.telegrambots.abilitybots.api.sender.SilentSender;
 import org.telegram.telegrambots.abilitybots.api.db.MapDBContext;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
+import org.telegram.telegrambots.meta.api.objects.widget.SharedWidgetQuery;
+import org.telegram.telegrambots.meta.api.objects.widget.WidgetQueryTypeData;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -61,6 +65,28 @@ public class TestReplyFlow {
   void tearDown() throws IOException {
     db.clear();
     db.close();
+  }
+
+  @Test
+  void doesNotStartStatefulFlowForSharedWidgetQueryWithoutKey() {
+    Update update = new Update();
+    update.setSharedWidgetQuery(SharedWidgetQuery.builder()
+        .id("query")
+        .from(User.builder().id(1L).firstName("A").isBot(false).build())
+        .type(WidgetQueryTypeData.builder().build())
+        .data("data")
+        .widgetId("widget")
+        .build());
+    AtomicBoolean started = new AtomicBoolean();
+    ReplyFlow flow = ReplyFlow.builder(db, 100)
+        .action((unused, ignored) -> started.set(true))
+        .next(Reply.of((unused, ignored) -> {}, updateValue -> true))
+        .build();
+
+    flow.actOn(bot, update);
+
+    assertFalse(started.get());
+    assertTrue(db.<java.io.Serializable, Integer>getMap(ReplyFlow.ReplyFlowBuilder.STATES).isEmpty());
   }
 
   @Test
