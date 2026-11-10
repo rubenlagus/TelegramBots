@@ -42,6 +42,7 @@ import org.telegram.telegrambots.meta.api.objects.widget.SharedWidgetQuery;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Update implements BotApiObject {
+    private static final long serialVersionUID = 8960651857740058161L;
     private static final String UPDATEID_FIELD = "update_id";
     private static final String MESSAGE_FIELD = "message";
     private static final String INLINEQUERY_FIELD = "inline_query";

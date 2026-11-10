@@ -34,7 +34,6 @@ public class SharedWidgetQuery implements BotApiObject {
     @NonNull
     private User from;
     @JsonProperty("type")
-    @NonNull
     private WidgetQueryType type;
     @JsonProperty("data")
     @NonNull

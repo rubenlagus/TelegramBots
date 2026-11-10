@@ -107,6 +107,11 @@ public class TestRichTextQuotes104 {
                 .build();
         assertThrows(org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException.class, tooLong::validate);
 
+        ReplyParameters maxTexts = ReplyParameters.builder().messageId(42)
+                .quoteRichTexts(java.util.Collections.nCopies(32, new RichTextPlain("a")))
+                .build();
+        maxTexts.validate();
+
         ReplyParameters tooManyTexts = ReplyParameters.builder().messageId(42)
                 .quoteRichTexts(java.util.Collections.nCopies(33, new RichTextPlain("a")))
                 .build();

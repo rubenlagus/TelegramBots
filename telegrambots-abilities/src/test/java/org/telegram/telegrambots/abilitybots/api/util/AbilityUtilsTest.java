@@ -49,6 +49,9 @@ class AbilityUtilsTest {
         Update privateInline = mapper.readValue("{\"update_id\":4,\"widget_query\":{" + query
                 + ",\"chat_type\":\"private\"}}", Update.class);
         assertEquals(Boolean.TRUE, AbilityUtils.isWidgetQueryFromUserChat(privateInline));
+        Update senderInline = mapper.readValue("{\"update_id\":6,\"widget_query\":{" + query
+                + ",\"chat_type\":\"sender\"}}", Update.class);
+        assertEquals(Boolean.TRUE, AbilityUtils.isWidgetQueryFromUserChat(senderInline));
         Update unknown = mapper.readValue("{\"update_id\":5,\"widget_query\":{" + query + "}}", Update.class);
         assertEquals(null, AbilityUtils.isWidgetQueryFromUserChat(unknown));
     }

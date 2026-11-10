@@ -150,6 +150,9 @@ public class ReplyFlow extends Reply {
       }
 
       BiConsumer<BaseAbilityBot, Update> statefulAction = (bot, upd) -> {
+        if (nextReplies.size() > 0 && AbilityUtils.getReplyFlowKey(upd) == null) {
+          return;
+        }
         if (validator == null || validator.test(upd)) {
           action.accept(bot, upd);
           stateTransition.accept(bot, upd);

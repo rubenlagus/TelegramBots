@@ -557,8 +557,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                             .addPart(SendAnimation.PARSE_MODE_FIELD, sendAnimation.getParseMode())
                             .addPart(SendAnimation.HAS_SPOILER_FIELD, sendAnimation.getHasSpoiler())
                             .addPart(SendAnimation.BUSINESS_CONNECTION_ID_FIELD, sendAnimation.getBusinessConnectionId())
-                            .addPart(SendAnimation.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendAnimation.getShowCaptionAboveMedia())
-                            .addJsonPart(SendAnimation.REPLY_MARKUP_FIELD, sendAnimation.getReplyMarkup());
+                            .addPart(SendAnimation.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendAnimation.getShowCaptionAboveMedia());
 
                     if (sendAnimation.getThumbnail() != null) {
                         builder.addInputFile(SendAnimation.THUMBNAIL_FIELD, sendAnimation.getThumbnail(), false);
@@ -599,8 +598,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                             .addPart(SendLivePhoto.PARSE_MODE_FIELD, sendLivePhoto.getParseMode())
                             .addPart(SendLivePhoto.HAS_SPOILER_FIELD, sendLivePhoto.getHasSpoiler())
                             .addPart(SendLivePhoto.BUSINESS_CONNECTION_ID_FIELD, sendLivePhoto.getBusinessConnectionId())
-                            .addPart(SendLivePhoto.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendLivePhoto.getShowCaptionAboveMedia())
-                            .addJsonPart(SendLivePhoto.REPLY_MARKUP_FIELD, sendLivePhoto.getReplyMarkup());
+                            .addPart(SendLivePhoto.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendLivePhoto.getShowCaptionAboveMedia());
 
                     builder.addInputFile(SendLivePhoto.PHOTO_FIELD, sendLivePhoto.getPhoto(), true);
                 }

@@ -10,8 +10,8 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestSendLivePhoto {
 
@@ -100,9 +100,11 @@ public class TestSendLivePhoto {
                 .callbackQueryId("query_id")
                 .build();
 
-        String json = new JsonMapper().writeValueAsString(sendLivePhoto);
+        var json = new JsonMapper().readTree(new JsonMapper().writeValueAsString(sendLivePhoto));
 
-        assertTrue(json.contains("\"receiver_user_id\":98765"), json);
-        assertTrue(json.contains("\"callback_query_id\":\"query_id\""), json);
+        assertEquals(98765L, json.path("ephemeral_message_parameters").path("receiver_user_id").longValue());
+        assertEquals("query_id", json.path("ephemeral_message_parameters").path("callback_query_id").asText());
+        assertFalse(json.has("receiver_user_id"));
+        assertFalse(json.has("callback_query_id"));
     }
 }

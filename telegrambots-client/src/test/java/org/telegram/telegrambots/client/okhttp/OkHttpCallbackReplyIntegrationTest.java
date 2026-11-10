@@ -35,6 +35,7 @@ import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.message.SendMessageResult;
 import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoStatic;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.api.objects.richtext.InputRichMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -186,6 +187,25 @@ class OkHttpCallbackReplyIntegrationTest {
             assertInstanceOf(JacksonException.class, cause.getCause());
         }
         assertEquals(0, server.getRequestCount());
+    }
+
+    @Test
+    void animationAndLivePhotoSendOnlyOneKeyboardPart() throws Exception {
+        for (CallbackReplyMethod method : List.of(
+                SendAnimation.builder().animation(new InputFile("animation-id"))
+                        .replyMarkup(ReplyKeyboardRemove.builder().removeKeyboard(true).build())
+                        .ephemeralMessageParameters(callback()).build(),
+                SendLivePhoto.builder().livePhoto(upload("live.jpg")).photo(upload("photo.jpg"))
+                        .replyMarkup(ReplyKeyboardRemove.builder().removeKeyboard(true).build())
+                        .ephemeralMessageParameters(callback()).build())) {
+            enqueue(TRUE_RESPONSE);
+            assertTrue(client.executeWithResultAsync(method).get(5, TimeUnit.SECONDS).isCallbackSuccess());
+            String body = request().getBody().readUtf8();
+            assertEquals(1, body.split("name=\"reply_markup\"", -1).length - 1, body);
+            if (method instanceof SendLivePhoto) {
+                assertEquals(2, body.split("upload contents", -1).length - 1, body);
+            }
+        }
     }
 
     @Test
@@ -381,6 +401,10 @@ class OkHttpCallbackReplyIntegrationTest {
 
     private EphemeralMessageParameters callback() {
         return EphemeralMessageParameters.builder().callbackQueryId("callback-1").build();
+    }
+
+    private InputFile upload(String name) {
+        return new InputFile(new ByteArrayInputStream("upload contents".getBytes(StandardCharsets.UTF_8)), name);
     }
 
     private OkHttpTelegramClient clientWithMapper(JsonMapper jsonMapper) {

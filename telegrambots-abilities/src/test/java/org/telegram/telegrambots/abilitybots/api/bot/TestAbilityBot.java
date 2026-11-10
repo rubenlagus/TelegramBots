@@ -549,6 +549,25 @@ public class TestAbilityBot {
   }
 
   @Test
+  void widgetQueriesWithoutChatAreHandledSafelyByPrivacyChecks() throws Exception {
+    JsonMapper mapper = new JsonMapper();
+    String query = "\"id\":\"q\",\"from\":{\"id\":123,\"first_name\":\"A\",\"is_bot\":false},"
+        + "\"chat_instance\":\"instance\",\"type\":{\"type\":\"data\"},\"data\":\"x\"";
+    Update groupQuery = mapper.readValue("{\"update_id\":1,\"widget_query\":{" + query
+        + ",\"chat_type\":\"group\"}}", Update.class);
+    Update senderQuery = mapper.readValue("{\"update_id\":2,\"widget_query\":{" + query
+        + ",\"chat_type\":\"sender\"}}", Update.class);
+    Ability groupAdminAbility = DefaultBot.getDefaultBuilder().privacy(GROUP_ADMIN).build();
+    Ability adminAbility = DefaultBot.getDefaultBuilder().privacy(ADMIN).build();
+    Ability inputAbility = DefaultBot.getDefaultBuilder().build();
+
+    assertFalse(bot.checkPrivacy(Trio.of(groupQuery, groupAdminAbility, TEXT)));
+    assertFalse(bot.checkPrivacy(Trio.of(senderQuery, adminAbility, TEXT)));
+    assertFalse(bot.checkInput(Trio.of(senderQuery, inputAbility, EMPTY_ARRAY)));
+    verify(silent, org.mockito.Mockito.never()).send(anyString(), anyLong());
+  }
+
+  @Test
   void canRetrieveContext() {
     Update update = mock(Update.class);
     Message message = mock(Message.class);

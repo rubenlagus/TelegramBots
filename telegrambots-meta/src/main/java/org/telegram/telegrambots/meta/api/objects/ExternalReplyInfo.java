@@ -45,6 +45,7 @@ import java.util.List;
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ExternalReplyInfo implements BotApiObject {
+    private static final long serialVersionUID = -4148306810767063117L;
     private static final String ORIGIN_FIELD = "origin";
     private static final String CHAT_FIELD = "chat";
     private static final String MESSAGE_ID_FIELD = "message_id";

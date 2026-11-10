@@ -29,6 +29,8 @@ class TestLegacyConstructorCompatibility {
         assertEquals(-6668707729671845680L, ObjectStreamClass.lookup(Message.class).getSerialVersionUID());
         assertEquals(-8054250969089654169L, ObjectStreamClass.lookup(ChatFullInfo.class).getSerialVersionUID());
         assertEquals(-2095618507227580572L, ObjectStreamClass.lookup(StoryArea.class).getSerialVersionUID());
+        assertEquals(8960651857740058161L, ObjectStreamClass.lookup(Update.class).getSerialVersionUID());
+        assertEquals(-4148306810767063117L, ObjectStreamClass.lookup(ExternalReplyInfo.class).getSerialVersionUID());
     }
 
     private void assertLegacyConstructor(Class<?> type, Set<String> addedFields) throws NoSuchMethodException {

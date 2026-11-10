@@ -55,6 +55,22 @@ public class TestBotApi104Widgets {
             assertEquals(mapper.readTree(shared), mapper.readTree(mapper.writeValueAsString(parsedShared)));
         }
         assertNull(mapper.readValue("{\"type\":\"future\"}", WidgetQueryType.class));
+        String query = "{\"id\":\"q\",\"from\":" + USER + ",\"chat_instance\":\"ci\","
+                + "\"type\":{\"type\":\"future\"},\"data\":\"x\"}";
+        WidgetQuery unknownQuery = mapper.readValue(query, WidgetQuery.class);
+        assertNull(unknownQuery.getType());
+        assertEquals("q", unknownQuery.getId());
+        Update widgetUpdate = mapper.readValue("{\"update_id\":1,\"widget_query\":" + query + "}", Update.class);
+        assertNotNull(widgetUpdate.getWidgetQuery());
+        assertNull(widgetUpdate.getWidgetQuery().getType());
+        String shared = "{\"id\":\"q\",\"from\":" + USER + ",\"type\":{\"type\":\"future\"},"
+                + "\"data\":\"x\",\"widget_id\":\"w\"}";
+        SharedWidgetQuery unknownShared = mapper.readValue(shared, SharedWidgetQuery.class);
+        assertNull(unknownShared.getType());
+        assertEquals("q", unknownShared.getId());
+        Update sharedUpdate = mapper.readValue("{\"update_id\":2,\"shared_widget_query\":" + shared + "}", Update.class);
+        assertNotNull(sharedUpdate.getSharedWidgetQuery());
+        assertNull(sharedUpdate.getSharedWidgetQuery().getType());
         assertEquals("123456789012345678901", mapper.readValue(WALLET, WidgetQueryWallet.class).getAmount());
     }
 
@@ -87,6 +103,7 @@ public class TestBotApi104Widgets {
     public void existingInlineContentsStillDeduceTheirTypes() throws Exception {
         String[] contents = {
                 "{\"message_text\":\"hello\"}",
+                "{\"latitude\":1.0,\"longitude\":2.0}",
                 "{\"latitude\":1.0,\"longitude\":2.0,\"live_period\":60}",
                 "{\"latitude\":1.0,\"longitude\":2.0,\"title\":\"venue\",\"address\":\"address\"}",
                 "{\"phone_number\":\"123\",\"first_name\":\"A\"}",
@@ -95,7 +112,7 @@ public class TestBotApi104Widgets {
                 "{\"rich_message\":{\"html\":\"<p>hello</p>\"}}"
         };
         Class<?>[] classes = {InputTextMessageContent.class, InputLocationMessageContent.class,
-                InputVenueMessageContent.class, InputContactMessageContent.class,
+                InputLocationMessageContent.class, InputVenueMessageContent.class, InputContactMessageContent.class,
                 InputInvoiceMessageContent.class, InputRichMessageContent.class};
         for (int i = 0; i < contents.length; i++) {
             InputMessageContent content = mapper.readValue(contents[i], InputMessageContent.class);

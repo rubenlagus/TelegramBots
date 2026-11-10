@@ -217,7 +217,8 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
     }
 
     public boolean isGroupAdmin(Update update, long id) {
-        return isGroupAdmin(getChatId(update), id);
+        Long chatId = getChatId(update);
+        return chatId != null && isGroupAdmin(chatId, id);
     }
 
     public boolean isGroupAdmin(long chatId, long id) {
@@ -508,13 +509,17 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
      * @param ability ability that was attempted to be executed
      */
     protected void onInputViolation(Update update, Ability ability) {
+        Long chatId = getChatId(update);
+        if (chatId == null) {
+            return;
+        }
         int abilityTokens = ability.tokens();
         silent.send(
                 getLocalizedMessage(
                         CHECK_INPUT_FAIL,
                         AbilityUtils.getUser(update).getLanguageCode(),
                         abilityTokens, abilityTokens == 1 ? "input" : "inputs"),
-                getChatId(update));
+                chatId);
     }
 
     boolean checkLocality(Trio<Update, Ability, String[]> trio) {
@@ -588,11 +593,15 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
      * @param ability ability that was attempted to be executed
      */
     protected void onPrivacyViolation(Update update, Ability ability) {
+        Long chatId = getChatId(update);
+        if (chatId == null) {
+            return;
+        }
         silent.send(
                 getLocalizedMessage(
                         CHECK_PRIVACY_FAIL,
                         AbilityUtils.getUser(update).getLanguageCode()),
-                getChatId(update));
+                chatId);
     }
 
     boolean validateAbility(Trio<Update, Ability, String[]> trio) {

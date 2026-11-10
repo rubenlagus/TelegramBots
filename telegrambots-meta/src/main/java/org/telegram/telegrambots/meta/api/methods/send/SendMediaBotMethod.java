@@ -1,5 +1,6 @@
 package org.telegram.telegrambots.meta.api.methods.send;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -92,6 +93,7 @@ public abstract class SendMediaBotMethod<T extends Serializable> extends Partial
      * @deprecated Use {@link #getEphemeralMessageParameters()} instead
      */
     @Deprecated
+    @JsonIgnore
     public Long getReceiverUserId() {
         return getEphemeralMessageParameters() != null ? getEphemeralMessageParameters().getReceiverUserId() : null;
     }
@@ -100,6 +102,7 @@ public abstract class SendMediaBotMethod<T extends Serializable> extends Partial
      * @deprecated Use {@link #getEphemeralMessageParameters()} instead
      */
     @Deprecated
+    @JsonIgnore
     public String getCallbackQueryId() {
         return getEphemeralMessageParameters() != null ? getEphemeralMessageParameters().getCallbackQueryId() : null;
     }

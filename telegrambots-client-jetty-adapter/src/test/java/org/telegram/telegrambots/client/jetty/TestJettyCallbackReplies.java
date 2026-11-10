@@ -31,6 +31,7 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.ephemeral.EphemeralMessageParameters;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
 import org.telegram.telegrambots.meta.api.objects.message.SendMessageResult;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.api.objects.richtext.InputRichMessage;
 import org.telegram.telegrambots.meta.api.objects.richtext.InputRichMessageMedia;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -141,6 +142,25 @@ class TestJettyCallbackReplies {
         assertEquals(42, message.getMessage().getMessageId());
         assertFalse(message.isCallbackSuccess());
         request();
+    }
+
+    @Test
+    void animationAndLivePhotoSendOnlyOneKeyboardPart() throws Exception {
+        for (CallbackReplyMethod method : List.of(
+                SendAnimation.builder().animation(new InputFile("animation-id"))
+                        .replyMarkup(ReplyKeyboardRemove.builder().removeKeyboard(true).build())
+                        .ephemeralMessageParameters(callbackParameters()).build(),
+                SendLivePhoto.builder().livePhoto(upload("live.jpg")).photo(upload("photo.jpg"))
+                        .replyMarkup(ReplyKeyboardRemove.builder().removeKeyboard(true).build())
+                        .ephemeralMessageParameters(callbackParameters()).build())) {
+            respond(TRUE);
+            assertTrue(client.executeWithResultAsync(method).get(5, TimeUnit.SECONDS).isCallbackSuccess());
+            String body = request().getBody().readUtf8();
+            assertEquals(1, body.split("name=\"reply_markup\"", -1).length - 1, body);
+            if (method instanceof SendLivePhoto) {
+                assertEquals(2, body.split("upload contents", -1).length - 1, body);
+            }
+        }
     }
 
     @Test

@@ -46,7 +46,6 @@ public class WidgetQuery implements BotApiObject {
     @JsonProperty("chat_type")
     private String chatType;
     @JsonProperty("type")
-    @NonNull
     private WidgetQueryType type;
     @JsonProperty("data")
     @NonNull
