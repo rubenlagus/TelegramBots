@@ -2,6 +2,7 @@ package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -115,6 +116,7 @@ public class SendVideoNote extends SendMediaBotMethod<Message> implements Callba
      * Optional.
      * A JSON-serialized object containing the parameters of the ephemeral message to send
      */
+    @JsonProperty(EPHEMERAL_MESSAGE_PARAMETERS_FIELD)
     private EphemeralMessageParameters ephemeralMessageParameters;
 
     @Tolerate

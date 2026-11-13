@@ -149,6 +149,11 @@ public class ReplyFlow extends Reply {
         };
       }
 
+      List<Predicate<Update>> flowConditions = new ArrayList<>(conds);
+      if (!nextReplies.isEmpty()) {
+        flowConditions.add(upd -> AbilityUtils.getReplyFlowKey(upd) != null);
+      }
+
       BiConsumer<BaseAbilityBot, Update> statefulAction = (bot, upd) -> {
         if (nextReplies.size() > 0 && AbilityUtils.getReplyFlowKey(upd) == null) {
           return;
@@ -163,7 +168,7 @@ public class ReplyFlow extends Reply {
         }
       };
 
-      return new ReplyFlow(conds, statefulAction, nextReplies, name);
+      return new ReplyFlow(flowConditions, statefulAction, nextReplies, name);
     }
 
     @NotNull

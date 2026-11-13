@@ -42,7 +42,7 @@ public class StoryArea implements BotApiObject, Validable {
      */
     @JsonProperty(POSITION_FIELD)
     @NonNull
-    private StoryAreaPosition position;
+    private AreaPosition position;
 
     /**
      * Type of the area
@@ -51,17 +51,15 @@ public class StoryArea implements BotApiObject, Validable {
     @NonNull
     private StoryAreaType type;
 
+    public StoryArea(StoryAreaPosition position, StoryAreaType type) {
+        this.position = position;
+        this.type = type;
+    }
+
     /** Returns the position using the general-purpose area type. */
     @JsonIgnore
     public AreaPosition getAreaPosition() {
-        if (position == null) {
-            return null;
-        }
-        if (!(position instanceof AreaPosition)) {
-            position = new AreaPosition(position.getXPercentage(), position.getYPercentage(), position.getWidthPercentage(),
-                    position.getHeightPercentage(), position.getRotationAngle(), position.getCornerRadiusPercentage());
-        }
-        return (AreaPosition) position;
+        return position;
     }
 
     @JsonIgnore
@@ -70,6 +68,16 @@ public class StoryArea implements BotApiObject, Validable {
     }
 
     public static class StoryAreaBuilder {
+        public StoryAreaBuilder position(AreaPosition position) {
+            this.position = position;
+            return this;
+        }
+
+        public StoryAreaBuilder position(StoryAreaPosition position) {
+            this.position = position;
+            return this;
+        }
+
         public StoryAreaBuilder areaPosition(AreaPosition position) {
             this.position = position;
             return this;

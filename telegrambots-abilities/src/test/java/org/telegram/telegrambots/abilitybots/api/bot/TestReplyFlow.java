@@ -90,6 +90,20 @@ public class TestReplyFlow {
   }
 
   @Test
+  void sharedWidgetQueryIsNotConsumedByUnkeyedStatefulFlow() {
+    Update update = new Update();
+    update.setSharedWidgetQuery(SharedWidgetQuery.builder()
+        .id("query")
+        .from(User.builder().id(1L).firstName("A").isBot(false).build())
+        .type(WidgetQueryTypeData.builder().build())
+        .data("data")
+        .widgetId("widget")
+        .build());
+
+    assertTrue(bot.filterReply(update));
+  }
+
+  @Test
   void doesNotReplyIfFirstReplyFlowDoesNotMatch() {
     Update update = TestUtils.mockFullUpdate(bot, TestUtils.USER, "this is not supported");
     long chatId = getChatId(update);
@@ -318,6 +332,14 @@ public class TestReplyFlow {
               )
               .next(nextStep)
               .build();
+    }
+
+    public ReplyFlow sharedWidgetFlow() {
+      return ReplyFlow.builder(db, 100)
+          .action((unused, update) -> {})
+          .onlyIf(Flag.SHARED_WIDGET_QUERY::test)
+          .next(Reply.of((unused, update) -> {}, update -> true))
+          .build();
     }
 
     public Ability replyFlowsWithAbility() {

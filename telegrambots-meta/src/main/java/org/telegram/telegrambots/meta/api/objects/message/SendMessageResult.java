@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.CallbackReplyMethod;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import tools.jackson.core.JacksonException;
@@ -58,7 +59,13 @@ public final class SendMessageResult implements Serializable {
             }
             JsonNode result = root.get("result");
             if (result != null && result.isBoolean() && result.booleanValue()) {
+                if (!(method instanceof CallbackReplyMethod) || !((CallbackReplyMethod) method).isCallbackOnly()) {
+                    throw new TelegramApiRequestException("Unable to deserialize response: expected a message");
+                }
                 return callbackSuccess();
+            }
+            if (method instanceof CallbackReplyMethod && ((CallbackReplyMethod) method).isCallbackOnly()) {
+                throw new TelegramApiRequestException("Unable to deserialize response: expected true");
             }
             if (result == null || !result.isObject() || !result.path("message_id").isIntegralNumber()
                     || !result.path("date").isIntegralNumber() || !result.path("chat").isObject()) {

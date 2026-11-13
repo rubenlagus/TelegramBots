@@ -221,7 +221,7 @@ class OkHttpCallbackReplyIntegrationTest {
         assertCallbackMultipart(richBody);
 
         InputFile upload = new InputFile(new ByteArrayInputStream("photo bytes".getBytes(StandardCharsets.UTF_8)), "photo.jpg");
-        SendPhoto photo = SendPhoto.builder().photo(upload).caption("caption").ephemeralMessageParameters(callback()).build();
+        SendPhoto photo = SendPhoto.builder().chatId("123").photo(upload).caption("caption").build();
         enqueue(MESSAGE_RESPONSE);
         SendMessageResult result = client.executeWithResultAsync(photo).get(5, TimeUnit.SECONDS);
         assertFalse(result.isCallbackSuccess());
@@ -231,7 +231,7 @@ class OkHttpCallbackReplyIntegrationTest {
         String photoBody = photoRequest.getBody().readUtf8();
         assertTrue(photoBody.contains("photo bytes"), photoBody);
         assertTrue(photoBody.contains("name=\"caption\""), photoBody);
-        assertCallbackMultipart(photoBody);
+        assertTrue(photoBody.contains("name=\"chat_id\""), photoBody);
     }
 
     @Test

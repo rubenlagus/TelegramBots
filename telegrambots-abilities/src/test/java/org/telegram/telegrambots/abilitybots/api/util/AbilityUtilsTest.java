@@ -46,6 +46,7 @@ class AbilityUtilsTest {
         assertEquals(null, AbilityUtils.getChatId(shared));
         assertEquals(null, AbilityUtils.getReplyFlowKey(shared));
         assertEquals(null, AbilityUtils.isWidgetQueryFromUserChat(shared));
+        assertFalse(AbilityUtils.isUserMessage(shared));
         Update privateInline = mapper.readValue("{\"update_id\":4,\"widget_query\":{" + query
                 + ",\"chat_type\":\"private\"}}", Update.class);
         assertEquals(Boolean.TRUE, AbilityUtils.isWidgetQueryFromUserChat(privateInline));

@@ -3,6 +3,7 @@ package org.telegram.telegrambots.meta.api.objects.message;
 import tools.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.ephemeral.EphemeralMessageParameters;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
@@ -23,12 +24,29 @@ class TestSendMessageResult {
         assertFalse(message.isCallbackSuccess());
         assertEquals(3, message.getMessage().getMessageId());
         assertEquals(message, mapper.readValue(mapper.writeValueAsString(message), SendMessageResult.class));
-        SendMessageResult callback = SendMessageResult.deserializeResponse("{\"ok\":true,\"result\":true}", method);
+        SendMessage callbackOnlyMethod = SendMessage.builder().text("hello")
+                .ephemeralMessageParameters(EphemeralMessageParameters.builder().callbackQueryId("callback").build())
+                .build();
+        SendMessageResult callback = SendMessageResult.deserializeResponse("{\"ok\":true,\"result\":true}", callbackOnlyMethod);
         assertTrue(callback.isCallbackSuccess());
         assertNull(callback.getMessage());
         assertEquals(callback, mapper.readValue(mapper.writeValueAsString(callback), SendMessageResult.class));
         assertThrows(IllegalArgumentException.class, () -> new SendMessageResult(null, false));
         assertThrows(IllegalArgumentException.class, () -> new SendMessageResult(message.getMessage(), true));
+    }
+
+    @Test
+    void rejectsResultVariantThatDoesNotMatchRequest() {
+        SendMessage callbackOnlyMethod = SendMessage.builder().text("hello")
+                .ephemeralMessageParameters(EphemeralMessageParameters.builder().callbackQueryId("callback").build())
+                .build();
+        String messageResponse = "{\"ok\":true,\"result\":{\"message_id\":3,\"date\":1,"
+                + "\"chat\":{\"id\":1,\"type\":\"private\"}}}";
+
+        assertThrows(TelegramApiRequestException.class,
+                () -> SendMessageResult.deserializeResponse("{\"ok\":true,\"result\":true}", method));
+        assertThrows(TelegramApiRequestException.class,
+                () -> SendMessageResult.deserializeResponse(messageResponse, callbackOnlyMethod));
     }
 
     @Test

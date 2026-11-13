@@ -314,6 +314,8 @@ public final class AbilityUtils {
       return update.getEditedChannelPost().isUserMessage();
     } else if (Flag.EDITED_MESSAGE.test(update)) {
       return update.getEditedMessage().isUserMessage();
+    } else if (Flag.SHARED_WIDGET_QUERY.test(update)) {
+      return false;
     } else {
       return true;
     }

@@ -72,10 +72,14 @@ public class TestBotApi104WalletAndThemes {
         StoryAreaPosition old = new StoryAreaPosition(1f, 2f, 3f, 4f, 5f, 6f);
         StoryArea oldArea = new StoryArea(old, new StoryAreaTypeLink("https://example.com"));
         assertSame(old, oldArea.getPosition());
+        AreaPosition positionFromLegacyApi = oldArea.getPosition();
+        assertSame(old, positionFromLegacyApi);
         assertEquals(1f, oldArea.getAreaPosition().getXPercentage());
         StoryAreaPosition oldBuilder = StoryAreaPosition.builder().xPercentage(1f).yPercentage(2f).widthPercentage(3f)
                 .heightPercentage(4f).rotationAngle(5f).cornerRadiusPercentage(6f).build();
         assertEquals(old, oldBuilder);
+        oldArea.getAreaPosition().setXPercentage(7f);
+        assertEquals(7f, old.getXPercentage());
         AreaPosition position = AreaPosition.builder().xPercentage(1f).yPercentage(2f).widthPercentage(3f)
                 .heightPercentage(4f).rotationAngle(5f).cornerRadiusPercentage(6f).build();
         StoryArea area = StoryArea.builder().position(position).type(new StoryAreaTypeLink("https://example.com")).build();
@@ -86,6 +90,12 @@ public class TestBotApi104WalletAndThemes {
         assertSame(position, StoryArea.builder().areaPosition(position).type(new StoryAreaTypeLink("https://example.com")).build().getPosition());
         assertEquals(mapper.readTree(POSITION), mapper.readTree(mapper.writeValueAsString(position)));
         assertEquals(position, mapper.readValue(POSITION, AreaPosition.class));
-        assertEquals(old, mapper.readValue(mapper.writeValueAsString(oldArea), StoryArea.class).getPosition());
+        StoryArea deserialized = mapper.readValue(mapper.writeValueAsString(oldArea), StoryArea.class);
+        assertEquals(AreaPosition.class, deserialized.getPosition().getClass());
+        assertEquals(mapper.readTree(mapper.writeValueAsString(oldArea.getPosition())),
+                mapper.readTree(mapper.writeValueAsString(deserialized.getPosition())));
+        StoryAreaPosition partial = new StoryAreaPosition();
+        StoryArea partialArea = new StoryArea(partial, new StoryAreaTypeLink("https://example.com"));
+        assertSame(partial, partialArea.getAreaPosition());
     }
 }
