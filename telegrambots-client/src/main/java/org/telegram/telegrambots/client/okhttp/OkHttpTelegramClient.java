@@ -1,12 +1,16 @@
 package org.telegram.telegrambots.client.okhttp;
 
 import lombok.NonNull;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import org.apache.commons.io.FileUtils;
 import org.telegram.telegrambots.client.AbstractTelegramClient;
 import org.telegram.telegrambots.client.TelegramMultipartBuilder;
@@ -17,6 +21,7 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.business.SetBusinessAccountProfilePhoto;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
+import org.telegram.telegrambots.meta.api.methods.send.CallbackReplyMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
@@ -50,6 +55,7 @@ import org.telegram.telegrambots.meta.api.objects.media.paid.InputPaidMedia;
 import org.telegram.telegrambots.meta.api.objects.media.paid.InputPaidMediaLivePhoto;
 import org.telegram.telegrambots.meta.api.objects.media.paid.InputPaidMediaVideo;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
+import org.telegram.telegrambots.meta.api.objects.message.SendMessageResult;
 import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoAnimated;
 import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoStatic;
 import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlock;
@@ -71,6 +77,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
 public class OkHttpTelegramClient extends AbstractTelegramClient {
@@ -103,35 +111,92 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
     }
 
     @Override
+    public <T extends Serializable, Method extends BotApiMethod<T>> T execute(Method method) throws TelegramApiException {
+        if (method == null) {
+            throw new TelegramApiException("Parameter method can not be null");
+        }
+        CallbackReplyMethod.rejectCallbackOnly(method);
+        return super.execute(method);
+    }
+
+    @Override
     public <T extends Serializable, Method extends BotApiMethod<T>> CompletableFuture<T> executeAsync(Method method) throws TelegramApiException {
         if (method == null) {
             throw new TelegramApiException("Parameter method can not be null");
         }
+        CallbackReplyMethod.rejectCallbackOnly(method);
         method.validate();
 
         try {
-            HttpUrl url = buildUrl(method.getMethod());
-            String body = jsonMapper.writeValueAsString(method);
-            Headers headers = new Headers.Builder()
-                    .add("charset", StandardCharsets.UTF_8.name())
-                    .add("content-type", "application/json").build();
-
-            Request request = new Request.Builder()
-                    .url(url)
-                    .headers(headers)
-                    .post(RequestBody.create(body, MediaType.parse("application/json")))
-                    .build();
-
-            return sendRequest(method, request);
+            return sendRequest(method, buildJsonRequest(method));
         } catch (JacksonException e) {
             throw new TelegramApiException("Unable to execute " + method.getMethod() + " method", e);
         }
     }
 
     @Override
+    public SendMessageResult executeWithResult(CallbackReplyMethod method) throws TelegramApiException {
+        try {
+            return executeWithResultAsync(method).get();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new TelegramApiException("Interrupted while executing method", e);
+        } catch (ExecutionException e) {
+            if (e.getCause() instanceof TelegramApiException exception) {
+                throw exception;
+            }
+            throw new TelegramApiException("Unable to execute method", e.getCause());
+        }
+    }
+
+    @Override
+    public CompletableFuture<SendMessageResult> executeWithResultAsync(CallbackReplyMethod method) throws TelegramApiException {
+        if (!(method instanceof PartialBotApiMethod<?> partialMethod)) {
+            throw new TelegramApiException("Parameter method must be a non-null Bot API method");
+        }
+        if (method instanceof SendRichMessage rich) return executeAsync(rich, this::sendResultRequest, true);
+        if (method instanceof SendDocument document) return executeAsync(document, this::sendResultRequest, true);
+        if (method instanceof SendPhoto photo) return executeAsync(photo, this::sendResultRequest, true);
+        if (method instanceof SendVideo video) return executeAsync(video, this::sendResultRequest, true);
+        if (method instanceof SendVideoNote videoNote) return executeAsync(videoNote, this::sendResultRequest, true);
+        if (method instanceof SendSticker sticker) return executeAsync(sticker, this::sendResultRequest, true);
+        if (method instanceof SendAudio audio) return executeAsync(audio, this::sendResultRequest, true);
+        if (method instanceof SendVoice voice) return executeAsync(voice, this::sendResultRequest, true);
+        if (method instanceof SendAnimation animation) return executeAsync(animation, this::sendResultRequest, true);
+        if (method instanceof SendLivePhoto livePhoto) return executeAsync(livePhoto, this::sendResultRequest, true);
+        if (!(partialMethod instanceof BotApiMethod<?>)) {
+            throw new TelegramApiException("Unsupported callback reply method: " + partialMethod.getMethod());
+        }
+        partialMethod.validate();
+        try {
+            return sendResultRequest(partialMethod, buildJsonRequest(partialMethod));
+        } catch (JacksonException e) {
+            throw new TelegramApiException("Unable to execute " + partialMethod.getMethod() + " method", e);
+        }
+    }
+
+    private Request buildJsonRequest(PartialBotApiMethod<?> method) throws JacksonException {
+        String body = jsonMapper.writeValueAsString(method);
+        Headers headers = new Headers.Builder()
+                .add("charset", StandardCharsets.UTF_8.name())
+                .add("content-type", "application/json").build();
+        return new Request.Builder()
+                .url(buildUrl(method.getMethod()))
+                .headers(headers)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .build();
+    }
+
+    @Override
     public CompletableFuture<Message> executeAsync(SendRichMessage sendRichMessage) {
+        return executeAsync(sendRichMessage, this::sendRequest, false);
+    }
+
+    private <T> CompletableFuture<T> executeAsync(SendRichMessage sendRichMessage,
+            BiFunction<PartialBotApiMethod<Message>, Request, CompletableFuture<T>> sender, boolean withResult) {
         try {
             assertParamNotNull(sendRichMessage, "sendRichMessage");
+            if (!withResult) CallbackReplyMethod.rejectCallbackOnly(sendRichMessage);
             sendRichMessage.validate();
 
             HttpUrl url = buildUrl(sendRichMessage.getMethod());
@@ -155,10 +220,10 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             addInputData(builder, InputRichMessage.MEDIA_FIELD, media);
 
             Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
-            return sendRequest(sendRichMessage, httpPost);
+            return sender.apply(sendRichMessage, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + sendRichMessage.getMethod(), e));
         }
     }
@@ -219,14 +284,19 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             return sendRequest(setMyProfilePhoto, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + setMyProfilePhoto.getMethod(), e));
         }
     }
 
     @Override
     public CompletableFuture<Message> executeAsync(SendDocument sendDocument) {
-        return executeMediaMethod(sendDocument, builder -> {
+        return executeAsync(sendDocument, this::sendRequest, false);
+    }
+
+    private <T> CompletableFuture<T> executeAsync(SendDocument sendDocument,
+            BiFunction<PartialBotApiMethod<Message>, Request, CompletableFuture<T>> sender, boolean withResult) {
+        return executeMediaMethod(sendDocument, sender, withResult, builder -> {
             builder.addPart(SendDocument.CAPTION_FIELD, sendDocument.getCaption())
                     .addPart(SendDocument.PARSEMODE_FIELD, sendDocument.getParseMode())
                     .addPart(SendDocument.DISABLECONTENTTYPEDETECTION_FIELD, sendDocument.getDisableContentTypeDetection())
@@ -242,7 +312,12 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
     @Override
     public CompletableFuture<Message> executeAsync(SendPhoto sendPhoto) {
-        return executeMediaMethod(sendPhoto, builder -> builder
+        return executeAsync(sendPhoto, this::sendRequest, false);
+    }
+
+    private <T> CompletableFuture<T> executeAsync(SendPhoto sendPhoto,
+            BiFunction<PartialBotApiMethod<Message>, Request, CompletableFuture<T>> sender, boolean withResult) {
+        return executeMediaMethod(sendPhoto, sender, withResult, builder -> builder
                 .addPart(SendPhoto.CAPTION_FIELD, sendPhoto.getCaption())
                 .addPart(SendPhoto.PARSE_MODE_FIELD, sendPhoto.getParseMode())
                 .addPart(SendPhoto.HAS_SPOILER_FIELD, sendPhoto.getHasSpoiler())
@@ -283,7 +358,12 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
     @Override
     public CompletableFuture<Message> executeAsync(SendVideo sendVideo) {
-        return executeMediaMethod(sendVideo, builder -> {
+        return executeAsync(sendVideo, this::sendRequest, false);
+    }
+
+    private <T> CompletableFuture<T> executeAsync(SendVideo sendVideo,
+            BiFunction<PartialBotApiMethod<Message>, Request, CompletableFuture<T>> sender, boolean withResult) {
+        return executeMediaMethod(sendVideo, sender, withResult, builder -> {
             builder
                     .addPart(SendVideo.CAPTION_FIELD, sendVideo.getCaption())
                     .addPart(SendVideo.PARSE_MODE_FIELD, sendVideo.getParseMode())
@@ -310,7 +390,12 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
     @Override
     public CompletableFuture<Message> executeAsync(SendVideoNote sendVideoNote) {
-        return executeMediaMethod(sendVideoNote, builder -> {
+        return executeAsync(sendVideoNote, this::sendRequest, false);
+    }
+
+    private <T> CompletableFuture<T> executeAsync(SendVideoNote sendVideoNote,
+            BiFunction<PartialBotApiMethod<Message>, Request, CompletableFuture<T>> sender, boolean withResult) {
+        return executeMediaMethod(sendVideoNote, sender, withResult, builder -> {
             builder
                     .addPart(SendVideoNote.DURATION_FIELD, sendVideoNote.getDuration())
                     .addPart(SendVideoNote.LENGTH_FIELD, sendVideoNote.getLength())
@@ -325,8 +410,13 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
     @Override
     public CompletableFuture<Message> executeAsync(SendSticker sendSticker) {
+        return executeAsync(sendSticker, this::sendRequest, false);
+    }
+
+    private <T> CompletableFuture<T> executeAsync(SendSticker sendSticker,
+            BiFunction<PartialBotApiMethod<Message>, Request, CompletableFuture<T>> sender, boolean withResult) {
         return executeMediaMethod(
-                sendSticker,
+                sendSticker, sender, withResult,
                 builder -> builder
                         .addPart(SendSticker.EMOJI_FIELD, sendSticker.getEmoji())
                         .addPart(SendSticker.BUSINESS_CONNECTION_ID_FIELD, sendSticker.getBusinessConnectionId())
@@ -335,7 +425,12 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
     @Override
     public CompletableFuture<Message> executeAsync(SendAudio sendAudio) {
-        return executeMediaMethod(sendAudio, builder -> {
+        return executeAsync(sendAudio, this::sendRequest, false);
+    }
+
+    private <T> CompletableFuture<T> executeAsync(SendAudio sendAudio,
+            BiFunction<PartialBotApiMethod<Message>, Request, CompletableFuture<T>> sender, boolean withResult) {
+        return executeMediaMethod(sendAudio, sender, withResult, builder -> {
             builder
                     .addPart(SendAudio.PERFORMER_FIELD, sendAudio.getPerformer())
                     .addPart(SendAudio.TITLE_FIELD, sendAudio.getTitle())
@@ -354,7 +449,12 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
     @Override
     public CompletableFuture<Message> executeAsync(SendVoice sendVoice) {
-        return executeMediaMethod(sendVoice, builder -> builder
+        return executeAsync(sendVoice, this::sendRequest, false);
+    }
+
+    private <T> CompletableFuture<T> executeAsync(SendVoice sendVoice,
+            BiFunction<PartialBotApiMethod<Message>, Request, CompletableFuture<T>> sender, boolean withResult) {
+        return executeMediaMethod(sendVoice, sender, withResult, builder -> builder
                 .addPart(SendVoice.DURATION_FIELD, sendVoice.getDuration())
                 .addPart(SendVoice.CAPTION_FIELD, sendVoice.getCaption())
                 .addPart(SendVoice.PARSE_MODE_FIELD, sendVoice.getParseMode())
@@ -443,7 +543,12 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
     @Override
     public CompletableFuture<Message> executeAsync(SendAnimation sendAnimation) {
-        return executeMediaMethod(sendAnimation, builder -> {
+        return executeAsync(sendAnimation, this::sendRequest, false);
+    }
+
+    private <T> CompletableFuture<T> executeAsync(SendAnimation sendAnimation,
+            BiFunction<PartialBotApiMethod<Message>, Request, CompletableFuture<T>> sender, boolean withResult) {
+        return executeMediaMethod(sendAnimation, sender, withResult, builder -> {
                     builder.addPart(SendAnimation.DURATION_FIELD, sendAnimation.getDuration())
                             .addPart(SendAnimation.WIDTH_FIELD, sendAnimation.getWidth())
                             .addPart(SendAnimation.HEIGHT_FIELD, sendAnimation.getHeight())
@@ -452,8 +557,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                             .addPart(SendAnimation.PARSE_MODE_FIELD, sendAnimation.getParseMode())
                             .addPart(SendAnimation.HAS_SPOILER_FIELD, sendAnimation.getHasSpoiler())
                             .addPart(SendAnimation.BUSINESS_CONNECTION_ID_FIELD, sendAnimation.getBusinessConnectionId())
-                            .addPart(SendAnimation.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendAnimation.getShowCaptionAboveMedia())
-                            .addJsonPart(SendAnimation.REPLY_MARKUP_FIELD, sendAnimation.getReplyMarkup());
+                            .addPart(SendAnimation.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendAnimation.getShowCaptionAboveMedia());
 
                     if (sendAnimation.getThumbnail() != null) {
                         builder.addInputFile(SendAnimation.THUMBNAIL_FIELD, sendAnimation.getThumbnail(), false);
@@ -483,14 +587,18 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
     @Override
     public CompletableFuture<Message> executeAsync(SendLivePhoto sendLivePhoto) {
-        return executeMediaMethod(sendLivePhoto, builder -> {
+        return executeAsync(sendLivePhoto, this::sendRequest, false);
+    }
+
+    private <T> CompletableFuture<T> executeAsync(SendLivePhoto sendLivePhoto,
+            BiFunction<PartialBotApiMethod<Message>, Request, CompletableFuture<T>> sender, boolean withResult) {
+        return executeMediaMethod(sendLivePhoto, sender, withResult, builder -> {
                     builder.addPart(SendLivePhoto.CAPTION_FIELD, sendLivePhoto.getCaption())
                             .addJsonPart(SendLivePhoto.CAPTION_ENTITIES_FIELD, sendLivePhoto.getCaptionEntities())
                             .addPart(SendLivePhoto.PARSE_MODE_FIELD, sendLivePhoto.getParseMode())
                             .addPart(SendLivePhoto.HAS_SPOILER_FIELD, sendLivePhoto.getHasSpoiler())
                             .addPart(SendLivePhoto.BUSINESS_CONNECTION_ID_FIELD, sendLivePhoto.getBusinessConnectionId())
-                            .addPart(SendLivePhoto.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendLivePhoto.getShowCaptionAboveMedia())
-                            .addJsonPart(SendLivePhoto.REPLY_MARKUP_FIELD, sendLivePhoto.getReplyMarkup());
+                            .addPart(SendLivePhoto.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendLivePhoto.getShowCaptionAboveMedia());
 
                     builder.addInputFile(SendLivePhoto.PHOTO_FIELD, sendLivePhoto.getPhoto(), true);
                 }
@@ -690,7 +798,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             return sendRequest(editEphemeralMessageMedia, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + editEphemeralMessageMedia.getMethod(), e));
         }
     }
@@ -738,6 +846,30 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
         return callback;
     }
 
+    private CompletableFuture<SendMessageResult> sendResultRequest(PartialBotApiMethod<?> method, Request request) {
+        CompletableFuture<SendMessageResult> result = new CompletableFuture<>();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException exception) {
+                result.completeExceptionally(exception);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
+                try (ResponseBody body = response.body()) {
+                    if (body == null) {
+                        result.completeExceptionally(new TelegramApiException("Telegram api returned empty response"));
+                    } else {
+                        result.complete(SendMessageResult.deserializeResponse(body.string(), method));
+                    }
+                } catch (Exception e) {
+                    result.completeExceptionally(e);
+                }
+            }
+        });
+        return result;
+    }
+
     /**
      * execute a SendMediaBotMethod and adds the following fields:
      * <ul>
@@ -753,14 +885,17 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
      * @param method the method so execute
      * @param setup  a lambda to add additional fields to the multipart request
      */
-    private <T extends Serializable, Method extends SendMediaBotMethod<T>> CompletableFuture<T> executeMediaMethod(
-            Method method,
+    private <T> CompletableFuture<T> executeMediaMethod(
+            SendMediaBotMethod<Message> method,
+            BiFunction<PartialBotApiMethod<Message>, Request, CompletableFuture<T>> sender,
+            boolean withResult,
             ThrowingConsumer<TelegramMultipartBuilder, IOException> setup
     ) {
         try {
             assertParamNotNull(method, "method");
             assertParamNotNull(setup, "setup");
 
+            if (!withResult) CallbackReplyMethod.rejectCallbackOnly(method);
             method.validate();
 
             HttpUrl url = buildUrl(method.getMethod());
@@ -790,7 +925,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
             Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
 
-            return sendRequest(method, httpPost);
+            return sender.apply(method, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
         } catch (IOException | JacksonException e) {
@@ -901,7 +1036,8 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
     }
 
     private List<InputMedia> extractMedia(InputRichMessage inputRichMessage) {
-        List<InputMedia> mediaFromField = inputRichMessage.getMedia().stream()
+        List<InputMedia> mediaFromField = (inputRichMessage.getMedia() == null
+                ? Stream.<InputRichMessageMedia>empty() : inputRichMessage.getMedia().stream())
                 .map(InputRichMessageMedia::getMedia)
                 .toList();
 

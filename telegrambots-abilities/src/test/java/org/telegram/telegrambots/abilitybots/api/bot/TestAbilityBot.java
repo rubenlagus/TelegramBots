@@ -2,6 +2,7 @@ package org.telegram.telegrambots.abilitybots.api.bot;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Files;
+import tools.jackson.databind.json.JsonMapper;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -526,6 +527,44 @@ public class TestAbilityBot {
     assertTrue(bot.checkLocality(publicTrio), "Unexpected result when checking for locality");
     assertTrue(bot.checkLocality(userTrio), "Unexpected result when checking for locality");
     assertFalse(bot.checkLocality(groupTrio), "Unexpected result when checking for locality");
+  }
+
+  @Test
+  void widgetQueryLocalityRequiresKnownChatTypeForRestrictedAbilities() throws Exception {
+    JsonMapper mapper = new JsonMapper();
+    String query = "\"id\":\"q\",\"from\":{\"id\":123,\"first_name\":\"A\",\"is_bot\":false},"
+        + "\"chat_instance\":\"instance\",\"type\":{\"type\":\"data\"},\"data\":\"x\"";
+    Update groupQuery = mapper.readValue("{\"update_id\":1,\"widget_query\":{" + query
+        + ",\"chat_type\":\"group\"}}", Update.class);
+    Update unknownQuery = mapper.readValue("{\"update_id\":2,\"widget_query\":{" + query + "}}", Update.class);
+    Ability allAbility = DefaultBot.getDefaultBuilder().locality(ALL).build();
+    Ability userAbility = DefaultBot.getDefaultBuilder().locality(Locality.USER).build();
+    Ability groupAbility = DefaultBot.getDefaultBuilder().locality(GROUP).build();
+
+    assertTrue(bot.checkLocality(Trio.of(groupQuery, groupAbility, TEXT)));
+    assertFalse(bot.checkLocality(Trio.of(groupQuery, userAbility, TEXT)));
+    assertTrue(bot.checkLocality(Trio.of(unknownQuery, allAbility, TEXT)));
+    assertFalse(bot.checkLocality(Trio.of(unknownQuery, userAbility, TEXT)));
+    assertFalse(bot.checkLocality(Trio.of(unknownQuery, groupAbility, TEXT)));
+  }
+
+  @Test
+  void widgetQueriesWithoutChatAreHandledSafelyByPrivacyChecks() throws Exception {
+    JsonMapper mapper = new JsonMapper();
+    String query = "\"id\":\"q\",\"from\":{\"id\":123,\"first_name\":\"A\",\"is_bot\":false},"
+        + "\"chat_instance\":\"instance\",\"type\":{\"type\":\"data\"},\"data\":\"x\"";
+    Update groupQuery = mapper.readValue("{\"update_id\":1,\"widget_query\":{" + query
+        + ",\"chat_type\":\"group\"}}", Update.class);
+    Update senderQuery = mapper.readValue("{\"update_id\":2,\"widget_query\":{" + query
+        + ",\"chat_type\":\"sender\"}}", Update.class);
+    Ability groupAdminAbility = DefaultBot.getDefaultBuilder().privacy(GROUP_ADMIN).build();
+    Ability adminAbility = DefaultBot.getDefaultBuilder().privacy(ADMIN).build();
+    Ability inputAbility = DefaultBot.getDefaultBuilder().build();
+
+    assertFalse(bot.checkPrivacy(Trio.of(groupQuery, groupAdminAbility, TEXT)));
+    assertFalse(bot.checkPrivacy(Trio.of(senderQuery, adminAbility, TEXT)));
+    assertFalse(bot.checkInput(Trio.of(senderQuery, inputAbility, EMPTY_ARRAY)));
+    verify(silent, org.mockito.Mockito.never()).send(anyString(), anyLong());
   }
 
   @Test

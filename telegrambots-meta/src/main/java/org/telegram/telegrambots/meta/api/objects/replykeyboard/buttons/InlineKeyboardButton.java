@@ -122,7 +122,7 @@ public class InlineKeyboardButton implements Validable, BotApiObject {
      * Description of the Web App that will be launched when the user presses the button.
      * The Web App will be able to send an arbitrary message on behalf of the user using the method answerWebAppQuery.
      * @apiNote Available only in private chats between a user and the bot.
-     * @apiNote Not supported for messages sent on behalf of a Telegram Business account.
+     * @apiNote Not supported for messages sent on behalf of a Telegram Business account or for ephemeral messages.
      */
     @JsonProperty(WEBAPP_FIELD)
     private WebAppInfo webApp;

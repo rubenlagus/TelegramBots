@@ -70,12 +70,15 @@ import org.telegram.telegrambots.meta.api.objects.payments.RefundedPayment;
 import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import org.telegram.telegrambots.meta.api.objects.payments.paidmedia.PaidMediaInfo;
 import org.telegram.telegrambots.meta.api.objects.photo.PhotoSize;
+import org.telegram.telegrambots.meta.api.objects.paidmedia.PaidMessagesWaived;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.api.objects.polls.PollOptionAdded;
 import org.telegram.telegrambots.meta.api.objects.polls.PollOptionDeleted;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 import org.telegram.telegrambots.meta.api.objects.stories.Story;
+import org.telegram.telegrambots.meta.api.objects.ton.TonWalletTransfer;
+import org.telegram.telegrambots.meta.api.objects.widget.Widget;
 import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostApprovalFailed;
 import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostApproved;
 import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostDeclined;
@@ -108,6 +111,8 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Message implements MaybeInaccessibleMessage {
+    private static final long serialVersionUID = -6668707729671845680L;
+
     private static final String MESSAGE_ID_FIELD = "message_id";
     private static final String MESSAGE_THREAD_ID_FIELD = "message_thread_id";
     private static final String FROM_FIELD = "from";
@@ -422,7 +427,7 @@ public class Message implements MaybeInaccessibleMessage {
     private Voice voice;
     /**
      * Optional.
-     * Caption for the document, photo or video, 0-200 characters
+     * Caption for the animation, audio, document, live photo, paid media, photo, video, voice, or widget
      */
     @JsonProperty(CAPTION_FIELD)
     private String caption;
@@ -835,7 +840,7 @@ public class Message implements MaybeInaccessibleMessage {
     private String effectId;
     /**
      * Optional.
-     * True, if the caption must be shown above the message media
+     * True, if the caption must be shown above the message media or widget
      */
     @JsonProperty(SHOW_CAPTION_ABOVE_MEDIA_FIELD)
     private Boolean showCaptionAboveMedia;
@@ -1034,6 +1039,174 @@ public class Message implements MaybeInaccessibleMessage {
      */
     @JsonProperty(COMMUNITY_CHAT_JOINED_FIELD)
     private CommunityChatJoined communityChatJoined;
+
+    /** Optional. Service message about a transfer with a TON wallet. */
+    @JsonProperty("ton_wallet_transfer")
+    private TonWalletTransfer tonWalletTransfer;
+
+    /** Optional. Service message: the sender used a link allowing messages without paying Stars. */
+    @JsonProperty("paid_messages_waived")
+    private PaidMessagesWaived paidMessagesWaived;
+
+    /** Optional. Information about the HTML widget in the message. */
+    @JsonProperty("widget")
+    private Widget widget;
+
+    /** Preserves the 10.3 all-arguments constructor signature. */
+    public Message(
+            Integer messageId,
+            Integer messageThreadId,
+            User from,
+            Integer date,
+            Chat chat,
+            User forwardFrom,
+            Chat forwardFromChat,
+            Integer forwardDate,
+            String text,
+            List<MessageEntity> entities,
+            List<MessageEntity> captionEntities,
+            Audio audio,
+            Document document,
+            List<PhotoSize> photo,
+            Sticker sticker,
+            Video video,
+            Contact contact,
+            Location location,
+            Venue venue,
+            Animation animation,
+            MaybeInaccessibleMessage pinnedMessage,
+            List<User> newChatMembers,
+            User leftChatMember,
+            String newChatTitle,
+            List<PhotoSize> newChatPhoto,
+            Boolean deleteChatPhoto,
+            Boolean groupchatCreated,
+            Message replyToMessage,
+            Voice voice,
+            String caption,
+            Boolean superGroupCreated,
+            Boolean channelChatCreated,
+            Long migrateToChatId,
+            Long migrateFromChatId,
+            Integer editDate,
+            Game game,
+            Integer forwardFromMessageId,
+            Invoice invoice,
+            SuccessfulPayment successfulPayment,
+            VideoNote videoNote,
+            String authorSignature,
+            String forwardSignature,
+            String mediaGroupId,
+            String connectedWebsite,
+            PassportData passportData,
+            String forwardSenderName,
+            Poll poll,
+            InlineKeyboardMarkup replyMarkup,
+            Dice dice,
+            User viaBot,
+            Chat senderChat,
+            ProximityAlertTriggered proximityAlertTriggered,
+            MessageAutoDeleteTimerChanged messageAutoDeleteTimerChanged,
+            Boolean isAutomaticForward,
+            Boolean hasProtectedContent,
+            WebAppData webAppData,
+            VideoChatStarted videoChatStarted,
+            VideoChatEnded videoChatEnded,
+            VideoChatParticipantsInvited videoChatParticipantsInvited,
+            VideoChatScheduled videoChatScheduled,
+            Boolean isTopicMessage,
+            ForumTopicCreated forumTopicCreated,
+            ForumTopicClosed forumTopicClosed,
+            ForumTopicReopened forumTopicReopened,
+            ForumTopicEdited forumTopicEdited,
+            GeneralForumTopicHidden generalForumTopicHidden,
+            GeneralForumTopicUnhidden generalForumTopicUnhidden,
+            WriteAccessAllowed writeAccessAllowed,
+            Boolean hasMediaSpoiler,
+            UserShared userShared,
+            ChatShared chatShared,
+            Story story,
+            ExternalReplyInfo externalReplyInfo,
+            MessageOrigin forwardOrigin,
+            LinkPreviewOptions linkPreviewOptions,
+            TextQuote quote,
+            UsersShared usersShared,
+            GiveawayCreated giveawayCreated,
+            Giveaway giveaway,
+            GiveawayWinners giveawayWinners,
+            GiveawayCompleted giveawayCompleted,
+            Story replyToStory,
+            ChatBoostAdded boostAdded,
+            Integer senderBoostCount,
+            String businessConnectionId,
+            User senderBusinessBot,
+            String senderTag,
+            User guestBotCallerUser,
+            Chat guestBotCallerChat,
+            String guestQueryId,
+            LivePhoto livePhoto,
+            Boolean isFromOffline,
+            ChatBackground chatBackgroundSet,
+            String effectId,
+            Boolean showCaptionAboveMedia,
+            PaidMediaInfo paidMedia,
+            RefundedPayment refundedPayment,
+            GiftInfo gift,
+            UniqueGiftInfo uniqueGift,
+            GiftInfo giftUpgradeSent,
+            PaidMessagePriceChanged paidMessagePriceChanged,
+            Integer paidStarCount,
+            DirectMessagePriceChanged directMessagePriceChanged,
+            Checklist checklist,
+            ChecklistTasksDone checklistTasksDone,
+            ChecklistTasksAdded checklistTasksAdded,
+            Integer replyToChecklistTaskId,
+            Boolean isPaidPost,
+            DirectMessagesTopic directMessagesTopic,
+            SuggestedPostInfo suggestedPostInfo,
+            SuggestedPostApproved suggestedPostApproved,
+            SuggestedPostApprovalFailed suggestedPostApprovalFailed,
+            SuggestedPostDeclined suggestedPostDeclined,
+            SuggestedPostPaid suggestedPostPaid,
+            SuggestedPostRefunded suggestedPostRefunded,
+            ChatOwnerLeft chatOwnerLeft,
+            ChatOwnerChanged chatOwnerChanged,
+            String replyToPollOptionId,
+            ManagedBotCreated managedBotCreated,
+            PollOptionAdded pollOptionAdded,
+            PollOptionDeleted pollOptionDeleted,
+            RichMessage richMessage,
+            User receiverUser,
+            Integer ephemeralMessageId,
+            CommunityChatAdded communityChatAdded,
+            CommunityChatRemoved communityChatRemoved,
+            CommunityChatJoined communityChatJoined) {
+        this(messageId, messageThreadId, from, date, chat, forwardFrom, forwardFromChat, forwardDate, text, entities,
+                captionEntities, audio, document, photo, sticker, video, contact, location, venue, animation, pinnedMessage,
+                newChatMembers, leftChatMember, newChatTitle, newChatPhoto, deleteChatPhoto, groupchatCreated, replyToMessage,
+                voice, caption, superGroupCreated, channelChatCreated, migrateToChatId, migrateFromChatId, editDate, game,
+                forwardFromMessageId, invoice, successfulPayment, videoNote, authorSignature, forwardSignature, mediaGroupId,
+                connectedWebsite, passportData, forwardSenderName, poll, replyMarkup, dice, viaBot, senderChat,
+                proximityAlertTriggered, messageAutoDeleteTimerChanged, isAutomaticForward, hasProtectedContent, webAppData,
+                videoChatStarted, videoChatEnded, videoChatParticipantsInvited, videoChatScheduled, isTopicMessage,
+                forumTopicCreated, forumTopicClosed, forumTopicReopened, forumTopicEdited, generalForumTopicHidden,
+                generalForumTopicUnhidden, writeAccessAllowed, hasMediaSpoiler, userShared, chatShared, story, externalReplyInfo,
+                forwardOrigin, linkPreviewOptions, quote, usersShared, giveawayCreated, giveaway, giveawayWinners,
+                giveawayCompleted, replyToStory, boostAdded, senderBoostCount, businessConnectionId, senderBusinessBot,
+                senderTag, guestBotCallerUser, guestBotCallerChat, guestQueryId, livePhoto, isFromOffline, chatBackgroundSet,
+                effectId, showCaptionAboveMedia, paidMedia, refundedPayment, gift, uniqueGift, giftUpgradeSent,
+                paidMessagePriceChanged, paidStarCount, directMessagePriceChanged, checklist, checklistTasksDone,
+                checklistTasksAdded, replyToChecklistTaskId, isPaidPost, directMessagesTopic, suggestedPostInfo,
+                suggestedPostApproved, suggestedPostApprovalFailed, suggestedPostDeclined, suggestedPostPaid,
+                suggestedPostRefunded, chatOwnerLeft, chatOwnerChanged, replyToPollOptionId, managedBotCreated,
+                pollOptionAdded, pollOptionDeleted, richMessage, receiverUser, ephemeralMessageId, communityChatAdded,
+                communityChatRemoved, communityChatJoined, null, null, null);
+    }
+
+    @JsonIgnore
+    public boolean hasWidget() {
+        return widget != null;
+    }
 
     public List<MessageEntity> getEntities() {
         if (entities != null) {

@@ -14,8 +14,11 @@ import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodBoolean;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 import org.telegram.telegrambots.meta.util.Validations;
+
+import java.util.List;
 
 /**
  * @author Ruben Bermudez
@@ -39,6 +42,8 @@ public class VerifyChat extends BotApiMethodBoolean {
 
     private static final String CHAT_ID_FIELD = "chat_id";
     private static final String CUSTOM_DESCRIPTION_FIELD = "custom_description";
+    private static final String CUSTOM_DESCRIPTION_PARSE_MODE_FIELD = "custom_description_parse_mode";
+    private static final String CUSTOM_DESCRIPTION_ENTITIES_FIELD = "custom_description_entities";
 
     /**
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername).
@@ -54,12 +59,38 @@ public class VerifyChat extends BotApiMethodBoolean {
      */
     @JsonProperty(CUSTOM_DESCRIPTION_FIELD)
     private String customDescription;
+    /**
+     * Optional. Mode for parsing entities in the custom description. Only text_link entities are supported.
+     */
+    @JsonProperty(CUSTOM_DESCRIPTION_PARSE_MODE_FIELD)
+    private String customDescriptionParseMode;
+    /**
+     * Optional. Entities in the custom description, instead of a parse mode. Only text_link entities are supported.
+     */
+    @JsonProperty(CUSTOM_DESCRIPTION_ENTITIES_FIELD)
+    private List<MessageEntity> customDescriptionEntities;
+
+    @Tolerate
+    public VerifyChat(@NonNull String chatId, String customDescription) {
+        this.chatId = chatId;
+        this.customDescription = customDescription;
+    }
 
     @Override
     public void validate() throws TelegramApiValidationException {
         Validations.requiredChatId(chatId, this);
-        if (customDescription != null && (customDescription.length() > 70 || customDescription.isEmpty())) {
+        if (customDescription != null && customDescriptionParseMode == null && customDescription.length() > 70) {
             throw new TelegramApiValidationException("Custom description must be between 0 and 70 characters long", this);
+        }
+        if (customDescriptionParseMode != null && customDescriptionEntities != null && !customDescriptionEntities.isEmpty()) {
+            throw new TelegramApiValidationException("Custom description parse mode can't be enabled if entities are provided", this);
+        }
+        if (customDescriptionEntities != null) {
+            for (MessageEntity entity : customDescriptionEntities) {
+                if (entity == null || !"text_link".equals(entity.getType())) {
+                    throw new TelegramApiValidationException("Only text_link custom description entities are supported", this);
+                }
+            }
         }
     }
 

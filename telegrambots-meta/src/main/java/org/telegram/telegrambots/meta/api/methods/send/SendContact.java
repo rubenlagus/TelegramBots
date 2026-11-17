@@ -20,7 +20,7 @@ import org.telegram.telegrambots.meta.api.objects.ephemeral.EphemeralMessagePara
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostParameters;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-import org.telegram.telegrambots.meta.util.Validations;
+import org.telegram.telegrambots.meta.util.SendMessageValidations;
 
 /**
  * @author Ruben Bermudez
@@ -38,7 +38,7 @@ import org.telegram.telegrambots.meta.util.Validations;
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SendContact extends BotApiMethodMessage {
+public class SendContact extends BotApiMethodMessage implements CallbackReplyMethod {
     public static final String PATH = "sendContact";
 
     private static final String CHAT_ID_FIELD = "chat_id";
@@ -61,7 +61,6 @@ public class SendContact extends BotApiMethodMessage {
     private static final String EPHEMERAL_MESSAGE_PARAMETERS_FIELD = "ephemeral_message_parameters";
 
     @JsonProperty(CHAT_ID_FIELD)
-    @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     /**
      * Unique identifier for the target message thread (topic) of the forum;
@@ -143,6 +142,12 @@ public class SendContact extends BotApiMethodMessage {
     private EphemeralMessageParameters ephemeralMessageParameters;
 
     @Tolerate
+    public SendContact(String chatId, @NonNull String phoneNumber, @NonNull String firstName) {
+        this(phoneNumber, firstName);
+        this.chatId = chatId;
+    }
+
+    @Tolerate
     public void setChatId(@NonNull Long chatId) {
         this.chatId = chatId.toString();
     }
@@ -162,11 +167,11 @@ public class SendContact extends BotApiMethodMessage {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        Validations.requiredChatId(chatId, this);
+        SendMessageValidations.validateChatId(chatId, businessConnectionId, ephemeralMessageParameters, this);
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-        if (replyParameters != null) {
+        if (replyParameters != null && !isCallbackOnly()) {
             replyParameters.validate();
         }
         if (ephemeralMessageParameters != null) {
