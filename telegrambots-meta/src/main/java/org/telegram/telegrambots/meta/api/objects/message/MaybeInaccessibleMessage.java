@@ -1,26 +1,16 @@
 package org.telegram.telegrambots.meta.api.objects.message;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.objects.chat.Chat;
+import tools.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * @author Ruben Bermudez
  * @version 7.0
  * This object describes a message that can be inaccessible to the bot.
  */
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.EXISTING_PROPERTY,
-        property = "date",
-        visible = true,
-        defaultImpl = Message.class
-)
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = InaccessibleMessage.class, name = "0")
-})
+@JsonDeserialize(using = MaybeInaccessibleMessageDeserializer.class)
 public interface MaybeInaccessibleMessage extends BotApiObject {
     String DATE_FIELD = "date";
 
