@@ -22,6 +22,7 @@ import org.telegram.telegrambots.abilitybots.api.util.Pair;
 import org.telegram.telegrambots.abilitybots.api.util.Trio;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdministrators;
+import org.telegram.telegrambots.meta.api.methods.widget.AnswerWidgetQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberAdministrator;
@@ -509,6 +510,9 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
      * @param ability ability that was attempted to be executed
      */
     protected void onInputViolation(Update update, Ability ability) {
+        if (answerWidgetQuery(update)) {
+            return;
+        }
         Long chatId = getChatId(update);
         if (chatId == null) {
             return;
@@ -554,6 +558,9 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
      * @param ability ability that was attempted to be executed
      */
     protected void onLocalityViolation(Update update, Ability ability) {
+        if (answerWidgetQuery(update)) {
+            return;
+        }
         Long chatId = getChatId(update);
         if (chatId != null) {
             silent.send(
@@ -593,6 +600,9 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
      * @param ability ability that was attempted to be executed
      */
     protected void onPrivacyViolation(Update update, Ability ability) {
+        if (answerWidgetQuery(update)) {
+            return;
+        }
         Long chatId = getChatId(update);
         if (chatId == null) {
             return;
@@ -602,6 +612,18 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
                         CHECK_PRIVACY_FAIL,
                         AbilityUtils.getUser(update).getLanguageCode()),
                 chatId);
+    }
+
+    private boolean answerWidgetQuery(Update update) {
+        if (Flag.WIDGET_QUERY.test(update)) {
+            silent.execute(AnswerWidgetQuery.builder().widgetQueryId(update.getWidgetQuery().getId()).build());
+            return true;
+        }
+        if (Flag.SHARED_WIDGET_QUERY.test(update)) {
+            silent.execute(AnswerWidgetQuery.builder().widgetQueryId(update.getSharedWidgetQuery().getId()).build());
+            return true;
+        }
+        return false;
     }
 
     boolean validateAbility(Trio<Update, Ability, String[]> trio) {

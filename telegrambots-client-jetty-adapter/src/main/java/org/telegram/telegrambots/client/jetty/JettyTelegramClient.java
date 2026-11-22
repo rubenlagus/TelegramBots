@@ -55,7 +55,15 @@ import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoA
 import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoStatic;
 import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlock;
 import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockAudio;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockAnimation;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockBlockQuotation;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockCollage;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockDetails;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockDocument;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockList;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockListItem;
 import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockPhoto;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockSlideshow;
 import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockVideo;
 import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockVoiceNote;
 import org.telegram.telegrambots.meta.api.objects.richtext.InputRichMessage;
@@ -156,7 +164,8 @@ public class JettyTelegramClient extends AbstractTelegramClient {
         if (!(method instanceof PartialBotApiMethod<?> apiMethod)) {
             throw new TelegramApiException("Callback reply must be a bot API method");
         }
-        ResponseParser<SendMessageResult> parser = response -> SendMessageResult.deserializeResponse(response, apiMethod);
+        boolean callbackOnlyExpected = method.isCallbackOnly();
+        ResponseParser<SendMessageResult> parser = response -> SendMessageResult.deserializeResponse(response, apiMethod, callbackOnlyExpected);
         if (method instanceof SendDocument send) return executeSendDocument(send, false, parser);
         if (method instanceof SendPhoto send) return executeSendPhoto(send, false, parser);
         if (method instanceof SendVideo send) return executeSendVideo(send, false, parser);
@@ -283,7 +292,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
             return sendRequest(setMyProfilePhoto, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + setMyProfilePhoto.getMethod(), e));
         }
     }
@@ -795,7 +804,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
             return sendRequest(editEphemeralMessageMedia, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + editEphemeralMessageMedia.getMethod(), e));
         }
     }
@@ -1041,15 +1050,28 @@ public class JettyTelegramClient extends AbstractTelegramClient {
         for (InputRichBlock block : blocks) {
             if (block instanceof InputRichBlockPhoto photo) {
                 media.add(photo.getPhoto());
-            }
-            if (block instanceof InputRichBlockAudio audio) {
+            } else if (block instanceof InputRichBlockAudio audio) {
                 media.add(audio.getAudio());
-            }
-            if (block instanceof InputRichBlockVideo video) {
+            } else if (block instanceof InputRichBlockVideo video) {
                 media.add(video.getVideo());
-            }
-            if (block instanceof InputRichBlockVoiceNote voiceNote) {
+            } else if (block instanceof InputRichBlockVoiceNote voiceNote) {
                 media.add(voiceNote.getVoiceNote());
+            } else if (block instanceof InputRichBlockAnimation animation) {
+                media.add(animation.getAnimation());
+            } else if (block instanceof InputRichBlockDocument document) {
+                media.add(document.getDocument());
+            } else if (block instanceof InputRichBlockBlockQuotation quotation) {
+                media.addAll(extractMedia(quotation.getBlocks()));
+            } else if (block instanceof InputRichBlockCollage collage) {
+                media.addAll(extractMedia(collage.getBlocks()));
+            } else if (block instanceof InputRichBlockDetails details) {
+                media.addAll(extractMedia(details.getBlocks()));
+            } else if (block instanceof InputRichBlockSlideshow slideshow) {
+                media.addAll(extractMedia(slideshow.getBlocks()));
+            } else if (block instanceof InputRichBlockList list) {
+                for (InputRichBlockListItem item : list.getItems()) {
+                    media.addAll(extractMedia(item.getBlocks()));
+                }
             }
         }
 

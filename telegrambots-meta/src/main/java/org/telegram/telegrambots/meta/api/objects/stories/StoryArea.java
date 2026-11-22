@@ -56,6 +56,27 @@ public class StoryArea implements BotApiObject, Validable {
         this.type = type;
     }
 
+    /** Returns the position using the legacy story-specific type. */
+    @JsonProperty(POSITION_FIELD)
+    public StoryAreaPosition getPosition() {
+        if (position == null || position instanceof StoryAreaPosition) {
+            return (StoryAreaPosition) position;
+        }
+        return new StoryAreaPosition(position.getXPercentage(), position.getYPercentage(), position.getWidthPercentage(),
+                position.getHeightPercentage(), position.getRotationAngle(), position.getCornerRadiusPercentage());
+    }
+
+    @JsonProperty(POSITION_FIELD)
+    public void setPosition(AreaPosition position) {
+        this.position = position;
+    }
+
+    /** Retained for binary compatibility with the legacy story-specific setter. */
+    @JsonIgnore
+    public void setPosition(StoryAreaPosition position) {
+        this.position = position;
+    }
+
     /** Returns the position using the general-purpose area type. */
     @JsonIgnore
     public AreaPosition getAreaPosition() {
@@ -86,6 +107,9 @@ public class StoryArea implements BotApiObject, Validable {
 
     @Override
     public void validate() throws TelegramApiValidationException {
+        if (position == null) {
+            throw new TelegramApiValidationException("Position can't be null", this);
+        }
         position.validate();
         type.validate();
     }

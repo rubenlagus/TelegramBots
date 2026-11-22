@@ -4,9 +4,12 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.Test;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.richtext.RichText;
 import org.telegram.telegrambots.meta.api.objects.richtext.RichTextBold;
 import org.telegram.telegrambots.meta.api.objects.richtext.RichTextConcat;
+import org.telegram.telegrambots.meta.api.objects.richtext.RichTextItalic;
 import org.telegram.telegrambots.meta.api.objects.richtext.RichTextPlain;
 import org.telegram.telegrambots.meta.api.objects.richtext.RichTextTonAddress;
 
@@ -116,6 +119,39 @@ public class TestRichTextQuotes104 {
                 .quoteRichTexts(java.util.Collections.nCopies(33, new RichTextPlain("a")))
                 .build();
         assertThrows(org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException.class, tooManyTexts::validate);
+
+        ReplyParameters maxSupplementary = ReplyParameters.builder().messageId(42)
+                .quoteRichTexts(List.of(new RichTextPlain("😀".repeat(1024))))
+                .build();
+        maxSupplementary.validate();
+        ReplyParameters tooManySupplementary = ReplyParameters.builder().messageId(42)
+                .quoteRichTexts(List.of(new RichTextPlain("😀".repeat(1025))))
+                .build();
+        assertThrows(org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException.class,
+                tooManySupplementary::validate);
+    }
+
+    @Test
+    public void testQuoteRichTextsInMessageAndSendRequest() throws IOException {
+        String quoteJson = "{\"text\":\"quoted\",\"position\":4,\"rich_texts\":[\"quote \","
+                + "{\"type\":\"italic\",\"text\":\"text\"}]}";
+        Message message = mapper.readValue("{\"message_id\":42,\"date\":1,"
+                + "\"chat\":{\"id\":1,\"type\":\"private\"},\"quote\":" + quoteJson + "}", Message.class);
+        assertInstanceOf(RichTextPlain.class, message.getQuote().getRichTexts().get(0));
+        assertInstanceOf(RichTextItalic.class, message.getQuote().getRichTexts().get(1));
+        assertEquals(mapper.readTree(quoteJson), mapper.readTree(mapper.writeValueAsString(message.getQuote())));
+
+        ReplyParameters reply = ReplyParameters.builder().messageId(42)
+                .quote("legacy quote").quotePosition(4)
+                .quoteRichTexts(List.of(new RichTextPlain("first"),
+                        RichTextBold.builder().text(new RichTextPlain("second")).build()))
+                .build();
+        SendMessage send = SendMessage.builder().chatId("1").text("reply").replyParameters(reply).build();
+        JsonNode request = mapper.readTree(mapper.writeValueAsString(send));
+        JsonNode serializedReply = request.get("reply_parameters");
+        assertEquals(2, serializedReply.get("quote_rich_texts").size());
+        assertEquals("legacy quote", serializedReply.get("quote").asText());
+        assertEquals(4, serializedReply.get("quote_position").asInt());
     }
 
     @Test

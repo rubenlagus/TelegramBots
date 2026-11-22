@@ -48,6 +48,15 @@ public final class SendMessageResult implements Serializable {
     /** Parses a Telegram response, preserving API error details. */
     public static SendMessageResult deserializeResponse(String answer, PartialBotApiMethod<?> method)
             throws TelegramApiRequestException {
+        boolean callbackOnlyExpected = method instanceof CallbackReplyMethod callbackReplyMethod
+                && callbackReplyMethod.isCallbackOnly();
+        return deserializeResponse(answer, method, callbackOnlyExpected);
+    }
+
+    /** Parses a Telegram response against the response variant captured when the request was sent. */
+    public static SendMessageResult deserializeResponse(String answer, PartialBotApiMethod<?> method,
+                                                         boolean callbackOnlyExpected)
+            throws TelegramApiRequestException {
         try {
             JsonNode root = OBJECT_MAPPER.readTree(answer);
             if (root == null || !root.isObject() || !root.has("ok") || !root.get("ok").isBoolean()) {
@@ -59,12 +68,12 @@ public final class SendMessageResult implements Serializable {
             }
             JsonNode result = root.get("result");
             if (result != null && result.isBoolean() && result.booleanValue()) {
-                if (!(method instanceof CallbackReplyMethod) || !((CallbackReplyMethod) method).isCallbackOnly()) {
+                if (!(method instanceof CallbackReplyMethod) || !callbackOnlyExpected) {
                     throw new TelegramApiRequestException("Unable to deserialize response: expected a message");
                 }
                 return callbackSuccess();
             }
-            if (method instanceof CallbackReplyMethod && ((CallbackReplyMethod) method).isCallbackOnly()) {
+            if (method instanceof CallbackReplyMethod && callbackOnlyExpected) {
                 throw new TelegramApiRequestException("Unable to deserialize response: expected true");
             }
             if (result == null || !result.isObject() || !result.path("message_id").isIntegralNumber()

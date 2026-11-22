@@ -6,6 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.telegram.telegrambots.meta.api.objects.AreaPosition;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamField;
+
 /**
  * @author Ruben Bermudez
  * @version 9.0
@@ -17,6 +22,15 @@ import org.telegram.telegrambots.meta.api.objects.AreaPosition;
 @NoArgsConstructor
 @JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE)
 public class StoryAreaPosition extends AreaPosition {
+    private static final long serialVersionUID = -7956681739742451307L;
+    private static final ObjectStreamField[] serialPersistentFields = {
+            new ObjectStreamField("xPercentage", Float.class),
+            new ObjectStreamField("yPercentage", Float.class),
+            new ObjectStreamField("widthPercentage", Float.class),
+            new ObjectStreamField("heightPercentage", Float.class),
+            new ObjectStreamField("rotationAngle", Float.class),
+            new ObjectStreamField("cornerRadiusPercentage", Float.class)
+    };
     public StoryAreaPosition(Float xPercentage, Float yPercentage, Float widthPercentage, Float heightPercentage,
                              Float rotationAngle, Float cornerRadiusPercentage) {
         super(xPercentage, yPercentage, widthPercentage, heightPercentage, rotationAngle, cornerRadiusPercentage);
@@ -46,5 +60,26 @@ public class StoryAreaPosition extends AreaPosition {
 
     public static StoryAreaPositionBuilder builder() {
         return new StoryAreaPositionBuilder();
+    }
+
+    private void writeObject(ObjectOutputStream output) throws IOException {
+        ObjectOutputStream.PutField fields = output.putFields();
+        fields.put("xPercentage", getXPercentage());
+        fields.put("yPercentage", getYPercentage());
+        fields.put("widthPercentage", getWidthPercentage());
+        fields.put("heightPercentage", getHeightPercentage());
+        fields.put("rotationAngle", getRotationAngle());
+        fields.put("cornerRadiusPercentage", getCornerRadiusPercentage());
+        output.writeFields();
+    }
+
+    private void readObject(ObjectInputStream input) throws IOException, ClassNotFoundException {
+        ObjectInputStream.GetField fields = input.readFields();
+        setXPercentage((Float) fields.get("xPercentage", null));
+        setYPercentage((Float) fields.get("yPercentage", null));
+        setWidthPercentage((Float) fields.get("widthPercentage", null));
+        setHeightPercentage((Float) fields.get("heightPercentage", null));
+        setRotationAngle((Float) fields.get("rotationAngle", null));
+        setCornerRadiusPercentage((Float) fields.get("cornerRadiusPercentage", null));
     }
 }

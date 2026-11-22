@@ -60,7 +60,15 @@ import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoA
 import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoStatic;
 import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlock;
 import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockAudio;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockAnimation;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockBlockQuotation;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockCollage;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockDetails;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockDocument;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockList;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockListItem;
 import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockPhoto;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockSlideshow;
 import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockVideo;
 import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockVoiceNote;
 import org.telegram.telegrambots.meta.api.objects.richtext.InputRichMessage;
@@ -848,6 +856,8 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
     private CompletableFuture<SendMessageResult> sendResultRequest(PartialBotApiMethod<?> method, Request request) {
         CompletableFuture<SendMessageResult> result = new CompletableFuture<>();
+        boolean callbackOnlyExpected = method instanceof CallbackReplyMethod callbackReplyMethod
+                && callbackReplyMethod.isCallbackOnly();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException exception) {
@@ -860,7 +870,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                     if (body == null) {
                         result.completeExceptionally(new TelegramApiException("Telegram api returned empty response"));
                     } else {
-                        result.complete(SendMessageResult.deserializeResponse(body.string(), method));
+                        result.complete(SendMessageResult.deserializeResponse(body.string(), method, callbackOnlyExpected));
                     }
                 } catch (Exception e) {
                     result.completeExceptionally(e);
@@ -1057,15 +1067,28 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
         for (InputRichBlock block : blocks) {
             if (block instanceof InputRichBlockPhoto photo) {
                 media.add(photo.getPhoto());
-            }
-            if (block instanceof InputRichBlockAudio audio) {
+            } else if (block instanceof InputRichBlockAudio audio) {
                 media.add(audio.getAudio());
-            }
-            if (block instanceof InputRichBlockVideo video) {
+            } else if (block instanceof InputRichBlockVideo video) {
                 media.add(video.getVideo());
-            }
-            if (block instanceof InputRichBlockVoiceNote voiceNote) {
+            } else if (block instanceof InputRichBlockVoiceNote voiceNote) {
                 media.add(voiceNote.getVoiceNote());
+            } else if (block instanceof InputRichBlockAnimation animation) {
+                media.add(animation.getAnimation());
+            } else if (block instanceof InputRichBlockDocument document) {
+                media.add(document.getDocument());
+            } else if (block instanceof InputRichBlockBlockQuotation quotation) {
+                media.addAll(extractMedia(quotation.getBlocks()));
+            } else if (block instanceof InputRichBlockCollage collage) {
+                media.addAll(extractMedia(collage.getBlocks()));
+            } else if (block instanceof InputRichBlockDetails details) {
+                media.addAll(extractMedia(details.getBlocks()));
+            } else if (block instanceof InputRichBlockSlideshow slideshow) {
+                media.addAll(extractMedia(slideshow.getBlocks()));
+            } else if (block instanceof InputRichBlockList list) {
+                for (InputRichBlockListItem item : list.getItems()) {
+                    media.addAll(extractMedia(item.getBlocks()));
+                }
             }
         }
 

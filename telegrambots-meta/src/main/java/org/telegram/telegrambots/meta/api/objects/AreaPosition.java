@@ -106,7 +106,7 @@ public class AreaPosition implements BotApiObject, Validable {
                 || rotationAngle == null || cornerRadiusPercentage == null) {
             throw new TelegramApiValidationException("All area position values must be provided", this);
         }
-        if (rotationAngle < 0 || rotationAngle > 360) {
+        if (!Float.isFinite(rotationAngle) || rotationAngle < 0 || rotationAngle > 360) {
             throw new TelegramApiValidationException("RotationAngle must be between 0 and 360 degrees", this);
         }
     }

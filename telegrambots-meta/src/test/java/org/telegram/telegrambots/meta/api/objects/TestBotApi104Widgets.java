@@ -9,6 +9,7 @@ import java.util.Random;
 import java.util.zip.Deflater;
 import java.util.zip.GZIPOutputStream;
 import org.junit.jupiter.api.Test;
+import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendSharedWidget;
 import org.telegram.telegrambots.meta.api.methods.send.SendWidget;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageWidgetData;
@@ -16,6 +17,7 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditSharedWid
 import org.telegram.telegrambots.meta.api.methods.widget.AnswerWidgetQuery;
 import org.telegram.telegrambots.meta.api.objects.widget.*;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.*;
+import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultArticle;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
@@ -97,6 +99,30 @@ public class TestBotApi104Widgets {
             assertEquals(content, mapper.readValue(serialized, InputMessageContent.class));
         }
         assertThrows(Exception.class, () -> mapper.readValue("{\"chat_data\":\"local\"}", InputMessageContent.class));
+    }
+
+    @Test
+    public void inlineWidgetContentsSerializeInsideAnswerResults() throws Exception {
+        InputWidgetMessageContent widget = mapper.readValue("{\"html\":\"<p>widget</p>\"}", InputWidgetMessageContent.class);
+        InputSharedWidgetMessageContent shared = mapper.readValue(
+                "{\"widget_id\":\"shared\",\"caption\":\"caption\",\"caption_entities\":["
+                        + "{\"type\":\"bold\",\"offset\":0,\"length\":7}]}",
+                InputSharedWidgetMessageContent.class);
+        AnswerInlineQuery answer = AnswerInlineQuery.builder().inlineQueryId("query")
+                .results(List.of(
+                        InlineQueryResultArticle.builder().id("widget").title("Widget")
+                                .inputMessageContent(widget).build(),
+                        InlineQueryResultArticle.builder().id("shared").title("Shared")
+                                .inputMessageContent(shared).build()))
+                .build();
+        answer.validate();
+
+        String json = mapper.writeValueAsString(answer);
+        JsonNode serialized = mapper.readTree(json);
+        assertEquals("<p>widget</p>", serialized.get("results").get(0)
+                .get("input_message_content").get("html").asText());
+        assertEquals("shared", serialized.get("results").get(1)
+                .get("input_message_content").get("widget_id").asText());
     }
 
     @Test

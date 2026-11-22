@@ -15,6 +15,15 @@ import org.telegram.telegrambots.meta.api.objects.stories.StoryAreaPosition;
 import org.telegram.telegrambots.meta.api.objects.stories.area.StoryAreaTypeLink;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamClass;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestBotApi104WalletAndThemes {
@@ -25,19 +34,25 @@ public class TestBotApi104WalletAndThemes {
 
     @Test
     public void walletCardAndTransferRoundTrip() throws Exception {
-        String wallet = "{\"address\":\"wallet\",\"amount\":\"1234567890123456789012345\",\"stickers\":[{\"position\":"
-                + POSITION + ",\"nft\":{\"address\":\"nft\",\"index\":\"999999999999999999999\",\"name\":\"N\","
+        String wallet = "{\"address\":\"wallet\",\"amount\":\"1234567890123456789012345\","
+                + "\"background_nft_address\":\"background\",\"stickers\":[{\"position\":"
+                + POSITION + ",\"nft\":{\"address\":\"nft\",\"collection_address\":\"collection\","
+                + "\"index\":\"999999999999999999999\",\"name\":\"N\","
                 + "\"description\":\"D\",\"attributes\":[{\"trait_type\":\"color\",\"value\":\"blue\"}],\"gift\":" + GIFT + "}}]}";
         ChatFullInfo chat = mapper.readValue("{\"id\":1,\"type\":\"private\",\"ton_wallet_card\":" + wallet + "}", ChatFullInfo.class);
         assertEquals("1234567890123456789012345", chat.getTonWalletCard().getAmount());
+        assertEquals("background", chat.getTonWalletCard().getBackgroundNftAddress());
+        assertEquals("collection", chat.getTonWalletCard().getStickers().get(0).getNft().getCollectionAddress());
         assertEquals("999999999999999999999", chat.getTonWalletCard().getStickers().get(0).getNft().getIndex());
         assertEquals("blue", chat.getTonWalletCard().getStickers().get(0).getNft().getAttributes().get(0).getValue());
         assertEquals(mapper.readTree(wallet), mapper.readTree(mapper.writeValueAsString(chat.getTonWalletCard())));
 
         Message message = mapper.readValue("{\"message_id\":1,\"date\":1,\"chat\":{\"id\":1,\"type\":\"private\"},"
-                + "\"paid_messages_waived\":{},\"ton_wallet_transfer\":{\"transaction_id\":\"\",\"peer_address\":\"p\",\"amount\":\"-5\"}}", Message.class);
+                + "\"paid_messages_waived\":{},\"ton_wallet_transfer\":{\"transaction_id\":\"\",\"peer_address\":\"p\","
+                + "\"amount\":\"-5\",\"comment\":\"sent\"}}", Message.class);
         assertEquals("", message.getTonWalletTransfer().getTransactionId());
         assertEquals("-5", message.getTonWalletTransfer().getAmount());
+        assertEquals("sent", message.getTonWalletTransfer().getComment());
         assertNotNull(message.getPaidMessagesWaived());
         assertEquals(message.getTonWalletTransfer(), mapper.readValue(mapper.writeValueAsString(message), Message.class).getTonWalletTransfer());
         assertNotNull(mapper.readValue(mapper.writeValueAsString(message), Message.class).getPaidMessagesWaived());
@@ -55,6 +70,10 @@ public class TestBotApi104WalletAndThemes {
         assertInstanceOf(ChatShareThemeEmoji.class, chat.getShareTheme());
         String unique = "{\"type\":\"unique_gift\",\"gift\":" + GIFT + "}";
         assertInstanceOf(ChatShareThemeUniqueGift.class, mapper.readValue(unique, ChatShareTheme.class));
+        ChatFullInfo uniqueGiftChat = mapper.readValue("{\"id\":1,\"type\":\"private\",\"share_theme\":" + unique + "}", ChatFullInfo.class);
+        ChatShareThemeUniqueGift uniqueTheme = assertInstanceOf(ChatShareThemeUniqueGift.class, uniqueGiftChat.getShareTheme());
+        assertEquals("Gift-1", uniqueTheme.getGift().getName());
+        assertEquals(mapper.readTree(unique), mapper.readTree(mapper.writeValueAsString(uniqueTheme)));
         assertNull(mapper.readValue("{\"type\":\"future\"}", ChatShareTheme.class));
     }
 
@@ -71,9 +90,12 @@ public class TestBotApi104WalletAndThemes {
     public void storyPositionOldAndNewApisRemainUsable() throws Exception {
         StoryAreaPosition old = new StoryAreaPosition(1f, 2f, 3f, 4f, 5f, 6f);
         StoryArea oldArea = new StoryArea(old, new StoryAreaTypeLink("https://example.com"));
+        StoryAreaPosition positionFromLegacyGetter = oldArea.getPosition();
+        assertSame(old, positionFromLegacyGetter);
+        assertEquals(StoryAreaPosition.class, StoryArea.class.getMethod("getPosition").getReturnType());
+        assertNotNull(StoryArea.class.getMethod("setPosition", StoryAreaPosition.class));
+        oldArea.setPosition(positionFromLegacyGetter);
         assertSame(old, oldArea.getPosition());
-        AreaPosition positionFromLegacyApi = oldArea.getPosition();
-        assertSame(old, positionFromLegacyApi);
         assertEquals(1f, oldArea.getAreaPosition().getXPercentage());
         StoryAreaPosition oldBuilder = StoryAreaPosition.builder().xPercentage(1f).yPercentage(2f).widthPercentage(3f)
                 .heightPercentage(4f).rotationAngle(5f).cornerRadiusPercentage(6f).build();
@@ -83,19 +105,82 @@ public class TestBotApi104WalletAndThemes {
         AreaPosition position = AreaPosition.builder().xPercentage(1f).yPercentage(2f).widthPercentage(3f)
                 .heightPercentage(4f).rotationAngle(5f).cornerRadiusPercentage(6f).build();
         StoryArea area = StoryArea.builder().position(position).type(new StoryAreaTypeLink("https://example.com")).build();
-        assertSame(position, area.getPosition());
+        assertEquals(position, area.getAreaPosition());
         assertSame(position, area.getAreaPosition());
         area.setAreaPosition(position);
-        assertSame(position, area.getPosition());
-        assertSame(position, StoryArea.builder().areaPosition(position).type(new StoryAreaTypeLink("https://example.com")).build().getPosition());
+        assertSame(position, area.getAreaPosition());
+        assertEquals(position, StoryArea.builder().areaPosition(position).type(new StoryAreaTypeLink("https://example.com")).build().getAreaPosition());
         assertEquals(mapper.readTree(POSITION), mapper.readTree(mapper.writeValueAsString(position)));
         assertEquals(position, mapper.readValue(POSITION, AreaPosition.class));
         StoryArea deserialized = mapper.readValue(mapper.writeValueAsString(oldArea), StoryArea.class);
-        assertEquals(AreaPosition.class, deserialized.getPosition().getClass());
-        assertEquals(mapper.readTree(mapper.writeValueAsString(oldArea.getPosition())),
-                mapper.readTree(mapper.writeValueAsString(deserialized.getPosition())));
+        assertEquals(AreaPosition.class, deserialized.getAreaPosition().getClass());
+        assertEquals(mapper.readTree(mapper.writeValueAsString(oldArea.getAreaPosition())),
+                mapper.readTree(mapper.writeValueAsString(deserialized.getAreaPosition())));
         StoryAreaPosition partial = new StoryAreaPosition();
         StoryArea partialArea = new StoryArea(partial, new StoryAreaTypeLink("https://example.com"));
         assertSame(partial, partialArea.getAreaPosition());
+        StoryArea missingPosition = new StoryArea(position, new StoryAreaTypeLink("https://example.com"));
+        missingPosition.setPosition((AreaPosition) null);
+        assertThrows(org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException.class, missingPosition::validate);
+
+        assertEquals(-7956681739742451307L, ObjectStreamClass.lookup(StoryAreaPosition.class).getSerialVersionUID());
+        StoryAreaPosition restored = serializeRoundTrip(old);
+        assertEquals(old.getXPercentage(), restored.getXPercentage());
+        assertEquals(old.getYPercentage(), restored.getYPercentage());
+        assertEquals(old.getWidthPercentage(), restored.getWidthPercentage());
+        assertEquals(old.getHeightPercentage(), restored.getHeightPercentage());
+        assertEquals(old.getRotationAngle(), restored.getRotationAngle());
+        assertEquals(old.getCornerRadiusPercentage(), restored.getCornerRadiusPercentage());
+
+        StoryAreaPosition legacyPosition = readLegacyFixture("story-area-position-10.3.b64", StoryAreaPosition.class);
+        assertPositionValues(legacyPosition);
+        StoryArea legacyArea = readLegacyFixture("story-area-10.3.b64", StoryArea.class);
+        assertInstanceOf(StoryAreaPosition.class, legacyArea.getAreaPosition());
+        assertPositionValues(legacyArea.getAreaPosition());
+        assertInstanceOf(StoryAreaTypeLink.class, legacyArea.getType());
+    }
+
+    @Test
+    public void areaPositionRejectsNaNRotationAndAcceptsInclusiveBoundaries() throws Exception {
+        AreaPosition zero = new AreaPosition(1f, 2f, 3f, 4f, 0f, 6f);
+        AreaPosition threeSixty = new AreaPosition(1f, 2f, 3f, 4f, 360f, 6f);
+        zero.validate();
+        threeSixty.validate();
+
+        AreaPosition notANumber = new AreaPosition(1f, 2f, 3f, 4f, Float.NaN, 6f);
+        assertThrows(org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException.class, notANumber::validate);
+        AreaPosition belowRange = new AreaPosition(1f, 2f, 3f, 4f, -0.01f, 6f);
+        AreaPosition aboveRange = new AreaPosition(1f, 2f, 3f, 4f, 360.01f, 6f);
+        assertThrows(org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException.class, belowRange::validate);
+        assertThrows(org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException.class, aboveRange::validate);
+    }
+
+    private StoryAreaPosition serializeRoundTrip(StoryAreaPosition position) throws Exception {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        try (ObjectOutputStream output = new ObjectOutputStream(bytes)) {
+            output.writeObject(position);
+        }
+        try (ObjectInputStream input = new ObjectInputStream(new ByteArrayInputStream(bytes.toByteArray()))) {
+            return (StoryAreaPosition) input.readObject();
+        }
+    }
+
+    private <T> T readLegacyFixture(String name, Class<T> type) throws Exception {
+        try (InputStream fixture = getClass().getResourceAsStream("/legacy/" + name)) {
+            assertNotNull(fixture);
+            byte[] serialized = Base64.getDecoder().decode(new String(fixture.readAllBytes(), StandardCharsets.US_ASCII).trim());
+            try (ObjectInputStream input = new ObjectInputStream(new ByteArrayInputStream(serialized))) {
+                return type.cast(input.readObject());
+            }
+        }
+    }
+
+    private void assertPositionValues(AreaPosition position) {
+        assertEquals(1.25f, position.getXPercentage());
+        assertEquals(2.5f, position.getYPercentage());
+        assertEquals(3.75f, position.getWidthPercentage());
+        assertEquals(4.5f, position.getHeightPercentage());
+        assertEquals(5.25f, position.getRotationAngle());
+        assertEquals(6.5f, position.getCornerRadiusPercentage());
     }
 }
