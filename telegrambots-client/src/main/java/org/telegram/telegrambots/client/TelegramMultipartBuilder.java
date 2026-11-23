@@ -58,10 +58,17 @@ public class TelegramMultipartBuilder {
      * @return the builder
      */
     public TelegramMultipartBuilder addJsonPart(String fieldName, Object value) throws JacksonException {
-        if (value != null) {
-            internalBuilder.addFormDataPart(fieldName, mapper.writeValueAsString(value));
-        }
+        addJsonPartAndGetValue(fieldName, value);
         return this;
+    }
+
+    public String addJsonPartAndGetValue(String fieldName, Object value) throws JacksonException {
+        if (value != null) {
+            String serializedValue = mapper.writeValueAsString(value);
+            internalBuilder.addFormDataPart(fieldName, serializedValue);
+            return serializedValue;
+        }
+        return null;
     }
 
     public TelegramMultipartBuilder addInputFile(String fileField, InputFile file, boolean addField) throws IOException {

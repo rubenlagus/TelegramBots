@@ -20,7 +20,7 @@ import org.telegram.telegrambots.meta.api.objects.ephemeral.EphemeralMessagePara
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostParameters;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-import org.telegram.telegrambots.meta.util.Validations;
+import org.telegram.telegrambots.meta.util.SendMessageValidations;
 
 /**
  * @author Ruben Bermudez
@@ -37,7 +37,7 @@ import org.telegram.telegrambots.meta.util.Validations;
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SendLocation extends BotApiMethodMessage {
+public class SendLocation extends BotApiMethodMessage implements CallbackReplyMethod {
     public static final String PATH = "sendlocation";
 
     private static final String CHATID_FIELD = "chat_id";
@@ -62,7 +62,6 @@ public class SendLocation extends BotApiMethodMessage {
     private static final String EPHEMERAL_MESSAGE_PARAMETERS_FIELD = "ephemeral_message_parameters";
 
     @JsonProperty(CHATID_FIELD)
-    @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     /**
      * Unique identifier for the target message thread (topic) of the forum;
@@ -166,6 +165,12 @@ public class SendLocation extends BotApiMethodMessage {
     private EphemeralMessageParameters ephemeralMessageParameters;
 
     @Tolerate
+    public SendLocation(String chatId, @NonNull Double latitude, @NonNull Double longitude) {
+        this(latitude, longitude);
+        this.chatId = chatId;
+    }
+
+    @Tolerate
     public void setChatId(@NonNull Long chatId) {
         this.chatId = chatId.toString();
     }
@@ -185,7 +190,7 @@ public class SendLocation extends BotApiMethodMessage {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        Validations.requiredChatId(chatId, this);
+        SendMessageValidations.validateChatId(chatId, businessConnectionId, ephemeralMessageParameters, this);
         if (horizontalAccuracy != null && (horizontalAccuracy < 0 || horizontalAccuracy > 1500)) {
             throw new TelegramApiValidationException("Horizontal Accuracy parameter must be between 0 and 1500", this);
         }
@@ -201,7 +206,7 @@ public class SendLocation extends BotApiMethodMessage {
         if (livePeriod != null && (livePeriod < 60 || livePeriod > 86400) && livePeriod != 0x7FFFFFFF) {
             throw new TelegramApiValidationException("Live period parameter must be between 60 and 86400 or be 0x7FFFFFFF", this);
         }
-        if (replyParameters != null) {
+        if (replyParameters != null && !isCallbackOnly()) {
             replyParameters.validate();
         }
         if (ephemeralMessageParameters != null) {

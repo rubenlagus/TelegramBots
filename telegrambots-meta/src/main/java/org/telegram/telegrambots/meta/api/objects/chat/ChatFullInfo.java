@@ -25,6 +25,8 @@ import org.telegram.telegrambots.meta.api.objects.gifts.AcceptedGiftTypes;
 import org.telegram.telegrambots.meta.api.objects.gifts.UniqueGiftColors;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.reactions.ReactionType;
+import org.telegram.telegrambots.meta.api.objects.ton.TonWalletCard;
+import org.telegram.telegrambots.meta.api.objects.chat.sharetheme.ChatShareTheme;
 
 import java.util.List;
 
@@ -44,6 +46,8 @@ import java.util.List;
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ChatFullInfo extends Chat {
+
+    private static final long serialVersionUID = -8054250969089654169L;
 
     private static final String BIO_FIELD = "bio";
     private static final String PHOTO_FIELD = "photo";
@@ -400,4 +404,34 @@ public class ChatFullInfo extends Chat {
      */
     @JsonProperty(COMMUNITY_FIELD)
     private Community community;
+    /** Optional. The user's TON wallet card, for private chats. */
+    @JsonProperty("ton_wallet_card")
+    private TonWalletCard tonWalletCard;
+    /** Optional. The theme used when sharing a link to the user or chat. */
+    @JsonProperty("share_theme")
+    private ChatShareTheme shareTheme;
+
+    /** Preserves the 10.3 all-arguments constructor signature. */
+    public ChatFullInfo(ChatPhoto photo, String description, String inviteLink, Message pinnedMessage, String stickerSetName,
+                        Boolean canSetStickerSet, ChatPermissions permissions, Integer slowModeDelay, String bio, Long linkedChatId,
+                        ChatLocation location, Integer messageAutoDeleteTime, Boolean hasPrivateForwards, Boolean hasProtectedContent,
+                        Boolean joinToSendMessages, Boolean joinByRequest, Boolean hasRestrictedVoiceAndVideoMessages,
+                        List<String> activeUsernames, String emojiStatusCustomEmojiId, Boolean hasAggressiveAntiSpamEnabled,
+                        Boolean hasHiddenMembers, Boolean emojiStatusExpirationDate, List<ReactionType> availableReactions,
+                        Integer accentColorId, String backgroundCustomEmojiId, Boolean profileAccentColorId,
+                        String profileBackgroundCustomEmojiId, Boolean hasVisibleHistory, Integer unrestrictBoostCount,
+                        String customEmojiStickerSetName, Birthdate birthdate, BusinessIntro businessIntro,
+                        BusinessLocation businessLocation, BusinessOpeningHours businessOpeningHours, Chat personalChat,
+                        Boolean canSendPaidMedia, AcceptedGiftTypes acceptedGiftTypes, Boolean isDirectMessages, Chat parentChat,
+                        UserRating rating, UniqueGiftColors uniqueGiftColors, Integer paidMessageStarCount,
+                        Audio firstProfileAudio, User guardBot, Community community) {
+        this(photo, description, inviteLink, pinnedMessage, stickerSetName, canSetStickerSet, permissions, slowModeDelay, bio,
+                linkedChatId, location, messageAutoDeleteTime, hasPrivateForwards, hasProtectedContent, joinToSendMessages,
+                joinByRequest, hasRestrictedVoiceAndVideoMessages, activeUsernames, emojiStatusCustomEmojiId,
+                hasAggressiveAntiSpamEnabled, hasHiddenMembers, emojiStatusExpirationDate, availableReactions, accentColorId,
+                backgroundCustomEmojiId, profileAccentColorId, profileBackgroundCustomEmojiId, hasVisibleHistory,
+                unrestrictBoostCount, customEmojiStickerSetName, birthdate, businessIntro, businessLocation, businessOpeningHours,
+                personalChat, canSendPaidMedia, acceptedGiftTypes, isDirectMessages, parentChat, rating, uniqueGiftColors,
+                paidMessageStarCount, firstProfileAudio, guardBot, community, null, null);
+    }
 }

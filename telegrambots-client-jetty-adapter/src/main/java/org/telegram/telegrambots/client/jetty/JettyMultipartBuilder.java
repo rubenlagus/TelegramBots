@@ -67,10 +67,17 @@ public class JettyMultipartBuilder {
      * @return the builder
      */
     public JettyMultipartBuilder addJsonPart(String fieldName, Object value) throws JacksonException {
-        if (value != null) {
-            this.addPart(fieldName, mapper.writeValueAsString(value));
-        }
+        addJsonPartAndGetValue(fieldName, value);
         return this;
+    }
+
+    public String addJsonPartAndGetValue(String fieldName, Object value) throws JacksonException {
+        if (value != null) {
+            String serializedValue = mapper.writeValueAsString(value);
+            this.addPart(fieldName, serializedValue);
+            return serializedValue;
+        }
+        return null;
     }
 
     public JettyMultipartBuilder addInputFile(String fileField, InputFile file, boolean addField) throws IOException {

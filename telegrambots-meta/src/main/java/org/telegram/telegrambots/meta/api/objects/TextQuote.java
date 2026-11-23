@@ -12,6 +12,7 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
+import org.telegram.telegrambots.meta.api.objects.richtext.RichText;
 
 import java.util.List;
 
@@ -31,14 +32,17 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TextQuote implements BotApiObject {
+    private static final long serialVersionUID = -5841820526754490266L;
 
     private static final String TEXT_FIELD = "text";
     private static final String ENTITIES_FIELD = "entities";
     private static final String POSITION_FIELD = "position";
     private static final String IS_MANUAL_FIELD = "is_manual";
+    private static final String RICH_TEXTS_FIELD = "rich_texts";
 
     /**
-     * Text of the quoted part of a message that is replied to by the given message
+     * Text of the quoted part of a message that is replied to by the given message;
+     * may be empty if the quote was chosen from a rich message.
      */
     @JsonProperty(TEXT_FIELD)
     private String text;
@@ -49,7 +53,8 @@ public class TextQuote implements BotApiObject {
     @JsonProperty(ENTITIES_FIELD)
     private List<MessageEntity> entities;
     /**
-     * 	Approximate quote position in the original message in UTF-16 code units as specified by the sender
+     * Approximate quote position in the original message in UTF-16 code units as specified by the sender.
+     * For rich messages, this is the position in the plain texts of all quotable texts joined by line feeds.
      */
     @JsonProperty(POSITION_FIELD)
     private Integer position;
@@ -59,4 +64,16 @@ public class TextQuote implements BotApiObject {
      */
     @JsonProperty(IS_MANUAL_FIELD)
     private Boolean isManual;
+
+    /**
+     * Optional. Rich text of the quote if it was chosen from a rich message. May contain only plain
+     * text, bold, italic, underline, strikethrough, spoiler, subscript, superscript, date-time,
+     * custom emoji, mathematical expressions, and arrays of them.
+     */
+    @JsonProperty(RICH_TEXTS_FIELD)
+    private List<RichText> richTexts;
+
+    public TextQuote(String text, List<MessageEntity> entities, Integer position, Boolean isManual) {
+        this(text, entities, position, isManual, null);
+    }
 }

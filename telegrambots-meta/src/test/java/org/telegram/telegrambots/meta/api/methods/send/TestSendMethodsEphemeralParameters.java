@@ -49,6 +49,17 @@ public class TestSendMethodsEphemeralParameters {
     }
 
     @ParameterizedTest(name = "{0}")
+    @MethodSource("mediaSendMethods")
+    public void testMediaSendMethodsSerializeEphemeralParameters(String path, SendMediaBotMethod<?> method) {
+        JsonNode root = mapper.valueToTree(method);
+
+        JsonNode nested = root.get("ephemeral_message_parameters");
+        assertNotNull(nested, path + " must serialize ephemeral_message_parameters");
+        assertEquals(RECEIVER_USER_ID, nested.get("receiver_user_id").asLong(), path);
+        assertEquals(CALLBACK_QUERY_ID, nested.get("callback_query_id").asText(), path);
+    }
+
+    @ParameterizedTest(name = "{0}")
     @MethodSource("jsonSendMethods")
     public void testJsonSendMethodsSerializeEphemeralParameters(String path, Object method) throws IOException {
         JsonNode root = mapper.valueToTree(method);

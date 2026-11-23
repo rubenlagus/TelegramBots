@@ -2,12 +2,14 @@ package org.telegram.telegrambots.abilitybots.api.bot;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Files;
+import tools.jackson.databind.json.JsonMapper;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.mockito.ArgumentCaptor;
 import org.telegram.telegrambots.abilitybots.api.db.DBContext;
 import org.telegram.telegrambots.abilitybots.api.objects.Ability;
 import org.telegram.telegrambots.abilitybots.api.objects.Flag;
@@ -18,6 +20,7 @@ import org.telegram.telegrambots.abilitybots.api.sender.SilentSender;
 import org.telegram.telegrambots.abilitybots.api.util.AbilityUtils;
 import org.telegram.telegrambots.abilitybots.api.util.Pair;
 import org.telegram.telegrambots.abilitybots.api.util.Trio;
+import org.telegram.telegrambots.meta.api.methods.widget.AnswerWidgetQuery;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdministrators;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.objects.Document;
@@ -526,6 +529,73 @@ public class TestAbilityBot {
     assertTrue(bot.checkLocality(publicTrio), "Unexpected result when checking for locality");
     assertTrue(bot.checkLocality(userTrio), "Unexpected result when checking for locality");
     assertFalse(bot.checkLocality(groupTrio), "Unexpected result when checking for locality");
+  }
+
+  @Test
+  void widgetQueryLocalityRequiresKnownChatTypeForRestrictedAbilities() throws Exception {
+    JsonMapper mapper = new JsonMapper();
+    String query = "\"id\":\"q\",\"from\":{\"id\":123,\"first_name\":\"A\",\"is_bot\":false},"
+        + "\"chat_instance\":\"instance\",\"type\":{\"type\":\"data\"},\"data\":\"x\"";
+    Update groupQuery = mapper.readValue("{\"update_id\":1,\"widget_query\":{" + query
+        + ",\"chat_type\":\"group\"}}", Update.class);
+    Update unknownQuery = mapper.readValue("{\"update_id\":2,\"widget_query\":{" + query + "}}", Update.class);
+    Update channelQuery = mapper.readValue("{\"update_id\":3,\"widget_query\":{" + query
+        + ",\"chat_type\":\"channel\"}}", Update.class);
+    Ability allAbility = DefaultBot.getDefaultBuilder().locality(ALL).build();
+    Ability userAbility = DefaultBot.getDefaultBuilder().locality(Locality.USER).build();
+    Ability groupAbility = DefaultBot.getDefaultBuilder().locality(GROUP).build();
+
+    assertTrue(bot.checkLocality(Trio.of(groupQuery, groupAbility, TEXT)));
+    assertFalse(bot.checkLocality(Trio.of(groupQuery, userAbility, TEXT)));
+    assertTrue(bot.checkLocality(Trio.of(unknownQuery, allAbility, TEXT)));
+    assertFalse(bot.checkLocality(Trio.of(unknownQuery, userAbility, TEXT)));
+    assertFalse(bot.checkLocality(Trio.of(unknownQuery, groupAbility, TEXT)));
+    assertTrue(bot.checkLocality(Trio.of(channelQuery, allAbility, TEXT)));
+    assertFalse(bot.checkLocality(Trio.of(channelQuery, userAbility, TEXT)));
+    assertFalse(bot.checkLocality(Trio.of(channelQuery, groupAbility, TEXT)));
+  }
+
+  @Test
+  void widgetQueriesWithoutChatAreHandledSafelyByPrivacyChecks() throws Exception {
+    JsonMapper mapper = new JsonMapper();
+    String query = "\"id\":\"q\",\"from\":{\"id\":123,\"first_name\":\"A\",\"is_bot\":false},"
+        + "\"chat_instance\":\"instance\",\"type\":{\"type\":\"data\"},\"data\":\"x\"";
+    Update groupQuery = mapper.readValue("{\"update_id\":1,\"widget_query\":{" + query
+        + ",\"chat_type\":\"group\"}}", Update.class);
+    Update senderQuery = mapper.readValue("{\"update_id\":2,\"widget_query\":{" + query
+        + ",\"chat_type\":\"sender\"}}", Update.class);
+    Ability groupAdminAbility = DefaultBot.getDefaultBuilder().privacy(GROUP_ADMIN).build();
+    Ability adminAbility = DefaultBot.getDefaultBuilder().privacy(ADMIN).build();
+    Ability inputAbility = DefaultBot.getDefaultBuilder().build();
+
+    assertFalse(bot.checkPrivacy(Trio.of(groupQuery, groupAdminAbility, TEXT)));
+    assertFalse(bot.checkPrivacy(Trio.of(senderQuery, adminAbility, TEXT)));
+    assertFalse(bot.checkInput(Trio.of(senderQuery, inputAbility, EMPTY_ARRAY)));
+    verify(silent, org.mockito.Mockito.never()).send(anyString(), anyLong());
+  }
+
+  @Test
+  void defaultWidgetViolationHandlersAnswerChatlessQueries() throws Exception {
+    JsonMapper mapper = new JsonMapper();
+    String query = "\"from\":{\"id\":123,\"first_name\":\"A\",\"is_bot\":false},"
+        + "\"chat_instance\":\"instance\",\"type\":{\"type\":\"data\"},\"data\":\"x\"";
+    Update privacyQuery = mapper.readValue("{\"update_id\":1,\"widget_query\":{\"id\":\"privacy\"," + query + "}}", Update.class);
+    Update localityQuery = mapper.readValue("{\"update_id\":2,\"widget_query\":{\"id\":\"locality\"," + query
+        + ",\"chat_type\":\"sender\"}}", Update.class);
+    Update inputQuery = mapper.readValue("{\"update_id\":3,\"widget_query\":{\"id\":\"input\"," + query + "}}", Update.class);
+    Update sharedQuery = mapper.readValue("{\"update_id\":4,\"shared_widget_query\":{\"id\":\"shared\","
+        + "\"from\":{\"id\":123,\"first_name\":\"A\",\"is_bot\":false},\"widget_id\":\"w\","
+        + "\"type\":{\"type\":\"data\"},\"data\":\"x\"}}", Update.class);
+
+    assertFalse(bot.checkPrivacy(Trio.of(privacyQuery, DefaultBot.getDefaultBuilder().privacy(ADMIN).build(), TEXT)));
+    assertFalse(bot.checkLocality(Trio.of(localityQuery, DefaultBot.getDefaultBuilder().locality(GROUP).build(), TEXT)));
+    assertFalse(bot.checkInput(Trio.of(inputQuery, DefaultBot.getDefaultBuilder().input(1).build(), EMPTY_ARRAY)));
+    assertFalse(bot.checkPrivacy(Trio.of(sharedQuery, DefaultBot.getDefaultBuilder().privacy(ADMIN).build(), TEXT)));
+
+    ArgumentCaptor<AnswerWidgetQuery> answers = ArgumentCaptor.forClass(AnswerWidgetQuery.class);
+    verify(telegramClient, times(4)).execute(answers.capture());
+    assertEquals(Set.of("privacy", "locality", "input", "shared"), answers.getAllValues().stream()
+        .map(AnswerWidgetQuery::getWidgetQueryId).collect(java.util.stream.Collectors.toSet()));
   }
 
   @Test

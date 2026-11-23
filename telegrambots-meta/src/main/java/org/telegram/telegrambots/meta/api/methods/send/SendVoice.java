@@ -2,6 +2,7 @@ package org.telegram.telegrambots.meta.api.methods.send;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,7 +23,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostParameters;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-import org.telegram.telegrambots.meta.util.Validations;
+import org.telegram.telegrambots.meta.util.SendMessageValidations;
 
 import java.util.List;
 
@@ -45,7 +46,7 @@ import java.util.List;
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SendVoice extends SendMediaBotMethod<Message> {
+public class SendVoice extends SendMediaBotMethod<Message> implements CallbackReplyMethod {
     public static final String PATH = "sendVoice";
 
     public static final String VOICE_FIELD = "voice";
@@ -59,7 +60,6 @@ public class SendVoice extends SendMediaBotMethod<Message> {
     /**
      * Unique identifier for the chat sent message to (Or username for channels)
      */
-    @NonNull
     private String chatId;
     /**
      * Unique identifier for the target message thread (topic) of the forum;
@@ -163,7 +163,14 @@ public class SendVoice extends SendMediaBotMethod<Message> {
      * Optional.
      * A JSON-serialized object containing the parameters of the ephemeral message to send
      */
+    @JsonProperty(EPHEMERAL_MESSAGE_PARAMETERS_FIELD)
     private EphemeralMessageParameters ephemeralMessageParameters;
+
+    @Tolerate
+    public SendVoice(String chatId, @NonNull InputFile voice) {
+        this(voice);
+        this.chatId = chatId;
+    }
 
     @Tolerate
     public void setChatId(@NonNull Long chatId) {
@@ -185,7 +192,7 @@ public class SendVoice extends SendMediaBotMethod<Message> {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        Validations.requiredChatId(chatId, this);
+        SendMessageValidations.validateChatId(chatId, businessConnectionId, ephemeralMessageParameters, this);
 
         if (parseMode != null && (captionEntities != null && !captionEntities.isEmpty()) ) {
             throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
@@ -195,7 +202,7 @@ public class SendVoice extends SendMediaBotMethod<Message> {
         if (replyMarkup != null) {
             replyMarkup.validate();
         }
-        if (replyParameters != null) {
+        if (replyParameters != null && !isCallbackOnly()) {
             replyParameters.validate();
         }
         if (ephemeralMessageParameters != null) {

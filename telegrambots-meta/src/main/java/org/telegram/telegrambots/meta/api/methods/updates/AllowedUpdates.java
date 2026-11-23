@@ -29,5 +29,7 @@ public final class AllowedUpdates {
     public static final String REMOVEDCHATBOOST = "removed_chat_boost";
     public static final String SUBSCRIPTION = "subscription";
     public static final String STOPPEDMESSAGEGENERATION = "stopped_message_generation";
+    public static final String WIDGETQUERY = "widget_query";
+    public static final String SHAREDWIDGETQUERY = "shared_widget_query";
 
 }

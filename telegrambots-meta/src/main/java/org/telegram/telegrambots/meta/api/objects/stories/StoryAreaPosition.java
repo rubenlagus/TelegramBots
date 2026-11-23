@@ -1,18 +1,15 @@
 package org.telegram.telegrambots.meta.api.objects.stories;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.Setter;
 import lombok.ToString;
-import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
-import org.telegram.telegrambots.meta.api.interfaces.Validable;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
+import org.telegram.telegrambots.meta.api.objects.AreaPosition;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamField;
 
 /**
  * @author Ruben Bermudez
@@ -20,68 +17,69 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
  *
  * Describes the position of a clickable area within a story.
  */
-@EqualsAndHashCode(callSuper = false)
-@Getter
-@Setter
-@ToString
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE)
-public class StoryAreaPosition implements BotApiObject, Validable {
-    private static final String X_PERCENTAGE_FIELD = "x_percentage";
-    private static final String Y_PERCENTAGE_FIELD = "y_percentage";
-    private static final String WIDTH_PERCENTAGE_FIELD = "width_percentage";
-    private static final String HEIGHT_PERCENTAGE_FIELD = "height_percentage";
-    private static final String ROTATION_ANGLE_FIELD = "rotation_angle";
-    private static final String CORNER_RADIUS_PERCENTAGE_FIELD = "corner_radius_percentage";
+public class StoryAreaPosition extends AreaPosition {
+    private static final long serialVersionUID = -7956681739742451307L;
+    private static final ObjectStreamField[] serialPersistentFields = {
+            new ObjectStreamField("xPercentage", Float.class),
+            new ObjectStreamField("yPercentage", Float.class),
+            new ObjectStreamField("widthPercentage", Float.class),
+            new ObjectStreamField("heightPercentage", Float.class),
+            new ObjectStreamField("rotationAngle", Float.class),
+            new ObjectStreamField("cornerRadiusPercentage", Float.class)
+    };
+    public StoryAreaPosition(Float xPercentage, Float yPercentage, Float widthPercentage, Float heightPercentage,
+                             Float rotationAngle, Float cornerRadiusPercentage) {
+        super(xPercentage, yPercentage, widthPercentage, heightPercentage, rotationAngle, cornerRadiusPercentage);
+    }
 
-    /**
-     * The abscissa of the area's center, as a percentage of the media width
-     */
-    @JsonProperty(X_PERCENTAGE_FIELD)
-    @NonNull
-    private Float xPercentage;
+    public static class StoryAreaPositionBuilder extends AreaPosition.AreaPositionBuilder {
+        @Override
+        public StoryAreaPositionBuilder xPercentage(Float value) { super.xPercentage(value); return this; }
+        @Override
+        public StoryAreaPositionBuilder yPercentage(Float value) { super.yPercentage(value); return this; }
+        @Override
+        public StoryAreaPositionBuilder widthPercentage(Float value) { super.widthPercentage(value); return this; }
+        @Override
+        public StoryAreaPositionBuilder heightPercentage(Float value) { super.heightPercentage(value); return this; }
+        @Override
+        public StoryAreaPositionBuilder rotationAngle(Float value) { super.rotationAngle(value); return this; }
+        @Override
+        public StoryAreaPositionBuilder cornerRadiusPercentage(Float value) { super.cornerRadiusPercentage(value); return this; }
 
-    /**
-     * The ordinate of the area's center, as a percentage of the media height
-     */
-    @JsonProperty(Y_PERCENTAGE_FIELD)
-    @NonNull
-    private Float yPercentage;
-
-    /**
-     * The width of the area's rectangle, as a percentage of the media width
-     */
-    @JsonProperty(WIDTH_PERCENTAGE_FIELD)
-    @NonNull
-    private Float widthPercentage;
-
-    /**
-     * The height of the area's rectangle, as a percentage of the media height
-     */
-    @JsonProperty(HEIGHT_PERCENTAGE_FIELD)
-    @NonNull
-    private Float heightPercentage;
-
-    /**
-     * The clockwise rotation angle of the rectangle, in degrees; 0-360
-     */
-    @JsonProperty(ROTATION_ANGLE_FIELD)
-    @NonNull
-    private Float rotationAngle;
-
-    /**
-     * The radius of the rectangle corner rounding, as a percentage of the media width
-     */
-    @JsonProperty(CORNER_RADIUS_PERCENTAGE_FIELD)
-    @NonNull
-    private Float cornerRadiusPercentage;
-    
-    @Override
-    public void validate() throws TelegramApiValidationException {
-        if (rotationAngle < 0 || rotationAngle > 360) {
-            throw new TelegramApiValidationException("RotationAngle must be between 0 and 360 degrees", this);
+        @Override
+        public StoryAreaPosition build() {
+            AreaPosition position = super.build();
+            return new StoryAreaPosition(position.getXPercentage(), position.getYPercentage(), position.getWidthPercentage(),
+                    position.getHeightPercentage(), position.getRotationAngle(), position.getCornerRadiusPercentage());
         }
+    }
+
+    public static StoryAreaPositionBuilder builder() {
+        return new StoryAreaPositionBuilder();
+    }
+
+    private void writeObject(ObjectOutputStream output) throws IOException {
+        ObjectOutputStream.PutField fields = output.putFields();
+        fields.put("xPercentage", getXPercentage());
+        fields.put("yPercentage", getYPercentage());
+        fields.put("widthPercentage", getWidthPercentage());
+        fields.put("heightPercentage", getHeightPercentage());
+        fields.put("rotationAngle", getRotationAngle());
+        fields.put("cornerRadiusPercentage", getCornerRadiusPercentage());
+        output.writeFields();
+    }
+
+    private void readObject(ObjectInputStream input) throws IOException, ClassNotFoundException {
+        ObjectInputStream.GetField fields = input.readFields();
+        setXPercentage((Float) fields.get("xPercentage", null));
+        setYPercentage((Float) fields.get("yPercentage", null));
+        setWidthPercentage((Float) fields.get("widthPercentage", null));
+        setHeightPercentage((Float) fields.get("heightPercentage", null));
+        setRotationAngle((Float) fields.get("rotationAngle", null));
+        setCornerRadiusPercentage((Float) fields.get("cornerRadiusPercentage", null));
     }
 }
