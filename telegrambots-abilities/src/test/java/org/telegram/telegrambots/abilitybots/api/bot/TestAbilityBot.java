@@ -539,6 +539,8 @@ public class TestAbilityBot {
     Update groupQuery = mapper.readValue("{\"update_id\":1,\"widget_query\":{" + query
         + ",\"chat_type\":\"group\"}}", Update.class);
     Update unknownQuery = mapper.readValue("{\"update_id\":2,\"widget_query\":{" + query + "}}", Update.class);
+    Update channelQuery = mapper.readValue("{\"update_id\":3,\"widget_query\":{" + query
+        + ",\"chat_type\":\"channel\"}}", Update.class);
     Ability allAbility = DefaultBot.getDefaultBuilder().locality(ALL).build();
     Ability userAbility = DefaultBot.getDefaultBuilder().locality(Locality.USER).build();
     Ability groupAbility = DefaultBot.getDefaultBuilder().locality(GROUP).build();
@@ -548,6 +550,9 @@ public class TestAbilityBot {
     assertTrue(bot.checkLocality(Trio.of(unknownQuery, allAbility, TEXT)));
     assertFalse(bot.checkLocality(Trio.of(unknownQuery, userAbility, TEXT)));
     assertFalse(bot.checkLocality(Trio.of(unknownQuery, groupAbility, TEXT)));
+    assertTrue(bot.checkLocality(Trio.of(channelQuery, allAbility, TEXT)));
+    assertFalse(bot.checkLocality(Trio.of(channelQuery, userAbility, TEXT)));
+    assertFalse(bot.checkLocality(Trio.of(channelQuery, groupAbility, TEXT)));
   }
 
   @Test

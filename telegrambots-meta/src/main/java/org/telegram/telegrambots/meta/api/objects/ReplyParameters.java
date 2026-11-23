@@ -15,6 +15,7 @@ import lombok.experimental.Tolerate;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.interfaces.Validable;
 import org.telegram.telegrambots.meta.api.objects.richtext.RichText;
+import org.telegram.telegrambots.meta.api.objects.richtext.RichTextButton;
 import org.telegram.telegrambots.meta.api.objects.richtext.RichTextConcat;
 import org.telegram.telegrambots.meta.api.objects.richtext.RichTextCustomEmoji;
 import org.telegram.telegrambots.meta.api.objects.richtext.RichTextMathematicalExpression;
@@ -208,6 +209,9 @@ public class ReplyParameters implements BotApiObject, Validable {
         if (richText instanceof RichTextCustomEmoji customEmoji) {
             String value = customEmoji.getAlternativeText();
             return value == null ? -1 : value.codePointCount(0, value.length());
+        }
+        if (richText instanceof RichTextButton button) {
+            return button.getButton() == null ? -1 : richTextLength(button.getButton().getText());
         }
         try {
             Method getText = richText.getClass().getMethod("getText");

@@ -62,8 +62,10 @@ public class StoryArea implements BotApiObject, Validable {
         if (position == null || position instanceof StoryAreaPosition) {
             return (StoryAreaPosition) position;
         }
-        return new StoryAreaPosition(position.getXPercentage(), position.getYPercentage(), position.getWidthPercentage(),
+        StoryAreaPosition legacyPosition = new StoryAreaPosition(position.getXPercentage(), position.getYPercentage(), position.getWidthPercentage(),
                 position.getHeightPercentage(), position.getRotationAngle(), position.getCornerRadiusPercentage());
+        position = legacyPosition;
+        return legacyPosition;
     }
 
     @JsonProperty(POSITION_FIELD)

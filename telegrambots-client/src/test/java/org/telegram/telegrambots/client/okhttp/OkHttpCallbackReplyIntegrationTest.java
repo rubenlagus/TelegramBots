@@ -221,9 +221,8 @@ class OkHttpCallbackReplyIntegrationTest {
         client = clientWithMapper(ephemeralMapper(false));
         SendMessage legacy = SendMessage.builder().chatId("99").text("hello")
                 .ephemeralMessageParameters(EphemeralMessageParameters.builder().receiverUserId(123L).build()).build();
-        enqueue(MESSAGE_RESPONSE);
-        assertEquals(42, client.execute(legacy).getMessageId());
-        assertTrue(request().getBody().readUtf8().contains("configured-value"));
+        assertThrows(TelegramApiValidationException.class, () -> client.executeAsync(legacy));
+        assertEquals(0, server.getRequestCount());
 
         SendMessage callback = SendMessage.builder().text("hello").ephemeralMessageParameters(callback()).build();
         enqueue(TRUE_RESPONSE);
@@ -239,6 +238,31 @@ class OkHttpCallbackReplyIntegrationTest {
             assertTrue(client.executeWithResult(method).isCallbackSuccess());
             assertTrue(request().getBody().readUtf8().contains("configured-value"));
         }
+    }
+
+    @Test
+    void responseVariantFollowsConfiguredWireParameters() throws Exception {
+        client = clientWithMapper(ephemeralReceiverMapper());
+        List<CallbackReplyMethod> methods = List.of(
+                SendMessage.builder().text("hello").ephemeralMessageParameters(callback()).build(),
+                SendPhoto.builder().photo(new InputFile("file-id")).ephemeralMessageParameters(callback()).build());
+
+        for (CallbackReplyMethod method : methods) {
+            enqueue(MESSAGE_RESPONSE);
+            SendMessageResult result = client.executeWithResultAsync(method).get(5, TimeUnit.SECONDS);
+            assertFalse(result.isCallbackSuccess());
+            assertEquals(42, result.getMessage().getMessageId());
+            String body = request().getBody().readUtf8();
+            assertTrue(body.contains("receiver_user_id"), body);
+            assertFalse(body.contains("callback_query_id"), body);
+        }
+
+        SendMessage legacyCallbackObject = SendMessage.builder().text("hello").ephemeralMessageParameters(callback()).build();
+        enqueue(MESSAGE_RESPONSE);
+        assertEquals(42, client.executeAsync(legacyCallbackObject).get(5, TimeUnit.SECONDS).getMessageId());
+        String legacyBody = request().getBody().readUtf8();
+        assertTrue(legacyBody.contains("receiver_user_id"), legacyBody);
+        assertFalse(legacyBody.contains("callback_query_id"), legacyBody);
     }
 
     @Test
@@ -309,6 +333,21 @@ class OkHttpCallbackReplyIntegrationTest {
                 assertEquals(2, body.split("upload contents", -1).length - 1, body);
             }
         }
+    }
+
+    @Test
+    void livePhotoUploadsWithMatchingFilenamesGetDistinctAttachments() throws Exception {
+        SendLivePhoto method = SendLivePhoto.builder().livePhoto(upload("same.jpg")).photo(upload("same.jpg"))
+                .ephemeralMessageParameters(callback()).build();
+        enqueue(TRUE_RESPONSE);
+        assertTrue(client.executeWithResultAsync(method).get(5, TimeUnit.SECONDS).isCallbackSuccess());
+
+        String body = request().getBody().readUtf8();
+        assertTrue(body.contains("name=\"live_photo_upload\""), body);
+        assertTrue(body.contains("name=\"photo_upload\""), body);
+        assertTrue(body.contains("attach://live_photo_upload"), body);
+        assertTrue(body.contains("attach://photo_upload"), body);
+        assertFalse(body.contains("name=\"same.jpg\""), body);
     }
 
     @Test
@@ -445,7 +484,8 @@ class OkHttpCallbackReplyIntegrationTest {
             if (method instanceof BotApiMethod<?>) {
                 @SuppressWarnings("unchecked")
                 BotApiMethod<Message> generic = (BotApiMethod<Message>) method;
-                assertThrows(TelegramApiValidationException.class, () -> client.execute(generic));
+                TelegramApiException syncError = assertThrows(TelegramApiException.class, () -> client.execute(generic));
+                assertInstanceOf(TelegramApiValidationException.class, syncError.getCause());
                 assertThrows(TelegramApiValidationException.class, () -> client.executeAsync(generic));
             } else {
                 InvocationTargetException sync = assertThrows(InvocationTargetException.class,
@@ -463,7 +503,8 @@ class OkHttpCallbackReplyIntegrationTest {
         }
         SendMessage withChat = SendMessage.builder().chatId("99").text("hello")
                 .ephemeralMessageParameters(callback()).build();
-        assertThrows(TelegramApiValidationException.class, () -> client.execute(withChat));
+        TelegramApiException syncError = assertThrows(TelegramApiException.class, () -> client.execute(withChat));
+        assertInstanceOf(TelegramApiValidationException.class, syncError.getCause());
         assertThrows(TelegramApiValidationException.class, () -> client.executeAsync(withChat));
         assertEquals(0, server.getRequestCount());
     }
@@ -526,6 +567,19 @@ class OkHttpCallbackReplyIntegrationTest {
                 }
                 generator.writeStartObject();
                 generator.writeStringProperty("callback_query_id", "configured-value");
+                generator.writeEndObject();
+            }
+        });
+        return JsonMapper.builder().addModule(module).build();
+    }
+
+    private JsonMapper ephemeralReceiverMapper() {
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(EphemeralMessageParameters.class, new ValueSerializer<EphemeralMessageParameters>() {
+            @Override
+            public void serialize(EphemeralMessageParameters value, JsonGenerator generator, SerializationContext context) {
+                generator.writeStartObject();
+                generator.writeNumberProperty("receiver_user_id", 123);
                 generator.writeEndObject();
             }
         });

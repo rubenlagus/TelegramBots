@@ -39,6 +39,12 @@ class AbilityUtilsTest {
         assertTrue(AbilityUtils.isGroupUpdate(inline));
         assertEquals(Boolean.FALSE, AbilityUtils.isWidgetQueryFromUserChat(inline));
         assertEquals("widget-chat-instance:i", AbilityUtils.getReplyFlowKey(inline));
+        Update supergroup = mapper.readValue("{\"update_id\":7,\"widget_query\":{" + query
+                + ",\"chat_type\":\"supergroup\"}}", Update.class);
+        assertEquals(Boolean.FALSE, AbilityUtils.isWidgetQueryFromUserChat(supergroup));
+        Update channel = mapper.readValue("{\"update_id\":8,\"widget_query\":{" + query
+                + ",\"chat_type\":\"channel\"}}", Update.class);
+        assertEquals(null, AbilityUtils.isWidgetQueryFromUserChat(channel));
         Update shared = mapper.readValue("{\"update_id\":3,\"shared_widget_query\":{" + query
                 + ",\"widget_id\":\"w\"}}", Update.class);
         assertTrue(Flag.SHARED_WIDGET_QUERY.test(shared));

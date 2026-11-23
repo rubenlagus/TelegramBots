@@ -123,9 +123,6 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
     @Override
     public <T extends Serializable, Method extends BotApiMethod<T>> T execute(Method method) throws TelegramApiException {
-        if (method != null) {
-            CallbackReplyMethod.rejectCallbackOnly(method);
-        }
         return super.execute(method);
     }
 
@@ -134,11 +131,12 @@ public class JettyTelegramClient extends AbstractTelegramClient {
         if (method == null) {
             throw new TelegramApiException("Parameter method can not be null");
         }
-        CallbackReplyMethod.rejectCallbackOnly(method);
         method.validate();
 
         try {
-            return sendRequest(method, createJsonRequest(method));
+            SerializedJsonRequest serializedRequest = createJsonRequest(method);
+            CallbackReplyMethod.rejectCallbackOnly(method, serializedRequest.callbackOnlyExpected());
+            return sendRequest(method, serializedRequest.request());
         } catch (JacksonException e) {
             throw new TelegramApiException("Unable to execute " + method.getMethod() + " method", e);
         }
@@ -164,8 +162,19 @@ public class JettyTelegramClient extends AbstractTelegramClient {
         if (!(method instanceof PartialBotApiMethod<?> apiMethod)) {
             throw new TelegramApiException("Callback reply must be a bot API method");
         }
-        boolean callbackOnlyExpected = method.isCallbackOnly();
-        ResponseParser<SendMessageResult> parser = response -> SendMessageResult.deserializeResponse(response, apiMethod, callbackOnlyExpected);
+        ResponseParser<SendMessageResult> parser = new ResponseParser<>() {
+            private boolean callbackOnlyExpected;
+
+            @Override
+            public SendMessageResult parse(String response) throws TelegramApiRequestException {
+                return SendMessageResult.deserializeResponse(response, apiMethod, callbackOnlyExpected);
+            }
+
+            @Override
+            public void setCallbackOnlyExpected(boolean callbackOnlyExpected) {
+                this.callbackOnlyExpected = callbackOnlyExpected;
+            }
+        };
         if (method instanceof SendDocument send) return executeSendDocument(send, false, parser);
         if (method instanceof SendPhoto send) return executeSendPhoto(send, false, parser);
         if (method instanceof SendVideo send) return executeSendVideo(send, false, parser);
@@ -179,7 +188,9 @@ public class JettyTelegramClient extends AbstractTelegramClient {
         if (apiMethod instanceof BotApiMethod<?>) {
             apiMethod.validate();
             try {
-                return sendRequest(createJsonRequest(apiMethod), parser);
+                SerializedJsonRequest serializedRequest = createJsonRequest(apiMethod);
+                parser.setCallbackOnlyExpected(serializedRequest.callbackOnlyExpected());
+                return sendRequest(serializedRequest.request(), parser);
             } catch (JacksonException e) {
                 throw new TelegramApiException("Unable to execute " + apiMethod.getMethod() + " method", e);
             }
@@ -187,14 +198,16 @@ public class JettyTelegramClient extends AbstractTelegramClient {
         throw new TelegramApiException("Unsupported callback reply method: " + apiMethod.getMethod());
     }
 
-    private Request createJsonRequest(PartialBotApiMethod<?> method) throws JacksonException {
+    private SerializedJsonRequest createJsonRequest(PartialBotApiMethod<?> method) throws JacksonException {
         String body = jsonMapper.writeValueAsString(method);
-        return client.POST(buildUrl(method.getMethod()))
+        boolean callbackOnlyExpected = CallbackReplyMethod.isCallbackOnlyRequest(body, jsonMapper);
+        Request request = client.POST(buildUrl(method.getMethod()))
                 .headers(httpFields -> {
                     httpFields.add("charset", StandardCharsets.UTF_8.name());
                     httpFields.add("content-type", "application/json");
                 })
                 .body(new StringRequestContent("application/json", body));
+        return new SerializedJsonRequest(request, callbackOnlyExpected);
     }
 
     @Override
@@ -558,9 +571,6 @@ public class JettyTelegramClient extends AbstractTelegramClient {
     private <T> CompletableFuture<T> executeSendRichMessage(SendRichMessage sendRichMessage, boolean legacy, ResponseParser<T> parser) {
         try {
             assertParamNotNull(sendRichMessage, "sendRichMessage");
-            if (legacy) {
-                CallbackReplyMethod.rejectCallbackOnly(sendRichMessage);
-            }
             sendRichMessage.validate();
 
             URI url = buildUrl(sendRichMessage.getMethod());
@@ -575,10 +585,15 @@ public class JettyTelegramClient extends AbstractTelegramClient {
                     .addPart(SendRichMessage.ALLOW_PAID_BROADCAST_FIELD, sendRichMessage.getAllowPaidBroadcast())
                     .addPart(SendRichMessage.MESSAGE_EFFECT_ID_FIELD, sendRichMessage.getMessageEffectId())
                     .addJsonPart(SendRichMessage.SUGGESTED_POST_PARAMETERS_FIELD, sendRichMessage.getSuggestedPostParameters())
-                    .addJsonPart(SendRichMessage.EPHEMERAL_MESSAGE_PARAMETERS_FIELD, sendRichMessage.getEphemeralMessageParameters())
                     .addJsonPart(SendRichMessage.REPLY_PARAMETERS_FIELD, sendRichMessage.getReplyParameters())
                     .addJsonPart(SendRichMessage.REPLY_MARKUP_FIELD, sendRichMessage.getReplyMarkup())
                     .addJsonPart(SendRichMessage.RICH_MESSAGE_FIELD, sendRichMessage.getRichMessage());
+
+            String ephemeralParameters = builder.addJsonPartAndGetValue(
+                    SendRichMessage.EPHEMERAL_MESSAGE_PARAMETERS_FIELD, sendRichMessage.getEphemeralMessageParameters());
+            boolean callbackOnlyExpected = CallbackReplyMethod.isCallbackOnlyParameters(ephemeralParameters, jsonMapper);
+            if (legacy) CallbackReplyMethod.rejectCallbackOnly(sendRichMessage, callbackOnlyExpected);
+            parser.setCallbackOnlyExpected(callbackOnlyExpected);
 
             List<InputMedia> media = extractMedia(sendRichMessage.getRichMessage());
             addInputData(builder, InputRichMessage.MEDIA_FIELD, media);
@@ -598,7 +613,18 @@ public class JettyTelegramClient extends AbstractTelegramClient {
     }
 
     private <T> CompletableFuture<T> executeSendLivePhoto(SendLivePhoto sendLivePhoto, boolean legacy, ResponseParser<T> parser) {
-        return executeMediaMethod(sendLivePhoto, legacy, parser, builder -> {
+        InputFile livePhotoFile = sendLivePhoto.getFile();
+        InputFile photoFile = sendLivePhoto.getPhoto();
+        boolean sharedAttachment = livePhotoFile == photoFile && livePhotoFile != null && livePhotoFile.isNew();
+        if (!sharedAttachment && livePhotoFile != null && photoFile != null
+                && livePhotoFile.isNew() && photoFile.isNew()
+                && livePhotoFile.getMediaName().equals(photoFile.getMediaName())) {
+            livePhotoFile = copyInputFile(livePhotoFile, "live_photo_upload");
+            photoFile = copyInputFile(photoFile, "photo_upload");
+        }
+        InputFile finalPhotoFile = photoFile;
+        boolean useSharedAttachment = sharedAttachment;
+        return executeMediaMethod(sendLivePhoto, legacy, parser, livePhotoFile, builder -> {
                     builder.addPart(SendLivePhoto.CAPTION_FIELD, sendLivePhoto.getCaption())
                             .addJsonPart(SendLivePhoto.CAPTION_ENTITIES_FIELD, sendLivePhoto.getCaptionEntities())
                             .addPart(SendLivePhoto.PARSE_MODE_FIELD, sendLivePhoto.getParseMode())
@@ -606,10 +632,21 @@ public class JettyTelegramClient extends AbstractTelegramClient {
                             .addPart(SendLivePhoto.BUSINESS_CONNECTION_ID_FIELD, sendLivePhoto.getBusinessConnectionId())
                             .addPart(SendLivePhoto.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendLivePhoto.getShowCaptionAboveMedia());
 
-                    builder.addInputFile("photo", sendLivePhoto.getPhoto(), true);
+                    if (useSharedAttachment) {
+                        builder.addPart("photo", sendLivePhoto.getFile().getAttachName());
+                    } else {
+                        builder.addInputFile("photo", finalPhotoFile, true);
+                    }
                 }
 
         );
+    }
+
+    private InputFile copyInputFile(InputFile inputFile, String mediaName) {
+        if (inputFile.getNewMediaFile() != null) {
+            return new InputFile(inputFile.getNewMediaFile(), mediaName);
+        }
+        return new InputFile(inputFile.getNewMediaStream(), mediaName);
     }
 
     @Override
@@ -847,6 +884,12 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
     private interface ResponseParser<T> {
         T parse(String response) throws TelegramApiRequestException;
+
+        default void setCallbackOnlyExpected(boolean callbackOnlyExpected) {
+        }
+    }
+
+    private record SerializedJsonRequest(Request request, boolean callbackOnlyExpected) {
     }
 
     private <T> CompletableFuture<T> sendRequest(Request request, ResponseParser<T> parser) {
@@ -881,20 +924,27 @@ public class JettyTelegramClient extends AbstractTelegramClient {
             ResponseParser<T> parser,
             ThrowingConsumer<JettyMultipartBuilder, IOException> setup
     ) {
+        return executeMediaMethod(method, legacy, parser, method.getFile(), setup);
+    }
+
+    private <T> CompletableFuture<T> executeMediaMethod(
+            SendMediaBotMethod<?> method,
+            boolean legacy,
+            ResponseParser<T> parser,
+            InputFile primaryFile,
+            ThrowingConsumer<JettyMultipartBuilder, IOException> setup
+    ) {
         try {
             assertParamNotNull(method, "method");
             assertParamNotNull(setup, "setup");
 
-            if (legacy) {
-                CallbackReplyMethod.rejectCallbackOnly(method);
-            }
             method.validate();
 
             URI url = buildUrl(method.getMethod());
 
             JettyMultipartBuilder builder = new JettyMultipartBuilder(jsonMapper);
 
-            builder.addInputFile(method.getFileField(), method.getFile(), true);
+            builder.addInputFile(method.getFileField(), primaryFile, true);
 
             builder.addPart(SendMediaBotMethod.CHAT_ID_FIELD, method.getChatId())
                     .addPart(SendMediaBotMethod.MESSAGE_THREAD_ID_FIELD, method.getMessageThreadId())
@@ -904,9 +954,14 @@ public class JettyTelegramClient extends AbstractTelegramClient {
                     .addPart(SendMediaBotMethod.MESSAGE_EFFECT_ID_FIELD, method.getMessageEffectId())
                     .addPart(SendMediaBotMethod.DIRECT_MESSAGES_TOPIC_ID_FIELD, method.getDirectMessagesTopicId())
                     .addJsonPart(SendMediaBotMethod.SUGGESTED_POST_PARAMETERS_FIELD, method.getSuggestedPostParameters())
-                    .addJsonPart(SendMediaBotMethod.EPHEMERAL_MESSAGE_PARAMETERS_FIELD, method.getEphemeralMessageParameters())
                     .addJsonPart(SendMediaBotMethod.REPLY_PARAMETERS_FIELD, method.getReplyParameters())
                     .addJsonPart(SendMediaBotMethod.REPLY_MARKUP_FIELD, method.getReplyMarkup());
+
+            String ephemeralParameters = builder.addJsonPartAndGetValue(
+                    SendMediaBotMethod.EPHEMERAL_MESSAGE_PARAMETERS_FIELD, method.getEphemeralMessageParameters());
+            boolean callbackOnlyExpected = CallbackReplyMethod.isCallbackOnlyParameters(ephemeralParameters, jsonMapper);
+            if (legacy) CallbackReplyMethod.rejectCallbackOnly(method, callbackOnlyExpected);
+            parser.setCallbackOnlyExpected(callbackOnlyExpected);
 
             if (method.getReplyParameters() == null) {
                 builder.addPart(SendMediaBotMethod.REPLY_TO_MESSAGE_ID_FIELD, method.getReplyToMessageId())

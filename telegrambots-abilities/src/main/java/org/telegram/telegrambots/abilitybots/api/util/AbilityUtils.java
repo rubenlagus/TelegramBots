@@ -287,7 +287,7 @@ public final class AbilityUtils {
     if ("sender".equals(chatType)) {
       return true;
     }
-    if ("group".equals(chatType) || "supergroup".equals(chatType) || "channel".equals(chatType)) {
+    if ("group".equals(chatType) || "supergroup".equals(chatType)) {
       return false;
     }
     return null;

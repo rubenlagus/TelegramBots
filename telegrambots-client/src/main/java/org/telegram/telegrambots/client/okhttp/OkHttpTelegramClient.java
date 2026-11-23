@@ -123,7 +123,6 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
         if (method == null) {
             throw new TelegramApiException("Parameter method can not be null");
         }
-        CallbackReplyMethod.rejectCallbackOnly(method);
         return super.execute(method);
     }
 
@@ -132,11 +131,12 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
         if (method == null) {
             throw new TelegramApiException("Parameter method can not be null");
         }
-        CallbackReplyMethod.rejectCallbackOnly(method);
         method.validate();
 
         try {
-            return sendRequest(method, buildJsonRequest(method));
+            Request request = buildJsonRequest(method);
+            CallbackReplyMethod.rejectCallbackOnly(method, Boolean.TRUE.equals(request.tag(Boolean.class)));
+            return sendRequest(method, request);
         } catch (JacksonException e) {
             throw new TelegramApiException("Unable to execute " + method.getMethod() + " method", e);
         }
@@ -185,12 +185,14 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
     private Request buildJsonRequest(PartialBotApiMethod<?> method) throws JacksonException {
         String body = jsonMapper.writeValueAsString(method);
+        boolean callbackOnlyExpected = CallbackReplyMethod.isCallbackOnlyRequest(body, jsonMapper);
         Headers headers = new Headers.Builder()
                 .add("charset", StandardCharsets.UTF_8.name())
                 .add("content-type", "application/json").build();
         return new Request.Builder()
                 .url(buildUrl(method.getMethod()))
                 .headers(headers)
+                .tag(Boolean.class, callbackOnlyExpected)
                 .post(RequestBody.create(body, MediaType.parse("application/json")))
                 .build();
     }
@@ -204,7 +206,6 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             BiFunction<PartialBotApiMethod<Message>, Request, CompletableFuture<T>> sender, boolean withResult) {
         try {
             assertParamNotNull(sendRichMessage, "sendRichMessage");
-            if (!withResult) CallbackReplyMethod.rejectCallbackOnly(sendRichMessage);
             sendRichMessage.validate();
 
             HttpUrl url = buildUrl(sendRichMessage.getMethod());
@@ -219,15 +220,19 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                     .addPart(SendRichMessage.ALLOW_PAID_BROADCAST_FIELD, sendRichMessage.getAllowPaidBroadcast())
                     .addPart(SendRichMessage.MESSAGE_EFFECT_ID_FIELD, sendRichMessage.getMessageEffectId())
                     .addJsonPart(SendRichMessage.SUGGESTED_POST_PARAMETERS_FIELD, sendRichMessage.getSuggestedPostParameters())
-                    .addJsonPart(SendRichMessage.EPHEMERAL_MESSAGE_PARAMETERS_FIELD, sendRichMessage.getEphemeralMessageParameters())
                     .addJsonPart(SendRichMessage.REPLY_PARAMETERS_FIELD, sendRichMessage.getReplyParameters())
                     .addJsonPart(SendRichMessage.REPLY_MARKUP_FIELD, sendRichMessage.getReplyMarkup())
                     .addJsonPart(SendRichMessage.RICH_MESSAGE_FIELD, sendRichMessage.getRichMessage());
 
+            String ephemeralParameters = builder.addJsonPartAndGetValue(
+                    SendRichMessage.EPHEMERAL_MESSAGE_PARAMETERS_FIELD, sendRichMessage.getEphemeralMessageParameters());
+            boolean callbackOnlyExpected = CallbackReplyMethod.isCallbackOnlyParameters(ephemeralParameters, jsonMapper);
+            if (!withResult) CallbackReplyMethod.rejectCallbackOnly(sendRichMessage, callbackOnlyExpected);
+
             List<InputMedia> media = extractMedia(sendRichMessage.getRichMessage());
             addInputData(builder, InputRichMessage.MEDIA_FIELD, media);
 
-            Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
+            Request httpPost = new Request.Builder().url(url).tag(Boolean.class, callbackOnlyExpected).post(builder.build()).build();
             return sender.apply(sendRichMessage, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
@@ -600,7 +605,18 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
     private <T> CompletableFuture<T> executeAsync(SendLivePhoto sendLivePhoto,
             BiFunction<PartialBotApiMethod<Message>, Request, CompletableFuture<T>> sender, boolean withResult) {
-        return executeMediaMethod(sendLivePhoto, sender, withResult, builder -> {
+        InputFile livePhotoFile = sendLivePhoto.getFile();
+        InputFile photoFile = sendLivePhoto.getPhoto();
+        boolean sharedAttachment = livePhotoFile == photoFile && livePhotoFile != null && livePhotoFile.isNew();
+        if (!sharedAttachment && livePhotoFile != null && photoFile != null
+                && livePhotoFile.isNew() && photoFile.isNew()
+                && livePhotoFile.getMediaName().equals(photoFile.getMediaName())) {
+            livePhotoFile = copyInputFile(livePhotoFile, "live_photo_upload");
+            photoFile = copyInputFile(photoFile, "photo_upload");
+        }
+        InputFile finalPhotoFile = photoFile;
+        boolean useSharedAttachment = sharedAttachment;
+        return executeMediaMethod(sendLivePhoto, sender, withResult, livePhotoFile, builder -> {
                     builder.addPart(SendLivePhoto.CAPTION_FIELD, sendLivePhoto.getCaption())
                             .addJsonPart(SendLivePhoto.CAPTION_ENTITIES_FIELD, sendLivePhoto.getCaptionEntities())
                             .addPart(SendLivePhoto.PARSE_MODE_FIELD, sendLivePhoto.getParseMode())
@@ -608,10 +624,21 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                             .addPart(SendLivePhoto.BUSINESS_CONNECTION_ID_FIELD, sendLivePhoto.getBusinessConnectionId())
                             .addPart(SendLivePhoto.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendLivePhoto.getShowCaptionAboveMedia());
 
-                    builder.addInputFile(SendLivePhoto.PHOTO_FIELD, sendLivePhoto.getPhoto(), true);
+                    if (useSharedAttachment) {
+                        builder.addPart(SendLivePhoto.PHOTO_FIELD, sendLivePhoto.getFile().getAttachName());
+                    } else {
+                        builder.addInputFile(SendLivePhoto.PHOTO_FIELD, finalPhotoFile, true);
+                    }
                 }
 
         );
+    }
+
+    private InputFile copyInputFile(InputFile inputFile, String mediaName) {
+        if (inputFile.getNewMediaFile() != null) {
+            return new InputFile(inputFile.getNewMediaFile(), mediaName);
+        }
+        return new InputFile(inputFile.getNewMediaStream(), mediaName);
     }
 
     @Override
@@ -856,8 +883,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
     private CompletableFuture<SendMessageResult> sendResultRequest(PartialBotApiMethod<?> method, Request request) {
         CompletableFuture<SendMessageResult> result = new CompletableFuture<>();
-        boolean callbackOnlyExpected = method instanceof CallbackReplyMethod callbackReplyMethod
-                && callbackReplyMethod.isCallbackOnly();
+        boolean callbackOnlyExpected = Boolean.TRUE.equals(request.tag(Boolean.class));
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException exception) {
@@ -901,18 +927,27 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
             boolean withResult,
             ThrowingConsumer<TelegramMultipartBuilder, IOException> setup
     ) {
+        return executeMediaMethod(method, sender, withResult, method.getFile(), setup);
+    }
+
+    private <T> CompletableFuture<T> executeMediaMethod(
+            SendMediaBotMethod<Message> method,
+            BiFunction<PartialBotApiMethod<Message>, Request, CompletableFuture<T>> sender,
+            boolean withResult,
+            InputFile primaryFile,
+            ThrowingConsumer<TelegramMultipartBuilder, IOException> setup
+    ) {
         try {
             assertParamNotNull(method, "method");
             assertParamNotNull(setup, "setup");
 
-            if (!withResult) CallbackReplyMethod.rejectCallbackOnly(method);
             method.validate();
 
             HttpUrl url = buildUrl(method.getMethod());
 
             TelegramMultipartBuilder builder = new TelegramMultipartBuilder(jsonMapper);
 
-            builder.addInputFile(method.getFileField(), method.getFile(), true);
+            builder.addInputFile(method.getFileField(), primaryFile, true);
 
             builder.addPart(SendMediaBotMethod.CHAT_ID_FIELD, method.getChatId())
                     .addPart(SendMediaBotMethod.MESSAGE_THREAD_ID_FIELD, method.getMessageThreadId())
@@ -922,9 +957,13 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
                     .addPart(SendMediaBotMethod.ALLOW_PAID_BROADCAST_FIELD, method.getAllowPaidBroadcast())
                     .addPart(SendMediaBotMethod.DIRECT_MESSAGES_TOPIC_ID_FIELD, method.getDirectMessagesTopicId())
                     .addJsonPart(SendMediaBotMethod.SUGGESTED_POST_PARAMETERS_FIELD, method.getSuggestedPostParameters())
-                    .addJsonPart(SendMediaBotMethod.EPHEMERAL_MESSAGE_PARAMETERS_FIELD, method.getEphemeralMessageParameters())
                     .addJsonPart(SendMediaBotMethod.REPLY_PARAMETERS_FIELD, method.getReplyParameters())
                     .addJsonPart(SendMediaBotMethod.REPLY_MARKUP_FIELD, method.getReplyMarkup());
+
+            String ephemeralParameters = builder.addJsonPartAndGetValue(
+                    SendMediaBotMethod.EPHEMERAL_MESSAGE_PARAMETERS_FIELD, method.getEphemeralMessageParameters());
+            boolean callbackOnlyExpected = CallbackReplyMethod.isCallbackOnlyParameters(ephemeralParameters, jsonMapper);
+            if (!withResult) CallbackReplyMethod.rejectCallbackOnly(method, callbackOnlyExpected);
 
             if (method.getReplyParameters() == null) {
                 builder.addPart(SendMediaBotMethod.REPLY_TO_MESSAGE_ID_FIELD, method.getReplyToMessageId())
@@ -933,7 +972,7 @@ public class OkHttpTelegramClient extends AbstractTelegramClient {
 
             setup.accept(builder);
 
-            Request httpPost = new Request.Builder().url(url).post(builder.build()).build();
+            Request httpPost = new Request.Builder().url(url).tag(Boolean.class, callbackOnlyExpected).post(builder.build()).build();
 
             return sender.apply(method, httpPost);
         } catch (TelegramApiException e) {

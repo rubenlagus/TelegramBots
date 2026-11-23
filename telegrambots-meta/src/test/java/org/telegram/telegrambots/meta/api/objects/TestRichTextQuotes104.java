@@ -8,6 +8,8 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.richtext.RichText;
 import org.telegram.telegrambots.meta.api.objects.richtext.RichTextBold;
+import org.telegram.telegrambots.meta.api.objects.richtext.RichMessageButton;
+import org.telegram.telegrambots.meta.api.objects.richtext.RichTextButton;
 import org.telegram.telegrambots.meta.api.objects.richtext.RichTextConcat;
 import org.telegram.telegrambots.meta.api.objects.richtext.RichTextItalic;
 import org.telegram.telegrambots.meta.api.objects.richtext.RichTextPlain;
@@ -109,6 +111,19 @@ public class TestRichTextQuotes104 {
                 .quoteRichTexts(List.of(RichTextBold.builder().text(new RichTextPlain("a".repeat(1025))).build()))
                 .build();
         assertThrows(org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException.class, tooLong::validate);
+
+        RichTextButton buttonAtLimit = RichTextButton.builder().button(RichMessageButton.builder()
+                .text(new RichTextPlain("a".repeat(1018))).callbackData("button").build()).build();
+        ReplyParameters buttonQuoteAtLimit = ReplyParameters.builder().messageId(42)
+                .quoteRichTexts(List.of(new RichTextConcat(List.of(new RichTextPlain("prefix"), buttonAtLimit))))
+                .build();
+        buttonQuoteAtLimit.validate();
+        RichTextButton buttonOverLimit = RichTextButton.builder().button(RichMessageButton.builder()
+                .text(new RichTextPlain("a".repeat(1025))).callbackData("button").build()).build();
+        ReplyParameters buttonQuoteOverLimit = ReplyParameters.builder().messageId(42)
+                .quoteRichTexts(List.of(buttonOverLimit)).build();
+        assertThrows(org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException.class,
+                buttonQuoteOverLimit::validate);
 
         ReplyParameters maxTexts = ReplyParameters.builder().messageId(42)
                 .quoteRichTexts(java.util.Collections.nCopies(32, new RichTextPlain("a")))

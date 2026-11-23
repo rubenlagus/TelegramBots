@@ -219,6 +219,35 @@ public class TestBotApi104Widgets {
     }
 
     @Test
+    public void editMessageWidgetDataRequiresOneCompleteTarget() throws Exception {
+        EditMessageWidgetData chatMessage = EditMessageWidgetData.builder().chatId(123L).messageId(7)
+                .publicData("").chatData("").build();
+        chatMessage.validate();
+        JsonNode chatMessageJson = mapper.valueToTree(chatMessage);
+        assertEquals("123", chatMessageJson.get("chat_id").asText());
+        assertEquals(7, chatMessageJson.get("message_id").asInt());
+        assertEquals("", chatMessageJson.get("public_data").asText());
+        assertEquals("", chatMessageJson.get("chat_data").asText());
+
+        EditMessageWidgetData inline = EditMessageWidgetData.builder().inlineMessageId("inline-id").build();
+        inline.validate();
+        JsonNode inlineJson = mapper.valueToTree(inline);
+        assertEquals("inline-id", inlineJson.get("inline_message_id").asText());
+        assertFalse(inlineJson.has("chat_id"));
+        assertFalse(inlineJson.has("message_id"));
+        assertFalse(inlineJson.has("public_data"));
+        assertFalse(inlineJson.has("chat_data"));
+
+        for (EditMessageWidgetData incomplete : List.of(
+                EditMessageWidgetData.builder().chatId(123L).build(),
+                EditMessageWidgetData.builder().messageId(7).build(),
+                EditMessageWidgetData.builder().chatId(123L).messageId(7).inlineMessageId("inline-id").build(),
+                EditMessageWidgetData.builder().inlineMessageId("").build())) {
+            assertThrows(TelegramApiValidationException.class, incomplete::validate);
+        }
+    }
+
+    @Test
     public void widgetCaptionLimitsUseParsedTextLength() throws Exception {
         SendWidget maxWidgetCaption = SendWidget.builder().chatId("1").html("<b>h</b>")
                 .caption("a".repeat(1024)).build();

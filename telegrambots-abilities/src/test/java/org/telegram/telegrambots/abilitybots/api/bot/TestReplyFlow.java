@@ -13,17 +13,21 @@ import org.telegram.telegrambots.abilitybots.api.objects.Reply;
 import org.telegram.telegrambots.abilitybots.api.objects.ReplyFlow;
 import org.telegram.telegrambots.abilitybots.api.sender.SilentSender;
 import org.telegram.telegrambots.abilitybots.api.db.MapDBContext;
+import org.telegram.telegrambots.abilitybots.api.util.AbilityUtils;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.api.objects.widget.SharedWidgetQuery;
+import org.telegram.telegrambots.meta.api.objects.widget.WidgetQuery;
 import org.telegram.telegrambots.meta.api.objects.widget.WidgetQueryTypeData;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -101,6 +105,57 @@ public class TestReplyFlow {
         .build());
 
     assertTrue(bot.filterReply(update));
+  }
+
+  @Test
+  void keyedInlineWidgetFlowsTransitionAndRemainIsolatedByChatInstance() {
+    AtomicInteger starts = new AtomicInteger();
+    AtomicInteger completions = new AtomicInteger();
+    Reply completion = Reply.of((unused, update) -> completions.incrementAndGet(),
+        update -> Flag.WIDGET_QUERY.test(update) && "continue".equals(update.getWidgetQuery().getData()));
+    ReplyFlow flow = ReplyFlow.builder(db, 101)
+        .action((unused, update) -> starts.incrementAndGet())
+        .onlyIf(Flag.WIDGET_QUERY::test)
+        .next(completion)
+        .build();
+    Update first = inlineWidgetQuery("instance-1", "start");
+    Update second = inlineWidgetQuery("instance-2", "start");
+    Serializable firstKey = AbilityUtils.getReplyFlowKey(first);
+    Serializable secondKey = AbilityUtils.getReplyFlowKey(second);
+
+    assertTrue(flow.isOkFor(first));
+    flow.actOn(bot, first);
+    flow.actOn(bot, second);
+    Map<Serializable, Integer> states = db.getMap(ReplyFlow.ReplyFlowBuilder.STATES);
+    assertEquals(2, starts.get());
+    assertEquals(101, states.get(firstKey));
+    assertEquals(101, states.get(secondKey));
+
+    Reply statefulCompletion = flow.nextReplies().iterator().next();
+    Update continueFirst = inlineWidgetQuery("instance-1", "continue");
+    assertTrue(statefulCompletion.isOkFor(continueFirst));
+    statefulCompletion.actOn(bot, continueFirst);
+    assertEquals(1, completions.get());
+    assertFalse(states.containsKey(firstKey));
+    assertEquals(101, states.get(secondKey));
+
+    Update continueSecond = inlineWidgetQuery("instance-2", "continue");
+    assertTrue(statefulCompletion.isOkFor(continueSecond));
+    statefulCompletion.actOn(bot, continueSecond);
+    assertEquals(2, completions.get());
+    assertFalse(states.containsKey(secondKey));
+  }
+
+  private Update inlineWidgetQuery(String chatInstance, String data) {
+    Update update = new Update();
+    update.setWidgetQuery(WidgetQuery.builder()
+        .id("query")
+        .from(User.builder().id(1L).firstName("A").isBot(false).build())
+        .chatInstance(chatInstance)
+        .type(WidgetQueryTypeData.builder().build())
+        .data(data)
+        .build());
+    return update;
   }
 
   @Test

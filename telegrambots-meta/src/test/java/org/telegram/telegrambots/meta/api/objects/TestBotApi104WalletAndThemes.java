@@ -116,6 +116,10 @@ public class TestBotApi104WalletAndThemes {
         assertEquals(AreaPosition.class, deserialized.getAreaPosition().getClass());
         assertEquals(mapper.readTree(mapper.writeValueAsString(oldArea.getAreaPosition())),
                 mapper.readTree(mapper.writeValueAsString(deserialized.getAreaPosition())));
+        deserialized.getPosition().setXPercentage(9f);
+        assertEquals(9f, deserialized.getAreaPosition().getXPercentage());
+        StoryArea serializedMutation = mapper.readValue(mapper.writeValueAsString(deserialized), StoryArea.class);
+        assertEquals(9f, serializedMutation.getAreaPosition().getXPercentage());
         StoryAreaPosition partial = new StoryAreaPosition();
         StoryArea partialArea = new StoryArea(partial, new StoryAreaTypeLink("https://example.com"));
         assertSame(partial, partialArea.getAreaPosition());

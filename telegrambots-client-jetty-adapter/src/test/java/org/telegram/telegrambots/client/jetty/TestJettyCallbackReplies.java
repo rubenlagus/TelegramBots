@@ -272,6 +272,21 @@ class TestJettyCallbackReplies {
     }
 
     @Test
+    void livePhotoUploadsWithMatchingFilenamesGetDistinctAttachments() throws Exception {
+        SendLivePhoto method = SendLivePhoto.builder().livePhoto(upload("same.jpg")).photo(upload("same.jpg"))
+                .ephemeralMessageParameters(callbackParameters()).build();
+        respond(TRUE);
+        assertTrue(client.executeWithResultAsync(method).get(5, TimeUnit.SECONDS).isCallbackSuccess());
+
+        String body = request().getBody().readUtf8();
+        assertTrue(body.contains("name=\"live_photo_upload\""), body);
+        assertTrue(body.contains("name=\"photo_upload\""), body);
+        assertTrue(body.contains("attach://live_photo_upload"), body);
+        assertTrue(body.contains("attach://photo_upload"), body);
+        assertFalse(body.contains("name=\"same.jpg\""), body);
+    }
+
+    @Test
     void richMessageUploadsAttachedMedia() throws Exception {
         InputMediaPhoto media = new InputMediaPhoto(new ByteArrayInputStream("rich upload".getBytes(StandardCharsets.UTF_8)), "rich.jpg");
         SendRichMessage rich = SendRichMessage.builder().chatId("chat")
@@ -362,6 +377,57 @@ class TestJettyCallbackReplies {
     }
 
     @Test
+    void configuredMapperWireShapeControlsResponseVariantAndLegacyRejection() throws Exception {
+        HttpUrl url = server.url("");
+        SimpleModule receiverModule = new SimpleModule().addSerializer(EphemeralMessageParameters.class,
+                new ValueSerializer<EphemeralMessageParameters>() {
+                    @Override
+                    public void serialize(EphemeralMessageParameters value, JsonGenerator generator, SerializationContext context) {
+                        generator.writeStartObject();
+                        generator.writeNumberProperty("receiver_user_id", 123);
+                        generator.writeEndObject();
+                    }
+                });
+        JettyTelegramClient receiverClient = new JettyTelegramClient(JsonMapper.builder().addModule(receiverModule).build(),
+                httpClient, "token", TelegramUrl.builder().schema(url.scheme()).host(url.host()).port(url.port()).build());
+        List<CallbackReplyMethod> requests = List.of(
+                SendMessage.builder().text("hello").ephemeralMessageParameters(callbackParameters()).build(),
+                SendPhoto.builder().photo(new InputFile("file-id")).ephemeralMessageParameters(callbackParameters()).build());
+        for (CallbackReplyMethod method : requests) {
+            respond(MESSAGE);
+            SendMessageResult result = receiverClient.executeWithResultAsync(method).get(5, TimeUnit.SECONDS);
+            assertFalse(result.isCallbackSuccess());
+            assertEquals(42, result.getMessage().getMessageId());
+            String body = request().getBody().readUtf8();
+            assertTrue(body.contains("receiver_user_id"), body);
+            assertFalse(body.contains("callback_query_id"), body);
+        }
+
+        SendMessage legacyCallbackObject = SendMessage.builder().text("hello").ephemeralMessageParameters(callbackParameters()).build();
+        respond(MESSAGE);
+        assertEquals(42, receiverClient.executeAsync(legacyCallbackObject).get(5, TimeUnit.SECONDS).getMessageId());
+        String legacyBody = request().getBody().readUtf8();
+        assertTrue(legacyBody.contains("receiver_user_id"), legacyBody);
+        assertFalse(legacyBody.contains("callback_query_id"), legacyBody);
+
+        SimpleModule callbackModule = new SimpleModule().addSerializer(EphemeralMessageParameters.class,
+                new ValueSerializer<EphemeralMessageParameters>() {
+                    @Override
+                    public void serialize(EphemeralMessageParameters value, JsonGenerator generator, SerializationContext context) {
+                        generator.writeStartObject();
+                        generator.writeStringProperty("callback_query_id", "cq-1");
+                        generator.writeEndObject();
+                    }
+                });
+        JettyTelegramClient callbackClient = new JettyTelegramClient(JsonMapper.builder().addModule(callbackModule).build(),
+                httpClient, "token", TelegramUrl.builder().schema(url.scheme()).host(url.host()).port(url.port()).build());
+        SendMessage legacy = SendMessage.builder().chatId("chat").text("hello")
+                .ephemeralMessageParameters(EphemeralMessageParameters.builder().receiverUserId(123L).build()).build();
+        assertThrows(TelegramApiValidationException.class, () -> callbackClient.executeAsync(legacy));
+        assertEquals(3, server.getRequestCount());
+    }
+
+    @Test
     void multipartSerializationFailuresReturnFailedFutures() throws Exception {
         SimpleModule module = new SimpleModule().addSerializer(String.class, new ValueSerializer<String>() {
                     @Override
@@ -437,7 +503,8 @@ class TestJettyCallbackReplies {
                 SendLocation.builder().chatId("chat").latitude(1.0).longitude(2.0).ephemeralMessageParameters(parameters).build(),
                 SendVenue.builder().chatId("chat").latitude(1.0).longitude(2.0).title("title").address("address").ephemeralMessageParameters(parameters).build());
         for (BotApiMethodMessage method : methods) {
-            assertThrows(TelegramApiValidationException.class, () -> client.execute(method));
+            TelegramApiException syncError = assertThrows(TelegramApiException.class, () -> client.execute(method));
+            assertInstanceOf(TelegramApiValidationException.class, syncError.getCause());
             assertThrows(TelegramApiValidationException.class, () -> client.executeAsync(method));
         }
         assertEquals(0, server.getRequestCount());

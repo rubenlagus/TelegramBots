@@ -132,6 +132,9 @@ public class SendLivePhoto extends SendMediaBotMethod<Message> implements Callba
     @Override
     public void validate() throws TelegramApiValidationException {
         SendMessageValidations.validateChatId(chatId, businessConnectionId, ephemeralMessageParameters, this);
+        if (parseMode != null && captionEntities != null && !captionEntities.isEmpty()) {
+            throw new TelegramApiValidationException("Parse mode can't be enabled if Entities are provided", this);
+        }
         if (livePhoto == null) {
             throw new TelegramApiValidationException("LivePhoto can't be null", this);
         }

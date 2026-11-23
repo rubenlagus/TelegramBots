@@ -3,10 +3,12 @@ package org.telegram.telegrambots.meta.api.methods.send;
 import tools.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.ephemeral.EphemeralMessageParameters;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,6 +37,20 @@ public class TestSendLivePhoto {
                 .build();
 
         assertDoesNotThrow(sendLivePhoto::validate);
+    }
+
+    @Test
+    public void testSendLivePhotoRejectsParseModeWithCaptionEntities() {
+        SendLivePhoto request = SendLivePhoto.builder()
+                .chatId("123456789")
+                .livePhoto(new InputFile("live_photo_id"))
+                .photo(new InputFile("photo_id"))
+                .caption("text")
+                .parseMode("HTML")
+                .captionEntities(List.of(new MessageEntity("bold", 0, 1)))
+                .build();
+
+        assertThrows(TelegramApiValidationException.class, request::validate);
     }
 
     @Test
