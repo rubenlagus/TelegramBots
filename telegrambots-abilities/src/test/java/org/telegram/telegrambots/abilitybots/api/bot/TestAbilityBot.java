@@ -130,6 +130,15 @@ public class TestAbilityBot {
   }
 
   @Test
+  void sendsCustomLocalityViolationMessage() {
+    Update update = mockFullUpdate(bot, USER, "/customlocality");
+
+    bot.consume(update);
+
+    verify(silent, times(1)).send("Custom locality message", USER.getId());
+  }
+
+  @Test
   void sendsInputArgsViolation() {
     Update update = mockFullUpdate(bot, USER, "/count 1 2 3");
 
@@ -730,7 +739,7 @@ public class TestAbilityBot {
 
     defaultAbs.commands().action().accept(creatorCtx);
 
-    String expected = "PUBLIC\n/commands\n/count\n/default - dis iz default command\n/group\n/test\nADMIN\n/admin\n/ban\n/demote\n/promote\n/stats\n/unban\nCREATOR\n/backup\n/claim\n/recover\n/report";
+    String expected = "PUBLIC\n/commands\n/count\n/customlocality\n/default - dis iz default command\n/group\n/test\nADMIN\n/admin\n/ban\n/demote\n/promote\n/stats\n/unban\nCREATOR\n/backup\n/claim\n/recover\n/report";
     verify(silent, times(1)).send(expected, GROUP_ID);
   }
 
@@ -747,7 +756,7 @@ public class TestAbilityBot {
 
     defaultAbs.commands().action().accept(userCtx);
 
-    String expected = "PUBLIC\n/commands\n/count\n/default - dis iz default command\n/group\n/test";
+    String expected = "PUBLIC\n/commands\n/count\n/customlocality\n/default - dis iz default command\n/group\n/test";
     verify(silent, times(1)).send(expected, GROUP_ID);
   }
 

@@ -563,12 +563,14 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
         }
         Long chatId = getChatId(update);
         if (chatId != null) {
-            silent.send(
-                    getLocalizedMessage(
-                            CHECK_LOCALITY_FAIL,
-                            AbilityUtils.getUser(update).getLanguageCode(),
-                            ability.locality().toString().toLowerCase()),
-                    chatId);
+            String message = ability.localityViolationMessage();
+            if (message == null) {
+                message = getLocalizedMessage(
+                        CHECK_LOCALITY_FAIL,
+                        AbilityUtils.getUser(update).getLanguageCode(),
+                        ability.locality().toString().toLowerCase());
+            }
+            silent.send(message, chatId);
         }
     }
 

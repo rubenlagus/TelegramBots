@@ -67,6 +67,15 @@ public class DefaultBot extends AbilityBot {
         .build();
   }
 
+  public Ability customLocalityAbility() {
+    return getDefaultBuilder()
+        .name("customlocality")
+        .privacy(PUBLIC)
+        .locality(GROUP)
+        .localityViolationMessage("Custom locality message")
+        .build();
+  }
+
   public Ability multipleInputAbility() {
     return getDefaultBuilder()
         .name("count")
