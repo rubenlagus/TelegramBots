@@ -45,6 +45,8 @@ public enum Flag implements Predicate<Update> {
   GUEST_MESSAGE(Update::hasGuestMessage),
   HAS_SUBSCRIPTION(Update::hasSubscription),
   STOPPED_MESSAGE_GENERATION(Update::hasStoppedMessageGeneration),
+  WIDGET_QUERY(Update::hasWidgetQuery),
+  SHARED_WIDGET_QUERY(Update::hasSharedWidgetQuery),
 
 
   // Message Flags
@@ -63,7 +65,8 @@ public enum Flag implements Predicate<Update> {
   DICE(upd -> MESSAGE.test(upd) && upd.getMessage().hasDice()),
   GIFT(upd -> MESSAGE.test(upd) && upd.getMessage().hasGift()),
   PAID_MEDIA(upd -> MESSAGE.test(upd) && upd.getMessage().hasPaidMedia()),
-  LIVE_PHOTO(upd -> MESSAGE.test(upd) && upd.getMessage().hasLivePhoto());
+  LIVE_PHOTO(upd -> MESSAGE.test(upd) && upd.getMessage().hasLivePhoto()),
+  WIDGET(upd -> MESSAGE.test(upd) && upd.getMessage().hasWidget());
 
   private final Predicate<Update> predicate;
 

@@ -23,7 +23,7 @@ import org.telegram.telegrambots.meta.api.objects.ephemeral.EphemeralMessagePara
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.suggestedpost.SuggestedPostParameters;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
-import org.telegram.telegrambots.meta.util.Validations;
+import org.telegram.telegrambots.meta.util.SendMessageValidations;
 
 import java.util.List;
 
@@ -43,7 +43,7 @@ import java.util.List;
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SendMessage extends BotApiMethodMessage {
+public class SendMessage extends BotApiMethodMessage implements CallbackReplyMethod {
     public static final String PATH = "sendmessage";
 
     private static final String CHAT_ID_FIELD = "chat_id";
@@ -67,7 +67,6 @@ public class SendMessage extends BotApiMethodMessage {
     private static final String EPHEMERAL_MESSAGE_PARAMETERS_FIELD = "ephemeral_message_parameters";
 
     @JsonProperty(CHAT_ID_FIELD)
-    @NonNull
     private String chatId; ///< Unique identifier for the chat to send the message to (Or username for channels)
     /**
      * Optional.
@@ -155,6 +154,12 @@ public class SendMessage extends BotApiMethodMessage {
     private EphemeralMessageParameters ephemeralMessageParameters;
 
     @Tolerate
+    public SendMessage(String chatId, @NonNull String text) {
+        this(text);
+        this.chatId = chatId;
+    }
+
+    @Tolerate
     public void setChatId(@NonNull Long chatId) {
         this.chatId = chatId.toString();
     }
@@ -206,7 +211,7 @@ public class SendMessage extends BotApiMethodMessage {
 
     @Override
     public void validate() throws TelegramApiValidationException {
-        Validations.requiredChatId(chatId, this);
+        SendMessageValidations.validateChatId(chatId, businessConnectionId, ephemeralMessageParameters, this);
         if (text.isEmpty()) {
             throw new TelegramApiValidationException("Text parameter can't be empty", this);
         }
@@ -219,7 +224,7 @@ public class SendMessage extends BotApiMethodMessage {
         if (linkPreviewOptions != null) {
             linkPreviewOptions.validate();
         }
-        if (replyParameters != null) {
+        if (replyParameters != null && !isCallbackOnly()) {
             replyParameters.validate();
         }
         if (ephemeralMessageParameters != null) {

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.abilitybots.api.db.DBContext;
 import org.telegram.telegrambots.abilitybots.api.objects.Ability;
+import org.telegram.telegrambots.abilitybots.api.objects.Flag;
 import org.telegram.telegrambots.abilitybots.api.objects.Locality;
 import org.telegram.telegrambots.abilitybots.api.objects.MessageContext;
 import org.telegram.telegrambots.abilitybots.api.objects.Privacy;
@@ -21,6 +22,7 @@ import org.telegram.telegrambots.abilitybots.api.util.Pair;
 import org.telegram.telegrambots.abilitybots.api.util.Trio;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdministrators;
+import org.telegram.telegrambots.meta.api.methods.widget.AnswerWidgetQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberAdministrator;
@@ -216,7 +218,8 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
     }
 
     public boolean isGroupAdmin(Update update, long id) {
-        return isGroupAdmin(getChatId(update), id);
+        Long chatId = getChatId(update);
+        return chatId != null && isGroupAdmin(chatId, id);
     }
 
     public boolean isGroupAdmin(long chatId, long id) {
@@ -507,21 +510,34 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
      * @param ability ability that was attempted to be executed
      */
     protected void onInputViolation(Update update, Ability ability) {
+        if (answerWidgetQuery(update)) {
+            return;
+        }
+        Long chatId = getChatId(update);
+        if (chatId == null) {
+            return;
+        }
         int abilityTokens = ability.tokens();
         silent.send(
                 getLocalizedMessage(
                         CHECK_INPUT_FAIL,
                         AbilityUtils.getUser(update).getLanguageCode(),
                         abilityTokens, abilityTokens == 1 ? "input" : "inputs"),
-                getChatId(update));
+                chatId);
     }
 
     boolean checkLocality(Trio<Update, Ability, String[]> trio) {
         Update update = trio.a();
-        Locality locality = isUserMessage(update) ? Locality.USER : Locality.GROUP;
         Locality abilityLocality = trio.b().locality();
-
-        boolean isOk = abilityLocality == Locality.ALL || locality == abilityLocality;
+        Boolean widgetUserMessage = AbilityUtils.isWidgetQueryFromUserChat(update);
+        boolean widgetUpdate = Flag.WIDGET_QUERY.test(update) || Flag.SHARED_WIDGET_QUERY.test(update);
+        boolean isOk;
+        if (widgetUpdate && widgetUserMessage == null) {
+            isOk = abilityLocality == Locality.ALL;
+        } else {
+            Locality locality = (widgetUpdate ? widgetUserMessage : isUserMessage(update)) ? Locality.USER : Locality.GROUP;
+            isOk = abilityLocality == Locality.ALL || locality == abilityLocality;
+        }
 
         if (!isOk)
             onLocalityViolation(trio.a(), trio.b());
@@ -542,12 +558,18 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
      * @param ability ability that was attempted to be executed
      */
     protected void onLocalityViolation(Update update, Ability ability) {
-        silent.send(
-                getLocalizedMessage(
-                        CHECK_LOCALITY_FAIL,
-                        AbilityUtils.getUser(update).getLanguageCode(),
-                        ability.locality().toString().toLowerCase()),
-                getChatId(update));
+        if (answerWidgetQuery(update)) {
+            return;
+        }
+        Long chatId = getChatId(update);
+        if (chatId != null) {
+            silent.send(
+                    getLocalizedMessage(
+                            CHECK_LOCALITY_FAIL,
+                            AbilityUtils.getUser(update).getLanguageCode(),
+                            ability.locality().toString().toLowerCase()),
+                    chatId);
+        }
     }
 
     boolean checkPrivacy(Trio<Update, Ability, String[]> trio) {
@@ -578,11 +600,30 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
      * @param ability ability that was attempted to be executed
      */
     protected void onPrivacyViolation(Update update, Ability ability) {
+        if (answerWidgetQuery(update)) {
+            return;
+        }
+        Long chatId = getChatId(update);
+        if (chatId == null) {
+            return;
+        }
         silent.send(
                 getLocalizedMessage(
                         CHECK_PRIVACY_FAIL,
                         AbilityUtils.getUser(update).getLanguageCode()),
-                getChatId(update));
+                chatId);
+    }
+
+    private boolean answerWidgetQuery(Update update) {
+        if (Flag.WIDGET_QUERY.test(update)) {
+            silent.execute(AnswerWidgetQuery.builder().widgetQueryId(update.getWidgetQuery().getId()).build());
+            return true;
+        }
+        if (Flag.SHARED_WIDGET_QUERY.test(update)) {
+            silent.execute(AnswerWidgetQuery.builder().widgetQueryId(update.getSharedWidgetQuery().getId()).build());
+            return true;
+        }
+        return false;
     }
 
     boolean validateAbility(Trio<Update, Ability, String[]> trio) {

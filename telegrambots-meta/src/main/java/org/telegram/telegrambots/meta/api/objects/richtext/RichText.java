@@ -35,6 +35,7 @@ import tools.jackson.databind.annotation.JsonDeserialize;
         @JsonSubTypes.Type(value = RichTextEmailAddress.class, name = "email_address"),
         @JsonSubTypes.Type(value = RichTextPhoneNumber.class, name = "phone_number"),
         @JsonSubTypes.Type(value = RichTextBankCardNumber.class, name = "bank_card_number"),
+        @JsonSubTypes.Type(value = RichTextTonAddress.class, name = "ton_address"),
         @JsonSubTypes.Type(value = RichTextMention.class, name = "mention"),
         @JsonSubTypes.Type(value = RichTextHashtag.class, name = "hashtag"),
         @JsonSubTypes.Type(value = RichTextCashtag.class, name = "cashtag"),

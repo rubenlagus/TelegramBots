@@ -16,6 +16,7 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.business.SetBusinessAccountProfilePhoto;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
+import org.telegram.telegrambots.meta.api.methods.send.CallbackReplyMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
@@ -49,11 +50,20 @@ import org.telegram.telegrambots.meta.api.objects.media.paid.InputPaidMedia;
 import org.telegram.telegrambots.meta.api.objects.media.paid.InputPaidMediaLivePhoto;
 import org.telegram.telegrambots.meta.api.objects.media.paid.InputPaidMediaVideo;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
+import org.telegram.telegrambots.meta.api.objects.message.SendMessageResult;
 import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoAnimated;
 import org.telegram.telegrambots.meta.api.objects.photo.input.InputProfilePhotoStatic;
 import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlock;
 import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockAudio;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockAnimation;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockBlockQuotation;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockCollage;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockDetails;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockDocument;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockList;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockListItem;
 import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockPhoto;
+import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockSlideshow;
 import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockVideo;
 import org.telegram.telegrambots.meta.api.objects.richblock.InputRichBlockVoiceNote;
 import org.telegram.telegrambots.meta.api.objects.richtext.InputRichMessage;
@@ -74,6 +84,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Stream;
 
 /**
@@ -111,6 +122,11 @@ public class JettyTelegramClient extends AbstractTelegramClient {
     }
 
     @Override
+    public <T extends Serializable, Method extends BotApiMethod<T>> T execute(Method method) throws TelegramApiException {
+        return super.execute(method);
+    }
+
+    @Override
     public <T extends Serializable, Method extends BotApiMethod<T>> CompletableFuture<T> executeAsync(Method method) throws TelegramApiException {
         if (method == null) {
             throw new TelegramApiException("Parameter method can not be null");
@@ -118,25 +134,89 @@ public class JettyTelegramClient extends AbstractTelegramClient {
         method.validate();
 
         try {
-            URI url = buildUrl(method.getMethod());
-            String body = jsonMapper.writeValueAsString(method);
-
-            Request request = client.POST(url)
-                    .headers(httpFields -> {
-                        httpFields.add("charset", StandardCharsets.UTF_8.name());
-                        httpFields.add("content-type", "application/json");
-                    })
-                    .body(new StringRequestContent("application/json", body));
-
-            return sendRequest(method, request);
+            SerializedJsonRequest serializedRequest = createJsonRequest(method);
+            CallbackReplyMethod.rejectCallbackOnly(method, serializedRequest.callbackOnlyExpected());
+            return sendRequest(method, serializedRequest.request());
         } catch (JacksonException e) {
             throw new TelegramApiException("Unable to execute " + method.getMethod() + " method", e);
         }
     }
 
     @Override
+    public SendMessageResult executeWithResult(CallbackReplyMethod method) throws TelegramApiException {
+        try {
+            return executeWithResultAsync(method).get();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new TelegramApiException("Interrupted while executing callback reply", e);
+        } catch (ExecutionException e) {
+            if (e.getCause() instanceof TelegramApiException exception) {
+                throw exception;
+            }
+            throw new TelegramApiException("Unable to execute callback reply", e.getCause());
+        }
+    }
+
+    @Override
+    public CompletableFuture<SendMessageResult> executeWithResultAsync(CallbackReplyMethod method) throws TelegramApiException {
+        if (!(method instanceof PartialBotApiMethod<?> apiMethod)) {
+            throw new TelegramApiException("Callback reply must be a bot API method");
+        }
+        ResponseParser<SendMessageResult> parser = new ResponseParser<>() {
+            private boolean callbackOnlyExpected;
+
+            @Override
+            public SendMessageResult parse(String response) throws TelegramApiRequestException {
+                return SendMessageResult.deserializeResponse(response, apiMethod, callbackOnlyExpected);
+            }
+
+            @Override
+            public void setCallbackOnlyExpected(boolean callbackOnlyExpected) {
+                this.callbackOnlyExpected = callbackOnlyExpected;
+            }
+        };
+        if (method instanceof SendDocument send) return executeSendDocument(send, false, parser);
+        if (method instanceof SendPhoto send) return executeSendPhoto(send, false, parser);
+        if (method instanceof SendVideo send) return executeSendVideo(send, false, parser);
+        if (method instanceof SendVideoNote send) return executeSendVideoNote(send, false, parser);
+        if (method instanceof SendSticker send) return executeSendSticker(send, false, parser);
+        if (method instanceof SendAudio send) return executeSendAudio(send, false, parser);
+        if (method instanceof SendVoice send) return executeSendVoice(send, false, parser);
+        if (method instanceof SendAnimation send) return executeSendAnimation(send, false, parser);
+        if (method instanceof SendLivePhoto send) return executeSendLivePhoto(send, false, parser);
+        if (method instanceof SendRichMessage send) return executeSendRichMessage(send, false, parser);
+        if (apiMethod instanceof BotApiMethod<?>) {
+            apiMethod.validate();
+            try {
+                SerializedJsonRequest serializedRequest = createJsonRequest(apiMethod);
+                parser.setCallbackOnlyExpected(serializedRequest.callbackOnlyExpected());
+                return sendRequest(serializedRequest.request(), parser);
+            } catch (JacksonException e) {
+                throw new TelegramApiException("Unable to execute " + apiMethod.getMethod() + " method", e);
+            }
+        }
+        throw new TelegramApiException("Unsupported callback reply method: " + apiMethod.getMethod());
+    }
+
+    private SerializedJsonRequest createJsonRequest(PartialBotApiMethod<?> method) throws JacksonException {
+        String body = jsonMapper.writeValueAsString(method);
+        boolean callbackOnlyExpected = CallbackReplyMethod.isCallbackOnlyRequest(body, jsonMapper);
+        Request request = client.POST(buildUrl(method.getMethod()))
+                .headers(httpFields -> {
+                    httpFields.add("charset", StandardCharsets.UTF_8.name());
+                    httpFields.add("content-type", "application/json");
+                })
+                .body(new StringRequestContent("application/json", body));
+        return new SerializedJsonRequest(request, callbackOnlyExpected);
+    }
+
+    @Override
     public CompletableFuture<Message> executeAsync(SendDocument sendDocument) {
-        return executeMediaMethod(sendDocument, builder -> {
+        return executeSendDocument(sendDocument, true, response -> sendDocument.deserializeResponse(response));
+    }
+
+    private <T> CompletableFuture<T> executeSendDocument(SendDocument sendDocument, boolean legacy, ResponseParser<T> parser) {
+        return executeMediaMethod(sendDocument, legacy, parser, builder -> {
             builder.addPart(SendDocument.CAPTION_FIELD, sendDocument.getCaption())
                     .addPart(SendDocument.PARSEMODE_FIELD, sendDocument.getParseMode())
                     .addPart(SendDocument.DISABLECONTENTTYPEDETECTION_FIELD, sendDocument.getDisableContentTypeDetection())
@@ -152,7 +232,11 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
     @Override
     public CompletableFuture<Message> executeAsync(SendPhoto sendPhoto) {
-        return executeMediaMethod(sendPhoto, builder -> builder
+        return executeSendPhoto(sendPhoto, true, response -> sendPhoto.deserializeResponse(response));
+    }
+
+    private <T> CompletableFuture<T> executeSendPhoto(SendPhoto sendPhoto, boolean legacy, ResponseParser<T> parser) {
+        return executeMediaMethod(sendPhoto, legacy, parser, builder -> builder
                 .addPart(SendPhoto.CAPTION_FIELD, sendPhoto.getCaption())
                 .addPart(SendPhoto.PARSE_MODE_FIELD, sendPhoto.getParseMode())
                 .addPart(SendPhoto.HAS_SPOILER_FIELD, sendPhoto.getHasSpoiler())
@@ -221,7 +305,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
             return sendRequest(setMyProfilePhoto, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + setMyProfilePhoto.getMethod(), e));
         }
     }
@@ -258,7 +342,11 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
     @Override
     public CompletableFuture<Message> executeAsync(SendVideo sendVideo) {
-        return executeMediaMethod(sendVideo, builder -> {
+        return executeSendVideo(sendVideo, true, response -> sendVideo.deserializeResponse(response));
+    }
+
+    private <T> CompletableFuture<T> executeSendVideo(SendVideo sendVideo, boolean legacy, ResponseParser<T> parser) {
+        return executeMediaMethod(sendVideo, legacy, parser, builder -> {
             builder
                     .addPart(SendVideo.CAPTION_FIELD, sendVideo.getCaption())
                     .addPart(SendVideo.PARSE_MODE_FIELD, sendVideo.getParseMode())
@@ -285,7 +373,11 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
     @Override
     public CompletableFuture<Message> executeAsync(SendVideoNote sendVideoNote) {
-        return executeMediaMethod(sendVideoNote, builder -> {
+        return executeSendVideoNote(sendVideoNote, true, response -> sendVideoNote.deserializeResponse(response));
+    }
+
+    private <T> CompletableFuture<T> executeSendVideoNote(SendVideoNote sendVideoNote, boolean legacy, ResponseParser<T> parser) {
+        return executeMediaMethod(sendVideoNote, legacy, parser, builder -> {
             builder
                     .addPart(SendVideoNote.DURATION_FIELD, sendVideoNote.getDuration())
                     .addPart(SendVideoNote.LENGTH_FIELD, sendVideoNote.getLength())
@@ -300,8 +392,12 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
     @Override
     public CompletableFuture<Message> executeAsync(SendSticker sendSticker) {
+        return executeSendSticker(sendSticker, true, response -> sendSticker.deserializeResponse(response));
+    }
+
+    private <T> CompletableFuture<T> executeSendSticker(SendSticker sendSticker, boolean legacy, ResponseParser<T> parser) {
         return executeMediaMethod(
-                sendSticker,
+                sendSticker, legacy, parser,
                 builder -> builder
                         .addPart(SendSticker.EMOJI_FIELD, sendSticker.getEmoji())
                         .addPart(SendSticker.BUSINESS_CONNECTION_ID_FIELD, sendSticker.getBusinessConnectionId())
@@ -310,7 +406,11 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
     @Override
     public CompletableFuture<Message> executeAsync(SendAudio sendAudio) {
-        return executeMediaMethod(sendAudio, builder -> {
+        return executeSendAudio(sendAudio, true, response -> sendAudio.deserializeResponse(response));
+    }
+
+    private <T> CompletableFuture<T> executeSendAudio(SendAudio sendAudio, boolean legacy, ResponseParser<T> parser) {
+        return executeMediaMethod(sendAudio, legacy, parser, builder -> {
             builder
                     .addPart(SendAudio.PERFORMER_FIELD, sendAudio.getPerformer())
                     .addPart(SendAudio.TITLE_FIELD, sendAudio.getTitle())
@@ -329,7 +429,11 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
     @Override
     public CompletableFuture<Message> executeAsync(SendVoice sendVoice) {
-        return executeMediaMethod(sendVoice, builder -> builder
+        return executeSendVoice(sendVoice, true, response -> sendVoice.deserializeResponse(response));
+    }
+
+    private <T> CompletableFuture<T> executeSendVoice(SendVoice sendVoice, boolean legacy, ResponseParser<T> parser) {
+        return executeMediaMethod(sendVoice, legacy, parser, builder -> builder
                 .addPart(SendVoice.DURATION_FIELD, sendVoice.getDuration())
                 .addPart(SendVoice.CAPTION_FIELD, sendVoice.getCaption())
                 .addPart(SendVoice.PARSE_MODE_FIELD, sendVoice.getParseMode())
@@ -418,7 +522,11 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
     @Override
     public CompletableFuture<Message> executeAsync(SendAnimation sendAnimation) {
-        return executeMediaMethod(sendAnimation, builder -> {
+        return executeSendAnimation(sendAnimation, true, response -> sendAnimation.deserializeResponse(response));
+    }
+
+    private <T> CompletableFuture<T> executeSendAnimation(SendAnimation sendAnimation, boolean legacy, ResponseParser<T> parser) {
+        return executeMediaMethod(sendAnimation, legacy, parser, builder -> {
                     builder.addPart(SendAnimation.DURATION_FIELD, sendAnimation.getDuration())
                             .addPart(SendAnimation.WIDTH_FIELD, sendAnimation.getWidth())
                             .addPart(SendAnimation.HEIGHT_FIELD, sendAnimation.getHeight())
@@ -427,8 +535,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
                             .addPart(SendAnimation.PARSE_MODE_FIELD, sendAnimation.getParseMode())
                             .addPart(SendAnimation.HAS_SPOILER_FIELD, sendAnimation.getHasSpoiler())
                             .addPart(SendAnimation.BUSINESS_CONNECTION_ID_FIELD, sendAnimation.getBusinessConnectionId())
-                            .addPart(SendAnimation.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendAnimation.getShowCaptionAboveMedia())
-                            .addJsonPart(SendAnimation.REPLY_MARKUP_FIELD, sendAnimation.getReplyMarkup());
+                            .addPart(SendAnimation.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendAnimation.getShowCaptionAboveMedia());
 
                     if (sendAnimation.getThumbnail() != null) {
                         builder.addInputFile(SendAnimation.THUMBNAIL_FIELD, sendAnimation.getThumbnail(), false);
@@ -458,6 +565,10 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
     @Override
     public CompletableFuture<Message> executeAsync(SendRichMessage sendRichMessage) {
+        return executeSendRichMessage(sendRichMessage, true, response -> sendRichMessage.deserializeResponse(response));
+    }
+
+    private <T> CompletableFuture<T> executeSendRichMessage(SendRichMessage sendRichMessage, boolean legacy, ResponseParser<T> parser) {
         try {
             assertParamNotNull(sendRichMessage, "sendRichMessage");
             sendRichMessage.validate();
@@ -474,38 +585,68 @@ public class JettyTelegramClient extends AbstractTelegramClient {
                     .addPart(SendRichMessage.ALLOW_PAID_BROADCAST_FIELD, sendRichMessage.getAllowPaidBroadcast())
                     .addPart(SendRichMessage.MESSAGE_EFFECT_ID_FIELD, sendRichMessage.getMessageEffectId())
                     .addJsonPart(SendRichMessage.SUGGESTED_POST_PARAMETERS_FIELD, sendRichMessage.getSuggestedPostParameters())
-                    .addJsonPart(SendRichMessage.EPHEMERAL_MESSAGE_PARAMETERS_FIELD, sendRichMessage.getEphemeralMessageParameters())
                     .addJsonPart(SendRichMessage.REPLY_PARAMETERS_FIELD, sendRichMessage.getReplyParameters())
                     .addJsonPart(SendRichMessage.REPLY_MARKUP_FIELD, sendRichMessage.getReplyMarkup())
                     .addJsonPart(SendRichMessage.RICH_MESSAGE_FIELD, sendRichMessage.getRichMessage());
+
+            String ephemeralParameters = builder.addJsonPartAndGetValue(
+                    SendRichMessage.EPHEMERAL_MESSAGE_PARAMETERS_FIELD, sendRichMessage.getEphemeralMessageParameters());
+            boolean callbackOnlyExpected = CallbackReplyMethod.isCallbackOnlyParameters(ephemeralParameters, jsonMapper);
+            if (legacy) CallbackReplyMethod.rejectCallbackOnly(sendRichMessage, callbackOnlyExpected);
+            parser.setCallbackOnlyExpected(callbackOnlyExpected);
 
             List<InputMedia> media = extractMedia(sendRichMessage.getRichMessage());
             addInputData(builder, InputRichMessage.MEDIA_FIELD, media);
 
             Request httpPost = client.POST(url).body(builder.build());
-            return sendRequest(sendRichMessage, httpPost);
+            return sendRequest(httpPost, parser);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + sendRichMessage.getMethod(), e));
         }
     }
 
     @Override
     public CompletableFuture<Message> executeAsync(SendLivePhoto sendLivePhoto) {
-        return executeMediaMethod(sendLivePhoto, builder -> {
+        return executeSendLivePhoto(sendLivePhoto, true, response -> sendLivePhoto.deserializeResponse(response));
+    }
+
+    private <T> CompletableFuture<T> executeSendLivePhoto(SendLivePhoto sendLivePhoto, boolean legacy, ResponseParser<T> parser) {
+        InputFile livePhotoFile = sendLivePhoto.getFile();
+        InputFile photoFile = sendLivePhoto.getPhoto();
+        boolean sharedAttachment = livePhotoFile == photoFile && livePhotoFile != null && livePhotoFile.isNew();
+        if (!sharedAttachment && livePhotoFile != null && photoFile != null
+                && livePhotoFile.isNew() && photoFile.isNew()
+                && livePhotoFile.getMediaName().equals(photoFile.getMediaName())) {
+            livePhotoFile = copyInputFile(livePhotoFile, "live_photo_upload");
+            photoFile = copyInputFile(photoFile, "photo_upload");
+        }
+        InputFile finalPhotoFile = photoFile;
+        boolean useSharedAttachment = sharedAttachment;
+        return executeMediaMethod(sendLivePhoto, legacy, parser, livePhotoFile, builder -> {
                     builder.addPart(SendLivePhoto.CAPTION_FIELD, sendLivePhoto.getCaption())
                             .addJsonPart(SendLivePhoto.CAPTION_ENTITIES_FIELD, sendLivePhoto.getCaptionEntities())
                             .addPart(SendLivePhoto.PARSE_MODE_FIELD, sendLivePhoto.getParseMode())
                             .addPart(SendLivePhoto.HAS_SPOILER_FIELD, sendLivePhoto.getHasSpoiler())
                             .addPart(SendLivePhoto.BUSINESS_CONNECTION_ID_FIELD, sendLivePhoto.getBusinessConnectionId())
-                            .addPart(SendLivePhoto.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendLivePhoto.getShowCaptionAboveMedia())
-                            .addJsonPart(SendLivePhoto.REPLY_MARKUP_FIELD, sendLivePhoto.getReplyMarkup());
+                            .addPart(SendLivePhoto.SHOW_CAPTION_ABOVE_MEDIA_FIELD, sendLivePhoto.getShowCaptionAboveMedia());
 
-                    builder.addInputFile("photo", sendLivePhoto.getPhoto(), true);
+                    if (useSharedAttachment) {
+                        builder.addPart("photo", sendLivePhoto.getFile().getAttachName());
+                    } else {
+                        builder.addInputFile("photo", finalPhotoFile, true);
+                    }
                 }
 
         );
+    }
+
+    private InputFile copyInputFile(InputFile inputFile, String mediaName) {
+        if (inputFile.getNewMediaFile() != null) {
+            return new InputFile(inputFile.getNewMediaFile(), mediaName);
+        }
+        return new InputFile(inputFile.getNewMediaStream(), mediaName);
     }
 
     @Override
@@ -700,7 +841,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
             return sendRequest(editEphemeralMessageMedia, httpPost);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             return CompletableFuture.failedFuture(new TelegramApiException("Unable to execute " + editEphemeralMessageMedia.getMethod(), e));
         }
     }
@@ -738,10 +879,24 @@ public class JettyTelegramClient extends AbstractTelegramClient {
     private <T extends Serializable, Method extends PartialBotApiMethod<T>> CompletableFuture<T> sendRequest(
             Method method, Request request
     ) {
+        return sendRequest(request, method::deserializeResponse);
+    }
+
+    private interface ResponseParser<T> {
+        T parse(String response) throws TelegramApiRequestException;
+
+        default void setCallbackOnlyExpected(boolean callbackOnlyExpected) {
+        }
+    }
+
+    private record SerializedJsonRequest(Request request, boolean callbackOnlyExpected) {
+    }
+
+    private <T> CompletableFuture<T> sendRequest(Request request, ResponseParser<T> parser) {
         var future = new CompletableResponseListener(request).send();
         return future.thenApply(response -> {
             try {
-                return method.deserializeResponse(response.getContentAsString());
+                return parser.parse(response.getContentAsString());
             } catch (TelegramApiRequestException e) {
                 throw new CompletionException(e);
             }
@@ -763,8 +918,20 @@ public class JettyTelegramClient extends AbstractTelegramClient {
      * @param method the method so execute
      * @param setup  a lambda to add additional fields to the multipart request
      */
-    private <T extends Serializable, Method extends SendMediaBotMethod<T>> CompletableFuture<T> executeMediaMethod(
-            Method method,
+    private <T> CompletableFuture<T> executeMediaMethod(
+            SendMediaBotMethod<?> method,
+            boolean legacy,
+            ResponseParser<T> parser,
+            ThrowingConsumer<JettyMultipartBuilder, IOException> setup
+    ) {
+        return executeMediaMethod(method, legacy, parser, method.getFile(), setup);
+    }
+
+    private <T> CompletableFuture<T> executeMediaMethod(
+            SendMediaBotMethod<?> method,
+            boolean legacy,
+            ResponseParser<T> parser,
+            InputFile primaryFile,
             ThrowingConsumer<JettyMultipartBuilder, IOException> setup
     ) {
         try {
@@ -777,18 +944,24 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
             JettyMultipartBuilder builder = new JettyMultipartBuilder(jsonMapper);
 
-            builder.addInputFile(method.getFileField(), method.getFile(), true);
+            builder.addInputFile(method.getFileField(), primaryFile, true);
 
             builder.addPart(SendMediaBotMethod.CHAT_ID_FIELD, method.getChatId())
                     .addPart(SendMediaBotMethod.MESSAGE_THREAD_ID_FIELD, method.getMessageThreadId())
                     .addPart(SendMediaBotMethod.DISABLE_NOTIFICATION_FIELD, method.getDisableNotification())
                     .addPart(SendMediaBotMethod.PROTECT_CONTENT_FIELD, method.getProtectContent())
+                    .addPart(SendMediaBotMethod.ALLOW_PAID_BROADCAST_FIELD, method.getAllowPaidBroadcast())
                     .addPart(SendMediaBotMethod.MESSAGE_EFFECT_ID_FIELD, method.getMessageEffectId())
                     .addPart(SendMediaBotMethod.DIRECT_MESSAGES_TOPIC_ID_FIELD, method.getDirectMessagesTopicId())
                     .addJsonPart(SendMediaBotMethod.SUGGESTED_POST_PARAMETERS_FIELD, method.getSuggestedPostParameters())
-                    .addJsonPart(SendMediaBotMethod.EPHEMERAL_MESSAGE_PARAMETERS_FIELD, method.getEphemeralMessageParameters())
                     .addJsonPart(SendMediaBotMethod.REPLY_PARAMETERS_FIELD, method.getReplyParameters())
                     .addJsonPart(SendMediaBotMethod.REPLY_MARKUP_FIELD, method.getReplyMarkup());
+
+            String ephemeralParameters = builder.addJsonPartAndGetValue(
+                    SendMediaBotMethod.EPHEMERAL_MESSAGE_PARAMETERS_FIELD, method.getEphemeralMessageParameters());
+            boolean callbackOnlyExpected = CallbackReplyMethod.isCallbackOnlyParameters(ephemeralParameters, jsonMapper);
+            if (legacy) CallbackReplyMethod.rejectCallbackOnly(method, callbackOnlyExpected);
+            parser.setCallbackOnlyExpected(callbackOnlyExpected);
 
             if (method.getReplyParameters() == null) {
                 builder.addPart(SendMediaBotMethod.REPLY_TO_MESSAGE_ID_FIELD, method.getReplyToMessageId())
@@ -799,7 +972,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
 
             Request httpPost = client.POST(url).body(builder.build());
 
-            return sendRequest(method, httpPost);
+            return sendRequest(httpPost, parser);
         } catch (TelegramApiException e) {
             return CompletableFuture.failedFuture(e);
         } catch (IOException | JacksonException e) {
@@ -912,7 +1085,7 @@ public class JettyTelegramClient extends AbstractTelegramClient {
     }
 
     private List<InputMedia> extractMedia(InputRichMessage inputRichMessage) {
-        List<InputMedia> mediaFromField = inputRichMessage.getMedia().stream()
+        List<InputMedia> mediaFromField = (inputRichMessage.getMedia() == null ? Stream.<InputRichMessageMedia>empty() : inputRichMessage.getMedia().stream())
                 .map(InputRichMessageMedia::getMedia)
                 .toList();
 
@@ -932,15 +1105,28 @@ public class JettyTelegramClient extends AbstractTelegramClient {
         for (InputRichBlock block : blocks) {
             if (block instanceof InputRichBlockPhoto photo) {
                 media.add(photo.getPhoto());
-            }
-            if (block instanceof InputRichBlockAudio audio) {
+            } else if (block instanceof InputRichBlockAudio audio) {
                 media.add(audio.getAudio());
-            }
-            if (block instanceof InputRichBlockVideo video) {
+            } else if (block instanceof InputRichBlockVideo video) {
                 media.add(video.getVideo());
-            }
-            if (block instanceof InputRichBlockVoiceNote voiceNote) {
+            } else if (block instanceof InputRichBlockVoiceNote voiceNote) {
                 media.add(voiceNote.getVoiceNote());
+            } else if (block instanceof InputRichBlockAnimation animation) {
+                media.add(animation.getAnimation());
+            } else if (block instanceof InputRichBlockDocument document) {
+                media.add(document.getDocument());
+            } else if (block instanceof InputRichBlockBlockQuotation quotation) {
+                media.addAll(extractMedia(quotation.getBlocks()));
+            } else if (block instanceof InputRichBlockCollage collage) {
+                media.addAll(extractMedia(collage.getBlocks()));
+            } else if (block instanceof InputRichBlockDetails details) {
+                media.addAll(extractMedia(details.getBlocks()));
+            } else if (block instanceof InputRichBlockSlideshow slideshow) {
+                media.addAll(extractMedia(slideshow.getBlocks()));
+            } else if (block instanceof InputRichBlockList list) {
+                for (InputRichBlockListItem item : list.getItems()) {
+                    media.addAll(extractMedia(item.getBlocks()));
+                }
             }
         }
 

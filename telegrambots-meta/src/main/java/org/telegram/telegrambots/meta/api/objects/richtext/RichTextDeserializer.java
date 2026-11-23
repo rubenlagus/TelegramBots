@@ -40,6 +40,7 @@ public class RichTextDeserializer extends StdDeserializer<RichText> {
             Map.entry(RichTextEmailAddress.TYPE, RichTextEmailAddress.class),
             Map.entry(RichTextPhoneNumber.TYPE, RichTextPhoneNumber.class),
             Map.entry(RichTextBankCardNumber.TYPE, RichTextBankCardNumber.class),
+            Map.entry(RichTextTonAddress.TYPE, RichTextTonAddress.class),
             Map.entry(RichTextMention.TYPE, RichTextMention.class),
             Map.entry(RichTextHashtag.TYPE, RichTextHashtag.class),
             Map.entry(RichTextCashtag.TYPE, RichTextCashtag.class),
