@@ -47,9 +47,10 @@ public final class Ability {
   private final Consumer<MessageContext> postAction;
   private final List<Reply> replies;
   private final List<Predicate<Update>> flags;
+  private final String localityViolationMessage;
 
   @SafeVarargs
-  private Ability(String name, String info, Locality locality, Privacy privacy, int argNum, boolean statsEnabled, Consumer<MessageContext> action, Consumer<MessageContext> postAction, List<Reply> replies, Predicate<Update>... flags) {
+  private Ability(String name, String info, Locality locality, Privacy privacy, int argNum, boolean statsEnabled, Consumer<MessageContext> action, Consumer<MessageContext> postAction, List<Reply> replies, String localityViolationMessage, Predicate<Update>... flags) {
     checkArgument(isValidCommandName(name), "Method name can only contain alpha-numeric characters and underscores," +
             " cannot be longer than 31 characters, empty or null", name);
     this.name = name;
@@ -71,6 +72,7 @@ public final class Ability {
     this.postAction = postAction;
     this.replies = replies;
     this.statsEnabled = statsEnabled;
+    this.localityViolationMessage = localityViolationMessage;
   }
 
   public static AbilityBuilder builder() {
@@ -117,6 +119,10 @@ public final class Ability {
     return flags;
   }
 
+  public String localityViolationMessage() {
+    return localityViolationMessage;
+  }
+
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
@@ -157,6 +163,7 @@ public final class Ability {
     private Consumer<MessageContext> postAction;
     private List<Reply> replies;
     private Predicate<Update>[] flags;
+    private String localityViolationMessage;
 
     private AbilityBuilder() {
       statsEnabled = false;
@@ -185,6 +192,11 @@ public final class Ability {
 
     public AbilityBuilder locality(Locality type) {
       this.locality = type;
+      return this;
+    }
+
+    public AbilityBuilder localityViolationMessage(String message) {
+      this.localityViolationMessage = message;
       return this;
     }
 
@@ -234,11 +246,12 @@ public final class Ability {
           .locality(ability.locality())
           .privacy(ability.privacy())
           .action(ability.action())
-          .post(ability.postAction());
+          .post(ability.postAction())
+          .localityViolationMessage(ability.localityViolationMessage());
     }
 
     public Ability build() {
-      return new Ability(name, info, locality, privacy, argNum, statsEnabled, action, postAction, replies, flags);
+      return new Ability(name, info, locality, privacy, argNum, statsEnabled, action, postAction, replies, localityViolationMessage, flags);
     }
   }
 }
