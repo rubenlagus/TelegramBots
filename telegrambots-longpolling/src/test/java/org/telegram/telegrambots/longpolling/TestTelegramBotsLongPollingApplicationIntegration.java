@@ -2,6 +2,7 @@ package org.telegram.telegrambots.longpolling;
 
 import lombok.NonNull;
 import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
 import okhttp3.mockwebserver.Dispatcher;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -11,12 +12,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.telegram.telegrambots.longpolling.interfaces.BackOff;
 import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsumer;
 import org.telegram.telegrambots.longpolling.util.DefaultGetUpdatesGenerator;
 import org.telegram.telegrambots.longpolling.util.ExponentialBackOff;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
 import org.telegram.telegrambots.longpolling.util.TelegramOkHttpClientFactory;
 import org.telegram.telegrambots.meta.TelegramUrl;
+import org.telegram.telegrambots.meta.api.methods.updates.GetUpdates;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -25,12 +28,17 @@ import tools.jackson.databind.json.JsonMapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.times;
@@ -336,6 +344,75 @@ public class TestTelegramBotsLongPollingApplicationIntegration {
         application.close();
 
         assertTrue(closed.get(), "Consumer close() should be called when application is closed");
+    }
+
+    @Test
+    public void testCustomBotSessionSupplierInConstructor() throws Exception {
+        List<Update> updateReceived = new ArrayList<>();
+        Dispatcher dispatcher = getDispatcher(List.of(getFakeUpdates1()));
+        webServer.setDispatcher(dispatcher);
+
+        try (TelegramBotsLongPollingApplication customApp = new TelegramBotsLongPollingApplication(
+                JsonMapper::new,
+                new TelegramOkHttpClientFactory.DefaultOkHttpClientCreator(),
+                Executors::newSingleThreadScheduledExecutor,
+                () -> exponentialBackOff,
+                CustomBotSession::new
+        )) {
+            BotSession session = customApp.registerBot("TOKEN",
+                    () -> telegramUrl,
+                    new DefaultGetUpdatesGenerator(),
+                    (LongPollingSingleThreadUpdateConsumer) updateReceived::add);
+
+            CustomBotSession customSession = assertInstanceOf(CustomBotSession.class, session);
+            assertTrue(customSession.isCustomPollerCreated());
+
+            await().atMost(5, TimeUnit.SECONDS).until(() -> updateReceived.size() == 2);
+        }
+    }
+
+    @Test
+    public void testCustomBotSessionSupplierInRegisterBot() throws Exception {
+        List<Update> updateReceived = new ArrayList<>();
+        Dispatcher dispatcher = getDispatcher(List.of(getFakeUpdates1()));
+        webServer.setDispatcher(dispatcher);
+
+        BotSession session = application.registerBot("TOKEN",
+                () -> telegramUrl,
+                new DefaultGetUpdatesGenerator(),
+                (LongPollingSingleThreadUpdateConsumer) updateReceived::add,
+                CustomBotSession::new);
+
+        CustomBotSession customSession = assertInstanceOf(CustomBotSession.class, session);
+        assertTrue(customSession.isCustomPollerCreated());
+
+        await().atMost(5, TimeUnit.SECONDS).until(() -> updateReceived.size() == 2);
+    }
+
+    private static class CustomBotSession extends BotSession {
+        private final AtomicBoolean customPollerCreated = new AtomicBoolean(false);
+
+        public CustomBotSession(JsonMapper jsonMapper,
+                                OkHttpClient okHttpClient,
+                                ScheduledExecutorService executor,
+                                String botToken,
+                                Supplier<TelegramUrl> telegramUrlSupplier,
+                                Function<Integer, GetUpdates> getUpdatesGenerator,
+                                Supplier<BackOff> backOffSupplier,
+                                LongPollingUpdateConsumer updatesConsumer) {
+            super(jsonMapper, okHttpClient, executor, botToken, telegramUrlSupplier, getUpdatesGenerator, backOffSupplier, updatesConsumer);
+        }
+
+        @NonNull
+        @Override
+        protected ScheduledFuture<?> createPollerTask() throws TelegramApiException {
+            customPollerCreated.set(true);
+            return super.createPollerTask();
+        }
+
+        public boolean isCustomPollerCreated() {
+            return customPollerCreated.get();
+        }
     }
 
     @NonNull
