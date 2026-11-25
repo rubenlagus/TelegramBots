@@ -100,7 +100,7 @@ public class BotSession implements AutoCloseable {
     }
 
     @NonNull
-    private ScheduledFuture<?> createPollerTask() throws TelegramApiException {
+    protected ScheduledFuture<?> createPollerTask() throws TelegramApiException {
         executeDeleteWebhook();
         return executor.scheduleAtFixedRate(() -> {
             try {
@@ -135,7 +135,7 @@ public class BotSession implements AutoCloseable {
         }, 1, 1, TimeUnit.MICROSECONDS);
     }
 
-    private List<Update> getUpdatesFromTelegram() throws TelegramApiRequestException, TelegramApiErrorResponseException {
+    protected List<Update> getUpdatesFromTelegram() throws TelegramApiRequestException, TelegramApiErrorResponseException {
         try {
             TelegramUrl telegramUrl = telegramUrlSupplier.get();
             GetUpdates getUpdates = getUpdatesGenerator.apply(lastReceivedUpdate.get());
@@ -164,7 +164,7 @@ public class BotSession implements AutoCloseable {
         return Collections.emptyList();
     }
 
-    private void executeDeleteWebhook() throws TelegramApiRequestException, TelegramApiErrorResponseException {
+    protected void executeDeleteWebhook() throws TelegramApiRequestException, TelegramApiErrorResponseException {
         DeleteWebhook deleteWebhook = new DeleteWebhook();
         try {
             Request request = createRequest(telegramUrlSupplier.get(), deleteWebhook);
@@ -191,7 +191,7 @@ public class BotSession implements AutoCloseable {
     }
 
     @NonNull
-    private Request createRequest(TelegramUrl telegramUrl, BotApiMethod<?> apiMethod) throws JacksonException {
+    protected Request createRequest(TelegramUrl telegramUrl, BotApiMethod<?> apiMethod) throws JacksonException {
         return new Request.Builder()
                 .url(buildUrl(telegramUrl, apiMethod.getMethod()))
                 .header("charset", StandardCharsets.UTF_8.name())
@@ -201,7 +201,7 @@ public class BotSession implements AutoCloseable {
     }
 
     @NonNull
-    private HttpUrl buildUrl(TelegramUrl telegramUrl, String methodPath) {
+    protected HttpUrl buildUrl(TelegramUrl telegramUrl, String methodPath) {
         HttpUrl.Builder builder = new HttpUrl
                 .Builder()
                 .scheme(telegramUrl.getSchema())
