@@ -3,6 +3,7 @@ package org.telegram.telegrambots.abilitybots.api.bot;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.collect.ImmutableMap;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.abilitybots.api.db.DBContext;
@@ -129,6 +130,10 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
     // Reply registry
     private List<Reply> replies;
 
+    // Whether abilities, replies and stats have been registered
+    @Getter(AccessLevel.NONE)
+    private volatile boolean registered;
+
     public abstract long creatorId();
 
     protected BaseAbilityBot(TelegramClient telegramClient, String botUsername, DBContext db, AbilityToggle toggle) {
@@ -139,9 +144,26 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
         this.silent = new SilentSender(telegramClient);
     }
 
+    /**
+     * Registers the abilities, replies and stats of this bot.
+     * <p>
+     * Calling this method is optional: the registration also happens automatically on the first consumed update.
+     * Subsequent calls are no-ops.
+     */
     public void onRegister() {
-        registerAbilities();
-        initStats();
+        ensureRegistered();
+    }
+
+    private void ensureRegistered() {
+        if (!registered) {
+            synchronized (this) {
+                if (!registered) {
+                    registerAbilities();
+                    initStats();
+                    registered = true;
+                }
+            }
+        }
     }
 
     /**
@@ -181,6 +203,7 @@ public abstract class BaseAbilityBot implements AbilityExtension, LongPollingSin
      */
     @Override
     public void consume(Update update) {
+        ensureRegistered();
         log.debug(format("[%s] New update [%s] received at %s", botUsername, update.getUpdateId(), now()));
         log.debug(update.toString());
         long millisStarted = System.currentTimeMillis();
